@@ -4,16 +4,16 @@
 
 namespace star
 {
-#define LOGGER (Logger::GetSingleton())
 
 	EventLoop::EventLoop(android_app* pApplication):
 				mApplicationPtr(pApplication),
 				mEnabled(true),
 				mQuit(false)
 	{
-		mApplicationPtr->onAppCmd = activityCallback;
-		mApplicationPtr->userData = this;
-		mSceneManager = star::SceneManager::GetInstance();
+
+		//mApplicationPtr->onAppCmd = activityCallback;
+		//mApplicationPtr->userData = this;
+		mMainGame = new MainGame();
 	}
 
 	void EventLoop::run()
@@ -24,126 +24,54 @@ namespace star
 
 		app_dummy();
 
-		LOGGER->Log(LogLevel::Info,"Starting event loop");
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Starting Event Loop"));
+
+		if(mMainGame->Initialize()!=STATUS_OK)
+		{
+			//mQuit=true;
+			//end();
+		}
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Initialize Done"));
 		while(true)
 		{
 			while((lResult = ALooper_pollAll(mEnabled ? 0 : -1, NULL, &lEvents, (void**) &lSource)) >= 0)
 			{
 				if(lSource != NULL)
 				{
-					LOGGER->Log(LogLevel::Info,"processing an event");
+					star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Processing Event"));
 					lSource->process(mApplicationPtr, lSource);
 				}
 
 				if(mApplicationPtr->destroyRequested)
 				{
-					LOGGER->Log(LogLevel::Info,"Exiting event loop");
+					star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Exiting Event"));
 					return;
 				}
 			}
 
 			if((mEnabled)&& (!mQuit))
 			{
-				if(mSceneManager->Update(0.1f) != STATUS_OK)
+				if(mMainGame->Run()!=STATUS_OK)
 				{
-					mQuit = true;
-					ANativeActivity_finish(mApplicationPtr->activity);
-				}
-				if(mSceneManager->Draw() != STATUS_OK)
-				{
-					mQuit = true;
-					ANativeActivity_finish(mApplicationPtr->activity);
+					mQuit=true;
+					end();
 				}
 			}
 		}
+	}
+
+	void EventLoop::end()
+	{
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Ending App"));
+		mMainGame->End();
+		ANativeActivity_finish(mApplicationPtr->activity);
 	}
 
 	void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 	{
 		EventLoop& lEventLoop = *(EventLoop*) pApplication->userData;
-		star::SceneManager::GetInstance()->processActivityEvent(pCommand);
+		SceneManager::GetInstance()->processActivityEvent(pCommand,pApplication);
 	}
-
-	// ---------------------------------------
-	// Don't touch - Symon
-	// ---------------------------------------
-
-/*
-	void EventLoop::activate()
-		{
-			if((!mEnabled) && (mApplicationPtr->window != NULL))
-			{
-				mQuit = false;
-				mEnabled=true;
-				if(mActivityHandler->onActivate() != STATUS_OK)
-				{
-					mQuit = true;
-					ANativeActivity_finish(mApplicationPtr->activity);
-				}
-			}
-		}
-
-	void EventLoop::deactivate()
-	{
-			if(mEnabled)
-		{
-			mActivityHandler->onDeactivate();
-			mEnabled=false;
-		}
-	}
-
-	void EventLoop::processActivityEvent(int32_t pCommand)
-	{
-		switch(pCommand)
-		{
-		case APP_CMD_CONFIG_CHANGED:
-			mActivityHandler->onConfigurationChanged();
-			break;
-		case APP_CMD_INIT_WINDOW:
-			mActivityHandler->onCreateWindow();
-			break;
-		case APP_CMD_DESTROY:
-			mActivityHandler->onDestroy();
-			break;
-		case APP_CMD_GAINED_FOCUS:
-			activate();
-			mActivityHandler->onGainFocus();
-			break;
-		case APP_CMD_LOST_FOCUS:
-			mActivityHandler->onLostFocus();
-			deactivate();
-			break;
-		case APP_CMD_LOW_MEMORY:
-			mActivityHandler->onLowMemory();
-			break;
-		case APP_CMD_PAUSE:
-			mActivityHandler->onPause();
-			deactivate();
-			break;
-		case APP_CMD_RESUME:
-			mActivityHandler->onResume();
-			break;
-		case APP_CMD_SAVE_STATE:
-			mActivityHandler->onSaveState(&mApplicationPtr->savedState,&mApplicationPtr->savedStateSize);
-			break;
-		case APP_CMD_START:
-			mActivityHandler->onStart();
-			break;
-		case APP_CMD_STOP:
-			mActivityHandler->onStop();
-			break;
-		case APP_CMD_TERM_WINDOW:
-			mActivityHandler->onDestroyWindow();
-			deactivate();
-			break;
-		default:
-			break;
-		}
-	}
-*/
-
-
-
 
 }
 
