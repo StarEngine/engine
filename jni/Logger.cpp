@@ -9,12 +9,34 @@
 #endif
 namespace star {
 
+	//Make this a static object
+	Logger* Logger::mLoggerPtr = nullptr;
+
 	Logger::Logger()
 	{
 		#ifdef _WIN32
 		m_ConsoleHandle = nullptr;
 		#endif
+		//[TODO] Add initialize in the engine initialize instead of heres
+		Initialize();
 	}
+	
+	Logger::~Logger()
+	{
+
+	}
+
+	Logger* Logger::GetSingleton()
+	{
+		if(mLoggerPtr == nullptr) mLoggerPtr = new Logger();
+		return mLoggerPtr;
+	}
+
+	void Logger::ResetSingleton()
+	{
+		//Delete resources.
+	}
+
 	void Logger::Initialize()
 	{
 		#ifdef _WIN32

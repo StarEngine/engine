@@ -5,12 +5,10 @@
  *      Author: Pieter Vantorre
  */
 
-#ifndef _STAR_EVENTLOOP_H_
-#define _STAR_EVENTLOOP_H_
+#pragma once
 
 #include "defines.h"
 #include <android_native_app_glue.h>
-#include "Logger.h"
 
 namespace star
 {
@@ -23,9 +21,6 @@ namespace star
 
 	private:
 		android_app* mApplicationPtr;
-		Logger* mLoggerPtr;
 	};
 }
 
-
-#endif /* EVENTLOOP_H_ */

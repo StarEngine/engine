@@ -1,5 +1,4 @@
-#ifndef _STAR_LOGGER_HPP_
-#define _STAR_LOGGER_HPP_
+#pragma once
 
 #include "defines.h"
 
@@ -19,18 +18,36 @@ namespace star {
     class Logger {
     public:
 
-		Logger();
+		
+		~Logger();
+
+		// Static methods
+		static Logger*  GetSingleton();
+		static void ResetSingleton();
+
 		void Initialize();
 		void Log(LogLevel level, const tstring& pMessage, const tstring& tag = _T("STAR_ENGINE")) const;
 		
-	#ifdef _WIN32
-	private:
 	
+	private:
+		//SINGLETON IMPLEMENTATION
+		//----------------------------------
+		Logger(void);
+		static Logger* mLoggerPtr;
+		//----------------------------------
+
+		#ifdef _WIN32
 		HANDLE m_ConsoleHandle;
-	#endif
+		#endif
+
+		// -------------------------
+		// Disabling default copy constructor and default 
+		// assignment operator.
+		// -------------------------
+		Logger(const Logger& t);
+		Logger& operator=(const Logger& t);
     };
 
 
 }
 
-#endif
