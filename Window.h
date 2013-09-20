@@ -3,6 +3,8 @@
 
 #include <Windows.h>
 #include <jni/Logger.h>
+#include <jni/MainGame.h>
+
 class Window
 {
 public:
@@ -16,6 +18,7 @@ public:
 
 private:
 	star::Logger* mLoggerPtr;
+	MainGame* mMainGamePtr;
 };
 
 #endif

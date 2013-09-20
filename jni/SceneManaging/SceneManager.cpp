@@ -47,6 +47,7 @@ namespace star
 		}
 		if(m_SceneList.find(name) != m_SceneList.end())
 		{
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Scene ")+ name + _T(" is now Active"));
 			m_NewActiveScene = m_SceneList[name];
 			m_bSwitchingScene = true;
 			m_bInitialized = m_NewActiveScene->IsInitialized();
@@ -66,32 +67,27 @@ namespace star
 		if ( m_SceneList.find(name) == m_SceneList.end() )
 		{
 			m_SceneList[name] = scene;
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Adding scene"));
 		}
 		else
 		{
-			return false;
-			//Logger::Log(LogLevel::Info,"Exiting event loop");
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Scene Already Exists"));
+		return false;		
 		}
 
 		return true;
 	}
-	/*
+
 	bool SceneManager::RemoveScene(const tstring & name)
 	{
-		if(m_ScenesList.find(name)!=m_ScenesList.end())
+	if(m_SceneList.find(name)!=m_SceneList.end())
 		{
-			m_ScenesList.erase(name);
+		m_SceneList.erase(name);
 			return true;
 		}
-	#ifdef DEBUG
-		else
-		{
-			cout<< "Scene :"<< name << " already exists"<<endl;
-		}
-	#endif
 		return false;
 	}
-
+/*
 	bool SceneManager::InitializeCurScene()
 	{
 		if(m_bInitialized)
@@ -106,11 +102,11 @@ namespace star
 		m_bInitialized=m_NewActiveScene->IsInitialized();
 		return m_bInitialized;
 
-	}
-	*/
+}*/
+
 	status SceneManager::Update(float deltaTime)
 	{
-		/*
+	
 		if(m_bSwitchingScene)
 		{
 			//if(!m_bInitialized)InitializeCurScene();
@@ -121,16 +117,88 @@ namespace star
 		}
 		if(m_ActiveScene!=NULL)
 		{
-			return m_ActiveScene->onStep();
-		}
-		*/
+		return m_ActiveScene->Update();
+
+	}
+	
 		return STATUS_OK;
 	}
 
 
 	status SceneManager::Draw()
 	{
-		//if(m_ActiveScene!=NULL)
+	if(m_ActiveScene!=NULL)
+		m_ActiveScene->Draw();
 		return STATUS_OK;
 	}
 }
+
+#ifndef _WIN32
+
+void SceneManager::processActivityEvent(int32 pCommand, android_app* pApplication)
+{
+	mApplicationPtr = pApplication;
+	switch(pCommand)
+	{
+	case APP_CMD_CONFIG_CHANGED:
+		m_ActiveScene->onConfigurationChanged();
+		break;
+	case APP_CMD_INIT_WINDOW:
+		m_ActiveScene->onCreateWindow();
+		break;
+	case APP_CMD_DESTROY:
+		m_ActiveScene->onDestroy();
+		break;
+	case APP_CMD_GAINED_FOCUS:
+		activate();
+		m_ActiveScene->onGainFocus();
+		break;
+	case APP_CMD_LOST_FOCUS:
+		m_ActiveScene->onLostFocus();
+		deactivate();
+		break;
+	case APP_CMD_LOW_MEMORY:
+		m_ActiveScene->onLowMemory();
+		break;
+	case APP_CMD_PAUSE:
+		m_ActiveScene->onPause();
+		deactivate();
+		break;
+	case APP_CMD_RESUME:
+		m_ActiveScene->onResume();
+		break;
+	case APP_CMD_SAVE_STATE:
+		m_ActiveScene->onSaveState(&mApplicationPtr->savedState,&mApplicationPtr->savedStateSize);
+		break;
+	case APP_CMD_START:
+		m_ActiveScene->onStart();
+		break;
+	case APP_CMD_STOP:
+		m_ActiveScene->onStop();
+		break;
+	case APP_CMD_TERM_WINDOW:
+		m_ActiveScene->onDestroyWindow();
+		deactivate();
+		break;
+	default:
+		break;
+	}
+}
+
+void SceneManager::activate()
+{
+	if(mApplicationPtr->window != NULL)
+	{
+		if(m_ActiveScene->onActivate() != STATUS_OK)
+		{
+			ANativeActivity_finish(mApplicationPtr->activity);
+		}
+	}
+}
+
+void SceneManager::deactivate()
+{
+	m_ActiveScene->onDeactivate();
+}
+
+#endif

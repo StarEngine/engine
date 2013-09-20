@@ -1,3 +1,4 @@
+#include "Logger.h"
 #ifdef _WIN32
 #include <Window.h>
 #include <Windows.h>

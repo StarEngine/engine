@@ -3,12 +3,16 @@
  *
  *  Created on: 19-sep.-2013
  *      Author: Pieter Vantorre
+ *  Edited by
+ *  	Simon Vanhauwaert
  */
 
-#pragma once
+#ifndef _EVENTLOOP_
+#define _EVENTLOOP_
 
 #include "defines.h"
 #include <android_native_app_glue.h>
+#include "MainGame.h"
 
 class SceneManager;
 
@@ -20,6 +24,7 @@ namespace star
 		EventLoop(android_app* pApplication);
 
 		void run();
+		void end();
 
 	protected:
 		static void activityCallback(android_app* pApplication, int32_t pCommand);
@@ -28,7 +33,8 @@ namespace star
 		android_app* mApplicationPtr;
 		bool mEnabled;
 		bool mQuit;
-		SceneManager* mSceneManager;
+		MainGame* mMainGame;
 	};
 }
 
+#endif

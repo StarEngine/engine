@@ -12,6 +12,7 @@ HDC Window::hdc;
 Window::Window(HINSTANCE instance,const char* windowName,int width,int height)
 {
 	mLoggerPtr = star::Logger::GetSingleton();
+	mMainGamePtr = new MainGame();
 
 	WNDCLASSEX wndClass;
 	wndClass.cbSize = sizeof(WNDCLASSEX);
@@ -91,6 +92,8 @@ Window::Window(HINSTANCE instance,const char* windowName,int width,int height)
 
 	MSG msg ={};
 
+
+	mMainGamePtr->Initialize();
 	// Main message loop:
 	while(msg.message != WM_QUIT)
 	{
@@ -103,14 +106,14 @@ Window::Window(HINSTANCE instance,const char* windowName,int width,int height)
 		}
 		else // We've processed all pending Win32 messages, and can now do a rendering update.
 		{
-			star::SceneManager::GetInstance()->Update(0.1f);
-			star::SceneManager::GetInstance()->Draw();
-			//mLoggerPtr->Log(star::LogLevel::Debug,_T("Error test! :-)"));
+			mMainGamePtr->Run();
 		
 		}
 
 		SwapBuffers(Window::hdc); // Swaps display buffers
 	}
+
+	mMainGamePtr->End();
 }
 
 
@@ -130,4 +133,5 @@ LRESULT CALLBACK Window::wEventsProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 Window::~Window(void)
 {
+	delete mMainGamePtr;
 }

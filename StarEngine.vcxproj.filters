@@ -10,6 +10,8 @@
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="jni\SceneManaging\BaseScene.cpp" />
     <ClCompile Include="jni\SceneManaging\SceneManager.cpp" />
+    <ClCompile Include="jni\TestScene.cpp" />
+    <ClCompile Include="jni\MainGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
@@ -22,6 +24,8 @@
     <ClInclude Include="Window.h" />
     <ClInclude Include="jni\SceneManaging\BaseScene.h" />
     <ClInclude Include="jni\SceneManaging\SceneManager.h" />
+    <ClInclude Include="jni\TestScene.h" />
+    <ClInclude Include="jni\MainGame.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="jni">
