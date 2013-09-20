@@ -10,6 +10,8 @@
 #include "defines.h"
 #include <android_native_app_glue.h>
 
+class SceneManager;
+
 namespace star
 {
 	class EventLoop
@@ -19,8 +21,14 @@ namespace star
 
 		void run();
 
+	protected:
+		static void activityCallback(android_app* pApplication, int32_t pCommand);
+
 	private:
 		android_app* mApplicationPtr;
+		bool mEnabled;
+		bool mQuit;
+		SceneManager* mSceneManager;
 	};
 }
 

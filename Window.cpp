@@ -103,7 +103,8 @@ Window::Window(HINSTANCE instance,const char* windowName,int width,int height)
 		}
 		else // We've processed all pending Win32 messages, and can now do a rendering update.
 		{
-
+			SceneManager::GetInstance()->Update(0.1f);
+			SceneManager::GetInstance()->Draw();
 			mLoggerPtr->Log(star::LogLevel::Debug,_T("Error test! :-)"));
 		
 		}

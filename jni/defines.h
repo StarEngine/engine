@@ -13,6 +13,12 @@ typedef uint32_t 	uint32;
 typedef uint16_t 	uint16;
 typedef uint8_t 	uint8;
 
+typedef int32_t status;
+
+const status STATUS_OK 		= 0;
+const status STATUS_KO 		= -1;
+const status STATUS_EXIT 	= -2;
+
 #include <string.h>		
 #include <sstream>
 #include <iostream>
