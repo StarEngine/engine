@@ -1,6 +1,7 @@
 #include <Window.h>
 #include <string>
 
+#include "jni/SceneManaging/SceneManager.h"
 
 #pragma comment(lib, "opengl32.lib")
 
@@ -10,8 +11,7 @@ HDC Window::hdc;
 
 Window::Window(HINSTANCE instance,const char* windowName,int width,int height)
 {
-	mLoggerPtr = new star::Logger();
-	mLoggerPtr->Initialize();
+	mLoggerPtr = star::Logger::GetSingleton();
 
 	WNDCLASSEX wndClass;
 	wndClass.cbSize = sizeof(WNDCLASSEX);
@@ -105,7 +105,7 @@ Window::Window(HINSTANCE instance,const char* windowName,int width,int height)
 		{
 			SceneManager::GetInstance()->Update(0.1f);
 			SceneManager::GetInstance()->Draw();
-			mLoggerPtr->Log(star::LogLevel::Debug,_T("Error test! :-)"));
+			//mLoggerPtr->Log(star::LogLevel::Debug,_T("Error test! :-)"));
 		
 		}
 

@@ -8,6 +8,8 @@
       <Filter>jni</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp" />
+    <ClCompile Include="jni\SceneManaging\BaseScene.cpp" />
+    <ClCompile Include="jni\SceneManaging\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
@@ -18,6 +20,8 @@
       <Filter>jni</Filter>
     </ClInclude>
     <ClInclude Include="Window.h" />
+    <ClInclude Include="jni\SceneManaging\BaseScene.h" />
+    <ClInclude Include="jni\SceneManaging\SceneManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="jni">

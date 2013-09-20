@@ -2,7 +2,7 @@
 #include "../Logger.h"
 
 SceneManager* SceneManager::m_pSceneManager=NULL;
-const int32_t SceneManager::MAX_SCENES=10;
+
 
 SceneManager::SceneManager( void )
 {
@@ -10,7 +10,7 @@ SceneManager::SceneManager( void )
 	m_NewActiveScene=NULL;
 	m_bSwitchingScene=false;
 	m_bInitialized=false;
-	CurrentSceneName="";
+	CurrentSceneName=_T("");
 
 }
 
@@ -115,7 +115,7 @@ status SceneManager::Update(float deltaTime)
 		return m_ActiveScene->onStep();
 
 	}*/
-	star::Logger::GetSingleton()->Log(star::LogLevel::Info,"Going trough Update");
+	star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Going trough Update"));
 	return STATUS_OK;
 }
 
@@ -125,7 +125,7 @@ status SceneManager::Draw()
 	/*if(m_ActiveScene!=NULL)
 
 */
-	star::Logger::GetSingleton()->Log(star::LogLevel::Info,"Going trough Draw");
+	star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Going trough Draw"));
 	return STATUS_OK;
 
 }

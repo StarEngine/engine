@@ -53,7 +53,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir/jni)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir/jni);$(ProjectDir/jni/SceneManaging)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -82,12 +82,16 @@
   <ItemGroup>
     <ClCompile Include="jni\Logger.cpp" />
     <ClCompile Include="jni\Main.cpp" />
+    <ClCompile Include="jni\SceneManaging\BaseScene.cpp" />
+    <ClCompile Include="jni\SceneManaging\SceneManager.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
     <ClInclude Include="jni\defines.h" />
     <ClInclude Include="jni\Logger.h" />
+    <ClInclude Include="jni\SceneManaging\BaseScene.h" />
+    <ClInclude Include="jni\SceneManaging\SceneManager.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

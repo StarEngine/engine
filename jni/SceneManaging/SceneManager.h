@@ -47,7 +47,6 @@ class SceneManager
 	private:
 		//Data Members
 		static SceneManager* m_pSceneManager;
-		static const int32 MAX_SCENES;
 
 		BaseScene* m_ActiveScene;
 		BaseScene* m_NewActiveScene;
