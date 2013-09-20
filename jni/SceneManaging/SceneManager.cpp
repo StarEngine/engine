@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include "../Logger.h"
 
 SceneManager* SceneManager::m_pSceneManager=NULL;
 const int32_t SceneManager::MAX_SCENES=10;
@@ -94,41 +95,37 @@ bool SceneManager::InitializeCurScene()
 	return m_bInitialized;
 
 }
-
-void SceneManager::Update(float deltaTime)
+*/
+status SceneManager::Update(float deltaTime)
 {
-	if(m_bSwitchingScene)
+	/*if(m_bSwitchingScene)
 	{
-		if(!m_bInitialized)InitializeCurScene();
+		//if(!m_bInitialized)InitializeCurScene();
 
 
 		m_ActiveScene = m_NewActiveScene;
-		m_NewActiveScene=nullptr;
+		m_NewActiveScene=NULL;
 		m_bSwitchingScene=false;
+		return STATUS_OK;
 	}
 
-	if(m_ActiveScene!=nullptr){
+	if(m_ActiveScene!=NULL){
 
-		m_ActiveScene->Update(deltaTime);
-	}
-#ifdef DEBUG
-	else
-	{
-		cout<< "Invalid or No Active Scene"<<endl;
-	}
-#endif
 
+		return m_ActiveScene->onStep();
+
+	}*/
+	star::Logger::GetSingleton()->Log(star::LogLevel::Info,"Going trough Update");
+	return STATUS_OK;
 }
 
 
-void SceneManager::Draw()
+status SceneManager::Draw()
 {
-	if(m_ActiveScene!=nullptr)
-		m_ActiveScene->Draw();
-#ifdef DEBUG
-	else
-	{
-		cout<< "Invalid or No Active Scene"<<endl;
-	}
-#endif
-}*/
+	/*if(m_ActiveScene!=NULL)
+
+*/
+	star::Logger::GetSingleton()->Log(star::LogLevel::Info,"Going trough Draw");
+	return STATUS_OK;
+
+}

@@ -9,7 +9,6 @@
 #define _SCENE_MANAGER_
 
 #include "BaseScene.h"
-#include "Logger.h"
 #include <map>
 
 using namespace std;
@@ -28,8 +27,8 @@ class SceneManager
 		bool AddScene(tstring name,BaseScene* scene);
 		//bool RemoveScene(const char* name){};
 
-		status Update(float deltatime){return STATUS_OK;};
-		status Draw(){return STATUS_OK;};
+		status Update(float deltatime);
+		status Draw();
 
 #ifndef _WIN32
 		void processActivityEvent(int32_t pCommand){};

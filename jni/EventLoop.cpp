@@ -7,7 +7,9 @@ namespace star
 #define LOGGER (Logger::GetSingleton())
 
 	EventLoop::EventLoop(android_app* pApplication):
-				mApplicationPtr(pApplication)
+				mApplicationPtr(pApplication),
+				mEnabled(true),
+				mQuit(false)
 	{
 		mApplicationPtr->onAppCmd = activityCallback;
 		mApplicationPtr->userData = this;
@@ -25,19 +27,21 @@ namespace star
 		LOGGER->Log(LogLevel::Info,"Starting event loop");
 		while(true)
 		{
-			while((lResult = ALooper_pollAll(-1, NULL, &lEvents, (void**) &lSource)) >= 0)
+			while((lResult = ALooper_pollAll(mEnabled ? 0 : -1, NULL, &lEvents, (void**) &lSource)) >= 0)
 			{
 				if(lSource != NULL)
 				{
 					LOGGER->Log(LogLevel::Info,"processing an event");
+					lSource->process(mApplicationPtr, lSource);
 				}
-				lSource->process(mApplicationPtr, lSource);
+
+				if(mApplicationPtr->destroyRequested)
+				{
+					LOGGER->Log(LogLevel::Info,"Exiting event loop");
+					return;
+				}
 			}
-			if(mApplicationPtr->destroyRequested)
-			{
-				LOGGER->Log(LogLevel::Info,"Exiting event loop");
-				return;
-			}
+
 			if((mEnabled)&& (!mQuit))
 			{
 				if(mSceneManager->Update(0.1f)!= STATUS_OK)
