@@ -1,22 +1,21 @@
 #include "Logger.h"
 
 #ifdef _WIN32
-#include <stdio.h>
-
-#include "Console.h"
+	#include <stdio.h>
+	#include "Console.h"
 #else
-#include <android/log.h>
+	#include <android/log.h>
 #endif
-namespace star {
 
+namespace star {
 	//Make this a static object
-	Logger* Logger::mLoggerPtr = nullptr;
+	Logger* Logger::m_LoggerPtr = nullptr;
 
 	Logger::Logger()
+#ifdef _WIN32
+		:m_ConsoleHandle(nullptr)
+#endif
 	{
-		#ifdef _WIN32
-		m_ConsoleHandle = nullptr;
-		#endif
 		//[TODO] Add initialize in the engine initialize instead of heres
 		Initialize();
 	}
@@ -28,8 +27,11 @@ namespace star {
 
 	Logger* Logger::GetSingleton()
 	{
-		if(mLoggerPtr == nullptr) mLoggerPtr = new Logger();
-		return mLoggerPtr;
+		if(m_LoggerPtr == nullptr)
+		{
+			m_LoggerPtr = new Logger();
+		}
+		return m_LoggerPtr;
 	}
 
 	void Logger::ResetSingleton()
@@ -48,7 +50,6 @@ namespace star {
 	void Logger::Log(LogLevel level, const tstring& pMessage, const tstring& tag) const
 	{
 		#ifdef _WIN32
-
 		tstring levelName;
 		switch(level)
 		{
@@ -73,21 +74,21 @@ namespace star {
 			switch(level)
 			{
 			case LogLevel::Info :
-				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY|FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE);
+				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 				tprintf(combinedMessage.c_str());
 				break;
 			case LogLevel::Warning :
-				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY|FOREGROUND_RED|FOREGROUND_GREEN);
+				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
 				tprintf(combinedMessage.c_str());
 				break;
 			case LogLevel::Error :
-				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY|FOREGROUND_RED);
+				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED);
 				tprintf(combinedMessage.c_str());
 				//[TODO] Add assert + messagebox!
 				break;
 			case LogLevel::Debug :
 				#ifdef DEBUG
-				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY|FOREGROUND_GREEN);
+				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
 				tprintf(combinedMessage.c_str());
 				#endif
 				break;
@@ -96,20 +97,20 @@ namespace star {
 		#else
 			switch(level)
 			{
-			case LogLevel::Info :
+			case LogLevel::Info:
 				__android_log_print(ANDROID_LOG_INFO, tag.c_str(), pMessage.c_str());
 				break;
-			case LogLevel::Warning :
+			case LogLevel::Warning:
 				__android_log_print(ANDROID_LOG_WARN, tag.c_str(), pMessage.c_str());
 				break;
 			case LogLevel::Error:
 				__android_log_print(ANDROID_LOG_ERROR, tag.c_str(), pMessage.c_str());
 				break;
+			#ifdef DEBUG
 			case LogLevel::Debug:
-				#ifdef DEBUG
 				__android_log_print(ANDROID_LOG_DEBUG, tag.c_str(), pMessage.c_str());
-				#endif
 				break;
+			#endif
 			//[TODO] Add default with cross platform assert!
 			}
 		#endif

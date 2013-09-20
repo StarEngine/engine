@@ -1,48 +1,46 @@
-/*
- * EventLoop.h
- *
- *  Created on: 19-sep.-2013
- *      Author: Simon Vanhauwaert
- */
-
-#ifndef _BASE_SCENE_
-#define _BASE_SCENE_
+#pragma once
 
 #include "../defines.h"
 
-class BaseScene
+namespace star 
 {
-public:
+	class BaseScene
+	{
+	public:
+		BaseScene(const tstring & name);
+		virtual ~BaseScene() {}
 
-	BaseScene(tstring Name);
-	virtual ~BaseScene(){}
+		virtual status OnActivate() { return STATUS_OK; }
+		virtual void OnDeactivate() {}
+		virtual status OnStep() { return STATUS_OK; }
 
-	virtual status onActivate(){return STATUS_OK;};
-	virtual void onDeactivate(){};
-	virtual status onStep(){return STATUS_OK;};
+		virtual void OnStart() {}
+		virtual void OnResume() {}
+		virtual void OnPause() {}
+		virtual void OnStop() {}
+		virtual void OnDestroy() {}
 
-	virtual void onStart() {};
-	virtual void onResume() {};
-	virtual void onPause() {};
-	virtual void onStop() {};
-	virtual void onDestroy() {};
+		virtual void OnSaveState(void** pData,size_t* pSize) {}
+		virtual void OnConfigurationChanged() {}
+		virtual void OnLowMemory() {}
 
-	virtual void onSaveState(void** pData,size_t* pSize) {};
-	virtual void onConfigurationChanged() {};
-	virtual void onLowMemory() {};
+		virtual void OnCreateWindow() {}
+		virtual void OnDestroyWindow() {}
+		virtual void OnGainFocus() {}
+		virtual void OnLostFocus() {}
 
-	virtual void onCreateWindow() {};
-	virtual void onDestroyWindow() {};
-	virtual void onGainFocus() {};
-	virtual void onLostFocus() {};
+		const tstring & GetName() { return m_Name; }
+		bool IsInitialized() { return m_Initialized; }
 
-	tstring getName(){return mName;}
-	bool IsInitialized(){return bInitialized;}
+	private:
+		tstring m_Name;
+		bool m_Initialized;
 
-private:
-	tstring mName;
-	bool bInitialized;
-};
-
-
-#endif
+		// -------------------------
+		// Disabling default copy constructor and default 
+		// assignment operator.
+		// -------------------------
+		BaseScene(const BaseScene& t);
+		BaseScene& operator=(const BaseScene& t);
+	};
+}

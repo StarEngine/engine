@@ -28,8 +28,6 @@ const status STATUS_EXIT 	= -2;
 #include <tchar.h>
 #endif
 
-using namespace std;
-
 // Extra unicode defines
 #ifdef _UNICODE
 	#define tstring std::wstring
@@ -41,7 +39,7 @@ using namespace std;
 	#define tfstream std::wfstream
 	#define to_tstring std::to_wstring
 	#define tchar wchar_t
-	#define tuchar unsigned char
+	#define tuchar unsigned std::char
 	#define tprintf std::wprintf
 #else
 	#define tstring std::string
@@ -52,8 +50,8 @@ using namespace std;
 	#define tifstream std::ifstream
 	#define tfstream std::fstream
 	#define to_tstring std::to_string
-	#define tchar char
-	#define tuchar unsigned char
+	#define tchar std::char
+	#define tuchar unsigned std::char
 	#define tprintf std::printf
 #endif
 

@@ -13,7 +13,7 @@ namespace star
 	{
 		mApplicationPtr->onAppCmd = activityCallback;
 		mApplicationPtr->userData = this;
-		mSceneManager = SceneManager::GetInstance();
+		mSceneManager = star::SceneManager::GetInstance();
 	}
 
 	void EventLoop::run()
@@ -44,14 +44,14 @@ namespace star
 
 			if((mEnabled)&& (!mQuit))
 			{
-				if(mSceneManager->Update(0.1f)!= STATUS_OK)
+				if(mSceneManager->Update(0.1f) != STATUS_OK)
 				{
-					mQuit =true;
+					mQuit = true;
 					ANativeActivity_finish(mApplicationPtr->activity);
 				}
-				if(mSceneManager->Draw()!= STATUS_OK)
+				if(mSceneManager->Draw() != STATUS_OK)
 				{
-					mQuit =true;
+					mQuit = true;
 					ANativeActivity_finish(mApplicationPtr->activity);
 				}
 			}
@@ -61,7 +61,7 @@ namespace star
 	void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 	{
 		EventLoop& lEventLoop = *(EventLoop*) pApplication->userData;
-		SceneManager::GetInstance()->processActivityEvent(pCommand);
+		star::SceneManager::GetInstance()->processActivityEvent(pCommand);
 	}
 
 	// ---------------------------------------

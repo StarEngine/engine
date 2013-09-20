@@ -1,5 +1,4 @@
-#ifndef _STAR_CONSOLE_H
-#define _STAR_CONSOLE_H
+#pragma once
 
 //-----------------------------------------------------
 // Include Files
@@ -68,4 +67,3 @@ namespace WindowsConsole
 	}
  }
  
-#endif

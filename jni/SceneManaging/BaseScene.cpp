@@ -1,10 +1,11 @@
 #include "BaseScene.h"
 
-
-BaseScene::BaseScene(tstring Name):
-mName(Name),
-bInitialized(false)
+namespace star 
 {
+	BaseScene::BaseScene(const tstring & name)
+		: m_Name(name)
+		, m_Initialized(false)
+	{
 
+	}
 }
-

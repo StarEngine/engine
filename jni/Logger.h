@@ -7,33 +7,32 @@
 #endif
 //[TODO] : make singleton
 
-namespace star {
-	enum LogLevel {
-			Info, 
-			Warning, 
-			Error, 
-			Debug
-		};
+namespace star 
+{
+	enum LogLevel 
+	{
+		Info, 
+		Warning, 
+		Error, 
+		Debug
+	};
 
     class Logger {
     public:
-
-		
 		~Logger();
 
 		// Static methods
-		static Logger*  GetSingleton();
+		static Logger* GetSingleton();
 		static void ResetSingleton();
 
 		void Initialize();
 		void Log(LogLevel level, const tstring& pMessage, const tstring& tag = _T("STAR_ENGINE")) const;
-		
-	
+
 	private:
 		//SINGLETON IMPLEMENTATION
 		//----------------------------------
 		Logger(void);
-		static Logger* mLoggerPtr;
+		static Logger* m_LoggerPtr;
 		//----------------------------------
 
 		#ifdef _WIN32
@@ -47,7 +46,4 @@ namespace star {
 		Logger(const Logger& t);
 		Logger& operator=(const Logger& t);
     };
-
-
 }
-
