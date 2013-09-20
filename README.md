@@ -1,4 +1,4 @@
-StarEngine 2D Game Engine
+StarEngine [2D] Game Engine
 ==========
 
 Crossplatform C++11 2D Game Engine for Windows and Android games
