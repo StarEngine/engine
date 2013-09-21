@@ -15,6 +15,6 @@
 # Microsoft Visual Studios
 *.sdf
 *.opensdf
-*.suo
+*.v11.suo
 *.v11.suo
 StarEngine.v11.suo
