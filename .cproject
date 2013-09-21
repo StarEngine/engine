@@ -31,6 +31,9 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/stlport/stlport&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\cygwin64\usr\include&quot;"/>
 								</option>
+								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1713767724" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="nullptr=0"/>
+								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1573554596" languageId="org.eclipse.cdt.core.assembly" languageName="Assembly" sourceContentType="org.eclipse.cdt.core.asmSource" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.1420550263" name="GNU C++" superClass="org.eclipse.cdt.build.core.settings.holder">
@@ -42,6 +45,9 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/stlport/stlport&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\cygwin64\usr\include&quot;"/>
 								</option>
+								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1408120829" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="nullptr=0"/>
+								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1908618357" languageId="org.eclipse.cdt.core.g++" languageName="GNU C++" sourceContentType="org.eclipse.cdt.core.cxxSource,org.eclipse.cdt.core.cxxHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.1655134802" name="GNU C" superClass="org.eclipse.cdt.build.core.settings.holder">
@@ -52,6 +58,9 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.8/prebuilt/windows-x86_64/lib/gcc/arm-linux-androideabi/4.8/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/stlport/stlport&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\cygwin64\usr\include&quot;"/>
+								</option>
+								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.194515331" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="nullptr=0"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1958336538" languageId="org.eclipse.cdt.core.gcc" languageName="GNU C" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>

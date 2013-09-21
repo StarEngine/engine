@@ -78,7 +78,7 @@ namespace star
 		return true;
 	}
 
-	bool SceneManager::RemoveScene(const tstring & name)
+	bool SceneManager::RemoveScene(const tstring name)
 	{
 	if(m_SceneList.find(name)!=m_SceneList.end())
 		{
@@ -131,74 +131,74 @@ namespace star
 		m_ActiveScene->Draw();
 		return STATUS_OK;
 	}
-}
 
 #ifndef _WIN32
 
-void SceneManager::processActivityEvent(int32 pCommand, android_app* pApplication)
-{
-	mApplicationPtr = pApplication;
-	switch(pCommand)
+	void SceneManager::processActivityEvent(int32 pCommand, android_app* pApplication)
 	{
-	case APP_CMD_CONFIG_CHANGED:
-		m_ActiveScene->onConfigurationChanged();
-		break;
-	case APP_CMD_INIT_WINDOW:
-		m_ActiveScene->onCreateWindow();
-		break;
-	case APP_CMD_DESTROY:
-		m_ActiveScene->onDestroy();
-		break;
-	case APP_CMD_GAINED_FOCUS:
-		activate();
-		m_ActiveScene->onGainFocus();
-		break;
-	case APP_CMD_LOST_FOCUS:
-		m_ActiveScene->onLostFocus();
-		deactivate();
-		break;
-	case APP_CMD_LOW_MEMORY:
-		m_ActiveScene->onLowMemory();
-		break;
-	case APP_CMD_PAUSE:
-		m_ActiveScene->onPause();
-		deactivate();
-		break;
-	case APP_CMD_RESUME:
-		m_ActiveScene->onResume();
-		break;
-	case APP_CMD_SAVE_STATE:
-		m_ActiveScene->onSaveState(&mApplicationPtr->savedState,&mApplicationPtr->savedStateSize);
-		break;
-	case APP_CMD_START:
-		m_ActiveScene->onStart();
-		break;
-	case APP_CMD_STOP:
-		m_ActiveScene->onStop();
-		break;
-	case APP_CMD_TERM_WINDOW:
-		m_ActiveScene->onDestroyWindow();
-		deactivate();
-		break;
-	default:
-		break;
-	}
-}
-
-void SceneManager::activate()
-{
-	if(mApplicationPtr->window != NULL)
-	{
-		if(m_ActiveScene->onActivate() != STATUS_OK)
+		mApplicationPtr = pApplication;
+		switch(pCommand)
 		{
-			ANativeActivity_finish(mApplicationPtr->activity);
+		case APP_CMD_CONFIG_CHANGED:
+			m_ActiveScene->OnConfigurationChanged();
+			break;
+		case APP_CMD_INIT_WINDOW:
+			m_ActiveScene->OnCreateWindow();
+			break;
+		case APP_CMD_DESTROY:
+			m_ActiveScene->OnDestroy();
+			break;
+		case APP_CMD_GAINED_FOCUS:
+			Activate();
+			m_ActiveScene->OnGainFocus();
+			break;
+		case APP_CMD_LOST_FOCUS:
+			m_ActiveScene->OnLostFocus();
+			DeActivate();
+			break;
+		case APP_CMD_LOW_MEMORY:
+			m_ActiveScene->OnLowMemory();
+			break;
+		case APP_CMD_PAUSE:
+			m_ActiveScene->OnPause();
+			DeActivate();
+			break;
+		case APP_CMD_RESUME:
+			m_ActiveScene->OnResume();
+			break;
+		case APP_CMD_SAVE_STATE:
+			m_ActiveScene->OnSaveState(&mApplicationPtr->savedState,&mApplicationPtr->savedStateSize);
+			break;
+		case APP_CMD_START:
+			m_ActiveScene->OnStart();
+			break;
+		case APP_CMD_STOP:
+			m_ActiveScene->OnStop();
+			break;
+		case APP_CMD_TERM_WINDOW:
+			m_ActiveScene->OnDestroyWindow();
+			DeActivate();
+			break;
+		default:
+			break;
 		}
 	}
-}
 
-void SceneManager::deactivate()
-{
-	m_ActiveScene->onDeactivate();
+	void SceneManager::Activate()
+	{
+		if(mApplicationPtr->window != NULL)
+		{
+			if(m_ActiveScene->onActivate() != STATUS_OK)
+			{
+				ANativeActivity_finish(mApplicationPtr->activity);
+			}
+		}
+	}
+
+	void SceneManager::DeActivate()
+	{
+		m_ActiveScene->OnDeactivate();
+	}
 }
 
 #endif

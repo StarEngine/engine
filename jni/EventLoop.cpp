@@ -45,6 +45,7 @@ namespace star
 				if(mApplicationPtr->destroyRequested)
 				{
 					star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Exiting Event"));
+					mQuit=true;
 					return;
 				}
 			}

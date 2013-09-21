@@ -12,7 +12,7 @@
 #include "SceneManaging/BaseScene.h"
 #include "Logger.h"
 
-class TestScene : public BaseScene
+class TestScene : public star::BaseScene
 {
 public:
 

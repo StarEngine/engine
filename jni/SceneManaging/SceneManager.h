@@ -1,10 +1,13 @@
+#pragma once
+
 #include "BaseScene.h"
 #include <map>
 
 #ifndef _WIN32
 #include <android_native_app_glue.h>
 #endif
-
+namespace star
+{
 	class SceneManager
 	{
 	public:
@@ -12,10 +15,10 @@
 
 		static SceneManager* GetInstance();
 
-		BaseScene* GetActiveScene(){ return m_ActiveScene; }
-		BaseScene* GetScene(const tstring & name);
+		star::BaseScene* GetActiveScene(){ return m_ActiveScene; }
+		star::BaseScene* GetScene(const tstring & name);
 		bool SetActiveScene(const tstring & name);
-		bool AddScene(const tstring & name, BaseScene* scene);
+		bool AddScene(const tstring & name, star::BaseScene* scene);
 		bool RemoveScene(tstring name);
 
 		status Update(float deltatime);
@@ -24,8 +27,8 @@
 	#ifndef _WIN32
 		void processActivityEvent(int32 pCommand, android_app* pApplication);
 	protected:
-		void activate();
-		void deactivate();
+		void Activate();
+		void DeActivate();
 
 		android_app* mApplicationPtr;
 #endif
@@ -33,9 +36,10 @@
 		//Data Members
 		static SceneManager* m_pSceneManager;
 
-		BaseScene	*m_ActiveScene, 
-					*m_NewActiveScene;
-		std::map<tstring,BaseScene*> m_SceneList;
+		star::BaseScene	*m_ActiveScene, 
+						*m_NewActiveScene;
+
+		std::map<tstring,star::BaseScene*> m_SceneList;
 		bool m_bSwitchingScene,m_bInitialized;
 		tstring m_CurrentSceneName;
 

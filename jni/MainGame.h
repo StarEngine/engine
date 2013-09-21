@@ -26,7 +26,7 @@ public:
 	
 
 private:
-	SceneManager* mSceneManager;
+	star::SceneManager* mSceneManager;
 	TestScene* mTestScene;
 
 };

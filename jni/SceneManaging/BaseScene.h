@@ -10,10 +10,10 @@ namespace star
 		BaseScene(const tstring & name);
 		virtual ~BaseScene() {}
 
-	virtual status onActivate(){return STATUS_OK;}
+		virtual status onActivate(){return STATUS_OK;}
 		virtual void OnDeactivate() {}
-	virtual status Update(){return STATUS_OK;}
-	virtual status Draw(){return STATUS_OK;}
+		virtual status Update(){return STATUS_OK;}
+		virtual status Draw(){return STATUS_OK;}
 
 		virtual void OnStart() {}
 		virtual void OnResume() {}

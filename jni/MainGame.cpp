@@ -3,7 +3,7 @@
 
 MainGame::MainGame()
 {
-	mSceneManager = SceneManager::GetInstance();
+	mSceneManager = star::SceneManager::GetInstance();
 }
 
 status MainGame::Run()
@@ -24,8 +24,8 @@ status MainGame::Run()
 status MainGame::Initialize()
 {
 	mTestScene = new TestScene(_T("TestScene"));
-	if(!mSceneManager->AddScene(mTestScene->getName(),mTestScene))return STATUS_KO;
-	if(!mSceneManager->SetActiveScene(mTestScene->getName()))return STATUS_KO;
+	if(!mSceneManager->AddScene(mTestScene->GetName(),mTestScene))return STATUS_KO;
+	if(!mSceneManager->SetActiveScene(mTestScene->GetName()))return STATUS_KO;
 	star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Scenes Set and Done"));
 	return STATUS_OK;
 }
