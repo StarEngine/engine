@@ -19,7 +19,7 @@ public:
 	TestScene(tstring Name);
 	virtual ~TestScene(){}
 
-	status Update();
+	status Update(star::Context& context);
 	status Draw();
 
 private:

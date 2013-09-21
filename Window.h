@@ -4,6 +4,8 @@
 #include <Windows.h>
 #include <jni/Logger.h>
 #include <jni/MainGame.h>
+#include <jni/TimeManager.h>
+#include <jni/Context.h>
 
 class Window
 {
@@ -18,7 +20,9 @@ public:
 
 private:
 	star::Logger* mLoggerPtr;
-	MainGame* mMainGamePtr;
+	star::MainGame* mMainGamePtr;
+	star::TimeManager* mTimeManager;
+	star::Context mContext;
 };
 
 #endif

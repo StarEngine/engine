@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseScene.h"
+#include "../Context.h"
 #include <map>
 
 #ifndef _WIN32
@@ -21,7 +22,7 @@ namespace star
 		bool AddScene(const tstring & name, star::BaseScene* scene);
 		bool RemoveScene(tstring name);
 
-		status Update(float deltatime);
+		status Update(Context& context);
 		status Draw();
 
 	#ifndef _WIN32

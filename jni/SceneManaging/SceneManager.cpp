@@ -104,7 +104,7 @@ namespace star
 
 }*/
 
-	status SceneManager::Update(float deltaTime)
+	status SceneManager::Update(Context& context)
 	{
 	
 		if(m_bSwitchingScene)
@@ -117,7 +117,7 @@ namespace star
 		}
 		if(m_ActiveScene!=NULL)
 		{
-		return m_ActiveScene->Update();
+		return m_ActiveScene->Update(context);
 
 	}
 	
@@ -199,6 +199,8 @@ namespace star
 	{
 		m_ActiveScene->OnDeactivate();
 	}
-}
+
 
 #endif
+
+}

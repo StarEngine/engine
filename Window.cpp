@@ -12,7 +12,10 @@ HDC Window::hdc;
 Window::Window(HINSTANCE instance,const char* windowName,int width,int height)
 {
 	mLoggerPtr = star::Logger::GetSingleton();
-	mMainGamePtr = new MainGame();
+	mMainGamePtr = new star::MainGame();
+	mTimeManager = new star::TimeManager();
+
+	mContext.mTimeManager = mTimeManager;
 
 	WNDCLASSEX wndClass;
 	wndClass.cbSize = sizeof(WNDCLASSEX);
@@ -97,7 +100,8 @@ Window::Window(HINSTANCE instance,const char* windowName,int width,int height)
 	// Main message loop:
 	while(msg.message != WM_QUIT)
 	{
-		
+		mTimeManager->StartMonitoring();
+
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -106,11 +110,12 @@ Window::Window(HINSTANCE instance,const char* windowName,int width,int height)
 		}
 		else // We've processed all pending Win32 messages, and can now do a rendering update.
 		{
-			mMainGamePtr->Run();
+			mMainGamePtr->Run(mContext);
 		
 		}
-
 		SwapBuffers(Window::hdc); // Swaps display buffers
+
+		mTimeManager->StopMonitoring();
 	}
 
 	mMainGamePtr->End();

@@ -13,6 +13,8 @@
 #include "defines.h"
 #include <android_native_app_glue.h>
 #include "MainGame.h"
+#include "Context.h"
+#include "TimeManager.h"
 
 class SceneManager;
 
@@ -34,6 +36,8 @@ namespace star
 		bool mEnabled;
 		bool mQuit;
 		MainGame* mMainGame;
+		TimeManager* mTimeManager;
+		Context mContext;
 	};
 }
 

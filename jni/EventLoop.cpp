@@ -1,6 +1,7 @@
 #include "EventLoop.h"
 #include "Logger.h"
 #include "SceneManaging/SceneManager.h"
+#include <unistd.h>
 
 namespace star
 {
@@ -14,6 +15,8 @@ namespace star
 		//mApplicationPtr->onAppCmd = activityCallback;
 		//mApplicationPtr->userData = this;
 		mMainGame = new MainGame();
+		mTimeManager = new TimeManager();
+		mContext.mTimeManager = mTimeManager;
 	}
 
 	void EventLoop::run()
@@ -34,6 +37,7 @@ namespace star
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Initialize Done"));
 		while(true)
 		{
+			mTimeManager->StartMonitoring();
 			while((lResult = ALooper_pollAll(mEnabled ? 0 : -1, NULL, &lEvents, (void**) &lSource)) >= 0)
 			{
 				if(lSource != NULL)
@@ -52,12 +56,14 @@ namespace star
 
 			if((mEnabled)&& (!mQuit))
 			{
-				if(mMainGame->Run()!=STATUS_OK)
+				if(mMainGame->Run(mContext)!=STATUS_OK)
 				{
 					mQuit=true;
 					end();
 				}
 			}
+			usleep(100);
+			mTimeManager->StopMonitoring();
 		}
 	}
 

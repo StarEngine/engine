@@ -12,6 +12,7 @@
     <ClCompile Include="jni\SceneManaging\SceneManager.cpp" />
     <ClCompile Include="jni\TestScene.cpp" />
     <ClCompile Include="jni\MainGame.cpp" />
+    <ClCompile Include="jni\TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
@@ -26,6 +27,8 @@
     <ClInclude Include="jni\SceneManaging\SceneManager.h" />
     <ClInclude Include="jni\TestScene.h" />
     <ClInclude Include="jni\MainGame.h" />
+    <ClInclude Include="jni\TimeManager.h" />
+    <ClInclude Include="jni\Context.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="jni">

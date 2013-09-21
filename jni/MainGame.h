@@ -9,27 +9,31 @@
 #define _MAIN_GAME_
 
 #include "defines.h"
+#include "Context.h"
 #include "SceneManaging/SceneManager.h"
 #include "SceneManaging/BaseScene.h"
 #include "TestScene.h"
 
-class MainGame
+namespace star
 {
-public:
+	class MainGame
+	{
+	public:
 
-	MainGame();
-	virtual ~MainGame(){}
+		MainGame();
+		virtual ~MainGame(){}
 
-	status Initialize();
-	status Run();
-	status End();
+		status Initialize();
+		status Run(Context& context);
+		status End();
 	
 
-private:
-	star::SceneManager* mSceneManager;
-	TestScene* mTestScene;
+	private:
+		star::SceneManager* mSceneManager;
+		TestScene* mTestScene;
 
-};
+	};
+}
 
 
 #endif

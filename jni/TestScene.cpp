@@ -7,9 +7,13 @@ TestScene::TestScene(tstring Name):BaseScene(Name)
 
 }
 
-status TestScene::Update()
+status TestScene::Update(Context& context)
 {
-	//star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("TestScene - Going trough Update"));
+	double time = context.mTimeManager->GetDeltaTime_uS();
+	tstringstream str;
+	str << "TestScene DeltaTime in milliseconds: " << time << std::endl;
+
+	star::Logger::GetSingleton()->Log(star::LogLevel::Info,str.str());
 	return STATUS_OK;
 }
 
