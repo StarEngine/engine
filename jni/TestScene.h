@@ -23,6 +23,9 @@ public:
 	status Draw();
 
 private:
+	int m_TotalFrames;
+	int m_FPS;
+	float m_PassedMiliseconds;
 
 };
 
