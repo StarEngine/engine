@@ -7,10 +7,8 @@
 //                                    __/ |             
 //                                   |___/   
 #pragma once
-#include "..\lib\stafx.h"
 #include "BaseComponent.h"
 #include "..\defines.h"
-#include "..\lib\Vector2D.h"
 
 class CircleColliderComponent: public BaseComponent
 {
@@ -19,7 +17,7 @@ public:
 	virtual ~CircleColliderComponent(void);
 
 	virtual void Initialize();
-	virtual void Update(float deltaTime);
+	virtual void Update(const star::Context& context);
 	virtual void Draw();
 
 	void SetAsTrigger(bool isTrigger) {m_bIsTrigger = isTrigger;};

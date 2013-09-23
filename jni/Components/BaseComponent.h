@@ -7,11 +7,10 @@
 //                                    __/ |             
 //                                   |___/             
 #pragma once
-#include "..\lib\stdafx.h"
-#include "..\Object.h"
-
-class TransformComponent;
-class BaseScene;
+#include "..\defines.h"
+#include "..\Logger.h"
+#include "..\Context.h"
+#include "..\SceneGraph\Object.h"
 
 class BaseComponent
 {
@@ -20,7 +19,7 @@ public:
 	virtual ~BaseComponent(void);
 
 	virtual void Initialize();
-	virtual void Update(float deltatime) = 0;
+	virtual void Update(const star::Context& context) = 0;
 	virtual void Draw() = 0;
 
 	bool IsInitialized() const {return m_bInitialized;};

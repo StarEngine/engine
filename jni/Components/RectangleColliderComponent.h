@@ -7,32 +7,34 @@
 //                                    __/ |             
 //                                   |___/   
 #pragma once
-#include "..\lib\stafx.h"
 #include "BaseComponent.h"
 #include "..\defines.h"
-#include "..\lib\Vector2D.h"
+#include "..\Helpers\glm\glm.h"
+#include "..\Helpers\Rect.h"
+#include <math.h>
 
 class RectangleColliderComponent: public BaseComponent
 {
 public:
 	RectangleColliderComponent(int width, int height);
-	virtual ~RectangleColliderComponent(void);
+	~RectangleColliderComponent(void);
 
-	virtual void Initialize();
-	virtual void Update(float deltaTime);
-	virtual void Draw();
+	void Initialize();
+	void Update(const star::Context& context);
+	void Draw();
 
 	void SetAsTrigger(bool isTrigger) {m_bIsTrigger = isTrigger;};
 	bool IsTrigger() const {return m_bIsTrigger;};
 
-	const RECT GetCollisionRest() const {return m_CollisionRect;};
-	RECT CollisionTest(RECT& collider);
+	const  Rect GetCollisionRect() const {return m_CollisionRect;};
+	Rect CollisionTest(const Rect& collider);
 
 protected:
 	virtual void InitializeComponent();
 
-	int m_Width, m_Height;
 	bool m_bIsTrigger;
+	Rect m_CollisionRect;
+
 private:
 	// -------------------------
 	// Disabling default copy constructor and default 

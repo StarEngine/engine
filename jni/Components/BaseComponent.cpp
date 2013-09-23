@@ -22,9 +22,7 @@ BaseComponent::~BaseComponent(void)
 void BaseComponent::Initialize()
 {
 	if(m_bInitialized)
-	{
 		return;
-	}
 
 	InitializeComponent();
 	m_bInitialized = true;

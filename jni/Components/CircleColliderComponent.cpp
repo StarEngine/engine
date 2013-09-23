@@ -20,13 +20,16 @@ CircleColliderComponent::~CircleColliderComponent(void)
 {
 }
 
+void CircleColliderComponent::Initialize()
+{}
+
 void CircleColliderComponent::InitializeComponent()
 {
-	Assert(m_Radius > 0, _T("Negative Radius"));
+	//Assert(m_Radius > 0, _T("Negative Radius"));
 	m_bInitialized = true;
 }
 
-void CircleColliderComponent::Update(float deltaTime)
+void CircleColliderComponent::Update(const star::Context& context)
 {
 	if(!m_bInitialized)
 		return;

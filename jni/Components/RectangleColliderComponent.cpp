@@ -10,10 +10,10 @@
 
 
 RectangleColliderComponent::RectangleColliderComponent(int width, int height):
-	m_Width(width),
-	m_Height(height),
+	m_CollisionRect(0,0, width, height),
 	m_bIsTrigger(false)
 {
+	star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("RectCollisionComponent initialized"));
 }
 
 
@@ -21,18 +21,21 @@ RectangleColliderComponent::~RectangleColliderComponent(void)
 {
 }
 
+void RectangleColliderComponent::Initialize()
+{}
+
+
 void RectangleColliderComponent::InitializeComponent()
 {
-	Assert(m_Width > 0, _T("Negative Width"));
-	Assert(m_Height> 0, _T("Negative Height"));
-
 	m_bInitialized = true;
 }
 
-void RectangleColliderComponent::Update(float deltaTime)
+void RectangleColliderComponent::Update(const star::Context& context)
 {
 	if(!m_bInitialized)
+	{
 		return;
+	}
 
 	//[TODO]Start CollisionChecking
 	//If m_bIsTrigger == true -> Callbacks

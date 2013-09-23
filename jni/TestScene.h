@@ -9,8 +9,11 @@
 #define _TEST_SCENE
 
 #include "defines.h"
-#include "SceneManaging/BaseScene.h"
+#include "Context.h"
 #include "Logger.h"
+#include "SceneManaging\BaseScene.h"
+#include "SceneGraph\Object.h"
+#include "StarComponents.h"
 
 class TestScene : public star::BaseScene
 {
@@ -27,6 +30,8 @@ private:
 	int m_FPS;
 	float m_PassedMiliseconds;
 
+	Object* m_pTestObject;
+	RectangleColliderComponent* mRectCompPtr;
 };
 
 
