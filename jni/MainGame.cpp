@@ -1,21 +1,26 @@
 #include "MainGame.h"
+#include "Context.h"
+#include "SceneManaging/SceneManager.h"
+#include "SceneManaging/BaseScene.h"
+#include "TestScene.h"
+#include "Logger.h"
 
 namespace star
 {
 
 	MainGame::MainGame()
 	{
-		mSceneManager = star::SceneManager::GetInstance();
+		mSceneManager = SceneManager::GetInstance();
 	}
 
-	status MainGame::Run(Context& context)
+	status MainGame::Run(const Context& context)
 	{
-		if(mSceneManager->Update(context)!= STATUS_OK)
+		if(mSceneManager->Update(context) != STATUS_OK)
 		{
 			return STATUS_KO;
 		}
 
-		if(mSceneManager->Draw()!= STATUS_OK)
+		if(mSceneManager->Draw() != STATUS_OK)
 		{
 			return STATUS_KO;
 		}
@@ -26,9 +31,17 @@ namespace star
 	status MainGame::Initialize()
 	{
 		mTestScene = new TestScene(_T("TestScene"));
-		if(!mSceneManager->AddScene(mTestScene->GetName(),mTestScene))return STATUS_KO;
-		if(!mSceneManager->SetActiveScene(mTestScene->GetName()))return STATUS_KO;
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Scenes Set and Done"));
+		if(!mSceneManager->AddScene(mTestScene->GetName(),mTestScene))
+		{
+			return STATUS_KO;
+		}
+
+		if(!mSceneManager->SetActiveScene(mTestScene->GetName()))
+		{
+			return STATUS_KO;
+		}
+
+		Logger::GetSingleton()->Log(LogLevel::Info,_T("Scenes Set and Done"));
 		return STATUS_OK;
 	}
 
@@ -38,4 +51,3 @@ namespace star
 	}
 
 }
-

@@ -1,5 +1,7 @@
 #include "SceneManager.h"
 #include "../Logger.h"
+#include "../Context.h"
+#include "BaseScene.h"
 
 namespace star 
 {
@@ -47,7 +49,7 @@ namespace star
 		}
 		if(m_SceneList.find(name) != m_SceneList.end())
 		{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Scene ")+ name + _T(" is now Active"));
+			Logger::GetSingleton()->Log(LogLevel::Info,_T("Scene ")+ name + _T(" is now Active"));
 			m_NewActiveScene = m_SceneList[name];
 			m_bSwitchingScene = true;
 			m_bInitialized = m_NewActiveScene->IsInitialized();
@@ -78,7 +80,7 @@ namespace star
 		return true;
 	}
 
-	bool SceneManager::RemoveScene(const tstring name)
+	bool SceneManager::RemoveScene(const tstring & name)
 	{
 	if(m_SceneList.find(name)!=m_SceneList.end())
 		{
@@ -104,31 +106,30 @@ namespace star
 
 }*/
 
-	status SceneManager::Update(Context& context)
+	status SceneManager::Update(const Context& context)
 	{
-	
 		if(m_bSwitchingScene)
 		{
 			//if(!m_bInitialized)InitializeCurScene();
 			m_ActiveScene = m_NewActiveScene;
-			m_NewActiveScene=NULL;
-			m_bSwitchingScene=false;
+			m_NewActiveScene = nullptr;
+			m_bSwitchingScene = false;
 			return STATUS_OK;
 		}
-		if(m_ActiveScene!=NULL)
+		if(m_ActiveScene != nullptr)
 		{
-		return m_ActiveScene->Update(context);
-
-	}
-	
+			return m_ActiveScene->Update(context);
+		}
 		return STATUS_OK;
 	}
 
 
 	status SceneManager::Draw()
 	{
-	if(m_ActiveScene!=NULL)
-		m_ActiveScene->Draw();
+		if(m_ActiveScene != nullptr)
+		{
+			m_ActiveScene->Draw();
+		}
 		return STATUS_OK;
 	}
 
@@ -186,7 +187,7 @@ namespace star
 
 	void SceneManager::Activate()
 	{
-		if(mApplicationPtr->window != NULL)
+		if(mApplicationPtr->window != nullptr)
 		{
 			if(m_ActiveScene->onActivate() != STATUS_OK)
 			{
@@ -199,8 +200,5 @@ namespace star
 	{
 		m_ActiveScene->OnDeactivate();
 	}
-
-
-#endif
-
+#endif // _WIN32
 }

@@ -1,32 +1,37 @@
 #pragma once
 
-#include "BaseScene.h"
-#include "../Context.h"
 #include <map>
+#include "../defines.h"
 
 #ifndef _WIN32
 #include <android_native_app_glue.h>
 #endif
+
 namespace star
 {
+	struct Context;
+
+	class BaseScene;
+
 	class SceneManager
 	{
 	public:
-		virtual ~SceneManager(void);
+		~SceneManager(void);
 
 		static SceneManager* GetInstance();
 
-		star::BaseScene* GetActiveScene(){ return m_ActiveScene; }
-		star::BaseScene* GetScene(const tstring & name);
+		BaseScene* GetActiveScene(){ return m_ActiveScene; }
+		BaseScene* GetScene(const tstring & name);
 		bool SetActiveScene(const tstring & name);
-		bool AddScene(const tstring & name, star::BaseScene* scene);
-		bool RemoveScene(tstring name);
+		bool AddScene(const tstring & name, BaseScene* scene);
+		bool RemoveScene(const tstring & name);
 
-		status Update(Context& context);
+		status Update(const Context& context);
 		status Draw();
 
-	#ifndef _WIN32
+#ifndef _WIN32
 		void processActivityEvent(int32 pCommand, android_app* pApplication);
+		//[COMMENT] Does this class have children? If not, change to private protection level.
 	protected:
 		void Activate();
 		void DeActivate();
@@ -37,14 +42,16 @@ namespace star
 		//Data Members
 		static SceneManager* m_pSceneManager;
 
-		star::BaseScene	*m_ActiveScene, 
-						*m_NewActiveScene;
+		BaseScene	*m_ActiveScene, 
+					*m_NewActiveScene;
 
-		std::map<tstring,star::BaseScene*> m_SceneList;
-		bool m_bSwitchingScene,m_bInitialized;
+		std::map<tstring, BaseScene*> m_SceneList;
+		bool m_bSwitchingScene,
+			 m_bInitialized;
 		tstring m_CurrentSceneName;
 
 		//Private Functions
+		// [COMMENT] if not needed soon, remove this.
 		//bool InitializeCurScene(){};
 		//static void activityCallback(android_app* pApplication, int32_t pCommand);
 		SceneManager(void);

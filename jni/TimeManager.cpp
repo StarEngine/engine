@@ -35,32 +35,31 @@ namespace star
 #ifdef _WIN32
 		QueryPerformanceCounter(&mF2);
 		QueryPerformanceFrequency(&mFrequency);
-		mDeltauS	=(mF2.QuadPart - mF1.QuadPart)* 1000000.0/ mFrequency.QuadPart;
-		mDeltaMs	=(mF2.QuadPart - mF1.QuadPart) * 1000.0 / mFrequency.QuadPart;
-		mDeltaS		=(mF2.QuadPart - mF1.QuadPart)* 1.0/ mFrequency.QuadPart;
+		mDeltauS = (mF2.QuadPart - mF1.QuadPart) * 1000000.0 / mFrequency.QuadPart;
+		mDeltaMs = (mF2.QuadPart - mF1.QuadPart) * 1000.0 / mFrequency.QuadPart;
+		mDeltaS	 = (mF2.QuadPart - mF1.QuadPart) * 1.0 / mFrequency.QuadPart;
 #else
 		timespec lTimeVal;
 		clock_gettime(CLOCK_MONOTONIC, &lTimeVal);
-		mF2 = lTimeVal.tv_sec + (lTimeVal.tv_nsec*1.0e-9);
-		mDeltauS = (mF2 - mF1)*1000000.0;
-		mDeltaMs = (mF2 - mF1)*1000.0;
+		mF2 = lTimeVal.tv_sec + (lTimeVal.tv_nsec * 1.0e-9);
+		mDeltauS = (mF2 - mF1) * 1000000.0;
+		mDeltaMs = (mF2 - mF1) * 1000.0;
 		mDeltaS  = (mF2 - mF1);
 #endif
 	}
 
-	double TimeManager::GetDeltaTime_S()
+	double TimeManager::GetDeltaTime_S() const
 	{
 		return mDeltaS;
 	}
 
-	double TimeManager::GetDeltaTime_Ms()
+	double TimeManager::GetDeltaTime_Ms() const
 	{
 		return mDeltaMs;
 	}
 
-	double TimeManager::GetDeltaTime_uS()
+	double TimeManager::GetDeltaTime_uS() const
 	{
 		return mDeltauS;
 	}
-
 }

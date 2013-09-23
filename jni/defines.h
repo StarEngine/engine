@@ -1,5 +1,4 @@
-#ifndef DEFINES_H_
-#define DEFINES_H_
+#pragma once
 
 #include <stdint.h>
 
@@ -13,7 +12,7 @@ typedef uint32_t 	uint32;
 typedef uint16_t 	uint16;
 typedef uint8_t 	uint8;
 
-typedef int32_t status;
+typedef int8_t status;
 
 const status STATUS_OK 		= 0;
 const status STATUS_KO 		= -1;
@@ -25,6 +24,9 @@ const status STATUS_EXIT 	= -2;
 #include <fstream>
 
 #ifdef _WIN32
+#include <Windows.h>
+#include <stdlib.h>
+#include <minmax.h>
 #include <tchar.h>
 #endif
 
@@ -59,4 +61,13 @@ const status STATUS_EXIT 	= -2;
 #define _T(x) x
 #endif
 
-#endif /* DEFINES_H_ */
+using std::min;
+using std::max;
+
+//OpenGL Math Library
+#include "Helpers\glm\glm.h"
+#include "Helpers\glm\ext.hpp"
+
+using glm::vec3;
+using glm::quat;
+using glm::mat4x4;

@@ -1,38 +1,36 @@
-/*
- * TestScene.h
- *
- *  Created on: 19-sep.-2013
- *      Author: Simon Vanhauwaert
- */
-
-#ifndef _TEST_SCENE
-#define _TEST_SCENE
+#pragma once
 
 #include "defines.h"
-#include "Context.h"
-#include "Logger.h"
 #include "SceneManaging\BaseScene.h"
-#include "SceneGraph\Object.h"
-#include "StarComponents.h"
+#include "Logger.h"
+#include "Context.h"
+#include "SceneGraph/Object.h"
+#include "Components/RectangleColliderComponent.h"
 
-class TestScene : public star::BaseScene
+namespace star 
 {
-public:
+	class TestScene : public BaseScene
+	{
+	public:
+		TestScene(const tstring& name);
+		virtual ~TestScene() {}
 
-	TestScene(tstring Name);
-	virtual ~TestScene(){}
+		status Update(const Context& context);
+		status Draw();
 
-	status Update(star::Context& context);
-	status Draw();
+	private:
+		int m_TotalFrames;
+		int m_FPS;
+		float m_PassedMiliseconds;
 
-private:
-	int m_TotalFrames;
-	int m_FPS;
-	float m_PassedMiliseconds;
+		Object* m_pTestObject;
+		RectangleColliderComponent* m_pRectComp;
 
-	Object* m_pTestObject;
-	RectangleColliderComponent* mRectCompPtr;
-};
-
-
-#endif
+		// -------------------------
+		// Disabling default copy constructor and default 
+		// assignment operator.
+		// -------------------------
+		TestScene(const TestScene& t);
+		TestScene& operator=(const TestScene& t);
+	};
+}

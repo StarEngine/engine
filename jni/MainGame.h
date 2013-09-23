@@ -1,39 +1,36 @@
-/*
- * TestScene.h
- *
- *  Created on: 19-sep.-2013
- *      Author: Simon Vanhauwaert
- */
-
-#ifndef _MAIN_GAME_
-#define _MAIN_GAME_
+#pragma once
 
 #include "defines.h"
-#include "Context.h"
-#include "SceneManaging/SceneManager.h"
-#include "SceneManaging/BaseScene.h"
-#include "TestScene.h"
 
 namespace star
 {
+	struct Context;
+
+	class SceneManager;
+	class BaseScene;
+	class TestScene;
+
+	//[COMMENT] Will this class have children?
 	class MainGame
 	{
 	public:
-
 		MainGame();
-		virtual ~MainGame(){}
+		virtual ~MainGame() {}
 
 		status Initialize();
-		status Run(Context& context);
+		status Run(const Context& context);
 		status End();
 	
-
 	private:
-		star::SceneManager* mSceneManager;
+		SceneManager* mSceneManager;
 		TestScene* mTestScene;
+
+		// -------------------------
+		// Disabling default copy constructor and default 
+		// assignment operator.
+		// -------------------------
+		MainGame(const MainGame& t);
+		MainGame& operator=(const MainGame& t);
 
 	};
 }
-
-
-#endif

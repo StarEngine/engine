@@ -1,40 +1,37 @@
-//  _____ _             ______             _            
-// / ____| |           |  ____|           (_)           
-//| (___ | |_ __ _ _ __| |__   _ __   __ _ _ _ __   ___ 
-// \___ \| __/ _` | '__|  __| | '_ \ / _` | | '_ \ / _ \
-// ____) | || (_| | |  | |____| | | | (_| | | | | |  __/
-//|_____/ \__\__,_|_|  |______|_| |_|\__, |_|_| |_|\___|
-//                                    __/ |             
-//                                   |___/   
 #pragma once
 #include "BaseComponent.h"
 #include "..\defines.h"
 
-class CircleColliderComponent: public BaseComponent
+namespace star
 {
-public:
-	CircleColliderComponent(float radius = 1.0f);
-	virtual ~CircleColliderComponent(void);
+	struct Context;
 
-	virtual void Initialize();
-	virtual void Update(const star::Context& context);
-	virtual void Draw();
+	class CircleColliderComponent final : public BaseComponent
+	{
+	public:
+		// [COMMENT] remove default value
+		CircleColliderComponent(float radius = 1.0f);
+		~CircleColliderComponent(void);
 
-	void SetAsTrigger(bool isTrigger) {m_bIsTrigger = isTrigger;};
-	bool IsTrigger() const {return m_bIsTrigger;};
+		void Initialize();
+		void Update(const Context& context);
+		void Draw();
 
-protected:
-	virtual void InitializeComponent();
+		void SetAsTrigger(bool isTrigger) {m_bIsTrigger = isTrigger;};
+		bool IsTrigger() const {return m_bIsTrigger;};
 
-	float m_Radius;
-	bool m_bIsTrigger;
+	protected:
+		void InitializeComponent();
 
-private:
-	// -------------------------
-	// Disabling default copy constructor and default 
-	// assignment operator.
-	// -------------------------
-	CircleColliderComponent(const CircleColliderComponent& t);
-	CircleColliderComponent& operator=(const CircleColliderComponent& t);
-};
+		float m_Radius;
+		bool m_bIsTrigger;
 
+	private:
+		// -------------------------
+		// Disabling default copy constructor and default 
+		// assignment operator.
+		// -------------------------
+		CircleColliderComponent(const CircleColliderComponent& t);
+		CircleColliderComponent& operator=(const CircleColliderComponent& t);
+	};
+}

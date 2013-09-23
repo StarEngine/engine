@@ -1,4 +1,5 @@
 #include "BaseScene.h"
+#include "../Context.h"
 
 namespace star 
 {

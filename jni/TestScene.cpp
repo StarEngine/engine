@@ -1,42 +1,37 @@
 #include "TestScene.h"
 
-using namespace star;
-
-TestScene::TestScene(tstring Name):	BaseScene(Name),
-									m_TotalFrames(0),
-									m_PassedMiliseconds(0),
-									m_FPS(0)
+namespace star
 {
-
-}
-
-status TestScene::Update(Context& context)
-{
-	++m_TotalFrames;
-	m_PassedMiliseconds += context.mTimeManager->GetDeltaTime_Ms();
-	if(m_PassedMiliseconds >= 1000)
+	TestScene::TestScene(const tstring & Name):	
+		BaseScene(Name),
+		m_TotalFrames(0),
+		m_PassedMiliseconds(0),
+		m_FPS(0),
+		m_pTestObject(nullptr),
+		m_pRectComp(nullptr)
 	{
-		m_FPS = m_TotalFrames;
-		m_TotalFrames = 0;
-		m_PassedMiliseconds -= 1000;
-
-		tstringstream str;
-		str << "FPS: " << m_FPS;
-
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info,str.str());
 	}
 
-	/*
-	double time = context.mTimeManager->GetDeltaTime_uS();
-	tstringstream str;
-	str << "TestScene DeltaTime in milliseconds: " << time << std::endl;
+	status TestScene::Update(const Context& context)
+	{
+		++m_TotalFrames;
+		m_PassedMiliseconds += float(context.mTimeManager->GetDeltaTime_Ms());
+		if(m_PassedMiliseconds >= 1000)
+		{
+			m_FPS = m_TotalFrames;
+			m_TotalFrames = 0;
+			m_PassedMiliseconds -= 1000;
 
-	star::Logger::GetSingleton()->Log(star::LogLevel::Info,str.str());*/
-	return STATUS_OK;
-}
+			tstringstream str;
+			str << "FPS: " << m_FPS;
 
-status TestScene::Draw()
-{
-	//star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("TestScene - Going trough Draw"));
-	return STATUS_OK;
+			Logger::GetSingleton()->Log(LogLevel::Info, str.str());
+		}
+		return STATUS_OK;
+	}
+
+	status TestScene::Draw()
+	{
+		return STATUS_OK;
+	}
 }

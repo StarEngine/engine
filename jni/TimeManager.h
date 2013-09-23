@@ -1,7 +1,6 @@
 #pragma once
 
 #ifdef _WIN32
-#include <windows.h>
 #include <jni/defines.h>
 #else
 #include <defines.h>
@@ -19,9 +18,11 @@ namespace star
 		void StartMonitoring();
 		void StopMonitoring();
 
-		double GetDeltaTime_S();
-		double GetDeltaTime_Ms();
-		double GetDeltaTime_uS();
+		//[COMMENT] Naming convention is quite confusing. Better names would be: GetSeconds, GetMiliSeconds, GetMicroSeconds. 
+		//			Also please don't use the underscore characters in member names, You have capitals for this purpose.
+		double GetDeltaTime_S() const;
+		double GetDeltaTime_Ms() const;
+		double GetDeltaTime_uS() const;
 
 	private:
 
@@ -40,7 +41,11 @@ namespace star
 				mDeltaS,
 				mDeltauS;
 
-
-
+		// -------------------------
+		// Disabling default copy constructor and default 
+		// assignment operator.
+		// -------------------------
+		TimeManager(const TimeManager& t);
+		TimeManager& operator=(const TimeManager& t);
 	};
 }

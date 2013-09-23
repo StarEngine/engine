@@ -1,10 +1,11 @@
 #pragma once
 
 #include "../defines.h"
-#include "../Context.h"
 
 namespace star 
 {
+	struct Context;
+
 	class BaseScene
 	{
 	public:
@@ -13,7 +14,7 @@ namespace star
 
 		virtual status onActivate(){return STATUS_OK;}
 		virtual void OnDeactivate() {}
-		virtual status Update(Context& context){return STATUS_OK;}
+		virtual status Update(const Context& context){return STATUS_OK;}
 		virtual status Draw(){return STATUS_OK;}
 
 		virtual void OnStart() {}
@@ -31,8 +32,8 @@ namespace star
 		virtual void OnGainFocus() {}
 		virtual void OnLostFocus() {}
 
-		const tstring & GetName() { return m_Name; }
-		bool IsInitialized() { return m_Initialized; }
+		const tstring & GetName() const { return m_Name; }
+		bool IsInitialized() const { return m_Initialized; }
 
 	private:
 		tstring m_Name;

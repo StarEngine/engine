@@ -2,14 +2,9 @@
 
 #include "defines.h"
 
-#ifdef _WIN32
-#include <windows.h>
-#endif
-//[TODO] : make singleton
-
 namespace star 
 {
-	enum LogLevel 
+	enum LogLevel : byte
 	{
 		Info, 
 		Warning, 
