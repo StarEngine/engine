@@ -10,12 +10,11 @@ namespace star
 	class BaseScene;
 	class TestScene;
 
-	//[COMMENT] Will this class have children?
 	class MainGame
 	{
 	public:
 		MainGame();
-		virtual ~MainGame() {}
+		~MainGame() {}
 
 		status Initialize();
 		status Run(const Context& context);

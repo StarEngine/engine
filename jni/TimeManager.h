@@ -18,11 +18,9 @@ namespace star
 		void StartMonitoring();
 		void StopMonitoring();
 
-		//[COMMENT] Naming convention is quite confusing. Better names would be: GetSeconds, GetMiliSeconds, GetMicroSeconds. 
-		//			Also please don't use the underscore characters in member names, You have capitals for this purpose.
-		double GetDeltaTime_S() const;
-		double GetDeltaTime_Ms() const;
-		double GetDeltaTime_uS() const;
+		double GetSeconds() const;
+		double GetMiliSeconds() const;
+		double GetMicroSeconds() const;
 
 	private:
 

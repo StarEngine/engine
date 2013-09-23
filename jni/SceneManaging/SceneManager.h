@@ -31,11 +31,10 @@ namespace star
 
 #ifndef _WIN32
 		void processActivityEvent(int32 pCommand, android_app* pApplication);
-		//[COMMENT] Does this class have children? If not, change to private protection level.
-	protected:
 		void Activate();
 		void DeActivate();
 
+	private:
 		android_app* mApplicationPtr;
 #endif
 	private:
@@ -51,9 +50,8 @@ namespace star
 		tstring m_CurrentSceneName;
 
 		//Private Functions
-		// [COMMENT] if not needed soon, remove this.
-		//bool InitializeCurScene(){};
-		//static void activityCallback(android_app* pApplication, int32_t pCommand);
+		bool InitializeCurScene();
+
 		SceneManager(void);
 
 		//disabling default copy constructor

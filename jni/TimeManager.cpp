@@ -48,17 +48,17 @@ namespace star
 #endif
 	}
 
-	double TimeManager::GetDeltaTime_S() const
+	double TimeManager::GetSeconds() const
 	{
 		return mDeltaS;
 	}
 
-	double TimeManager::GetDeltaTime_Ms() const
+	double TimeManager::GetMiliSeconds() const
 	{
 		return mDeltaMs;
 	}
 
-	double TimeManager::GetDeltaTime_uS() const
+	double TimeManager::GetMicroSeconds() const
 	{
 		return mDeltauS;
 	}

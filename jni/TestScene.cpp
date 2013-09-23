@@ -15,12 +15,12 @@ namespace star
 	status TestScene::Update(const Context& context)
 	{
 		++m_TotalFrames;
-		m_PassedMiliseconds += float(context.mTimeManager->GetDeltaTime_Ms());
-		if(m_PassedMiliseconds >= 1000)
+		m_PassedMiliseconds += float(context.mTimeManager->GetMicroSeconds());
+		if(m_PassedMiliseconds >= 1000000)
 		{
 			m_FPS = m_TotalFrames;
 			m_TotalFrames = 0;
-			m_PassedMiliseconds -= 1000;
+			m_PassedMiliseconds -= 1000000;
 
 			tstringstream str;
 			str << "FPS: " << m_FPS;

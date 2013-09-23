@@ -89,7 +89,7 @@ namespace star
 		}
 		return false;
 	}
-/*
+
 	bool SceneManager::InitializeCurScene()
 	{
 		if(m_bInitialized)
@@ -104,13 +104,13 @@ namespace star
 		m_bInitialized=m_NewActiveScene->IsInitialized();
 		return m_bInitialized;
 
-}*/
+	}
 
 	status SceneManager::Update(const Context& context)
 	{
 		if(m_bSwitchingScene)
 		{
-			//if(!m_bInitialized)InitializeCurScene();
+			if(!m_bInitialized)InitializeCurScene();
 			m_ActiveScene = m_NewActiveScene;
 			m_NewActiveScene = nullptr;
 			m_bSwitchingScene = false;
