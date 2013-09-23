@@ -23,7 +23,10 @@ namespace star
 		double GetMicroSeconds() const;
 
 	private:
-
+		//[COMMENT] Why use 3 variables for the same purpose?
+		//			Right now you have 3 different members that all save the current delta time.
+		//			This is waste of memory and should be avoided. Choose one and just do the 
+		//			convert in the get functions, if the user asks for them.
 #ifdef _WIN32
 
 		LARGE_INTEGER	mFrequency;

@@ -2,11 +2,11 @@
 
 namespace star
 {
-	TestScene::TestScene(const tstring & Name):	
+	TestScene::TestScene(const tstring & Name):
 		BaseScene(Name),
 		m_TotalFrames(0),
-		m_PassedMiliseconds(0),
 		m_FPS(0),
+		m_PassedMiliseconds(0),
 		m_pTestObject(nullptr),
 		m_pRectComp(nullptr)
 	{

@@ -10,7 +10,6 @@
 namespace star
 {
 	struct Context;
-
 	class BaseScene;
 
 	class SceneManager

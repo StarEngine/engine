@@ -69,12 +69,12 @@ namespace star
 		if ( m_SceneList.find(name) == m_SceneList.end() )
 		{
 			m_SceneList[name] = scene;
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Adding scene"));
+			Logger::GetSingleton()->Log(LogLevel::Info,_T("Adding scene"));
 		}
 		else
 		{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Scene Already Exists"));
-		return false;		
+			Logger::GetSingleton()->Log(LogLevel::Info,_T("Scene Already Exists"));
+			return false;
 		}
 
 		return true;
@@ -82,9 +82,9 @@ namespace star
 
 	bool SceneManager::RemoveScene(const tstring & name)
 	{
-	if(m_SceneList.find(name)!=m_SceneList.end())
+		if(m_SceneList.find(name)!=m_SceneList.end())
 		{
-		m_SceneList.erase(name);
+			m_SceneList.erase(name);
 			return true;
 		}
 		return false;
@@ -110,7 +110,10 @@ namespace star
 	{
 		if(m_bSwitchingScene)
 		{
-			if(!m_bInitialized)InitializeCurScene();
+			if(!m_bInitialized)
+			{
+				InitializeCurScene();
+			}
 			m_ActiveScene = m_NewActiveScene;
 			m_NewActiveScene = nullptr;
 			m_bSwitchingScene = false;
@@ -200,5 +203,6 @@ namespace star
 	{
 		m_ActiveScene->OnDeactivate();
 	}
+
 #endif // _WIN32
 }
