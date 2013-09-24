@@ -42,22 +42,7 @@ namespace star
 
 			LOGGER->Log(LogLevel::Info, str.str());
 		}
-<<<<<<< HEAD
-		
 
-=======
-
-		/*
-		if(INPUT_MANAGER->IsKeyboardKeyDown('D'))
-		{
-			LOGGER->Log(LogLevel::Info,_T("Pressed D"));
-		}
-
-		tstringstream buffer;
-		buffer << _T("Mouse Position (") << INPUT_MANAGER->GetMousePosition().x << _T(",") << INPUT_MANAGER->GetMousePosition().y << _T(")") ;
-		LOGGER->Log(LogLevel::Info, buffer.str());
-*/
->>>>>>> Fixed the eclipse project.
 		return STATUS_OK;
 	}
 
