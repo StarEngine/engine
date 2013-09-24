@@ -13,10 +13,10 @@ namespace star
 	public:
 		enum TransformChanged : byte
 		{
-			NONE = 0x00,
-			TRANSLATION = 0x01,
-			ROTATION = 0x02,
-			SCALE = 0x03,
+			NONE,
+			TRANSLATION,
+			ROTATION,
+			SCALE
 		};
 
 		TransformComponent(void);

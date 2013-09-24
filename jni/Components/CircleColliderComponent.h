@@ -9,8 +9,7 @@ namespace star
 	class CircleColliderComponent final : public BaseComponent
 	{
 	public:
-		// [COMMENT] remove default value
-		CircleColliderComponent(float radius = 1.0f);
+		CircleColliderComponent(float radius);
 		~CircleColliderComponent(void);
 
 		void Initialize();
@@ -19,6 +18,7 @@ namespace star
 
 		void SetAsTrigger(bool isTrigger) {m_bIsTrigger = isTrigger;};
 		bool IsTrigger() const {return m_bIsTrigger;};
+		float GetRadius() const {return m_Radius;};
 
 	protected:
 		void InitializeComponent();

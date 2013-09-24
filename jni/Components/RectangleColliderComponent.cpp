@@ -10,7 +10,6 @@ namespace star
 		Logger::GetSingleton()->Log(LogLevel::Info,_T("RectCollisionComponent initialized"));
 	}
 
-
 	RectangleColliderComponent::~RectangleColliderComponent(void)
 	{
 	}
@@ -30,9 +29,6 @@ namespace star
 		{
 			return;
 		}
-
-		//[TODO]Start CollisionChecking
-		//If m_bIsTrigger == true -> Callbacks
 	}
 
 	void RectangleColliderComponent::Draw()

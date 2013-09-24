@@ -9,26 +9,22 @@ namespace star
 	class Rect
 	{
 	public:
-		// [COMMENT] Awesome shizzle (Sarcasm) *HINT* initialiator list
-		Rect()
+		Rect():
+			m_X(0),
+			m_Y(0),
+			m_Width(0),
+			m_Height(0)
 		{
-			x = 0;
-			y = 0;
-			width = 0;
-			height = 0;
 		}
 
-		Rect(int left,int top,int width,int height)
+		Rect(int x,int y,int width,int height):
+			m_X(x),
+			m_Y(y),
+			m_Width(width),
+			m_Height(height)
 		{
-			x = left;
-			y = top;
-
-			//Assert(width >= 0, _T("Width negative!"));
-			//Assert(height >= 0, _T("Height negative!"));
-
-			//[COMMENt] this doesn't work. Local Variable = Local Variable... Makes sense. Oh no wait it doesn't
-			width = width;
-			height = height;
+			//Assert(m_Width >= 0, _T("Width can't be negative!"));
+			//Assert(m_Height >= 0, _T("Height can't be negative!"));
 
 			tstringstream str;
 			str << _T("Rect Created \t");
@@ -38,44 +34,44 @@ namespace star
 
 		Rect(const glm::vec2& location,const glm::vec2& size)
 		{
-			x = static_cast<int>(location.x);
-			y = static_cast<int>(location.y);
-			width = static_cast<int>(size.x);
-			height = static_cast<int>(size.y);
+			m_X = static_cast<int>(location.x);
+			m_Y = static_cast<int>(location.y);
+			m_Width = static_cast<int>(size.x);
+			m_Height = static_cast<int>(size.y);
 		}
 
 		int GetLeft() const
 		{
-			return x;
+			return m_X;
 		}
 
 		int GetTop() const
 		{
-			return y;
+			return m_Y;
 		}
 
 		int GetRight() const
 		{
-			return x+width;
+			return m_X+m_Width;
 		}
 
 		int GetBottom() const
 		{
-			return y+height;
+			return m_Y+m_Height;
 		}
 
 		bool Equals(const Rect& rect) const
 		{
-			return x == rect.x &&
-				y == rect.y &&
-				width == rect.width &&
-				height == rect.height;
+			return m_X == rect.m_X &&
+				m_Y == rect.m_Y &&
+				m_Width == rect.m_Width &&
+				m_Height == rect.m_Height;
 		}
 
 		bool Contains(int x, int y) const
 		{
-			return x >= x && x < x+width &&
-				y >= y && y < y+height;
+			return x >= m_X && x < m_X + m_Width &&
+				y >= m_Y && y < m_Y + m_Height;
 		}
 
 		bool Contains(const glm::vec2& pt) const
@@ -85,8 +81,8 @@ namespace star
 
 		bool Contains(Rect& rect) const
 		{
-			return (x <= rect.x) && (rect.GetRight() <= GetRight()) &&
-				(y <= rect.y) && (rect.GetBottom() <= GetBottom());
+			return (m_X <= rect.m_X) && (rect.GetRight() <= GetRight()) &&
+					(m_Y <= rect.m_Y) && (rect.GetBottom() <= GetBottom());
 		}
 
 		bool Intersect(const Rect& rect)
@@ -102,22 +98,22 @@ namespace star
 			int top = max(a.GetTop(), b.GetTop());
 
 			Rect c;
-			c.x = left;
-			c.y = top;
-			c.width = right - left;
-			c.height = bottom - top;
+			c.m_X = left;
+			c.m_Y = top;
+			c.m_Width = right - left;
+			c.m_Height = bottom - top;
 
-			if(c.width <= 0 || c.height <= 0)
+			if(c.m_Width <= 0 || c.m_Height <= 0)
+			{
 				return false;
-
+			}
 			return true;
 		}
 
-	// [COMMENT] No Hipster protection levels plox.
-	public:
-		int x;
-		int y;
-		int width;
-		int height;
+	private:
+		int m_X;
+		int m_Y;
+		int m_Width;
+		int m_Height;
 	};
 }

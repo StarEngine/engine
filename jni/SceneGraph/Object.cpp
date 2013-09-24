@@ -1,5 +1,5 @@
 #include "Object.h"
-#include "../Components/BaseComponent.h"
+#include "../StarComponents.h"
 #include "../Components/TransformComponent.h"
 #include <algorithm>
 
@@ -11,7 +11,8 @@ namespace star
 
 		m_pComponents(),
 		m_pChildren(),
-		m_Name(_T("Standard"))
+		m_Name(_T("Default")),
+		m_CollisionTag(_T("Default"))
 	{
 		m_pComponents.push_back(new TransformComponent(this));
 	}
@@ -139,5 +140,110 @@ namespace star
 		delete pObject;
 
 		Logger::GetSingleton()->Log(LogLevel::Info,_T("Child Removed"));
+	}
+
+	void Object::CollisionCheck(Object* otherObject)
+	{
+		auto rectComp = GetComponent<RectangleColliderComponent>();
+		auto circleComp = GetComponent<CircleColliderComponent>();
+		auto otherRectComp = otherObject->GetComponent<RectangleColliderComponent>();
+		auto otherCircleComp = otherObject->GetComponent<CircleColliderComponent>();
+		
+		if(rectComp != nullptr)
+		{
+			if(otherRectComp != nullptr)
+			{
+				RectangleCollision(this, otherObject);
+			}
+			if(otherCircleComp != nullptr)
+			{
+				RectangleCircleCollision(this, otherObject);
+			}
+		}
+		if(circleComp != nullptr)
+		{
+			if(otherRectComp != nullptr)
+			{
+				RectangleCircleCollision(this, otherObject);
+			}
+			if(otherCircleComp != nullptr)
+			{
+				CircleCollision(this, otherObject);
+			}
+		}
+	}
+
+	bool Object::RectangleCollision(Object* object, Object* otherObject)
+	{
+		auto rect = object->GetComponent<RectangleColliderComponent>()->GetCollisionRect();
+		auto otherRect = otherObject->GetComponent<RectangleColliderComponent>()->GetCollisionRect();
+		glm::vec2 objectPos = glm::vec2(object->GetComponent<TransformComponent>()->GetWorldPosition().x, object->GetComponent<TransformComponent>()->GetWorldPosition().y);
+		glm::vec2 otherObjectPos = glm::vec2(otherObject->GetComponent<TransformComponent>()->GetWorldPosition().x, otherObject->GetComponent<TransformComponent>()->GetWorldPosition().y);
+
+		int left = rect.GetLeft() + static_cast<int>(objectPos.x);
+		int right = rect.GetRight() + static_cast<int>(objectPos.x);
+		int top = rect.GetTop() + static_cast<int>(objectPos.y); 
+		int bottom = rect.GetBottom() + static_cast<int>(objectPos.y);
+
+		int otherLeft = otherRect.GetLeft() + static_cast<int>(otherObjectPos.x);
+		int	otherRight = otherRect.GetRight() + static_cast<int>(otherObjectPos.x);
+		int otherTop = otherRect.GetTop() + static_cast<int>(otherObjectPos.y);
+		int otherBottom = otherRect.GetBottom() + static_cast<int>(otherObjectPos.y);
+
+		if(left > otherRight || right < otherLeft || top > otherBottom || bottom < otherTop)
+		{
+			Logger::GetSingleton()->Log(LogLevel::Info, _T("They don't collide"));
+			return false;
+		}
+		Logger::GetSingleton()->Log(LogLevel::Info, _T("They do collide"));
+		return true;
+	}
+
+	bool Object::CircleCollision(Object* object, Object* otherObject)
+	{
+		auto radius = object->GetComponent<CircleColliderComponent>()->GetRadius();
+		auto otherRadius = otherObject->GetComponent<CircleColliderComponent>()->GetRadius();
+		glm::vec2 objectPos = glm::vec2(object->GetComponent<TransformComponent>()->GetWorldPosition().x, object->GetComponent<TransformComponent>()->GetWorldPosition().y);
+		glm::vec2 otherObjectPos = glm::vec2(otherObject->GetComponent<TransformComponent>()->GetWorldPosition().x, otherObject->GetComponent<TransformComponent>()->GetWorldPosition().y);
+
+		if((objectPos - otherObjectPos).length() > radius + otherRadius)
+		{
+			Logger::GetSingleton()->Log(LogLevel::Info, _T("They don't collide"));
+			return false;
+		}
+		Logger::GetSingleton()->Log(LogLevel::Info, _T("They do collide"));
+		return true;
+	}
+
+	bool Object::RectangleCircleCollision(Object* object, Object* otherObject)
+	{
+		auto rect = object->GetComponent<RectangleColliderComponent>()->GetCollisionRect();
+		auto radius = object->GetComponent<CircleColliderComponent>()->GetRadius();
+				
+		glm::vec2 objectPos = glm::vec2(object->GetComponent<TransformComponent>()->GetWorldPosition().x, object->GetComponent<TransformComponent>()->GetWorldPosition().y);
+		glm::vec2 otherObjectPos = glm::vec2(otherObject->GetComponent<TransformComponent>()->GetWorldPosition().x, otherObject->GetComponent<TransformComponent>()->GetWorldPosition().y);
+
+		int left = rect.GetLeft() + static_cast<int>(objectPos.x);
+		int right = rect.GetRight() + static_cast<int>(objectPos.x);
+		int top = rect.GetTop() + static_cast<int>(objectPos.y); 
+		int bottom = rect.GetBottom() + static_cast<int>(objectPos.y);
+
+		// Find the closest point to the circle within the rectangle
+		float closestX = glm::clamp(otherObjectPos.x, (float)objectPos.x, (float)(objectPos.x + rect.GetRight()));
+		float closestY = glm::clamp(otherObjectPos.y, (float)objectPos.y, (float)(objectPos.y + rect.GetBottom()));
+
+		// Calculate the distance between the circle's center and this closest point
+		float distanceX = otherObjectPos.x - closestX;
+		float distanceY = otherObjectPos.y - closestY;
+
+		// If the distance is less than the circle's radius, an intersection occurs
+		float distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+		if( distanceSquared < (radius * radius))
+		{
+			Logger::GetSingleton()->Log(LogLevel::Info, _T("They do collide"));
+		 return true;
+		}
+		Logger::GetSingleton()->Log(LogLevel::Info, _T("They don't collide"));
+		return false;
 	}
 }
