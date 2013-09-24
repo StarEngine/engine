@@ -20,6 +20,7 @@ namespace star
 		m_Initialized=true;
 
 		star::TextureManager::GetInstance()->LoadTexture(_T("assets/TestDaPng.png"),_T("TestPNG"));
+		star::TextureManager::GetInstance()->LoadTexture(_T("assets/Awesome.png"),_T("Awesome"));
 		return STATUS_OK;
 	}
 
@@ -38,30 +39,38 @@ namespace star
 
 			Logger::GetSingleton()->Log(LogLevel::Info, str.str());
 		}
-		star::TextureManager::GetInstance()->GetTextureID(_T("TestPNG"));
+		
 
 		return STATUS_OK;
 	}
 
 	status TestScene::Draw()
 	{
-		glClearColor(1.0f, 0.0f, 0.0f, 1.0f); // Clear the background of our window to red
-		glClear(GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
-		glLoadIdentity(); // Load the Identity Matrix to reset our drawing locations
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D,star::TextureManager::GetInstance()->GetTextureID(_T("TestPNG")));
+		glEnable(GL_TEXTURE_2D);
 
-		glFrustum(-1,1,-1,1,0.1f,500.0f);
+		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("TestPNG")));
 
-		glTranslatef(0,0,-1.0f);
 		glBegin(GL_QUADS);
-
-		glColor3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(-1.0f, -1.0f, 0.0f); // The bottom left corner
-		glVertex3f(-1.0f, 1.0f, 0.0f); // The top left corner
-		glVertex3f(1.0f, 1.0f, 0.0f); // The top right corner
-		glVertex3f(1.0f, -1.0f, 0.0f); // The bottom right corner
-
+		glTexCoord2f(0.0, 0.0); glVertex2f(-8.0f, -8.0f);
+		glTexCoord2f(1.0, 0.0); glVertex2f(0.0f, -8.0f);
+		glTexCoord2f(1.0, 1.0); glVertex2f(0.0f, 0.0f);
+		glTexCoord2f(0.0, 1.0); glVertex2f(-8.0f, 0.0f);
 		glEnd();
-		glFlush();
+
+		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("Awesome")));
+
+		glBegin(GL_QUADS);
+		glTexCoord2f(0.0, 0.0); glVertex2f(0.0f, 0.0f);
+		glTexCoord2f(1.0, 0.0); glVertex2f(8.0f, 0.0f);
+		glTexCoord2f(1.0, 1.0); glVertex2f(8.0f, 8.0f);
+		glTexCoord2f(0.0, 1.0); glVertex2f(0.0f, 8.0f);
+		glEnd();
+
+		glDisable(GL_TEXTURE_2D);
+		
+
 
 		return STATUS_OK;
 	}

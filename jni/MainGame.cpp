@@ -1,5 +1,6 @@
 #include "MainGame.h"
 #include "Context.h"
+#include "GraphicsManager.h"
 #include "SceneManaging/SceneManager.h"
 #include "SceneManaging/BaseScene.h"
 #include "TestScene.h"
@@ -11,7 +12,7 @@ namespace star
 	MainGame::MainGame()
 	{
 		mSceneManager = SceneManager::GetInstance();
-
+		star::GraphicsManager::GetInstance()->Initialize();
 	}
 
 	status MainGame::Run(const Context& context)
@@ -20,11 +21,12 @@ namespace star
 		{
 			return STATUS_KO;
 		}
-
+		star::GraphicsManager::GetInstance()->StartDraw();
 		if(mSceneManager->Draw() != STATUS_OK)
 		{
 			return STATUS_KO;
 		}
+		star::GraphicsManager::GetInstance()->StopDraw();
 
 		return STATUS_OK;
 	}

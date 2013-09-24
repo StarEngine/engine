@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(ProjectDir)\libs\OpenGL\GLEW\lib\Release\Win32;$(ProjectDir)\libs\Libpng_Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)\libs\OpenGL\GLUT\lib\x86\Debug;$(ProjectDir)\libs\OpenGL\GLEW\lib\Release\Win32;$(ProjectDir)\libs\Libpng_Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
