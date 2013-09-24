@@ -1,8 +1,13 @@
 #pragma once
 
 #include "defines.h"
+
+#ifdef _WIN32
 #include "libs/OpenGL/GLEW/include/GL/glew.h"
-#include "libs/OpenGL/GLUT/include/GL/glut.h"
+#else
+#include <GLES/gl.h>
+#include <GLES/glext.h>
+#endif
 
 namespace star
 {

@@ -1,6 +1,12 @@
 #include "TestScene.h"
 #include "AssetManaging/Texture2D.h"
+
+#ifdef _WIN32
 #include "libs/OpenGL/GLEW/include/GL/glew.h"
+#else
+#include <GLES/gl.h>
+#include <GLES/glext.h>
+#endif
 
 #define INPUT_MANAGER (InputManager::GetSingleton())
 #define LOGGER (Logger::GetSingleton())
@@ -12,8 +18,7 @@ namespace star
 		m_TotalFrames(0),
 		m_FPS(0),
 		m_PassedMiliseconds(0),
-		m_pTestObject(nullptr),
-		m_pRectComp(nullptr)
+		m_pTestObject(nullptr)
 	{
 		
 	}
@@ -48,27 +53,33 @@ namespace star
 
 	status TestScene::Draw()
 	{
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D,star::TextureManager::GetInstance()->GetTextureID(_T("TestPNG")));
 		glEnable(GL_TEXTURE_2D);
-
+#ifndef _WIN32
+		glActiveTexture(GL_TEXTURE0);
+#endif
 		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("TestPNG")));
 
+#ifdef _WIN32
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0, 0.0); glVertex2f(-8.0f, -8.0f);
 		glTexCoord2f(1.0, 0.0); glVertex2f(0.0f, -8.0f);
 		glTexCoord2f(1.0, 1.0); glVertex2f(0.0f, 0.0f);
 		glTexCoord2f(0.0, 1.0); glVertex2f(-8.0f, 0.0f);
 		glEnd();
-
+#endif
+#ifndef _WIN32
+		glActiveTexture(GL_TEXTURE0);
+#endif
 		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("Awesome")));
 
+#ifdef _WIN32
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0, 0.0); glVertex2f(0.0f, 0.0f);
 		glTexCoord2f(1.0, 0.0); glVertex2f(8.0f, 0.0f);
 		glTexCoord2f(1.0, 1.0); glVertex2f(8.0f, 8.0f);
 		glTexCoord2f(0.0, 1.0); glVertex2f(0.0f, 8.0f);
 		glEnd();
+#endif
 
 		glDisable(GL_TEXTURE_2D);
 		

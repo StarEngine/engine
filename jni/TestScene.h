@@ -28,7 +28,7 @@ namespace star
 		float m_PassedMiliseconds;
 
 		Object* m_pTestObject;
-		RectangleColliderComponent* m_pRectComp;
+		//RectangleColliderComponent* m_pRectComp;
 
 		// -------------------------
 		// Disabling default copy constructor and default 

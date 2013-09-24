@@ -2,9 +2,15 @@
 
 #include "../defines.h"
 #include "../Logger.h"
+
+#ifdef _WIN32
 #include "libs/libpng/png.h"
 #include "libs/OpenGL/GLEW/include/GL/glew.h"
-
+#else
+#include <GLES/gl.h>
+#include <GLES/glext.h>
+#include <png.h>
+#endif
 
 
 namespace star
