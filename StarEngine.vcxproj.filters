@@ -20,6 +20,7 @@
     <ClCompile Include="jni\Components\TransformComponent.cpp" />
     <ClCompile Include="jni\SceneGraph\Object.cpp" />
     <ClCompile Include="jni\AssetManaging\Texture2D.cpp" />
+    <ClCompile Include="jni\AssetManaging\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="jni\SceneGraph\Object.h" />
     <ClInclude Include="jni\StarComponents.h" />
     <ClInclude Include="jni\AssetManaging\Texture2D.h" />
+    <ClInclude Include="jni\AssetManaging\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="jni">

@@ -49,7 +49,7 @@ namespace star
 		tstring m_CurrentSceneName;
 
 		//Private Functions
-		bool InitializeCurScene();
+		bool InitializeCurScene(const Context& context);
 
 		SceneManager(void);
 

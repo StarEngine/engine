@@ -2,6 +2,12 @@
 
 namespace star
 {
+
+	//[NOTE]	You're not supposed to make Textures yourself.
+	//			Use the TextureManager to load your textures.
+	//			This ensures a same texture is not loaded multiple times
+
+
 	Texture2D::Texture2D(tstring pPath):
 			mPath(pPath),
 			mTextureId(0),
@@ -44,7 +50,7 @@ namespace star
 			return NULL;
 		}
 
-		fread_s(header, 1, 8, 1, fp);
+		fread(header, 8, 1, fp);
 		if(png_sig_cmp(header, 0, 8))
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Not a PNG file"));
@@ -75,19 +81,17 @@ namespace star
 		png_set_sig_bytes(mPng_ptr, 8);
 		png_read_info(mPng_ptr,mInfo_ptr);
 
-		mWidth = png_get_image_width(mPng_ptr,mInfo_ptr);
-		mHeight = png_get_image_height(mPng_ptr,mInfo_ptr);
-		mColor_type = png_get_color_type(mPng_ptr,mInfo_ptr);
-		mBit_depth = png_get_bit_depth(mPng_ptr,mInfo_ptr);
-		
+		png_uint_32 pWidth, pHeight;
+		png_get_IHDR(mPng_ptr,mInfo_ptr,&pWidth,&pHeight,&mBit_depth,&mColor_type, NULL,NULL,NULL);
+		mWidth = pWidth;
+		mHeight = pHeight;
+
 		bool pTransparency = false;
 		if(png_get_valid(mPng_ptr, mInfo_ptr, PNG_INFO_tRNS))
 		{
 			png_set_tRNS_to_alpha(mPng_ptr);
 			pTransparency=true;
 		}
-		else 
-			return NULL;
 
 		if(mBit_depth < 8)
 			png_set_packing(mPng_ptr);
@@ -157,6 +161,9 @@ namespace star
 		png_destroy_read_struct(&mPng_ptr, &mInfo_ptr, NULL);
 		delete[] mRow_pointers;
 
+#ifdef _DEBUG
+		Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : ")+mPath+_T(" Created Succesfull"));
+#endif
 		return mImageBuffer;
 
 	}

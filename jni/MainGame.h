@@ -5,7 +5,6 @@
 namespace star
 {
 	struct Context;
-
 	class SceneManager;
 	class BaseScene;
 	class TestScene;

@@ -38,8 +38,8 @@ namespace star
 
 		png_structp mPng_ptr;
 		png_infop	mInfo_ptr;
-		png_byte	mColor_type;
-		png_byte	mBit_depth;		
+		png_int_32	mColor_type;
+		png_int_32	mBit_depth;		
 		png_bytep * mRow_pointers;
 
 	};

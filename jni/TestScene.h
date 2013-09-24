@@ -7,14 +7,18 @@
 #include "SceneGraph/Object.h"
 #include "Components/RectangleColliderComponent.h"
 
+
 namespace star 
 {
+	class Texture2D;
+
 	class TestScene : public BaseScene
 	{
 	public:
 		TestScene(const tstring& name);
 		virtual ~TestScene() {}
 
+		status Initialize(const Context& contex);
 		status Update(const Context& context);
 		status Draw();
 

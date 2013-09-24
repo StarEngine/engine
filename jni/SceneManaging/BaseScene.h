@@ -12,7 +12,7 @@ namespace star
 		BaseScene(const tstring & name);
 		virtual ~BaseScene() {}
 		
-		virtual status Initialize(){m_Initialized=true; return STATUS_OK;}
+		virtual status Initialize(const Context& contex){m_Initialized=true; return STATUS_OK;}
 		virtual status OnActivate(){return STATUS_OK;}
 		virtual void OnDeactivate() {}
 		virtual status Update(const Context& context){return STATUS_OK;}
@@ -36,9 +36,12 @@ namespace star
 		const tstring & GetName() const { return m_Name; }
 		bool IsInitialized() const { return m_Initialized; }
 
+	protected:
+		bool m_Initialized;
+
 	private:
 		tstring m_Name;
-		bool m_Initialized;
+		
 
 		// -------------------------
 		// Disabling default copy constructor and default 

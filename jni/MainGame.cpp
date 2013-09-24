@@ -11,6 +11,7 @@ namespace star
 	MainGame::MainGame()
 	{
 		mSceneManager = SceneManager::GetInstance();
+
 	}
 
 	status MainGame::Run(const Context& context)

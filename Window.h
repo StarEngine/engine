@@ -22,6 +22,7 @@ private:
 	star::Logger* mLoggerPtr;
 	star::MainGame* mMainGamePtr;
 	star::TimeManager* mTimeManager;
+	star::TextureManager* mTextureManager;
 	star::Context mContext;
 };
 

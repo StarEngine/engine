@@ -2,6 +2,7 @@
 #include <string>
 
 #include "jni/SceneManaging/SceneManager.h"
+#include "jni/AssetManaging/TextureManager.h"
 
 #pragma comment(lib, "opengl32.lib")
 
@@ -14,8 +15,10 @@ Window::Window(HINSTANCE instance,const char* windowName,int width,int height)
 	mLoggerPtr = star::Logger::GetSingleton();
 	mMainGamePtr = new star::MainGame();
 	mTimeManager = new star::TimeManager();
+	mTextureManager = star::TextureManager::GetInstance();
 
 	mContext.mTimeManager = mTimeManager;
+	mContext.mTextureManager = mTextureManager;
 
 	WNDCLASSEX wndClass;
 	wndClass.cbSize = sizeof(WNDCLASSEX);

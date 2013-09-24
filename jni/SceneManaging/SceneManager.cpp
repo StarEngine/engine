@@ -90,7 +90,7 @@ namespace star
 		return false;
 	}
 
-	bool SceneManager::InitializeCurScene()
+	bool SceneManager::InitializeCurScene(const Context& context)
 	{
 		if(m_bInitialized)
 		{
@@ -100,7 +100,7 @@ namespace star
 		{
 			return false;
 		}
-		m_NewActiveScene->Initialize();
+		m_NewActiveScene->Initialize(context);
 		m_bInitialized=m_NewActiveScene->IsInitialized();
 		return m_bInitialized;
 
@@ -112,7 +112,7 @@ namespace star
 		{
 			if(!m_bInitialized)
 			{
-				InitializeCurScene();
+				InitializeCurScene(context);
 			}
 			m_ActiveScene = m_NewActiveScene;
 			m_NewActiveScene = nullptr;

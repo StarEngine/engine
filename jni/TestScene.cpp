@@ -1,4 +1,5 @@
 #include "TestScene.h"
+#include "AssetManaging/Texture2D.h"
 
 namespace star
 {
@@ -10,6 +11,16 @@ namespace star
 		m_pTestObject(nullptr),
 		m_pRectComp(nullptr)
 	{
+		
+	}
+
+	status TestScene::Initialize( const Context& contex )
+	{
+		m_Initialized=true;
+
+		contex.mTextureManager->LoadTexture(_T("assets/TestDaPng.png"),_T("TestPNG"));
+
+		return STATUS_OK;
 	}
 
 	status TestScene::Update(const Context& context)
@@ -27,6 +38,8 @@ namespace star
 
 			Logger::GetSingleton()->Log(LogLevel::Info, str.str());
 		}
+		context.mTextureManager->GetTextureID(_T("TestPNG"));
+
 		return STATUS_OK;
 	}
 
@@ -34,4 +47,7 @@ namespace star
 	{
 		return STATUS_OK;
 	}
+
+
+
 }
