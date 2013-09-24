@@ -19,6 +19,7 @@
     <ClCompile Include="jni\Helpers\glm\core\dummy.cpp" />
     <ClCompile Include="jni\Components\TransformComponent.cpp" />
     <ClCompile Include="jni\SceneGraph\Object.cpp" />
+    <ClCompile Include="jni\AssetManaging\Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="jni\Helpers\glm\virtrev\xstream.hpp" />
     <ClInclude Include="jni\SceneGraph\Object.h" />
     <ClInclude Include="jni\StarComponents.h" />
+    <ClInclude Include="jni\AssetManaging\Texture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="jni">

@@ -41,6 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(ProjectDir)\libs\OpenGL\GLEW\lib\Release\Win32;$(ProjectDir)\libs\Libpng_Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -53,11 +54,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir/jni)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\libs\libpng;$(ProjectDir);$(ProjectDir/jni);$(ProjectDir)\libs\OpenGL\GLEW\include\GL;$(ProjectDir)\libs\OpenGL\GLUT\include\GL</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libpng16.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -80,6 +82,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="jni\AssetManaging\Texture2D.cpp" />
     <ClCompile Include="jni\Components\BaseComponent.cpp" />
     <ClCompile Include="jni\SceneGraph\Object.cpp" />
     <ClCompile Include="jni\Components\RectangleColliderComponent.cpp" />
@@ -96,6 +99,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="jni\AssetManaging\Texture2D.h" />
     <ClInclude Include="jni\Components\BaseComponent.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="jni\StarComponents.h" />
