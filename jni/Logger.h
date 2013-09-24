@@ -15,7 +15,6 @@ namespace star
     class Logger {
     public:
 		~Logger();
-
 		// Static methods
 		static Logger* GetSingleton();
 		static void ResetSingleton();

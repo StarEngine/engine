@@ -20,7 +20,7 @@ namespace star
 		Logger::GetSingleton()->Log(LogLevel::Info,_T("TransformComponent Added"));
 	}
 
-	TransformComponent::TransformComponent(Object* parent):
+	TransformComponent::TransformComponent(star::Object* parent):
 		m_IsChanged(TransformChanged::NONE),
 		m_Invalidate(false),
 
@@ -100,10 +100,11 @@ namespace star
 			}
 			else
 			{
+				//[COMMENT] You might get these values back from your files :p
 				m_World =  m_World * parentGameObj->GetComponent<TransformComponent>()->GetWorldMatrix();
-				m_WorldPosition;
+				//m_WorldPosition;
 				m_WorldRotation = quat(m_World);
-				m_WorldScale;
+				//m_WorldScale;
 			}
 
 			m_IsChanged = TransformChanged::NONE;

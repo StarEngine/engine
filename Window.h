@@ -7,6 +7,8 @@
 #include <jni/TimeManager.h>
 #include <jni/Context.h>
 
+
+//[TODO] make singleton!
 class Window
 {
 public:
@@ -17,6 +19,7 @@ public:
 	static HGLRC OGLcontext;
 	static HDC hdc;
 	static LRESULT CALLBACK wEventsProc(HWND handle, UINT msg, WPARAM wParam, LPARAM lParam);
+
 
 private:
 	star::Logger* mLoggerPtr;

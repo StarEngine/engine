@@ -14,6 +14,17 @@ typedef uint8_t 	uint8;
 
 typedef int8_t status;
 
+#ifndef _WIN32
+typedef uint8_t		BYTE, byte;
+typedef uint8_t *        PBYTE;
+
+typedef struct myPoint
+{
+    int32_t  x;
+    int32_t  y;
+} POINT;
+#endif
+
 const status STATUS_OK 		= 0;
 const status STATUS_KO 		= -1;
 const status STATUS_EXIT 	= -2;
@@ -61,6 +72,8 @@ const status STATUS_EXIT 	= -2;
 #define _T(x) x
 #endif
 
+#include <algorithm>
+
 using std::min;
 using std::max;
 
@@ -68,6 +81,8 @@ using std::max;
 #include "Helpers\glm\glm.h"
 #include "Helpers\glm\ext.hpp"
 
+using glm::vec2;
 using glm::vec3;
 using glm::quat;
 using glm::mat4x4;
+

@@ -1,6 +1,5 @@
 #include <Window.h>
 #include <string>
-
 #include "jni/SceneManaging/SceneManager.h"
 #include "jni/AssetManaging/TextureManager.h"
 
@@ -102,6 +101,7 @@ Window::Window(HINSTANCE instance,const char* windowName,int width,int height)
 	// Main message loop:
 	while(msg.message != WM_QUIT)
 	{
+		//[TODO] move these things to the engine class!!
 		mTimeManager->StartMonitoring();
 
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))

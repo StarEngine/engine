@@ -1,5 +1,6 @@
 #include "Object.h"
 #include "../Components/BaseComponent.h"
+#include "../Components/TransformComponent.h"
 #include <algorithm>
 
 namespace star
@@ -112,7 +113,7 @@ namespace star
 
 	void Object::RemoveComponent(const BaseComponent* pComponent)
 	{
-		m_pComponents.erase(find(m_pComponents.begin(), m_pComponents.end(), pComponent));
+		m_pComponents.erase(std::find(m_pComponents.begin(), m_pComponents.end(), pComponent));
 		delete pComponent;
 
 		Logger::GetSingleton()->Log(LogLevel::Info,_T("Component Removed"));
@@ -134,7 +135,7 @@ namespace star
 
 	void Object::RemoveChild(const Object* pObject)
 	{
-		m_pChildren.erase(find(m_pChildren.begin(), m_pChildren.end(), pObject));
+		m_pChildren.erase(std::find(m_pChildren.begin(), m_pChildren.end(), pObject));
 		delete pObject;
 
 		Logger::GetSingleton()->Log(LogLevel::Info,_T("Child Removed"));

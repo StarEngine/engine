@@ -2,6 +2,9 @@
 #include "AssetManaging/Texture2D.h"
 #include "libs/OpenGL/GLEW/include/GL/glew.h"
 
+#define INPUT_MANAGER (InputManager::GetSingleton())
+#define LOGGER (Logger::GetSingleton())
+
 namespace star
 {
 	TestScene::TestScene(const tstring & Name):
@@ -37,10 +40,24 @@ namespace star
 			tstringstream str;
 			str << "FPS: " << m_FPS;
 
-			Logger::GetSingleton()->Log(LogLevel::Info, str.str());
+			LOGGER->Log(LogLevel::Info, str.str());
 		}
+<<<<<<< HEAD
 		
 
+=======
+
+		/*
+		if(INPUT_MANAGER->IsKeyboardKeyDown('D'))
+		{
+			LOGGER->Log(LogLevel::Info,_T("Pressed D"));
+		}
+
+		tstringstream buffer;
+		buffer << _T("Mouse Position (") << INPUT_MANAGER->GetMousePosition().x << _T(",") << INPUT_MANAGER->GetMousePosition().y << _T(")") ;
+		LOGGER->Log(LogLevel::Info, buffer.str());
+*/
+>>>>>>> Fixed the eclipse project.
 		return STATUS_OK;
 	}
 

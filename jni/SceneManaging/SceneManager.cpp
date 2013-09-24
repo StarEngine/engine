@@ -7,14 +7,18 @@ namespace star
 {
 	SceneManager* SceneManager::m_pSceneManager = nullptr;
 
+	//[COMMENT] PLEASE initialize all members in the constructor!!!! (if platform dependant, put in constructors body
 	SceneManager::SceneManager( void )
 		: m_ActiveScene(nullptr)
 		, m_NewActiveScene(nullptr)
 		, m_bSwitchingScene(false)
 		, m_bInitialized(false)
 		, m_CurrentSceneName(_T(""))
-	{
 
+	{
+#ifndef _WIN32
+		mApplicationPtr = nullptr;
+#endif
 	}
 
 	SceneManager::~SceneManager(void)
@@ -192,7 +196,7 @@ namespace star
 	{
 		if(mApplicationPtr->window != nullptr)
 		{
-			if(m_ActiveScene->onActivate() != STATUS_OK)
+			if(m_ActiveScene->OnActivate() != STATUS_OK)
 			{
 				ANativeActivity_finish(mApplicationPtr->activity);
 			}

@@ -9,7 +9,9 @@
 namespace star
 {
 
-	MainGame::MainGame()
+//[COMMENT] -- INITIALIZE VARIABLES!! (test scene
+	MainGame::MainGame() :
+			mTestScene(nullptr)
 	{
 		mSceneManager = SceneManager::GetInstance();
 		star::GraphicsManager::GetInstance()->Initialize();
