@@ -21,6 +21,7 @@
     <ClCompile Include="jni\SceneGraph\Object.cpp" />
     <ClCompile Include="jni\AssetManaging\Texture2D.cpp" />
     <ClCompile Include="jni\AssetManaging\TextureManager.cpp" />
+    <ClCompile Include="jni\GraphicsManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="jni\StarComponents.h" />
     <ClInclude Include="jni\AssetManaging\Texture2D.h" />
     <ClInclude Include="jni\AssetManaging\TextureManager.h" />
+    <ClInclude Include="jni\GraphicsManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="jni">

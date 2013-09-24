@@ -1,5 +1,6 @@
 #include "TestScene.h"
 #include "AssetManaging/Texture2D.h"
+#include "libs/OpenGL/GLEW/include/GL/glew.h"
 
 namespace star
 {
@@ -18,8 +19,7 @@ namespace star
 	{
 		m_Initialized=true;
 
-		contex.mTextureManager->LoadTexture(_T("assets/TestDaPng.png"),_T("TestPNG"));
-
+		star::TextureManager::GetInstance()->LoadTexture(_T("assets/TestDaPng.png"),_T("TestPNG"));
 		return STATUS_OK;
 	}
 
@@ -38,13 +38,31 @@ namespace star
 
 			Logger::GetSingleton()->Log(LogLevel::Info, str.str());
 		}
-		context.mTextureManager->GetTextureID(_T("TestPNG"));
+		star::TextureManager::GetInstance()->GetTextureID(_T("TestPNG"));
 
 		return STATUS_OK;
 	}
 
 	status TestScene::Draw()
 	{
+		glClearColor(1.0f, 0.0f, 0.0f, 1.0f); // Clear the background of our window to red
+		glClear(GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
+		glLoadIdentity(); // Load the Identity Matrix to reset our drawing locations
+
+		glFrustum(-1,1,-1,1,0.1f,500.0f);
+
+		glTranslatef(0,0,-1.0f);
+		glBegin(GL_QUADS);
+
+		glColor3f(0.0f, 0.0f, 1.0f);
+		glVertex3f(-1.0f, -1.0f, 0.0f); // The bottom left corner
+		glVertex3f(-1.0f, 1.0f, 0.0f); // The top left corner
+		glVertex3f(1.0f, 1.0f, 0.0f); // The top right corner
+		glVertex3f(1.0f, -1.0f, 0.0f); // The bottom right corner
+
+		glEnd();
+		glFlush();
+
 		return STATUS_OK;
 	}
 

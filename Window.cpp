@@ -18,7 +18,6 @@ Window::Window(HINSTANCE instance,const char* windowName,int width,int height)
 	mTextureManager = star::TextureManager::GetInstance();
 
 	mContext.mTimeManager = mTimeManager;
-	mContext.mTextureManager = mTextureManager;
 
 	WNDCLASSEX wndClass;
 	wndClass.cbSize = sizeof(WNDCLASSEX);

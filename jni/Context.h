@@ -8,6 +8,5 @@ namespace star
 	struct Context 
 	{
 		TimeManager* mTimeManager;
-		TextureManager* mTextureManager;
 	};
 }
