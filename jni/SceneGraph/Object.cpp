@@ -217,9 +217,19 @@ namespace star
 
 	bool Object::RectangleCircleCollision(Object* object, Object* otherObject)
 	{
-		auto rect = object->GetComponent<RectangleColliderComponent>()->GetCollisionRect();
-		auto radius = object->GetComponent<CircleColliderComponent>()->GetRadius();
-				
+		Rect rect;
+		int radius;
+
+		if(object->GetComponent<RectangleColliderComponent>() != nullptr)
+			rect = object->GetComponent<RectangleColliderComponent>()->GetCollisionRect();
+		if(otherObject->GetComponent<RectangleColliderComponent>() != nullptr)
+			rect = otherObject->GetComponent<RectangleColliderComponent>()->GetCollisionRect();
+		
+		if(object->GetComponent<CircleColliderComponent>() != nullptr)
+			radius = object->GetComponent<CircleColliderComponent>()->GetRadius();
+		if(otherObject->GetComponent<CircleColliderComponent>() != nullptr)
+			radius = otherObject->GetComponent<CircleColliderComponent>()->GetRadius();
+
 		glm::vec2 objectPos = glm::vec2(object->GetComponent<TransformComponent>()->GetWorldPosition().x, object->GetComponent<TransformComponent>()->GetWorldPosition().y);
 		glm::vec2 otherObjectPos = glm::vec2(otherObject->GetComponent<TransformComponent>()->GetWorldPosition().x, otherObject->GetComponent<TransformComponent>()->GetWorldPosition().y);
 

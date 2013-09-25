@@ -11,7 +11,7 @@ class BaseComponent;
 
 namespace star
 {
-	class Object
+	class Object 
 	{
 	public:
 		Object(void);
