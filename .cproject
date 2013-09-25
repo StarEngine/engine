@@ -30,6 +30,7 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.8/prebuilt/windows-x86_64/lib/gcc/arm-linux-androideabi/4.8/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/stlport/stlport&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\cygwin64\usr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/libpng&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1713767724" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -38,6 +39,7 @@
 							</tool>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.1420550263" name="GNU C++" superClass="org.eclipse.cdt.build.core.settings.holder">
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.1739596138" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/libpng&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/android/native_app_glue&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/platforms/android-18/arch-arm/usr/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.8/prebuilt/windows-x86_64/lib/gcc/arm-linux-androideabi/4.8&quot;"/>
@@ -58,6 +60,7 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.8/prebuilt/windows-x86_64/lib/gcc/arm-linux-androideabi/4.8/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/stlport/stlport&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\cygwin64\usr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/libpng&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.194515331" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>

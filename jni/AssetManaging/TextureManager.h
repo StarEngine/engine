@@ -3,7 +3,12 @@
 #include <map>
 #include <vector>
 #include "../defines.h"
+
+#ifdef _WIN32
 #include "libs/OpenGL/GLEW/include/GL/glew.h"
+#else
+#include "GLES/gl.h"
+#endif
 
 namespace star
 {

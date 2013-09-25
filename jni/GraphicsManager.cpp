@@ -37,7 +37,11 @@ namespace star
 
 		float ratio = (float)mScreenWidth/(float)mScreenHeight;
 
+#ifdef _WIN32
 		glFrustum(-1*ratio,1*ratio,-1,1,0.1f,500.0f);
+#else
+		glFrustumf(-1*ratio,1*ratio,-1,1,0.1f,500.0f);
+#endif
 
 		glTranslatef(0,0,-1.0f);
 		glEnable(GL_BLEND);

@@ -42,7 +42,12 @@ namespace star
 		png_byte header[8];
 
 		FILE *fp;
+
+#ifdef _WIN32
 		_wfopen_s(&fp,mPath.c_str(), _T("rb"));
+#else
+		fp = fopen(mPath.c_str(),"rb");
+#endif
 
 		if(!fp)
 		{ 
