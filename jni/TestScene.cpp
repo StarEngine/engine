@@ -12,10 +12,33 @@ namespace star
 		m_TotalFrames(0),
 		m_FPS(0),
 		m_PassedMiliseconds(0),
-		m_pTestObject(nullptr),
-		m_pRectComp(nullptr)
+		m_pObjectOne(nullptr),
+		m_pObjectTwo(nullptr),
+		m_pObjectThree(nullptr),
+		m_pRectColCompOne(nullptr),
+		m_pCircleColCompOne(nullptr),
+		m_pCircleColCompTwo(nullptr),
+		m_pColMan(nullptr)
 	{
-		
+		m_pObjectOne = new Object();
+		m_pRectColCompOne = new RectangleColliderComponent(10,10);
+		m_pObjectOne->AddComponent(m_pRectColCompOne);
+
+		m_pObjectTwo = new Object();
+		m_pCircleColCompOne = new CircleColliderComponent(5);
+		m_pObjectTwo->AddComponent(m_pCircleColCompOne);
+
+		m_pObjectThree = new Object();
+		m_pCircleColCompTwo = new CircleColliderComponent(10);
+		m_pObjectThree->AddComponent(m_pCircleColCompTwo);
+
+		m_pColMan = new CollisionManager();
+		m_pColMan->AddObject(m_pObjectOne);
+		m_pColMan->AddObject(m_pObjectTwo);
+		m_pColMan->AddObject(m_pObjectThree);
+
+		//Testing Collision
+		m_pColMan->CheckCollision(_T("Default"));
 	}
 
 	status TestScene::Initialize( const Context& contex )

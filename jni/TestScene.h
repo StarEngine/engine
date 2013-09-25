@@ -5,8 +5,8 @@
 #include "Logger.h"
 #include "Context.h"
 #include "SceneGraph/Object.h"
-#include "Components/RectangleColliderComponent.h"
-
+#include "StarComponents.h"
+#include "SceneManaging\CollisionManager.h"
 
 namespace star 
 {
@@ -27,8 +27,11 @@ namespace star
 		int m_FPS;
 		float m_PassedMiliseconds;
 
-		Object* m_pTestObject;
-		RectangleColliderComponent* m_pRectComp;
+		Object *m_pObjectOne, *m_pObjectTwo, *m_pObjectThree;
+		RectangleColliderComponent *m_pRectColCompOne;
+		CircleColliderComponent *m_pCircleColCompOne, *m_pCircleColCompTwo;
+
+		CollisionManager* m_pColMan;
 
 		// -------------------------
 		// Disabling default copy constructor and default 

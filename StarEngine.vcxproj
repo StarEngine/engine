@@ -95,6 +95,7 @@
     <ClCompile Include="jni\Components\CircleColliderComponent.cpp" />
     <ClCompile Include="jni\MainGame.cpp" />
     <ClCompile Include="jni\SceneManaging\BaseScene.cpp" />
+    <ClCompile Include="jni\SceneManaging\CollisionManager.cpp" />
     <ClCompile Include="jni\SceneManaging\SceneManager.cpp" />
     <ClCompile Include="jni\TestScene.cpp" />
     <ClCompile Include="jni\TimeManager.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="jni\Components\BaseComponent.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="jni\GraphicsManager.h" />
+    <ClInclude Include="jni\SceneManaging\CollisionManager.h" />
     <ClInclude Include="jni\StarComponents.h" />
     <ClInclude Include="jni\SceneGraph\Object.h" />
     <ClInclude Include="jni\Components\RectangleColliderComponent.h" />
