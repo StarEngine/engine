@@ -17,8 +17,7 @@ namespace star
 		BaseScene(Name),
 		m_TotalFrames(0),
 		m_FPS(0),
-		m_PassedMiliseconds(0),
-		m_pTestObject(nullptr)
+		m_PassedMiliseconds(0)
 	{
 		
 	}

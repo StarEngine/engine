@@ -7,10 +7,11 @@
 #include "../SceneManaging/BaseScene.h"
 #include "../Context.h"
 
-class BaseComponent;
-
 namespace star
 {
+	class BaseComponent;
+	using namespace std;
+
 	class Object
 	{
 	public:
@@ -34,7 +35,7 @@ namespace star
 
 		void SetCollisionTag(const tstring& tag) {m_CollisionTag = tag;};
 		const tstring& GetCollisionTag() const {return m_CollisionTag;};
-		
+
 		void CollisionCheck(Object* otherObject);
 		bool RectangleCollision(Object* object, Object* otherObject);
 		bool CircleCollision(Object* object, Object* otherObject);
@@ -42,8 +43,8 @@ namespace star
 
 		//Template functions
 		//-----------------------------
-		template<class T> 
-		T* GetComponent(bool searchChildren = false) 
+		template<class T>
+		T* GetComponent(bool searchChildren = false)
 		{
 			const type_info& ti = typeid(T);
 			for(auto *component : m_pComponents)
@@ -88,7 +89,7 @@ namespace star
 
 	private:
 		// -------------------------
-		// Disabling default copy constructor and default 
+		// Disabling default copy constructor and default
 		// assignment operator.
 		// -------------------------
 		Object(const Object& t);

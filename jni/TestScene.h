@@ -27,7 +27,7 @@ namespace star
 		int m_FPS;
 		float m_PassedMiliseconds;
 
-		Object* m_pTestObject;
+		//Object* m_pTestObject;
 		//RectangleColliderComponent* m_pRectComp;
 
 		// -------------------------
