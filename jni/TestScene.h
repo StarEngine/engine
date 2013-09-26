@@ -7,6 +7,8 @@
 #include "SceneGraph/Object.h"
 #include "StarComponents.h"
 #include "SceneManaging\CollisionManager.h"
+#include "Shaders/Shader.h"
+
 
 
 namespace star 
@@ -27,6 +29,7 @@ namespace star
 		int m_TotalFrames;
 		int m_FPS;
 		float m_PassedMiliseconds;
+		Shader mTextureShader;
 
 		Object* m_pObjectOne, *m_pObjectTwo;
 		RectangleColliderComponent* m_pRectCompOne;

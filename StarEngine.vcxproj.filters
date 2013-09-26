@@ -23,6 +23,7 @@
     <ClCompile Include="jni\AssetManaging\TextureManager.cpp" />
     <ClCompile Include="jni\GraphicsManager.cpp" />
     <ClCompile Include="jni\SceneManaging\CollisionManager.cpp" />
+    <ClCompile Include="jni\Shaders\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="jni\AssetManaging\TextureManager.h" />
     <ClInclude Include="jni\GraphicsManager.h" />
     <ClInclude Include="jni\SceneManaging\CollisionManager.h" />
+    <ClInclude Include="jni\Shaders\Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="jni">

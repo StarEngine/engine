@@ -4,8 +4,8 @@
 #ifdef _WIN32
 #include "libs/OpenGL/GLEW/include/GL/glew.h"
 #else
-#include <GLES/gl.h>
-#include <GLES/glext.h>
+#include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
 #endif
 
 #define INPUT_MANAGER (InputManager::GetSingleton())
@@ -48,8 +48,15 @@ namespace star
 
 		m_Initialized=true;
 
-		star::TextureManager::GetInstance()->LoadTexture(_T("assets/TestDaPng.png"),_T("TestPNG"));
-		star::TextureManager::GetInstance()->LoadTexture(_T("assets/Awesome.png"),_T("Awesome"));
+		star::TextureManager::GetInstance()->LoadTexture(_T("TestDaPng.png"),_T("TestPNG"));
+		star::TextureManager::GetInstance()->LoadTexture(_T("Awesome.png"),_T("Awesome"));
+
+		//LOGGER->Log(star::LogLevel::Info,_T("Started making shader"));
+		//if(!mTextureShader.Init(_T("jni/Shaders/BaseTexShader.vert"),_T("jni/Shaders/BaseTexShader.frag")))
+		//{
+		//	LOGGER->Log(star::LogLevel::Info,_T("Making Shader Failed"));
+		//}
+		//LOGGER->Log(star::LogLevel::Info,_T("Stopped making shader"));
 		return STATUS_OK;
 	}
 
@@ -74,37 +81,64 @@ namespace star
 
 	status TestScene::Draw()
 	{
-		glEnable(GL_TEXTURE_2D);
-#ifndef _WIN32
-		glActiveTexture(GL_TEXTURE0);
-#endif
-		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("TestPNG")));
+		glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // Clear the background of our window to red
+
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
 
 #ifdef _WIN32
+
+		glEnable(GL_TEXTURE_2D);
+		
+		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("TestPNG")));
+
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0, 0.0); glVertex2f(-8.0f, -8.0f);
 		glTexCoord2f(1.0, 0.0); glVertex2f(0.0f, -8.0f);
 		glTexCoord2f(1.0, 1.0); glVertex2f(0.0f, 0.0f);
 		glTexCoord2f(0.0, 1.0); glVertex2f(-8.0f, 0.0f);
 		glEnd();
-#endif
-#ifndef _WIN32
-		glActiveTexture(GL_TEXTURE0);
-#endif
-		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("Awesome")));
 
-#ifdef _WIN32
+		
+		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("Awesome")));
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0, 0.0); glVertex2f(0.0f, 0.0f);
 		glTexCoord2f(1.0, 0.0); glVertex2f(8.0f, 0.0f);
 		glTexCoord2f(1.0, 1.0); glVertex2f(8.0f, 8.0f);
 		glTexCoord2f(0.0, 1.0); glVertex2f(0.0f, 8.0f);
 		glEnd();
-#endif
 
 		glDisable(GL_TEXTURE_2D);
-		
 
+#else
+		/*
+		mTextureShader.Bind();
+		glEnable(GL_TEXTURE_2D);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("TestPNG")));
+
+		static const GLfloat squareVertices[] = {
+		        -1.0f, -1.0f,
+		        1.0f, -1.0f,
+		        -1.0f,  1.0f,
+		        1.0f,  1.0f,
+		    };
+
+		static const GLfloat textureVertices[] = {
+		        1.0f, 1.0f,
+		        1.0f, 0.0f,
+		        0.0f,  1.0f,
+		        0.0f,  0.0f,
+		};
+		const GLfloat gTriangleVertices[] = { 0.0f, 0.5f, -0.5f, -0.5f,
+		        0.5f, -0.5f };
+		glVertexAttribPointer(0, 2, GL_FLOAT,GL_FALSE,0, gTriangleVertices);
+		glEnableVertexAttribArray(0);
+		//glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, textureVertices);
+		//glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glDrawArrays(GL_TRIANGLES,0,3);
+		mTextureShader.Unbind();¨
+		*/
+#endif
 
 		return STATUS_OK;
 	}

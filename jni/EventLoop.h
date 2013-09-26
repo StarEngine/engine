@@ -23,6 +23,8 @@ namespace star
 	class EventLoop
 	{
 	public:
+		static android_app* mApplicationPtr;
+
 		EventLoop(android_app* pApplication);
 
 		void run();
@@ -32,7 +34,7 @@ namespace star
 		static void activityCallback(android_app* pApplication, int32_t pCommand);
 
 	private:
-		android_app* mApplicationPtr;
+
 		bool mEnabled;
 		bool mQuit;
 		MainGame* mMainGame;

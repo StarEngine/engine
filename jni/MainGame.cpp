@@ -13,8 +13,6 @@ namespace star
 	MainGame::MainGame() :
 			mTestScene(nullptr)
 	{
-		mSceneManager = SceneManager::GetInstance();
-		star::GraphicsManager::GetInstance()->Initialize();
 	}
 
 	status MainGame::Run(const Context& context)
@@ -35,6 +33,8 @@ namespace star
 
 	status MainGame::Initialize()
 	{
+		mSceneManager = SceneManager::GetInstance();
+
 		mTestScene = new TestScene(_T("TestScene"));
 		if(!mSceneManager->AddScene(mTestScene->GetName(),mTestScene))
 		{
@@ -47,6 +47,9 @@ namespace star
 		}
 
 		Logger::GetSingleton()->Log(LogLevel::Info,_T("Scenes Set and Done"));
+
+		star::GraphicsManager::GetInstance()->Setup();
+
 		return STATUS_OK;
 	}
 

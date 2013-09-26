@@ -2,6 +2,7 @@
 #include "../Logger.h"
 #include "../Context.h"
 #include "BaseScene.h"
+#include "../GraphicsManager.h"
 
 namespace star 
 {
@@ -104,6 +105,7 @@ namespace star
 		{
 			return false;
 		}
+		Logger::GetSingleton()->Log(LogLevel::Info,_T("Initializing Scene :")+m_CurrentSceneName);
 		m_NewActiveScene->Initialize(context);
 		m_bInitialized=m_NewActiveScene->IsInitialized();
 		return m_bInitialized;
@@ -144,6 +146,7 @@ namespace star
 
 	void SceneManager::processActivityEvent(int32 pCommand, android_app* pApplication)
 	{
+		if(m_ActiveScene==nullptr)return;
 		mApplicationPtr = pApplication;
 		switch(pCommand)
 		{
@@ -194,8 +197,11 @@ namespace star
 
 	void SceneManager::Activate()
 	{
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Going trough activate"));
 		if(mApplicationPtr->window != nullptr)
 		{
+			star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("native window not null"));
+			star::GraphicsManager::GetInstance()->Initialize(mApplicationPtr);
 			if(m_ActiveScene->OnActivate() != STATUS_OK)
 			{
 				ANativeActivity_finish(mApplicationPtr->activity);
@@ -205,6 +211,7 @@ namespace star
 
 	void SceneManager::DeActivate()
 	{
+		star::GraphicsManager::GetInstance()->Destroy();
 		m_ActiveScene->OnDeactivate();
 	}
 

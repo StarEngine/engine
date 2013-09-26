@@ -3,6 +3,10 @@
 #include "../Context.h"
 #include "Texture2D.h"
 
+#ifndef _WIN32
+#include "../EventLoop.h"
+#endif
+
 namespace star 
 {
 	TextureManager* TextureManager::mTextureManager = nullptr;
@@ -45,7 +49,12 @@ namespace star
 			return false;
 		}
 
-		Texture2D* temp = new Texture2D(path);
+#ifdef _WIN32
+		tstring pathpre = _T("assets/") + path;
+		Texture2D* temp = new Texture2D(pathpre);
+#else
+		Texture2D* temp = new Texture2D(path,star::EventLoop::mApplicationPtr);
+#endif
 		mTextureList[name] = temp;
 		mPathList.push_back(path);
 

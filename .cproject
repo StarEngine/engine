@@ -34,6 +34,7 @@
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1713767724" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
+									<listOptionValue builtIn="false" value="__ANDROID__"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1573554596" languageId="org.eclipse.cdt.core.assembly" languageName="Assembly" sourceContentType="org.eclipse.cdt.core.asmSource" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
@@ -49,6 +50,7 @@
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1408120829" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
+									<listOptionValue builtIn="false" value="__ANDROID__"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1908618357" languageId="org.eclipse.cdt.core.g++" languageName="GNU C++" sourceContentType="org.eclipse.cdt.core.cxxSource,org.eclipse.cdt.core.cxxHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
@@ -64,6 +66,7 @@
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.194515331" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
+									<listOptionValue builtIn="false" value="__ANDROID__"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1958336538" languageId="org.eclipse.cdt.core.gcc" languageName="GNU C" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>

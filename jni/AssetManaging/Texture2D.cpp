@@ -7,7 +7,7 @@ namespace star
 	//			Use the TextureManager to load your textures.
 	//			This ensures a same texture is not loaded multiple times
 
-
+#ifdef _WIN32
 	Texture2D::Texture2D(tstring pPath):
 			mPath(pPath),
 			mTextureId(0),
@@ -23,7 +23,37 @@ namespace star
 			mRow_pointers(0)
 	{
 		this->Load();
+
 	}
+#else
+	Texture2D::Texture2D(tstring pPath, android_app* pApplication):
+			mResource(pApplication , pPath),
+			mPath(pPath),
+			mTextureId(0),
+			mFormat(0),
+			mWidth(0),
+			mHeight(0),
+			mNumber_of_passes(0),
+			mImageBuffer(0),
+			mPng_ptr(nullptr),
+			mInfo_ptr(nullptr),
+			mColor_type(0),
+			mBit_depth(0),
+			mRow_pointers(0)
+	{
+		this->Load();
+	}
+
+	void Texture2D::Callback_Read(png_structp png, png_bytep data, png_size_t size)
+	{
+		Resource& lReader = *((Resource*)png_get_io_ptr(png));
+		if(lReader.read(data,size)!=STATUS_OK)
+		{
+			lReader.close();
+			png_error(png, "Error while reading PNG file");
+		}
+	}
+#endif
 
 	Texture2D::~Texture2D()
 	{
@@ -45,17 +75,28 @@ namespace star
 
 #ifdef _WIN32
 		_wfopen_s(&fp,mPath.c_str(), _T("rb"));
-#else
-		fp = fopen(mPath.c_str(),"rb");
-#endif
 
-		if(!fp)
+		if(fp==NULL)
 		{ 
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : png could not be loaded"));
 			return NULL;
 		}
 
 		fread(header, 8, 1, fp);
+#else
+		if(mResource.open()==STATUS_KO)
+		{
+			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Could Not Open Resource"));
+			return NULL;
+		}
+		if(mResource.read(header, sizeof(header))==STATUS_KO)
+		{
+			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Could Not Read"));
+			return NULL;
+		}
+#endif
+
+
 		if(png_sig_cmp(header, 0, 8))
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Not a PNG file"));
@@ -76,6 +117,7 @@ namespace star
 			return NULL;
 		}
 
+#ifdef _WIN32
 		if(setjmp(png_jmpbuf(mPng_ptr)))
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error during init io"));
@@ -83,6 +125,15 @@ namespace star
 		}
 
 		png_init_io(mPng_ptr, fp);
+#else
+		png_set_read_fn(mPng_ptr, &mResource, Callback_Read);
+		if(setjmp(png_jmpbuf(mPng_ptr)))
+		{
+			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error during init io"));
+			return NULL;
+		}
+
+#endif
 		png_set_sig_bytes(mPng_ptr, 8);
 		png_read_info(mPng_ptr,mInfo_ptr);
 
@@ -162,7 +213,11 @@ namespace star
 		}
 		png_read_image(mPng_ptr, mRow_pointers);
 
+#ifdef _WIN32
 		fclose(fp);
+#else
+		mResource.close();
+#endif
 		png_destroy_read_struct(&mPng_ptr, &mInfo_ptr, NULL);
 		delete[] mRow_pointers;
 

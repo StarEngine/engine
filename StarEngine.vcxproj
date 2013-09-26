@@ -59,7 +59,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libpng16.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;libpng16.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -97,6 +98,7 @@
     <ClCompile Include="jni\SceneManaging\BaseScene.cpp" />
     <ClCompile Include="jni\SceneManaging\CollisionManager.cpp" />
     <ClCompile Include="jni\SceneManaging\SceneManager.cpp" />
+    <ClCompile Include="jni\Shaders\Shader.cpp" />
     <ClCompile Include="jni\TestScene.cpp" />
     <ClCompile Include="jni\TimeManager.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -108,6 +110,7 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="jni\GraphicsManager.h" />
     <ClInclude Include="jni\SceneManaging\CollisionManager.h" />
+    <ClInclude Include="jni\Shaders\Shader.h" />
     <ClInclude Include="jni\StarComponents.h" />
     <ClInclude Include="jni\SceneGraph\Object.h" />
     <ClInclude Include="jni\Components\RectangleColliderComponent.h" />

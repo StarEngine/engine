@@ -14,6 +14,8 @@
 #include <GLES/gl.h>
 #include <GLES/glext.h>
 #include <png.h>
+#include <android_native_app_glue.h>
+#include "Resource.h"
 #endif
 
 
@@ -22,7 +24,11 @@ namespace star
 	class Texture2D
 	{
 	public:
+#ifdef _WIN32
 		Texture2D(tstring pPath);
+#else
+		Texture2D(tstring pPath,android_app* pApplication );
+#endif
 		~Texture2D();
 
 		const tstring getPath();
@@ -51,6 +57,12 @@ namespace star
 		png_int_32	mColor_type;
 		png_int_32	mBit_depth;		
 		png_bytep * mRow_pointers;
+
+#ifndef _WIN32
+		Resource mResource;
+		static void Callback_Read(png_structp png, png_bytep data, png_size_t size);
+
+#endif
 
 	};
 }

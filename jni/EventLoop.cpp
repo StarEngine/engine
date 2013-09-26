@@ -1,19 +1,19 @@
 #include "EventLoop.h"
 #include "Logger.h"
 #include "SceneManaging/SceneManager.h"
+#include "GraphicsManager.h"
 #include <unistd.h>
 
 namespace star
 {
-
+	android_app* EventLoop::mApplicationPtr = nullptr;
 	EventLoop::EventLoop(android_app* pApplication):
-				mApplicationPtr(pApplication),
 				mEnabled(true),
 				mQuit(false)
 	{
-
-		//mApplicationPtr->onAppCmd = activityCallback;
-		//mApplicationPtr->userData = this;
+		mApplicationPtr = pApplication;
+		mApplicationPtr->onAppCmd = activityCallback;
+		mApplicationPtr->userData = this;
 		mMainGame = new MainGame();
 		mTimeManager = new TimeManager();
 		mContext.mTimeManager = mTimeManager;
@@ -34,6 +34,8 @@ namespace star
 			//mQuit=true;
 			//end();
 		}
+
+
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Initialize Done"));
 		while(true)
 		{
@@ -56,6 +58,7 @@ namespace star
 
 			if((mEnabled)&& (!mQuit))
 			{
+
 				if(mMainGame->Run(mContext)!=STATUS_OK)
 				{
 					mQuit=true;
@@ -76,7 +79,8 @@ namespace star
 
 	void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 	{
-		EventLoop& lEventLoop = *(EventLoop*) pApplication->userData;
+		//EventLoop& lEventLoop = *(EventLoop*) pApplication->userData;
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Callback to scenemanager"));
 		SceneManager::GetInstance()->processActivityEvent(pCommand,pApplication);
 	}
 
