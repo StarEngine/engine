@@ -2,12 +2,15 @@
 #include "../Logger.h"
 #include "../Context.h"
 #include "BaseScene.h"
-#include "../GraphicsManager.h"
+#include "../Managers/InputManager.h"
+
+#define INPUT_MANAGER (InputManager::GetSingleton())
 
 namespace star 
 {
 	SceneManager* SceneManager::m_pSceneManager = nullptr;
 
+	//[COMMENT] PLEASE initialize all members in the constructor!!!! (if platform dependant, put in constructors body)
 	SceneManager::SceneManager( void )
 		: m_ActiveScene(nullptr)
 		, m_NewActiveScene(nullptr)
@@ -202,6 +205,28 @@ namespace star
 			DeActivate();
 			break;
 		}
+	}
+
+	int32_t processInputEvent(AInputEvent* pEvent)
+	{
+		int32_t lEventType = AInputEvent_getType(pEvent);
+		switch (lEventType)
+		{
+		case AINPUT_EVENT_TYPE_MOTION:
+			switch (AInputEvent_getSource(pEvent))
+			{
+			case AINPUT_SOURCE_TOUCHSCREEN:
+				return INPUT_MANAGER->OnTouchEvent(pEvent);
+				break;
+			}
+			break;
+
+		case AINPUT_EVENT_TYPE_KEY:
+			return INPUT_MANAGER->OnKeyboardEvent(pEvent);
+			break;
+
+		}
+		return 0;
 	}
 
 	void SceneManager::Activate()

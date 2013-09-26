@@ -3,7 +3,7 @@
 #include "SceneManaging/SceneManager.h"
 #include "GraphicsManager.h"
 #include <unistd.h>
-
+#include "Managers/InputManager.h"
 namespace star
 {
 	android_app* EventLoop::mApplicationPtr = nullptr;
@@ -106,6 +106,11 @@ namespace star
 			star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Callback to scenemanager"));
 			SceneManager::GetInstance()->processActivityEvent(pCommand,pApplication);
 		}
+	}
+
+	void EventLoop::inputCallback(android_app* pApplication, AInputEvent* pEvent) {
+		EventLoop& lEventLoop = *(EventLoop*) pApplication->userData;
+		SceneManager::GetInstance()->processInputEvent(pEvent);
 	}
 
 }

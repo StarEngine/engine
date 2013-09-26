@@ -30,6 +30,7 @@ namespace star
 
 #ifndef _WIN32
 		void processActivityEvent(int32 pCommand, android_app* pApplication);
+		int32_t processInputEvent(AInputEvent* pEvent);
 		void Activate();
 		void DeActivate();
 
