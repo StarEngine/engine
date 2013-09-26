@@ -17,13 +17,35 @@ namespace star
 		BaseScene(Name),
 		m_TotalFrames(0),
 		m_FPS(0),
-		m_PassedMiliseconds(0)
+		m_PassedMiliseconds(0),
+		m_pObjectOne(nullptr),
+		m_pObjectTwo(nullptr),
+		m_pRectCompOne(nullptr),
+		m_pRectCompTwo(nullptr),
+		m_pColMan(nullptr)
 	{
 		
 	}
 
 	status TestScene::Initialize( const Context& contex )
 	{
+		m_pObjectOne = new Object();
+		m_pRectCompOne = new RectangleColliderComponent(10,10);
+		m_pObjectOne->AddComponent(m_pRectCompOne);
+		m_pObjectOne->GetComponent<TransformComponent>()->Scale(2,2,1);
+
+		m_pObjectTwo = new Object();
+		m_pRectCompTwo = new CircleColliderComponent(10);
+		m_pObjectTwo->AddComponent(m_pRectCompTwo);
+		m_pObjectTwo->GetComponent<TransformComponent>()->Translate(19,0,0);
+		
+
+		m_pColMan = new CollisionManager();
+		m_pColMan->AddObject(m_pObjectOne);
+		m_pColMan->AddObject(m_pObjectTwo);
+
+		m_pColMan->CheckCollision(_T("Default"));
+
 		m_Initialized=true;
 
 		star::TextureManager::GetInstance()->LoadTexture(_T("assets/TestDaPng.png"),_T("TestPNG"));

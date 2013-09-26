@@ -28,13 +28,22 @@ namespace star
 		return mTextureManager;
 	}
 
-	bool TextureManager::LoadTexture(tstring path, tstring name)
+	bool TextureManager::LoadTexture(const tstring& path, const tstring& name)
 	{
-		if(mTextureManager==nullptr)return false;
+		if(mTextureManager==nullptr)
+		{
+			return false;
+		}
 
-		if(std::find(mPathList.begin(), mPathList.end(), path)!=mPathList.end())return false;
+		if(std::find(mPathList.begin(), mPathList.end(), path)!=mPathList.end())
+		{
+			return false;
+		}
 
-		if(mTextureList.find(name) != mTextureList.end())return false;
+		if(mTextureList.find(name) != mTextureList.end())
+		{
+			return false;
+		}
 
 		Texture2D* temp = new Texture2D(path);
 		mTextureList[name] = temp;
@@ -43,14 +52,19 @@ namespace star
 		return true;
 	}
 
-	const GLuint& TextureManager::GetTextureID(tstring name)
+	//[COMMENT] Why return false? When you expect const Gluint& (gives warning) + you forgot const tstring&
+	const GLuint& TextureManager::GetTextureID(const tstring& name)
 	{
-		if(mTextureManager ==nullptr)return false;
+		if(mTextureManager ==nullptr)
+		{
+			return false;
+		}
 
 		if(mTextureList.find(name) != mTextureList.end())
 		{
 			return mTextureList[name]->getTextureID();
 		}
+
 		return NULL;
 	}
 

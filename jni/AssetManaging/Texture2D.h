@@ -4,7 +4,11 @@
 #include "../Logger.h"
 
 #ifdef _WIN32
+#pragma warning (disable : 4172)
+#pragma warning (disable : 4099)
 #include "libs/libpng/png.h"
+#pragma warning (default : 4172)
+#pragma warning (default : 4099)
 #include "libs/OpenGL/GLEW/include/GL/glew.h"
 #else
 #include <GLES/gl.h>
