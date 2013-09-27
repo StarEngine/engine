@@ -17,7 +17,7 @@ namespace star
 		XMLContainer(const XMLContainer & yRef)
 			: Dictionary<tstring, XMLContainer>(yRef)
 			, m_Value(yRef.m_Value)
-			, m_Name(EMPTY_STRING)
+			, m_Name(yRef.m_Name)
 			, m_Attributes(yRef.m_Attributes)
 		{
 
@@ -32,6 +32,7 @@ namespace star
 		{
 			m_MultiMap = yRef.m_MultiMap;
 			m_Value = yRef.m_Value;
+			m_Name = yRef.m_Name;
 			m_Attributes = yRef.m_Attributes;
 			return *this;
 		}

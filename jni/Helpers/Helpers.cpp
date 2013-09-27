@@ -1,4 +1,5 @@
 #include "Helpers.h"
+#include "..\Logger.h"
 
 namespace star
 {
@@ -6,35 +7,63 @@ namespace star
 	{
 		uint32 hash(0);
 		for(size_t i = 0; i < str.size(); ++i) 
+		{
 			hash = 65599 * hash + str[i];
+		}
 		return hash ^ (hash >> 16);
 	}
 
-	tchar* CharToTChar(const char* text)
+	template <>
+	std::wstring string_cast<std::wstring, std::wstring>
+		(const std::wstring & value) { return value; }
+
+	template <>
+	std::string string_cast<std::string, std::string>
+		(const std::string & value) { return value; }
+
+	template <>
+	std::string string_cast<std::string, std::wstring>
+		(const std::wstring & value)
 	{
-		if(std::is_same<char, tchar>::value)
-		{
-			return (tchar*)text;
-		}
-		else
-		{
-			std::string str_t(text);
-			std::wstring str(str_t.begin(), str_t.end());
-			return (tchar*)str.c_str();
-		}
+		std::string ss;
+		ss.assign(value.begin(), value.end());
+		return ss;
 	}
 
-	tchar* WCharToTChar(const wchar_t* text)
+	template <>
+	std::wstring string_cast<std::wstring, std::string>
+		(const std::string & value)
 	{
-		if(std::is_same<wchar_t, tchar>::value)
-		{
-			return (tchar*)text;
-		}
-		else
-		{
-			std::wstring str_t(text);
-			std::string str(str_t.begin(), str_t.end());
-			return (tchar*)str.c_str();
-		}
+		std::wstring ss;
+		ss.assign(value.begin(), value.end());
+		return ss;
+	}
+
+	template <>
+	std::wstring string_cast<std::wstring, wchar_t>
+		(const wchar_t * value)
+	{
+		return string_cast<std::wstring, std::wstring>(value);
+	}
+
+	template <>
+	std::string string_cast<std::string, char>
+		(const char * value)
+	{
+		return string_cast<std::string, std::string>(value);
+	}
+
+	template <>
+	std::string string_cast<std::string, wchar_t>
+		(const wchar_t * value)
+	{
+		return string_cast<std::string, std::wstring>(value);
+	}
+
+	template <>
+	std::wstring string_cast<std::wstring, char>
+		(const char * value)
+	{
+		return string_cast<std::wstring, std::string>(value);
 	}
 }

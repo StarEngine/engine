@@ -28,17 +28,21 @@ namespace star
 
 		}
 
-		void Read(XMLContainer & container)
+		bool Read(XMLContainer & container)
 		{
 			pugi::xml_document XMLDocument;
+			tstringstream strstr;
+			strstr << _T("Loading file: ") << m_File.GetFullPath().c_str();
+			Logger::GetSingleton()->Log(Info, strstr.str());
 			pugi::xml_parse_result result = XMLDocument.load_file(m_File.GetFullPath().c_str());
-			ASSERT (result == pugi::status_ok, star::CharToTChar(result.description()));
-			if (result == pugi::status_ok)
+			ASSERT (result,
+				star::string_cast<tstring>(result.description()).c_str());
+			if (result)
 			{
 				auto root = XMLDocument.first_child();
 				if(root != NULL)
 				{
-					container.SetName(star::CharToTChar(root.name()));
+					container.SetName(star::string_cast<tstring>(root.name()));
 					AddAttributes(container, root);
 
 					auto child = root.first_child();
@@ -52,6 +56,7 @@ namespace star
 					}
 				}
 			}
+			return result;
 		}
 
 	private:
@@ -59,11 +64,13 @@ namespace star
 
 		void AddAttributes(XMLContainer & element, const pugi::xml_node & node)
 		{
-			auto element_attributes = element.GetAttributes();
-			for(auto attribute : node.attributes())
+			auto attributes = node.attributes();
+			for(auto attribute : attributes)
 			{
-				element_attributes.insert( std::make_pair<tstring, tstring>( star::CharToTChar(attribute.name()),
-					star::CharToTChar(attribute.value())));
+				element.GetAttributes().insert( 
+					std::make_pair<tstring, tstring>( 
+						star::string_cast<tstring>(attribute.name()),
+						star::string_cast<tstring>(attribute.value())));
 			}
 		}
 
@@ -71,7 +78,8 @@ namespace star
 		{
 			XMLContainer child;
 			AddAttributes(child, node);
-			child.SetValue(star::CharToTChar(node.value()));
+			child.SetName(star::string_cast<tstring>(node.name()));
+			child.SetValue(star::string_cast<tstring>(node.child_value()));
 			auto sibling = node.first_child();
 			if(sibling != NULL)
 			{
@@ -81,7 +89,7 @@ namespace star
 					sibling = sibling.next_sibling();
 				} while (sibling != NULL);
 			}
-			parent.insert(std::make_pair(star::CharToTChar(node.name()), child));
+			parent.insert(std::make_pair(star::string_cast<tstring>(node.name()), child));
 		}
 
 		XMLFileParser(const XMLFileParser & yRef);
