@@ -1,0 +1,4 @@
+# un ignore certain directories
+!Debug/
+!Release/
+OpenGL/GLUT/VisualStudio/2012/build/Debug/
