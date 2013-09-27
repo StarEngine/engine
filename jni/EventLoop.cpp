@@ -9,7 +9,8 @@ namespace star
 	android_app* EventLoop::mApplicationPtr = nullptr;
 	EventLoop::EventLoop(android_app* pApplication):
 				mEnabled(true),
-				mQuit(false)
+				mQuit(false),
+				mMainGameInitialized(false)
 	{
 		mApplicationPtr = pApplication;
 		mApplicationPtr->onAppCmd = activityCallback;
@@ -27,16 +28,8 @@ namespace star
 
 		app_dummy();
 
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Starting Event Loop"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Starting EventLoop"));
 
-		if(mMainGame->Initialize()!=STATUS_OK)
-		{
-			//mQuit=true;
-			//end();
-		}
-
-
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Initialize Done"));
 		while(true)
 		{
 			mTimeManager->StartMonitoring();
@@ -56,7 +49,7 @@ namespace star
 				}
 			}
 
-			if((mEnabled)&& (!mQuit))
+			if((mEnabled)&& (!mQuit) && mMainGameInitialized)
 			{
 
 				if(mMainGame->Run(mContext)!=STATUS_OK)
@@ -79,9 +72,40 @@ namespace star
 
 	void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 	{
-		//EventLoop& lEventLoop = *(EventLoop*) pApplication->userData;
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Callback to scenemanager"));
-		SceneManager::GetInstance()->processActivityEvent(pCommand,pApplication);
+		EventLoop& lEventLoop = *(EventLoop*) pApplication->userData;
+		if(!lEventLoop.mMainGameInitialized)
+		{
+			switch(pCommand)
+				{
+				case APP_CMD_INIT_WINDOW:
+					if(pApplication->window != nullptr)
+					{
+						star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Eventloop Callback : Window Handle Made"));
+						star::GraphicsManager::GetInstance()->Initialize(pApplication);
+					}
+				break;
+				case APP_CMD_GAINED_FOCUS:
+					lEventLoop.mEnabled=true;
+					if(lEventLoop.mMainGame->Initialize()!=STATUS_OK)
+					{
+						lEventLoop.mQuit=true;
+						lEventLoop.end();
+					}
+					else
+						lEventLoop.mMainGameInitialized=true;
+					break;
+				case APP_CMD_LOST_FOCUS:
+					lEventLoop.mEnabled=false;
+					break;
+				default:
+					break;
+				}
+		}
+		else
+		{
+			star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Callback to scenemanager"));
+			SceneManager::GetInstance()->processActivityEvent(pCommand,pApplication);
+		}
 	}
 
 }

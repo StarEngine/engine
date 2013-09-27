@@ -35,6 +35,7 @@ namespace star
 
 	private:
 
+		bool mMainGameInitialized;
 		bool mEnabled;
 		bool mQuit;
 		MainGame* mMainGame;

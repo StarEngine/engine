@@ -48,15 +48,18 @@ namespace star
 
 		m_Initialized=true;
 
+		LOGGER->Log(star::LogLevel::Info,_T("Making testpng"));
 		star::TextureManager::GetInstance()->LoadTexture(_T("TestDaPng.png"),_T("TestPNG"));
+		LOGGER->Log(star::LogLevel::Info,_T("Making awesomepng"));
 		star::TextureManager::GetInstance()->LoadTexture(_T("Awesome.png"),_T("Awesome"));
-
-		//LOGGER->Log(star::LogLevel::Info,_T("Started making shader"));
-		//if(!mTextureShader.Init(_T("jni/Shaders/BaseTexShader.vert"),_T("jni/Shaders/BaseTexShader.frag")))
-		//{
-		//	LOGGER->Log(star::LogLevel::Info,_T("Making Shader Failed"));
-		//}
-		//LOGGER->Log(star::LogLevel::Info,_T("Stopped making shader"));
+#ifndef _WIN32
+		LOGGER->Log(star::LogLevel::Info,_T("Started making shader"));
+		if(!mTextureShader.Init(_T("BaseTexShader.vert"),_T("BaseTexShader.frag")))
+		{
+			LOGGER->Log(star::LogLevel::Info,_T("Making Shader Failed"));
+		}
+		LOGGER->Log(star::LogLevel::Info,_T("Stopped making shader"));
+#endif
 		return STATUS_OK;
 	}
 
@@ -110,17 +113,19 @@ namespace star
 		glDisable(GL_TEXTURE_2D);
 
 #else
-		/*
+		//Simon - Do Not remove, I'm working on this but its a pain in the ass. commented for now
 		mTextureShader.Bind();
 		glEnable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("TestPNG")));
+		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("Awesome")));
+		GLint s_textureId = glGetUniformLocation(mTextureShader.id(), "textureSampler");
+		glUniform1i(s_textureId, 0);
 
 		static const GLfloat squareVertices[] = {
-		        -1.0f, -1.0f,
-		        1.0f, -1.0f,
-		        -1.0f,  1.0f,
-		        1.0f,  1.0f,
+		        -0.5f, -0.5f,
+		        0.5f, -0.5f,
+		        -0.5f,  0.5f,
+		        0.5f,  0.5f,
 		    };
 
 		static const GLfloat textureVertices[] = {
@@ -129,17 +134,18 @@ namespace star
 		        0.0f,  1.0f,
 		        0.0f,  0.0f,
 		};
-		const GLfloat gTriangleVertices[] = { 0.0f, 0.5f, -0.5f, -0.5f,
-		        0.5f, -0.5f };
-		glVertexAttribPointer(0, 2, GL_FLOAT,GL_FALSE,0, gTriangleVertices);
-		glEnableVertexAttribArray(0);
-		//glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, textureVertices);
-		//glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
-		glDrawArrays(GL_TRIANGLES,0,3);
-		mTextureShader.Unbind();¨
-		*/
-#endif
 
+		glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT,0,0, squareVertices);
+		glEnableVertexAttribArray(ATTRIB_VERTEX);
+		glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, textureVertices);
+		glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+		glDisableVertexAttribArray(ATTRIB_VERTEX);
+		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		mTextureShader.Unbind();
+		glDisable(GL_TEXTURE_2D);
+
+#endif
 		return STATUS_OK;
 	}
 

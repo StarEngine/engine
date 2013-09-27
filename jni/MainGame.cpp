@@ -33,18 +33,12 @@ namespace star
 
 	status MainGame::Initialize()
 	{
+		Logger::GetSingleton()->Log(LogLevel::Info,_T("MainGame Initialize"));
 		mSceneManager = SceneManager::GetInstance();
 
 		mTestScene = new TestScene(_T("TestScene"));
-		if(!mSceneManager->AddScene(mTestScene->GetName(),mTestScene))
-		{
-			return STATUS_KO;
-		}
-
-		if(!mSceneManager->SetActiveScene(mTestScene->GetName()))
-		{
-			return STATUS_KO;
-		}
+		mSceneManager->AddScene(mTestScene->GetName(),mTestScene);
+		mSceneManager->SetActiveScene(_T("TestScene"));
 
 		Logger::GetSingleton()->Log(LogLevel::Info,_T("Scenes Set and Done"));
 

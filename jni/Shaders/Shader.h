@@ -11,12 +11,15 @@
 #include <GLES2/gl2ext.h>
 #include <iostream>
 #include <fstream>
+#include "../EventLoop.h"
+#include "../AssetManaging/Resource.h"
 #endif
 
 namespace star
 {
 	// Attribute index.
-	enum {
+	enum
+	{
 		ATTRIB_VERTEX,
 		ATTRIB_TEXTUREPOSITON,
 		NUM_ATTRIBUTES

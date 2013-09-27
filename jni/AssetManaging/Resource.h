@@ -20,6 +20,7 @@ namespace star
 		status open();
 		void close();
 		status read(void* pBuffer, size_t pCount);
+		//status readAll(void* pBuffer);
 
 		off_t getLength();
 		const void* bufferize();

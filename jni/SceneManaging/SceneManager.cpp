@@ -8,13 +8,13 @@ namespace star
 {
 	SceneManager* SceneManager::m_pSceneManager = nullptr;
 
-	//[COMMENT] PLEASE initialize all members in the constructor!!!! (if platform dependant, put in constructors body
 	SceneManager::SceneManager( void )
 		: m_ActiveScene(nullptr)
 		, m_NewActiveScene(nullptr)
 		, m_bSwitchingScene(false)
 		, m_bInitialized(false)
 		, m_CurrentSceneName(_T(""))
+		, m_bDestroyRequested(false)
 
 	{
 #ifndef _WIN32
@@ -24,7 +24,7 @@ namespace star
 
 	SceneManager::~SceneManager(void)
 	{
-
+		m_SceneList.clear();
 	}
 
 
@@ -114,6 +114,8 @@ namespace star
 
 	status SceneManager::Update(const Context& context)
 	{
+		if(m_bDestroyRequested)return STATUS_OK;
+
 		if(m_bSwitchingScene)
 		{
 			if(!m_bInitialized)
@@ -135,6 +137,8 @@ namespace star
 
 	status SceneManager::Draw()
 	{
+		if(m_bDestroyRequested)return STATUS_OK;
+
 		if(m_ActiveScene != nullptr)
 		{
 			m_ActiveScene->Draw();
@@ -206,13 +210,17 @@ namespace star
 			{
 				ANativeActivity_finish(mApplicationPtr->activity);
 			}
+
 		}
 	}
 
 	void SceneManager::DeActivate()
 	{
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Going trough DeActivate"));
 		star::GraphicsManager::GetInstance()->Destroy();
 		m_ActiveScene->OnDeactivate();
+		m_SceneList.clear();
+		m_CurrentSceneName="";
 	}
 
 #endif // _WIN32

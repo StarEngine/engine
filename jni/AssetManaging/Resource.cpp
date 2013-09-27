@@ -37,6 +37,13 @@ namespace star
 		return (lReadCount == pCount) ? STATUS_OK : STATUS_KO;
 	}
 
+	/*status Resource::readAll(void* pBuffer)
+	{
+		off_t start;
+		off_t length;
+		int fd = AAsset_openFileDescriptor(mAsset, &start, &length);
+	}*/
+
 	off_t Resource::getLength()
 	{
 		return AAsset_getLength(mAsset);

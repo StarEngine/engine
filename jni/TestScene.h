@@ -6,8 +6,9 @@
 #include "Context.h"
 #include "SceneGraph/Object.h"
 #include "StarComponents.h"
-#include "SceneManaging\CollisionManager.h"
+#include "SceneManaging/CollisionManager.h"
 #include "Shaders/Shader.h"
+#include "Objects/QuadCol.h"
 
 
 

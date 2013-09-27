@@ -26,13 +26,15 @@ namespace star
 		{
 			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Failed To load Vertex Shader"));
 			return false;
-		}
+		}else
+			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Compiled Vertex Shader"));
 
 		if(!CompileShader(&mFragmentShader, GL_FRAGMENT_SHADER, fsFile))
 		{
 			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Failed To load Fragment Shader"));
 			return false;
-		}
+		}else
+			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Compiled Fragment Shader"));
 
 		glAttachShader(mShaderID, mVertexShader);
 		glAttachShader(mShaderID,mFragmentShader);
@@ -49,6 +51,8 @@ namespace star
 			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Failed to link shader"));
 			return false;
 		}
+		else
+			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Shader Linked"));
 		return true;
 	}
 
@@ -56,9 +60,45 @@ namespace star
 	{
 		GLint status;
 		const GLchar* source;
+
+#ifndef _WIN32
+
+		Resource resource(star::EventLoop::mApplicationPtr,file);
+		if(resource.open()==STATUS_KO)
+		{
+			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Android Shader : Failed to open file"));
+			return false;
+		}
+		tstringstream buffer;
+		int32 length = resource.getLength();
+		buffer<<length;
+		star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Android Shader : File size :")+buffer.str());
+
+		char* doc = (char*) malloc (length+1);
+		if(resource.read(doc,length)==STATUS_KO)
+		{
+			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Android Shader : Failed to read file"));
+			resource.close();
+			return false;
+		}
+		doc[length]=0;
+
+
+		tstring filecontent= tstring(doc);
+
+		star::Logger::GetSingleton()->Log(LogLevel::Info,filecontent);
+
+
+		source = (GLchar*)&doc[0];
+		resource.close();
+#else
 		source = (GLchar*)TextFileReading(file);
+#endif
+
+
 		if(!source)
 		{
+			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Android Shader : Invalid Source"));
 			return false;
 		}
 		*shader = glCreateShader(type);
@@ -67,6 +107,13 @@ namespace star
 		glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
 		if(status == 0)
 		{
+			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Android Shader : Failed Compile"));
+			GLint infolength;
+			glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &infolength);
+
+			//GLchar* strInfoLog = new GLchar[infolength + 1];
+			//glGetShaderInfoLog(*shader, infolength, NULL, strInfoLog);
+			//star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Android Shader : ")+tstring(strInfoLog));
 			glDeleteShader(*shader);
 			return false;
 		}

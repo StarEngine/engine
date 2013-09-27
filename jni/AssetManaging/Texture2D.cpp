@@ -71,9 +71,8 @@ namespace star
 	{
 		png_byte header[8];
 
-		FILE *fp;
-
 #ifdef _WIN32
+		FILE *fp;
 		_wfopen_s(&fp,mPath.c_str(), _T("rb"));
 
 		if(fp==NULL)
@@ -86,11 +85,13 @@ namespace star
 #else
 		if(mResource.open()==STATUS_KO)
 		{
+			mResource.close();
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Could Not Open Resource"));
 			return NULL;
 		}
 		if(mResource.read(header, sizeof(header))==STATUS_KO)
 		{
+			mResource.close();
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Could Not Read"));
 			return NULL;
 		}
@@ -129,6 +130,7 @@ namespace star
 		png_set_read_fn(mPng_ptr, &mResource, Callback_Read);
 		if(setjmp(png_jmpbuf(mPng_ptr)))
 		{
+			mResource.close();
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error during init io"));
 			return NULL;
 		}
@@ -147,11 +149,23 @@ namespace star
 		{
 			png_set_tRNS_to_alpha(mPng_ptr);
 			pTransparency=true;
+
+#ifndef _WIN32
+			mResource.close();
+#endif
+			delete [] mRow_pointers;
+			delete [] mImageBuffer;
+			if(mPng_ptr != NULL)
+			{
+				png_infop* lInfoPtrP = mInfo_ptr != NULL ? &mInfo_ptr: NULL;
+				png_destroy_read_struct(&mPng_ptr, lInfoPtrP, NULL);
+			}
+			return NULL;
 		}
 
 		if(mBit_depth < 8)
 			png_set_packing(mPng_ptr);
-		else 
+		else if(mBit_depth==16)
 			png_set_strip_16(mPng_ptr);
 
 		switch(mColor_type)
@@ -251,6 +265,14 @@ namespace star
 		if(glGetError() != GL_NO_ERROR)
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error loading pnginto OpenGl"));
+			if(mTextureId != 0)
+			{
+				glDeleteTextures(1, &mTextureId);
+				mTextureId = 0;
+			}
+			mWidth =0;
+			mHeight = 0;
+			mFormat = 0;
 			return STATUS_KO;
 		}
 		return STATUS_OK;

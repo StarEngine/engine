@@ -5,8 +5,8 @@
 #ifdef _WIN32
 #include "libs/OpenGL/GLEW/include/GL/glew.h"
 #else
-#include <GLES/gl.h>
-#include <GLES/glext.h>
+#include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
 #include <EGL/egl.h>
 #include <android_native_app_glue.h>
 #endif

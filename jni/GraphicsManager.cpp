@@ -23,7 +23,7 @@ namespace star
 #ifdef _WIN32
 	void GraphicsManager::Initialize()
 	{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager Initialized"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialized"));
 		//Initializes base GL state.
 		glEnable(GL_TEXTURE_2D);
 		// In a simple 2D game, we have control over the third
@@ -35,7 +35,7 @@ namespace star
 #else
 	void GraphicsManager::Initialize(const android_app* pApplication)
 	{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager Initialized"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialized"));
 		EGLint lFormat, lNumConfigs, lErrorResult;
 		EGLConfig lConfig;
 		// Defines display requirements. 16bits mode here.
@@ -45,42 +45,42 @@ namespace star
 		            EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
 		            EGL_NONE
 		};
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Get display"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Getting attached display"));
 		mDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 		if (mDisplay == EGL_NO_DISPLAY)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("No display found"));
+			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : No display found"));
 						return;
 		}
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Initialize Display"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialize Display"));
 		if (!eglInitialize(mDisplay, NULL, NULL))
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Could not initialize display"));
+			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Could not initialize display"));
 			return;
 		}
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Choosing config"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Choosing display config"));
 		if(!eglChooseConfig(mDisplay, lAttributes, &lConfig, 1,&lNumConfigs) || (lNumConfigs <= 0))
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("No display config"));
+			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : No display config"));
 			return;
 		}
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("getting config attributes"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Getting config attributes"));
 		if (!eglGetConfigAttrib(mDisplay, lConfig,EGL_NATIVE_VISUAL_ID, &lFormat))
 		{
 
 		}
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Setting window geometry"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting window geometry"));
 		ANativeWindow_setBuffersGeometry(pApplication->window, 0, 0,lFormat);
 
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("creating window surface"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Creating window surface"));
 		mSurface = eglCreateWindowSurface(mDisplay, lConfig, pApplication->window, NULL );
 		if (mSurface == EGL_NO_SURFACE)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Could not create surface"));
+			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Could not create surface"));
 			return;
 		}
 
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("creating context"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : creating context"));
 		EGLint contextAttrs[] = {
 		     EGL_CONTEXT_CLIENT_VERSION, 2,
 		     EGL_NONE
@@ -88,21 +88,21 @@ namespace star
 		mContext = eglCreateContext(mDisplay, lConfig, EGL_NO_CONTEXT, contextAttrs);
 		if (mContext == EGL_NO_CONTEXT)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Could not create context"));
+			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Could not create context"));
 			return;
 		}
 
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Making current"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Making display, surface & conext Current"));
 		if (!eglMakeCurrent(mDisplay, mSurface, mSurface, mContext)
 		 || !eglQuerySurface(mDisplay, mSurface, EGL_WIDTH, &mWidth)
 		 || !eglQuerySurface(mDisplay, mSurface, EGL_HEIGHT, &mHeight)
 		 || (mWidth <= 0) || (mHeight <= 0))
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Could not activate display"));
+			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Could not activate display"));
 			return;
 		}
 
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Setting viewport"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting viewport"));
 		glViewport(0,0,mWidth,mHeight);
 
 		Setup();
@@ -110,6 +110,7 @@ namespace star
 
 	void GraphicsManager::Destroy()
 	{
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Destroying Context and Display"));
         // Destroys OpenGL context.
         if (mDisplay != EGL_NO_DISPLAY) {
             eglMakeCurrent(mDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE,EGL_NO_CONTEXT);
@@ -129,20 +130,12 @@ namespace star
 
 	void GraphicsManager::Setup()
 	{
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting up Flags and Projections"));
         // Initializes base GL state.
         glEnable(GL_TEXTURE_2D);
         // In a simple 2D game, we have control over the third
         // dimension. So we do not really need a Z-buffer.
         glDisable(GL_DEPTH_TEST);
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-        // Set-up view and projection matrixes.
-        /*glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrthof(0.0f, mWidth, 0.0f, mHeight, 0.0f, 1.0f);
-
-        glMatrixMode( GL_MODELVIEW);
-        glLoadIdentity();*/
 	}
 
 
