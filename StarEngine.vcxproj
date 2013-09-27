@@ -86,6 +86,7 @@
     <ClCompile Include="jni\AssetManaging\Texture2D.cpp" />
     <ClCompile Include="jni\AssetManaging\TextureManager.cpp" />
     <ClCompile Include="jni\Components\BaseComponent.cpp" />
+    <ClCompile Include="jni\GraphicsManager.cpp" />
     <ClCompile Include="jni\Helpers\Dictionary.cpp" />
     <ClCompile Include="jni\Helpers\Filepath.cpp" />
     <ClCompile Include="jni\Helpers\Helpers.cpp" />
@@ -112,6 +113,7 @@
     <ClInclude Include="jni\AssetManaging\TextureManager.h" />
     <ClInclude Include="jni\Components\BaseComponent.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="jni\GraphicsManager.h" />
     <ClInclude Include="jni\Helpers\Dictionary.h" />
     <ClInclude Include="jni\Helpers\Filepath.h" />
     <ClInclude Include="jni\Helpers\Helpers.h" />
@@ -121,6 +123,8 @@
     <ClInclude Include="jni\Input\XMLContainer.h" />
     <ClInclude Include="jni\Input\XMLFileParser.h" />
     <ClInclude Include="jni\Input\XMLFileSerializer.h" />
+    <ClInclude Include="jni\SceneManaging\CollisionManager.h" />
+    <ClInclude Include="jni\Shaders\Shader.h" />
     <ClInclude Include="jni\StarComponents.h" />
     <ClInclude Include="jni\SceneGraph\Object.h" />
     <ClInclude Include="jni\Components\RectangleColliderComponent.h" />
