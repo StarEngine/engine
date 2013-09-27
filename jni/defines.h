@@ -54,6 +54,8 @@ const status STATUS_EXIT 	= -2;
 	#define tchar wchar_t
 	#define tuchar unsigned std::char
 	#define tprintf std::wprintf
+	#define ttof _wtof
+	#define ttoi _wtoi
 #else
 	#define tstring std::string
 	#define tcin std::cin
@@ -66,6 +68,8 @@ const status STATUS_EXIT 	= -2;
 	#define tchar std::char
 	#define tuchar unsigned std::char
 	#define tprintf std::printf
+	#define ttof atof
+	#define ttoi atoi
 #endif
 
 #ifndef _WIN32

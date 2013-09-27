@@ -1,5 +1,5 @@
 #include "TestScene.h"
-#include "AssetManaging/Texture2D.h"
+#include "Helpers/Helpers.h"
 
 #ifdef _WIN32
 #include "libs/OpenGL/GLEW/include/GL/glew.h"

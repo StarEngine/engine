@@ -31,9 +31,6 @@ namespace star
 		bool Read(XMLContainer & container)
 		{
 			pugi::xml_document XMLDocument;
-			tstringstream strstr;
-			strstr << _T("Loading file: ") << m_File.GetFullPath().c_str();
-			Logger::GetSingleton()->Log(Info, strstr.str());
 			pugi::xml_parse_result result = XMLDocument.load_file(m_File.GetFullPath().c_str());
 			ASSERT (result,
 				star::string_cast<tstring>(result.description()).c_str());
