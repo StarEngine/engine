@@ -65,8 +65,8 @@ const status STATUS_EXIT 	= -2;
 	#define tifstream std::ifstream
 	#define tfstream std::fstream
 	#define to_tstring std::to_string
-	#define tchar std::char
-	#define tuchar unsigned std::char
+	#define tchar char
+	#define tuchar unsigned char
 	#define tprintf std::printf
 	#define ttof atof
 	#define ttoi atoi
@@ -127,11 +127,11 @@ struct LocalAssert { \
 #define ASSERT \
 	if ( true ) {} else \
 struct NoAssert { \
-	NoAssert(bool isOK, const TCHAR* message=_T("")) {} \
+	NoAssert(bool isOK, const tchar* message=_T("")) {} \
 } myAsserter = NoAssert
 #define ASSERTC \
 	if ( true ) {} else \
 struct NoAssert { \
-	NoAssert(bool isOK, const TCHAR* message=_T("")) {} \
+	NoAssert(bool isOK, const tchar* message=_T("")) {} \
 } myAsserter = NoAssert
 #endif

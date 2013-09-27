@@ -80,10 +80,9 @@ namespace star
 		CollisionManager::GetInstance()->CheckCollision(_T("Default"));
 		m_Initialized = true;
 
-		TextureManager::GetInstance()->LoadTexture(_T("assets/TestDaPng.png"),_T("TestPNG"));
-		TextureManager::GetInstance()->LoadTexture(_T("assets/Awesome.png"),_T("Awesome"));
-		LOGGER->Log(star::LogLevel::Info,_T("Making awesomepng"));
-		star::TextureManager::GetInstance()->LoadTexture(_T("Awesome.png"),_T("Awesome"));
+		TextureManager::GetInstance()->LoadTexture(_T("TestDaPng.png"),_T("TestPNG"));
+		TextureManager::GetInstance()->LoadTexture(_T("Awesome.png"),_T("Awesome"));
+
 #ifndef _WIN32
 		LOGGER->Log(star::LogLevel::Info,_T("Started making shader"));
 		if(!mTextureShader.Init(_T("BaseTexShader.vert"),_T("BaseTexShader.frag")))
