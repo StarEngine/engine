@@ -109,6 +109,13 @@ namespace star
 
 		m_pComponents.push_back(pComponent);
 
+		//add pathfindnode component to the list
+		m_pPathFindComp = dynamic_cast<PathFindNodeComponent*> (pComponent);
+		if(m_pPathFindComp != nullptr)
+		{
+			PathFindManager::GetInstance()->AddObject(this);
+		}
+
 		Logger::GetSingleton()->Log(LogLevel::Info,_T("Component Added"));
 	}
 

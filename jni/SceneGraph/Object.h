@@ -2,14 +2,16 @@
 #include <vector>
 #include <typeinfo>
 #include "../defines.h"
-#include "../Components/TransformComponent.h"
 #include "../Logger.h"
-#include "../SceneManaging/BaseScene.h"
 #include "../Context.h"
+#include "../SceneManaging/BaseScene.h"
+#include "../Components/TransformComponent.h"
+#include "../SceneManaging/PathFindManager.h"
 
 namespace star
 {
 	class BaseComponent;
+	class PathFindNodeComponent;
 	using namespace std;
 
 	class Object
@@ -82,6 +84,7 @@ namespace star
 	protected:
 		bool m_bIsInitialized;
 		Object* m_pParentGameObject;
+		PathFindNodeComponent* m_pPathFindComp;
 
 		std::vector<BaseComponent*> m_pComponents;
 		std::vector<Object*> m_pChildren;

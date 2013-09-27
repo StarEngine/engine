@@ -5,6 +5,8 @@
 
 namespace star
 {
+	CollisionManager* CollisionManager::m_pCollisionManager = nullptr;
+
 	CollisionManager::CollisionManager(void):
 		m_ObjectList(),
 		m_ActiveCollisionList()
@@ -13,6 +15,15 @@ namespace star
 	
 	CollisionManager::~CollisionManager(void)
 	{
+	}
+
+	CollisionManager* CollisionManager::GetInstance()
+	{
+		if(m_pCollisionManager == nullptr)
+		{
+			m_pCollisionManager = new CollisionManager();
+		}
+		return m_pCollisionManager;
 	}
 
 	void CollisionManager::CheckCollision(const tstring& tag)

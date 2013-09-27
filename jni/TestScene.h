@@ -6,10 +6,8 @@
 #include "Context.h"
 #include "SceneGraph/Object.h"
 #include "StarComponents.h"
-#include "SceneManaging/CollisionManager.h"
 #include "Shaders/Shader.h"
 #include "Objects/QuadCol.h"
-
 
 
 namespace star 
@@ -22,20 +20,21 @@ namespace star
 		TestScene(const tstring& name);
 		virtual ~TestScene() {}
 
-		status Initialize(const Context& contex);
+		status Initialize(const Context& context);
 		status Update(const Context& context);
 		status Draw();
 
 	private:
 		int m_TotalFrames;
+		int m_Step;
 		int m_FPS;
 		float m_PassedMiliseconds;
 		Shader mTextureShader;
 
-		Object* m_pObjectOne, *m_pObjectTwo;
+		Object* m_pObjectOne, *m_pObjectTwo, *m_pObjectThree, *m_pObjectFour, *m_pObjectFive, *m_pObjectSix;
 		RectangleColliderComponent* m_pRectCompOne;
 		CircleColliderComponent *m_pRectCompTwo;
-		CollisionManager *m_pColMan;
+		PathFindNodeComponent *m_pPathFindComp, *m_pPathFindCompTwo, *m_pPathFindCompThree, *m_pPathFindCompFour, *m_pPathFindCompFive, *m_pPathFindCompSix;
 		// -------------------------
 		// Disabling default copy constructor and default 
 		// assignment operator.
