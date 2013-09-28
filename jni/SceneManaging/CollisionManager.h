@@ -25,6 +25,7 @@ namespace star
 
 		//disabling default copy constructor
 		CollisionManager(const CollisionManager& yRef);
+		CollisionManager(CollisionManager&& yRef);
 		CollisionManager& operator=(const CollisionManager& yRef);
 	};
 }

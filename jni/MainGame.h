@@ -28,7 +28,7 @@ namespace star
 		// assignment operator.
 		// -------------------------
 		MainGame(const MainGame& t);
+		MainGame(MainGame&& t);
 		MainGame& operator=(const MainGame& t);
-
 	};
 }

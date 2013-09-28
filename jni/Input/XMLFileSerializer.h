@@ -2,10 +2,10 @@
 
 #include "..\defines.h"
 #include "..\Helpers\Filepath.h"
+#include "..\Helpers\Helpers.h"
 #include "PugiXML\src\pugixml.hpp"
 #include "PugiXML\src\pugiconfig.hpp"
 #include "XMLContainer.h"
-#include "../Helpers/Helpers.h"
 
 namespace star
 {
@@ -92,6 +92,7 @@ namespace star
 		}
 
 		XMLFileSerializer(const XMLFileSerializer & yRef);
+		XMLFileSerializer(XMLFileSerializer && yRef);
 		const XMLFileSerializer & operator=(const XMLFileSerializer & yRef);
 	};
 }

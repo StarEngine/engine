@@ -47,6 +47,7 @@ namespace star
 		// assignment operator.
 		// -------------------------
 		TimeManager(const TimeManager& t);
+		TimeManager(TimeManager&& t);
 		TimeManager& operator=(const TimeManager& t);
 	};
 }

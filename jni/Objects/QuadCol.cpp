@@ -5,10 +5,10 @@ namespace star
 {
 	QuadCol::QuadCol()
 	{
-		mShader=new Shader();
-		if(!mShader->Init(_T("ColorShader.vert"),_T("ColorShader.frag")))
+		mShader = new Shader();
+		if(!mShader->Init(_T("ColorShader.vert"), _T("ColorShader.frag")))
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Making Shader Failed"));
+			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Making Shader Failed"));
 		}
 
 		createSquare();
@@ -24,14 +24,14 @@ namespace star
 
 	void QuadCol::createSquare()
 	{
-		squareVertices[0]=-0.5f;
-		squareVertices[1]=-0.5f;
-		squareVertices[2]=0.5f;
-		squareVertices[3]=-0.5f;
-		squareVertices[4]=-0.5f;
-		squareVertices[5]=0.5f;
-		squareVertices[6]=0.5f;
-		squareVertices[7]=0.5f;
+		squareVertices[0] = -0.5f;
+		squareVertices[1] = -0.5f;
+		squareVertices[2] = 0.5f;
+		squareVertices[3] = -0.5f;
+		squareVertices[4] = -0.5f;
+		squareVertices[5] = 0.5f;
+		squareVertices[6] = 0.5f;
+		squareVertices[7] = 0.5f;
 	}
 
 	void QuadCol::Draw()
@@ -53,17 +53,17 @@ namespace star
 		mShader->Unbind();
 	}
 
-	void QuadCol::Rotate( glm::mat4& matrix, float angle, vec3& axis )
+	void QuadCol::Rotate( const glm::mat4& matrix, float angle, const vec3& axis )
 	{
 		rotMatrix = glm::rotate(matrix,angle,axis);
 	}
 
-	void QuadCol::Scale( glm::mat4& matrix, vec3& scaling )
+	void QuadCol::Scale( const glm::mat4& matrix, const vec3& scaling )
 	{
 		scaleMatrix = glm::scale(matrix,scaling);
 	}
 
-	void QuadCol::Translate( glm::mat4& matrix, vec3& translation )
+	void QuadCol::Translate( const glm::mat4& matrix, const vec3& translation )
 	{
 		translateMatrix = glm::translate(matrix,translation);
 	}

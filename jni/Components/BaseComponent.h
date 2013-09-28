@@ -34,6 +34,7 @@ namespace star
 		// assignment operator.
 		// -------------------------
 		BaseComponent(const BaseComponent& t);
+		BaseComponent(BaseComponent&& t);
 		BaseComponent& operator=(const BaseComponent& t);
 	};
 }

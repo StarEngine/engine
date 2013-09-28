@@ -1,6 +1,9 @@
 #pragma once
 #include <math.h>
 
+// [COMMENT] if you have a struct with public datamembers.
+//			 Please make them more easier to use. (e.g.: X instead of m_X)
+//			 This feels more natural to use and looks more beautifull as well...
 struct SearchCell
 {
 public : 

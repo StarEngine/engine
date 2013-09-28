@@ -29,6 +29,8 @@
     <ClCompile Include="jni\Helpers\Helpers.cpp" />
     <ClCompile Include="jni\Helpers\Stopwatch.cpp" />
     <ClCompile Include="jni\Helpers\Timer.cpp" />
+    <ClCompile Include="jni\Components\PathFindNodeComponent.cpp" />
+    <ClCompile Include="jni\SceneManaging\PathFindManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
@@ -188,6 +190,9 @@
     <ClInclude Include="jni\Helpers\State.h" />
     <ClInclude Include="jni\Helpers\Stopwatch.h" />
     <ClInclude Include="jni\Helpers\Timer.h" />
+    <ClInclude Include="jni\Components\PathFindNodeComponent.h" />
+    <ClInclude Include="jni\SceneManaging\SearchCell.h" />
+    <ClInclude Include="jni\SceneManaging\PathFindManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="jni">

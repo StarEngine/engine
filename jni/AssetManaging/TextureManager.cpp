@@ -13,13 +13,11 @@ namespace star
 	TextureManager::~TextureManager(void)
 	{
 		std::map<tstring, Texture2D*>::iterator iter;
-		for(iter= mTextureList.begin(); iter != mTextureList.end();++iter)
+		for(iter= mTextureList.begin(); iter != mTextureList.end(); ++iter)
 		{
 			mTextureList.erase(iter);
 		}
-
 		mPathList.clear();
-
 	}
 
 
@@ -64,7 +62,7 @@ namespace star
 	//[COMMENT] Why return false? When you expect const Gluint& (gives warning) + you forgot const tstring&
 	const GLuint& TextureManager::GetTextureID(const tstring& name)
 	{
-		if(mTextureManager ==nullptr)
+		if(mTextureManager == nullptr)
 		{
 			return false;
 		}

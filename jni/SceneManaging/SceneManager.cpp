@@ -15,11 +15,10 @@ namespace star
 		, m_bInitialized(false)
 		, m_CurrentSceneName(_T(""))
 		, m_bDestroyRequested(false)
-
-	{
 #ifndef _WIN32
-		mApplicationPtr = nullptr;
+		, mApplicationPtr(nullptr)
 #endif
+	{
 	}
 
 	SceneManager::~SceneManager(void)
@@ -54,7 +53,7 @@ namespace star
 		}
 		if(m_SceneList.find(name) != m_SceneList.end())
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("Scene ")+ name + _T(" is now Active"));
+			Logger::GetSingleton()->Log(LogLevel::Info, _T("Scene ") + name + _T(" is now Active"));
 			m_NewActiveScene = m_SceneList[name];
 			m_bSwitchingScene = true;
 			m_bInitialized = m_NewActiveScene->IsInitialized();
@@ -69,27 +68,36 @@ namespace star
 		return true;
 	}
 
-	bool SceneManager::AddScene(const tstring & name,BaseScene* scene)
+	bool SceneManager::AddScene(const tstring & name, BaseScene* scene)
 	{
 		if ( m_SceneList.find(name) == m_SceneList.end() )
 		{
 			m_SceneList[name] = scene;
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("Adding scene"));
+			Logger::GetSingleton()->Log(LogLevel::Info, _T("Adding scene"));
 		}
 		else
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("Scene Already Exists"));
+			Logger::GetSingleton()->Log(LogLevel::Info, _T("Scene Already Exists"));
 			return false;
 		}
-
 		return true;
 	}
 
 	bool SceneManager::RemoveScene(const tstring & name)
 	{
-		if(m_SceneList.find(name)!=m_SceneList.end())
+		// [COMMENT] This is a really unperformant piece of code.
+		/*
+		if(m_SceneList.find(name) != m_SceneList.end())
 		{
 			m_SceneList.erase(name);
+			return true;
+		}
+		*/
+		// [COMMENT] Do it like this, otherwise it will search 2 times for the same element.
+		auto it = m_SceneList.find(name);
+		if(it != m_SceneList.end())
+		{
+			m_SceneList.erase(it);
 			return true;
 		}
 		return false;
@@ -105,16 +113,19 @@ namespace star
 		{
 			return false;
 		}
-		Logger::GetSingleton()->Log(LogLevel::Info,_T("Initializing Scene :")+m_CurrentSceneName);
+		Logger::GetSingleton()->Log(LogLevel::Info, _T("Initializing Scene :") + m_CurrentSceneName);
 		m_NewActiveScene->Initialize(context);
-		m_bInitialized=m_NewActiveScene->IsInitialized();
+		m_bInitialized = m_NewActiveScene->IsInitialized();
 		return m_bInitialized;
 
 	}
 
 	status SceneManager::Update(const Context& context)
 	{
-		if(m_bDestroyRequested)return STATUS_OK;
+		if(m_bDestroyRequested)
+		{
+			return STATUS_OK;
+		}
 
 		if(m_bSwitchingScene)
 		{
@@ -137,8 +148,10 @@ namespace star
 
 	status SceneManager::Draw()
 	{
-		if(m_bDestroyRequested)return STATUS_OK;
-
+		if(m_bDestroyRequested)
+		{
+			return STATUS_OK;
+		}
 		if(m_ActiveScene != nullptr)
 		{
 			m_ActiveScene->Draw();
@@ -150,7 +163,10 @@ namespace star
 
 	void SceneManager::processActivityEvent(int32 pCommand, android_app* pApplication)
 	{
-		if(m_ActiveScene==nullptr)return;
+		if(m_ActiveScene == nullptr)
+		{
+			return;
+		}
 		mApplicationPtr = pApplication;
 		switch(pCommand)
 		{
@@ -194,14 +210,18 @@ namespace star
 			m_ActiveScene->OnDestroyWindow();
 			DeActivate();
 			break;
+		// [COMMENT] if you don't need the default one, just leave it away... 
+		//			 (I commented it already, you can delete it for real)
+		/*
 		default:
 			break;
+		*/
 		}
 	}
 
 	void SceneManager::Activate()
 	{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Going trough activate"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Going trough activate"));
 		if(mApplicationPtr->window != nullptr)
 		{
 			star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("native window not null"));
@@ -216,12 +236,11 @@ namespace star
 
 	void SceneManager::DeActivate()
 	{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Going trough DeActivate"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Going trough DeActivate"));
 		star::GraphicsManager::GetInstance()->Destroy();
 		m_ActiveScene->OnDeactivate();
 		m_SceneList.clear();
-		m_CurrentSceneName="";
+		m_CurrentSceneName = _T("");
 	}
-
 #endif // _WIN32
 }

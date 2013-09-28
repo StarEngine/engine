@@ -96,6 +96,7 @@ namespace star
 		// assignment operator.
 		// -------------------------
 		Object(const Object& t);
+		Object(Object&& t);
 		Object& operator=(const Object& t);
 	};
 }

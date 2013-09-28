@@ -54,8 +54,8 @@ namespace star
 
 	void CollisionManager::AddObject(Object* object)
 	{
-		if(object->GetComponent<RectangleColliderComponent>() != nullptr ||
-			object->GetComponent<CircleColliderComponent>() != nullptr)
+		if(object->GetComponent<RectangleColliderComponent>() != nullptr
+			|| object->GetComponent<CircleColliderComponent>() != nullptr)
 		{
 			m_ObjectList.push_back(object);
 		}

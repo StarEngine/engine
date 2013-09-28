@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "../defines.h"
+// [COMMENT] searchCell can be forward declerated. Move it!
 #include "SearchCell.h"
 
 namespace star
@@ -56,6 +57,7 @@ namespace star
 
 		//disabling default copy constructor
 		PathFindManager(const PathFindManager& yRef);
+		PathFindManager(PathFindManager&& yRef);
 		PathFindManager& operator=(const PathFindManager& yRef);
 	};
 }

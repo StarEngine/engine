@@ -127,6 +127,7 @@
     <ClInclude Include="jni\Input\XMLFileParser.h" />
     <ClInclude Include="jni\Input\XMLFileSerializer.h" />
     <ClInclude Include="jni\SceneManaging\CollisionManager.h" />
+    <ClInclude Include="jni\SceneManaging\PathFindManager.h" />
     <ClInclude Include="jni\Shaders\Shader.h" />
     <ClInclude Include="jni\SceneManaging\SearchCell.h" />
     <ClInclude Include="jni\StarComponents.h" />

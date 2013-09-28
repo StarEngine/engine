@@ -17,7 +17,7 @@ namespace star
 		{
 		}
 
-		Rect(int x,int y,int width,int height):
+		Rect(int x, int y, int width, int height):
 			m_X(x),
 			m_Y(y),
 			m_Width(width),
@@ -52,12 +52,12 @@ namespace star
 
 		int GetRight() const
 		{
-			return m_X+m_Width;
+			return m_X + m_Width;
 		}
 
 		int GetBottom() const
 		{
-			return m_Y+m_Height;
+			return m_Y + m_Height;
 		}
 
 		bool Equals(const Rect& rect) const

@@ -43,6 +43,7 @@ namespace star
 		Stopwatch() {}
 
 		Stopwatch(const Stopwatch& yRef);
+		Stopwatch(Stopwatch&& yRef);
 		Stopwatch& operator=(const Stopwatch& yRef);
 	};
 }

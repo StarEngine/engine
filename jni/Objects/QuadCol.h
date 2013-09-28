@@ -18,9 +18,9 @@ namespace star
 		QuadCol();
 		~QuadCol();
 
-		void Rotate(glm::mat4& matrix, float angle, vec3& axis);
-		void Scale(glm::mat4& matrix, vec3& scale);
-		void Translate (glm::mat4& matrix, vec3& translation);
+		void Rotate(const glm::mat4& matrix, float angle, const vec3& axis);
+		void Scale(const glm::mat4& matrix, const vec3& scale);
+		void Translate(const glm::mat4& matrix, const vec3& translation);
 
 		void Draw();
 
@@ -29,10 +29,10 @@ namespace star
 
 		Shader* mShader;
 
-		glm::mat4 modelMatrix;
-		glm::mat4 rotMatrix;
-		glm::mat4 scaleMatrix;
-		glm::mat4 translateMatrix;
+		glm::mat4	modelMatrix,
+					rotMatrix,
+					scaleMatrix,
+					translateMatrix;
 
 		GLfloat squareVertices[8];
 	};

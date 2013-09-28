@@ -5,6 +5,7 @@
 
 namespace star
 {
+	// [COMMENT] call basecomponent constructor
 	TransformComponent::TransformComponent(void):
 		m_IsChanged(TransformChanged::NONE),
 		m_Invalidate(false),

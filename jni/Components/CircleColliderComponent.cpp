@@ -3,6 +3,7 @@
 
 namespace star
 {
+	// [COMMENT] call basecomponent constructor
 	CircleColliderComponent::CircleColliderComponent(float radius):
 		m_Radius(radius),
 		m_bIsTrigger(false)
@@ -19,7 +20,7 @@ namespace star
 
 	void CircleColliderComponent::InitializeComponent()
 	{
-		//Assert(m_Radius > 0, _T("Negative Radius"));
+		ASSERT(m_Radius > 0, _T("Negative Radius"));
 		m_bInitialized = true;
 	}
 

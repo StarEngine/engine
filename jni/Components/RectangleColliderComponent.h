@@ -7,9 +7,10 @@ namespace star
 {
 	struct Context;
 
-	class RectangleColliderComponent final: public BaseComponent
+	class RectangleColliderComponent final : public BaseComponent
 	{
 	public:
+		// [COMMENT] can't be negatie, so just put your width and height as an unsigned integer
 		RectangleColliderComponent(int width, int height);
 		~RectangleColliderComponent(void);
 
@@ -17,10 +18,10 @@ namespace star
 		void Update(const Context& context);
 		void Draw();
 
-		void SetAsTrigger(bool isTrigger) {m_bIsTrigger = isTrigger;};
-		bool IsTrigger() const {return m_bIsTrigger;};
+		void SetAsTrigger(bool isTrigger) {m_bIsTrigger = isTrigger;}
+		bool IsTrigger() const {return m_bIsTrigger;}
 
-		const Rect GetCollisionRect() const {return m_CollisionRect;};
+		const Rect GetCollisionRect() const {return m_CollisionRect;}
 		Rect CollisionTest(const Rect& collider);
 
 	private:
@@ -34,6 +35,7 @@ namespace star
 		// assignment operator.
 		// -------------------------
 		RectangleColliderComponent(const RectangleColliderComponent& t);
+		RectangleColliderComponent(RectangleColliderComponent&& t);
 		RectangleColliderComponent& operator=(const RectangleColliderComponent& t);
 	};
 }

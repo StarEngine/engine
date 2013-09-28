@@ -4,7 +4,7 @@
 #include "PugiXML/src/pugixml.hpp"
 #include "PugiXML/src/pugiconfig.hpp"
 #include "XMLContainer.h"
-#include "../Helpers/Helpers.h"
+#include "..\Helpers\Helpers.h"
 
 namespace star
 {
@@ -90,6 +90,7 @@ namespace star
 		}
 
 		XMLFileParser(const XMLFileParser & yRef);
+		XMLFileParser(XMLFileParser && yRef);
 		const XMLFileParser & operator=(const XMLFileParser & yRef);
 	};
 }

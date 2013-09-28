@@ -16,7 +16,7 @@ namespace star
 	class GraphicsManager
 	{
 	public:
-		~GraphicsManager(){}
+		~GraphicsManager() {}
 
 		static GraphicsManager* GetInstance();
 
@@ -52,6 +52,7 @@ namespace star
 
 		//disabling default copy constructor
 		GraphicsManager(const GraphicsManager& yRef);
+		GraphicsManager(GraphicsManager&& yRef);
 		GraphicsManager& operator=(const GraphicsManager& yRef);
 	};
 

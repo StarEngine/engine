@@ -5,6 +5,7 @@
 
 namespace star
 {
+	// [COMMENT] create a second constructor that uses a parentobject as parameter
 	BaseComponent::BaseComponent():
 		m_pParentObject(nullptr),
 		m_bInitialized(false)

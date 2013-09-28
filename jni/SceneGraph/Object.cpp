@@ -116,7 +116,7 @@ namespace star
 			PathFindManager::GetInstance()->AddObject(this);
 		}
 
-		Logger::GetSingleton()->Log(LogLevel::Info,_T("Component Added"));
+		Logger::GetSingleton()->Log(LogLevel::Info, _T("Component Added"));
 	}
 
 	void Object::RemoveComponent(const BaseComponent* pComponent)
@@ -124,7 +124,7 @@ namespace star
 		m_pComponents.erase(std::find(m_pComponents.begin(), m_pComponents.end(), pComponent));
 		delete pComponent;
 
-		Logger::GetSingleton()->Log(LogLevel::Info,_T("Component Removed"));
+		Logger::GetSingleton()->Log(LogLevel::Info, _T("Component Removed"));
 	}
 
 	void Object::AddChild(Object *pChild)
@@ -138,7 +138,7 @@ namespace star
 
 		m_pChildren.push_back(pChild);
 
-		Logger::GetSingleton()->Log(LogLevel::Info,_T("Child Added"));
+		Logger::GetSingleton()->Log(LogLevel::Info, _T("Child Added"));
 	}
 
 	void Object::RemoveChild(const Object* pObject)
@@ -146,7 +146,7 @@ namespace star
 		m_pChildren.erase(std::find(m_pChildren.begin(), m_pChildren.end(), pObject));
 		delete pObject;
 
-		Logger::GetSingleton()->Log(LogLevel::Info,_T("Child Removed"));
+		Logger::GetSingleton()->Log(LogLevel::Info, _T("Child Removed"));
 	}
 
 	void Object::CollisionCheck(Object* otherObject)
@@ -184,8 +184,10 @@ namespace star
 	{
 		Rect rect = object->GetComponent<RectangleColliderComponent>()->GetCollisionRect();
 		Rect otherRect = otherObject->GetComponent<RectangleColliderComponent>()->GetCollisionRect();
-		glm::vec2 objectPos = glm::vec2(object->GetComponent<TransformComponent>()->GetWorldPosition().x, object->GetComponent<TransformComponent>()->GetWorldPosition().y);
-		glm::vec2 otherObjectPos = glm::vec2(otherObject->GetComponent<TransformComponent>()->GetWorldPosition().x, otherObject->GetComponent<TransformComponent>()->GetWorldPosition().y);
+		glm::vec2 objectPos = glm::vec2(object->GetComponent<TransformComponent>()->GetWorldPosition().x,
+			object->GetComponent<TransformComponent>()->GetWorldPosition().y);
+		glm::vec2 otherObjectPos = glm::vec2(otherObject->GetComponent<TransformComponent>()->GetWorldPosition().x,
+			otherObject->GetComponent<TransformComponent>()->GetWorldPosition().y);
 
 		int left = rect.GetLeft() + static_cast<int>(objectPos.x);
 		int right = rect.GetRight() + static_cast<int>(objectPos.x);
@@ -210,8 +212,10 @@ namespace star
 	{
 		float radius = object->GetComponent<CircleColliderComponent>()->GetRadius();
 		float otherRadius = otherObject->GetComponent<CircleColliderComponent>()->GetRadius();
-		glm::vec2 objectPos = glm::vec2(object->GetComponent<TransformComponent>()->GetWorldPosition().x, object->GetComponent<TransformComponent>()->GetWorldPosition().y);
-		glm::vec2 otherObjectPos = glm::vec2(otherObject->GetComponent<TransformComponent>()->GetWorldPosition().x, otherObject->GetComponent<TransformComponent>()->GetWorldPosition().y);
+		glm::vec2 objectPos = glm::vec2(object->GetComponent<TransformComponent>()->GetWorldPosition().x,
+			object->GetComponent<TransformComponent>()->GetWorldPosition().y);
+		glm::vec2 otherObjectPos = glm::vec2(otherObject->GetComponent<TransformComponent>()->GetWorldPosition().x,
+			otherObject->GetComponent<TransformComponent>()->GetWorldPosition().y);
 
 		if((objectPos - otherObjectPos).length() > radius + otherRadius)
 		{
@@ -255,12 +259,15 @@ namespace star
 		{
 			//[TODO] Assert this instead of checking
 			//ASSERT(rectObject != circleObject, _T("Object has both CircleColliderComponent and RectangleComponent"))
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("Error, Object has both CircleColliderComponent and RectangleComponent"));
+			Logger::GetSingleton()->Log(LogLevel::Info,
+				_T("Error, Object has both CircleColliderComponent and RectangleComponent"));
 			return false;
 		}
 
-		glm::vec2 rectObjectPos = glm::vec2(rectObject->GetComponent<TransformComponent>()->GetWorldPosition().x, object->GetComponent<TransformComponent>()->GetWorldPosition().y);
-		glm::vec2 circleObjectPos = glm::vec2(circleObject->GetComponent<TransformComponent>()->GetWorldPosition().x, otherObject->GetComponent<TransformComponent>()->GetWorldPosition().y);
+		glm::vec2 rectObjectPos = glm::vec2(rectObject->GetComponent<TransformComponent>()->GetWorldPosition().x,
+			object->GetComponent<TransformComponent>()->GetWorldPosition().y);
+		glm::vec2 circleObjectPos = glm::vec2(circleObject->GetComponent<TransformComponent>()->GetWorldPosition().x,
+			otherObject->GetComponent<TransformComponent>()->GetWorldPosition().y);
 
 		int left = rect.GetLeft() + static_cast<int>(rectObjectPos.x);
 		int right = rect.GetRight() + static_cast<int>(rectObjectPos.x);

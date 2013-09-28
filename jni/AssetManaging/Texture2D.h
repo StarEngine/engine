@@ -31,9 +31,9 @@ namespace star
 #endif
 		~Texture2D();
 
-		const tstring getPath();
-		const int32 getHeight();
-		const int32 getWidth();
+		const tstring getPath() const;
+		const int32 getHeight() const;
+		const int32 getWidth() const;
 
 		const GLuint getTextureID(){return mTextureId;}
 
@@ -61,8 +61,9 @@ namespace star
 #ifndef _WIN32
 		Resource mResource;
 		static void Callback_Read(png_structp png, png_bytep data, png_size_t size);
-
 #endif
-
+		Texture2D(const Texture2D& yRef);
+		Texture2D(Texture2D&& yRef);
+		Texture2D& operator=(const Texture2D& yRef);
 	};
 }

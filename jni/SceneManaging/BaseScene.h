@@ -13,10 +13,10 @@ namespace star
 		virtual ~BaseScene() {}
 		
 		virtual status Initialize(const Context& contex){m_Initialized=true; return STATUS_OK;}
-		virtual status OnActivate(){return STATUS_OK;}
+		virtual status OnActivate() {return STATUS_OK;}
 		virtual void OnDeactivate() {}
-		virtual status Update(const Context& context){return STATUS_OK;}
-		virtual status Draw(){return STATUS_OK;}
+		virtual status Update(const Context& context) {return STATUS_OK;}
+		virtual status Draw() {return STATUS_OK;}
 
 		virtual void OnStart() {}
 		virtual void OnResume() {}
@@ -48,6 +48,7 @@ namespace star
 		// assignment operator.
 		// -------------------------
 		BaseScene(const BaseScene& t);
+		BaseScene(BaseScene&& t);
 		BaseScene& operator=(const BaseScene& t);
 	};
 }

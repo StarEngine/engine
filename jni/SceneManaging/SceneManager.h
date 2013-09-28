@@ -56,6 +56,7 @@ namespace star
 
 		//disabling default copy constructor
 		SceneManager(const SceneManager& yRef);
+		SceneManager(SceneManager&& yRef);
 		SceneManager& operator=(const SceneManager& yRef);
 	};
 }

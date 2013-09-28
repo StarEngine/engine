@@ -32,8 +32,8 @@ namespace star
 
 		TextureManager(void){}
 
-		//disabling default copy constructor
 		TextureManager(const TextureManager& yRef);
+		TextureManager(TextureManager&& yRef);
 		TextureManager& operator=(const TextureManager& yRef);
 	};
 }

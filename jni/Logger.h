@@ -38,6 +38,7 @@ namespace star
 		// assignment operator.
 		// -------------------------
 		Logger(const Logger& t);
+		Logger(Logger&& t);
 		Logger& operator=(const Logger& t);
     };
 }

@@ -59,6 +59,7 @@ namespace star
 		// assignment operator.
 		// -------------------------
 		TransformComponent(const TransformComponent& yRef);
+		TransformComponent(TransformComponent&& t);
 		TransformComponent& operator=(const TransformComponent& yRef);
 	};
 }

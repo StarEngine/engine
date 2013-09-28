@@ -2,11 +2,9 @@
 
 namespace star
 {
-
 	//[NOTE]	You're not supposed to make Textures yourself.
 	//			Use the TextureManager to load your textures.
 	//			This ensures a same texture is not loaded multiple times
-
 #ifdef _WIN32
 	Texture2D::Texture2D(tstring pPath):
 			mPath(pPath),
@@ -57,14 +55,14 @@ namespace star
 
 	Texture2D::~Texture2D()
 	{
-		if(mTextureId!=0)
+		if(mTextureId != 0)
 		{
-			glDeleteTextures(1,&mTextureId);
-			mTextureId=0;
+			glDeleteTextures(1, &mTextureId);
+			mTextureId = 0;
 		}
-		mWidth=0;
-		mHeight=0;
-		mFormat=0;
+		mWidth = 0;
+		mHeight = 0;
+		mFormat = 0;
 	}
 	
 	uint8* Texture2D::ReadPNG()
@@ -75,9 +73,9 @@ namespace star
 		FILE *fp;
 		_wfopen_s(&fp,mPath.c_str(), _T("rb"));
 
-		if(fp==NULL)
+		if(fp == NULL)
 		{ 
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : png could not be loaded"));
+			Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : png could not be loaded"));
 			return NULL;
 		}
 
@@ -86,17 +84,16 @@ namespace star
 		if(mResource.open()==STATUS_KO)
 		{
 			mResource.close();
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Could Not Open Resource"));
+			Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : Could Not Open Resource"));
 			return NULL;
 		}
 		if(mResource.read(header, sizeof(header))==STATUS_KO)
 		{
 			mResource.close();
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Could Not Read"));
+			Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : Could Not Read"));
 			return NULL;
 		}
 #endif
-
 
 		if(png_sig_cmp(header, 0, 8))
 		{
@@ -134,7 +131,6 @@ namespace star
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error during init io"));
 			return NULL;
 		}
-
 #endif
 		png_set_sig_bytes(mPng_ptr, 8);
 		png_read_info(mPng_ptr,mInfo_ptr);
@@ -163,10 +159,14 @@ namespace star
 			return NULL;
 		}
 
-		if(mBit_depth < 8)
+		if(mBit_depth < 8 )
+		{
 			png_set_packing(mPng_ptr);
-		else if(mBit_depth==16)
+		}
+		else if(mBit_depth == 16)
+		{
 			png_set_strip_16(mPng_ptr);
+		}
 
 		switch(mColor_type)
 		{
@@ -188,7 +188,6 @@ namespace star
 			png_set_expand_gray_1_2_4_to_8(mPng_ptr);
 			mFormat = GL_LUMINANCE_ALPHA;
 			break;
-
 		}
 
 		mNumber_of_passes = png_set_interlace_handling(mPng_ptr);
@@ -201,7 +200,7 @@ namespace star
 		}
 
 		png_int_32 pRowSize = png_get_rowbytes(mPng_ptr,mInfo_ptr);
-		if(pRowSize<=0)
+		if(pRowSize <= 0)
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : png rowsize smaller or equal to 0"));
 			return NULL;
@@ -221,7 +220,7 @@ namespace star
 			return NULL;
 		}
 
-		for(int i=0; i<mHeight; ++i)
+		for(int i = 0; i < mHeight; ++i)
 		{
 			mRow_pointers[mHeight -(i+1)] = mImageBuffer + i * pRowSize;
 		}
@@ -236,7 +235,7 @@ namespace star
 		delete[] mRow_pointers;
 
 #ifdef _DEBUG
-		Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : ")+mPath+_T(" Created Succesfull"));
+		Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : ") + mPath + _T(" Created Succesfull"));
 #endif
 		return mImageBuffer;
 
@@ -247,7 +246,7 @@ namespace star
 		this->ReadPNG();
 		if(mImageBuffer == NULL)
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : READING PNG FAILED - NO IMAGE BUFFER"));
+			Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : READING PNG FAILED - NO IMAGE BUFFER"));
 			return STATUS_KO;
 		}
 
@@ -259,18 +258,18 @@ namespace star
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, mFormat, mWidth, mHeight, 0, mFormat,GL_UNSIGNED_BYTE, mImageBuffer);
+		glTexImage2D(GL_TEXTURE_2D, 0, mFormat, mWidth, mHeight, 0, mFormat, GL_UNSIGNED_BYTE, mImageBuffer);
 		delete[] mImageBuffer;
 
 		if(glGetError() != GL_NO_ERROR)
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error loading pnginto OpenGl"));
+			Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : Error loading pnginto OpenGl"));
 			if(mTextureId != 0)
 			{
 				glDeleteTextures(1, &mTextureId);
 				mTextureId = 0;
 			}
-			mWidth =0;
+			mWidth = 0;
 			mHeight = 0;
 			mFormat = 0;
 			return STATUS_KO;
@@ -278,17 +277,17 @@ namespace star
 		return STATUS_OK;
 	}
 
-	const tstring Texture2D::getPath()
+	const tstring Texture2D::getPath() const
 	{
 		return mPath;
 	}
 
-	const int32 Texture2D::getHeight()
+	const int32 Texture2D::getHeight() const
 	{
 		return mHeight;
 	}
 
-	const int32 Texture2D::getWidth()
+	const int32 Texture2D::getWidth() const
 	{
 		return mWidth;
 	}

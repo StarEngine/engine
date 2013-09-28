@@ -25,6 +25,7 @@ namespace star
 		// assignment operator.
 		// -------------------------
 		PathFindNodeComponent(const PathFindNodeComponent& t);
+		PathFindNodeComponent(PathFindNodeComponent&& t);
 		PathFindNodeComponent& operator=(const PathFindNodeComponent& t);
 	};
 }

@@ -118,7 +118,7 @@ namespace star
 		SearchCell* nextCell = nullptr;
 
 		//find closest
-		for(uint16 i=0; i<m_OpenList.size(); ++i)
+		for(uint16 i = 0; i < m_OpenList.size(); ++i)
 		{
 			if(m_OpenList[i]->GetF() < bestF)
 			{
@@ -274,9 +274,9 @@ namespace star
 
 	vec3 PathFindManager::GetStep(uint16 step)
 	{
-		if (step >= m_PathToGoal.size()-1)
+		if (step >= m_PathToGoal.size() - 1)
 		{
-			step = m_PathToGoal.size()-1;
+			step = m_PathToGoal.size() - 1;
 		}
 		return m_PathToGoal[m_PathToGoal.size() - step - 1];
 	}

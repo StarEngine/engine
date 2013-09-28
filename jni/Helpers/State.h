@@ -26,6 +26,7 @@ namespace star
 
 	private:
 		State(const State& yRef);
+		State(State&& yRef);
 		State& operator=(const State& yRef);
 	};
 }
