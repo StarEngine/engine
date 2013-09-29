@@ -3,7 +3,7 @@
 #include "SceneManaging/SceneManager.h"
 #include "GraphicsManager.h"
 #include <unistd.h>
-#include "Managers/InputManager.h"
+#include "Input/InputManager.h"
 namespace star
 {
 	android_app* EventLoop::mApplicationPtr = nullptr;
@@ -18,6 +18,8 @@ namespace star
 		mMainGame = new MainGame();
 		mTimeManager = new TimeManager();
 		mContext.mTimeManager = mTimeManager;
+		//mApplicationPtr->onAppCmd = activityCallback;
+		mApplicationPtr->onInputEvent = inputCallback;
 	}
 
 	void EventLoop::run()
@@ -37,7 +39,6 @@ namespace star
 			{
 				if(lSource != NULL)
 				{
-					star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Processing Event"));
 					lSource->process(mApplicationPtr, lSource);
 				}
 
@@ -72,7 +73,6 @@ namespace star
 
 	void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 	{
-		EventLoop& lEventLoop = *(EventLoop*) pApplication->userData;
 		if(!lEventLoop.mMainGameInitialized)
 		{
 			switch(pCommand)
@@ -108,9 +108,9 @@ namespace star
 		}
 	}
 
-	void EventLoop::inputCallback(android_app* pApplication, AInputEvent* pEvent) {
-		EventLoop& lEventLoop = *(EventLoop*) pApplication->userData;
-		SceneManager::GetInstance()->processInputEvent(pEvent);
+	int32 EventLoop::inputCallback(android_app* pApplication, AInputEvent* pEvent) {
+		return SceneManager::GetInstance()->processInputEvent(pEvent);
+
 	}
 
 }

@@ -5,6 +5,7 @@
 #include "SceneManaging/BaseScene.h"
 #include "TestScene.h"
 #include "Logger.h"
+#include "Input/InputManager.h"
 
 namespace star
 {
@@ -16,6 +17,7 @@ namespace star
 
 	status MainGame::Run(const Context& context)
 	{
+		InputManager::GetSingleton()->Update();
 		if(mSceneManager->Update(context) != STATUS_OK)
 		{
 			return STATUS_KO;
@@ -27,6 +29,7 @@ namespace star
 		}
 		star::GraphicsManager::GetInstance()->StopDraw();
 
+		InputManager::GetSingleton()->EndUpdate();
 		return STATUS_OK;
 	}
 

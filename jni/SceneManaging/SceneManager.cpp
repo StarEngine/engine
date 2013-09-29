@@ -2,7 +2,7 @@
 #include "../Logger.h"
 #include "../Context.h"
 #include "BaseScene.h"
-#include "../Managers/InputManager.h"
+#include "../Input/InputManager.h"
 
 #define INPUT_MANAGER (InputManager::GetSingleton())
 
@@ -207,8 +207,9 @@ namespace star
 		}
 	}
 
-	int32_t processInputEvent(AInputEvent* pEvent)
+	int32 SceneManager::processInputEvent(AInputEvent* pEvent)
 	{
+		//[TODO] Cast the input event to motionEvent and pass that type
 		int32_t lEventType = AInputEvent_getType(pEvent);
 		switch (lEventType)
 		{
@@ -216,17 +217,25 @@ namespace star
 			switch (AInputEvent_getSource(pEvent))
 			{
 			case AINPUT_SOURCE_TOUCHSCREEN:
-				return INPUT_MANAGER->OnTouchEvent(pEvent);
+				INPUT_MANAGER->OnTouchEvent(pEvent);
+				return true;
+				break;
+			default:
+				return false;
 				break;
 			}
 			break;
 
 		case AINPUT_EVENT_TYPE_KEY:
-			return INPUT_MANAGER->OnKeyboardEvent(pEvent);
+			INPUT_MANAGER->OnKeyboardEvent(pEvent);
+			return true;
+			break;
+		default:
+			return false;
 			break;
 
 		}
-		return 0;
+		return false;
 	}
 
 	void SceneManager::Activate()

@@ -33,7 +33,7 @@ namespace star
 		//[COMMENT] Scanning through the sample files, these methodes are private. can they be moved?
 	protected:
 		static void activityCallback(android_app* pApplication, int32_t pCommand);
-		static void inputCallback(android_app* pApplication, AInputEvent* pEvent);
+		static int32 inputCallback(android_app* pApplication, AInputEvent* pEvent);
 
 	private:
 

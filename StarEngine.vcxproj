@@ -96,7 +96,6 @@
     <ClCompile Include="jni\Helpers\Stopwatch.cpp" />
     <ClCompile Include="jni\Helpers\Timer.cpp" />
 =======
-    <ClCompile Include="jni\Managers\InputManager.cpp" />
 >>>>>>> Been working on the input manager, not finished yet
     <ClCompile Include="jni\SceneGraph\Object.cpp" />
     <ClCompile Include="jni\Components\RectangleColliderComponent.cpp" />
@@ -138,7 +137,6 @@
     <ClInclude Include="jni\Shaders\Shader.h" />
     <ClInclude Include="jni\SceneManaging\SearchCell.h" />
 =======
-    <ClInclude Include="jni\Managers\InputManager.h" />
 >>>>>>> Been working on the input manager, not finished yet
     <ClInclude Include="jni\StarComponents.h" />
     <ClInclude Include="jni\SceneGraph\Object.h" />
