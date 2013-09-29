@@ -2,6 +2,7 @@
 #include "Helpers/Helpers.h"
 #include "SceneManaging/CollisionManager.h"
 #include "SceneManaging\PathFindManager.h"
+#include "Input\InputManager.h"
 
 #ifdef _WIN32
 #include "libs/OpenGL/GLEW/include/GL/glew.h"
@@ -96,6 +97,11 @@ namespace star
 
 	status TestScene::Update(const Context& context)
 	{
+		auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
+		tstringstream posBuffer;
+		posBuffer << _T("Current Mouse Pos: ( ") << pos.x << _T(" , ") << pos.y << _T(" )");
+		LOGGER->Log(LogLevel::Warning, posBuffer.str());
+
 		++m_TotalFrames;
 		m_PassedMiliseconds += float(context.mTimeManager->GetMicroSeconds());
 		if(m_PassedMiliseconds >= 1000000)

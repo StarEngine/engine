@@ -73,6 +73,7 @@ namespace star
 
 	void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 	{
+		EventLoop& lEventLoop = *(EventLoop*) pApplication->userData;
 		if(!lEventLoop.mMainGameInitialized)
 		{
 			switch(pCommand)
