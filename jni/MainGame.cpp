@@ -9,7 +9,6 @@
 namespace star
 {
 
-//[COMMENT] -- INITIALIZE VARIABLES!! (test scene
 	MainGame::MainGame() :
 			mTestScene(nullptr)
 	{

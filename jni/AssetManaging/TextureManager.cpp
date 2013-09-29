@@ -59,12 +59,11 @@ namespace star
 		return true;
 	}
 
-	//[COMMENT] Why return false? When you expect const Gluint& (gives warning) + you forgot const tstring&
 	const GLuint& TextureManager::GetTextureID(const tstring& name)
 	{
 		if(mTextureManager == nullptr)
 		{
-			return false;
+			return NULL;
 		}
 
 		if(mTextureList.find(name) != mTextureList.end())

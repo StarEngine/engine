@@ -85,15 +85,6 @@ namespace star
 
 	bool SceneManager::RemoveScene(const tstring & name)
 	{
-		// [COMMENT] This is a really unperformant piece of code.
-		/*
-		if(m_SceneList.find(name) != m_SceneList.end())
-		{
-			m_SceneList.erase(name);
-			return true;
-		}
-		*/
-		// [COMMENT] Do it like this, otherwise it will search 2 times for the same element.
 		auto it = m_SceneList.find(name);
 		if(it != m_SceneList.end())
 		{
@@ -210,12 +201,6 @@ namespace star
 			m_ActiveScene->OnDestroyWindow();
 			DeActivate();
 			break;
-		// [COMMENT] if you don't need the default one, just leave it away... 
-		//			 (I commented it already, you can delete it for real)
-		/*
-		default:
-			break;
-		*/
 		}
 	}
 

@@ -47,6 +47,10 @@ namespace star
 		GLuint mVertexShader;
 		GLuint mFragmentShader;
 
+		Shader(const Shader& t);
+		Shader(Shader&& t);
+		Shader& operator=(const Shader& t);
+
 	};
 
 }
