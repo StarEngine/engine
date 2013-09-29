@@ -21,6 +21,8 @@ public:
 
 	static RECT CLIP_RECT;
 
+	static void WindowInactiveUpdate(bool inactive);
+
 private:
 	star::Logger* mLoggerPtr;
 	star::MainGame* mMainGamePtr;

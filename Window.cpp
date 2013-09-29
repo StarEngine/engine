@@ -252,34 +252,43 @@ LRESULT CALLBACK Window::wEventsProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	{
 		case WM_DESTROY:
 			PostQuitMessage(0);
+			return 1;
+		case WM_KILLFOCUS:
+			WindowInactiveUpdate(true);
+			break;
+		case WM_SETFOCUS:
+			WindowInactiveUpdate(false);
 			break;
 		case WM_ACTIVATE:
-			if(wParam == WA_INACTIVE
-				&& Window::CLIP_RECT.left != -1)
-			{
-				RECT windowRect;
-				
-				windowRect.left = 0;
-				windowRect.top = 0;
-				windowRect.right = GetSystemMetrics(SM_CXSCREEN);
-				windowRect.bottom = GetSystemMetrics(SM_CYSCREEN);
-
-				ClipCursor(&windowRect);
-			}
-			else if(Window::CLIP_RECT.left != -1)
-			{
-				ClipCursor(&Window::CLIP_RECT);
-			}
-		default:
-			return DefWindowProc(hWnd, message, wParam, lParam);
+			WindowInactiveUpdate(wParam == WA_INACTIVE);
+			break;
 	}
-	return 1;
+	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
 
 Window::~Window(void)
 {
 	delete mMainGamePtr;
+}
+
+void Window::WindowInactiveUpdate(bool inactive)
+{
+	if(inactive && Window::CLIP_RECT.left != -1)
+	{
+		RECT windowRect;
+				
+		windowRect.left = 0;
+		windowRect.top = 0;
+		windowRect.right = GetSystemMetrics(SM_CXSCREEN);
+		windowRect.bottom = GetSystemMetrics(SM_CYSCREEN);
+
+		ClipCursor(&windowRect);
+	}
+	else if(Window::CLIP_RECT.left != -1)
+	{
+		ClipCursor(&Window::CLIP_RECT);
+	}
 }
 
 int Window::CastStringToClassStyle(const tstring & style)
