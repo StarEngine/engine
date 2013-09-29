@@ -13,7 +13,7 @@ namespace star
 
 		virtual void Initialize(void) = 0;
 		virtual void Update(const Context& context) = 0;
-		virtual void Draw() = 0;
+		virtual void Draw() {}
 
 		virtual void Activate() { m_Active = true; }
 		virtual void Deactivate() { m_Active = false; }

@@ -91,6 +91,7 @@
     <ClCompile Include="jni\Helpers\Dictionary.cpp" />
     <ClCompile Include="jni\Helpers\Filepath.cpp" />
     <ClCompile Include="jni\Helpers\Helpers.cpp" />
+    <ClCompile Include="jni\Helpers\StateManager.cpp" />
     <ClCompile Include="jni\Helpers\Stopwatch.cpp" />
     <ClCompile Include="jni\Helpers\Timer.cpp" />
     <ClCompile Include="jni\SceneGraph\Object.cpp" />
@@ -121,6 +122,7 @@
     <ClInclude Include="jni\Helpers\Filepath.h" />
     <ClInclude Include="jni\Helpers\Helpers.h" />
     <ClInclude Include="jni\Helpers\State.h" />
+    <ClInclude Include="jni\Helpers\StateManager.h" />
     <ClInclude Include="jni\Helpers\Stopwatch.h" />
     <ClInclude Include="jni\Helpers\Timer.h" />
     <ClInclude Include="jni\Input\XMLContainer.h" />
