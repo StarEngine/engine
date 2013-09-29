@@ -88,15 +88,13 @@
     <ClCompile Include="jni\Components\BaseComponent.cpp" />
     <ClCompile Include="jni\Components\PathFindNodeComponent.cpp" />
     <ClCompile Include="jni\GraphicsManager.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="jni\Helpers\Dictionary.cpp" />
     <ClCompile Include="jni\Helpers\Filepath.cpp" />
     <ClCompile Include="jni\Helpers\Helpers.cpp" />
     <ClCompile Include="jni\Helpers\StateManager.cpp" />
     <ClCompile Include="jni\Helpers\Stopwatch.cpp" />
     <ClCompile Include="jni\Helpers\Timer.cpp" />
-=======
->>>>>>> Been working on the input manager, not finished yet
+    <ClCompile Include="jni\Input\InputManager.cpp" />
     <ClCompile Include="jni\SceneGraph\Object.cpp" />
     <ClCompile Include="jni\Components\RectangleColliderComponent.cpp" />
     <ClCompile Include="jni\Components\TransformComponent.cpp" />
@@ -121,7 +119,6 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="jni\Components\PathFindNodeComponent.h" />
     <ClInclude Include="jni\GraphicsManager.h" />
-<<<<<<< HEAD
     <ClInclude Include="jni\Helpers\Dictionary.h" />
     <ClInclude Include="jni\Helpers\Filepath.h" />
     <ClInclude Include="jni\Helpers\Helpers.h" />
@@ -129,6 +126,7 @@
     <ClInclude Include="jni\Helpers\StateManager.h" />
     <ClInclude Include="jni\Helpers\Stopwatch.h" />
     <ClInclude Include="jni\Helpers\Timer.h" />
+    <ClInclude Include="jni\Input\InputManager.h" />
     <ClInclude Include="jni\Input\XMLContainer.h" />
     <ClInclude Include="jni\Input\XMLFileParser.h" />
     <ClInclude Include="jni\Input\XMLFileSerializer.h" />
@@ -136,8 +134,6 @@
     <ClInclude Include="jni\SceneManaging\PathFindManager.h" />
     <ClInclude Include="jni\Shaders\Shader.h" />
     <ClInclude Include="jni\SceneManaging\SearchCell.h" />
-=======
->>>>>>> Been working on the input manager, not finished yet
     <ClInclude Include="jni\StarComponents.h" />
     <ClInclude Include="jni\SceneGraph\Object.h" />
     <ClInclude Include="jni\Components\RectangleColliderComponent.h" />
