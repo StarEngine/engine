@@ -1,5 +1,4 @@
-#ifndef _STAR_WINDOW_H
-#define _STAR_WINDOW_H
+#pragma once
 
 #include <Windows.h>
 #include <jni/Logger.h>
@@ -7,12 +6,12 @@
 #include <jni/TimeManager.h>
 #include <jni/Context.h>
 
+// [TODO] change public datamembers into private ones!
 
-//[TODO] make singleton!
-class Window
+class Window final
 {
 public:
-	Window(HINSTANCE instance,const char* windowName,int width,int height);
+	Window(HINSTANCE instance);
 	~Window(void);
 	static HWND handle;
 	
@@ -20,6 +19,7 @@ public:
 	static HDC hdc;
 	static LRESULT CALLBACK wEventsProc(HWND handle, UINT msg, WPARAM wParam, LPARAM lParam);
 
+	static RECT CLIP_RECT;
 
 private:
 	star::Logger* mLoggerPtr;
@@ -27,6 +27,18 @@ private:
 	star::TimeManager* mTimeManager;
 	star::TextureManager* mTextureManager;
 	star::Context mContext;
-};
 
-#endif
+	static const uint32 CLASS_STYLES_COUNT = 5;
+	static const uint32 WINDOW_STYLES_COUNT = 28;
+
+	typedef std::pair<tstring, uint32> psip;
+	static const psip CLASS_STYLES[];
+	static const psip WINDOW_STYLES[];
+
+	int CastStringToClassStyle(const tstring & style);
+	int CastStringToWinStyle(const tstring & style);
+
+	Window & operator=(const Window&);
+	Window(const Window&);
+	Window(Window&&);
+};

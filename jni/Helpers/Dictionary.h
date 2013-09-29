@@ -130,12 +130,6 @@ namespace star
 			return m_MultiMap.count(key);
 		}
 
-		typename dictionary_pair equal_range
-			(const TKey & key) const
-		{
-			return m_MultiMap.equal_range(key);
-		}
-
 		typename const_interator
 			lower_bound(const TKey & key) const
 		{

@@ -3,4 +3,8 @@
   <PropertyGroup>
     <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <DevPartner_IsInstrumented>1</DevPartner_IsInstrumented>
+    <DevPartner_Instrumented_Type> /NMbcOn</DevPartner_Instrumented_Type>
+  </PropertyGroup>
 </Project>

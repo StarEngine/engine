@@ -129,6 +129,13 @@ namespace star
 	}
 
 	template <>
+	long string_cast<long, tstring>
+		(const tstring & value)
+	{
+		return static_cast<long>(ttoi(value.c_str()));
+	}
+
+	template <>
 	float string_cast<float, tstring>
 		(const tstring & value)
 	{
