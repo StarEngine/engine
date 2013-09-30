@@ -15,13 +15,15 @@ namespace star
 		MainGame();
 		~MainGame() {}
 
-		status Initialize();
+		status Initialize(int32 windowWidth, int32 windowHeight);
 		status Run(const Context& context);
 		status End();
 	
 	private:
 		SceneManager* mSceneManager;
 		TestScene* mTestScene;
+		int32 mWindowWidth,
+			  mWindowHeight;
 
 		// -------------------------
 		// Disabling default copy constructor and default 

@@ -21,7 +21,7 @@ namespace star
 		static GraphicsManager* GetInstance();
 
 #ifdef _WIN32
-		void Initialize();
+		void Initialize(int32 screenWidth, int32 screenHeight);
 #else
 		void Initialize(const android_app* pApplication);
 		void Destroy();

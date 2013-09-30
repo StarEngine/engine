@@ -6,7 +6,7 @@ namespace star
 {
 	GraphicsManager* GraphicsManager::mGraphicsManager =nullptr;
 
-	GraphicsManager::GraphicsManager():mScreenHeight(752),mScreenWidth(1280)
+	GraphicsManager::GraphicsManager():mScreenHeight(0),mScreenWidth(0)
 	{
 		
 	}
@@ -21,9 +21,12 @@ namespace star
 	}
 
 #ifdef _WIN32
-	void GraphicsManager::Initialize()
+	void GraphicsManager::Initialize(int32 screenWidth, int32 screenHeight)
 	{
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialized"));
+		
+		mScreenWidth = screenWidth;
+		mScreenHeight = screenHeight;
 		//Initializes base GL state.
 		glEnable(GL_TEXTURE_2D);
 		// In a simple 2D game, we have control over the third

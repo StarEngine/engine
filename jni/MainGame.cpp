@@ -11,7 +11,9 @@ namespace star
 {
 
 	MainGame::MainGame() :
-			mTestScene(nullptr)
+			mTestScene(nullptr),
+			mWindowWidth(0),
+			mWindowHeight(0)
 	{
 	}
 
@@ -33,8 +35,17 @@ namespace star
 		return STATUS_OK;
 	}
 
-	status MainGame::Initialize()
+	status MainGame::Initialize(int32 windowWidth, int32 windowHeight)
 	{
+		mWindowWidth = windowWidth;
+		mWindowHeight = windowHeight;
+
+		//Only for windows we need to pas the window paramaters
+		//for android these will be fetched when setting up the OpenGL context
+		//within the Graphics Manager
+#ifdef _WIN32
+		star::GraphicsManager::GetInstance()->Initialize(windowWidth,  windowHeight);
+#endif
 		Logger::GetSingleton()->Log(LogLevel::Info,_T("MainGame Initialize"));
 		mSceneManager = SceneManager::GetInstance();
 

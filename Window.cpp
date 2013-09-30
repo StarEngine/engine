@@ -218,8 +218,8 @@ Window::Window(HINSTANCE instance)
 
 		ClipCursor(&CLIP_RECT);
 	}
-
-	mMainGamePtr->Initialize();
+	
+	mMainGamePtr->Initialize(position_width,position_height);
 	// Main message loop:
 	while(msg.message != WM_QUIT)
 	{
