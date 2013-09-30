@@ -6,6 +6,10 @@
 #include "XMLContainer.h"
 #include "..\Helpers\Helpers.h"
 
+#ifndef _WIN32
+#include <memory>
+#endif
+
 namespace star
 {
 	class XMLFileParser
@@ -31,7 +35,23 @@ namespace star
 		bool Read(XMLContainer & container)
 		{
 			pugi::xml_document XMLDocument;
-			pugi::xml_parse_result result = XMLDocument.load_file(m_File.GetFullPath().c_str());
+			pugi::xml_parse_result result;
+#ifdef _WIN32
+			result = XMLDocument.load_file(m_File.GetFullPath().c_str());
+#else
+			AAssetManager manager(star::EventLoop::mApplicationPtr->activity->assetManager);
+			AAsset* asset = AAssetManager_open(
+					manager,
+					star::string_cast<string>(m_File.GetFullPath()).c_str(),
+					AASSET_MODE_UNKNOWN
+					);
+			ASSERT(asset != NULL, _T("Couldn't find this file!"));
+			long size = AAsset_getLength(asset);
+			char* buffer = new char[sizeof(char) * size];
+			AAsset_read(asset, buffer, size);
+			AAsset_close(asset);
+			result = XMLDocument.load_buffer_inplace_own(buffer, size);
+#endif
 			ASSERT (result,
 				star::string_cast<tstring>(result.description()).c_str());
 			if (result)

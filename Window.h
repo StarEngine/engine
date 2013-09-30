@@ -20,6 +20,7 @@ public:
 	static LRESULT CALLBACK wEventsProc(HWND handle, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	static RECT CLIP_RECT;
+	static tstring ASSETS_ROOT;
 
 	static void WindowInactiveUpdate(bool inactive);
 

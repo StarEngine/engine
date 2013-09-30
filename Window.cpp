@@ -12,6 +12,7 @@ HWND Window::handle;
 HGLRC Window::OGLcontext;
 HDC Window::hdc;
 RECT Window::CLIP_RECT;
+tstring Window::ASSETS_ROOT;
 
 const Window::psip Window::CLASS_STYLES[] = {
 		psip(_T("CS_DBLCLKS"), CS_DBLCLKS),
@@ -66,6 +67,9 @@ Window::Window(HINSTANCE instance)
 
 	WNDCLASSEX wndClass;
 	wndClass.cbSize = sizeof(WNDCLASSEX);
+
+	auto assets_settings = winManifest[_T("assets")].GetAttributes();
+	ASSETS_ROOT = assets_settings[_T("root")];
 
 	wndClass.style = 0;
 	auto class_map = winManifest[_T("class_styles")];
