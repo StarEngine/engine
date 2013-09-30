@@ -15,7 +15,7 @@ namespace star
 	public:
 		Resource(android_app* pApplication,tstring pPath);
 
-		tstring getPath();
+		const tstring getPath() const;
 
 		status open();
 		void close();

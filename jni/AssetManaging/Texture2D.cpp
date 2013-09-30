@@ -11,14 +11,7 @@ namespace star
 			mTextureId(0),
 			mFormat(0),
 			mWidth(0),
-			mHeight(0),
-			mNumber_of_passes(0),
-			mImageBuffer(0),
-			mPng_ptr(nullptr),
-			mInfo_ptr(nullptr),
-			mColor_type(0),
-			mBit_depth(0),
-			mRow_pointers(0)
+			mHeight(0)
 	{
 		this->Load();
 
@@ -30,14 +23,7 @@ namespace star
 			mTextureId(0),
 			mFormat(0),
 			mWidth(0),
-			mHeight(0),
-			mNumber_of_passes(0),
-			mImageBuffer(0),
-			mPng_ptr(nullptr),
-			mInfo_ptr(nullptr),
-			mColor_type(0),
-			mBit_depth(0),
-			mRow_pointers(0)
+			mHeight(0)
 	{
 		this->Load();
 	}
@@ -68,6 +54,12 @@ namespace star
 	uint8* Texture2D::ReadPNG()
 	{
 		png_byte header[8];
+		png_structp lPngPtr = NULL;
+		png_infop lInfoPtr = NULL;
+		png_byte* lImageBuffer=NULL;
+		png_bytep* lRowPtrs = NULL;
+		png_int_32 lRowSize;
+		bool lTransparency;
 
 #ifdef _WIN32
 		FILE *fp;
@@ -101,150 +93,151 @@ namespace star
 			return NULL;
 		}
 
-		mPng_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-		if(!mPng_ptr)
+		lPngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+		if(!lPngPtr)
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : create struct string failed"));
 			return NULL;
 		}
 
-		mInfo_ptr = png_create_info_struct(mPng_ptr);
-		if(!mInfo_ptr)
+		lInfoPtr = png_create_info_struct(lPngPtr);
+		if(!lInfoPtr)
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : create info failed"));
 			return NULL;
 		}
 
 #ifdef _WIN32
-		if(setjmp(png_jmpbuf(mPng_ptr)))
+		if(setjmp(png_jmpbuf(lPngPtr)))
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error during init io"));
 			return NULL;
 		}
 
-		png_init_io(mPng_ptr, fp);
+		png_init_io(lPngPtr, fp);
 #else
-		png_set_read_fn(mPng_ptr, &mResource, Callback_Read);
-		if(setjmp(png_jmpbuf(mPng_ptr)))
+		png_set_read_fn(lPngPtr, &mResource, Callback_Read);
+		if(setjmp(png_jmpbuf(lPngPtr)))
 		{
 			mResource.close();
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error during init io"));
 			return NULL;
 		}
 #endif
-		png_set_sig_bytes(mPng_ptr, 8);
-		png_read_info(mPng_ptr,mInfo_ptr);
+		png_set_sig_bytes(lPngPtr, 8);
+		png_read_info(lPngPtr,lInfoPtr);
 
 		png_uint_32 pWidth, pHeight;
-		png_get_IHDR(mPng_ptr,mInfo_ptr,&pWidth,&pHeight,&mBit_depth,&mColor_type, NULL,NULL,NULL);
+		png_int_32 lDepth, lColorType;
+		png_get_IHDR(lPngPtr,lInfoPtr,&pWidth,&pHeight,&lDepth,&lColorType, NULL,NULL,NULL);
 		mWidth = pWidth;
 		mHeight = pHeight;
 
-		bool pTransparency = false;
-		if(png_get_valid(mPng_ptr, mInfo_ptr, PNG_INFO_tRNS))
+		lTransparency = false;
+		if(png_get_valid(lPngPtr, lInfoPtr, PNG_INFO_tRNS))
 		{
-			png_set_tRNS_to_alpha(mPng_ptr);
-			pTransparency=true;
+			png_set_tRNS_to_alpha(lPngPtr);
+			lTransparency=true;
 
 #ifndef _WIN32
 			mResource.close();
 #endif
-			delete [] mRow_pointers;
-			delete [] mImageBuffer;
-			if(mPng_ptr != NULL)
+			delete [] lRowPtrs;
+			delete [] lImageBuffer;
+			if(lPngPtr != NULL)
 			{
-				png_infop* lInfoPtrP = mInfo_ptr != NULL ? &mInfo_ptr: NULL;
-				png_destroy_read_struct(&mPng_ptr, lInfoPtrP, NULL);
+				png_infop* lInfoPtrP = lInfoPtr != NULL ? &lInfoPtr: NULL;
+				png_destroy_read_struct(&lPngPtr, lInfoPtrP, NULL);
 			}
 			return NULL;
 		}
 
-		if(mBit_depth < 8 )
+		if(lDepth < 8 )
 		{
-			png_set_packing(mPng_ptr);
+			png_set_packing(lPngPtr);
 		}
-		else if(mBit_depth == 16)
+		else if(lDepth == 16)
 		{
-			png_set_strip_16(mPng_ptr);
+			png_set_strip_16(lPngPtr);
 		}
 
-		switch(mColor_type)
+		switch(lColorType)
 		{
 		case PNG_COLOR_TYPE_PALETTE:
-			png_set_palette_to_rgb(mPng_ptr);
-			mFormat = pTransparency ? GL_RGBA : GL_RGB;
+			png_set_palette_to_rgb(lPngPtr);
+			mFormat = lTransparency ? GL_RGBA : GL_RGB;
 			break;
 		case PNG_COLOR_TYPE_RGB:
-			mFormat = pTransparency ? GL_RGBA : GL_RGB;
+			mFormat = lTransparency ? GL_RGBA : GL_RGB;
 			break;
 		case PNG_COLOR_TYPE_RGBA:
 			mFormat = GL_RGBA;
 			break;
 		case PNG_COLOR_TYPE_GRAY:
-			png_set_expand_gray_1_2_4_to_8(mPng_ptr);
-			mFormat = pTransparency ? GL_LUMINANCE_ALPHA : GL_LUMINANCE;
+			png_set_expand_gray_1_2_4_to_8(lPngPtr);
+			mFormat = lTransparency ? GL_LUMINANCE_ALPHA : GL_LUMINANCE;
 			break;
 		case PNG_COLOR_TYPE_GA:
-			png_set_expand_gray_1_2_4_to_8(mPng_ptr);
+			png_set_expand_gray_1_2_4_to_8(lPngPtr);
 			mFormat = GL_LUMINANCE_ALPHA;
 			break;
 		}
 
-		mNumber_of_passes = png_set_interlace_handling(mPng_ptr);
-		png_read_update_info(mPng_ptr,mInfo_ptr);
+		//mNumber_of_passes = png_set_interlace_handling(mPng_ptr);
+		png_read_update_info(lPngPtr,lInfoPtr);
 
-		if(setjmp(png_jmpbuf(mPng_ptr)))
+		/*if(setjmp(png_jmpbuf(mPng_ptr)))
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error during read image"));
 			return NULL;
-		}
+		}*/
 
-		png_int_32 pRowSize = png_get_rowbytes(mPng_ptr,mInfo_ptr);
-		if(pRowSize <= 0)
+		lRowSize = png_get_rowbytes(lPngPtr,lInfoPtr);
+		if(lRowSize <= 0)
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : png rowsize smaller or equal to 0"));
 			return NULL;
 		}
 
-		mImageBuffer = new png_byte[pRowSize * mHeight];
-		if(!mImageBuffer)
+		lImageBuffer = new png_byte[lRowSize * pHeight];
+		if(!lImageBuffer)
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error during image buffer creation"));
 			return NULL;
 		}
 
-		mRow_pointers = new png_bytep[mHeight];
-		if(!mRow_pointers)
+		lRowPtrs = new png_bytep[pHeight];
+		if(!lRowPtrs)
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error during row pointer creation"));
 			return NULL;
 		}
 
-		for(int i = 0; i < mHeight; ++i)
+		for(int32 i = 0; i < pHeight; ++i)
 		{
-			mRow_pointers[mHeight -(i+1)] = mImageBuffer + i * pRowSize;
+			lRowPtrs[pHeight - (i+1)] = lImageBuffer + i * lRowSize;
 		}
-		png_read_image(mPng_ptr, mRow_pointers);
+		png_read_image(lPngPtr, lRowPtrs);
 
 #ifdef _WIN32
 		fclose(fp);
 #else
 		mResource.close();
 #endif
-		png_destroy_read_struct(&mPng_ptr, &mInfo_ptr, NULL);
-		delete[] mRow_pointers;
+		png_destroy_read_struct(&lPngPtr, &lInfoPtr, NULL);
+		delete[] lRowPtrs;
 
 #ifdef _DEBUG
 		Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : ") + mPath + _T(" Created Succesfull"));
 #endif
-		return mImageBuffer;
+		return lImageBuffer;
 
 	}
 
 	status Texture2D::Load()
 	{
-		this->ReadPNG();
-		if(mImageBuffer == NULL)
+		uint8* lImageBuffer = this->ReadPNG();
+		if(lImageBuffer == NULL)
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : READING PNG FAILED - NO IMAGE BUFFER"));
 			return STATUS_KO;
@@ -258,11 +251,37 @@ namespace star
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, mFormat, mWidth, mHeight, 0, mFormat, GL_UNSIGNED_BYTE, mImageBuffer);
-		delete[] mImageBuffer;
+		glTexImage2D(GL_TEXTURE_2D, 0, mFormat, mWidth, mHeight, 0, mFormat, GL_UNSIGNED_BYTE, lImageBuffer);
+		delete[] lImageBuffer;
 
-		if(glGetError() != GL_NO_ERROR)
+		bool hasError=false;
+		GLenum errormsg;
+		errormsg = glGetError();
+		while(errormsg != GL_NO_ERROR)
 		{
+			hasError=true;
+			switch(errormsg)
+			{
+			case GL_INVALID_ENUM:
+				Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : Unacceptable value for imagebuffer"));
+				break;
+			case GL_INVALID_VALUE:
+				Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : value out of range"));
+				break;
+			case GL_INVALID_OPERATION:
+				Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : Not allowed in current state"));
+				break;
+			case GL_OUT_OF_MEMORY:
+				Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : Out of Memory"));
+				break;
+			}
+			errormsg = glGetError();
+		}
+
+		if(hasError)
+		{
+
+
 			Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : Error loading pnginto OpenGl"));
 			if(mTextureId != 0)
 			{
@@ -279,7 +298,11 @@ namespace star
 
 	const tstring Texture2D::getPath() const
 	{
+#ifdef _WIN32
 		return mPath;
+#else
+		return mResource.getPath();
+#endif
 	}
 
 	const int32 Texture2D::getHeight() const

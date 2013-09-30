@@ -11,7 +11,7 @@ namespace star
 	{
 	}
 
-	tstring Resource::getPath()
+	const tstring Resource::getPath() const
 	{
 		return mPath;
 	}

@@ -83,8 +83,14 @@ namespace star
 		CollisionManager::GetInstance()->CheckCollision(_T("Default"));
 		m_Initialized = true;
 
-		TextureManager::GetInstance()->LoadTexture(_T("TestDaPng.png"),_T("TestPNG"));
-		TextureManager::GetInstance()->LoadTexture(_T("Awesome.png"),_T("Awesome"));
+		if(TextureManager::GetInstance()->LoadTexture(_T("TestDaPng.png"),_T("TestPNG")))
+		{
+			LOGGER->Log(star::LogLevel::Info,_T("PNG : TestDaPng loaded succesfull"));
+		}
+		if(TextureManager::GetInstance()->LoadTexture(_T("Awesome.png"),_T("Awesome")))
+		{
+			LOGGER->Log(star::LogLevel::Info,_T("PNG : Awesome loaded succesfull"));
+		}
 
 #ifndef _WIN32
 		LOGGER->Log(star::LogLevel::Info,_T("Started making shader"));
@@ -167,7 +173,7 @@ namespace star
 #else
 		//Simon - Do Not remove, I'm working on this but its a pain in the ass. commented for now
 		mTextureShader.Bind();
-		glEnable(GL_TEXTURE_2D);
+		//glEnable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("Awesome")));
 		GLint s_textureId = glGetUniformLocation(mTextureShader.id(), "textureSampler");
@@ -195,7 +201,7 @@ namespace star
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
 		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
 		mTextureShader.Unbind();
-		glDisable(GL_TEXTURE_2D);
+		//glDisable(GL_TEXTURE_2D);
 
 #endif
 		return STATUS_OK;

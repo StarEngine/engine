@@ -135,7 +135,7 @@ namespace star
 	{
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting up Flags and Projections"));
         // Initializes base GL state.
-        glEnable(GL_TEXTURE_2D);
+        //glEnable(GL_TEXTURE_2D);
         // In a simple 2D game, we have control over the third
         // dimension. So we do not really need a Z-buffer.
         glDisable(GL_DEPTH_TEST);

@@ -48,16 +48,6 @@ namespace star
 		GLint	mFormat;
 
 		int32 mWidth, mHeight;
-		int32 mNumber_of_passes;
-
-		uint8* mImageBuffer;
-
-		png_structp mPng_ptr;
-		png_infop	mInfo_ptr;
-		png_int_32	mColor_type;
-		png_int_32	mBit_depth;		
-		png_bytep * mRow_pointers;
-
 #ifndef _WIN32
 		Resource mResource;
 		static void Callback_Read(png_structp png, png_bytep data, png_size_t size);
