@@ -12,7 +12,6 @@ namespace star
 {
 	class BaseComponent;
 	class PathFindNodeComponent;
-	using namespace std;
 
 	class Object
 	{
@@ -20,14 +19,14 @@ namespace star
 		Object(void);
 		virtual ~Object(void);
 
-		Object* GetParent() const {return m_pParentGameObject;}
+		Object* GetParent() const { return (m_pParentGameObject); }
 
 		virtual void Initialize();
 		virtual void Update(const Context& context);
 		virtual void Draw();
 
-		const tstring& GetName() const {return m_Name;};
-		void SetName(const tstring& name) {m_Name = name;};
+		const tstring& GetName() const {return (m_Name); }
+		void SetName(const tstring& name) { m_Name = name; }
 
 		void AddComponent(BaseComponent* pComponent);
 		void RemoveComponent(const BaseComponent* pComponent);
@@ -35,8 +34,8 @@ namespace star
 		void AddChild(Object* pObject);
 		void RemoveChild(const Object* pObject);
 
-		void SetCollisionTag(const tstring& tag) {m_CollisionTag = tag;};
-		const tstring& GetCollisionTag() const {return m_CollisionTag;};
+		void SetCollisionTag(const tstring& tag) {m_CollisionTag = tag; }
+		const tstring& GetCollisionTag() const { return (m_CollisionTag); }
 
 		void CollisionCheck(Object* otherObject);
 		bool RectangleCollision(Object* object, Object* otherObject);
@@ -53,7 +52,7 @@ namespace star
 			{
 				if(component && typeid(*component) == ti)
 				{
-					return (T*)component;
+					return ((T*)component);
 				}
 			}
 
@@ -61,10 +60,10 @@ namespace star
 			{
 				for(auto *child : m_pChildren)
 				{
-					return child->GetComponent<T>(searchChildren);
+					return (child->GetComponent<T>(searchChildren));
 				}
 			}
-			return nullptr;
+			return (nullptr);
 		}
 
 		template<class T>
@@ -75,10 +74,10 @@ namespace star
 			{
 				if(child && typeid(*child) == ti)
 				{
-					return (T*)child;
+					return ((T*)child);
 				}
 			}
-			return nullptr;
+			return (nullptr);
 		}
 
 	protected:

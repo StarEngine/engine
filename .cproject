@@ -8,8 +8,6 @@
 				</externalSettings>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.VCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
@@ -20,22 +18,28 @@
 					<folderInfo id="0.1407475795." name="/" resourcePath="">
 						<toolChain id="org.eclipse.cdt.build.core.prefbase.toolchain.1576759429" name="No ToolChain" resourceTypeBasedDiscovery="false" superClass="org.eclipse.cdt.build.core.prefbase.toolchain">
 							<targetPlatform id="org.eclipse.cdt.build.core.prefbase.toolchain.1576759429.660425755" name=""/>
-							<builder command="ndk-build.cmd" id="org.eclipse.cdt.build.core.settings.default.builder.391737753" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
-							<tool id="org.eclipse.cdt.build.core.settings.holder.libs.910172617" name="holder for library settings" superClass="org.eclipse.cdt.build.core.settings.holder.libs"/>
+							<builder command="ndk-build" id="com.android.builder.1561828974" keepEnvironmentInBuildfile="false" name="Android Builder" superClass="com.android.builder"/>
+							<tool id="org.eclipse.cdt.build.core.settings.holder.libs.910172617" name="holder for library settings" superClass="org.eclipse.cdt.build.core.settings.holder.libs">
+								<option id="org.eclipse.cdt.build.core.settings.holder.libfiles.175571045" name="Library Files" superClass="org.eclipse.cdt.build.core.settings.holder.libfiles" valueType="libFiles"/>
+							</tool>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.242036201" name="Assembly" superClass="org.eclipse.cdt.build.core.settings.holder">
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.1439915725" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/android/native_app_glue&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/platforms/android-18/arch-arm/usr/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.8/prebuilt/windows-x86_64/lib/gcc/arm-linux-androideabi/4.8&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.8/prebuilt/windows-x86_64/lib/gcc/arm-linux-androideabi/4.8/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/stlport/stlport&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\cygwin64\usr\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/libpng&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/system/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.8/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi-v7a\include&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1713767724" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
 									<listOptionValue builtIn="false" value="__ANDROID__"/>
+									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1573554596" languageId="org.eclipse.cdt.core.assembly" languageName="Assembly" sourceContentType="org.eclipse.cdt.core.asmSource" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
@@ -49,10 +53,14 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/stlport/stlport&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\cygwin64\usr\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/system/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.8/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\include&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1408120829" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
 									<listOptionValue builtIn="false" value="__ANDROID__"/>
+									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1908618357" languageId="org.eclipse.cdt.core.g++" languageName="GNU C++" sourceContentType="org.eclipse.cdt.core.cxxSource,org.eclipse.cdt.core.cxxHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
@@ -66,10 +74,14 @@
 									<listOptionValue builtIn="false" value="&quot;C:\cygwin64\usr\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/libpng&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/system/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.8/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\include&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.194515331" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
 									<listOptionValue builtIn="false" value="__ANDROID__"/>
+									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1958336538" languageId="org.eclipse.cdt.core.gcc" languageName="GNU C" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
@@ -93,8 +105,10 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="refreshScope" versionNumber="1">
-		<resource resourceType="PROJECT" workspacePath="/StarEngine"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Default">
+			<resource resourceType="PROJECT" workspacePath="/StarEngine"/>
+		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

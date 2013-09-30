@@ -25,13 +25,13 @@ namespace star
 		void SetState(const tstring & name);
 		void SetPreviousState();
 
-		const tstring & GetCurrentStateName() const { return m_CurrentStateName; }
-		State * GetCurrentState() const { return m_pCurrentState; }
+		const tstring & GetCurrentStateName() const { return (m_CurrentStateName); }
+		State * GetCurrentState() const { return (m_pCurrentState); }
 
 	private:
 		void DeactiveCurrentState();
 
-		std::map<UINT, State*> m_States;
+		std::map<uint32, State*> m_States;
 		State * m_pCurrentState;
 		tstring m_CurrentStateName,
 				m_PreviousStateName;

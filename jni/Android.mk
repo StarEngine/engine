@@ -6,7 +6,7 @@ LS_CPP=$(subst $(1)/,,$(wildcard $(1)/*.cpp))
 LS_CPP+= $(subst $(1)/,,$(wildcard $(1)/**/*.cpp))
 LS_CPP+= $(subst $(1)/,,$(wildcard $(1)/**/**/*.cpp))
 LS_CPP+= $(subst $(1)/,,$(wildcard $(1)/**/**/**/*.cpp))
-LOCAL_CPPFLAGS  := -std=c++11
+LOCAL_CPPFLAGS  := -std=gnu++11
 LOCAL_MODULE    := starengine
 LOCAL_SRC_FILES := $(call LS_CPP,$(LOCAL_PATH))
 LOCAL_LDLIBS    := -landroid -llog -lEGL -lGLESv1_CM -lGLESv2

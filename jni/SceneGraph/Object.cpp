@@ -8,6 +8,7 @@ namespace star
 	Object::Object(void):
 		m_bIsInitialized(false),
 		m_pParentGameObject(nullptr),
+		m_pPathFindComp(nullptr),
 
 		m_pComponents(),
 		m_pChildren(),
@@ -202,10 +203,10 @@ namespace star
 		if(left > otherRight || right < otherLeft || top > otherBottom || bottom < otherTop)
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info, _T("They don't collide"));
-			return false;
+			return (false);
 		}
 		Logger::GetSingleton()->Log(LogLevel::Info, _T("They do collide"));
-		return true;
+		return (true);
 	}
 
 	bool Object::CircleCollision(Object* object, Object* otherObject)
@@ -220,10 +221,10 @@ namespace star
 		if((objectPos - otherObjectPos).length() > radius + otherRadius)
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info, _T("They don't collide"));
-			return false;
+			return (false);
 		}
 		Logger::GetSingleton()->Log(LogLevel::Info, _T("They do collide"));
-		return true;
+		return (true);
 	}
 
 	bool Object::RectangleCircleCollision(Object* object, Object* otherObject)
@@ -261,7 +262,7 @@ namespace star
 			//ASSERT(rectObject != circleObject, _T("Object has both CircleColliderComponent and RectangleComponent"))
 			Logger::GetSingleton()->Log(LogLevel::Info,
 				_T("Error, Object has both CircleColliderComponent and RectangleComponent"));
-			return false;
+			return (false);
 		}
 
 		glm::vec2 rectObjectPos = glm::vec2(rectObject->GetComponent<TransformComponent>()->GetWorldPosition().x,
@@ -287,9 +288,9 @@ namespace star
 		if( distanceSquared < radius)
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info, _T("They do collide"));
-			return true;
+			return (true);
 		}
 		Logger::GetSingleton()->Log(LogLevel::Info, _T("They don't collide"));
-		return false;
+		return (false);
 	}
 }

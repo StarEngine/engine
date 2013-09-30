@@ -42,7 +42,7 @@ namespace star
 
 	void StateManager::AddState(const tstring & name, State * pState)
 	{
-		UINT id = star::GenerateHash(name);
+		uint32 id = star::GenerateHash(name);
 		m_States[id] = pState;
 	}
 
@@ -52,14 +52,14 @@ namespace star
 		{
 			DeactiveCurrentState();
 		}
-		UINT id = star::GenerateHash(name);
+		uint32 id = star::GenerateHash(name);
 		auto it = m_States.find(id);
 		if(it != m_States.end())
 		{
 			m_States.erase(it);
-			return true;
+			return (true);
 		}
-		return false;
+		return (false);
 	}
 
 	void StateManager::Clear()
@@ -76,7 +76,7 @@ namespace star
 	void StateManager::SetState(const tstring & name)
 	{
 		DeactiveCurrentState();
-		UINT id = star::GenerateHash(name);
+		uint32 id = star::GenerateHash(name);
 
 		m_pCurrentState = m_States[id];
 		if(!m_pCurrentState->IsActive())

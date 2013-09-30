@@ -19,7 +19,7 @@ namespace star
 
 		static SceneManager* GetInstance();
 
-		BaseScene* GetActiveScene(){ return m_ActiveScene; }
+		BaseScene* GetActiveScene(){ return (m_ActiveScene); }
 		BaseScene* GetScene(const tstring & name);
 		bool SetActiveScene(const tstring & name);
 		bool AddScene(const tstring & name, BaseScene* scene);

@@ -23,7 +23,7 @@ namespace star
 	InputManager::InputManager(void)
 	#ifndef _WIN32
 		: m_bMainIsDown(false)
-		. m_bMainIsUp(false)
+		, m_bMainIsUp(false)
 		, m_bPointerIsDown(false)
 		, m_bPointerIsUp(false)
 		, m_NumberOfPointers(0)
@@ -69,7 +69,7 @@ namespace star
 		{
 			m_InputManagerPtr = new InputManager();
 		}
-		return m_InputManagerPtr;
+		return (m_InputManagerPtr);
 	}
 
 	void InputManager::ResetSingleton()
@@ -459,36 +459,36 @@ namespace star
 	{
 		if(m_NumberOfPointers == fingerIndex && (m_bMainIsDown || m_bPointerIsDown))
 		{
-			return true;
+			return (true);
 		}
-		return false;
+		return (false);
 	}
 
 	bool InputManager::IsTouchDownANDR(uint8 fingerIndex) const
 	{
 		if(m_NumberOfPointers == fingerIndex)
 		{
-			return true;
+			return (true);
 		}
-		return false;
+		return (false);
 	}
 
 	bool InputManager::IsTouchUpANDR(uint8 fingerIndex) const
 	{
 		if(m_NumberOfPointers == fingerIndex -1 && (m_bMainIsUp || m_bPointerIsUp))
 		{
-			return true;
+			return (true);
 		}
-		return false;
+		return (false);
 	}
 
 	vec2 InputManager::GetCurrentTouchPosANDR(uint8 fingerIndex) const
 	{
 		if((fingerIndex <= m_PointerVec.size() && fingerIndex > 0) && !m_bMainIsUp)
 		{
-			return m_PointerVec.at(fingerIndex-1).Position;
+			return (m_PointerVec.at(fingerIndex-1).Position);
 		}
-		return vec2(UNDEFINED_POINTER_POSITION, UNDEFINED_POINTER_POSITION);
+		return (vec2(UNDEFINED_POINTER_POSITION, UNDEFINED_POINTER_POSITION));
 	}
 
 	vec2 InputManager::GetOldTouchPosANDR(uint8 fingerIndex) const
@@ -497,10 +497,10 @@ namespace star
 		{
 			if(m_OldPointerVec.at(fingerIndex-1).ID == m_PointerVec.at(fingerIndex-1).ID)
 			{
-				return m_OldPointerVec.at(fingerIndex-1).Position;
+				return (m_OldPointerVec.at(fingerIndex-1).Position);
 			}
 		}
-		return vec2(UNDEFINED_POINTER_POSITION, UNDEFINED_POINTER_POSITION);
+		return (vec2(UNDEFINED_POINTER_POSITION, UNDEFINED_POINTER_POSITION));
 	}
 
 	void InputManager::OnTouchEvent(AInputEvent* pEvent)
@@ -573,7 +573,7 @@ namespace star
 		}
 		std::sort(m_PointerVec.begin(),m_PointerVec.end(),[] (const FingerPointerANDR& a, const FingerPointerANDR& b)
 		   {
-				return a.ID < b.ID;
+				return (a.ID < b.ID);
 		   });
 	}
 
@@ -606,9 +606,9 @@ namespace star
 	{
 		if(fingerIndex <= m_PointerVec.size() && fingerIndex > 0)
 		{
-			return m_PointerVec.at(fingerIndex-1);
+			return (m_PointerVec.at(fingerIndex - 1));
 		}
-		return FingerPointerANDR();
+		return (FingerPointerANDR());
 	}
 #endif
 
@@ -630,7 +630,7 @@ namespace star
 #ifdef _WIN32
 		return IsMouseButtonTapWIN(finger);
 #else
-		return IsTouchTapANDR(finger);
+		return (IsTouchTapANDR(finger));
 #endif
 	}
 
@@ -639,7 +639,7 @@ namespace star
 #ifdef _WIN32
 		return IsMouseButtonDownWIN(finger);
 #else
-		return IsTouchDownANDR(finger);
+		return (IsTouchDownANDR(finger));
 #endif
 	}
 
@@ -648,7 +648,7 @@ namespace star
 #ifdef _WIN32
 		return IsMouseButtonUpWIN(finger);
 #else
-		return IsTouchUpANDR(finger);
+		return (IsTouchUpANDR(finger));
 #endif
 	}
 
@@ -657,7 +657,7 @@ namespace star
 #ifdef _WIN32
 		return GetCurrentMousePosition();
 #else
-		return GetCurrentTouchPosANDR(fingerIndex);
+		return (GetCurrentTouchPosANDR(fingerIndex));
 #endif
 	}
 
@@ -666,7 +666,7 @@ namespace star
 #ifdef _WIN32
 		return GetOldMousePosition();
 #else
-		return GetOldTouchPosANDR(fingerIndex);
+		return (GetOldTouchPosANDR(fingerIndex));
 #endif
 	}
 

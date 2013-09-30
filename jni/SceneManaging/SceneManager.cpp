@@ -3,6 +3,7 @@
 #include "../Context.h"
 #include "BaseScene.h"
 #include "../Input/InputManager.h"
+#include "../GraphicsManager.h"
 
 #define INPUT_MANAGER (InputManager::GetSingleton())
 
@@ -36,23 +37,23 @@ namespace star
 		{
 			m_pSceneManager = new SceneManager();
 		}
-		return m_pSceneManager;
+		return (m_pSceneManager);
 	}
 
 	BaseScene* SceneManager::GetScene(const tstring & name)
 	{
 		if(m_SceneList.find(name) != m_SceneList.end())
 		{
-			return m_SceneList[name];
+			return (m_SceneList[name]);
 		}
-		return nullptr;
+		return (nullptr);
 	}
 
 	bool SceneManager::SetActiveScene(const tstring & name)
 	{
 		if(m_CurrentSceneName == name)
 		{
-			return true;
+			return (true);
 		}
 		if(m_SceneList.find(name) != m_SceneList.end())
 		{
@@ -61,14 +62,14 @@ namespace star
 			m_bSwitchingScene = true;
 			m_bInitialized = m_NewActiveScene->IsInitialized();
 			m_CurrentSceneName = name;
-			return true;
+			return (true);
 		}
 		else
 		{
 			m_bSwitchingScene = false;
-			return false;
+			return (false);
 		}
-		return true;
+		return (true);
 	}
 
 	bool SceneManager::AddScene(const tstring & name, BaseScene* scene)
@@ -81,9 +82,9 @@ namespace star
 		else
 		{
 			Logger::GetSingleton()->Log(LogLevel::Info, _T("Scene Already Exists"));
-			return false;
+			return (false);
 		}
-		return true;
+		return (true);
 	}
 
 	bool SceneManager::RemoveScene(const tstring & name)
@@ -92,25 +93,25 @@ namespace star
 		if(it != m_SceneList.end())
 		{
 			m_SceneList.erase(it);
-			return true;
+			return (true);
 		}
-		return false;
+		return (false);
 	}
 
 	bool SceneManager::InitializeCurScene(const Context& context)
 	{
 		if(m_bInitialized)
 		{
-			return true;
+			return (true);
 		}
 		if(m_NewActiveScene == nullptr)
 		{
-			return false;
+			return (false);
 		}
 		Logger::GetSingleton()->Log(LogLevel::Info, _T("Initializing Scene :") + m_CurrentSceneName);
 		m_NewActiveScene->Initialize(context);
 		m_bInitialized = m_NewActiveScene->IsInitialized();
-		return m_bInitialized;
+		return (m_bInitialized);
 
 	}
 
@@ -118,7 +119,7 @@ namespace star
 	{
 		if(m_bDestroyRequested)
 		{
-			return STATUS_OK;
+			return (STATUS_OK);
 		}
 
 		if(m_bSwitchingScene)
@@ -130,13 +131,13 @@ namespace star
 			m_ActiveScene = m_NewActiveScene;
 			m_NewActiveScene = nullptr;
 			m_bSwitchingScene = false;
-			return STATUS_OK;
+			return (STATUS_OK);
 		}
 		if(m_ActiveScene != nullptr)
 		{
-			return m_ActiveScene->Update(context);
+			return (m_ActiveScene->Update(context));
 		}
-		return STATUS_OK;
+		return (STATUS_OK);
 	}
 
 
@@ -144,13 +145,13 @@ namespace star
 	{
 		if(m_bDestroyRequested)
 		{
-			return STATUS_OK;
+			return (STATUS_OK);
 		}
 		if(m_ActiveScene != nullptr)
 		{
 			m_ActiveScene->Draw();
 		}
-		return STATUS_OK;
+		return (STATUS_OK);
 	}
 
 #ifndef _WIN32
@@ -218,24 +219,19 @@ namespace star
 			{
 			case AINPUT_SOURCE_TOUCHSCREEN:
 				INPUT_MANAGER->OnTouchEvent(pEvent);
-				return true;
-				break;
+				return (true);
 			default:
-				return false;
-				break;
+				return (false);
 			}
 			break;
 
 		case AINPUT_EVENT_TYPE_KEY:
 			INPUT_MANAGER->OnKeyboardEvent(pEvent);
-			return true;
-			break;
+			return (true);
 		default:
-			return false;
-			break;
-
+			return (false);
 		}
-		return false;
+		return (false);
 	}
 
 	void SceneManager::Activate()

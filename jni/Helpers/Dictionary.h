@@ -59,29 +59,30 @@ namespace star
 		Dictionary<TKey, TValue> & operator=(const Dictionary<TKey, TValue>& yRef)
 		{
 			m_MultiMap = yRef.m_MultiMap;
+			return (*this);
 		}
 
 		TValue & operator[](const TKey & key)
 		{
-			return at(key);
+			return (at(key));
 		}
 
 		TValue & operator[](dki_pair & ki_pair)
 		{
-			return at(ki_pair);
+			return (at(ki_pair));
 		}
 
 		TValue & at(const TKey & key)
 		{
 			auto it = m_MultiMap.find(key);
 			ASSERT( it != m_MultiMap.end(), _T("Couldn't find this key."));
-			return (*it).second;
+			return ((*it).second);
 		}
 
 		TValue & at
 			(dki_pair & ki_pair)
 		{
-			return at(ki_pair.first, ki_pair.second);
+			return (at(ki_pair.first, ki_pair.second));
 		}
 
 		TValue & at(const TKey & key, size_type index)
@@ -95,98 +96,98 @@ namespace star
 				++it;
 				ASSERT(it != range.second, _T("The value with this index and key couldn't be found!"));
 			}
-			return (*it).second;
+			return ((*it).second);
 		}
 
-		typename iterator begin()
+		iterator begin()
 		{
-			return m_MultiMap.begin();
+			return (m_MultiMap.begin());
 		}
 
-		typename iterator end()
+		iterator end()
 		{
-			return m_MultiMap.end();
+			return (m_MultiMap.end());
 		}
 
-		typename const_interator cbegin() const
+		const_interator cbegin() const
 		{
-			return m_MultiMap.cbegin();
+			return (m_MultiMap.cbegin());
 		}
 
-		typename const_interator cend() const
+		const_interator cend() const
 		{
-			return m_MultiMap.cend();
+			return (m_MultiMap.cend());
 		}
 
-		typename iterator find
+		iterator find
 			(const TKey & key) const
 		{
-			return m_MultiMap.find(key);
+			return (m_MultiMap.find(key));
 		}
 
-		typename size_type count
+		size_type count
 			(const TKey & key) const
 		{
-			return m_MultiMap.count(key);
+			return (m_MultiMap.count(key));
 		}
 
-		typename const_interator
+		const_interator
 			lower_bound(const TKey & key) const
 		{
-			return m_MultiMap.lower_bound(key);
+			return (m_MultiMap.lower_bound(key));
 		}
 
-		typename const_interator
+		const_interator
 			upper_bound(const TKey & key) const
 		{
-			return m_MultiMap.upper_bound(key);
+			return (m_MultiMap.upper_bound(key));
 		}
 
-		typename iterator insert(const TValue & value)
+		iterator insert(const TValue & value)
 		{
-			return m_MultiMap.insert(value);
+			return (m_MultiMap.insert(value));
 		}
 
-		typename iterator insert(TValue && value)
+		iterator insert(TValue && value)
 		{
-			return m_MultiMap.insert(value);
+			return (m_MultiMap.insert(value));
 		}
 
-		typename iterator 
+		iterator
 			insert(const_interator hint, const value_type & value)
 		{
-			return m_MultiMap.insert(hint, value);
+			return (m_MultiMap.insert(hint, value));
 		}
 
-		typename iterator
+		iterator
 			insert(const_interator hint, value_type && value)
 		{
-			return m_MultiMap.insert(hint, value);
+			return (m_MultiMap.insert(hint, value));
 		}
 
-		typename iterator
+		iterator
 			insert
-			(const typename dkv_pair & kv_pair)
+			(const dkv_pair & kv_pair)
 		{
-			return m_MultiMap.insert(kv_pair);
+			return (m_MultiMap.insert(kv_pair));
 		}
 
-		typename iterator
+		iterator
 			erase(const_interator position)
 		{
-			return m_MultiMap.erase(position);
+			return (m_MultiMap.erase(position));
 		}
 
-		typename size_type
+		size_type
 			erase(const key_type& key)
 		{
-			return m_MultiMap.erase(key);
+			return (m_MultiMap.erase(key));
 		}
 
-		typename iterator
+		iterator
 			erase(const_interator first, const_interator last)
 		{
-			return m_MultiMap.erase(first, last);
+			return (m_MultiMap.erase(first, last));
 		}
 
 		void clear()
@@ -201,17 +202,17 @@ namespace star
 
 		bool empty() const
 		{
-			return m_MultiMap.empty();
+			return (m_MultiMap.empty());
 		}
 
-		typename size_type size() const
+		size_type size() const
 		{
-			return m_MultiMap.size();
+			return (m_MultiMap.size());
 		}
 
-		typename size_type max_size() const
+		size_type max_size() const
 		{
-			return m_MultiMap.max_size();
+			return (m_MultiMap.max_size());
 		}
 
 	protected:
