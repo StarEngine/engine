@@ -18,7 +18,7 @@
 					<folderInfo id="0.1407475795." name="/" resourcePath="">
 						<toolChain id="org.eclipse.cdt.build.core.prefbase.toolchain.1576759429" name="No ToolChain" resourceTypeBasedDiscovery="false" superClass="org.eclipse.cdt.build.core.prefbase.toolchain">
 							<targetPlatform id="org.eclipse.cdt.build.core.prefbase.toolchain.1576759429.660425755" name=""/>
-							<builder command="ndk-build" id="com.android.builder.1561828974" keepEnvironmentInBuildfile="false" name="Android Builder" superClass="com.android.builder"/>
+							<builder arguments="" command="ndk-build.cmd" id="com.android.builder.1561828974" keepEnvironmentInBuildfile="false" name="Android Builder" superClass="com.android.builder"/>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.libs.910172617" name="holder for library settings" superClass="org.eclipse.cdt.build.core.settings.holder.libs">
 								<option id="org.eclipse.cdt.build.core.settings.holder.libfiles.175571045" name="Library Files" superClass="org.eclipse.cdt.build.core.settings.holder.libfiles" valueType="libFiles"/>
 							</tool>
