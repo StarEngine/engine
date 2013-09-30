@@ -47,7 +47,7 @@ namespace star
 		template<class T>
 		T* GetComponent(bool searchChildren = false)
 		{
-			const type_info& ti = typeid(T);
+			const std::type_info& ti = typeid(T);
 			for(auto *component : m_pComponents)
 			{
 				if(component && typeid(*component) == ti)
@@ -69,7 +69,7 @@ namespace star
 		template<class T>
 		T* GetChild()
 		{
-			const type_info& ti = typeid(T);
+			const std::type_info& ti = typeid(T);
 			for(auto *child : m_pChildren)
 			{
 				if(child && typeid(*child) == ti)
