@@ -1,4 +1,4 @@
-#include "TestScene.h"
+#include "TestScene2.h"
 #include "Helpers/Helpers.h"
 #include "SceneManaging/CollisionManager.h"
 #include "SceneManaging\PathFindManager.h"
@@ -18,7 +18,7 @@
 
 namespace star
 {
-	TestScene::TestScene(const tstring & Name):
+	TestScene2::TestScene2(const tstring & Name):
 		BaseScene(Name),
 		m_TotalFrames(0),
 		m_FPS(0),
@@ -42,7 +42,7 @@ namespace star
 		
 	}
 
-	status TestScene::Initialize( const Context& context)
+	status TestScene2::Initialize( const Context& context)
 	{
 		m_pObjectOne = new Object();
 		m_pRectCompOne = new RectangleColliderComponent(10,10);
@@ -97,7 +97,7 @@ namespace star
 		return STATUS_OK;
 	}
 
-	status TestScene::Update(const Context& context)
+	status TestScene2::Update(const Context& context)
 	{
 		auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
 		//tstringstream posBuffer;
@@ -125,18 +125,18 @@ namespace star
 		}
 		PathFindManager::GetInstance()->FindPath(m_pObjectOne->GetComponent<TransformComponent>()->GetWorldPosition(), vec3(3,2,0));
 
-		if(pos.y>(GraphicsManager::GetInstance()->GetScreenHeight()/2) && pos.y< star::GraphicsManager::GetInstance()->GetScreenHeight())
+		if(pos.y<(GraphicsManager::GetInstance()->GetScreenHeight()/2) && pos.y>0)
 		{
-			SceneManager::GetInstance()->SetActiveScene(_T("TestScene2"));
+			SceneManager::GetInstance()->SetActiveScene(_T("TestScene"));
 		}
 
 
 		return STATUS_OK;
 	}
 
-	status TestScene::Draw()
+	status TestScene2::Draw()
 	{
-		glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // Clear the background of our window to red
+		glClearColor(0.0f, 1.0f, 1.0f, 1.0f); // Clear the background of our window to red
 
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
 

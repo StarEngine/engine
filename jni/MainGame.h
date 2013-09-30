@@ -8,6 +8,7 @@ namespace star
 	class SceneManager;
 	class BaseScene;
 	class TestScene;
+	class TestScene2;
 
 	class MainGame
 	{
@@ -22,6 +23,7 @@ namespace star
 	private:
 		SceneManager* mSceneManager;
 		TestScene* mTestScene;
+		TestScene2* mTestScene2;
 		int32 mWindowWidth,
 			  mWindowHeight;
 

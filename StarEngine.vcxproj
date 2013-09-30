@@ -109,6 +109,7 @@
     <ClCompile Include="jni\SceneManaging\SceneManager.cpp" />
     <ClCompile Include="jni\Shaders\Shader.cpp" />
     <ClCompile Include="jni\TestScene.cpp" />
+    <ClCompile Include="jni\TestScene2.cpp" />
     <ClCompile Include="jni\TimeManager.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -268,6 +269,7 @@
     <ClInclude Include="jni\SceneManaging\BaseScene.h" />
     <ClInclude Include="jni\SceneManaging\SceneManager.h" />
     <ClInclude Include="jni\TestScene.h" />
+    <ClInclude Include="jni\TestScene2.h" />
     <ClInclude Include="jni\TimeManager.h" />
     <ClInclude Include="jni\Helpers\Rect.h" />
     <ClInclude Include="Window.h" />

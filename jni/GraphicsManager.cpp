@@ -97,16 +97,16 @@ namespace star
 
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Making display, surface & conext Current"));
 		if (!eglMakeCurrent(mDisplay, mSurface, mSurface, mContext)
-		 || !eglQuerySurface(mDisplay, mSurface, EGL_WIDTH, &mWidth)
-		 || !eglQuerySurface(mDisplay, mSurface, EGL_HEIGHT, &mHeight)
-		 || (mWidth <= 0) || (mHeight <= 0))
+		 || !eglQuerySurface(mDisplay, mSurface, EGL_WIDTH, &mScreenWidth)
+		 || !eglQuerySurface(mDisplay, mSurface, EGL_HEIGHT, &mScreenHeight)
+		 || (mScreenWidth <= 0) || (mScreenHeight <= 0))
 		{
 			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Could not activate display"));
 			return;
 		}
 
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting viewport"));
-		glViewport(0,0,mWidth,mHeight);
+		glViewport(0,0,mScreenWidth,mScreenHeight);
 
 		Setup();
 	}

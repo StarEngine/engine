@@ -33,6 +33,7 @@
     <ClCompile Include="jni\SceneManaging\PathFindManager.cpp" />
     <ClCompile Include="jni\Helpers\StateManager.cpp" />
     <ClCompile Include="jni\Input\InputManager.cpp" />
+    <ClCompile Include="jni\TestScene2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="jni\SceneManaging\PathFindManager.h" />
     <ClInclude Include="jni\Helpers\StateManager.h" />
     <ClInclude Include="jni\Input\InputManager.h" />
+    <ClInclude Include="jni\TestScene2.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="jni">

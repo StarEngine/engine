@@ -4,6 +4,7 @@
 #include "SceneManaging/SceneManager.h"
 #include "SceneManaging/BaseScene.h"
 #include "TestScene.h"
+#include "TestScene2.h"
 #include "Logger.h"
 #include "Input/InputManager.h"
 
@@ -52,6 +53,9 @@ namespace star
 		mTestScene = new TestScene(_T("TestScene"));
 		mSceneManager->AddScene(mTestScene->GetName(),mTestScene);
 		mSceneManager->SetActiveScene(_T("TestScene"));
+
+		mTestScene2 = new TestScene2(_T("TestScene2"));
+		mSceneManager->AddScene(mTestScene2->GetName(),mTestScene2);
 
 		Logger::GetSingleton()->Log(LogLevel::Info,_T("Scenes Set and Done"));
 

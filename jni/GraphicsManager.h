@@ -27,9 +27,13 @@ namespace star
 		void Destroy();
 #endif
 
+
 		void StartDraw();
 		void StopDraw();
 		void Setup();
+
+		int32 GetScreenWidth(){return mScreenWidth;}
+		int32 GetScreenHeight(){return mScreenHeight;}
 
 	private:
 
@@ -43,7 +47,6 @@ namespace star
 
 #ifndef _WIN32
 
-        int32_t mWidth, mHeight;
         EGLDisplay mDisplay;
         EGLSurface mSurface;
         EGLContext mContext;
