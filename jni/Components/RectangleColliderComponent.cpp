@@ -3,10 +3,10 @@
 
 namespace star
 {
-	// [COMMENT] call basecomponent constructor
-	RectangleColliderComponent::RectangleColliderComponent(int width, int height):
+	RectangleColliderComponent::RectangleColliderComponent(uint16 width, uint16 height):
 		m_CollisionRect(0,0, width, height),
-		m_bIsTrigger(false)
+		m_bIsTrigger(false),
+		BaseComponent()
 	{
 		Logger::GetInstance()->Log(LogLevel::Info, _T("RectCollisionComponent initialized"));
 	}

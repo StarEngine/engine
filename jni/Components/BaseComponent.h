@@ -11,6 +11,7 @@ namespace star
 	{
 	public:
 		BaseComponent(void);
+		BaseComponent(Object* parent);
 		virtual ~BaseComponent(void);
 
 		virtual void Initialize();

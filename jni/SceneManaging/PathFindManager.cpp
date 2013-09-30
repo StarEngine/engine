@@ -86,13 +86,13 @@ namespace star
 
 			//Initialize start
 			SearchCell start;
-			start.m_X = static_cast<int>(currentPos.x);
-			start.m_Y = static_cast<int>(currentPos.y);
+			start.X = static_cast<int>(currentPos.x);
+			start.Y = static_cast<int>(currentPos.y);
 
 			//Initiliaze end
 			SearchCell end;
-			end.m_X = static_cast<int>(targetPos.x);
-			end.m_Y = static_cast<int>(targetPos.y);
+			end.X = static_cast<int>(targetPos.x);
+			end.Y = static_cast<int>(targetPos.y);
 
 			SetStartAndGoal(start, end);
 			m_bInitializedStartGoal = true;
@@ -102,11 +102,11 @@ namespace star
 
 	void PathFindManager::SetStartAndGoal(const SearchCell& start, const SearchCell& end)
 	{
-		m_pStartCell = new SearchCell(start.m_X, start.m_Y, NULL);
-		m_pEndCell = new SearchCell(end.m_X, end.m_Y, NULL);
+		m_pStartCell = new SearchCell(start.X, start.Y, NULL);
+		m_pEndCell = new SearchCell(end.X, end.Y, NULL);
 
-		m_pStartCell->m_G = 0;
-		m_pStartCell->m_H = m_pStartCell->ManhattanDistance(m_pEndCell);
+		m_pStartCell->G = 0;
+		m_pStartCell->H = m_pStartCell->ManhattanDistance(m_pEndCell);
 		m_OpenList.push_back(m_pStartCell);
 	}
 
@@ -131,7 +131,7 @@ namespace star
 		{
 			nextCell = m_OpenList[cellIndex];
 			
-			if(find(m_PositionList.begin(), m_PositionList.end(),vec3(nextCell->m_X, nextCell->m_Y, 0)) == m_PositionList.end())
+			if(find(m_PositionList.begin(), m_PositionList.end(),vec3(nextCell->X, nextCell->Y, 0)) == m_PositionList.end())
 			{
 				Logger::GetInstance()->Log(LogLevel::Info, _T("Position not accessible (GetNextCell())"));
 				return nullptr;
@@ -143,7 +143,7 @@ namespace star
 		return nextCell;
 	}
 
-	void PathFindManager::PathOpened(int x, int y, float newCost, SearchCell *parent)
+	void PathFindManager::PathOpened(int x, int y, float newCost, SearchCell *parent, Direction dir)
 	{
 		//check if position is accesible
 		if(find(m_PositionList.begin(), m_PositionList.end(), vec3(x,y,0)) == m_PositionList.end())
@@ -151,11 +151,72 @@ namespace star
 			return;
 		}
 
+		//check if there are no walls blocking the diagonal movement
+		switch (dir)
+		{
+		case Direction::UpLeft:
+			{
+				if(find(m_PositionList.begin(), m_PositionList.end(), vec3(x,y-1,0)) == m_PositionList.end())
+				{
+					return;
+				}
+				if(find(m_PositionList.begin(), m_PositionList.end(), vec3(x+1,y,0)) == m_PositionList.end())
+				{
+					return;
+				}
+				break;
+			}
+
+		case Direction::UpRight:
+			{
+				if(find(m_PositionList.begin(), m_PositionList.end(), vec3(x,y-1,0)) == m_PositionList.end())
+				{
+					return;
+				}
+				if(find(m_PositionList.begin(), m_PositionList.end(), vec3(x-1,y,0)) == m_PositionList.end())
+				{
+					return;
+				}
+				break;
+			}
+
+		case Direction::DownLeft:
+			{
+				if(find(m_PositionList.begin(), m_PositionList.end(), vec3(x,y+1,0)) == m_PositionList.end())
+				{
+					return;
+				}
+				if(find(m_PositionList.begin(), m_PositionList.end(), vec3(x+1,y,0)) == m_PositionList.end())
+				{
+					return;
+				}
+				break;
+			}
+
+		case Direction::DownRight:
+			{
+				if(find(m_PositionList.begin(), m_PositionList.end(), vec3(x,y+1,0)) == m_PositionList.end())
+				{
+					return;
+				}
+				if(find(m_PositionList.begin(), m_PositionList.end(), vec3(x-1,y,0)) == m_PositionList.end())
+				{
+					return;
+				}
+				break;
+			}
+
+		default:
+			{
+				//No check needed
+			}
+		}
+
 		//check if position has been visited
 		int id = y * WORLD_SIZE + x;
 		for (uint16 i=0; i<m_VisitedList.size(); ++i)
 		{
-			if(id == m_VisitedList[i]->m_Id)
+			if(id == m_VisitedList[i]->Id)
 			{
 				return;
 			}
@@ -163,20 +224,20 @@ namespace star
 
 		//Get the best next step
 		SearchCell* newCell = new SearchCell(x,y, parent);
-		newCell->m_G = newCost;
-		newCell->m_H = parent->ManhattanDistance(m_pEndCell) -1;
+		newCell->G = newCost;
+		newCell->H = parent->ManhattanDistance(m_pEndCell) -1;
 
 		for (auto searchCell : m_OpenList)
 		{
-			if(id == searchCell->m_Id)
+			if(id == searchCell->Id)
 			{
-				float newF = newCell->m_G + newCost + searchCell->m_H;
+				float newF = newCell->G + newCost + searchCell->H;
 
 				//Check if it's better then the old one
 				if(searchCell->GetF() > newF)
 				{
-					searchCell->m_G = newCell->m_G + newCost;
-					searchCell->m_pParent = newCell;
+					searchCell->G = newCell->G + newCost;
+					searchCell->Parent = newCell;
 				}
 				else
 				{
@@ -202,13 +263,13 @@ namespace star
 		}
 
 		//Reached the end?
-		if(currentCell->m_Id == m_pEndCell->m_Id && !m_bFoundGoal)
+		if(currentCell->Id == m_pEndCell->Id && !m_bFoundGoal)
 		{
-			m_pEndCell->m_pParent = currentCell->m_pParent;
+			m_pEndCell->Parent = currentCell->Parent;
 			SearchCell* getPath;
-			for(getPath = m_pEndCell; getPath != NULL; getPath = getPath->m_pParent)
+			for(getPath = m_pEndCell; getPath != NULL; getPath = getPath->Parent)
 			{
-				vec3 temp(getPath->m_X, getPath->m_Y, 0);
+				vec3 temp(getPath->X, getPath->Y, 0);
 				m_PathToGoal.push_back(temp);
 			}
 			tstringstream str;
@@ -226,26 +287,26 @@ namespace star
 		else
 		{
 			//RightSide
-			PathOpened(currentCell->m_X + STEP_SIZE, currentCell->m_Y, currentCell->m_G + 1, currentCell);
-			//LeftSide					  
-			PathOpened(currentCell->m_X - STEP_SIZE, currentCell->m_Y, currentCell->m_G + 1, currentCell);
+			PathOpened(currentCell->X + STEP_SIZE, currentCell->Y, currentCell->G + 1, currentCell, Direction::Right);
+			//LeftSide				  
+			PathOpened(currentCell->X - STEP_SIZE, currentCell->Y, currentCell->G + 1, currentCell, Direction::Left);
 			//TopSide
-			PathOpened(currentCell->m_X, currentCell->m_Y + STEP_SIZE, currentCell->m_G + 1, currentCell);
-			//DownSide										
-			PathOpened(currentCell->m_X, currentCell->m_Y - STEP_SIZE, currentCell->m_G + 1, currentCell);
+			PathOpened(currentCell->X, currentCell->Y + STEP_SIZE, currentCell->G + 1, currentCell, Direction::Up);
+			//DownSide								
+			PathOpened(currentCell->X, currentCell->Y - STEP_SIZE, currentCell->G + 1, currentCell, Direction::Down);
 
 			//left-up diagonal
-			PathOpened(currentCell->m_X - STEP_SIZE, currentCell->m_Y + STEP_SIZE, currentCell->m_G + 1.414f, currentCell);
-			//right-up diagonal			  								
-			PathOpened(currentCell->m_X + STEP_SIZE, currentCell->m_Y + STEP_SIZE, currentCell->m_G + 1.414f, currentCell);
-			//left-down diagonal		  								
-			PathOpened(currentCell->m_X - STEP_SIZE, currentCell->m_Y - STEP_SIZE, currentCell->m_G + 1.414f, currentCell);
-			//right-down diagonal		  								
-			PathOpened(currentCell->m_X + STEP_SIZE, currentCell->m_Y - STEP_SIZE, currentCell->m_G + 1.414f, currentCell);
+			PathOpened(currentCell->X - STEP_SIZE, currentCell->Y + STEP_SIZE, currentCell->G + 1.414f, currentCell, Direction::UpLeft);
+			//right-up diagonal		  								
+			PathOpened(currentCell->X + STEP_SIZE, currentCell->Y + STEP_SIZE, currentCell->G + 1.414f, currentCell, Direction::UpRight);
+			//left-down diagonal	  								
+			PathOpened(currentCell->X - STEP_SIZE, currentCell->Y - STEP_SIZE, currentCell->G + 1.414f, currentCell, Direction::DownLeft);
+			//right-down diagonal	  								
+			PathOpened(currentCell->X + STEP_SIZE, currentCell->Y - STEP_SIZE, currentCell->G + 1.414f, currentCell, Direction::DownRight);
 
 			for (uint16 i=0; i<m_OpenList.size(); ++i)
 			{
-				if (currentCell->m_Id == m_OpenList[i]->m_Id)
+				if (currentCell->Id == m_OpenList[i]->Id)
 				{
 					m_OpenList.erase(m_OpenList.begin() +i);
 				}
@@ -274,6 +335,12 @@ namespace star
 
 	vec3 PathFindManager::GetStep(uint16 step)
 	{
+		if(m_PathToGoal.size() == 0)
+		{
+			Logger::GetSingleton()->Log(LogLevel::Info, _T("There is no path availble."));
+			return vec3(0,0,0);
+		}
+
 		if (step >= m_PathToGoal.size() - 1)
 		{
 			step = m_PathToGoal.size() - 1;

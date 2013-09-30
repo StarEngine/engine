@@ -1,13 +1,24 @@
 #pragma once
 #include <vector>
-#include "../defines.h"
-// [COMMENT] searchCell can be forward declerated. Move it!
 #include "SearchCell.h"
+#include "../defines.h"
 
 namespace star
 {
 	struct Context;
 	class Object;
+
+	enum Direction
+	{
+		Up,
+		Left,
+		Down,
+		Right,
+		UpLeft,
+		UpRight,
+		DownLeft,
+		DownRight
+	};
 
 	class PathFindManager
 	{
@@ -33,7 +44,7 @@ namespace star
 	private:
 		PathFindManager(void);
 		void SetStartAndGoal(const SearchCell& start, const SearchCell& end);
-		void PathOpened(int x, int y, float newCost, SearchCell *parent);
+		void PathOpened(int x, int y, float newCost, SearchCell *parent, Direction dir);
 		SearchCell *GetNextCell();
 		void ContinuePath();
 

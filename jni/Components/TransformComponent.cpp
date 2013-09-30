@@ -5,18 +5,17 @@
 
 namespace star
 {
-	// [COMMENT] call basecomponent constructor
 	TransformComponent::TransformComponent(void):
 		m_IsChanged(TransformChanged::NONE),
 		m_Invalidate(false),
-
 		m_WorldPosition(vec3(0,0,0)),
 		m_LocalPosition(vec3(0,0,0)),
 		m_WorldRotation(),
 		m_LocalRotation(),
 		m_WorldScale(vec3(1,1,1)),
 		m_LocalScale(vec3(1,1,1)),
-		m_World()
+		m_World(),
+		BaseComponent()
 	{
 		Logger::GetInstance()->Log(LogLevel::Info,_T("TransformComponent Added"));
 	}

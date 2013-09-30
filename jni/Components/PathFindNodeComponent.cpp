@@ -3,8 +3,8 @@
 
 namespace star
 {
-	// [COMMENT] call basecomponent constructor
-	PathFindNodeComponent::PathFindNodeComponent()
+	PathFindNodeComponent::PathFindNodeComponent():
+		BaseComponent()
 	{
 		Logger::GetInstance()->Log(LogLevel::Info, _T("PathFindNodeComponent initialized"));
 	}

@@ -3,10 +3,10 @@
 
 namespace star
 {
-	// [COMMENT] call basecomponent constructor
 	CircleColliderComponent::CircleColliderComponent(float radius):
 		m_Radius(radius),
-		m_bIsTrigger(false)
+		m_bIsTrigger(false),
+		BaseComponent()
 	{
 	}
 

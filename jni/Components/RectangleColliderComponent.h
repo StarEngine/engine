@@ -10,8 +10,7 @@ namespace star
 	class RectangleColliderComponent final : public BaseComponent
 	{
 	public:
-		// [COMMENT] can't be negatie, so just put your width and height as an unsigned integer
-		RectangleColliderComponent(int width, int height);
+		RectangleColliderComponent(uint16 width, uint16 height);
 		~RectangleColliderComponent(void);
 
 		void Initialize();
