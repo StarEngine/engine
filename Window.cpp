@@ -68,16 +68,16 @@ Window::Window(HINSTANCE instance)
 	WNDCLASSEX wndClass;
 	wndClass.cbSize = sizeof(WNDCLASSEX);
 
-	auto assets_settings = winManifest[_T("assets")].GetAttributes();
+	auto assets_settings = winManifest[_T("assets")]->GetAttributes();
 	ASSETS_ROOT = assets_settings[_T("root")];
 
 	wndClass.style = 0;
 	auto class_map = winManifest[_T("class_styles")];
-	auto class_style_it = class_map.lower_bound(_T("style"));
-	auto class_style_end_it = class_map.upper_bound(_T("style"));
+	auto class_style_it = class_map->lower_bound(_T("style"));
+	auto class_style_end_it = class_map->upper_bound(_T("style"));
 	do
 	{
-		wndClass.style |= CastStringToClassStyle(class_style_it->second.GetValue());
+		wndClass.style |= CastStringToClassStyle(class_style_it->second->GetValue());
 		++class_style_it;
 	}
 	while(class_style_it != class_style_end_it);
@@ -90,16 +90,16 @@ Window::Window(HINSTANCE instance)
 	wndClass.hCursor = NULL;
 	wndClass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	wndClass.lpszMenuName = NULL;
-	wndClass.lpszClassName = winManifest[_T("class")].GetValue().c_str();
+	wndClass.lpszClassName = winManifest[_T("class")]->GetValue().c_str();
 	wndClass.hIconSm = NULL;
 
 	uint32 windowStyles(0);
 	auto window_map = winManifest[_T("window_styles")];
-	auto win_style_it = window_map.lower_bound(_T("style"));
-	auto win_style_end_it = window_map.upper_bound(_T("style"));
+	auto win_style_it = window_map->lower_bound(_T("style"));
+	auto win_style_end_it = window_map->upper_bound(_T("style"));
 	do
 	{
-		windowStyles |= CastStringToWinStyle(win_style_it->second.GetValue());
+		windowStyles |= CastStringToWinStyle(win_style_it->second->GetValue());
 		++win_style_it;
 	}
 	while(win_style_it != win_style_end_it);
@@ -109,8 +109,8 @@ Window::Window(HINSTANCE instance)
 		
 	}
 
-	auto & resolution = winManifest[_T("resolution")].GetAttributes();
-	auto & position = winManifest[_T("position")].GetAttributes();
+	auto & resolution = winManifest[_T("resolution")]->GetAttributes();
+	auto & position = winManifest[_T("position")]->GetAttributes();
 
 	int position_x = star::string_cast<int>(position[_T("x")]);
 	int position_y = star::string_cast<int>(position[_T("y")]);
@@ -129,8 +129,8 @@ Window::Window(HINSTANCE instance)
 		position_y -= position_height / 2;
 	}
 
-	handle = CreateWindowA(	star::string_cast<std::string>(winManifest[_T("class")].GetValue()).c_str(),
-							star::string_cast<std::string>(winManifest[_T("title")].GetValue()).c_str(),
+	handle = CreateWindowA(	star::string_cast<std::string>(winManifest[_T("class")]->GetValue()).c_str(),
+							star::string_cast<std::string>(winManifest[_T("title")]->GetValue()).c_str(),
 							windowStyles,
 							position_x,
 							position_y,
@@ -181,12 +181,12 @@ Window::Window(HINSTANCE instance)
 	MSG msg ={};
 
 	auto cursor = winManifest[_T("cursor")];
-	auto cursor_settings = cursor.GetAttributes();
+	auto cursor_settings = cursor->GetAttributes();
 
 	bool hide_cursor = star::string_cast<bool>(cursor_settings[_T("hidden")]);
 	ShowCursor(!hide_cursor);
 
-	auto clip_settings = cursor[_T("clip")].GetAttributes();
+	auto clip_settings = cursor->at(_T("clip"))->GetAttributes();
 	CLIP_RECT.left = star::string_cast<long>(clip_settings[_T("x")]);
 	if(CLIP_RECT.left != -1)
 	{

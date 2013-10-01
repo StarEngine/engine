@@ -213,7 +213,7 @@ namespace star
 			return NULL;
 		}
 
-		for(int32 i = 0; i < pHeight; ++i)
+		for(uint32 i = 0; i < pHeight; ++i)
 		{
 			lRowPtrs[pHeight - (i+1)] = lImageBuffer + i * lRowSize;
 		}
@@ -280,8 +280,6 @@ namespace star
 
 		if(hasError)
 		{
-
-
 			Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : Error loading pnginto OpenGl"));
 			if(mTextureId != 0)
 			{

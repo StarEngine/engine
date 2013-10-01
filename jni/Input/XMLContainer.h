@@ -2,79 +2,29 @@
 
 #include "../defines.h"
 #include "../Helpers/Dictionary.h"
+#include <memory>
 
 namespace star
 {
-	class XMLContainer : public Dictionary<tstring, XMLContainer>
+	class XMLContainer :
+			public Dictionary<tstring, std::shared_ptr<XMLContainer> >
 	{
 	public:
-		XMLContainer()
-			: Dictionary<tstring, XMLContainer>()
-		{
+		XMLContainer();
+		XMLContainer(const XMLContainer & yRef);
+		~XMLContainer();
 
-		}
+		XMLContainer & operator=(const XMLContainer & yRef);
+
+		Dictionary<tstring, tstring> & GetAttributes();
+		const tstring & GetValue() const;
+		const tstring & GetName() const;
+
+		void SetValue(const tstring & value);
+		void SetName(const tstring & name);
 		
-		XMLContainer(const XMLContainer & yRef)
-			: Dictionary<tstring, XMLContainer>(yRef)
-			, m_Value(yRef.m_Value)
-			, m_Name(yRef.m_Name)
-			, m_Attributes(yRef.m_Attributes)
-		{
-
-		}
-
-		~XMLContainer()
-		{
-			m_Attributes.clear();
-		}
-
-		XMLContainer & operator=(const XMLContainer & yRef)
-		{
-			m_MultiMap = yRef.m_MultiMap;
-			m_Value = yRef.m_Value;
-			m_Name = yRef.m_Name;
-			m_Attributes = yRef.m_Attributes;
-			return *this;
-		}
-
-		Dictionary<tstring, tstring> & GetAttributes()
-		{
-			return m_Attributes;
-		}
-
-		const tstring & GetValue() const
-		{
-			return m_Value;
-		}
-
-		const tstring & GetName() const
-		{
-			return m_Name;
-		}
-
-		void SetValue(const tstring & value)
-		{
-			m_Value = value;
-		}
-
-		void SetName(const tstring & name)
-		{
-			m_Name = name;
-		}
-
-		void clear()
-		{
-			Dictionary<tstring, XMLContainer>::clear();
-			m_Value = _T("");
-			m_Attributes.clear();
-		}
-
-		void swap(XMLContainer & yRef)
-		{
-			Dictionary<tstring, XMLContainer>::swap(yRef);
-			m_Value = yRef.m_Value;
-			m_Attributes.swap(yRef.m_Attributes);
-		}
+		void clear();
+		void swap(XMLContainer & yRef);
 
 	protected:
 		tstring m_Value, m_Name;

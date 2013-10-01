@@ -34,6 +34,9 @@
     <ClCompile Include="jni\Helpers\StateManager.cpp" />
     <ClCompile Include="jni\Input\InputManager.cpp" />
     <ClCompile Include="jni\TestScene2.cpp" />
+    <ClCompile Include="jni\Input\XMLContainer.cpp" />
+    <ClCompile Include="jni\Input\XMLFileParser.cpp" />
+    <ClCompile Include="jni\Input\XMLFileSerializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />

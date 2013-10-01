@@ -87,7 +87,7 @@ namespace star
 				break;
 				case APP_CMD_GAINED_FOCUS:
 					lEventLoop.mEnabled=true;
-					if(lEventLoop.mMainGame->Initialize(NULL,NULL)!=STATUS_OK)
+					if(lEventLoop.mMainGame->Initialize(0,0) != STATUS_OK)
 					{
 						lEventLoop.mQuit=true;
 						lEventLoop.end();

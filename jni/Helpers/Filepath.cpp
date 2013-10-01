@@ -1,4 +1,7 @@
 #include "Filepath.h"
+#ifdef _WIN32
+#include "Window.h"
+#endif
 
 namespace star
 {
@@ -79,6 +82,11 @@ namespace star
 
 	tstring Filepath::GetFullPath() const
 	{
-		return m_Path + m_File;
+		tstring full_path(EMPTY_STRING);
+#ifdef _WIN32
+		full_path = Window::ASSETS_ROOT;
+#endif
+		full_path += m_Path + m_File;
+		return full_path;
 	}
 }

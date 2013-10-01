@@ -34,7 +34,6 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi-v7a\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${CYGWIN_HOME}\usr\include&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1713767724" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>

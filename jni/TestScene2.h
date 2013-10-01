@@ -8,7 +8,7 @@
 #include "StarComponents.h"
 #include "Shaders/Shader.h"
 #include "Objects/QuadCol.h"
-
+#include "Input/XMLContainer.h"
 
 namespace star 
 {
@@ -30,6 +30,7 @@ namespace star
 		int m_FPS;
 		float m_PassedMiliseconds;
 		Shader mTextureShader;
+		star::XMLContainer mTestXMLFile;
 
 		// [COMMENT] Please don't put so much members next to eachother. 
 		//			 It makes it hard to read and is impossible to see on a narrow

@@ -27,24 +27,24 @@ namespace star
 		{
 			mTextureManager = new TextureManager();
 		}
-		return mTextureManager;
+		return (mTextureManager);
 	}
 
 	bool TextureManager::LoadTexture(const tstring& path, const tstring& name)
 	{
-		if(mTextureManager==nullptr)
+		if(mTextureManager == nullptr)
 		{
-			return false;
+			return (false);
 		}
 
 		if(std::find(mPathList.begin(), mPathList.end(), path)!=mPathList.end())
 		{
-			return false;
+			return (false);
 		}
 
 		if(mTextureList.find(name) != mTextureList.end())
 		{
-			return false;
+			return (false);
 		}
 
 #ifdef _WIN32
@@ -56,22 +56,20 @@ namespace star
 		mTextureList[name] = temp;
 		mPathList.push_back(path);
 
-		return true;
+		return (true);
 	}
 
 	const GLuint& TextureManager::GetTextureID(const tstring& name)
 	{
 		if(mTextureManager == nullptr)
 		{
-			return NULL;
+			return (NULL);
 		}
 
 		if(mTextureList.find(name) != mTextureList.end())
 		{
-			return mTextureList[name]->getTextureID();
+			return (mTextureList[name]->getTextureID());
 		}
-
-		return NULL;
+		return (NULL);
 	}
-
 }

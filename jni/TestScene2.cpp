@@ -5,6 +5,7 @@
 #include "Input\InputManager.h"
 #include "GraphicsManager.h"
 #include "SceneManaging/SceneManager.h"
+#include "Input/XMLFileParser.h"
 
 #ifdef _WIN32
 #include "libs/OpenGL/GLEW/include/GL/glew.h"
@@ -37,7 +38,8 @@ namespace star
 		m_pPathFindCompThree(nullptr), 
 		m_pPathFindCompFour(nullptr),
 		m_pPathFindCompFive(nullptr),
-		m_pPathFindCompSix(nullptr)
+		m_pPathFindCompSix(nullptr),
+		mTestXMLFile()
 	{
 		
 	}
@@ -85,6 +87,12 @@ namespace star
 
 		TextureManager::GetInstance()->LoadTexture(_T("TestDaPng.png"),_T("TestPNG"));
 		TextureManager::GetInstance()->LoadTexture(_T("Awesome.png"),_T("Awesome"));
+
+		star::XMLFileParser parser(EMPTY_STRING, _T("book_catalog.xml"));
+		LOGGER->Log(star::LogLevel::Info,_T("Loading XML File..."));
+		parser.Read(mTestXMLFile);
+		LOGGER->Log(star::LogLevel::Info,_T("Book #1 ID:"));
+		LOGGER->Log(star::LogLevel::Info,mTestXMLFile[_T("book")]->GetAttributes()[_T("id")]);
 
 #ifndef _WIN32
 		LOGGER->Log(star::LogLevel::Info,_T("Started making shader"));
