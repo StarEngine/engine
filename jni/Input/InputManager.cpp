@@ -1,4 +1,5 @@
 #include "InputManager.h"
+
 #ifdef _WIN32
 #include "Window.h"
 #include <future>
@@ -6,7 +7,6 @@
 #include "../Logger.h"
 #include <cmath>
 #include <algorithm>
-
 #endif
 
 namespace star
@@ -43,6 +43,7 @@ namespace star
 		, m_CurrMousePosition()
 		, m_MouseMovement()
 	#endif
+		, m_GestureManager(nullptr)
 	{
 		Initialize();
 	}
@@ -509,7 +510,7 @@ namespace star
 
 	void InputManager::OnTouchEvent(AInputEvent* pEvent)
 	{
-		m_GestureInterface->OnTouchEventBase(pEvent);
+		m_GestureManager->OnTouchEvent(pEvent);
 		int32 action = AMotionEvent_getAction(pEvent);
 		uint32 flags = action & AMOTION_EVENT_ACTION_MASK;
 		switch(flags)

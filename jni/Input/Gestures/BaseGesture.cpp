@@ -13,11 +13,6 @@ namespace star
 
 		}
 
-		void BaseGesture::OnTouchEventBase(AInputEvent* pEvent)
-		{
-			OnTouchEvent(pEvent);
-		}
-
 		void BaseGesture::OnTouchEvent(AInputEvent* pEvent)
 		{
 			int32 action = AMotionEvent_getAction(pEvent);

@@ -9,7 +9,8 @@ namespace star
 	public:
 		TapGesture();
 		virtual ~TapGesture();
-	protected:
 		virtual void OnTouchEvent(AInputEvent* pEvent);
+	protected:
+
 	};
 }

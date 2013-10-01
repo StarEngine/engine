@@ -10,10 +10,10 @@ namespace star
 	public:
 		BaseGesture();
 		virtual ~BaseGesture();
-		void OnTouchEventBase(AInputEvent* pEvent);
+		virtual void OnTouchEvent(AInputEvent* pEvent);
 		bool CompletedGesture() {return (m_bCompletedGesture);}
 	protected:
-		virtual void OnTouchEvent(AInputEvent* pEvent);
+
 		bool m_bCompletedGesture;
 
 	private:

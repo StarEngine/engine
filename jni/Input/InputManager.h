@@ -14,7 +14,7 @@
 #include <vector>
 #include <android/input.h>
 #include <android_native_app_glue.h>
-#include "Gestures/BaseGesture.h"
+#include "Gestures/GestureManager.h".h"
 #endif
 
 
@@ -113,6 +113,7 @@ namespace star
 		vec2 GetCurrentFingerPosCP(uint8 finger = 1) const;
 		vec2 GetOldFingerPosCP(uint8 finger = 1) const;
 		void EndUpdate();
+		void SetGestureManager(GestureManager* gestureManager) {m_GestureManager = gestureManager;}
 
 #ifdef _WIN32
 		
@@ -156,8 +157,6 @@ namespace star
 		InputManager();
 		static InputManager*  m_InputManagerPtr;
 		//----------------------------
-
-
 	#ifdef _WIN32
 		std::map<int,InputAction> m_InputActions;
 		BYTE *m_pCurrKeyboardState, *m_pOldKeyboardState, *m_pKeyboardState0, *m_pKeyboardState1;
@@ -186,6 +185,7 @@ namespace star
 		std::vector<FingerPointerANDR> m_OldPointerVec;
 		BaseGesture* m_GestureInterface;
 #endif
+		GestureManager* m_GestureManager;
 		// -------------------------
 		// Disabling default copy constructor and default
 		// assignment operator.

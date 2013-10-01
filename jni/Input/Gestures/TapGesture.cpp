@@ -24,10 +24,6 @@ namespace star
 			break;
 		case AMOTION_EVENT_ACTION_UP:
 		{
-			tstringstream buffer;
-			buffer <<  _T("Down time: ") << AMotionEvent_getDownTime(pEvent);
-			Logger::GetSingleton()->Log(LogLevel::Info, buffer.str());
-			break;
 		}
 		case AMOTION_EVENT_ACTION_MOVE:
 			break;
