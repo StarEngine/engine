@@ -140,13 +140,9 @@ namespace star
 		if (fileName != _T("")) {
 
 			FILE *file;
-
-	#ifdef _WIN32
+#ifdef _WIN32
 			_wfopen_s(&file,fileName.c_str(), _T("rb"));
-	#else
-			file = fopen(fileName.c_str(),"rb");
-	#endif
-
+#endif
 			if (file != NULL) {
 				fseek(file, 0,2);
 				int count = ftell(file);

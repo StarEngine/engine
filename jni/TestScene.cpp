@@ -92,15 +92,21 @@ namespace star
 			LOGGER->Log(star::LogLevel::Info,_T("PNG : Awesome loaded succesfull"));
 		}
 
-#ifndef _WIN32
 		LOGGER->Log(star::LogLevel::Info,_T("Started making shader"));
-		if(!mTextureShader.Init(_T("BaseTexShader.vert"),_T("BaseTexShader.frag")))
+
+#ifdef _WIN32
+		Filepath texshaderVertex(_T("WinShaders/"),_T("Texture_Shader.vert"));
+		Filepath texshaderFrag(_T("WinShaders/"),_T("Texture_Shader.frag"));
+#else
+		Filepath texshaderVertex(_T("AndroidShaders/"),_T("BaseTexShader.vert"));
+		Filepath texshaderFrag(_T("AndroidShaders/"),_T("BaseTexShader.frag"));
+
+#endif
+		if(!mTextureShader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
 		{
 			LOGGER->Log(star::LogLevel::Info,_T("Making Shader Failed"));
 		}
 		LOGGER->Log(star::LogLevel::Info,_T("Stopped making shader"));
-#endif
-
 		//=================================================================
 		// [EXAMPLE] Here you see that I have a file path.
 		//			 I used the easiest constructor,
@@ -113,7 +119,7 @@ namespace star
 		//					   in the assets root dir.
 		//					 + always start the path defintion starting
 		//					   from the assets root dir.
-		Filepath example_path(_T("directory/"), _T("file.ext"));
+		//Filepath example_path(_T("directory/"), _T("file.ext"));
 		// this is the function you use to get the complete path
 		// inclusive the file name and extension
 		//	Notes:
@@ -121,7 +127,7 @@ namespace star
 		//		  predefined assets dir path to the returned full path.
 		//		  by default this is './assets/'. (dir android uses)
 		//	      this can be changed in the Win32Manifest.xml file.
-		LOGGER->Log(star::LogLevel::Info,example_path.GetFullPath());
+		//LOGGER->Log(star::LogLevel::Info,example_path.GetFullPath());
 		// File path has also functions, which you in most cases probably
 		// don't really need.
 		//=================================================================
@@ -172,32 +178,6 @@ namespace star
 
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
 
-#ifdef _WIN32
-
-		glEnable(GL_TEXTURE_2D);
-		
-		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("TestPNG")));
-
-		glBegin(GL_QUADS);
-		glTexCoord2f(0.0, 0.0); glVertex2f(-8.0f, -8.0f);
-		glTexCoord2f(1.0, 0.0); glVertex2f(0.0f, -8.0f);
-		glTexCoord2f(1.0, 1.0); glVertex2f(0.0f, 0.0f);
-		glTexCoord2f(0.0, 1.0); glVertex2f(-8.0f, 0.0f);
-		glEnd();
-
-		
-		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("Awesome")));
-		glBegin(GL_QUADS);
-		glTexCoord2f(0.0, 0.0); glVertex2f(0.0f, 0.0f);
-		glTexCoord2f(1.0, 0.0); glVertex2f(8.0f, 0.0f);
-		glTexCoord2f(1.0, 1.0); glVertex2f(8.0f, 8.0f);
-		glTexCoord2f(0.0, 1.0); glVertex2f(0.0f, 8.0f);
-		glEnd();
-
-		glDisable(GL_TEXTURE_2D);
-
-#else
-		//Simon - Do Not remove, I'm working on this but its a pain in the ass. commented for now
 		mTextureShader.Bind();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("Awesome")));
@@ -205,10 +185,10 @@ namespace star
 		glUniform1i(s_textureId, 0);
 
 		static const GLfloat squareVertices[] = {
-		        -0.5f, -0.5f,
-		        0.5f, -0.5f,
-		        -0.5f,  0.5f,
-		        0.5f,  0.5f,
+				-0.5f, -0.5f,
+				-0.5f, 0.5f,
+				0.5f,  -0.5f,
+				0.5f,  0.5f,
 		    };
 
 		static const GLfloat textureVertices[] = {
@@ -227,7 +207,6 @@ namespace star
 		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
 		mTextureShader.Unbind();
 
-#endif
 		return STATUS_OK;
 	}
 

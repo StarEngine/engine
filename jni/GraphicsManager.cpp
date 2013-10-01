@@ -138,6 +138,9 @@ namespace star
         //glEnable(GL_TEXTURE_2D);
         // In a simple 2D game, we have control over the third
         // dimension. So we do not really need a Z-buffer.
+#ifdef _WIN32
+		glewInit();
+#endif
         glDisable(GL_DEPTH_TEST);
 	}
 

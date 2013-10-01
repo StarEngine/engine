@@ -99,14 +99,19 @@ namespace star
 		serializer.Write(mTestXMLFile);
 		LOGGER->Log(star::LogLevel::Info,_T("Writing Done!"));
 
-#ifndef _WIN32
-		LOGGER->Log(star::LogLevel::Info,_T("Started making shader"));
-		if(!mTextureShader.Init(_T("BaseTexShader.vert"),_T("BaseTexShader.frag")))
+#ifdef _WIN32
+		Filepath texshaderVertex(_T("WinShaders/"),_T("Texture_Shader.vert"));
+		Filepath texshaderFrag(_T("WinShaders/"),_T("Texture_Shader.frag"));
+#else
+		Filepath texshaderVertex(_T("AndroidShaders/"),_T("BaseTexShader.vert"));
+		Filepath texshaderFrag(_T("AndroidShaders/"),_T("BaseTexShader.frag"));
+
+#endif
+		if(!mTextureShader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
 		{
 			LOGGER->Log(star::LogLevel::Info,_T("Making Shader Failed"));
 		}
 		LOGGER->Log(star::LogLevel::Info,_T("Stopped making shader"));
-#endif
 		return STATUS_OK;
 	}
 
@@ -117,7 +122,7 @@ namespace star
 		//posBuffer << _T("Current Mouse Pos: ( ") << pos.x << _T(" , ") << pos.y << _T(" )");
 		//LOGGER->Log(LogLevel::Warning, posBuffer.str());
 
-		ASSERT(false, _T("Assert Test."));
+		//ASSERT(false, _T("Assert Test."));
 
 		++m_TotalFrames;
 		m_PassedMiliseconds += float(context.mTimeManager->GetMicroSeconds());
@@ -155,51 +160,24 @@ namespace star
 
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
 
-#ifdef _WIN32
-
-		glEnable(GL_TEXTURE_2D);
-		
-		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("TestPNG")));
-
-		glBegin(GL_QUADS);
-		glTexCoord2f(0.0, 0.0); glVertex2f(-8.0f, -8.0f);
-		glTexCoord2f(1.0, 0.0); glVertex2f(0.0f, -8.0f);
-		glTexCoord2f(1.0, 1.0); glVertex2f(0.0f, 0.0f);
-		glTexCoord2f(0.0, 1.0); glVertex2f(-8.0f, 0.0f);
-		glEnd();
-
-		
-		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("Awesome")));
-		glBegin(GL_QUADS);
-		glTexCoord2f(0.0, 0.0); glVertex2f(0.0f, 0.0f);
-		glTexCoord2f(1.0, 0.0); glVertex2f(8.0f, 0.0f);
-		glTexCoord2f(1.0, 1.0); glVertex2f(8.0f, 8.0f);
-		glTexCoord2f(0.0, 1.0); glVertex2f(0.0f, 8.0f);
-		glEnd();
-
-		glDisable(GL_TEXTURE_2D);
-
-#else
-		//Simon - Do Not remove, I'm working on this but its a pain in the ass. commented for now
 		mTextureShader.Bind();
-		glEnable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("Awesome")));
 		GLint s_textureId = glGetUniformLocation(mTextureShader.id(), "textureSampler");
 		glUniform1i(s_textureId, 0);
 
 		static const GLfloat squareVertices[] = {
-		        -0.5f, -0.5f,
-		        0.5f, -0.5f,
-		        -0.5f,  0.5f,
-		        0.5f,  0.5f,
-		    };
+			0.5f, 0.5f,
+			0.5f, -0.5f,
+			-0.5f,  0.5f,
+			-0.5f,  -0.5f,
+		};
 
 		static const GLfloat textureVertices[] = {
-		        1.0f, 1.0f,
-		        1.0f, 0.0f,
-		        0.0f,  1.0f,
-		        0.0f,  0.0f,
+			1.0f, 1.0f,
+			1.0f, 0.0f,
+			0.0f,  1.0f,
+			0.0f,  0.0f,
 		};
 
 		glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT,0,0, squareVertices);
@@ -210,9 +188,6 @@ namespace star
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
 		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
 		mTextureShader.Unbind();
-		glDisable(GL_TEXTURE_2D);
-
-#endif
 		return STATUS_OK;
 	}
 
