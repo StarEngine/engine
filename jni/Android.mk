@@ -2,6 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
+APP_PLATFORM := android-14
 LS_CPP=$(subst $(1)/,,$(wildcard $(1)/*.cpp))
 LS_CPP+= $(subst $(1)/,,$(wildcard $(1)/**/*.cpp))
 LS_CPP+= $(subst $(1)/,,$(wildcard $(1)/**/**/*.cpp))

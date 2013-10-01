@@ -118,6 +118,8 @@ namespace star
 		//posBuffer << _T("Current Mouse Pos: ( ") << pos.x << _T(" , ") << pos.y << _T(" )");
 		//LOGGER->Log(LogLevel::Warning, posBuffer.str());
 
+		ASSERT(false, _T("Assert Test."));
+
 		++m_TotalFrames;
 		m_PassedMiliseconds += float(context.mTimeManager->GetMicroSeconds());
 		if(m_PassedMiliseconds >= 1000000)

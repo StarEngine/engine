@@ -134,9 +134,9 @@ namespace star
 		glUseProgram(0);
 	}
 
-	char* Shader::TextFileReading(tstring fileName) {
-
-		char* text="";
+	char* Shader::TextFileReading(tstring fileName)
+	{
+		char* text(NULL);
 		if (fileName != _T("")) {
 
 			FILE *file;

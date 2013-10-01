@@ -20,7 +20,7 @@ namespace star
 		static void ResetSingleton();
 
 		void Initialize();
-		void Log(LogLevel level, const tstring& pMessage, const tstring& tag = _T("STAR_ENGINE")) const;
+		void Log(LogLevel level, const tstring& pMessage, const tstring& tag = ANDROID_LOG_TAG) const;
 
 	private:
 		//SINGLETON IMPLEMENTATION

@@ -59,17 +59,18 @@ namespace star
 		return (true);
 	}
 
-	const GLuint& TextureManager::GetTextureID(const tstring& name)
+	GLuint TextureManager::GetTextureID(const tstring& name)
 	{
+		ASSERT(mTextureManager != nullptr, _T("Texture manager is invalid."));
 		if(mTextureManager == nullptr)
 		{
-			return (NULL);
+			return 0;
 		}
 
 		if(mTextureList.find(name) != mTextureList.end())
 		{
-			return (mTextureList[name]->getTextureID());
+			return mTextureList[name]->getTextureID();
 		}
-		return (NULL);
+		return 0;
 	}
 }

@@ -22,7 +22,7 @@ namespace star
 		static TextureManager* GetInstance();
 
 		bool LoadTexture(const tstring& path, const tstring& name);
-		const GLuint& GetTextureID(const tstring& name);
+		GLuint GetTextureID(const tstring& name);
 
 	private:
 		//Data Members

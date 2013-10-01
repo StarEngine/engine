@@ -84,7 +84,6 @@ namespace star {
 			case LogLevel::Error :
 				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED);
 				tprintf(combinedMessage.c_str());
-				//[TODO] Add assert + messagebox!
 				break;
 			case LogLevel::Debug :
 				#ifdef DEBUG
@@ -92,26 +91,24 @@ namespace star {
 				tprintf(combinedMessage.c_str());
 				#endif
 				break;
-			//[TODO] Add default with cross platform assert!
 			}
 		#else
 			switch(level)
 			{
 			case LogLevel::Info:
-				__android_log_print(ANDROID_LOG_INFO, tag.c_str(), pMessage.c_str());
+				__android_log_print(ANDROID_LOG_INFO, tag.c_str(), "%s", pMessage.c_str());
 				break;
 			case LogLevel::Warning:
-				__android_log_print(ANDROID_LOG_WARN, tag.c_str(), pMessage.c_str());
+				__android_log_print(ANDROID_LOG_WARN, tag.c_str(), "%s", pMessage.c_str());
 				break;
 			case LogLevel::Error:
-				__android_log_print(ANDROID_LOG_ERROR, tag.c_str(), pMessage.c_str());
+				__android_log_print(ANDROID_LOG_ERROR, tag.c_str(), "%s", pMessage.c_str());
 				break;
 			#ifdef DEBUG
 			case LogLevel::Debug:
 				__android_log_print(ANDROID_LOG_DEBUG, tag.c_str(), pMessage.c_str());
 				break;
 			#endif
-			//[TODO] Add default with cross platform assert!
 			}
 		#endif
 	}

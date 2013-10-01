@@ -5,6 +5,7 @@
 #include <jni/MainGame.h>
 #include <jni/TimeManager.h>
 #include <jni/Context.h>
+#include "jni/defines.h"
 
 // [TODO] change public datamembers into private ones!
 

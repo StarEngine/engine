@@ -39,6 +39,8 @@ const status STATUS_EXIT 	= -2;
 #include <stdlib.h>
 #include <minmax.h>
 #include <tchar.h>
+#else
+#include <android/log.h>
 #endif
 
 // Extra unicode defines
@@ -74,6 +76,7 @@ const status STATUS_EXIT 	= -2;
 
 #ifndef _WIN32
 #define _T(x) x
+#define ANDROID_LOG_TAG _T("STAR_ENGINE")
 #endif
 
 #include <algorithm>
@@ -93,36 +96,67 @@ using glm::mat4x4;
 #define EMPTY_STRING _T("")
 
 #ifndef NDEBUG
+#ifdef _WIN32
+	#define ASSERT \
+		if ( false ) {} \
+	else \
+	struct LocalAssert { \
+		int mLine; \
+		LocalAssert(int line=__LINE__) : mLine(line) {} \
+		LocalAssert(bool isOK, const tchar* message=_T("")) { \
+		if ( !isOK ) { \
+		tstringstream buffer; \
+		buffer << _T("ERROR!! Assert failed on line ") << LocalAssert().mLine << _T(" in file '") << __FILE__ << _T("'\\Message: \"") << message << _T("\"\n"); \
+		tprintf(buffer.str().c_str()); \
+		__asm { int 3 } \
+		} \
+	} \
+	} myAsserter = LocalAssert
+	#define ASSERTC \
+		if ( false ) {} \
+	else \
+	struct LocalAssert { \
+		int mLine; \
+		LocalAssert(int line=__LINE__) : mLine(line) {} \
+		LocalAssert(bool isOK, const char* message="") { \
+		if ( !isOK ) { \
+		std::stringstream buffer; \
+		buffer << "ERROR!! Assert failed on line " << LocalAssert().mLine << " in file '" << __FILE__ << "'\\Message: \"" << message << "\"\n"; \
+		std::printf(buffer.str().c_str()); \
+		__asm int 3 \
+		} \
+	} \
+	} myAsserter = LocalAssert
+#else
 #define ASSERT \
 	if ( false ) {} \
-else \
-struct LocalAssert { \
-	int mLine; \
-	LocalAssert(int line=__LINE__) : mLine(line) {} \
-	LocalAssert(bool isOK, const TCHAR* message=_T("")) { \
-	if ( !isOK ) { \
-	tstringstream buffer; \
-	buffer << _T("ERROR!! Assert failed on line ") << LocalAssert().mLine << _T(" in file '") << __FILE__ << _T("'\\Message: \"") << message << _T("\"\n"); \
-	OutputDebugString(buffer.str().c_str()); \
-	__asm { int 3 } \
+	else \
+	struct LocalAssert { \
+		int mLine; \
+		LocalAssert(int line=__LINE__) : mLine(line) {} \
+		LocalAssert(bool isOK, const tchar* message=_T("")) { \
+		if ( !isOK ) { \
+		tstringstream buffer; \
+		buffer << _T("ERROR!! Assert failed on line ") << LocalAssert().mLine << _T(" in file '") << __FILE__ << std::endl << _T("Message: \"") << message << _T("\"\n"); \
+		__android_log_print(ANDROID_LOG_ERROR, ANDROID_LOG_TAG, "%s", buffer.str().c_str()); \
+		} \
 	} \
-} \
-} myAsserter = LocalAssert
-#define ASSERTC \
-	if ( false ) {} \
-else \
-struct LocalAssert { \
-	int mLine; \
-	LocalAssert(int line=__LINE__) : mLine(line) {} \
-	LocalAssert(bool isOK, const char* message="") { \
-	if ( !isOK ) { \
-	std::stringstream buffer; \
-	buffer << "ERROR!! Assert failed on line " << LocalAssert().mLine << " in file '" << __FILE__ << "'\\Message: \"" << message << "\"\n"; \
-	OutputDebugStringA(buffer.str().c_str()); \
-	__asm { int 3 } \
+	} myAsserter = LocalAssert
+	#define ASSERTC \
+		if ( false ) {} \
+	else \
+	struct LocalAssert { \
+		int mLine; \
+		LocalAssert(int line=__LINE__) : mLine(line) {} \
+		LocalAssert(bool isOK, const char* message="") { \
+		if ( !isOK ) { \
+		std::stringstream buffer; \
+		buffer << "ERROR!! Assert failed on line " << LocalAssert().mLine << " in file '" << __FILE__ << std::endl << "Message: \"" << message << "\"\n"; \
+		__android_log_print(ANDROID_LOG_ERROR, ANDROID_LOG_TAG, "%s", buffer.str().c_str()); \
+		} \
 	} \
-} \
-} myAsserter = LocalAssert
+	} myAsserter = LocalAssert
+#endif
 #else
 #define ASSERT \
 	if ( true ) {} else \
