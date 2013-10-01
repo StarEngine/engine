@@ -76,7 +76,6 @@ const status STATUS_EXIT 	= -2;
 
 #ifndef _WIN32
 #define _T(x) x
-#define ANDROID_LOG_TAG _T("STAR_ENGINE")
 #endif
 
 #include <algorithm>
@@ -94,6 +93,7 @@ using glm::quat;
 using glm::mat4x4;
 
 #define EMPTY_STRING _T("")
+#define ANDROID_LOG_TAG _T("STAR_ENGINE")
 
 #ifndef NDEBUG
 #ifdef _WIN32
