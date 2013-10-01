@@ -43,7 +43,8 @@ namespace star
 		m_pPathFindCompThree(nullptr), 
 		m_pPathFindCompFour(nullptr),
 		m_pPathFindCompFive(nullptr),
-		m_pPathFindCompSix(nullptr)
+		m_pPathFindCompSix(nullptr),
+		m_TapGesture(nullptr)
 	{
 		
 	}

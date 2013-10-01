@@ -14,7 +14,7 @@ namespace star
 
 	}
 
-	void OnTouchEvent(AInputEvent* pEvent)
+	void TapGesture::OnTouchEvent(AInputEvent* pEvent)
 	{
 		int32 action = AMotionEvent_getAction(pEvent);
 		uint32 flags = action & AMOTION_EVENT_ACTION_MASK;
@@ -23,10 +23,12 @@ namespace star
 		case AMOTION_EVENT_ACTION_DOWN:
 			break;
 		case AMOTION_EVENT_ACTION_UP:
-			std::tstringstream buffer;
+		{
+			tstringstream buffer;
 			buffer <<  _T("Down time: ") << AMotionEvent_getDownTime(pEvent);
 			Logger::GetSingleton()->Log(LogLevel::Info, buffer.str());
 			break;
+		}
 		case AMOTION_EVENT_ACTION_MOVE:
 			break;
 		case AMOTION_EVENT_ACTION_CANCEL:

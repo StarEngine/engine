@@ -14,6 +14,7 @@
 #include <vector>
 #include <android/input.h>
 #include <android_native_app_glue.h>
+#include "Gestures/BaseGesture.h"
 #endif
 
 
@@ -183,6 +184,7 @@ namespace star
 		uint32 m_ActivePointerID;
 		std::vector<FingerPointerANDR> m_PointerVec;
 		std::vector<FingerPointerANDR> m_OldPointerVec;
+		BaseGesture* m_GestureInterface;
 #endif
 		// -------------------------
 		// Disabling default copy constructor and default

@@ -7,6 +7,7 @@
 #include "SceneGraph/Object.h"
 #include "StarComponents.h"
 #include "Objects/Sprite.h"
+#include "Input/Gestures/TapGesture.h"
 
 
 namespace star 
@@ -22,6 +23,7 @@ namespace star
 		status Draw();
 
 	private:
+		TapGesture* m_TapGesture;
 		int m_TotalFrames;
 		int m_Step;
 		int m_FPS;

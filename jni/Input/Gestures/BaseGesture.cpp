@@ -1,5 +1,5 @@
 #include "BaseGesture.h"
-
+#include "../../Logger.h"
 namespace star
 {
 		BaseGesture::BaseGesture():
@@ -13,7 +13,7 @@ namespace star
 
 		}
 
-		void BaseGesture::OnTouchEventAbstract(AInputEvent* pEvent)
+		void BaseGesture::OnTouchEventBase(AInputEvent* pEvent)
 		{
 			OnTouchEvent(pEvent);
 		}
@@ -27,7 +27,9 @@ namespace star
 			case AMOTION_EVENT_ACTION_DOWN:
 				break;
 			case AMOTION_EVENT_ACTION_UP:
+			{
 				break;
+			}
 			case AMOTION_EVENT_ACTION_MOVE:
 				break;
 			case AMOTION_EVENT_ACTION_CANCEL:

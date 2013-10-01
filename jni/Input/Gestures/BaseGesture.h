@@ -1,6 +1,7 @@
 #pragma once
 #include <android/input.h>
-
+#include <android_native_app_glue.h>
+#include "../../defines.h"
 
 namespace star
 {
@@ -9,9 +10,8 @@ namespace star
 	public:
 		BaseGesture();
 		virtual ~BaseGesture();
-
-		bool CompletedGesture() {return m_bCompletedGesture;}
-		static void OnTouchEventAbstract(AInputEvent* pEvent);
+		void OnTouchEventBase(AInputEvent* pEvent);
+		bool CompletedGesture() {return (m_bCompletedGesture);}
 	protected:
 		virtual void OnTouchEvent(AInputEvent* pEvent);
 		bool m_bCompletedGesture;

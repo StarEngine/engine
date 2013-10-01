@@ -6,7 +6,7 @@
 #include "../Logger.h"
 #include <cmath>
 #include <algorithm>
-#include "Gestures/BaseGesture.h"
+
 #endif
 
 namespace star
@@ -31,6 +31,7 @@ namespace star
 		, m_ActivePointerID(0)
 		, m_PointerVec()
 		, m_OldPointerVec()
+		, m_GestureInterface(nullptr)
 	#else
 		: m_ThreadAvailable(true)
 		, m_pCurrKeyboardState(nullptr)
@@ -92,6 +93,8 @@ namespace star
 			GetKeyboardState(m_pKeyboardState0);
 			GetKeyboardState(m_pKeyboardState1);
 		}
+#else
+		m_GestureInterface =  new BaseGesture();
 #endif
 	}
 
@@ -506,7 +509,7 @@ namespace star
 
 	void InputManager::OnTouchEvent(AInputEvent* pEvent)
 	{
-		BaseGesture::OnTouchEventAbstract(pEvent);
+		m_GestureInterface->OnTouchEventBase(pEvent);
 		int32 action = AMotionEvent_getAction(pEvent);
 		uint32 flags = action & AMOTION_EVENT_ACTION_MASK;
 		switch(flags)
@@ -533,7 +536,6 @@ namespace star
 			m_ActivePointerID = AMotionEvent_getPointerId(pEvent, 0);
 			++m_NumberOfPointers;
 			m_bMainIsDown = true;
-			BaseGesture::StartGesture();
 			break;
 		case AMOTION_EVENT_ACTION_UP:
 			for(auto pointer : m_PointerVec)
@@ -545,7 +547,6 @@ namespace star
 			m_ActivePointerID = INVALID_POINTER_ID;
 			--m_NumberOfPointers;
 			m_bMainIsUp = true;
-			BaseGesture::StopGesture();
 			break;
 		case AMOTION_EVENT_ACTION_CANCEL:
 			m_ActivePointerID = INVALID_POINTER_ID;
@@ -558,7 +559,6 @@ namespace star
 			AMotionEvent_getDownTime(pEvent);
 			AMotionEvent_getEdgeFlags(pEvent);
 			AMotionEvent_getEventTime(pEvent);
-			BaseGesture::UpdateGesture();
 			break;
 		default:
 			break;
