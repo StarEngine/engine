@@ -84,7 +84,7 @@ namespace star
 	{
 		tstring full_path(EMPTY_STRING);
 #ifdef _WIN32
-		full_path = Window::ASSETS_ROOT;
+		full_path = Window::GetInstance()->GetAssetRoot();
 #endif
 		full_path += m_Path + m_File;
 		return full_path;

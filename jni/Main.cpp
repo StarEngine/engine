@@ -3,10 +3,9 @@
 #include <Window.h>
 #include <Windows.h>
 
-
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) 
 {
-	Window * window = new Window(hInstance);
+	Window::GetInstance()->Initialize(hInstance);
 	return 0;
 }
 

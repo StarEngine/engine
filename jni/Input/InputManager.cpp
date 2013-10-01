@@ -370,7 +370,7 @@ namespace star
 		mousePos.y = (LONG)m_CurrMousePosition.y;
 		if(GetCursorPos(&mousePos))
 		{
-			ScreenToClient(Window::handle,&mousePos);
+			ScreenToClient(Window::GetInstance()->GetHandle(),&mousePos);
 		}
 		m_CurrMousePosition = vec2(mousePos.x , mousePos.y);
 		m_MouseMovement.x = m_CurrMousePosition.x - m_OldMousePosition.x;

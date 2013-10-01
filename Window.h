@@ -11,25 +11,36 @@
 class Window final
 {
 public:
-	Window(HINSTANCE instance);
+	static Window * GetInstance();
+
 	~Window(void);
-	static HWND handle;
-	
-	static HGLRC OGLcontext;
-	static HDC hdc;
-	static LRESULT CALLBACK wEventsProc(HWND handle, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	static RECT CLIP_RECT;
-	static tstring ASSETS_ROOT;
+	void Initialize(HINSTANCE instance);
 
-	static void WindowInactiveUpdate(bool inactive);
+	void WindowInactiveUpdate(bool inactive);
+	const tstring & GetAssetRoot() const;
+	const HDC & GetHDC() const;
+	const HWND & GetHandle() const;
 
 private:
+	Window();
+	static Window *m_pInstance;
+
+	bool m_IsInitialized;
+
 	star::Logger* mLoggerPtr;
 	star::MainGame* mMainGamePtr;
 	star::TimeManager* mTimeManager;
 	star::TextureManager* mTextureManager;
 	star::Context mContext;
+
+	HWND mHandle;
+	HGLRC mOGLContext;
+	HDC mHDC;
+	RECT mClipRect;
+	tstring mAssetsRoot;
+
+	static LRESULT CALLBACK wEventsProc(HWND handle, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	static const uint32 CLASS_STYLES_COUNT = 5;
 	static const uint32 WINDOW_STYLES_COUNT = 28;
