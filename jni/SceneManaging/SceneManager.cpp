@@ -4,6 +4,7 @@
 #include "BaseScene.h"
 #include "../Input/InputManager.h"
 #include "../GraphicsManager.h"
+#include "../AssetManaging/TextureManager.h"
 
 #define INPUT_MANAGER (InputManager::GetSingleton())
 
@@ -109,7 +110,7 @@ namespace star
 			return (false);
 		}
 		Logger::GetSingleton()->Log(LogLevel::Info, _T("Initializing Scene :") + m_CurrentSceneName);
-		m_NewActiveScene->Initialize(context);
+		m_NewActiveScene->BaseInitialize(context);
 		m_bInitialized = m_NewActiveScene->IsInitialized();
 		return (m_bInitialized);
 
@@ -253,6 +254,7 @@ namespace star
 	{
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Going trough DeActivate"));
 		star::GraphicsManager::GetInstance()->Destroy();
+		star::TextureManager::GetInstance()->EraseTextures();
 		m_ActiveScene->OnDeactivate();
 		m_SceneList.clear();
 		m_CurrentSceneName = _T("");

@@ -84,7 +84,6 @@ namespace star
 		CollisionManager::GetInstance()->AddObject(m_pObjectTwo);
 
 		CollisionManager::GetInstance()->CheckCollision(_T("Default"));
-		m_Initialized = true;
 
 		TextureManager::GetInstance()->LoadTexture(_T("TestDaPng.png"),_T("TestPNG"));
 		TextureManager::GetInstance()->LoadTexture(_T("Awesome.png"),_T("Awesome"));

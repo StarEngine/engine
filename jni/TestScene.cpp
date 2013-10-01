@@ -81,7 +81,6 @@ namespace star
 		CollisionManager::GetInstance()->AddObject(m_pObjectTwo);
 
 		CollisionManager::GetInstance()->CheckCollision(_T("Default"));
-		m_Initialized = true;
 
 		if(TextureManager::GetInstance()->LoadTexture(_T("TestDaPng.png"),_T("TestPNG")))
 		{
@@ -173,7 +172,6 @@ namespace star
 #else
 		//Simon - Do Not remove, I'm working on this but its a pain in the ass. commented for now
 		mTextureShader.Bind();
-		//glEnable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("Awesome")));
 		GLint s_textureId = glGetUniformLocation(mTextureShader.id(), "textureSampler");
@@ -201,7 +199,6 @@ namespace star
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
 		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
 		mTextureShader.Unbind();
-		//glDisable(GL_TEXTURE_2D);
 
 #endif
 		return STATUS_OK;

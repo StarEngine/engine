@@ -17,12 +17,13 @@ namespace star
 	class TextureManager
 	{
 	public:
-		~TextureManager(void);
+		~TextureManager(void){}
 
 		static TextureManager* GetInstance();
 
 		bool LoadTexture(const tstring& path, const tstring& name);
 		GLuint GetTextureID(const tstring& name);
+		void EraseTextures();
 
 	private:
 		//Data Members

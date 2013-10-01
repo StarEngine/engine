@@ -9,4 +9,10 @@ namespace star
 	{
 
 	}
+	status BaseScene::BaseInitialize(const Context & context)
+	{
+		m_Initialized=true;
+		return Initialize(context);
+		return STATUS_OK;
+	}
 }

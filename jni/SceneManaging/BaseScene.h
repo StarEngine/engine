@@ -12,7 +12,7 @@ namespace star
 		BaseScene(const tstring & name);
 		virtual ~BaseScene() {}
 		
-		virtual status Initialize(const Context& contex){m_Initialized=true; return STATUS_OK;}
+		status BaseInitialize(const Context& contex);
 		virtual status OnActivate() {return STATUS_OK;}
 		virtual void OnDeactivate() {}
 		virtual status Update(const Context& context) {return STATUS_OK;}
@@ -37,9 +37,12 @@ namespace star
 		bool IsInitialized() const { return m_Initialized; }
 
 	protected:
-		bool m_Initialized;
+		virtual status Initialize(const Context& context) =0;
+
+
 
 	private:
+		bool m_Initialized;
 		tstring m_Name;
 		
 

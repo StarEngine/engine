@@ -10,7 +10,7 @@
 namespace star 
 {
 	TextureManager* TextureManager::mTextureManager = nullptr;
-	TextureManager::~TextureManager(void)
+	void TextureManager::EraseTextures()
 	{
 		std::map<tstring, Texture2D*>::iterator iter;
 		for(iter= mTextureList.begin(); iter != mTextureList.end(); ++iter)
