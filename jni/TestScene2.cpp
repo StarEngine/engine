@@ -6,6 +6,7 @@
 #include "GraphicsManager.h"
 #include "SceneManaging/SceneManager.h"
 #include "Input/XMLFileParser.h"
+#include "Input/XMLFileSerializer.h"
 
 #ifdef _WIN32
 #include "libs/OpenGL/GLEW/include/GL/glew.h"
@@ -93,6 +94,11 @@ namespace star
 		parser.Read(mTestXMLFile);
 		LOGGER->Log(star::LogLevel::Info,_T("Book #1 ID:"));
 		LOGGER->Log(star::LogLevel::Info,mTestXMLFile[_T("book")]->GetAttributes()[_T("id")]);
+		star::XMLFileSerializer serializer(EMPTY_STRING, _T("book_catalog_v2.xml"));
+		mTestXMLFile[_T("book")]->GetAttributes()[_T("id")] = _T("bki10092");
+		LOGGER->Log(star::LogLevel::Info,_T("Writing XML File..."));
+		serializer.Write(mTestXMLFile);
+		LOGGER->Log(star::LogLevel::Info,_T("Writing Done!"));
 
 #ifndef _WIN32
 		LOGGER->Log(star::LogLevel::Info,_T("Started making shader"));

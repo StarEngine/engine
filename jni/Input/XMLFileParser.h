@@ -3,10 +3,6 @@
 #include "..\Helpers\Filepath.h"
 #include "..\defines.h"
 
-#ifndef _WIN32
-#include <android_native_app_glue.h>
-#endif
-
 namespace pugi
 {
 	class xml_node;

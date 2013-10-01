@@ -7,9 +7,7 @@
 #ifndef _WIN32
 #include <memory>
 #include "..\EventLoop.h"
-#include "..\Logger.h"
-
-#define LOGGER (Logger::GetSingleton())
+#include <android_native_app_glue.h>
 #endif
 
 namespace star
@@ -103,6 +101,9 @@ namespace star
 				sibling = sibling.next_sibling();
 			} while (sibling != NULL);
 		}
-		parent.insert(std::make_pair(star::string_cast<tstring>(node.name()), child));
+		if(child->GetName() != _T(""))
+		{
+			parent.insert(std::make_pair(star::string_cast<tstring>(node.name()), child));
+		}
 	}
 }

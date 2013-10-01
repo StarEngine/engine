@@ -24,7 +24,7 @@ namespace star
 		strstrResult << _T("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") << std::endl;
 		uint32 tabs(0);
 		WriteChild(strstrResult, container, tabs);
-			
+
 		tofstream resultFile;
 		resultFile.open(m_File.GetFullPath());
 		resultFile << strstrResult.str();
@@ -51,20 +51,26 @@ namespace star
 		else
 		{
 			strstr << _T(">") << std::endl;
-			if(element.size() > 0)
+			if(element.GetValue() != EMPTY_STRING)
+			{
+				++tabs;
+				strstr << GetTabString(tabs) << element.GetValue() << std::endl;
+				--tabs;
+				strstr << GetTabString(tabs);
+				strstr << _T("</") << element.GetName();
+				strstr << _T(">") << std::endl;
+			}
+			else if(element.size() > 0)
 			{
 				++tabs;
 				for(auto child : element)
 				{
-					WriteChild(strstr, *(child.second.get()), tabs);
+					XMLContainer child_value;
+					child_value = *(child.second);
+					WriteChild(strstr, child_value, tabs);
 				}
 				--tabs;
 				strstr << GetTabString(tabs) << _T("</") << element.GetName() << _T(">") << std::endl;
-			}
-			else if(element.GetValue() != EMPTY_STRING)
-			{
-				strstr << element.GetValue();
-				strstr << _T("</") << element.GetName() << _T(">") << std::endl;
 			}
 		}
 	}
