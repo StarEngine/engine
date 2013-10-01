@@ -1,12 +1,10 @@
 #pragma once
 #include <android_native_app_glue.h>
 #include <vector>
-
+#include "BaseGesture.h"
 
 namespace star
 {
-	class BaseGesture;
-
 	class GestureManager {
 	public:
 		GestureManager();

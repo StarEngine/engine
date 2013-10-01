@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../defines.h"
+#include "../Input/Gestures/GestureManager.h"
 
 namespace star 
 {
@@ -13,9 +14,9 @@ namespace star
 		virtual ~BaseScene() {}
 		
 		status BaseInitialize(const Context& contex);
-		virtual status OnActivate() {return STATUS_OK;}
-		virtual void OnDeactivate() {}
-		virtual status Update(const Context& context) {return STATUS_OK;}
+		status BaseOnActivate();
+		void BaseOnDeactivate();
+		status BaseUpdate(const Context& context);
 		virtual status Draw() {return STATUS_OK;}
 
 		virtual void OnStart() {}
@@ -37,14 +38,17 @@ namespace star
 		bool IsInitialized() const { return m_Initialized; }
 
 	protected:
-		virtual status Initialize(const Context& context) =0;
-
-
+		virtual status Initialize(const Context& context) {}
+		virtual status OnActivate() {return STATUS_OK;}
+		virtual void OnDeactivate() {}
+		virtual status Update(const Context& context) {return STATUS_OK;}
+		GestureManager* m_GestureManagerPtr;
 
 	private:
 		bool m_Initialized;
 		tstring m_Name;
 		
+
 
 		// -------------------------
 		// Disabling default copy constructor and default 

@@ -16,6 +16,7 @@ namespace star
 
 	void TapGesture::OnTouchEvent(AInputEvent* pEvent)
 	{
+		Logger::GetSingleton()->Log(LogLevel::Info, _T("Registering a tap event!"));
 		int32 action = AMotionEvent_getAction(pEvent);
 		uint32 flags = action & AMOTION_EVENT_ACTION_MASK;
 		switch(flags)

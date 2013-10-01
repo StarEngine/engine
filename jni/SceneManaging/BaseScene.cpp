@@ -1,18 +1,47 @@
 #include "BaseScene.h"
 #include "../Context.h"
+#include "../Input/InputManager.h"
 
 namespace star 
 {
 	BaseScene::BaseScene(const tstring & name)
 		: m_Name(name)
 		, m_Initialized(false)
+		, m_GestureManagerPtr(nullptr)
 	{
-
+		m_GestureManagerPtr = new GestureManager();
 	}
 	status BaseScene::BaseInitialize(const Context & context)
 	{
-		m_Initialized=true;
-		return Initialize(context);
-		return STATUS_OK;
+		status isInitialized(Initialize(context));
+		if(isInitialized == STATUS_OK)
+		{
+			m_Initialized=true;
+			return STATUS_OK;
+		}
+		return STATUS_KO;
+	}
+
+	status BaseScene::BaseOnActivate()
+	{
+		if(m_GestureManagerPtr)
+		{
+			InputManager::GetSingleton()->SetGestureManager(m_GestureManagerPtr);
+		}
+		return OnActivate();
+	}
+
+	void BaseScene::BaseOnDeactivate()
+	{
+		OnDeactivate();
+	}
+
+	status BaseScene::BaseUpdate(const Context& context)
+	{
+		if((m_GestureManagerPtr && InputManager::GetSingleton()->GetGestureManager() == nullptr) || m_GestureManagerPtr != InputManager::GetSingleton()->GetGestureManager())
+		{
+			InputManager::GetSingleton()->SetGestureManager(m_GestureManagerPtr);
+		}
+		return Update(context);
 	}
 }

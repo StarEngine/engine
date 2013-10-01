@@ -137,7 +137,7 @@ namespace star
 		}
 		if(m_ActiveScene != nullptr)
 		{
-			return (m_ActiveScene->Update(context));
+			return (m_ActiveScene->BaseUpdate(context));
 		}
 		return (STATUS_OK);
 	}
@@ -244,7 +244,7 @@ namespace star
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("native window not null"));
 			star::GraphicsManager::GetInstance()->Initialize(mApplicationPtr);
-			if(m_ActiveScene->OnActivate() != STATUS_OK)
+			if(m_ActiveScene->BaseOnActivate() != STATUS_OK)
 			{
 				ANativeActivity_finish(mApplicationPtr->activity);
 			}
@@ -258,7 +258,6 @@ namespace star
 		star::GraphicsManager::GetInstance()->Destroy();
 		star::TextureManager::GetInstance()->EraseTextures();
 		star::SoundService::GetInstance()->Stop();
-		m_ActiveScene->OnDeactivate();
 		m_SceneList.clear();
 		m_CurrentSceneName = _T("");
 	}

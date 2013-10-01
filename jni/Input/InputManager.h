@@ -114,7 +114,7 @@ namespace star
 		vec2 GetOldFingerPosCP(uint8 finger = 1) const;
 		void EndUpdate();
 		void SetGestureManager(GestureManager* gestureManager) {m_GestureManager = gestureManager;}
-
+		const GestureManager* GetGestureManager() const {return m_GestureManager;}
 #ifdef _WIN32
 		
 		//[TODO] add InputActions for android
