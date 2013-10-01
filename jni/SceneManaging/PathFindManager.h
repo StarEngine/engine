@@ -10,14 +10,14 @@ namespace star
 
 	enum Direction
 	{
-		Up,
-		Left,
-		Down,
-		Right,
-		UpLeft,
-		UpRight,
-		DownLeft,
-		DownRight
+		GoingUp,
+		GoingLeft,
+		GoingDown,
+		GoingRight,
+		GoingUpLeft,
+		GoingUpRight,
+		GoingDownLeft,
+		GoingDownRight
 	};
 
 	class PathFindManager

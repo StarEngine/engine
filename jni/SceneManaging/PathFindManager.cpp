@@ -154,7 +154,7 @@ namespace star
 		//check if there are no walls blocking the diagonal movement
 		switch (dir)
 		{
-		case Direction::UpLeft:
+		case Direction::GoingUpLeft:
 			{
 				if(find(m_PositionList.begin(), m_PositionList.end(), vec3(x,y-1,0)) == m_PositionList.end())
 				{
@@ -167,7 +167,7 @@ namespace star
 				break;
 			}
 
-		case Direction::UpRight:
+		case Direction::GoingUpRight:
 			{
 				if(find(m_PositionList.begin(), m_PositionList.end(), vec3(x,y-1,0)) == m_PositionList.end())
 				{
@@ -180,7 +180,7 @@ namespace star
 				break;
 			}
 
-		case Direction::DownLeft:
+		case Direction::GoingDownLeft:
 			{
 				if(find(m_PositionList.begin(), m_PositionList.end(), vec3(x,y+1,0)) == m_PositionList.end())
 				{
@@ -193,7 +193,7 @@ namespace star
 				break;
 			}
 
-		case Direction::DownRight:
+		case Direction::GoingDownRight:
 			{
 				if(find(m_PositionList.begin(), m_PositionList.end(), vec3(x,y+1,0)) == m_PositionList.end())
 				{
@@ -287,22 +287,22 @@ namespace star
 		else
 		{
 			//RightSide
-			PathOpened(currentCell->X + STEP_SIZE, currentCell->Y, currentCell->G + 1, currentCell, Direction::Right);
+			PathOpened(currentCell->X + STEP_SIZE, currentCell->Y, currentCell->G + 1, currentCell, Direction::GoingRight);
 			//LeftSide				  
-			PathOpened(currentCell->X - STEP_SIZE, currentCell->Y, currentCell->G + 1, currentCell, Direction::Left);
+			PathOpened(currentCell->X - STEP_SIZE, currentCell->Y, currentCell->G + 1, currentCell, Direction::GoingLeft);
 			//TopSide
-			PathOpened(currentCell->X, currentCell->Y + STEP_SIZE, currentCell->G + 1, currentCell, Direction::Up);
+			PathOpened(currentCell->X, currentCell->Y + STEP_SIZE, currentCell->G + 1, currentCell, Direction::GoingUp);
 			//DownSide								
-			PathOpened(currentCell->X, currentCell->Y - STEP_SIZE, currentCell->G + 1, currentCell, Direction::Down);
+			PathOpened(currentCell->X, currentCell->Y - STEP_SIZE, currentCell->G + 1, currentCell, Direction::GoingDown);
 
 			//left-up diagonal
-			PathOpened(currentCell->X - STEP_SIZE, currentCell->Y + STEP_SIZE, currentCell->G + 1.414f, currentCell, Direction::UpLeft);
+			PathOpened(currentCell->X - STEP_SIZE, currentCell->Y + STEP_SIZE, currentCell->G + 1.414f, currentCell, Direction::GoingUpLeft);
 			//right-up diagonal		  								
-			PathOpened(currentCell->X + STEP_SIZE, currentCell->Y + STEP_SIZE, currentCell->G + 1.414f, currentCell, Direction::UpRight);
+			PathOpened(currentCell->X + STEP_SIZE, currentCell->Y + STEP_SIZE, currentCell->G + 1.414f, currentCell, Direction::GoingUpRight);
 			//left-down diagonal	  								
-			PathOpened(currentCell->X - STEP_SIZE, currentCell->Y - STEP_SIZE, currentCell->G + 1.414f, currentCell, Direction::DownLeft);
+			PathOpened(currentCell->X - STEP_SIZE, currentCell->Y - STEP_SIZE, currentCell->G + 1.414f, currentCell, Direction::GoingDownLeft);
 			//right-down diagonal	  								
-			PathOpened(currentCell->X + STEP_SIZE, currentCell->Y - STEP_SIZE, currentCell->G + 1.414f, currentCell, Direction::DownRight);
+			PathOpened(currentCell->X + STEP_SIZE, currentCell->Y - STEP_SIZE, currentCell->G + 1.414f, currentCell, Direction::GoingDownRight);
 
 			for (uint16 i=0; i<m_OpenList.size(); ++i)
 			{
