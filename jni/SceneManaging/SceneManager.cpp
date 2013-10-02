@@ -5,6 +5,7 @@
 #include "../Input/InputManager.h"
 #include "../GraphicsManager.h"
 #include "../AssetManaging/TextureManager.h"
+#include "../Sound/SoundService.h"
 
 #define INPUT_MANAGER (InputManager::GetSingleton())
 
@@ -201,6 +202,7 @@ namespace star
 			break;
 		case APP_CMD_STOP:
 			m_ActiveScene->OnStop();
+			DeActivate();
 			break;
 		case APP_CMD_TERM_WINDOW:
 			m_ActiveScene->OnDestroyWindow();
@@ -255,6 +257,7 @@ namespace star
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Going trough DeActivate"));
 		star::GraphicsManager::GetInstance()->Destroy();
 		star::TextureManager::GetInstance()->EraseTextures();
+		star::SoundService::GetInstance()->Stop();
 		m_ActiveScene->OnDeactivate();
 		m_SceneList.clear();
 		m_CurrentSceneName = _T("");

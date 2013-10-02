@@ -28,6 +28,8 @@ namespace star
 		int m_FPS;
 		float m_PassedMiliseconds;
 
+		float mRed, mGreen, mBlue;
+
 		Sprite* m_pTestSprite;
 		// [COMMENT] Please don't put so much members next to eachother. 
 		//			 It makes it hard to read and is impossible to see on a narrow

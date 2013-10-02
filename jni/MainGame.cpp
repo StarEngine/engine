@@ -7,6 +7,7 @@
 #include "TestScene2.h"
 #include "Logger.h"
 #include "Input/InputManager.h"
+#include "Sound/SoundService.h"
 
 namespace star
 {
@@ -60,6 +61,8 @@ namespace star
 		Logger::GetSingleton()->Log(LogLevel::Info,_T("Scenes Set and Done"));
 
 		star::GraphicsManager::GetInstance()->Setup();
+
+		star::SoundService::GetInstance()->Start();
 
 		return STATUS_OK;
 	}

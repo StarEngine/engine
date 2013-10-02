@@ -6,6 +6,7 @@
 #include "GraphicsManager.h"
 #include "SceneManaging/SceneManager.h"
 #include "Helpers/Filepath.h"
+#include "Sound/SoundService.h"
 
 #ifdef _WIN32
 #include "libs/OpenGL/GLEW/include/GL/glew.h"
@@ -25,6 +26,9 @@ namespace star
 		m_FPS(0),
 		m_Step(0),
 		m_PassedMiliseconds(0),
+		mRed(1.0),
+		mGreen(0),
+		mBlue(0),
 		m_pTestSprite(nullptr),
 		m_pObjectOne(nullptr),
 		m_pObjectTwo(nullptr),
@@ -87,6 +91,8 @@ namespace star
 
 		CollisionManager::GetInstance()->CheckCollision(_T("Default"));
 
+		Filepath soundspath(_T("Sounds/"),_T("Sample.mp3"));
+		star::SoundService::GetInstance()->PlaySoundFile(soundspath.GetFullPath());
 		//=================================================================
 		// [EXAMPLE] Here you see that I have a file path.
 		//			 I used the easiest constructor,
@@ -148,13 +154,40 @@ namespace star
 			SceneManager::GetInstance()->SetActiveScene(_T("TestScene2"));
 		}
 
+		if(mRed>=1.0 && mGreen <1.0 && mBlue <1.0)
+		{
+			mGreen += context.mTimeManager->GetSeconds();
+		}
+		if(mGreen>=1.0 && mRed > 0 && mBlue <1.0)
+		{
+			mRed -= context.mTimeManager->GetSeconds();
+		}
+		if(mGreen>=1.0 && mRed<=0.0 && mBlue<1.0)
+		{
+			mBlue += context.mTimeManager->GetSeconds();
+		}
+		if(mBlue>=1.0 && mGreen>0 && mRed <1.0)
+		{
+			mGreen -= context.mTimeManager->GetSeconds();
+		}
+		if(mBlue >=1.0 && mGreen<=0.0 && mRed <1.0)
+		{
+			mRed += context.mTimeManager->GetSeconds();
+		}
+		if(mRed >=1.0 && mBlue >0 && mGreen <1.0)
+		{
+			mBlue -= context.mTimeManager->GetSeconds();
+		}
+
 
 		return STATUS_OK;
 	}
 
 	status TestScene::Draw()
 	{
-		glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // Clear the background of our window to red
+
+
+		glClearColor(mRed,mGreen,mBlue, 1.0f); // Clear the background of our window to red
 
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
 

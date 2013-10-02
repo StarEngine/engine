@@ -10,6 +10,13 @@ class EventLoop;
 
 namespace star
 {
+	struct ResourceDescriptor
+	{
+		int32_t mDescriptor;
+		off_t mStart;
+		off_t mLength;
+	};
+
 	class Resource
 	{
 	public:
@@ -24,6 +31,8 @@ namespace star
 
 		off_t getLength();
 		const void* bufferize();
+
+		ResourceDescriptor DeScript();
 
 	private:
 		tstring mPath;

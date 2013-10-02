@@ -38,6 +38,7 @@
     <ClCompile Include="jni\Input\XMLFileParser.cpp" />
     <ClCompile Include="jni\Input\XMLFileSerializer.cpp" />
     <ClCompile Include="jni\Objects\Sprite.cpp" />
+    <ClCompile Include="jni\Sound\SoundService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="jni\Input\InputManager.h" />
     <ClInclude Include="jni\TestScene2.h" />
     <ClInclude Include="jni\Objects\Sprite.h" />
+    <ClInclude Include="jni\Sound\SoundService.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="jni">

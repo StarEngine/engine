@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(ProjectDir)\libs\OpenGL\GLUT\lib\x86\Debug;$(ProjectDir)\libs\OpenGL\GLEW\lib\Release\Win32;$(ProjectDir)\libs\Libpng_Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)\libs\OpenSL;$(ProjectDir)\libs\OpenGL\GLUT\lib\x86\Debug;$(ProjectDir)\libs\OpenGL\GLEW\lib\Release\Win32;$(ProjectDir)\libs\Libpng_Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -112,6 +112,7 @@
     <ClCompile Include="jni\SceneManaging\PathFindManager.cpp" />
     <ClCompile Include="jni\SceneManaging\SceneManager.cpp" />
     <ClCompile Include="jni\Shaders\Shader.cpp" />
+    <ClCompile Include="jni\Sound\SoundService.cpp" />
     <ClCompile Include="jni\TestScene.cpp" />
     <ClCompile Include="jni\TestScene2.cpp" />
     <ClCompile Include="jni\TimeManager.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="jni\SceneManaging\PathFindManager.h" />
     <ClInclude Include="jni\Shaders\Shader.h" />
     <ClInclude Include="jni\SceneManaging\SearchCell.h" />
+    <ClInclude Include="jni\Sound\SoundService.h" />
     <ClInclude Include="jni\StarComponents.h" />
     <ClInclude Include="jni\SceneGraph\Object.h" />
     <ClInclude Include="jni\Components\RectangleColliderComponent.h" />
