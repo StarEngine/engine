@@ -22,6 +22,7 @@ namespace star
 		static TextureManager* GetInstance();
 
 		bool LoadTexture(const tstring& path, const tstring& name);
+		bool DeleteTexture(const tstring& name);
 		GLuint GetTextureID(const tstring& name);
 		void EraseTextures();
 

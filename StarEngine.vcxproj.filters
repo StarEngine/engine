@@ -37,6 +37,7 @@
     <ClCompile Include="jni\Input\XMLContainer.cpp" />
     <ClCompile Include="jni\Input\XMLFileParser.cpp" />
     <ClCompile Include="jni\Input\XMLFileSerializer.cpp" />
+    <ClCompile Include="jni\Objects\Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
@@ -202,6 +203,7 @@
     <ClInclude Include="jni\Helpers\StateManager.h" />
     <ClInclude Include="jni\Input\InputManager.h" />
     <ClInclude Include="jni\TestScene2.h" />
+    <ClInclude Include="jni\Objects\Sprite.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="jni">

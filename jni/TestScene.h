@@ -6,13 +6,11 @@
 #include "Context.h"
 #include "SceneGraph/Object.h"
 #include "StarComponents.h"
-#include "Shaders/Shader.h"
-#include "Objects/QuadCol.h"
+#include "Objects/Sprite.h"
 
 
 namespace star 
 {
-	class Texture2D;
 
 	class TestScene : public BaseScene
 	{
@@ -29,8 +27,8 @@ namespace star
 		int m_Step;
 		int m_FPS;
 		float m_PassedMiliseconds;
-		Shader mTextureShader;
 
+		Sprite* m_pTestSprite;
 		// [COMMENT] Please don't put so much members next to eachother. 
 		//			 It makes it hard to read and is impossible to see on a narrow
 		//			 window layout.

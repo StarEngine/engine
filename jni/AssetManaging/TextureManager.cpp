@@ -37,10 +37,10 @@ namespace star
 			return (false);
 		}
 
-		if(std::find(mPathList.begin(), mPathList.end(), path)!=mPathList.end())
+		/*if(std::find(mPathList.begin(), mPathList.end(), path)!=mPathList.end())
 		{
 			return (false);
-		}
+		}*/
 
 		if(mTextureList.find(name) != mTextureList.end())
 		{
@@ -48,15 +48,26 @@ namespace star
 		}
 
 #ifdef _WIN32
-		tstring pathpre = _T("assets/") + path;
-		Texture2D* temp = new Texture2D(pathpre);
+
+		Texture2D* temp = new Texture2D(path);
 #else
 		Texture2D* temp = new Texture2D(path,star::EventLoop::mApplicationPtr);
 #endif
 		mTextureList[name] = temp;
-		mPathList.push_back(path);
+		//mPathList.push_back(path);
 
 		return (true);
+	}
+
+	bool TextureManager::DeleteTexture(const tstring& name)
+	{
+		auto it = mTextureList.find(name);
+		if(it != mTextureList.end())
+		{
+			mTextureList.erase(it);
+			return (true);
+		}
+		return (false);
 	}
 
 	GLuint TextureManager::GetTextureID(const tstring& name)

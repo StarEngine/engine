@@ -26,6 +26,7 @@ namespace star
 		m_FPS(0),
 		m_Step(0),
 		m_PassedMiliseconds(0),
+		m_pTestSprite(nullptr),
 		m_pObjectOne(nullptr),
 		m_pObjectTwo(nullptr),
 		m_pObjectThree(nullptr),
@@ -47,6 +48,9 @@ namespace star
 
 	status TestScene2::Initialize( const Context& context)
 	{
+		Filepath tex1path(_T(""),_T("TestDaPng.png"));
+		m_pTestSprite = new Sprite(tex1path.GetFullPath(),_T("TestDaPng"));
+
 		m_pObjectOne = new Object();
 		m_pRectCompOne = new RectangleColliderComponent(10,10);
 		m_pPathFindComp = new PathFindNodeComponent();
@@ -85,9 +89,6 @@ namespace star
 
 		CollisionManager::GetInstance()->CheckCollision(_T("Default"));
 
-		TextureManager::GetInstance()->LoadTexture(_T("TestDaPng.png"),_T("TestPNG"));
-		TextureManager::GetInstance()->LoadTexture(_T("Awesome.png"),_T("Awesome"));
-
 		star::XMLFileParser parser(EMPTY_STRING, _T("book_catalog.xml"));
 		LOGGER->Log(star::LogLevel::Info,_T("Loading XML File..."));
 		parser.Read(mTestXMLFile);
@@ -99,19 +100,6 @@ namespace star
 		serializer.Write(mTestXMLFile);
 		LOGGER->Log(star::LogLevel::Info,_T("Writing Done!"));
 
-#ifdef _WIN32
-		Filepath texshaderVertex(_T("WinShaders/"),_T("Texture_Shader.vert"));
-		Filepath texshaderFrag(_T("WinShaders/"),_T("Texture_Shader.frag"));
-#else
-		Filepath texshaderVertex(_T("AndroidShaders/"),_T("BaseTexShader.vert"));
-		Filepath texshaderFrag(_T("AndroidShaders/"),_T("BaseTexShader.frag"));
-
-#endif
-		if(!mTextureShader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
-		{
-			LOGGER->Log(star::LogLevel::Info,_T("Making Shader Failed"));
-		}
-		LOGGER->Log(star::LogLevel::Info,_T("Stopped making shader"));
 		return STATUS_OK;
 	}
 
@@ -160,34 +148,8 @@ namespace star
 
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
 
-		mTextureShader.Bind();
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(_T("Awesome")));
-		GLint s_textureId = glGetUniformLocation(mTextureShader.id(), "textureSampler");
-		glUniform1i(s_textureId, 0);
+		m_pTestSprite->Draw();
 
-		static const GLfloat squareVertices[] = {
-			0.5f, 0.5f,
-			0.5f, -0.5f,
-			-0.5f,  0.5f,
-			-0.5f,  -0.5f,
-		};
-
-		static const GLfloat textureVertices[] = {
-			1.0f, 1.0f,
-			1.0f, 0.0f,
-			0.0f,  1.0f,
-			0.0f,  0.0f,
-		};
-
-		glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT,0,0, squareVertices);
-		glEnableVertexAttribArray(ATTRIB_VERTEX);
-		glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, textureVertices);
-		glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
-		glDrawArrays(GL_TRIANGLE_STRIP,0,4);
-		glDisableVertexAttribArray(ATTRIB_VERTEX);
-		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
-		mTextureShader.Unbind();
 		return STATUS_OK;
 	}
 

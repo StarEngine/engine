@@ -9,10 +9,10 @@
 #include "Shaders/Shader.h"
 #include "Objects/QuadCol.h"
 #include "Input/XMLContainer.h"
+#include "Objects/Sprite.h"
 
 namespace star 
 {
-	class Texture2D;
 
 	class TestScene2 : public BaseScene
 	{
@@ -29,7 +29,7 @@ namespace star
 		int m_Step;
 		int m_FPS;
 		float m_PassedMiliseconds;
-		Shader mTextureShader;
+		Sprite* m_pTestSprite;
 		star::XMLContainer mTestXMLFile;
 
 		// [COMMENT] Please don't put so much members next to eachother. 
