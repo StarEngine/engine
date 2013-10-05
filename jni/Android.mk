@@ -2,7 +2,6 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-APP_PLATFORM := android-14
 LS_CPP=$(subst $(1)/,,$(wildcard $(1)/*.cpp))
 LS_CPP+= $(subst $(1)/,,$(wildcard $(1)/**/*.cpp))
 LS_CPP+= $(subst $(1)/,,$(wildcard $(1)/**/**/*.cpp))
@@ -11,6 +10,8 @@ LOCAL_CPPFLAGS  := -std=gnu++11
 LOCAL_MODULE    := starengine
 LOCAL_SRC_FILES := $(call LS_CPP,$(LOCAL_PATH))
 LOCAL_LDLIBS    := -landroid -llog -lEGL -lGLESv1_CM -lGLESv2 -lOpenSLES
+APP_PLATFORM := android-14
+APP_OPTIM := debug
 
 LOCAL_STATIC_LIBRARIES := android_native_app_glue png
 
