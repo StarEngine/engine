@@ -93,30 +93,6 @@ namespace star
 
 		Filepath soundspath(_T("Sounds/"),_T("Sample.ogg"));
 		star::SoundService::GetInstance()->PlaySoundFile(soundspath.GetFullPath());
-		//=================================================================
-		// [EXAMPLE] Here you see that I have a file path.
-		//			 I used the easiest constructor,
-		//			 but it has also other constructors.
-		//			 For more information: check the header file.
-		//			 This constructor has 2 parameters
-		//			 	1) Directory of the file
-		//					Notes:
-		//					 + use EMPTY_STRING or _T("") if the file is
-		//					   in the assets root dir.
-		//					 + always start the path defintion starting
-		//					   from the assets root dir.
-		//Filepath example_path(_T("directory/"), _T("file.ext"));
-		// this is the function you use to get the complete path
-		// inclusive the file name and extension
-		//	Notes:
-		//		+ for windows he automaticly prepends the
-		//		  predefined assets dir path to the returned full path.
-		//		  by default this is './assets/'. (dir android uses)
-		//	      this can be changed in the Win32Manifest.xml file.
-		//LOGGER->Log(star::LogLevel::Info,example_path.GetFullPath());
-		// File path has also functions, which you in most cases probably
-		// don't really need.
-		//=================================================================
 
 		return STATUS_OK;
 	}
@@ -179,14 +155,11 @@ namespace star
 			mBlue -= context.mTimeManager->GetSeconds();
 		}
 
-
 		return STATUS_OK;
 	}
 
 	status TestScene::Draw()
 	{
-
-
 		glClearColor(mRed,mGreen,mBlue, 1.0f); // Clear the background of our window to red
 
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)

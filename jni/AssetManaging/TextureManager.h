@@ -17,7 +17,7 @@ namespace star
 	class TextureManager
 	{
 	public:
-		~TextureManager(void){}
+		~TextureManager(void) {}
 
 		static TextureManager* GetInstance();
 
@@ -32,7 +32,7 @@ namespace star
 		std::map<tstring, Texture2D*> mTextureList;
 		std::vector<tstring> mPathList;
 
-		TextureManager(void){}
+		TextureManager(void) {}
 
 		TextureManager(const TextureManager& yRef);
 		TextureManager(TextureManager&& yRef);

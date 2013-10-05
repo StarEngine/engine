@@ -18,16 +18,20 @@ namespace star
 	class SoundService
 	{
 	public:
-
+		// [COMMENT] don't forget to define the destructor (publicly)
 		static SoundService* GetInstance();
 		status Start();
 		void Stop();
 
+		// [COMMENT] Pass by reference, now you copy you're entire string
+		// everytime you call the function...
 		status PlaySoundFile(const tstring path);
+		// [COMMENT] same here
 		status PlaySoundEffect(const tstring path){}
 
 		//For looptimes : -1 repeat forever, 0 play once 
-		status PlayBackgroundMusic(const tstring path, int looptimes = 0){}
+		// [COMMENT] same here... and function body in .cpp file please.
+		status PlayBackgroundMusic(const tstring path, int looptimes = 0) {}
 
 		void StopSound();
 
@@ -46,8 +50,8 @@ namespace star
 		SLPlayItf mPlayer;
 		SLSeekItf mPlayerSeek;
 #endif
-	SoundService(const SoundService& yRef);
-	SoundService(SoundService&& yRef);
-	SoundService& operator=(const SoundService& yRef);
+		SoundService(const SoundService& yRef);
+		SoundService(SoundService&& yRef);
+		SoundService& operator=(const SoundService& yRef);
 	};
 }

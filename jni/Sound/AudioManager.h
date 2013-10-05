@@ -1,5 +1,5 @@
 #pragma once
-
+// [COMMENT] you're not using an std::map so why include this header?
 #include <map>
 #include <vector>
 #include "../defines.h"
@@ -16,7 +16,9 @@ namespace star
 	class AudioManager
 	{
 	public:
-		~AudioManager(void){}
+		// [COMMENT] somethimes you use void and somethines you leave it
+		// empty. choose of the 2 please.
+		~AudioManager(void) {}
 
 		static AudioManager* GetInstance();
 

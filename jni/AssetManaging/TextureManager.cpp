@@ -13,13 +13,14 @@ namespace star
 	void TextureManager::EraseTextures()
 	{
 		std::map<tstring, Texture2D*>::iterator iter;
+		// [COMMENT] remove this line and use auto iter = ...
+		// is much cleaner and more readeable.
 		for(iter= mTextureList.begin(); iter != mTextureList.end(); ++iter)
 		{
 			mTextureList.erase(iter);
 		}
 		mPathList.clear();
 	}
-
 
 	TextureManager* TextureManager::GetInstance()
 	{
@@ -51,7 +52,7 @@ namespace star
 
 		Texture2D* temp = new Texture2D(path);
 #else
-		Texture2D* temp = new Texture2D(path,star::EventLoop::mApplicationPtr);
+		Texture2D* temp = new Texture2D(path, star::EventLoop::mApplicationPtr);
 #endif
 		mTextureList[name] = temp;
 		//mPathList.push_back(path);

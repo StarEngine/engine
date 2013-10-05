@@ -13,7 +13,6 @@
 
 namespace star 
 {
-
 	class TestScene2 : public BaseScene
 	{
 	public:

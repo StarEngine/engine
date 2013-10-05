@@ -1,6 +1,7 @@
 #include "SoundService.h"
 #include "../Logger.h"
 
+// [COMMENT] replace this with ifndef?
 #ifdef _WIN32
 
 #else
@@ -41,16 +42,17 @@ namespace star
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio : Started making Audio Engine"));
 
 #ifdef _WIN32
-		int32 audio_rate = 44100;
-		uint16 audio_format = MIX_DEFAULT_FORMAT;
-		int32 audio_channels = 2;
-		int32 audio_buffers = 4096;
+		int32 audio_rate(44100);
+		uint16 audio_format(MIX_DEFAULT_FORMAT);
+		int32 audio_channels(2);
+		int32 audio_buffers(4096);
 
 		SDL_Init(SDL_INIT_AUDIO);
 		int flags = MIX_INIT_OGG | MIX_INIT_MP3;
 		int innited = Mix_Init(flags);
-		if(innited&flags != flags)
+		if(innited & flags != flags)
 		{
+			// [COMMENT] use the star::string_cast<T>(...) function for this
 			tstringstream buffer;
 			buffer << Mix_GetError();
 			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio :Could not init Ogg and Mp3, reason : ")+buffer.str());
@@ -126,9 +128,6 @@ namespace star
 		return STATUS_OK;
 	}
 
-
-
-
 	void SoundService::Stop()
 	{
 		StopSound();
@@ -137,36 +136,37 @@ namespace star
 		Mix_CloseAudio();
 		Mix_Quit();
 		SDL_Quit();
-
 #else
 		if(mOutputMixObj != NULL)
 		{
 			(*mOutputMixObj)->Destroy(mOutputMixObj);
 			mOutputMixObj = NULL;
 		}
-		if(mEngineObj!=NULL)
+		if(mEngineObj != NULL)
 		{
 			(*mEngineObj)->Destroy(mEngineObj);
-			mEngineObj=NULL;
-			mEngine=NULL;
+			mEngineObj = NULL;
+			mEngine = NULL;
 		}
 #endif
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio : Stopped audio Engine"));
 	}
 
+	// [COMMENT] const corectness...
 	status SoundService::PlaySoundFile(const tstring path)
 	{
-		
 #ifdef _WIN32
 		if(mMusic == NULL)
 		{
 			int buffersize= 128;
+			// [COMMENT] c++0x casts please. i.e. NO C casts
 			char* cpath =(char*)malloc(buffersize);
 			size_t i;
 			wcstombs_s(&i,cpath,(size_t)buffersize,path.c_str(),(size_t)buffersize);
 			mMusic = Mix_LoadMUS(cpath);
 			if(!mMusic)
 			{
+				// [COMMENT] use star::string_cast<T>(...) please
 				tstringstream buffer;
 				buffer << Mix_GetError();
 				star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio :Could not load song, reason : ")+buffer.str());
@@ -180,7 +180,7 @@ namespace star
 		SLresult lRes;
 		Resource lResource(star::EventLoop::mApplicationPtr, path);
 		ResourceDescriptor lDescriptor = lResource.DeScript();
-		if(lDescriptor.mDescriptor<0)
+		if(lDescriptor.mDescriptor < 0)
 		{
 			star::Logger::GetSingleton()->Log(star::LogLevel::Error, _T("Audio : Could not open file"));
 			return STATUS_KO;
@@ -270,19 +270,18 @@ namespace star
 #ifdef _WIN32
 		Mix_FreeMusic(mMusic);
 		mMusic=NULL;
-
 #else
-		if(mPlayer !=NULL)
+		if(mPlayer != NULL)
 		{
 			SLuint32 lPlayerState;
-			(*mPlayerObj)->GetState(mPlayerObj,&lPlayerState);
+			(*mPlayerObj)->GetState(mPlayerObj, &lPlayerState);
 			if(lPlayerState == SL_OBJECT_STATE_REALIZED)
 			{
 				(*mPlayer)->SetPlayState(mPlayer,SL_PLAYSTATE_PAUSED);
 				(*mPlayerObj)->Destroy(mPlayerObj);
-				mPlayerObj=NULL;
-				mPlayer=NULL;
-				mPlayerSeek=NULL;
+				mPlayerObj = NULL;
+				mPlayer = NULL;
+				mPlayerSeek = NULL;
 			}
 		}
 #endif

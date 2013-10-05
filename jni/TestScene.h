@@ -11,7 +11,6 @@
 
 namespace star 
 {
-
 	class TestScene : public BaseScene
 	{
 	public:
@@ -31,9 +30,6 @@ namespace star
 		float mRed, mGreen, mBlue;
 
 		Sprite* m_pTestSprite;
-		// [COMMENT] Please don't put so much members next to eachother. 
-		//			 It makes it hard to read and is impossible to see on a narrow
-		//			 window layout.
 		Object	*m_pObjectOne, 
 				*m_pObjectTwo, 
 				*m_pObjectThree,
