@@ -27,18 +27,15 @@ namespace star
 		void Destroy();
 #endif
 
-
 		void StartDraw();
 		void StopDraw();
 		void Setup();
 
-		int32 GetScreenWidth(){return mScreenWidth;}
-		int32 GetScreenHeight(){return mScreenHeight;}
+		int32 GetScreenWidth() const { return mScreenWidth; }
+		int32 GetScreenHeight() const { return mScreenHeight; }
 
 	private:
-
 		GraphicsManager();
-
 
 		static GraphicsManager* mGraphicsManager;
 
@@ -46,11 +43,9 @@ namespace star
 		int32 mScreenHeight;
 
 #ifndef _WIN32
-
         EGLDisplay mDisplay;
         EGLSurface mSurface;
         EGLContext mContext;
-
 #endif
 
 		//disabling default copy constructor

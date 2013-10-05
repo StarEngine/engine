@@ -5,6 +5,7 @@
 
 namespace star
 {
+	// [COMMENT] const correctnes?
 	Sprite::Sprite(tstring filePath, tstring spriteName):
 		mSpriteName(spriteName)
 	{
@@ -33,6 +34,7 @@ namespace star
 		star::TextureManager::GetInstance()->DeleteTexture(mSpriteName);
 	}
 
+	// [COMMENT] see comment in header file
 	void Sprite::createSquare()
 	{
 		mVertices[0] = 0.5f;

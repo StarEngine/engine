@@ -1,19 +1,19 @@
 #include "GraphicsManager.h"
 #include "Logger.h"
 
-
 namespace star
 {
-	GraphicsManager* GraphicsManager::mGraphicsManager =nullptr;
+	GraphicsManager* GraphicsManager::mGraphicsManager = nullptr;
 
-	GraphicsManager::GraphicsManager():mScreenHeight(0),mScreenWidth(0)
+	GraphicsManager::GraphicsManager() :
+			mScreenHeight(0),
+			mScreenWidth(0)
 	{
-		
 	}
 
 	GraphicsManager* GraphicsManager::GetInstance()
 	{
-		if(mGraphicsManager ==nullptr)
+		if(mGraphicsManager == nullptr)
 		{
 			mGraphicsManager = new GraphicsManager();
 		}			
@@ -23,7 +23,7 @@ namespace star
 #ifdef _WIN32
 	void GraphicsManager::Initialize(int32 screenWidth, int32 screenHeight)
 	{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialized"));
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager: Initialized"));
 		
 		mScreenWidth = screenWidth;
 		mScreenHeight = screenHeight;
@@ -31,9 +31,10 @@ namespace star
 		glEnable(GL_TEXTURE_2D);
 		// In a simple 2D game, we have control over the third
 		// dimension. So we do not really need a Z-buffer.
+		// [COMMENT] Depends. It's one of many techniques
+		// for ordering your 2D elements in different/the same layer(s).
 		glDisable(GL_DEPTH_TEST);
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
 	}
 #else
 	void GraphicsManager::Initialize(const android_app* pApplication)
@@ -53,7 +54,7 @@ namespace star
 		if (mDisplay == EGL_NO_DISPLAY)
 		{
 			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : No display found"));
-						return;
+			return;
 		}
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialize Display"));
 		if (!eglInitialize(mDisplay, NULL, NULL))
@@ -70,7 +71,9 @@ namespace star
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Getting config attributes"));
 		if (!eglGetConfigAttrib(mDisplay, lConfig,EGL_NATIVE_VISUAL_ID, &lFormat))
 		{
-
+			// [COMMENT] if nothing.. what then?
+			// Maybe you should start using asserts here.
+			// They excist for a reason...
 		}
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting window geometry"));
 		ANativeWindow_setBuffersGeometry(pApplication->window, 0, 0,lFormat);
@@ -115,13 +118,16 @@ namespace star
 	{
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Destroying Context and Display"));
         // Destroys OpenGL context.
-        if (mDisplay != EGL_NO_DISPLAY) {
+        if (mDisplay != EGL_NO_DISPLAY)
+        {
             eglMakeCurrent(mDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE,EGL_NO_CONTEXT);
-            if (mContext != EGL_NO_CONTEXT) {
+            if (mContext != EGL_NO_CONTEXT)
+            {
                 eglDestroyContext(mDisplay, mContext);
                 mContext = EGL_NO_CONTEXT;
             }
-            if (mSurface != EGL_NO_SURFACE) {
+            if (mSurface != EGL_NO_SURFACE)
+            {
                 eglDestroySurface(mDisplay, mSurface);
                 mSurface = EGL_NO_SURFACE;
             }
@@ -142,6 +148,8 @@ namespace star
 		glewInit();
 #endif
         glDisable(GL_DEPTH_TEST);
+        // [COMMENT] why do these things both happen in this function
+        // and a version of the initialize function?!
 	}
 
 
@@ -153,7 +161,6 @@ namespace star
 
 #ifdef _WIN32
 		glLoadIdentity(); // Load the Identity Matrix to reset our drawing locations
-
 		float ratio = (float)mScreenWidth/(float)mScreenHeight;
 		glFrustum(-1*ratio,1*ratio,-1,1,0.1f,500.0f);
 		glTranslatef(0,0,-1.0f);
@@ -165,10 +172,11 @@ namespace star
 
 	void GraphicsManager::StopDraw()
 	{
-
-
 #ifdef _WIN32
 		glDisable(GL_BLEND);
+		// [COMMENT] you do the disabling and flushing in both
+		// compilation versions? So why not just put only the
+		// if statement and it's body within an ifndef _WIN32 macro body?
 		glFlush();
 #else
 		 glDisable(GL_BLEND);
@@ -180,6 +188,4 @@ namespace star
 		 glFlush();
 #endif
 	}
-
-
 }
