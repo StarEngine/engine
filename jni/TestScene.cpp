@@ -91,7 +91,7 @@ namespace star
 
 		CollisionManager::GetInstance()->CheckCollision(_T("Default"));
 
-		Filepath soundspath(_T("Sounds/"),_T("Sample.mp3"));
+		Filepath soundspath(_T("Sounds/"),_T("Sample.ogg"));
 		star::SoundService::GetInstance()->PlaySoundFile(soundspath.GetFullPath());
 		//=================================================================
 		// [EXAMPLE] Here you see that I have a file path.

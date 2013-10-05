@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(ProjectDir)\libs\OpenSL;$(ProjectDir)\libs\OpenGL\GLUT\lib\x86\Debug;$(ProjectDir)\libs\OpenGL\GLEW\lib\Release\Win32;$(ProjectDir)\libs\Libpng_Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)\libs\SDL2_mixer-2.0.0\lib\x86;$(ProjectDir)\libs\SDL2-2.0.0\lib\x86;$(ProjectDir)\libs\OpenSL;$(ProjectDir)\libs\OpenGL\GLUT\lib\x86\Debug;$(ProjectDir)\libs\OpenGL\GLEW\lib\Release\Win32;$(ProjectDir)\libs\Libpng_Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -54,13 +54,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\libs\libpng;$(ProjectDir);$(ProjectDir/jni);$(ProjectDir)\libs\OpenGL\GLEW\include\GL;$(ProjectDir)\libs\OpenGL\GLUT\include\GL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\libs\SDL2_mixer-2.0.0\include;$(ProjectDir)\libs\SDL2-2.0.0\include;$(ProjectDir)\libs\libpng;$(ProjectDir);$(ProjectDir/jni);$(ProjectDir)\libs\OpenGL\GLEW\include\GL;$(ProjectDir)\libs\OpenGL\GLUT\include\GL</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32.lib;libpng16.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;libpng16.lib;zlib.lib;SDL2.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\libs\SDL2-2.0.0\lib\x86;$[ProjectDir)\libs\SDL2_mixer-2.0.0\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

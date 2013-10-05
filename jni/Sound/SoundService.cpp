@@ -22,28 +22,65 @@ namespace star
 	}
 
 	SoundService::SoundService():
+#ifdef _WIN32
+		mMusic(nullptr)
+#else
 		mEngine(NULL),
 		mEngineObj(NULL),
 		mOutputMixObj(NULL),
 		mPlayerObj(NULL),
 		mPlayer(NULL),
 		mPlayerSeek(NULL)
+#endif
 	{
 
 	}
 
 	status SoundService::Start()
 	{
-#ifdef _WIN32
-#else
 		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio : Started making Audio Engine"));
+
+#ifdef _WIN32
+		int32 audio_rate = 44100;
+		uint16 audio_format = MIX_DEFAULT_FORMAT;
+		int32 audio_channels = 2;
+		int32 audio_buffers = 4096;
+
+		SDL_Init(SDL_INIT_AUDIO);
+		int flags = MIX_INIT_OGG | MIX_INIT_MP3;
+		int innited = Mix_Init(flags);
+		if(innited&flags != flags)
+		{
+			tstringstream buffer;
+			buffer << Mix_GetError();
+			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio :Could not init Ogg and Mp3, reason : ")+buffer.str());
+		}
+
+		if(Mix_OpenAudio(audio_rate, audio_format,audio_channels,audio_buffers))
+		{
+			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio : Could Not open Audio Mix SDL"));
+			Stop();
+			return STATUS_KO;
+		}
+
+		//check What we got
+		int32 actual_rate, actual_channels;
+		uint16 actual_format;
+
+		Mix_QuerySpec(&actual_rate,&actual_format,&actual_channels);
+		tstringstream buffer;
+		buffer << "Actual Rate : " << actual_rate << ", Actual Format : " << actual_format << ", Actual Channels : " << actual_channels << std::endl;
+		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio : SDL specs : ")+buffer.str());
+		Mix_Volume(-1,100);
+#else
+		
 		SLresult lRes;
 		const SLuint32 lEngineMixIIDCount =1;
 		const SLInterfaceID lEngineMixIIDs[]={SL_IID_ENGINE};
 		const SLboolean lEngineMixReqs[]={SL_BOOLEAN_TRUE};
 		const SLuint32 lOutputMixIIDCount=0;
-		const SLInterfaceID lOutputMixIIDs[]={NULL};
-		const SLboolean lOutputMixReqs[]={NULL};
+		const SLInterfaceID lOutputMixIIDs[]={};
+		const SLboolean lOutputMixReqs[]={};
 
 		lRes = slCreateEngine(&mEngineObj, 0, NULL, lEngineMixIIDCount, lEngineMixIIDs, lEngineMixReqs);
 		if(lRes != SL_RESULT_SUCCESS)
@@ -89,10 +126,18 @@ namespace star
 		return STATUS_OK;
 	}
 
+
+
+
 	void SoundService::Stop()
 	{
 		StopSound();
+
 #ifdef _WIN32
+		Mix_CloseAudio();
+		Mix_Quit();
+		SDL_Quit();
+
 #else
 		if(mOutputMixObj != NULL)
 		{
@@ -111,9 +156,28 @@ namespace star
 
 	status SoundService::PlaySoundFile(const tstring path)
 	{
-		SLresult lRes;
+		
 #ifdef _WIN32
+		if(mMusic == NULL)
+		{
+			int buffersize= 128;
+			char* cpath =(char*)malloc(buffersize);
+			size_t i;
+			wcstombs_s(&i,cpath,(size_t)buffersize,path.c_str(),(size_t)buffersize);
+			mMusic = Mix_LoadMUS(cpath);
+			if(!mMusic)
+			{
+				tstringstream buffer;
+				buffer << Mix_GetError();
+				star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio :Could not load song, reason : ")+buffer.str());
+			}
+			free(cpath);
+			Mix_PlayMusic(mMusic,-1);
+		}
+	
+
 #else
+		SLresult lRes;
 		Resource lResource(star::EventLoop::mApplicationPtr, path);
 		ResourceDescriptor lDescriptor = lResource.DeScript();
 		if(lDescriptor.mDescriptor<0)
@@ -204,6 +268,9 @@ namespace star
 	void SoundService::StopSound()
 	{
 #ifdef _WIN32
+		Mix_FreeMusic(mMusic);
+		mMusic=NULL;
+
 #else
 		if(mPlayer !=NULL)
 		{
@@ -220,5 +287,6 @@ namespace star
 		}
 #endif
 	}
+
 
 }

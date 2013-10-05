@@ -3,8 +3,8 @@
 #include "../defines.h"
 
 #ifdef _WIN32
-#include "../OpenSL/OpenSLES.h"
-#include "../OpenSL/OpenSLES_Platform.h"
+#include "SDL.h"
+#include "SDL_mixer.h"
 #else
 #include "android_native_app_glue.h"
 #include  <SLES/OpenSLES.h>
@@ -14,6 +14,7 @@
 
 namespace star
 {
+
 	class SoundService
 	{
 	public:
@@ -23,14 +24,20 @@ namespace star
 		void Stop();
 
 		status PlaySoundFile(const tstring path);
-		void StopSound();
+		status PlaySoundEffect(const tstring path){}
 
+		//For looptimes : -1 repeat forever, 0 play once 
+		status PlayBackgroundMusic(const tstring path, int looptimes = 0){}
+
+		void StopSound();
 
 	private:
 		SoundService();
 
 		static SoundService* mSoundService;
-
+#ifdef _WIN32
+		Mix_Music * mMusic;
+#else
 		SLObjectItf mEngineObj;
 		SLEngineItf mEngine;
 		SLObjectItf mOutputMixObj;
@@ -38,7 +45,7 @@ namespace star
 		SLObjectItf mPlayerObj;
 		SLPlayItf mPlayer;
 		SLSeekItf mPlayerSeek;
-
+#endif
 	SoundService(const SoundService& yRef);
 	SoundService(SoundService&& yRef);
 	SoundService& operator=(const SoundService& yRef);
