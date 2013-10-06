@@ -76,9 +76,10 @@ namespace star
 			return false;
 		}
 	
-		int32 length = resource.getLength();	
+		int32 length = resource.getLength();
 		star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : File size :")+star::string_cast<tstring>(length));
-		char* doc = new char(length+1);
+		char* doc = reinterpret_cast<char*>( malloc (length+1));
+
 		if(resource.read(doc,length)==STATUS_KO)
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : Failed to read file"));
