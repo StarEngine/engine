@@ -47,20 +47,12 @@ namespace star
 		}
 	}
 
-	bool GestureManager::RemoveGesture(BaseGesture* gesture)
+	void GestureManager::RemoveGesture(BaseGesture* gesture)
 	{
-		if(std::find(m_GestureVec.begin(), m_GestureVec.end(), gesture) == m_GestureVec.end())
-		{
-			return false;
-		}
-		else
-		{
-			m_GestureVec.erase(std::find(m_GestureVec.begin(), m_GestureVec.end(), gesture));
-			// [COMMENT] do a check if you really removed it from the list,
-			// if not there is something wrong!
-			delete gesture;
-			return true;
-		}
+		auto it = std::find(m_GestureVec.begin(), m_GestureVec.end(), gesture);
+		ASSERT(it != m_GestureVec.end(),_T("Gesture not found!"));
+		m_GestureVec.erase(it);
+		delete gesture;
 	}
 
 	void GestureManager::Update(const Context& context)

@@ -14,6 +14,7 @@ namespace star
 	//Initialize all static variables
 
 #ifdef _WIN32
+	const float InputManager::BYTE_TO_DOUBLE_VALUE = 255.0f;
 #else
 	const float InputManager::UNDEFINED_POINTER_POSITION = -123456.0f;
 #endif
@@ -296,97 +297,111 @@ namespace star
 				//if the input wasnt down last frame, but it is now, it is pressed
 			case InputTriggerState::Pressed:
 				//KEYBOARD
-				// [COMMENT] don't use magic numbers, use constants
-				if(currAction->KeyboardCode > 0x07 && currAction->KeyboardCode <= 0xFE)
+				if(	currAction->KeyboardCode > MIN_KEYBOARD_VALUE && 
+					currAction->KeyboardCode <= MAX_KEYBOARD_VALUE)
 				{
-					// [COMMENT] don't make your lines so damn long... 
-					if(!IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) && IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
+					if(!IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) && 
+						IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
 					{
 						currAction->IsTriggered = true;
 					}
 				}
 
 				//MOUSE
-				// [COMMENT] don't use magic numbers, use constants
-				// [COMMENT] don't make your lines so damn long... 
-				if(!currAction->IsTriggered && currAction->MouseButtonCode > 0x00 && currAction->MouseButtonCode <= 0x06)
+				if(!currAction->IsTriggered &&
+					currAction->MouseButtonCode > MIN_MOUSE_BUTTON_VALUE &&
+					currAction->MouseButtonCode <= MAX_MOUSE_BUTTON_VALUE)
 				{
-					// [COMMENT] don't make your lines so damn long... 
-					if(!IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) && IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
+					if(!IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) &&
+						IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
 					{
 						currAction->IsTriggered = true;
-					// [COMMENT] don't make your lines so damn long... 
-						Logger::GetInstance()->Log(LogLevel::Info, _T("Clicked mouse button."));
+						Logger::GetInstance()->Log(LogLevel::Info, 
+							_T("Clicked mouse button."));
 					}
 				}
 
 				//GAMEPADS
 				if(!currAction->IsTriggered && currAction->GamepadButtonCode != 0)
-					// [COMMENT] don't make your lines so damn long... 
-					if(!IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) && IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
+					if(!IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) &&
+						IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
+					{
 						currAction->IsTriggered = true;
+					}
 
 				break;
 
 				//if the input was down last frame, and is down now, it is down.
 			case InputTriggerState::Down:
 				//KEYBOARD
-				// [COMMENT] don't use magic numbers, use constants
-				// [COMMENT] Add curly brackets!
-				if(currAction->KeyboardCode > 0x07 && currAction->KeyboardCode <= 0xFE)
-					// [COMMENT] Add curly brackets!
-					if(IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) && IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
+				if(currAction->KeyboardCode > MIN_KEYBOARD_VALUE && 
+					currAction->KeyboardCode <= MAX_KEYBOARD_VALUE)
+				{
+					if(IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) &&
+						IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
+					{
 						currAction->IsTriggered = true;
+					}
+				}
 
 				//MOUSE
-				// [COMMENT] don't use magic numbers, use constants
-				// [COMMENT] don't make your lines so damn long... 
-				// [COMMENT] Add curly brackets!
-				if(!currAction->IsTriggered && currAction->MouseButtonCode > 0x00 && currAction->MouseButtonCode <= 0x06)
-					// [COMMENT] Add curly brackets!
-					// [COMMENT] don't make your lines so damn long... 
-					if(IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) && IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
+				if(!currAction->IsTriggered &&
+					currAction->MouseButtonCode > MIN_MOUSE_BUTTON_VALUE &&
+					currAction->MouseButtonCode <= MAX_MOUSE_BUTTON_VALUE)
+				{
+					if(	IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) &&
+						IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
+					{
 						currAction->IsTriggered = true;
-
+					}
+				}
 				//GAMEPADS
-				// [COMMENT] Add curly brackets!
 				if(!currAction->IsTriggered && currAction->GamepadButtonCode != 0)
-					// [COMMENT] don't make your lines so damn long... 
-					// [COMMENT] Add curly brackets!
-					if(IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) && IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
+				{
+					if(	IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) &&
+						IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
+					{
 						currAction->IsTriggered = true;
+					}
+				}
 				break;
 
 				//If the input was down last frame, but isn't down anymore, it was released.
 			case InputTriggerState::Released:
 				//KEYBOARD
-				// [COMMENT] don't make your lines so damn long... 
-				// [COMMENT] Add curly brackets!
-				if(currAction->KeyboardCode > 0x07 && currAction->KeyboardCode <= 0xFE)
-					// [COMMENT] don't make your lines so damn long... 
-					// [COMMENT] Add curly brackets!
-					if(IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) && !IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
+				if(	currAction->KeyboardCode > MIN_KEYBOARD_VALUE &&
+					currAction->KeyboardCode <= MAX_KEYBOARD_VALUE)
+				{
+					if(	IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) && 
+						!IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
+					{
 						currAction->IsTriggered = true;
+					}
+				}
 
 				//MOUSE
-				// [COMMENT] don't make your lines so damn long... 
-				if(!currAction->IsTriggered && currAction->MouseButtonCode > 0x00 && currAction->MouseButtonCode <= 0x06)
+				if(!currAction->IsTriggered && 
+					currAction->MouseButtonCode > MIN_MOUSE_BUTTON_VALUE && 
+					currAction->MouseButtonCode <= MAX_MOUSE_BUTTON_VALUE)
 				{
-					// [COMMENT] don't make your lines so damn long... 
-					if(IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) && !IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
+					if(	IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) && 
+						!IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
 					{
 						currAction->IsTriggered = true;
 					}
 				}
 
 				//GAMEPADS
-				// [COMMENT] don't make your lines so damn long... 
-				// [COMMENT] Add curly brackets!
-				if(!currAction->IsTriggered && currAction->GamepadButtonCode > 0x0000 && currAction->GamepadButtonCode<=0x8000)
-					// [COMMENT] don't make your lines so damn long... 
-					// [COMMENT] Add curly brackets!
-					if(IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) && !IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
+				if(!currAction->IsTriggered && 
+					currAction->GamepadButtonCode > MIN_GAMEPAD_VALUE && 
+					currAction->GamepadButtonCode <= MAX_GAMEPAD_VALUE)
+				{
+					if(	IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) && 
+						!IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
+					{
 						currAction->IsTriggered = true;
+					}
+				}
 				break;
 			}
 		}
@@ -409,52 +424,58 @@ namespace star
 		m_ThreadAvailable = true;
 	}
 	
-	// [COMMENT] don't make your lines so damn long... 
-	vec2 InputManager::GetThumbstickPosition(bool leftThumbstick, GamepadIndex playerIndex) const
+	vec2 InputManager::GetThumbstickPosition
+				(bool leftThumbstick, GamepadIndex playerIndex) const
 	{
 		vec2 pos;
 		if(leftThumbstick)
 		{
-			pos = vec2(m_CurrGamepadState[playerIndex].Gamepad.sThumbLX, m_CurrGamepadState[playerIndex].Gamepad.sThumbLY);
-			if(pos.x>-XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE && pos.x<XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+			pos = vec2(	m_CurrGamepadState[playerIndex].Gamepad.sThumbLX, 
+						m_CurrGamepadState[playerIndex].Gamepad.sThumbLY);
+			if(	pos.x > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE && 
+				pos.x < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
 			{
 				pos.x = 0;
 			}
-			if(pos.y>-XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE && pos.y<XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+			if(	pos.y > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE && 
+				pos.y < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
 			{
 				pos.y = 0;
 			}
 		}
 		else
 		{
-			pos = vec2(m_CurrGamepadState[playerIndex].Gamepad.sThumbRX, m_CurrGamepadState[playerIndex].Gamepad.sThumbRY);
-			if(pos.x>-XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE && pos.x<XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
+			pos = vec2(	m_CurrGamepadState[playerIndex].Gamepad.sThumbRX, 
+						m_CurrGamepadState[playerIndex].Gamepad.sThumbRY);
+			if(	pos.x > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE && 
+				pos.x < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
 			{
 				pos.x = 0;
 			}
-			if(pos.y>-XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE && pos.y<XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
+			if(	pos.y > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE && 
+				pos.y < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
 			{
 				pos.y = 0;
 			}
 		}
 
 		//Shorts have a range of 32768, so to convert that range to a double, devide it by that range
-		if(pos.x<0)
+		if(pos.x < 0)
 		{
-			pos.x/=32768;
+			pos.x /= MAX_VALUE_OF_SHORT;
 		}
 		else
 		{
-			pos.x/=32767;
+			pos.x /= MAX_VALUE_OF_SHORT;
 		}
 
-		if(pos.y<0)
+		if(pos.y < 0)
 		{
-			pos.y/=32768;
+			pos.y /= MAX_VALUE_OF_SHORT;
 		}
 		else
 		{
-			pos.y/=32767;
+			pos.y /= MAX_VALUE_OF_SHORT;
 		}
 
 		return pos;
@@ -465,11 +486,13 @@ namespace star
 		if(leftTrigger)
 		{
 			//bLeftTrigger returns a byte, div by 255 to cast to double
-			return m_CurrGamepadState[playerIndex].Gamepad.bLeftTrigger/255.0f;
+			return m_CurrGamepadState[playerIndex].Gamepad.bLeftTrigger 
+					/ BYTE_TO_DOUBLE_VALUE;
 		}
 		else
 		{
-			return m_CurrGamepadState[playerIndex].Gamepad.bRightTrigger/255.0f;
+			return m_CurrGamepadState[playerIndex].Gamepad.bRightTrigger 
+					/ BYTE_TO_DOUBLE_VALUE;
 		}
 	}
 
@@ -480,8 +503,8 @@ namespace star
 		glm::clamp<float>(rightVibration, 0.0f, 1.0f);
 		ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
 		//convert from float to word -> float * lenght of word
-		vibration.wLeftMotorSpeed = static_cast<WORD>(leftVibration * 65535);
-		vibration.wRightMotorSpeed = static_cast<WORD>(rightVibration * 65535);
+		vibration.wLeftMotorSpeed = static_cast<WORD>(leftVibration * MAX_VALUE_OF_WORD);
+		vibration.wRightMotorSpeed = static_cast<WORD>(rightVibration * MAX_VALUE_OF_WORD);
 		XInputSetState(playerIndex, &vibration);
 	}
 #else
@@ -524,7 +547,9 @@ namespace star
 
 	vec2 InputManager::GetOldTouchPosANDR(uint8 fingerIndex) const
 	{
-		if(((fingerIndex <= m_OldPointerVec.size() && fingerIndex > 0) && (fingerIndex <= m_PointerVec.size() && fingerIndex > 0)) && !m_bMainIsUp)
+		if(((fingerIndex <= m_OldPointerVec.size() && fingerIndex > 0) && 
+			(fingerIndex <= m_PointerVec.size() && fingerIndex > 0)) && 
+			!m_bMainIsUp)
 		{
 			if(m_OldPointerVec.at(fingerIndex-1).ID == m_PointerVec.at(fingerIndex-1).ID)
 			{
@@ -543,7 +568,8 @@ namespace star
 		{
 		case AMOTION_EVENT_ACTION_POINTER_UP:
 		{
-			int pointerIndex((action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT);
+			int pointerIndex((action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) 
+								>> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT);
 			int pointerID(AMotionEvent_getPointerId(pEvent,pointerIndex));
 			if(pointerID == m_ActivePointerID)
 			{
@@ -606,15 +632,16 @@ namespace star
 
 			m_PointerVec.push_back(temp);
 		}
-		std::sort(m_PointerVec.begin(),m_PointerVec.end(),[] (const FingerPointerANDR& a, const FingerPointerANDR& b)
-		   {
-				return (a.ID < b.ID);
-		   });
+		std::sort(m_PointerVec.begin(),m_PointerVec.end(),
+					[] (const FingerPointerANDR& a, const FingerPointerANDR& b)
+					{
+						return (a.ID < b.ID);
+					});
 	}
 
 	void InputManager::OnKeyboardEvent(AInputEvent* pEvent)
 	{
-		//[COMMENT] I will still clean this up later, might need this
+		//[TODO] I will still clean this up later, might need this
 		/*
 		if(AKeyEvent_getAction(pEvent) == AKEY_EVENT_ACTION_DOWN)
 		{
@@ -708,9 +735,7 @@ namespace star
 
 	void InputManager::EndUpdate()
 	{
-		// [COMMENT] use ifndef instead of a useless ifdef else macro
-#ifdef _WIN32
-#else
+#ifndef _WIN32
 		m_bMainIsDown = false;
 		m_bMainIsUp = false;
 		m_bPointerIsDown = false;

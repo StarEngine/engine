@@ -5,11 +5,11 @@
 #include <android_native_app_glue.h>
 #endif
 #include "../../defines.h"
-// [COMMENT] Forward declerate context
-#include "../../Context.h"
 
 namespace star
 {
+	struct Context;
+
 	class BaseGesture
 	{
 	public:

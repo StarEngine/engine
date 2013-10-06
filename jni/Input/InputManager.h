@@ -53,8 +53,9 @@ namespace star
 			IsTriggered(false)
 		{}
 
-		// [COMMENT] don't put everything on one line, ty
-		InputAction(int actionID, InputTriggerState triggerState = InputTriggerState::Pressed, int keyboardCode = -1, int mouseButtonCode = -1, WORD gamepadButtonCode = 0, GamepadIndex playerIndex = GamepadIndex::PlayerOne):
+		InputAction(int actionID, InputTriggerState triggerState = InputTriggerState::Pressed,
+					int keyboardCode = -1, int mouseButtonCode = -1, WORD gamepadButtonCode = 0,
+					GamepadIndex playerIndex = GamepadIndex::PlayerOne):
 			ActionID(actionID),
 			TriggerState(triggerState),
 			KeyboardCode(keyboardCode),
@@ -165,6 +166,15 @@ namespace star
 		XINPUT_STATE m_OldGamepadState[XUSER_MAX_COUNT], m_CurrGamepadState[XUSER_MAX_COUNT];
 		bool m_ConnectedGamepads[XUSER_MAX_COUNT];
 		bool m_ThreadAvailable;
+		static const int MIN_KEYBOARD_VALUE = 0x07;
+		static const int MAX_KEYBOARD_VALUE = 0xFE;
+		static const int MIN_MOUSE_BUTTON_VALUE = 0x00;
+		static const int MAX_MOUSE_BUTTON_VALUE = 0x06;
+		static const WORD  MIN_GAMEPAD_VALUE = 0x0000;
+		static const WORD  MAX_GAMEPAD_VALUE = 0x8000;
+		static const int MAX_VALUE_OF_SHORT = 32768;
+		static const int MAX_VALUE_OF_WORD = 65535;
+		static const float BYTE_TO_DOUBLE_VALUE;
 
 		void UpdateGamepadStates();
 		bool IsGamepadButtonDown_unsafe(WORD button, GamepadIndex playerIndex = GamepadIndex::PlayerOne, bool previousFrame = false) const;

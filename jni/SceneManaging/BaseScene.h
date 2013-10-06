@@ -42,6 +42,7 @@ namespace star
 		virtual status OnActivate() { return STATUS_OK; }
 		virtual void OnDeactivate() {}
 		virtual status Update(const Context& context) { return STATUS_OK; }
+
 		GestureManager* m_GestureManagerPtr;
 
 	private:

@@ -1,6 +1,7 @@
 #include "TapGesture.h"
 #include "../../Logger.h"
 #include "../../defines.h"
+#include "../../Context.h"
 
 #include "../InputManager.h"
 #define INPUT_MANAGER (InputManager::GetInstance())
@@ -41,31 +42,18 @@ namespace star
 		switch(flags)
 		{
 		case AMOTION_EVENT_ACTION_DOWN:
-			// [COMMENT] remove these curly brackets, they are useless and really confusing
-		{
 			m_StartTime = m_TimeSinceBeginning;
 			break;
-		}
 		case AMOTION_EVENT_ACTION_UP:
-			// [COMMENT] remove these curly brackets, they are useless and really confusing
 		{
 			double timeSinceDown = m_TimeSinceBeginning - m_StartTime;
-				// [COMMENT] don't make such long lines please...
-				// and add curly brackets!
-			if(timeSinceDown > MINIMUM_TAP_TIME && timeSinceDown < MAXIMUM_TAP_TIME)
+			if(timeSinceDown > MINIMUM_TAP_TIME && 
+				timeSinceDown < MAXIMUM_TAP_TIME)
+			{
 				m_bCompletedGesture = true;
+			}
 			break;
 		}
-		case AMOTION_EVENT_ACTION_MOVE:
-			break;
-		case AMOTION_EVENT_ACTION_CANCEL:
-			break;
-		case AMOTION_EVENT_ACTION_POINTER_DOWN:
-			break;
-		case AMOTION_EVENT_ACTION_POINTER_UP:
-			break;
-		case AMOTION_EVENT_ACTION_OUTSIDE:
-			break;
 		}
 	}
 

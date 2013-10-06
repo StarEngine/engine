@@ -5,11 +5,9 @@
 namespace star 
 {
 	BaseScene::BaseScene(const tstring & name)
-		: m_Name(name)
-		, m_Initialized(false)
-		// [COMMENT] Manager has to be initialized first
-		// respect the order of your header file!
-		, m_GestureManagerPtr(nullptr)
+		: m_GestureManagerPtr(nullptr)
+		, m_Name(name)
+		, m_Initialized(false) 
 	{
 		m_GestureManagerPtr = new GestureManager();
 	}
@@ -40,13 +38,14 @@ namespace star
 
 	status BaseScene::BaseUpdate(const Context& context)
 	{
-		// [COMMENT] don't ever use long lines please... SHORTEN THEM!!!
-		if((m_GestureManagerPtr && InputManager::GetInstance()->GetGestureManager() == nullptr) || m_GestureManagerPtr != InputManager::GetInstance()->GetGestureManager())
+		if((m_GestureManagerPtr && 
+			InputManager::GetInstance()->GetGestureManager() == nullptr) || 
+			m_GestureManagerPtr != InputManager::GetInstance()->GetGestureManager())
 		{
 			InputManager::GetInstance()->SetGestureManager(m_GestureManagerPtr);
 		}
-		// [COMMENT] don't ever use long lines please... SHORTEN THEM!!!
-		if(m_GestureManagerPtr && m_GestureManagerPtr == InputManager::GetInstance()->GetGestureManager())
+		if(m_GestureManagerPtr && m_GestureManagerPtr == 
+			InputManager::GetInstance()->GetGestureManager())
 		{
 			m_GestureManagerPtr->Update(context);
 		}

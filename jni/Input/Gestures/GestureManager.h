@@ -16,7 +16,7 @@ namespace star
 		~GestureManager();
 		void Update(const Context& context);
 		void AddGesture(BaseGesture* gesture);
-		bool RemoveGesture(BaseGesture* gesture);
+		void RemoveGesture(BaseGesture* gesture);
 
 #ifdef _WIN32
 		void OnUpdateWinInputState();
@@ -28,8 +28,8 @@ namespace star
 		double m_dTime;
 		double m_TotalTime;
 
-		// [COMMENT] don't forget to disable/define the
-		// ref and copy constructor, together with the
-		// assignment constructor. 
+		GestureManager(const GestureManager& t);
+		GestureManager(GestureManager&& t);
+		GestureManager& operator=(const GestureManager& t);
 	};
 }
