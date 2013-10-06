@@ -15,6 +15,7 @@ namespace star
 	class SceneManager
 	{
 	public:
+		// [COMMENT] to use void or leave it empty. Choose one of the 2, not both.
 		~SceneManager(void);
 
 		static SceneManager* GetInstance();
@@ -38,7 +39,6 @@ namespace star
 		android_app* mApplicationPtr;
 #endif
 	private:
-		//Data Members
 		static SceneManager* m_pSceneManager;
 
 		BaseScene	*m_ActiveScene, 
@@ -50,12 +50,10 @@ namespace star
 			 m_bDestroyRequested;
 		tstring m_CurrentSceneName;
 
-		//Private Functions
 		bool InitializeCurScene(const Context& context);
 
 		SceneManager(void);
 
-		//disabling default copy constructor
 		SceneManager(const SceneManager& yRef);
 		SceneManager(SceneManager&& yRef);
 		SceneManager& operator=(const SceneManager& yRef);

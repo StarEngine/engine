@@ -48,10 +48,6 @@ namespace star
 
 		double	mTotalMS;
 
-		// -------------------------
-		// Disabling default copy constructor and default 
-		// assignment operator.
-		// -------------------------
 		TimeManager(const TimeManager& t);
 		TimeManager(TimeManager&& t);
 		TimeManager& operator=(const TimeManager& t);

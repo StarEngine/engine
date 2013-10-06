@@ -177,7 +177,4 @@ namespace star
 
 		return STATUS_OK;
 	}
-
-
-
 }

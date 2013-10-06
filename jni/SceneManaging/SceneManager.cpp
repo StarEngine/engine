@@ -13,7 +13,7 @@ namespace star
 {
 	SceneManager* SceneManager::m_pSceneManager = nullptr;
 
-	//[COMMENT] PLEASE initialize all members in the constructor!!!! (if platform dependant, put in constructors body)
+	//[COMMENT] PLEASE initialize all members in the constructor!!!! (EVEN if platform dependant)
 	SceneManager::SceneManager( void )
 		: m_ActiveScene(nullptr)
 		, m_NewActiveScene(nullptr)
@@ -260,7 +260,7 @@ namespace star
 		star::TextureManager::GetInstance()->EraseTextures();
 		star::SoundService::GetInstance()->Stop();
 		m_SceneList.clear();
-		m_CurrentSceneName = _T("");
+		m_CurrentSceneName = EMPTY_STRING;
 	}
 #endif // _WIN32
 }

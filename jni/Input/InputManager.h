@@ -33,8 +33,6 @@ namespace star
 		PlayerFour = 3
 	};
 
-
-
 	enum InputTriggerState : byte
 	{
 		Pressed,
@@ -55,6 +53,7 @@ namespace star
 			IsTriggered(false)
 		{}
 
+		// [COMMENT] don't put everything on one line, ty
 		InputAction(int actionID, InputTriggerState triggerState = InputTriggerState::Pressed, int keyboardCode = -1, int mouseButtonCode = -1, WORD gamepadButtonCode = 0, GamepadIndex playerIndex = GamepadIndex::PlayerOne):
 			ActionID(actionID),
 			TriggerState(triggerState),

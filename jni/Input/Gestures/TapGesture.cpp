@@ -7,8 +7,9 @@
 
 namespace star
 {
-	TapGesture::TapGesture(): BaseGesture()
-		,m_StartTime(0)
+	TapGesture::TapGesture(): 
+		BaseGesture(),
+		m_StartTime(0)
 	{
 
 	}
@@ -40,13 +41,17 @@ namespace star
 		switch(flags)
 		{
 		case AMOTION_EVENT_ACTION_DOWN:
+			// [COMMENT] remove these curly brackets, they are useless and really confusing
 		{
 			m_StartTime = m_TimeSinceBeginning;
 			break;
 		}
 		case AMOTION_EVENT_ACTION_UP:
+			// [COMMENT] remove these curly brackets, they are useless and really confusing
 		{
 			double timeSinceDown = m_TimeSinceBeginning - m_StartTime;
+				// [COMMENT] don't make such long lines please...
+				// and add curly brackets!
 			if(timeSinceDown > MINIMUM_TAP_TIME && timeSinceDown < MAXIMUM_TAP_TIME)
 				m_bCompletedGesture = true;
 			break;

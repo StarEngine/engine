@@ -5,6 +5,7 @@
 #include <android_native_app_glue.h>
 #endif
 #include "../../defines.h"
+// [COMMENT] Forward declerate context
 #include "../../Context.h"
 
 namespace star
@@ -13,6 +14,7 @@ namespace star
 	{
 	public:
 		BaseGesture();
+
 		virtual ~BaseGesture();
 #ifdef _WIN32
 		void OnUpdateWinInputStateBase();
@@ -30,10 +32,6 @@ namespace star
 		bool m_bCompletedGesture;
 
 	private:
-		// -------------------------
-		// Disabling default copy constructor and default
-		// assignment operator.
-		// -------------------------
 		BaseGesture(const BaseGesture& t);
 		BaseGesture(BaseGesture&& t);
 		BaseGesture& operator=(const BaseGesture& t);

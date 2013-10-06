@@ -38,10 +38,12 @@ namespace star
 
 	status BaseScene::BaseUpdate(const Context& context)
 	{
+		// [COMMENT] don't ever use long lines please... SHORTEN THEM!!!
 		if((m_GestureManagerPtr && InputManager::GetInstance()->GetGestureManager() == nullptr) || m_GestureManagerPtr != InputManager::GetInstance()->GetGestureManager())
 		{
 			InputManager::GetInstance()->SetGestureManager(m_GestureManagerPtr);
 		}
+		// [COMMENT] don't ever use long lines please... SHORTEN THEM!!!
 		if(m_GestureManagerPtr && m_GestureManagerPtr == InputManager::GetInstance()->GetGestureManager())
 		{
 			m_GestureManagerPtr->Update(context);

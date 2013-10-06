@@ -9,6 +9,7 @@
 namespace star
 {
 	struct WinInputState;
+
 	class GestureManager {
 	public:
 		GestureManager();
@@ -26,5 +27,9 @@ namespace star
 		std::vector<BaseGesture*> m_GestureVec;
 		double m_dTime;
 		double m_TotalTime;
+
+		// [COMMENT] don't forget to disable/define the
+		// ref and copy constructor, together with the
+		// assignment constructor. 
 	};
 }

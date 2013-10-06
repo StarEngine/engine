@@ -5,7 +5,8 @@
 
 namespace star
 {
-	GestureManager::GestureManager() : m_GestureVec()
+	GestureManager::GestureManager() : 
+		m_GestureVec()
 	{
 
 	}
@@ -55,6 +56,8 @@ namespace star
 		else
 		{
 			m_GestureVec.erase(std::find(m_GestureVec.begin(), m_GestureVec.end(), gesture));
+			// [COMMENT] do a check if you really removed it from the list,
+			// if not there is something wrong!
 			delete gesture;
 			return true;
 		}

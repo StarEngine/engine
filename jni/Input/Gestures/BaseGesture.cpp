@@ -1,9 +1,6 @@
 #include "BaseGesture.h"
 #include "../../Logger.h"
 
-
-
-
 namespace star
 {
 		BaseGesture::BaseGesture():
@@ -42,18 +39,25 @@ namespace star
 			switch(flags)
 			{
 			case AMOTION_EVENT_ACTION_DOWN:
+				// [COMMENT] does nothing ?! Remove?!
 				break;
 			case AMOTION_EVENT_ACTION_UP:
+				// [COMMENT] does nothing ?! Remove?!
 				break;
 			case AMOTION_EVENT_ACTION_MOVE:
+				// [COMMENT] does nothing ?! Remove?!
 				break;
 			case AMOTION_EVENT_ACTION_CANCEL:
+				// [COMMENT] does nothing ?! Remove?!
 				break;
 			case AMOTION_EVENT_ACTION_POINTER_DOWN:
+				// [COMMENT] does nothing ?! Remove?!
 				break;
 			case AMOTION_EVENT_ACTION_POINTER_UP:
+				// [COMMENT] does nothing ?! Remove?!
 				break;
 			case AMOTION_EVENT_ACTION_OUTSIDE:
+				// [COMMENT] does nothing ?! Remove?!
 				break;
 			}
 		}

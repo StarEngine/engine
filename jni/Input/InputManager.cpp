@@ -296,8 +296,10 @@ namespace star
 				//if the input wasnt down last frame, but it is now, it is pressed
 			case InputTriggerState::Pressed:
 				//KEYBOARD
+				// [COMMENT] don't use magic numbers, use constants
 				if(currAction->KeyboardCode > 0x07 && currAction->KeyboardCode <= 0xFE)
 				{
+					// [COMMENT] don't make your lines so damn long... 
 					if(!IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) && IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
 					{
 						currAction->IsTriggered = true;
@@ -305,17 +307,22 @@ namespace star
 				}
 
 				//MOUSE
+				// [COMMENT] don't use magic numbers, use constants
+				// [COMMENT] don't make your lines so damn long... 
 				if(!currAction->IsTriggered && currAction->MouseButtonCode > 0x00 && currAction->MouseButtonCode <= 0x06)
 				{
+					// [COMMENT] don't make your lines so damn long... 
 					if(!IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) && IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
 					{
 						currAction->IsTriggered = true;
+					// [COMMENT] don't make your lines so damn long... 
 						Logger::GetInstance()->Log(LogLevel::Info, _T("Clicked mouse button."));
 					}
 				}
 
 				//GAMEPADS
 				if(!currAction->IsTriggered && currAction->GamepadButtonCode != 0)
+					// [COMMENT] don't make your lines so damn long... 
 					if(!IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) && IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
 						currAction->IsTriggered = true;
 
@@ -324,17 +331,28 @@ namespace star
 				//if the input was down last frame, and is down now, it is down.
 			case InputTriggerState::Down:
 				//KEYBOARD
+				// [COMMENT] don't use magic numbers, use constants
+				// [COMMENT] Add curly brackets!
 				if(currAction->KeyboardCode > 0x07 && currAction->KeyboardCode <= 0xFE)
+					// [COMMENT] Add curly brackets!
 					if(IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) && IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
 						currAction->IsTriggered = true;
 
 				//MOUSE
+				// [COMMENT] don't use magic numbers, use constants
+				// [COMMENT] don't make your lines so damn long... 
+				// [COMMENT] Add curly brackets!
 				if(!currAction->IsTriggered && currAction->MouseButtonCode > 0x00 && currAction->MouseButtonCode <= 0x06)
+					// [COMMENT] Add curly brackets!
+					// [COMMENT] don't make your lines so damn long... 
 					if(IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) && IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
 						currAction->IsTriggered = true;
 
 				//GAMEPADS
+				// [COMMENT] Add curly brackets!
 				if(!currAction->IsTriggered && currAction->GamepadButtonCode != 0)
+					// [COMMENT] don't make your lines so damn long... 
+					// [COMMENT] Add curly brackets!
 					if(IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) && IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
 						currAction->IsTriggered = true;
 				break;
@@ -342,13 +360,19 @@ namespace star
 				//If the input was down last frame, but isn't down anymore, it was released.
 			case InputTriggerState::Released:
 				//KEYBOARD
+				// [COMMENT] don't make your lines so damn long... 
+				// [COMMENT] Add curly brackets!
 				if(currAction->KeyboardCode > 0x07 && currAction->KeyboardCode <= 0xFE)
+					// [COMMENT] don't make your lines so damn long... 
+					// [COMMENT] Add curly brackets!
 					if(IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) && !IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
 						currAction->IsTriggered = true;
 
 				//MOUSE
+				// [COMMENT] don't make your lines so damn long... 
 				if(!currAction->IsTriggered && currAction->MouseButtonCode > 0x00 && currAction->MouseButtonCode <= 0x06)
 				{
+					// [COMMENT] don't make your lines so damn long... 
 					if(IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) && !IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
 					{
 						currAction->IsTriggered = true;
@@ -356,7 +380,11 @@ namespace star
 				}
 
 				//GAMEPADS
+				// [COMMENT] don't make your lines so damn long... 
+				// [COMMENT] Add curly brackets!
 				if(!currAction->IsTriggered && currAction->GamepadButtonCode > 0x0000 && currAction->GamepadButtonCode<=0x8000)
+					// [COMMENT] don't make your lines so damn long... 
+					// [COMMENT] Add curly brackets!
 					if(IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) && !IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
 						currAction->IsTriggered = true;
 				break;
@@ -380,7 +408,8 @@ namespace star
 
 		m_ThreadAvailable = true;
 	}
-
+	
+	// [COMMENT] don't make your lines so damn long... 
 	vec2 InputManager::GetThumbstickPosition(bool leftThumbstick, GamepadIndex playerIndex) const
 	{
 		vec2 pos;
@@ -679,6 +708,7 @@ namespace star
 
 	void InputManager::EndUpdate()
 	{
+		// [COMMENT] use ifndef instead of a useless ifdef else macro
 #ifdef _WIN32
 #else
 		m_bMainIsDown = false;

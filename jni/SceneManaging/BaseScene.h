@@ -38,22 +38,16 @@ namespace star
 		bool IsInitialized() const { return m_Initialized; }
 
 	protected:
-		virtual status Initialize(const Context& context) {return STATUS_OK;}
-		virtual status OnActivate() {return STATUS_OK;}
+		virtual status Initialize(const Context& context) { return STATUS_OK; }
+		virtual status OnActivate() { return STATUS_OK; }
 		virtual void OnDeactivate() {}
-		virtual status Update(const Context& context) {return STATUS_OK;}
+		virtual status Update(const Context& context) { return STATUS_OK; }
 		GestureManager* m_GestureManagerPtr;
 
 	private:
 		bool m_Initialized;
 		tstring m_Name;
-		
-
-
-		// -------------------------
-		// Disabling default copy constructor and default 
-		// assignment operator.
-		// -------------------------
+	
 		BaseScene(const BaseScene& t);
 		BaseScene(BaseScene&& t);
 		BaseScene& operator=(const BaseScene& t);

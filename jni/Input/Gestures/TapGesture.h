@@ -10,6 +10,7 @@ namespace star
 	public:
 		TapGesture();
 		virtual ~TapGesture();
+
 		virtual void Update(const Context& context);
 	private:
 #ifdef _WIN32
@@ -21,5 +22,8 @@ namespace star
 		double m_TimeSinceBeginning;
 		static const int MINIMUM_TAP_TIME = 10;
 		static const int MAXIMUM_TAP_TIME = 500;
+
+		// [COMMENT] disable copy and ref contructor
+		// and assignment operator!
 	};
 }
