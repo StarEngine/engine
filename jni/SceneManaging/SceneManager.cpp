@@ -7,7 +7,7 @@
 #include "../AssetManaging/TextureManager.h"
 #include "../Sound/SoundService.h"
 
-#define INPUT_MANAGER (InputManager::GetSingleton())
+#define INPUT_MANAGER (InputManager::GetInstance())
 
 namespace star 
 {

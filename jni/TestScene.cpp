@@ -15,7 +15,7 @@
 #include <GLES2/gl2ext.h>
 #endif
 
-#define INPUT_MANAGER (InputManager::GetSingleton())
+#define INPUT_MANAGER (InputManager::GetInstance())
 #define LOGGER (Logger::GetInstance())
 
 namespace star

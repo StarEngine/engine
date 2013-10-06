@@ -63,7 +63,7 @@ namespace star
 #endif
 	}
 
-	InputManager* InputManager::GetSingleton()
+	InputManager* InputManager::GetInstance()
 	{
 		if (m_InputManagerPtr == nullptr)
 		{

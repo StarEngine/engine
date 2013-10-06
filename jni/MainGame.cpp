@@ -21,7 +21,7 @@ namespace star
 
 	status MainGame::Run(const Context& context)
 	{
-		InputManager::GetSingleton()->Update();
+		InputManager::GetInstance()->Update();
 		if(mSceneManager->Update(context) != STATUS_OK)
 		{
 			return STATUS_KO;
@@ -33,7 +33,7 @@ namespace star
 		}
 		star::GraphicsManager::GetInstance()->StopDraw();
 
-		InputManager::GetSingleton()->EndUpdate();
+		InputManager::GetInstance()->EndUpdate();
 		return STATUS_OK;
 	}
 

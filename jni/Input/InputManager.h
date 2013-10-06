@@ -101,7 +101,7 @@ namespace star
 		virtual ~InputManager(void);
 
 		// Static methods
-		static InputManager*  GetSingleton();
+		static InputManager* GetInstance();
 		static void ResetSingleton();
 
 		void Initialize();
