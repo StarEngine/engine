@@ -1,7 +1,11 @@
 #pragma once
+#ifdef _WIN32
+#else
 #include <android/input.h>
 #include <android_native_app_glue.h>
+#endif
 #include "../../defines.h"
+#include "../../Context.h"
 
 namespace star
 {
@@ -10,10 +14,19 @@ namespace star
 	public:
 		BaseGesture();
 		virtual ~BaseGesture();
-		virtual void OnTouchEvent(AInputEvent* pEvent);
-		bool CompletedGesture() {return (m_bCompletedGesture);}
+#ifdef _WIN32
+		void OnUpdateWinInputStateBase();
+#else
+		void OnTouchEventBase(AInputEvent* pEvent);
+#endif
+		virtual void Update(const Context& context);
+		bool CompletedGesture();
 	protected:
-
+#ifdef _WIN32
+		virtual void OnUpdateWinInputState();
+#else
+		virtual void OnTouchEvent(AInputEvent* pEvent);
+#endif
 		bool m_bCompletedGesture;
 
 	private:

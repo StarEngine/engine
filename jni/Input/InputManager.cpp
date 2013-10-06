@@ -22,17 +22,7 @@ namespace star
 	InputManager* InputManager::m_InputManagerPtr = nullptr;
 
 	InputManager::InputManager(void)
-	#ifndef _WIN32
-		: m_bMainIsDown(false)
-		, m_bMainIsUp(false)
-		, m_bPointerIsDown(false)
-		, m_bPointerIsUp(false)
-		, m_NumberOfPointers(0)
-		, m_ActivePointerID(0)
-		, m_PointerVec()
-		, m_OldPointerVec()
-		, m_GestureInterface(nullptr)
-	#else
+	#ifdef _WIN32
 		: m_ThreadAvailable(true)
 		, m_pCurrKeyboardState(nullptr)
 		, m_pOldKeyboardState(nullptr)
@@ -42,6 +32,15 @@ namespace star
 		, m_OldMousePosition()
 		, m_CurrMousePosition()
 		, m_MouseMovement()
+	#else
+		: m_bMainIsDown(false)
+		, m_bMainIsUp(false)
+		, m_bPointerIsDown(false)
+		, m_bPointerIsUp(false)
+		, m_NumberOfPointers(0)
+		, m_ActivePointerID(0)
+		, m_PointerVec()
+		, m_OldPointerVec()
 	#endif
 		, m_GestureManager(nullptr)
 	{
@@ -66,7 +65,7 @@ namespace star
 #endif
 	}
 
-	InputManager* InputManager::GetInstance()
+	InputManager* InputManager::GetSingleton()
 	{
 		if (m_InputManagerPtr == nullptr)
 		{
@@ -95,8 +94,9 @@ namespace star
 			GetKeyboardState(m_pKeyboardState1);
 		}
 #else
-		m_GestureInterface =  new BaseGesture();
 #endif
+
+		m_GestureManager = new GestureManager();
 	}
 
 #ifdef _WIN32
@@ -256,11 +256,6 @@ namespace star
 		}
 		else
 		{
-			
-			if((m_pCurrKeyboardState[button]&0xF0)!=0)
-			{
-				Logger::GetInstance()->Log(LogLevel::Info, _T("Checking for mouse state..."));
-			}
 			return (m_pCurrKeyboardState[button]&0xF0)!=0;
 		}
 	}
@@ -315,7 +310,7 @@ namespace star
 					if(!IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) && IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
 					{
 						currAction->IsTriggered = true;
-						Logger::GetInstance()->Log(LogLevel::Info, _T("Clicked mouse button."));
+						Logger::GetSingleton()->Log(LogLevel::Info, _T("Clicked mouse button."));
 					}
 				}
 
@@ -380,6 +375,8 @@ namespace star
 		m_CurrMousePosition = vec2(mousePos.x , mousePos.y);
 		m_MouseMovement.x = m_CurrMousePosition.x - m_OldMousePosition.x;
 		m_MouseMovement.y = m_CurrMousePosition.y - m_OldMousePosition.y;
+
+		m_GestureManager->OnUpdateWinInputState();
 
 		m_ThreadAvailable = true;
 	}
@@ -551,10 +548,10 @@ namespace star
 			break;
 		case AMOTION_EVENT_ACTION_CANCEL:
 			m_ActivePointerID = INVALID_POINTER_ID;
-			Logger::GetInstance()->Log(LogLevel::Info, _T("Canceled"));
+			Logger::GetSingleton()->Log(LogLevel::Info, _T("Canceled"));
 			break;
 		case AMOTION_EVENT_ACTION_OUTSIDE:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("Outside"));
+			Logger::GetSingleton()->Log(LogLevel::Info, _T("Outside"));
 			break;
 		case AMOTION_EVENT_ACTION_MOVE:
 			AMotionEvent_getDownTime(pEvent);

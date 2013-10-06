@@ -100,6 +100,10 @@ namespace star
 
 	status TestScene::Update(const Context& context)
 	{
+		if(m_TapGesture->CompletedGesture())
+		{
+			LOGGER->Log(LogLevel::Info, _T("Tapped!"));
+		}
 		auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
 		//tstringstream posBuffer;
 		//posBuffer << _T("Current Mouse Pos: ( ") << pos.x << _T(" , ") << pos.y << _T(" )");

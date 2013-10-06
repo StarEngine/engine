@@ -19,8 +19,11 @@ namespace star
 		void StopMonitoring();
 
 		double GetSeconds() const;
-		double GetMiliSeconds() const;
+		double GetMilliSeconds() const;
 		double GetMicroSeconds() const;
+
+		double GetSecondsSinceStart() const;
+		double GetMilliSecondsSinceStart() const;
 
 	private:
 		//[COMMENT] For windows this is needed otherwise there are quite big rounding errors !
@@ -42,6 +45,8 @@ namespace star
 		double	mDeltaMs,
 				mDeltaS,
 				mDeltauS;
+
+		double	mTotalMS;
 
 		// -------------------------
 		// Disabling default copy constructor and default 

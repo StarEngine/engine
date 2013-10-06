@@ -1,6 +1,7 @@
 #include "GestureManager.h"
 #include <algorithm>
 #include "BaseGesture.h"
+#include "../InputManager.h"
 
 namespace star
 {
@@ -14,14 +15,28 @@ namespace star
 
 	}
 
+#ifdef _WIN32
+
+	void GestureManager::OnUpdateWinInputState()
+	{
+		if(!m_GestureVec.empty())
+		{
+			for(auto gesture : m_GestureVec)
+			{
+				gesture->OnUpdateWinInputStateBase();
+			}
+		}
+	}
+#else
 	void GestureManager::OnTouchEvent(AInputEvent* pEvent)
 	{
 		for(auto gesture : m_GestureVec)
 		{
-			gesture->OnTouchEvent(pEvent);
+			gesture->OnTouchEventBase(pEvent);
 		}
 	}
-
+#endif
+	
 	void GestureManager::AddGesture(BaseGesture* gesture)
 	{
 		// Check if the gesture is not already in the vector
@@ -41,6 +56,14 @@ namespace star
 		{
 			m_GestureVec.erase(std::find(m_GestureVec.begin(), m_GestureVec.end(), gesture));
 			delete gesture;
+		}
+	}
+
+	void GestureManager::Update(const Context& context)
+	{
+		for(auto gesture : m_GestureVec)
+		{
+			gesture->Update(context);
 		}
 	}
 }

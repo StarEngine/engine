@@ -1,7 +1,8 @@
 #pragma once
-#include <android_native_app_glue.h>
 #include "BaseGesture.h"
-
+#ifndef _WIN32
+#include <android_native_app_glue.h>
+#endif
 namespace star
 {
 	class TapGesture : public BaseGesture
@@ -9,8 +10,16 @@ namespace star
 	public:
 		TapGesture();
 		virtual ~TapGesture();
+		virtual void Update(const Context& context);
+	private:
+#ifdef _WIN32
+		virtual void OnUpdateWinInputState();
+#else
 		virtual void OnTouchEvent(AInputEvent* pEvent);
-	protected:
-
+#endif
+		double m_StartTime;
+		double m_TimeSinceBeginning;
+		static const int MINIMUM_TAP_TIME = 10;
+		static const int MAXIMUM_TAP_TIME = 500;
 	};
 }

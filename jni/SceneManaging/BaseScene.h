@@ -38,7 +38,7 @@ namespace star
 		bool IsInitialized() const { return m_Initialized; }
 
 	protected:
-		virtual status Initialize(const Context& context) {}
+		virtual status Initialize(const Context& context) {return STATUS_OK;}
 		virtual status OnActivate() {return STATUS_OK;}
 		virtual void OnDeactivate() {}
 		virtual status Update(const Context& context) {return STATUS_OK;}

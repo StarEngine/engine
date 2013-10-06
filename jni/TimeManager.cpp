@@ -15,6 +15,7 @@ namespace star
 		,mDeltaMs(0)
 		,mDeltaS(0)
 		,mDeltauS(0)
+		,mTotalMS(0)
 	{
 
 	}
@@ -46,6 +47,7 @@ namespace star
 		mDeltaMs = (mF2 - mF1) * 1000.0;
 		mDeltaS  = (mF2 - mF1);
 #endif
+		mTotalMS += mDeltaMs;
 	}
 
 	double TimeManager::GetSeconds() const
@@ -53,7 +55,7 @@ namespace star
 		return mDeltaS;
 	}
 
-	double TimeManager::GetMiliSeconds() const
+	double TimeManager::GetMilliSeconds() const
 	{
 		return mDeltaMs;
 	}
@@ -61,5 +63,15 @@ namespace star
 	double TimeManager::GetMicroSeconds() const
 	{
 		return mDeltauS;
+	}
+
+	double TimeManager::GetMilliSecondsSinceStart() const
+	{
+		return mTotalMS;
+	}
+
+	double TimeManager::GetSecondsSinceStart() const
+	{
+		return mTotalMS/1000.0;
 	}
 }

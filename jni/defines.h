@@ -169,3 +169,4 @@ struct NoAssert { \
 	NoAssert(bool isOK, const tchar* message=_T("")) {} \
 } myAsserter = NoAssert
 #endif
+

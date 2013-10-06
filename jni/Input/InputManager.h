@@ -14,12 +14,10 @@
 #include <vector>
 #include <android/input.h>
 #include <android_native_app_glue.h>
-#include "Gestures/GestureManager.h".h"
 #endif
 
-
-
 #include "../defines.h"
+#include "Gestures/GestureManager.h"
 
 namespace star
 {
@@ -54,7 +52,8 @@ namespace star
 			MouseButtonCode(-1),
 			GamepadButtonCode(0),
 			PlayerIndex(GamepadIndex::PlayerOne),
-			IsTriggered(false){}
+			IsTriggered(false)
+		{}
 
 		InputAction(int actionID, InputTriggerState triggerState = InputTriggerState::Pressed, int keyboardCode = -1, int mouseButtonCode = -1, WORD gamepadButtonCode = 0, GamepadIndex playerIndex = GamepadIndex::PlayerOne):
 			ActionID(actionID),
@@ -63,7 +62,8 @@ namespace star
 			MouseButtonCode(mouseButtonCode),
 			GamepadButtonCode(gamepadButtonCode),
 			PlayerIndex(playerIndex),
-			IsTriggered(false){}
+			IsTriggered(false)
+		{}
 
 		int ActionID;
 		InputTriggerState TriggerState;
@@ -93,6 +93,7 @@ namespace star
 		float ToolMinor;
 		int ID;
 	};
+
 #endif
 
 	//CLASS
@@ -157,7 +158,7 @@ namespace star
 		InputManager();
 		static InputManager*  m_InputManagerPtr;
 		//----------------------------
-	#ifdef _WIN32
+#ifdef _WIN32
 		std::map<int,InputAction> m_InputActions;
 		BYTE *m_pCurrKeyboardState, *m_pOldKeyboardState, *m_pKeyboardState0, *m_pKeyboardState1;
 		bool m_KeyboardState0Active;
@@ -165,6 +166,7 @@ namespace star
 		XINPUT_STATE m_OldGamepadState[XUSER_MAX_COUNT], m_CurrGamepadState[XUSER_MAX_COUNT];
 		bool m_ConnectedGamepads[XUSER_MAX_COUNT];
 		bool m_ThreadAvailable;
+
 		void UpdateGamepadStates();
 		bool IsGamepadButtonDown_unsafe(WORD button, GamepadIndex playerIndex = GamepadIndex::PlayerOne, bool previousFrame = false) const;
 		bool UpdateKeyboardStates();
@@ -183,7 +185,6 @@ namespace star
 		uint32 m_ActivePointerID;
 		std::vector<FingerPointerANDR> m_PointerVec;
 		std::vector<FingerPointerANDR> m_OldPointerVec;
-		BaseGesture* m_GestureInterface;
 #endif
 		GestureManager* m_GestureManager;
 		// -------------------------

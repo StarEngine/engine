@@ -42,6 +42,10 @@ namespace star
 		{
 			InputManager::GetSingleton()->SetGestureManager(m_GestureManagerPtr);
 		}
+		if(m_GestureManagerPtr && m_GestureManagerPtr == InputManager::GetSingleton()->GetGestureManager())
+		{
+			m_GestureManagerPtr->Update(context);
+		}
 		return Update(context);
 	}
 }
