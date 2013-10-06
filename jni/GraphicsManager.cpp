@@ -27,8 +27,11 @@ namespace star
 		
 		mScreenWidth = screenWidth;
 		mScreenHeight = screenHeight;
+
+#ifdef _WIN32
+		glewInit();
+#endif
 		//Initializes base GL state.
-		glEnable(GL_TEXTURE_2D);
 		// In a simple 2D game, we have control over the third
 		// dimension. So we do not really need a Z-buffer.
 		// [COMMENT] Depends. It's one of many techniques
@@ -71,9 +74,8 @@ namespace star
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Getting config attributes"));
 		if (!eglGetConfigAttrib(mDisplay, lConfig,EGL_NATIVE_VISUAL_ID, &lFormat))
 		{
-			// [COMMENT] if nothing.. what then?
-			// Maybe you should start using asserts here.
-			// They excist for a reason...
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : No config attributes"));
+			return;
 		}
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting window geometry"));
 		ANativeWindow_setBuffersGeometry(pApplication->window, 0, 0,lFormat);
@@ -111,7 +113,6 @@ namespace star
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting viewport"));
 		glViewport(0,0,mScreenWidth,mScreenHeight);
 
-		Setup();
 	}
 
 	void GraphicsManager::Destroy()
@@ -137,22 +138,6 @@ namespace star
 	}
 #endif
 
-	void GraphicsManager::Setup()
-	{
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting up Flags and Projections"));
-        // Initializes base GL state.
-        //glEnable(GL_TEXTURE_2D);
-        // In a simple 2D game, we have control over the third
-        // dimension. So we do not really need a Z-buffer.
-#ifdef _WIN32
-		glewInit();
-#endif
-        glDisable(GL_DEPTH_TEST);
-        // [COMMENT] why do these things both happen in this function
-        // and a version of the initialize function?!
-	}
-
-
 
 	void GraphicsManager::StartDraw()
 	{
@@ -172,20 +157,15 @@ namespace star
 
 	void GraphicsManager::StopDraw()
 	{
-#ifdef _WIN32
-		glDisable(GL_BLEND);
-		// [COMMENT] you do the disabling and flushing in both
-		// compilation versions? So why not just put only the
-		// if statement and it's body within an ifndef _WIN32 macro body?
-		glFlush();
-#else
+
 		 glDisable(GL_BLEND);
-		 // Shows rendering surface.
+
+#ifndef _WIN32
 		 if (eglSwapBuffers(mDisplay, mSurface) != EGL_TRUE)
 		 {
 			 return;
 		 }
-		 glFlush();
 #endif
+		 glFlush();
 	}
 }

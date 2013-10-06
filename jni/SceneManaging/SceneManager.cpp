@@ -13,7 +13,6 @@ namespace star
 {
 	SceneManager* SceneManager::m_pSceneManager = nullptr;
 
-	//[COMMENT] PLEASE initialize all members in the constructor!!!! (EVEN if platform dependant)
 	SceneManager::SceneManager( void )
 		: m_ActiveScene(nullptr)
 		, m_NewActiveScene(nullptr)

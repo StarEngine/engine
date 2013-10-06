@@ -28,26 +28,19 @@ namespace star
 	class Shader {
 	public:
 		Shader() {}
-		// [COMMENT] CONST CORRECTNESS! These are basics...
-		// if you pass an object (e.g.: a string) and it is just
-		// an input parameter, pass it like "const tstring& value"
-		Shader(tstring vsFile, tstring fsFile);
+		Shader(const tstring& vsFile, const tstring& fsFile);
 		~Shader();
-		// [COMMENT] see previous comment]
-		bool Init(tstring vsFile, tstring fsFile);
+
+		bool Init(const tstring& vsFile,const tstring& fsFile);
 
 		void Bind();
 		void Unbind();
 
-		// [COMMENT] id? Wtf does id do? it seems like it's a getter..
-		// so call it then GetID(); so that we atleast know what happens.
-		// oh yes, and also... CONST CORRECTNESS!!!
-		GLuint id();
+		const GLuint GetId();
 
 	private:
-		// [COMMENT] see const correctness comment....
-		char* TextFileReading(tstring fileName);
-		bool CompileShader(GLuint* shader, GLenum type, tstring file);
+		const char* TextFileReading(const tstring& fileName);
+		bool CompileShader(GLuint* shader, GLenum type,const tstring& file);
 
 		GLuint mShaderID;
 		GLuint mVertexShader;

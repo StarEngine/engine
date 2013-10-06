@@ -29,7 +29,6 @@ namespace star
 
 		void StartDraw();
 		void StopDraw();
-		void Setup();
 
 		int32 GetScreenWidth() const { return mScreenWidth; }
 		int32 GetScreenHeight() const { return mScreenHeight; }

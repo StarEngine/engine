@@ -31,9 +31,6 @@ namespace star
 		Sprite* m_pTestSprite;
 		star::XMLContainer mTestXMLFile;
 
-		// [COMMENT] Please don't put so much members next to eachother. 
-		//			 It makes it hard to read and is impossible to see on a narrow
-		//			 window layout.
 		Object	*m_pObjectOne, 
 				*m_pObjectTwo, 
 				*m_pObjectThree,

@@ -12,10 +12,8 @@ namespace star
 	TextureManager* TextureManager::mTextureManager = nullptr;
 	void TextureManager::EraseTextures()
 	{
-		std::map<tstring, Texture2D*>::iterator iter;
-		// [COMMENT] remove this line and use auto iter = ...
-		// is much cleaner and more readeable.
-		for(iter= mTextureList.begin(); iter != mTextureList.end(); ++iter)
+		auto iter = mTextureList.begin();
+		for(iter; iter != mTextureList.end(); ++iter)
 		{
 			mTextureList.erase(iter);
 		}

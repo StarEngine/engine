@@ -60,8 +60,6 @@ namespace star
 
 		Logger::GetInstance()->Log(LogLevel::Info,_T("Scenes Set and Done"));
 
-		star::GraphicsManager::GetInstance()->Setup();
-
 		star::SoundService::GetInstance()->Start();
 
 		return STATUS_OK;

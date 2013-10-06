@@ -87,7 +87,7 @@ namespace star
 		CollisionManager::GetInstance()->AddObject(m_pObjectOne);
 		CollisionManager::GetInstance()->AddObject(m_pObjectTwo);
 
-		CollisionManager::GetInstance()->CheckCollision(_T("Default"));
+		//CollisionManager::GetInstance()->CheckCollision(_T("Default"));
 
 		star::XMLFileParser parser(EMPTY_STRING, _T("book_catalog.xml"));
 		LOGGER->Log(star::LogLevel::Info,_T("Loading XML File..."));

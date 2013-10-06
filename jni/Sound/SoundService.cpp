@@ -1,10 +1,9 @@
 #include "SoundService.h"
 #include "../Logger.h"
+#include "../Helpers/Helpers.h"
 
-// [COMMENT] replace this with ifndef?
-#ifdef _WIN32
 
-#else
+#ifndef _WIN32
 #include "../EventLoop.h"
 #include "../AssetManaging/Resource.h"
 #endif
@@ -52,10 +51,7 @@ namespace star
 		int innited = Mix_Init(flags);
 		if((innited & flags) != flags)
 		{
-			// [COMMENT] use the star::string_cast<T>(...) function for this
-			tstringstream buffer;
-			buffer << Mix_GetError();
-			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not init Ogg and Mp3, reason : ")+buffer.str());
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not init Ogg and Mp3, reason : ")+ string_cast<tstring>(Mix_GetError()));
 		}
 
 		if(Mix_OpenAudio(audio_rate, audio_format,audio_channels,audio_buffers))
@@ -152,26 +148,20 @@ namespace star
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Stopped audio Engine"));
 	}
 
-	// [COMMENT] const corectness...
-	status SoundService::PlaySoundFile(const tstring path)
+	status SoundService::PlaySoundFile(const tstring& path)
 	{
 #ifdef _WIN32
 		if(mMusic == NULL)
 		{
 			int buffersize= 128;
-			// [COMMENT] c++0x casts please. i.e. NO C casts
-			char* cpath =(char*)malloc(buffersize);
+			char* cpath = new char(buffersize);
 			size_t i;
 			wcstombs_s(&i,cpath,(size_t)buffersize,path.c_str(),(size_t)buffersize);
 			mMusic = Mix_LoadMUS(cpath);
 			if(!mMusic)
 			{
-				// [COMMENT] use star::string_cast<T>(...) please
-				tstringstream buffer;
-				buffer << Mix_GetError();
-				star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not load song, reason : ")+buffer.str());
+				star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not load song, reason : ")+string_cast<tstring>(Mix_GetError()));
 			}
-			free(cpath);
 			Mix_PlayMusic(mMusic,-1);
 		}
 	

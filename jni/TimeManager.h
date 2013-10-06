@@ -9,6 +9,11 @@
 
 namespace star
 {
+	const double NSMULTIPLIER = 1.0e-9;
+	const double MICROMULTIPLIER = 1000000.0;
+	const double MILLIMULTIPLIER = 1000.0;
+	const double SECONDMULTIPLIER = 1.0;
+
 	class TimeManager
 	{
 	public:

@@ -5,8 +5,7 @@
 
 namespace star
 {
-	// [COMMENT] const correctnes?
-	Sprite::Sprite(tstring filePath, tstring spriteName):
+	Sprite::Sprite(const tstring& filePath,const tstring& spriteName):
 		mSpriteName(spriteName)
 	{
 
@@ -25,7 +24,7 @@ namespace star
 
 		star::TextureManager::GetInstance()->LoadTexture(filePath,mSpriteName);
 
-		createSquare();
+		CreateSquare();
 
 	}
 
@@ -34,8 +33,7 @@ namespace star
 		star::TextureManager::GetInstance()->DeleteTexture(mSpriteName);
 	}
 
-	// [COMMENT] see comment in header file
-	void Sprite::createSquare()
+	void Sprite::CreateSquare()
 	{
 		mVertices[0] = 0.5f;
 		mVertices[1] = 0.5f;
@@ -62,7 +60,7 @@ namespace star
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(mSpriteName));
-		GLint s_textureId = glGetUniformLocation(mShader.id(), "textureSampler");
+		GLint s_textureId = glGetUniformLocation(mShader.GetId(), "textureSampler");
 		glUniform1i(s_textureId, 0);
 
 		//Set attributes and buffers

@@ -16,15 +16,13 @@ namespace star
 	class Sprite
 	{
 	public:
-		// [COMMENT] const correctness?
-		Sprite(tstring filePath, tstring spriteName);
+		Sprite(const tstring& filePath,const tstring& spriteName);
 		~Sprite();
 
 		void Draw();
 
 	private:
-		// [COMMENT] Let methods start with a capital please...
-		void createSquare();
+		void CreateSquare();
 
 		Shader mShader;
 		tstring mSpriteName;

@@ -1,10 +1,10 @@
 #include "Shader.h"
 #include "../Logger.h"
+#include "../Helpers/Helpers.h"
 
 namespace star
 {
-	// [COMMENT] see comment on the defintion of this function...
-	Shader::Shader( tstring vsFile, tstring fsFile )
+	Shader::Shader( const tstring& vsFile, const tstring& fsFile )
 	{
 		Init(vsFile,fsFile);
 	}
@@ -18,8 +18,7 @@ namespace star
 
 	}
 
-	// [COMMENT] see comment on the defintion of this function...
-	bool Shader::Init( tstring vsFile, tstring fsFile )
+	bool Shader::Init(const tstring& vsFile, const tstring& fsFile )
 	{
 		mShaderID = glCreateProgram();
 
@@ -64,7 +63,7 @@ namespace star
 		return true;
 	}
 
-	bool Shader::CompileShader(GLuint* shader, GLenum type, tstring file)
+	bool Shader::CompileShader(GLuint* shader, GLenum type,const tstring& file)
 	{
 		GLint status;
 		const GLchar* source;
@@ -76,14 +75,10 @@ namespace star
 			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : Failed to open file"));
 			return false;
 		}
-		// [COMMENT] use the star::string_cast<T>(...) function for this.
-		tstringstream buffer;
-		int32 length = resource.getLength();
-		buffer<<length;
-		star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : File size :")+buffer.str());
-		// [COMMENT} Please don't use C mallocs here...
-		// we're programming in C++ so use the C++ way of doing it
-		char* doc = (char*) malloc (length+1);
+	
+		int32 length = resource.getLength();	
+		star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : File size :")+star::string_cast<tstring>(length));
+		char* doc = new char(length+1);
 		if(resource.read(doc,length)==STATUS_KO)
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : Failed to read file"));
@@ -96,12 +91,10 @@ namespace star
 
 		star::Logger::GetInstance()->Log(LogLevel::Info,filecontent);
 
-		// C++0X casts please, thank you very much
-		// In other words.. NO C casts...
-		source = (GLchar*)&doc[0];
+		source = const_cast<GLchar*>(&doc[0]);
 		resource.close();
 #else
-		source = (GLchar*)TextFileReading(file);
+		source = const_cast<GLchar*>(TextFileReading(file));
 #endif
 
 		if(!source)
@@ -118,26 +111,10 @@ namespace star
 			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : Failed Compile"));
 			GLint infolength;
 			glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &infolength);
-			// [COMMENT] Why is this code in comment?
-			// Remove unused code please.
-			// we use a revision control system, so just check an older
-			// commit if you need it back...
-			//GLchar* strInfoLog = new GLchar[infolength + 1];
-			//glGetShaderInfoLog(*shader, infolength, NULL, strInfoLog);
-			//star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : ")+tstring(strInfoLog));
 			glDeleteShader(*shader);
 			return false;
 		}
 		return true;
-	}
-
-	// [COMMENT] You use a different return value version... Don't do it!
-	// also please respect the order of your defintions in your header
-	// with your implementations in this file.
-	// also... check const correctness comment on the defintion.
-	unsigned int Shader::id()
-	{
-		return mShaderID;
 	}
 
 	void Shader::Bind()
@@ -150,8 +127,12 @@ namespace star
 		glUseProgram(0);
 	}
 
-	// [COMMENT] see comment on the defintion of this function...
-	char* Shader::TextFileReading(tstring fileName)
+	const GLuint Shader::GetId()
+	{
+		return mShaderID;
+	}
+
+	const char* Shader::TextFileReading(const tstring& fileName)
 	{
 		char* text(NULL);
 		if (fileName != EMPTY_STRING) {

@@ -15,8 +15,7 @@ namespace star
 	class SceneManager
 	{
 	public:
-		// [COMMENT] to use void or leave it empty. Choose one of the 2, not both.
-		~SceneManager(void);
+		~SceneManager();
 
 		static SceneManager* GetInstance();
 
@@ -52,7 +51,7 @@ namespace star
 
 		bool InitializeCurScene(const Context& context);
 
-		SceneManager(void);
+		SceneManager();
 
 		SceneManager(const SceneManager& yRef);
 		SceneManager(SceneManager&& yRef);
