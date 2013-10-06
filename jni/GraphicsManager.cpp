@@ -23,7 +23,7 @@ namespace star
 #ifdef _WIN32
 	void GraphicsManager::Initialize(int32 screenWidth, int32 screenHeight)
 	{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager: Initialized"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager: Initialized"));
 		
 		mScreenWidth = screenWidth;
 		mScreenHeight = screenHeight;
@@ -39,7 +39,7 @@ namespace star
 #else
 	void GraphicsManager::Initialize(const android_app* pApplication)
 	{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialized"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialized"));
 		EGLint lFormat, lNumConfigs, lErrorResult;
 		EGLConfig lConfig;
 		// Defines display requirements. 16bits mode here.
@@ -49,44 +49,44 @@ namespace star
 		            EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
 		            EGL_NONE
 		};
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Getting attached display"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Getting attached display"));
 		mDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 		if (mDisplay == EGL_NO_DISPLAY)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : No display found"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : No display found"));
 			return;
 		}
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialize Display"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialize Display"));
 		if (!eglInitialize(mDisplay, NULL, NULL))
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Could not initialize display"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Could not initialize display"));
 			return;
 		}
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Choosing display config"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Choosing display config"));
 		if(!eglChooseConfig(mDisplay, lAttributes, &lConfig, 1,&lNumConfigs) || (lNumConfigs <= 0))
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : No display config"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : No display config"));
 			return;
 		}
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Getting config attributes"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Getting config attributes"));
 		if (!eglGetConfigAttrib(mDisplay, lConfig,EGL_NATIVE_VISUAL_ID, &lFormat))
 		{
 			// [COMMENT] if nothing.. what then?
 			// Maybe you should start using asserts here.
 			// They excist for a reason...
 		}
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting window geometry"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting window geometry"));
 		ANativeWindow_setBuffersGeometry(pApplication->window, 0, 0,lFormat);
 
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Creating window surface"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Creating window surface"));
 		mSurface = eglCreateWindowSurface(mDisplay, lConfig, pApplication->window, NULL );
 		if (mSurface == EGL_NO_SURFACE)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Could not create surface"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Could not create surface"));
 			return;
 		}
 
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : creating context"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : creating context"));
 		EGLint contextAttrs[] = {
 		     EGL_CONTEXT_CLIENT_VERSION, 2,
 		     EGL_NONE
@@ -94,21 +94,21 @@ namespace star
 		mContext = eglCreateContext(mDisplay, lConfig, EGL_NO_CONTEXT, contextAttrs);
 		if (mContext == EGL_NO_CONTEXT)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Could not create context"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Could not create context"));
 			return;
 		}
 
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Making display, surface & conext Current"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Making display, surface & conext Current"));
 		if (!eglMakeCurrent(mDisplay, mSurface, mSurface, mContext)
 		 || !eglQuerySurface(mDisplay, mSurface, EGL_WIDTH, &mScreenWidth)
 		 || !eglQuerySurface(mDisplay, mSurface, EGL_HEIGHT, &mScreenHeight)
 		 || (mScreenWidth <= 0) || (mScreenHeight <= 0))
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Could not activate display"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Could not activate display"));
 			return;
 		}
 
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting viewport"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting viewport"));
 		glViewport(0,0,mScreenWidth,mScreenHeight);
 
 		Setup();
@@ -116,7 +116,7 @@ namespace star
 
 	void GraphicsManager::Destroy()
 	{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Destroying Context and Display"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Destroying Context and Display"));
         // Destroys OpenGL context.
         if (mDisplay != EGL_NO_DISPLAY)
         {
@@ -139,7 +139,7 @@ namespace star
 
 	void GraphicsManager::Setup()
 	{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting up Flags and Projections"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Setting up Flags and Projections"));
         // Initializes base GL state.
         //glEnable(GL_TEXTURE_2D);
         // In a simple 2D game, we have control over the third

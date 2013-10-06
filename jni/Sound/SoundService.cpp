@@ -39,7 +39,7 @@ namespace star
 
 	status SoundService::Start()
 	{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio : Started making Audio Engine"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Started making Audio Engine"));
 
 #ifdef _WIN32
 		int32 audio_rate(44100);
@@ -50,17 +50,17 @@ namespace star
 		SDL_Init(SDL_INIT_AUDIO);
 		int flags = MIX_INIT_OGG | MIX_INIT_MP3;
 		int innited = Mix_Init(flags);
-		if(innited & flags != flags)
+		if((innited & flags) != flags)
 		{
 			// [COMMENT] use the star::string_cast<T>(...) function for this
 			tstringstream buffer;
 			buffer << Mix_GetError();
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio :Could not init Ogg and Mp3, reason : ")+buffer.str());
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not init Ogg and Mp3, reason : ")+buffer.str());
 		}
 
 		if(Mix_OpenAudio(audio_rate, audio_format,audio_channels,audio_buffers))
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio : Could Not open Audio Mix SDL"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Could Not open Audio Mix SDL"));
 			Stop();
 			return STATUS_KO;
 		}
@@ -72,7 +72,7 @@ namespace star
 		Mix_QuerySpec(&actual_rate,&actual_format,&actual_channels);
 		tstringstream buffer;
 		buffer << "Actual Rate : " << actual_rate << ", Actual Format : " << actual_format << ", Actual Channels : " << actual_channels << std::endl;
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio : SDL specs : ")+buffer.str());
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : SDL specs : ")+buffer.str());
 		Mix_Volume(-1,100);
 #else
 		
@@ -87,7 +87,7 @@ namespace star
 		lRes = slCreateEngine(&mEngineObj, 0, NULL, lEngineMixIIDCount, lEngineMixIIDs, lEngineMixReqs);
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Error, _T("Audio : Can't make Audio Engine"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't make Audio Engine"));
 			Stop();
 			return STATUS_KO;
 		}
@@ -95,7 +95,7 @@ namespace star
 		lRes = (*mEngineObj)->Realize(mEngineObj, SL_BOOLEAN_FALSE);
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Error, _T("Audio : Can't realize Engine"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't realize Engine"));
 			Stop();
 			return STATUS_KO;
 		}
@@ -103,7 +103,7 @@ namespace star
 		lRes = (*mEngineObj)->GetInterface(mEngineObj,SL_IID_ENGINE, &mEngine);
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Error, _T("Audio : Can't fetch engine interface"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't fetch engine interface"));
 			Stop();
 			return STATUS_KO;
 		}
@@ -111,7 +111,7 @@ namespace star
 		lRes = (*mEngine)->CreateOutputMix(mEngine, &mOutputMixObj, lOutputMixIIDCount, lOutputMixIIDs,lOutputMixReqs);
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Error, _T("Audio : Can't create outputmix"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't create outputmix"));
 			Stop();
 			return STATUS_KO;
 		}
@@ -119,11 +119,11 @@ namespace star
 		lRes = (*mOutputMixObj)->Realize(mOutputMixObj,SL_BOOLEAN_FALSE);
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Error, _T("Audio : Can't realise output object"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't realise output object"));
 			Stop();
 			return STATUS_KO;
 		}
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio : Succesfull made Audio Engine"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Succesfull made Audio Engine"));
 #endif
 		return STATUS_OK;
 	}
@@ -149,7 +149,7 @@ namespace star
 			mEngine = NULL;
 		}
 #endif
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio : Stopped audio Engine"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Stopped audio Engine"));
 	}
 
 	// [COMMENT] const corectness...
@@ -169,7 +169,7 @@ namespace star
 				// [COMMENT] use star::string_cast<T>(...) please
 				tstringstream buffer;
 				buffer << Mix_GetError();
-				star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Audio :Could not load song, reason : ")+buffer.str());
+				star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not load song, reason : ")+buffer.str());
 			}
 			free(cpath);
 			Mix_PlayMusic(mMusic,-1);
@@ -182,7 +182,7 @@ namespace star
 		ResourceDescriptor lDescriptor = lResource.DeScript();
 		if(lDescriptor.mDescriptor < 0)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Error, _T("Audio : Could not open file"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Could not open file"));
 			return STATUS_KO;
 		}
 		SLDataLocator_AndroidFD lDataLocatorIn;
@@ -215,7 +215,7 @@ namespace star
 		lRes = (*mEngine)->CreateAudioPlayer(mEngine,&mPlayerObj, &lDataSource, &lDataSink,lPlayerIIDCount, lPlayerIIDs, lPlayerReqs);
 		if (lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Error, _T("Audio : Can't create audio player"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't create audio player"));
 			Stop();
 			return STATUS_KO;
 		}
@@ -223,7 +223,7 @@ namespace star
 		lRes = (*mPlayerObj)->Realize(mPlayerObj,SL_BOOLEAN_FALSE);
 		if (lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Error, _T("Audio : Can't realise audio player"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't realise audio player"));
 			Stop();
 			return STATUS_KO;
 		}
@@ -231,7 +231,7 @@ namespace star
 		lRes = (*mPlayerObj)->GetInterface(mPlayerObj,SL_IID_PLAY, &mPlayer);
 		if (lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Error, _T("Audio : Can't get audio play interface"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't get audio play interface"));
 			Stop();
 			return STATUS_KO;
 		}
@@ -239,7 +239,7 @@ namespace star
 		lRes = (*mPlayerObj)->GetInterface(mPlayerObj,SL_IID_SEEK, &mPlayerSeek);
 		if (lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Error, _T("Audio : Can't get audio seek interface"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't get audio seek interface"));
 			Stop();
 			return STATUS_KO;
 		}
@@ -247,7 +247,7 @@ namespace star
 		lRes = (*mPlayerSeek)->SetLoop(mPlayerSeek,SL_BOOLEAN_TRUE, 0, SL_TIME_UNKNOWN);
 		if (lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Error, _T("Audio : Can't set audio loop"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't set audio loop"));
 			Stop();
 			return STATUS_KO;
 		}
@@ -255,7 +255,7 @@ namespace star
 		lRes = (*mPlayer)->SetPlayState(mPlayer,SL_PLAYSTATE_PLAYING);
 		if (lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Error, _T("Audio : Can't play audio"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't play audio"));
 			Stop();
 			return STATUS_KO;
 		};

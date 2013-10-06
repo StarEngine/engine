@@ -28,7 +28,7 @@ namespace star
 
 	void CollisionManager::CheckCollision(const tstring& tag)
 	{
-		Logger::GetSingleton()->Log(LogLevel::Info, _T("Entered CheckCollision"));
+		Logger::GetInstance()->Log(LogLevel::Info, _T("Entered CheckCollision"));
 		//Check which objects need collisionchecking
 		for(auto object : m_ObjectList)
 		{
@@ -45,7 +45,7 @@ namespace star
 			{
 				if(object != otherObject)
 				{
-					Logger::GetSingleton()->Log(LogLevel::Info, _T("Element in ActiveCollisionList Checked on Collision"));
+					Logger::GetInstance()->Log(LogLevel::Info, _T("Element in ActiveCollisionList Checked on Collision"));
 					object->CollisionCheck(otherObject);
 				}
 			}

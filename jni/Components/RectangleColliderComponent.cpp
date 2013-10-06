@@ -8,7 +8,7 @@ namespace star
 		m_CollisionRect(0,0, width, height),
 		m_bIsTrigger(false)
 	{
-		Logger::GetSingleton()->Log(LogLevel::Info, _T("RectCollisionComponent initialized"));
+		Logger::GetInstance()->Log(LogLevel::Info, _T("RectCollisionComponent initialized"));
 	}
 
 	RectangleColliderComponent::~RectangleColliderComponent(void)

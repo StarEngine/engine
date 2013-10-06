@@ -133,7 +133,7 @@ namespace star
 			
 			if(find(m_PositionList.begin(), m_PositionList.end(),vec3(nextCell->m_X, nextCell->m_Y, 0)) == m_PositionList.end())
 			{
-				Logger::GetSingleton()->Log(LogLevel::Info, _T("Position not accessible (GetNextCell())"));
+				Logger::GetInstance()->Log(LogLevel::Info, _T("Position not accessible (GetNextCell())"));
 				return nullptr;
 			}
 			
@@ -216,9 +216,9 @@ namespace star
 			{
 				str << _T("(")<< element.x<< _T(", ") << element.y << _T(")\n");
 			}
-			Logger::GetSingleton()->Log(LogLevel::Info, str.str());
+			Logger::GetInstance()->Log(LogLevel::Info, str.str());
 
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("Reached the fucking end! Finished with pathfinding"));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("Reached the fucking end! Finished with pathfinding"));
 			m_bFoundGoal = true;
 			return;
 		}

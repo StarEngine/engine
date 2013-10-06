@@ -257,7 +257,7 @@ void Window::Initialize(HINSTANCE instance)
 
 Window::Window()
 	: m_IsInitialized(false)
-	, mLoggerPtr(star::Logger::GetSingleton())
+	, mLoggerPtr(star::Logger::GetInstance())
 	, mMainGamePtr(new star::MainGame())
 	, mTimeManager(new star::TimeManager())
 	, mTextureManager(star::TextureManager::GetInstance())

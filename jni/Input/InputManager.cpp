@@ -254,7 +254,7 @@ namespace star
 			
 			if((m_pCurrKeyboardState[button]&0xF0)!=0)
 			{
-				Logger::GetSingleton()->Log(LogLevel::Info, _T("Checking for mouse state..."));
+				Logger::GetInstance()->Log(LogLevel::Info, _T("Checking for mouse state..."));
 			}
 			return (m_pCurrKeyboardState[button]&0xF0)!=0;
 		}
@@ -310,7 +310,7 @@ namespace star
 					if(!IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) && IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
 					{
 						currAction->IsTriggered = true;
-						Logger::GetSingleton()->Log(LogLevel::Info, _T("Clicked mouse button."));
+						Logger::GetInstance()->Log(LogLevel::Info, _T("Clicked mouse button."));
 					}
 				}
 
@@ -545,10 +545,10 @@ namespace star
 			break;
 		case AMOTION_EVENT_ACTION_CANCEL:
 			m_ActivePointerID = INVALID_POINTER_ID;
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("Canceled"));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("Canceled"));
 			break;
 		case AMOTION_EVENT_ACTION_OUTSIDE:
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("Outside"));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("Outside"));
 			break;
 		case AMOTION_EVENT_ACTION_MOVE:
 			break;

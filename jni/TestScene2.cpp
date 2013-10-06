@@ -16,7 +16,7 @@
 #endif
 
 #define INPUT_MANAGER (InputManager::GetSingleton())
-#define LOGGER (Logger::GetSingleton())
+#define LOGGER (Logger::GetInstance())
 
 namespace star
 {

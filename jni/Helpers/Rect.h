@@ -29,7 +29,7 @@ namespace star
 			tstringstream str;
 			str << _T("Rect Created \t");
 			str << _T("(") << x << _T(", ") << y << _T(", ") << width << _T(", ") << height << _T(")");
-			Logger::GetSingleton()->Log(LogLevel::Info,str.str());
+			Logger::GetInstance()->Log(LogLevel::Info,str.str());
 		}
 
 		Rect(const glm::vec2& location,const glm::vec2& size)

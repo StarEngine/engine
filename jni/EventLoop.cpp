@@ -30,7 +30,7 @@ namespace star
 
 		app_dummy();
 
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Starting EventLoop"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Starting EventLoop"));
 
 		while(true)
 		{
@@ -44,7 +44,7 @@ namespace star
 
 				if(mApplicationPtr->destroyRequested)
 				{
-					star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Exiting Event"));
+					star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Exiting Event"));
 					mQuit=true;
 					return;
 				}
@@ -66,7 +66,7 @@ namespace star
 
 	void EventLoop::end()
 	{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Ending App"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Ending App"));
 		mMainGame->End();
 		ANativeActivity_finish(mApplicationPtr->activity);
 	}
@@ -81,7 +81,7 @@ namespace star
 				case APP_CMD_INIT_WINDOW:
 					if(pApplication->window != nullptr)
 					{
-						star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Eventloop Callback : Window Handle Made"));
+						star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Eventloop Callback : Window Handle Made"));
 						star::GraphicsManager::GetInstance()->Initialize(pApplication);
 					}
 				break;
@@ -104,7 +104,7 @@ namespace star
 		}
 		else
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("Callback to scenemanager"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Callback to scenemanager"));
 			SceneManager::GetInstance()->processActivityEvent(pCommand,pApplication);
 		}
 	}

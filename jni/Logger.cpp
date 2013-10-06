@@ -25,7 +25,7 @@ namespace star {
 
 	}
 
-	Logger* Logger::GetSingleton()
+	Logger* Logger::GetInstance()
 	{
 		if(m_LoggerPtr == nullptr)
 		{

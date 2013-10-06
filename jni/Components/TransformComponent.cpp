@@ -18,7 +18,7 @@ namespace star
 		m_LocalScale(vec3(1,1,1)),
 		m_World()
 	{
-		Logger::GetSingleton()->Log(LogLevel::Info,_T("TransformComponent Added"));
+		Logger::GetInstance()->Log(LogLevel::Info,_T("TransformComponent Added"));
 	}
 
 	TransformComponent::TransformComponent(star::Object* parent):
@@ -34,7 +34,7 @@ namespace star
 		m_World()
 	{
 		m_pParentObject = parent;
-		Logger::GetSingleton()->Log(LogLevel::Info,_T("TransformComponent Added"));
+		Logger::GetInstance()->Log(LogLevel::Info,_T("TransformComponent Added"));
 	}
 
 	TransformComponent::~TransformComponent(void)

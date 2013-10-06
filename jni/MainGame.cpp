@@ -48,7 +48,7 @@ namespace star
 #ifdef _WIN32
 		star::GraphicsManager::GetInstance()->Initialize(windowWidth,  windowHeight);
 #endif
-		Logger::GetSingleton()->Log(LogLevel::Info,_T("MainGame Initialize"));
+		Logger::GetInstance()->Log(LogLevel::Info,_T("MainGame Initialize"));
 		mSceneManager = SceneManager::GetInstance();
 
 		mTestScene = new TestScene(_T("TestScene"));
@@ -58,7 +58,7 @@ namespace star
 		mTestScene2 = new TestScene2(_T("TestScene2"));
 		mSceneManager->AddScene(mTestScene2->GetName(),mTestScene2);
 
-		Logger::GetSingleton()->Log(LogLevel::Info,_T("Scenes Set and Done"));
+		Logger::GetInstance()->Log(LogLevel::Info,_T("Scenes Set and Done"));
 
 		star::GraphicsManager::GetInstance()->Setup();
 

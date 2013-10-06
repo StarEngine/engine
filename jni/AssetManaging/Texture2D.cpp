@@ -67,7 +67,7 @@ namespace star
 
 		if(fp == NULL)
 		{ 
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : png could not be loaded"));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : png could not be loaded"));
 			return NULL;
 		}
 
@@ -76,41 +76,41 @@ namespace star
 		if(mResource.open()==STATUS_KO)
 		{
 			mResource.close();
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : Could Not Open Resource"));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : Could Not Open Resource"));
 			return NULL;
 		}
 		if(mResource.read(header, sizeof(header))==STATUS_KO)
 		{
 			mResource.close();
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : Could Not Read"));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : Could Not Read"));
 			return NULL;
 		}
 #endif
 
 		if(png_sig_cmp(header, 0, 8))
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Not a PNG file"));
+			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : Not a PNG file"));
 			return NULL;
 		}
 
 		lPngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 		if(!lPngPtr)
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : create struct string failed"));
+			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : create struct string failed"));
 			return NULL;
 		}
 
 		lInfoPtr = png_create_info_struct(lPngPtr);
 		if(!lInfoPtr)
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : create info failed"));
+			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : create info failed"));
 			return NULL;
 		}
 
 #ifdef _WIN32
 		if(setjmp(png_jmpbuf(lPngPtr)))
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error during init io"));
+			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : Error during init io"));
 			return NULL;
 		}
 
@@ -120,7 +120,7 @@ namespace star
 		if(setjmp(png_jmpbuf(lPngPtr)))
 		{
 			mResource.close();
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error during init io"));
+			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : Error during init io"));
 			return NULL;
 		}
 #endif
@@ -188,28 +188,28 @@ namespace star
 
 		/*if(setjmp(png_jmpbuf(mPng_ptr)))
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error during read image"));
+			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : Error during read image"));
 			return NULL;
 		}*/
 
 		lRowSize = png_get_rowbytes(lPngPtr,lInfoPtr);
 		if(lRowSize <= 0)
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : png rowsize smaller or equal to 0"));
+			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : png rowsize smaller or equal to 0"));
 			return NULL;
 		}
 
 		lImageBuffer = new png_byte[lRowSize * pHeight];
 		if(!lImageBuffer)
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error during image buffer creation"));
+			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : Error during image buffer creation"));
 			return NULL;
 		}
 
 		lRowPtrs = new png_bytep[pHeight];
 		if(!lRowPtrs)
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info,_T("PNG : Error during row pointer creation"));
+			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : Error during row pointer creation"));
 			return NULL;
 		}
 
@@ -228,7 +228,7 @@ namespace star
 		delete[] lRowPtrs;
 
 #ifdef _DEBUG
-		Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : ") + mPath + _T(" Created Succesfull"));
+		Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : ") + mPath + _T(" Created Succesfull"));
 #endif
 		return lImageBuffer;
 
@@ -239,7 +239,7 @@ namespace star
 		uint8* lImageBuffer = this->ReadPNG();
 		if(lImageBuffer == NULL)
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : READING PNG FAILED - NO IMAGE BUFFER"));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : READING PNG FAILED - NO IMAGE BUFFER"));
 			return STATUS_KO;
 		}
 
@@ -263,16 +263,16 @@ namespace star
 			switch(errormsg)
 			{
 			case GL_INVALID_ENUM:
-				Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : Unacceptable value for imagebuffer"));
+				Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : Unacceptable value for imagebuffer"));
 				break;
 			case GL_INVALID_VALUE:
-				Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : value out of range"));
+				Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : value out of range"));
 				break;
 			case GL_INVALID_OPERATION:
-				Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : Not allowed in current state"));
+				Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : Not allowed in current state"));
 				break;
 			case GL_OUT_OF_MEMORY:
-				Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : Out of Memory"));
+				Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : Out of Memory"));
 				break;
 			}
 			errormsg = glGetError();
@@ -280,7 +280,7 @@ namespace star
 
 		if(hasError)
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("PNG : Error loading pnginto OpenGl"));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : Error loading pnginto OpenGl"));
 			if(mTextureId != 0)
 			{
 				glDeleteTextures(1, &mTextureId);

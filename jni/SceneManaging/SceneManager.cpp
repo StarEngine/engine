@@ -59,7 +59,7 @@ namespace star
 		}
 		if(m_SceneList.find(name) != m_SceneList.end())
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("Scene ") + name + _T(" is now Active"));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("Scene ") + name + _T(" is now Active"));
 			m_NewActiveScene = m_SceneList[name];
 			m_bSwitchingScene = true;
 			m_bInitialized = m_NewActiveScene->IsInitialized();
@@ -79,11 +79,11 @@ namespace star
 		if ( m_SceneList.find(name) == m_SceneList.end() )
 		{
 			m_SceneList[name] = scene;
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("Adding scene"));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("Adding scene"));
 		}
 		else
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("Scene Already Exists"));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("Scene Already Exists"));
 			return (false);
 		}
 		return (true);
@@ -110,7 +110,7 @@ namespace star
 		{
 			return (false);
 		}
-		Logger::GetSingleton()->Log(LogLevel::Info, _T("Initializing Scene :") + m_CurrentSceneName);
+		Logger::GetInstance()->Log(LogLevel::Info, _T("Initializing Scene :") + m_CurrentSceneName);
 		m_NewActiveScene->BaseInitialize(context);
 		m_bInitialized = m_NewActiveScene->IsInitialized();
 		return (m_bInitialized);
@@ -239,10 +239,10 @@ namespace star
 
 	void SceneManager::Activate()
 	{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Going trough activate"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Going trough activate"));
 		if(mApplicationPtr->window != nullptr)
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info,_T("native window not null"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("native window not null"));
 			star::GraphicsManager::GetInstance()->Initialize(mApplicationPtr);
 			if(m_ActiveScene->OnActivate() != STATUS_OK)
 			{
@@ -254,7 +254,7 @@ namespace star
 
 	void SceneManager::DeActivate()
 	{
-		star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Going trough DeActivate"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Going trough DeActivate"));
 		star::GraphicsManager::GetInstance()->Destroy();
 		star::TextureManager::GetInstance()->EraseTextures();
 		star::SoundService::GetInstance()->Stop();

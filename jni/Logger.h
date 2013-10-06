@@ -16,7 +16,7 @@ namespace star
     public:
 		~Logger();
 		// Static methods
-		static Logger* GetSingleton();
+		static Logger* GetInstance();
 		static void ResetSingleton();
 
 		void Initialize();

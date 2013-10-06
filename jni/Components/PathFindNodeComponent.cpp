@@ -6,7 +6,7 @@ namespace star
 	// [COMMENT] call basecomponent constructor
 	PathFindNodeComponent::PathFindNodeComponent()
 	{
-		Logger::GetSingleton()->Log(LogLevel::Info, _T("PathFindNodeComponent initialized"));
+		Logger::GetInstance()->Log(LogLevel::Info, _T("PathFindNodeComponent initialized"));
 	}
 
 	PathFindNodeComponent::~PathFindNodeComponent(void)

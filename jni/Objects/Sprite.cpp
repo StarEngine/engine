@@ -20,7 +20,7 @@ namespace star
 #endif
 		if(!mShader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
 		{
-			star::Logger::GetSingleton()->Log(star::LogLevel::Info, _T("Making Shader Failed"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Making Shader Failed"));
 		}
 
 		star::TextureManager::GetInstance()->LoadTexture(filePath,mSpriteName);

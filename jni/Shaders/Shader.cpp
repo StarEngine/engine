@@ -25,22 +25,22 @@ namespace star
 
 		if(!CompileShader(&mVertexShader, GL_VERTEX_SHADER, vsFile ))
 		{
-			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Failed To load Vertex Shader"));
+			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Failed To load Vertex Shader"));
 			return false;
 		}
 		else
 		{
-			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Compiled Vertex Shader"));
+			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Compiled Vertex Shader"));
 		}
 
 		if(!CompileShader(&mFragmentShader, GL_FRAGMENT_SHADER, fsFile))
 		{
-			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Failed To load Fragment Shader"));
+			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Failed To load Fragment Shader"));
 			return false;
 		}
 		else
 		{
-			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Compiled Fragment Shader"));
+			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Compiled Fragment Shader"));
 		}
 
 		glAttachShader(mShaderID, mVertexShader);
@@ -54,12 +54,12 @@ namespace star
 		glGetProgramiv(mShaderID,GL_LINK_STATUS,&status);
 		if(status == 0)
 		{
-			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Failed to link shader"));
+			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Failed to link shader"));
 			return false;
 		}
 		else
 		{
-			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Shader Linked"));
+			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Shader Linked"));
 		}
 		return true;
 	}
@@ -73,20 +73,20 @@ namespace star
 		Resource resource(star::EventLoop::mApplicationPtr,file);
 		if(resource.open()==STATUS_KO)
 		{
-			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Android Shader : Failed to open file"));
+			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : Failed to open file"));
 			return false;
 		}
 		// [COMMENT] use the star::string_cast<T>(...) function for this.
 		tstringstream buffer;
 		int32 length = resource.getLength();
 		buffer<<length;
-		star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Android Shader : File size :")+buffer.str());
+		star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : File size :")+buffer.str());
 		// [COMMENT} Please don't use C mallocs here...
 		// we're programming in C++ so use the C++ way of doing it
 		char* doc = (char*) malloc (length+1);
 		if(resource.read(doc,length)==STATUS_KO)
 		{
-			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Android Shader : Failed to read file"));
+			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : Failed to read file"));
 			resource.close();
 			return false;
 		}
@@ -94,7 +94,7 @@ namespace star
 
 		tstring filecontent= tstring(doc);
 
-		star::Logger::GetSingleton()->Log(LogLevel::Info,filecontent);
+		star::Logger::GetInstance()->Log(LogLevel::Info,filecontent);
 
 		// C++0X casts please, thank you very much
 		// In other words.. NO C casts...
@@ -106,7 +106,7 @@ namespace star
 
 		if(!source)
 		{
-			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Android Shader : Invalid Source"));
+			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : Invalid Source"));
 			return false;
 		}
 		*shader = glCreateShader(type);
@@ -115,7 +115,7 @@ namespace star
 		glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
 		if(status == 0)
 		{
-			star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Android Shader : Failed Compile"));
+			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : Failed Compile"));
 			GLint infolength;
 			glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &infolength);
 			// [COMMENT] Why is this code in comment?
@@ -124,7 +124,7 @@ namespace star
 			// commit if you need it back...
 			//GLchar* strInfoLog = new GLchar[infolength + 1];
 			//glGetShaderInfoLog(*shader, infolength, NULL, strInfoLog);
-			//star::Logger::GetSingleton()->Log(LogLevel::Info, _T("Android Shader : ")+tstring(strInfoLog));
+			//star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : ")+tstring(strInfoLog));
 			glDeleteShader(*shader);
 			return false;
 		}

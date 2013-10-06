@@ -117,7 +117,7 @@ namespace star
 			PathFindManager::GetInstance()->AddObject(this);
 		}
 
-		Logger::GetSingleton()->Log(LogLevel::Info, _T("Component Added"));
+		Logger::GetInstance()->Log(LogLevel::Info, _T("Component Added"));
 	}
 
 	void Object::RemoveComponent(const BaseComponent* pComponent)
@@ -125,7 +125,7 @@ namespace star
 		m_pComponents.erase(std::find(m_pComponents.begin(), m_pComponents.end(), pComponent));
 		delete pComponent;
 
-		Logger::GetSingleton()->Log(LogLevel::Info, _T("Component Removed"));
+		Logger::GetInstance()->Log(LogLevel::Info, _T("Component Removed"));
 	}
 
 	void Object::AddChild(Object *pChild)
@@ -139,7 +139,7 @@ namespace star
 
 		m_pChildren.push_back(pChild);
 
-		Logger::GetSingleton()->Log(LogLevel::Info, _T("Child Added"));
+		Logger::GetInstance()->Log(LogLevel::Info, _T("Child Added"));
 	}
 
 	void Object::RemoveChild(const Object* pObject)
@@ -147,7 +147,7 @@ namespace star
 		m_pChildren.erase(std::find(m_pChildren.begin(), m_pChildren.end(), pObject));
 		delete pObject;
 
-		Logger::GetSingleton()->Log(LogLevel::Info, _T("Child Removed"));
+		Logger::GetInstance()->Log(LogLevel::Info, _T("Child Removed"));
 	}
 
 	void Object::CollisionCheck(Object* otherObject)
@@ -202,10 +202,10 @@ namespace star
 
 		if(left > otherRight || right < otherLeft || top > otherBottom || bottom < otherTop)
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("They don't collide"));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("They don't collide"));
 			return (false);
 		}
-		Logger::GetSingleton()->Log(LogLevel::Info, _T("They do collide"));
+		Logger::GetInstance()->Log(LogLevel::Info, _T("They do collide"));
 		return (true);
 	}
 
@@ -220,10 +220,10 @@ namespace star
 
 		if((objectPos - otherObjectPos).length() > radius + otherRadius)
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("They don't collide"));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("They don't collide"));
 			return (false);
 		}
-		Logger::GetSingleton()->Log(LogLevel::Info, _T("They do collide"));
+		Logger::GetInstance()->Log(LogLevel::Info, _T("They do collide"));
 		return (true);
 	}
 
@@ -260,7 +260,7 @@ namespace star
 		{
 			//[TODO] Assert this instead of checking
 			//ASSERT(rectObject != circleObject, _T("Object has both CircleColliderComponent and RectangleComponent"))
-			Logger::GetSingleton()->Log(LogLevel::Info,
+			Logger::GetInstance()->Log(LogLevel::Info,
 				_T("Error, Object has both CircleColliderComponent and RectangleComponent"));
 			return (false);
 		}
@@ -287,10 +287,10 @@ namespace star
 		float distanceSquared = sqrt((distanceX * distanceX) + (distanceY * distanceY));
 		if( distanceSquared < radius)
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("They do collide"));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("They do collide"));
 			return (true);
 		}
-		Logger::GetSingleton()->Log(LogLevel::Info, _T("They don't collide"));
+		Logger::GetInstance()->Log(LogLevel::Info, _T("They don't collide"));
 		return (false);
 	}
 }
