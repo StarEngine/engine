@@ -26,3 +26,6 @@ Debug/
 Release/
 src/
 Obj/
+
+# ignore unwanted files
+*.lnk
