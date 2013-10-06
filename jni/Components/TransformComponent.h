@@ -24,7 +24,7 @@ namespace star
 		~TransformComponent(void);
 
 		void Update(const Context& context);
-		void Draw(){}
+		void Draw() {}
 
 		void Translate(const vec3 & translation);
 		void Translate(float x, float y, float z);
@@ -54,10 +54,6 @@ namespace star
 		vec3 m_WorldScale, m_LocalScale;
 		mat4x4 m_World;
 
-		// -------------------------
-		// Disabling default copy constructor and default 
-		// assignment operator.
-		// -------------------------
 		TransformComponent(const TransformComponent& yRef);
 		TransformComponent(TransformComponent&& t);
 		TransformComponent& operator=(const TransformComponent& yRef);

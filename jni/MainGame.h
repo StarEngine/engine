@@ -27,10 +27,6 @@ namespace star
 		int32 mWindowWidth,
 			  mWindowHeight;
 
-		// -------------------------
-		// Disabling default copy constructor and default 
-		// assignment operator.
-		// -------------------------
 		MainGame(const MainGame& t);
 		MainGame(MainGame&& t);
 		MainGame& operator=(const MainGame& t);

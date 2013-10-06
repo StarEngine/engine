@@ -47,7 +47,6 @@ namespace star
         EGLContext mContext;
 #endif
 
-		//disabling default copy constructor
 		GraphicsManager(const GraphicsManager& yRef);
 		GraphicsManager(GraphicsManager&& yRef);
 		GraphicsManager& operator=(const GraphicsManager& yRef);

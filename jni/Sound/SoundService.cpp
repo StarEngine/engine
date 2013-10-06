@@ -2,7 +2,6 @@
 #include "../Logger.h"
 #include "../Helpers/Helpers.h"
 
-
 #ifndef _WIN32
 #include "../EventLoop.h"
 #include "../AssetManaging/Resource.h"
@@ -38,7 +37,7 @@ namespace star
 
 	status SoundService::Start()
 	{
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Started making Audio Engine"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio: Started making Audio Engine"));
 
 #ifdef _WIN32
 		int32 audio_rate(44100);
@@ -51,12 +50,12 @@ namespace star
 		int innited = Mix_Init(flags);
 		if((innited & flags) != flags)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not init Ogg and Mp3, reason : ")+ string_cast<tstring>(Mix_GetError()));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio: Could not init Ogg and Mp3, reason : ")+ string_cast<tstring>(Mix_GetError()));
 		}
 
 		if(Mix_OpenAudio(audio_rate, audio_format,audio_channels,audio_buffers))
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Could Not open Audio Mix SDL"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio: Could Not open Audio Mix SDL"));
 			Stop();
 			return STATUS_KO;
 		}
@@ -67,11 +66,10 @@ namespace star
 
 		Mix_QuerySpec(&actual_rate,&actual_format,&actual_channels);
 		tstringstream buffer;
-		buffer << "Actual Rate : " << actual_rate << ", Actual Format : " << actual_format << ", Actual Channels : " << actual_channels << std::endl;
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : SDL specs : ")+buffer.str());
+		buffer << "Actual Rate: " << actual_rate << ", Actual Format: " << actual_format << ", Actual Channels : " << actual_channels << std::endl;
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio: SDL specs : ")+buffer.str());
 		Mix_Volume(-1,100);
 #else
-		
 		SLresult lRes;
 		const SLuint32 lEngineMixIIDCount =1;
 		const SLInterfaceID lEngineMixIIDs[]={SL_IID_ENGINE};
@@ -145,7 +143,7 @@ namespace star
 			mEngine = NULL;
 		}
 #endif
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Stopped audio Engine"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio: Stopped audio Engine"));
 	}
 
 	status SoundService::PlaySoundFile(const tstring& path)
@@ -164,8 +162,6 @@ namespace star
 			}
 			Mix_PlayMusic(mMusic,-1);
 		}
-	
-
 #else
 		SLresult lRes;
 		Resource lResource(star::EventLoop::mApplicationPtr, path);
@@ -197,7 +193,6 @@ namespace star
 		SLDataSink lDataSink;
 		lDataSink.pLocator=&lDataLocatorOut;
 		lDataSink.pFormat= NULL;
-
 
 		const SLuint32 lPlayerIIDCount = 2;
 		const SLInterfaceID lPlayerIIDs[] ={ SL_IID_PLAY, SL_IID_SEEK };
@@ -252,7 +247,6 @@ namespace star
 
 #endif
 		return STATUS_OK;
-
 	}
 
 	void SoundService::StopSound()
@@ -276,6 +270,4 @@ namespace star
 		}
 #endif
 	}
-
-
 }

@@ -29,10 +29,6 @@ namespace star
 		bool m_bIsTrigger;
 		Rect m_CollisionRect;
 
-		// -------------------------
-		// Disabling default copy constructor and default 
-		// assignment operator.
-		// -------------------------
 		RectangleColliderComponent(const RectangleColliderComponent& t);
 		RectangleColliderComponent(RectangleColliderComponent&& t);
 		RectangleColliderComponent& operator=(const RectangleColliderComponent& t);

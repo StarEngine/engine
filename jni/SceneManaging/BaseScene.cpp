@@ -7,6 +7,8 @@ namespace star
 	BaseScene::BaseScene(const tstring & name)
 		: m_Name(name)
 		, m_Initialized(false)
+		// [COMMENT] Manager has to be initialized first
+		// respect the order of your header file!
 		, m_GestureManagerPtr(nullptr)
 	{
 		m_GestureManagerPtr = new GestureManager();
@@ -16,7 +18,7 @@ namespace star
 		status isInitialized(Initialize(context));
 		if(isInitialized == STATUS_OK)
 		{
-			m_Initialized=true;
+			m_Initialized = true;
 			return STATUS_OK;
 		}
 		return STATUS_KO;

@@ -31,7 +31,7 @@ public :
 	{
 	}
 
-	float GetF() const {return G+H;};
+	float GetF() const { return G + H; }
 	float ManhattanDistance(SearchCell *nodeEnd)
 	{
 		float x = static_cast<float>(fabs(static_cast<float>(this->X - nodeEnd->X)));

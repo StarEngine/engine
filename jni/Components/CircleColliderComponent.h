@@ -28,10 +28,6 @@ namespace star
 		bool m_bIsTrigger;
 
 	private:
-		// -------------------------
-		// Disabling default copy constructor and default 
-		// assignment operator.
-		// -------------------------
 		CircleColliderComponent(CircleColliderComponent&& t);
 		CircleColliderComponent(const CircleColliderComponent& t);
 		CircleColliderComponent& operator=(const CircleColliderComponent& t);

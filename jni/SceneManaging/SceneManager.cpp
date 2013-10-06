@@ -134,6 +134,7 @@ namespace star
 			m_bSwitchingScene = false;
 			return (STATUS_OK);
 		}
+
 		if(m_ActiveScene != nullptr)
 		{
 			return (m_ActiveScene->BaseUpdate(context));
@@ -247,7 +248,6 @@ namespace star
 			{
 				ANativeActivity_finish(mApplicationPtr->activity);
 			}
-
 		}
 	}
 

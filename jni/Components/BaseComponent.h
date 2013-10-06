@@ -30,10 +30,6 @@ namespace star
 		bool m_bInitialized;
 
 	private:
-		// -------------------------
-		// Disabling default copy constructor and default 
-		// assignment operator.
-		// -------------------------
 		BaseComponent(const BaseComponent& t);
 		BaseComponent(BaseComponent&& t);
 		BaseComponent& operator=(const BaseComponent& t);

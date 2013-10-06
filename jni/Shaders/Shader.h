@@ -40,7 +40,7 @@ namespace star
 
 	private:
 		const char* TextFileReading(const tstring& fileName);
-		bool CompileShader(GLuint* shader, GLenum type,const tstring& file);
+		bool CompileShader(GLuint* shader, GLenum type, const tstring& file);
 
 		GLuint mShaderID;
 		GLuint mVertexShader;

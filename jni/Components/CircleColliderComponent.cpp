@@ -4,6 +4,7 @@
 namespace star
 {
 	CircleColliderComponent::CircleColliderComponent(float radius):
+		// [COMMENT] Do first the initialization of the BaseComponent and then of your members
 		m_Radius(radius),
 		m_bIsTrigger(false),
 		BaseComponent()

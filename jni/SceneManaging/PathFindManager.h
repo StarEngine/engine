@@ -34,13 +34,14 @@ namespace star
 		void FindPath(const vec2& currentPos, const vec2& targetPos);
 		void FindPath(const vec3& currentPos, const vec3& targetPos);
 		vec3 NextPathPos(Object* enemy);
+		// [COMMENT] cont corectness !!!!
 		vec3 GetStep(uint16 step);
 
-		void ClearOpenList() {m_OpenList.clear();};
-		void ClearVisitedList() {m_VisitedList.clear();};
-		void ClearPathToGoal() {m_PathToGoal.clear();};
-		bool GetInitializedGoal() const {return m_bInitializedStartGoal;};
-		bool GetFoundGoal() const {m_bFoundGoal;};
+		void ClearOpenList() {m_OpenList.clear();}
+		void ClearVisitedList() {m_VisitedList.clear();}
+		void ClearPathToGoal() {m_PathToGoal.clear();}
+		bool GetInitializedGoal() const {return m_bInitializedStartGoal;}
+		bool GetFoundGoal() const {m_bFoundGoal;}
 	private:
 		PathFindManager(void);
 		void SetStartAndGoal(const SearchCell& start, const SearchCell& end);
@@ -66,7 +67,6 @@ namespace star
 		static const int WORLD_SIZE = 100;
 		static const int STEP_SIZE = 1;
 
-		//disabling default copy constructor
 		PathFindManager(const PathFindManager& yRef);
 		PathFindManager(PathFindManager&& yRef);
 		PathFindManager& operator=(const PathFindManager& yRef);

@@ -9,13 +9,11 @@ namespace star
 		Init(vsFile,fsFile);
 	}
 
-
 	Shader::~Shader(void)
 	{
 		glDeleteShader(mVertexShader);
 		glDeleteShader(mFragmentShader);
 		glDeleteProgram(mShaderID);
-
 	}
 
 	bool Shader::Init(const tstring& vsFile, const tstring& fsFile )
@@ -63,13 +61,13 @@ namespace star
 		return true;
 	}
 
-	bool Shader::CompileShader(GLuint* shader, GLenum type,const tstring& file)
+	bool Shader::CompileShader(GLuint* shader, GLenum type, const tstring& file)
 	{
 		GLint status;
 		const GLchar* source;
 
 #ifndef _WIN32
-		Resource resource(star::EventLoop::mApplicationPtr,file);
+		Resource resource(star::EventLoop::mApplicationPtr, file);
 		if(resource.open()==STATUS_KO)
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : Failed to open file"));
@@ -100,7 +98,7 @@ namespace star
 
 		if(!source)
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : Invalid Source"));
+			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader: Invalid Source"));
 			return false;
 		}
 		*shader = glCreateShader(type);
@@ -109,7 +107,7 @@ namespace star
 		glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
 		if(status == 0)
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : Failed Compile"));
+			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader: Failed Compile"));
 			GLint infolength;
 			glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &infolength);
 			glDeleteShader(*shader);
@@ -136,18 +134,20 @@ namespace star
 	const char* Shader::TextFileReading(const tstring& fileName)
 	{
 		char* text(NULL);
-		if (fileName != EMPTY_STRING) {
-
+		if (fileName != EMPTY_STRING)
+		{
 			FILE *file;
 #ifdef _WIN32
 			_wfopen_s(&file,fileName.c_str(), _T("rb"));
 #endif
-			if (file != NULL) {
+			if (file != NULL)
+			{
 				fseek(file, 0,2);
 				int count = ftell(file);
 				rewind(file);
 
-				if (count > 0) {
+				if (count > 0)
+				{
 					text = (char*)malloc(sizeof(char) * (count + 1));
 					count = fread(text, sizeof(char), count, file);
 					text[count] = '\0';
@@ -157,5 +157,4 @@ namespace star
 		}
 		return text;
 	}
-
 }

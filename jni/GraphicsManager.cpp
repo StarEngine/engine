@@ -157,7 +157,6 @@ namespace star
 
 	void GraphicsManager::StopDraw()
 	{
-
 		 glDisable(GL_BLEND);
 
 #ifndef _WIN32

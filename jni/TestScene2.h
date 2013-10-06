@@ -48,10 +48,6 @@ namespace star
 								*m_pPathFindCompFive, 
 								*m_pPathFindCompSix;
 		
-		// -------------------------
-		// Disabling default copy constructor and default 
-		// assignment operator.
-		// -------------------------
 		TestScene2(const TestScene2& t);
 		TestScene2(TestScene2&& t);
 		TestScene2& operator=(const TestScene2& t);

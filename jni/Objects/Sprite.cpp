@@ -10,11 +10,11 @@ namespace star
 	{
 
 #ifdef _WIN32
-		Filepath texshaderVertex(_T("WinShaders/"),_T("Texture_Shader.vert"));
-		Filepath texshaderFrag(_T("WinShaders/"),_T("Texture_Shader.frag"));
+		Filepath texshaderVertex(_T("WinShaders/"), _T("Texture_Shader.vert"));
+		Filepath texshaderFrag(_T("WinShaders/"), _T("Texture_Shader.frag"));
 #else
-		Filepath texshaderVertex(_T("AndroidShaders/"),_T("BaseTexShader.vert"));
-		Filepath texshaderFrag(_T("AndroidShaders/"),_T("BaseTexShader.frag"));
+		Filepath texshaderVertex(_T("AndroidShaders/"), _T("BaseTexShader.vert"));
+		Filepath texshaderFrag(_T("AndroidShaders/"), _T("BaseTexShader.frag"));
 
 #endif
 		if(!mShader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
@@ -25,7 +25,6 @@ namespace star
 		star::TextureManager::GetInstance()->LoadTexture(filePath,mSpriteName);
 
 		CreateSquare();
-
 	}
 
 	Sprite::~Sprite()
@@ -77,5 +76,4 @@ namespace star
 
 		mShader.Unbind();
 	}
-
 }

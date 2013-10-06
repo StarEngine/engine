@@ -9,7 +9,6 @@
 #include "Objects/Sprite.h"
 #include "Input/Gestures/TapGesture.h"
 
-
 namespace star 
 {
 	class TestScene : public BaseScene

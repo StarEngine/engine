@@ -304,7 +304,7 @@ namespace star
 			//right-down diagonal	  								
 			PathOpened(currentCell->X + STEP_SIZE, currentCell->Y - STEP_SIZE, currentCell->G + 1.414f, currentCell, Direction::GoingDownRight);
 
-			for (uint16 i=0; i<m_OpenList.size(); ++i)
+			for (uint16 i = 0; i<m_OpenList.size(); ++i)
 			{
 				if (currentCell->Id == m_OpenList[i]->Id)
 				{

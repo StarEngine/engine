@@ -20,10 +20,6 @@ namespace star
 	private:
 		void InitializeComponent();
 
-		// -------------------------
-		// Disabling default copy constructor and default 
-		// assignment operator.
-		// -------------------------
 		PathFindNodeComponent(const PathFindNodeComponent& t);
 		PathFindNodeComponent(PathFindNodeComponent&& t);
 		PathFindNodeComponent& operator=(const PathFindNodeComponent& t);
