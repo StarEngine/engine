@@ -141,27 +141,27 @@ namespace star
 
 		if(mRed>=1.0 && mGreen <1.0 && mBlue <1.0)
 		{
-			mGreen += context.mTimeManager->GetSeconds();
+			mGreen += static_cast<float>(context.mTimeManager->GetSeconds());
 		}
 		if(mGreen>=1.0 && mRed > 0 && mBlue <1.0)
 		{
-			mRed -= context.mTimeManager->GetSeconds();
+			mRed -= static_cast<float>(context.mTimeManager->GetSeconds());
 		}
 		if(mGreen>=1.0 && mRed<=0.0 && mBlue<1.0)
 		{
-			mBlue += context.mTimeManager->GetSeconds();
+			mBlue += static_cast<float>(context.mTimeManager->GetSeconds());
 		}
 		if(mBlue>=1.0 && mGreen>0 && mRed <1.0)
 		{
-			mGreen -= context.mTimeManager->GetSeconds();
+			mGreen -= static_cast<float>(context.mTimeManager->GetSeconds());
 		}
 		if(mBlue >=1.0 && mGreen<=0.0 && mRed <1.0)
 		{
-			mRed += context.mTimeManager->GetSeconds();
+			mRed += static_cast<float>(context.mTimeManager->GetSeconds());
 		}
 		if(mRed >=1.0 && mBlue >0 && mGreen <1.0)
 		{
-			mBlue -= context.mTimeManager->GetSeconds();
+			mBlue -= static_cast<float>(context.mTimeManager->GetSeconds());
 		}
 
 		return STATUS_OK;
@@ -172,6 +172,7 @@ namespace star
 		glClearColor(mRed,mGreen,mBlue, 1.0f); // Clear the background of our window to red
 
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
+		glViewport(0,0, 1920, 1080);
 
 		m_pTestSprite->Draw();
 

@@ -337,7 +337,7 @@ namespace star
 	{
 		if(m_PathToGoal.size() == 0)
 		{
-			Logger::GetSingleton()->Log(LogLevel::Info, _T("There is no path availble."));
+			Logger::GetInstance()->Log(LogLevel::Info, _T("There is no path availble."));
 			return vec3(0,0,0);
 		}
 
