@@ -33,8 +33,6 @@ namespace star
 		{
 			m_bCompletedGesture = false;
 			OnTouchEvent(pEvent);
-			//[TODO] What does this do?
-			DefineMouseBehaviour();
 		}
 
 		void BaseGesture::OnTouchEvent(AInputEvent* pEvent)

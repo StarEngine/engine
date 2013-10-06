@@ -254,6 +254,7 @@ namespace star
 
 	void SceneManager::DeActivate()
 	{
+		m_ActiveScene->BaseOnDeactivate();
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Going trough DeActivate"));
 		star::GraphicsManager::GetInstance()->Destroy();
 		star::TextureManager::GetInstance()->EraseTextures();

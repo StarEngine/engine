@@ -26,7 +26,7 @@ namespace star
 	{
 		if(m_GestureManagerPtr)
 		{
-			InputManager::GetSingleton()->SetGestureManager(m_GestureManagerPtr);
+			InputManager::GetInstance()->SetGestureManager(m_GestureManagerPtr);
 		}
 		return OnActivate();
 	}
@@ -38,11 +38,11 @@ namespace star
 
 	status BaseScene::BaseUpdate(const Context& context)
 	{
-		if((m_GestureManagerPtr && InputManager::GetSingleton()->GetGestureManager() == nullptr) || m_GestureManagerPtr != InputManager::GetSingleton()->GetGestureManager())
+		if((m_GestureManagerPtr && InputManager::GetInstance()->GetGestureManager() == nullptr) || m_GestureManagerPtr != InputManager::GetInstance()->GetGestureManager())
 		{
-			InputManager::GetSingleton()->SetGestureManager(m_GestureManagerPtr);
+			InputManager::GetInstance()->SetGestureManager(m_GestureManagerPtr);
 		}
-		if(m_GestureManagerPtr && m_GestureManagerPtr == InputManager::GetSingleton()->GetGestureManager())
+		if(m_GestureManagerPtr && m_GestureManagerPtr == InputManager::GetInstance()->GetGestureManager())
 		{
 			m_GestureManagerPtr->Update(context);
 		}

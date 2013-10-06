@@ -3,7 +3,7 @@
 #include "../../defines.h"
 
 #include "../InputManager.h"
-#define INPUT_MANAGER (InputManager::GetSingleton())
+#define INPUT_MANAGER (InputManager::GetInstance())
 
 namespace star
 {

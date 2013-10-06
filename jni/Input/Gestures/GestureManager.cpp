@@ -56,6 +56,7 @@ namespace star
 		{
 			m_GestureVec.erase(std::find(m_GestureVec.begin(), m_GestureVec.end(), gesture));
 			delete gesture;
+			return true;
 		}
 	}
 

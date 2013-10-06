@@ -51,6 +51,10 @@ namespace star
 
 	status TestScene::Initialize( const Context& context)
 	{
+
+		m_TapGesture = new TapGesture();
+		m_GestureManagerPtr->AddGesture(m_TapGesture);
+
 		Filepath tex1path(_T(""),_T("Awesome.png"));
 		m_pTestSprite = new Sprite(tex1path.GetFullPath(),_T("Awesome"));
 
