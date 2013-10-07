@@ -1,6 +1,6 @@
-#include "Logger.h"
+#include <Logger.h>
 #ifdef _WIN32
-#include <Window.h>
+#include "..\Window.h"
 #include <Windows.h>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) 

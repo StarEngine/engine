@@ -1,14 +1,18 @@
 #pragma once
 
 #include <Windows.h>
-#include <jni/Logger.h>
-#include <jni/MainGame.h>
-#include <jni/TimeManager.h>
-#include <jni/Context.h>
-#include "jni/defines.h"
+#include <Context.h>
+#include "defines.h"
+
+#include "jni/Game.h"
+
+namespace star
+{
+	class TimeManager;
+	class TextureManager;
+}
 
 // [TODO] change public datamembers into private ones!
-
 class Window final
 {
 public:
@@ -29,10 +33,8 @@ private:
 
 	bool m_IsInitialized;
 
-	star::Logger* mLoggerPtr;
-	star::MainGame* mMainGamePtr;
+	Game* mMainGamePtr;
 	star::TimeManager* mTimeManager;
-	star::TextureManager* mTextureManager;
 	star::Context mContext;
 
 	HWND mHandle;

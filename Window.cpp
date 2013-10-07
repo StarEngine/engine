@@ -1,10 +1,13 @@
-#include <Window.h>
+#include "Window.h"
 #include <string>
-#include "jni/SceneManaging/SceneManager.h"
-#include "jni/AssetManaging/TextureManager.h"
-#include "jni/Helpers/Helpers.h"
-#include "jni/Input/XMLContainer.h"
-#include "jni/Input/XMLFileParser.h"
+#include <SceneManaging/SceneManager.h>
+#include <AssetManaging/TextureManager.h>
+#include <Logger.h>
+#include <TimeManager.h>
+#include <Helpers/Helpers.h>
+#include <Helpers/Filepath.h>
+#include <Input/XMLContainer.h>
+#include <Input/XMLFileParser.h>
 
 #pragma comment(lib, "opengl32.lib")
 
@@ -75,6 +78,7 @@ void Window::Initialize(HINSTANCE instance)
 
 		auto assets_settings = winManifest[_T("assets")]->GetAttributes();
 		mAssetsRoot = assets_settings[_T("root")];
+		star::Filepath::SetAssetsRoot(mAssetsRoot);
 
 		wndClass.style = 0;
 		auto class_map = winManifest[_T("class_styles")];
@@ -239,14 +243,15 @@ void Window::Initialize(HINSTANCE instance)
 			{
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
-
 			}
 			else // We've processed all pending Win32 messages, and can now do a rendering update.
 			{
-				mMainGamePtr->Run(mContext);
+				mMainGamePtr->Draw();
 		
 			}
 			SwapBuffers(Window::mHDC); // Swaps display buffers
+
+			mMainGamePtr->Update(mContext);
 
 			mTimeManager->StopMonitoring();
 		}
@@ -257,10 +262,8 @@ void Window::Initialize(HINSTANCE instance)
 
 Window::Window()
 	: m_IsInitialized(false)
-	, mLoggerPtr(star::Logger::GetInstance())
-	, mMainGamePtr(new star::MainGame())
+	, mMainGamePtr(new Game())
 	, mTimeManager(new star::TimeManager())
-	, mTextureManager(star::TextureManager::GetInstance())
 	, mHandle()
 	, mOGLContext()
 	, mHDC()

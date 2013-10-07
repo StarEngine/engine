@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="cdt.managedbuild.config.xlc.lib.debug.1625505165">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.xlc.lib.debug.1625505165" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+				<externalSettings>
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/StarEngine"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/StarEngine/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="StarEngine" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<extensions>
+					<extension id="org.eclipse.cdt.errorparsers.xlc.XlcErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="lib" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.errorparsers.xlc.XlcErrorParser" id="cdt.managedbuild.config.xlc.lib.debug.1625505165" name="Debug" parent="cdt.managedbuild.config.xlc.lib.debug">
+					<folderInfo id="cdt.managedbuild.config.xlc.lib.debug.1625505165." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.xlc.lib.debug.517988502" name="XL C/C++ Tool Chain" superClass="cdt.managedbuild.toolchain.xlc.lib.debug">
+							<targetPlatform archList="all" id="cdt.managedbuild.target.xlc.platform.lib.debug.2029249160" name="Debug Platform" osList="all" superClass="cdt.managedbuild.target.xlc.platform.lib.debug"/>
+							<builder buildPath="${workspace_loc:/StarEngine}/Debug" id="org.eclipse.cdt.managedbuilder.xlc.builder.lib.debug.2112538203" managedBuildOn="true" name="Gnu Make Builder.Debug" superClass="org.eclipse.cdt.managedbuilder.xlc.builder.lib.debug"/>
+							<tool id="cdt.managedbuild.tool.xlc.cpp.compiler.lib.debug.1992626789" name="Local XL C++ Compiler" superClass="cdt.managedbuild.tool.xlc.cpp.compiler.lib.debug"/>
+							<tool id="cdt.managedbuild.tool.xlc.c.compiler.lib.debug.906954543" name="Local XL C Compiler" superClass="cdt.managedbuild.tool.xlc.c.compiler.lib.debug"/>
+							<tool id="cdt.managedbuild.tool.xlc.archiver.lib.debug.366410567" name="Archiver" superClass="cdt.managedbuild.tool.xlc.archiver.lib.debug"/>
+							<tool id="cdt.managedbuild.tool.xlc.assembler.lib.debug.2076876848" name="XL Assembler" superClass="cdt.managedbuild.tool.xlc.assembler.lib.debug"/>
+						</toolChain>
+					</folderInfo>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="cdt.managedbuild.config.xlc.lib.release.485113413">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.xlc.lib.release.485113413" moduleId="org.eclipse.cdt.core.settings" name="Release">
+				<externalSettings>
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/StarEngine"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/StarEngine/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="StarEngine" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<extensions>
+					<extension id="org.eclipse.cdt.errorparsers.xlc.XlcErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="lib" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.errorparsers.xlc.XlcErrorParser" id="cdt.managedbuild.config.xlc.lib.release.485113413" name="Release" parent="cdt.managedbuild.config.xlc.lib.release">
+					<folderInfo id="cdt.managedbuild.config.xlc.lib.release.485113413." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.xlc.lib.release.726581283" name="XL C/C++ Tool Chain" superClass="cdt.managedbuild.toolchain.xlc.lib.release">
+							<targetPlatform archList="all" id="cdt.managedbuild.target.xlc.platform.lib.release.2038785681" name="Release Platform" osList="all" superClass="cdt.managedbuild.target.xlc.platform.lib.release"/>
+							<builder buildPath="${workspace_loc:/StarEngine}/Release" id="org.eclipse.cdt.managedbuilder.xlc.builder.lib.release.1155958673" managedBuildOn="true" name="Gnu Make Builder.Release" superClass="org.eclipse.cdt.managedbuilder.xlc.builder.lib.release"/>
+							<tool id="cdt.managedbuild.tool.xlc.cpp.compiler.lib.release.708372526" name="Local XL C++ Compiler" superClass="cdt.managedbuild.tool.xlc.cpp.compiler.lib.release"/>
+							<tool id="cdt.managedbuild.tool.xlc.c.compiler.lib.release.40913229" name="Local XL C Compiler" superClass="cdt.managedbuild.tool.xlc.c.compiler.lib.release"/>
+							<tool id="cdt.managedbuild.tool.xlc.archiver.lib.release.1359196163" name="Archiver" superClass="cdt.managedbuild.tool.xlc.archiver.lib.release"/>
+							<tool id="cdt.managedbuild.tool.xlc.assembler.lib.release.721361658" name="XL Assembler" superClass="cdt.managedbuild.tool.xlc.assembler.lib.release"/>
+						</toolChain>
+					</folderInfo>
+				</configuration>
+			</storageModule>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="StarEngine.cdt.managedbuild.target.xlc.lib.833230078" name="Static Library(XL C/C++)" projectType="cdt.managedbuild.target.xlc.lib"/>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+</cproject>
