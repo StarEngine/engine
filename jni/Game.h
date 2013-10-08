@@ -1,6 +1,6 @@
 #pragma once
 
-#include <defines.h>
+#include "../StarEngine/jni/defines.h"
 
 namespace star
 {

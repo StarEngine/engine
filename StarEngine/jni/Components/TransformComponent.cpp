@@ -68,6 +68,46 @@ namespace star
 		Scale(vec3(x,y,z));
 	}
 
+	const vec3 & TransformComponent::GetWorldPosition()
+	{
+		CheckForUpdate();
+		return m_WorldPosition;
+	}
+
+	vec3 TransformComponent::GetLocalPosition() const
+	{
+		return m_LocalPosition;
+	}
+
+	const quat & TransformComponent::GetWorldRotation()
+	{
+		CheckForUpdate();
+		return m_WorldRotation;
+	}
+
+	//[TODO] Fix this to const correct (teach cedric)
+	quat TransformComponent::GetLocalRotation() const
+	{
+		return m_LocalRotation;
+	}
+
+	const vec3 & TransformComponent::GetWorldScale()
+	{
+		CheckForUpdate();
+		return m_WorldScale;
+	}
+
+	vec3 TransformComponent::GetLocalScale() const
+	{
+		return m_LocalScale;
+	}
+
+	const mat4x4 & TransformComponent::GetWorldMatrix()
+	{
+		CheckForUpdate();
+		return m_World;
+	}
+
 	void TransformComponent::CheckForUpdate(bool force)
 	{
 		if(m_IsChanged == TransformChanged::NONE && !force && !m_Invalidate)

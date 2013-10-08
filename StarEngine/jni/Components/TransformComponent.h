@@ -35,13 +35,13 @@ namespace star
 		void Scale(const vec3 & scale);
 		void Scale(float x, float y, float z);
 
-		const vec3 & GetWorldPosition() { CheckForUpdate(); return m_WorldPosition;}
-		vec3 GetLocalPosition() const { return m_LocalPosition; }
-		const quat & GetWorldRotation() { CheckForUpdate(); return m_WorldRotation;}
-		quat GetLocalRotation() const { return m_LocalRotation; }
-		const vec3 & GetWorldScale() { CheckForUpdate(); return m_WorldScale; }
-		vec3 GetLocalScale() const { return m_LocalScale; }
-		const mat4x4 & GetWorldMatrix() { CheckForUpdate(); return m_World; }
+		const vec3 & GetWorldPosition();
+		vec3 GetLocalPosition() const;
+		const quat & GetWorldRotation();
+		quat GetLocalRotation() const;
+		const vec3 & GetWorldScale();
+		vec3 GetLocalScale() const;
+		const mat4x4 & GetWorldMatrix();
 
 	private:
 		void InitializeComponent();

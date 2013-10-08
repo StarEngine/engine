@@ -1,4 +1,4 @@
-#include <Logger.h>
+#include "../StarEngine/jni/Logger.h"
 #ifdef _WIN32
 #include "..\Window.h"
 #include <Windows.h>
@@ -14,7 +14,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, 
 
 void android_main(android_app* pApplication) 
 {
-    star::EventLoop lEventLoop(pApplication);
+    EventLoop lEventLoop(pApplication);
     lEventLoop.run();
 }
 #endif

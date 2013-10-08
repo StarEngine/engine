@@ -1,5 +1,5 @@
 #include "Resource.h"
-#include "../EventLoop.h"
+//#include "../EventLoop.h"
 #include "../Logger.h"
 
 namespace star

@@ -11,7 +11,7 @@
 #include <GLES2/gl2ext.h>
 #include <iostream>
 #include <fstream>
-#include "../EventLoop.h"
+//#include "../EventLoop.h"
 #include "../AssetManaging/Resource.h"
 #endif
 

@@ -1,7 +1,7 @@
 #include "Game.h"
-#include <SceneManaging/SceneManager.h>
-#include <Context.h>
-#include <StarEngine.h>
+#include "../StarEngine/jni/SceneManaging/SceneManager.h"
+#include "../StarEngine/jni/Context.h"
+#include "../StarEngine/jni/StarEngine.h"
 #include "scenes/TestScene.h"
 #include "scenes/TestScene2.h"
 

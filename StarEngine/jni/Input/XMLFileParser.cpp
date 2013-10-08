@@ -6,8 +6,9 @@
 
 #ifndef _WIN32
 #include <memory>
-#include "..\EventLoop.h"
+//#include "..\EventLoop.h"
 #include <android_native_app_glue.h>
+#include "../StarEngine.h"
 #endif
 
 namespace star
@@ -36,7 +37,7 @@ namespace star
 #ifdef _WIN32
 		result = XMLDocument.load_file(m_File.GetFullPath().c_str());
 #else
-		auto app = star::EventLoop::mApplicationPtr;
+		auto app = StarEngine::GetInstance()->GetAndroidApp();
 		auto manager = app->activity->assetManager;
 		AAsset* asset = AAssetManager_open(
 				manager,

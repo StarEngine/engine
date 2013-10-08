@@ -44,6 +44,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/jni}&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1713767724" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -64,9 +65,6 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.8/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi}&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1408120829" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -91,6 +89,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/jni}&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.194515331" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -106,11 +105,7 @@
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
-				<externalSettings containerId="StarEngine;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting/>
-				</externalSettings>
-			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="0.1407475795.918485181">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="0.1407475795.918485181" moduleId="org.eclipse.cdt.core.settings" name="Debug">
@@ -133,7 +128,11 @@
 							<targetPlatform id="org.eclipse.cdt.build.core.prefbase.toolchain.424651710.508235780" name=""/>
 							<builder arguments="NDK_DEBUG=1" command="ndk-build.cmd" id="com.android.builder.982397157" keepEnvironmentInBuildfile="false" superClass="com.android.builder"/>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.libs.1034626341" name="holder for library settings" superClass="org.eclipse.cdt.build.core.settings.holder.libs">
-								<option id="org.eclipse.cdt.build.core.settings.holder.libfiles.778623923" name="Library Files" superClass="org.eclipse.cdt.build.core.settings.holder.libfiles"/>
+								<option id="org.eclipse.cdt.build.core.settings.holder.libfiles.778623923" name="Library Files" superClass="org.eclipse.cdt.build.core.settings.holder.libfiles" valueType="libFiles">
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi/libandroid_native_app_glue.a}&quot;"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi/libStarEngine.so}&quot;"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi/libpng.a}&quot;"/>
+								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.libpaths.1403285278" name="Library Paths" superClass="org.eclipse.cdt.build.core.settings.holder.libpaths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
 								</option>
@@ -155,6 +154,8 @@
 									<listOptionValue builtIn="false" value="&quot;${STARENGINE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/jni}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.479215813" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -181,6 +182,8 @@
 									<listOptionValue builtIn="false" value="&quot;${STARENGINE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/jni}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1230205783" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -207,6 +210,8 @@
 									<listOptionValue builtIn="false" value="&quot;${STARENGINE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/jni}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1134357254" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -245,7 +250,11 @@
 							<targetPlatform id="org.eclipse.cdt.build.core.prefbase.toolchain.2039608573.777029569" name=""/>
 							<builder arguments="" command="ndk-build.cmd" id="com.android.builder.203958683" keepEnvironmentInBuildfile="false" superClass="com.android.builder"/>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.libs.645894099" name="holder for library settings" superClass="org.eclipse.cdt.build.core.settings.holder.libs">
-								<option id="org.eclipse.cdt.build.core.settings.holder.libfiles.120680072" name="Library Files" superClass="org.eclipse.cdt.build.core.settings.holder.libfiles"/>
+								<option id="org.eclipse.cdt.build.core.settings.holder.libfiles.120680072" name="Library Files" superClass="org.eclipse.cdt.build.core.settings.holder.libfiles" valueType="libFiles">
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi/libandroid_native_app_glue.a}&quot;"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi/libStarEngine.so}&quot;"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi/libpng.a}&quot;"/>
+								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.libpaths.75365421" name="Library Paths" superClass="org.eclipse.cdt.build.core.settings.holder.libpaths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
 								</option>
@@ -267,6 +276,8 @@
 									<listOptionValue builtIn="false" value="&quot;${STARENGINE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/jni}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1742506327" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -293,6 +304,8 @@
 									<listOptionValue builtIn="false" value="&quot;${STARENGINE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/jni}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.2073256928" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -319,6 +332,8 @@
 									<listOptionValue builtIn="false" value="&quot;${STARENGINE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/jni}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.871674422" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>

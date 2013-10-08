@@ -16,7 +16,7 @@ APP_OPTIM := debug
 LOCAL_STATIC_LIBRARIES := android_native_app_glue png
 LOCAL_SHARE_LIBRARIES := StarEngine
 
-include $(BUILD_STATIC_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 
 $(call import-module,android/native_app_glue)
 $(call import-module,libpng)

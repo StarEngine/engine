@@ -1,10 +1,10 @@
 #pragma once
 
-#include <defines.h>
+#include <Defines.h>
 #include <android_native_app_glue.h>
 #include "Game.h"
-#include "Context.h"
-#include "TimeManager.h"
+#include "../StarEngine/jni/Context.h"
+#include "../StarEngine/jni/TimeManager.h"
 
 namespace star
 {

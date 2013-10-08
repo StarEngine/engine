@@ -1,13 +1,13 @@
 #pragma once
 
-#include <defines.h>
-#include <SceneManaging\BaseScene.h>
-#include <Logger.h>
-#include <Context.h>
-#include <SceneGraph/Object.h>
-#include <StarComponents.h>
-#include <Objects/Sprite.h>
-#include <Input/Gestures/TapGesture.h>
+#include "../StarEngine/jni/defines.h"
+#include "../StarEngine/jni/SceneManaging/BaseScene.h"
+#include "../StarEngine/jni/Logger.h"
+#include "../StarEngine/jni/Context.h"
+#include "../StarEngine/jni/SceneGraph/Object.h"
+#include "../StarEngine/jni/StarComponents.h"
+#include "../StarEngine/jni/Objects/Sprite.h"
+#include "../StarEngine/jni/Input/Gestures/TapGesture.h"
 
 class TestScene : public star::BaseScene
 {

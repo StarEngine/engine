@@ -1,6 +1,7 @@
 #include "Shader.h"
 #include "../Logger.h"
 #include "../Helpers/Helpers.h"
+#include "../StarEngine.h"
 
 namespace star
 {
@@ -67,7 +68,7 @@ namespace star
 		const GLchar* source;
 
 #ifndef _WIN32
-		Resource resource(star::EventLoop::mApplicationPtr, file);
+		Resource resource(StarEngine::GetInstance()->GetAndroidApp(), file);
 		if(resource.open()==STATUS_KO)
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : Failed to open file"));

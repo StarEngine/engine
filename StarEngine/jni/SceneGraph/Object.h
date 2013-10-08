@@ -90,10 +90,6 @@ namespace star
 		tstring m_Name, m_CollisionTag;
 
 	private:
-		// -------------------------
-		// Disabling default copy constructor and default
-		// assignment operator.
-		// -------------------------
 		Object(const Object& t);
 		Object(Object&& t);
 		Object& operator=(const Object& t);

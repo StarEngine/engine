@@ -1,10 +1,10 @@
 #include "EventLoop.h"
-#include "Logger.h"
-#include "SceneManaging/SceneManager.h"
-#include "GraphicsManager.h"
+#include "../StarEngine/jni/Logger.h"
+#include "../StarEngine/jni/SceneManaging/SceneManager.h"
+#include "../StarEngine/jni/GraphicsManager.h"
 #include <unistd.h>
-#include "Input/InputManager.h"
-#include <StarEngine.h>
+#include "../StarEngine/jni/Input/InputManager.h"
+#include "../StarEngine/jni/StarEngine.h"
 
 android_app* EventLoop::mApplicationPtr = nullptr;
 EventLoop::EventLoop(android_app* pApplication):
@@ -20,7 +20,7 @@ EventLoop::EventLoop(android_app* pApplication):
 	mContext.mTimeManager = mTimeManager;
 	//mApplicationPtr->onAppCmd = activityCallback;
 	mApplicationPtr->onInputEvent = inputCallback;
-	StarEngine::GetInstance()->SetAndroidApp(mApplicationPtr);
+	star::StarEngine::GetInstance()->SetAndroidApp(mApplicationPtr);
 }
 
 void EventLoop::run()
@@ -54,7 +54,12 @@ void EventLoop::run()
 		if((mEnabled)&& (!mQuit) && mMainGameInitialized)
 		{
 
-			if(mMainGame->Run(mContext) != STATUS_OK)
+			if(mMainGame->Update(mContext) != STATUS_OK)
+			{
+				mQuit = true;
+				end();
+			}
+			else if(mMainGame->Draw() != STATUS_OK)
 			{
 				mQuit = true;
 				end();
@@ -106,10 +111,10 @@ void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 	else
 	{
 		star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Callback to scenemanager"));
-		SceneManager::GetInstance()->processActivityEvent(pCommand,pApplication);
+		star::SceneManager::GetInstance()->processActivityEvent(pCommand,pApplication);
 	}
 }
 
 int32 EventLoop::inputCallback(android_app* pApplication, AInputEvent* pEvent) {
-	return SceneManager::GetInstance()->processInputEvent(pEvent);
+	return star::SceneManager::GetInstance()->processInputEvent(pEvent);
 }
