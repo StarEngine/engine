@@ -50,8 +50,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)\libs\SDL2-2.0.0\lib\x86;$(ProjectDir)\libs\SDL2_mixer-2.0.0\lib\x86;$(ProjectDir)\libs\OpenGL\GLEW\lib\Release\Win32;$(ProjectDir)\libs\Libpng_Debug;StarEngine;StarEngine\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;libpng16.lib;zlib.lib;SDL2.lib;SDL2_mixer.lib;StarEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\libs\SDL2-2.0.0\lib\x86;$(ProjectDir)\libs\SDL2_mixer-2.0.0\lib\x86;$(ProjectDir)\libs\OpenGL\GLEW\lib\Release\Win32;$(ProjectDir)\libs\Libpng_Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;libpng16.lib;zlib.lib;SDL2.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
