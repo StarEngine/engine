@@ -36,7 +36,9 @@ namespace star
 		AudioManager(void){}
 
 		AudioManager(const AudioManager& yRef);
+#ifdef _WIN32
 		AudioManager(AudioManager&& yRef);
+#endif
 		AudioManager& operator=(const AudioManager& yRef);
 	};
 }

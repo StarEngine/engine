@@ -35,7 +35,9 @@ namespace star
 		TextureManager(void) {}
 
 		TextureManager(const TextureManager& yRef);
+#ifdef _WIN32
 		TextureManager(TextureManager&& yRef);
+#endif
 		TextureManager& operator=(const TextureManager& yRef);
 	};
 }

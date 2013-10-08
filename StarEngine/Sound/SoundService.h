@@ -24,10 +24,10 @@ namespace star
 		void Stop();
 
 		status PlaySoundFile(const tstring& path);
-		status PlaySoundEffect(const tstring& path){}
+		status PlaySoundEffect(const tstring& path){return 0;}
 
 		//For looptimes : -1 repeat forever, 0 play once 
-		status PlayBackgroundMusic(const tstring& path, int looptimes = 0) {}
+		status PlayBackgroundMusic(const tstring& path, int looptimes = 0) {return 0;}
 
 		void StopSound();
 
@@ -47,7 +47,9 @@ namespace star
 		SLSeekItf mPlayerSeek;
 #endif
 		SoundService(const SoundService& yRef);
+#ifdef _WIN32
 		SoundService(SoundService&& yRef);
+#endif
 		SoundService& operator=(const SoundService& yRef);
 	};
 }

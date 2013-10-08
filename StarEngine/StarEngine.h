@@ -2,6 +2,13 @@
 
 #include "defines.h"
 
+#ifndef _WIN32
+#include "android_native_app_glue.h"
+#include  <SLES/OpenSLES.h>
+#include  <SLES/OpenSLES_Android.h>
+#include  <SLES/OpenSLES_AndroidConfiguration.h>
+#endif
+
 namespace star
 {
 	struct Context;
@@ -20,13 +27,24 @@ namespace star
 
 		status End();
 
+#ifndef _WIN32
+		void SetAndroidApp(android_app * app) { m_pAndroidApp = app; }
+		android_app * GetAndroidApp() const { return m_pAndroidApp; }
+#endif
+
 	private:
 		static StarEngine * m_pEngine;
+
+#ifndef _WIN32
+		android_app *m_pAndroidApp;
+#endif
 
 		StarEngine();
 
 		StarEngine(const StarEngine &);
+#ifdef _WIN32
 		StarEngine(StarEngine &&);
+#endif
 		StarEngine & operator=(const StarEngine &);
 	};
 }

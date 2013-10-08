@@ -3,10 +3,6 @@
 #include "../Context.h"
 //#include "Texture2D.h"
 
-#ifndef _WIN32
-#include "../EventLoop.h"
-#endif
-
 namespace star 
 {
 	AudioManager* AudioManager::mAudioManager = nullptr;

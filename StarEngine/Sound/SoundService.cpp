@@ -3,8 +3,8 @@
 #include "../Helpers/Helpers.h"
 
 #ifndef _WIN32
-#include "../EventLoop.h"
 #include "../AssetManaging/Resource.h"
+#include "../StarEngine.h"
 #endif
 
 namespace star
@@ -24,8 +24,8 @@ namespace star
 #ifdef _WIN32
 		mMusic(nullptr)
 #else
-		mEngine(NULL),
 		mEngineObj(NULL),
+		mEngine(NULL),
 		mOutputMixObj(NULL),
 		mPlayerObj(NULL),
 		mPlayer(NULL),
@@ -164,7 +164,7 @@ namespace star
 		}
 #else
 		SLresult lRes;
-		Resource lResource(star::EventLoop::mApplicationPtr, path);
+		Resource lResource(star::StarEngine::GetInstance()->GetAndroidApp(), path);
 		ResourceDescriptor lDescriptor = lResource.DeScript();
 		if(lDescriptor.mDescriptor < 0)
 		{

@@ -38,7 +38,9 @@ namespace star
 		// assignment operator.
 		// -------------------------
 		Logger(const Logger& t);
+#ifdef _WIN32
 		Logger(Logger&& t);
+#endif
 		Logger& operator=(const Logger& t);
     };
 }

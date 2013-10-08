@@ -4,6 +4,7 @@
 #include "GraphicsManager.h"
 #include <unistd.h>
 #include "Input/InputManager.h"
+#include <StarEngine.h>
 
 android_app* EventLoop::mApplicationPtr = nullptr;
 EventLoop::EventLoop(android_app* pApplication):
@@ -19,6 +20,7 @@ EventLoop::EventLoop(android_app* pApplication):
 	mContext.mTimeManager = mTimeManager;
 	//mApplicationPtr->onAppCmd = activityCallback;
 	mApplicationPtr->onInputEvent = inputCallback;
+	StarEngine::GetInstance()->SetAndroidApp(mApplicationPtr);
 }
 
 void EventLoop::run()

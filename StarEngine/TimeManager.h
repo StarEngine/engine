@@ -3,7 +3,7 @@
 #ifdef _WIN32
 #include <defines.h>
 #else
-#include <defines.h>
+#include "defines.h"
 #include <time.h>
 #endif
 
@@ -54,7 +54,9 @@ namespace star
 		double	mTotalMS;
 
 		TimeManager(const TimeManager& t);
+#ifdef _WIN32
 		TimeManager(TimeManager&& t);
+#endif
 		TimeManager& operator=(const TimeManager& t);
 	};
 }
