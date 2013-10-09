@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Game</name>
+	<name>StarGame</name>
 	<comment></comment>
 	<projects>
-		<project>StarEngine</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
