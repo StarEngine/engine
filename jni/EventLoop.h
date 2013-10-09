@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Defines.h>
+#include "../StarEngine/jni/Defines.h"
 #include <android_native_app_glue.h>
 #include "Game.h"
 #include "../StarEngine/jni/Context.h"

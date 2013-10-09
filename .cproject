@@ -65,6 +65,7 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.8/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1408120829" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -105,7 +106,11 @@
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
+				<externalSettings containerId="StarEngine;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting/>
+				</externalSettings>
+			</storageModule>
 		</cconfiguration>
 		<cconfiguration id="0.1407475795.918485181">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="0.1407475795.918485181" moduleId="org.eclipse.cdt.core.settings" name="Debug">
@@ -135,6 +140,7 @@
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.libpaths.1403285278" name="Library Paths" superClass="org.eclipse.cdt.build.core.settings.holder.libpaths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi/objs}&quot;"/>
 								</option>
 							</tool>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.857696983" name="Assembly" superClass="org.eclipse.cdt.build.core.settings.holder">
@@ -257,6 +263,7 @@
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.libpaths.75365421" name="Library Paths" superClass="org.eclipse.cdt.build.core.settings.holder.libpaths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/obj/local/armeabi/objs}&quot;"/>
 								</option>
 							</tool>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.201533056" name="Assembly" superClass="org.eclipse.cdt.build.core.settings.holder">
