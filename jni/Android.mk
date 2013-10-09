@@ -13,9 +13,12 @@ LOCAL_LDLIBS    := -landroid -llog -lEGL -lGLESv1_CM -lGLESv2 -lOpenSLES
 APP_PLATFORM := android-14
 APP_OPTIM := debug
 
-LOCAL_STATIC_LIBRARIES := android_native_app_glue png
+LOCAL_STATIC_LIBRARIES := android_native_app_glue png starengine
 
 include $(BUILD_SHARED_LIBRARY)
 
 $(call import-module,android/native_app_glue)
 $(call import-module,libpng)
+
+$(call import-add-path,$(CURDIR))
+$(call import-module,StarEngine/jni)

@@ -12,7 +12,6 @@ namespace star
 	class TextureManager;
 }
 
-// [TODO] change public datamembers into private ones!
 class Window final
 {
 public:

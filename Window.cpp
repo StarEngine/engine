@@ -63,7 +63,8 @@ Window * Window::GetInstance()
 
 void Window::Initialize(HINSTANCE instance)
 {
-	ASSERT(!m_IsInitialized, _T("Game is already initialized!"));
+	Logger::GetInstance()->Initialize();
+	ASSERT(!m_IsInitialized, _T("Engine is already initialized!"));
 	if(!m_IsInitialized)
 	{
 		m_IsInitialized = true;
@@ -173,7 +174,7 @@ void Window::Initialize(HINSTANCE instance)
 		ASSERT(pixelFormat != 0, _T("Invalid pixel format!"));
 
 		// Sets the pixel format
-		if(SetPixelFormat(mHDC, pixelFormat, &pixelFormatDesc) == 0) {
+		ASSERT(SetPixelFormat(mHDC, pixelFormat, &pixelFormatDesc) != 0, _T("Couldn't set the pixel format!"));
 			// [TODO] Fix this
 			//return 0;
 		}
@@ -182,7 +183,7 @@ void Window::Initialize(HINSTANCE instance)
 		ASSERT(hglrc != NULL, _T("Couldn't create the rendering context!"));
 
 		// Attaches the rendering context
-		if(wglMakeCurrent(mHDC, hglrc) == 0) {
+		ASSERT(wglMakeCurrent(mHDC, hglrc) != 0), _T("Action couldn't be completed!")):
 			// [TODO] Fix this
 			//return 0;
 		}

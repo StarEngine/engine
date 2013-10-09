@@ -7,11 +7,14 @@
 #include "../StarEngine/jni/StarEngine.h"
 
 android_app* EventLoop::mApplicationPtr = nullptr;
+
 EventLoop::EventLoop(android_app* pApplication):
 			mEnabled(true),
 			mQuit(false),
 			mMainGameInitialized(false)
 {
+	star::StarEngine::GetInstance()->Initialize(0,0);
+
 	mApplicationPtr = pApplication;
 	mApplicationPtr->onAppCmd = activityCallback;
 	mApplicationPtr->userData = this;
@@ -28,8 +31,6 @@ void EventLoop::run()
 	int32 lResult;
 	int32 lEvents;
 	android_poll_source* lSource;
-
-	app_dummy();
 
 	star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Starting EventLoop"));
 

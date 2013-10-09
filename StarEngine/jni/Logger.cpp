@@ -8,7 +8,6 @@
 #endif
 
 namespace star {
-	//Make this a static object
 	Logger* Logger::m_LoggerPtr = nullptr;
 
 	Logger::Logger()
@@ -16,8 +15,6 @@ namespace star {
 		:m_ConsoleHandle(nullptr)
 #endif
 	{
-		//[TODO] Add initialize in the engine initialize instead of heres
-		Initialize();
 	}
 	
 	Logger::~Logger()

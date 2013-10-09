@@ -36,6 +36,7 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi-v7a\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${STARENGINE}/StarEngine/jni&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1713767724" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -57,6 +58,7 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.8/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${STARENGINE}/StarEngine/jni&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1408120829" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -93,7 +95,11 @@
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
+				<externalSettings containerId="StarEngine;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting/>
+				</externalSettings>
+			</storageModule>
 		</cconfiguration>
 		<cconfiguration id="0.1407475795.918485181">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="0.1407475795.918485181" moduleId="org.eclipse.cdt.core.settings" name="Debug">
@@ -130,6 +136,9 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi-v7a\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/jni}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${STARENGINE}/StarEngine/jni&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.479215813" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -151,6 +160,9 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.8/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/jni}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${STARENGINE}/StarEngine/jni&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1230205783" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -172,6 +184,9 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.8/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/jni}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${STARENGINE}/StarEngine/jni&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1134357254" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -224,6 +239,9 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi-v7a\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/jni}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${STARENGINE}/StarEngine/jni&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1742506327" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -245,6 +263,9 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.8/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/jni}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${STARENGINE}/StarEngine/jni&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.2073256928" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -266,6 +287,9 @@
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.8/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ANDROID_NDK}\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/StarEngine/jni}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${STARENGINE}/StarEngine/jni&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.871674422" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="nullptr=0"/>
@@ -287,12 +311,6 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="CrossPlatformEngine.null.1626938993" name="CrossPlatformEngine"/>
 	</storageModule>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="0.1407475795">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Release"/>
@@ -304,4 +322,16 @@
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="0.1407475795">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="0.1407475795.662060230">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="0.1407475795.918485181">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+	</storageModule>
 </cproject>

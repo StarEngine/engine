@@ -4,7 +4,7 @@
 #include "Texture2D.h"
 
 #ifndef _WIN32
-//#include "../EventLoop.h"
+#include "../StarEngine.h"
 #endif
 
 namespace star 
@@ -50,9 +50,7 @@ namespace star
 
 		Texture2D* temp = new Texture2D(path);
 #else
-		// [TODO] DEFINE PATH!!!
-		//Texture2D* temp = new Texture2D(path, star::EventLoop::mApplicationPtr);
-		Texture2D* temp = new Texture2D(path, nullptr);
+		Texture2D* temp = new Texture2D(path, star::StarEngine::GetInstance()->GetAndroidApp());
 #endif
 		mTextureList[name] = temp;
 		//mPathList.push_back(path);

@@ -7,7 +7,7 @@ LS_CPP+= $(subst $(1)/,,$(wildcard $(1)/**/*.cpp))
 LS_CPP+= $(subst $(1)/,,$(wildcard $(1)/**/**/*.cpp))
 LS_CPP+= $(subst $(1)/,,$(wildcard $(1)/**/**/**/*.cpp))
 LOCAL_CPPFLAGS  := -std=gnu++11
-LOCAL_MODULE    := StarEngine
+LOCAL_MODULE    := starengine
 LOCAL_SRC_FILES := $(call LS_CPP,$(LOCAL_PATH))
 APP_PLATFORM := android-14
 APP_OPTIM := debug

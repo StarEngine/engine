@@ -3,6 +3,7 @@
 	<name>StarGame</name>
 	<comment></comment>
 	<projects>
+		<project>StarEngine</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
