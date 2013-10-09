@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../StarEngine/jni/defines.h"
-#include "../StarEngine/jni/SceneManaging/BaseScene.h"
-#include "../StarEngine/jni/Logger.h"
-#include "../StarEngine/jni/Context.h"
-#include "../StarEngine/jni/SceneGraph/Object.h"
-#include "../StarEngine/jni/StarComponents.h"
-#include "../StarEngine/jni/Shaders/Shader.h"
-#include "../StarEngine/jni/Objects/QuadCol.h"
-#include "../StarEngine/jni/Input/XMLContainer.h"
-#include "../StarEngine/jni/Objects/Sprite.h"
+#include "../../StarEngine/jni/defines.h"
+#include "../../StarEngine/jni/SceneManaging/BaseScene.h"
+#include "../../StarEngine/jni/Logger.h"
+#include "../../StarEngine/jni/Context.h"
+#include "../../StarEngine/jni/SceneGraph/Object.h"
+#include "../../StarEngine/jni/StarComponents.h"
+#include "../../StarEngine/jni/Shaders/Shader.h"
+#include "../../StarEngine/jni/Objects/QuadCol.h"
+#include "../../StarEngine/jni/Input/XMLContainer.h"
+#include "../../StarEngine/jni/Objects/Sprite.h"
 
 class TestScene2 : public star::BaseScene
 {

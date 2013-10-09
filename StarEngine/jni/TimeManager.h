@@ -1,9 +1,8 @@
 #pragma once
 
-#ifdef _WIN32
-#include <defines.h>
-#else
 #include "defines.h"
+
+#ifndef _WIN32
 #include <time.h>
 #endif
 

@@ -1,12 +1,12 @@
 #include "TestScene.h"
-#include "../StarEngine/jni/Helpers/Helpers.h"
-#include "../StarEngine/jni/SceneManaging/CollisionManager.h"
-#include "../StarEngine/jni/SceneManaging/PathFindManager.h"
-#include "../StarEngine/jni/Input/InputManager.h"
-#include "../StarEngine/jni/GraphicsManager.h"
-#include "../StarEngine/jni/SceneManaging/SceneManager.h"
-#include "../StarEngine/jni/Helpers/Filepath.h"
-#include "../StarEngine/jni/Sound/SoundService.h"
+#include "../../StarEngine/jni/Helpers/Helpers.h"
+#include "../../StarEngine/jni/SceneManaging/CollisionManager.h"
+#include "../../StarEngine/jni/SceneManaging/PathFindManager.h"
+#include "../../StarEngine/jni/Input/InputManager.h"
+#include "../../StarEngine/jni/GraphicsManager.h"
+#include "../../StarEngine/jni/SceneManaging/SceneManager.h"
+#include "../../StarEngine/jni/Helpers/Filepath.h"
+#include "../../StarEngine/jni/Sound/SoundService.h"
 
 #ifdef _WIN32
 #include <glew.h>

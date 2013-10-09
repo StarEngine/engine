@@ -2,7 +2,7 @@
 
 #include <Windows.h>
 #include <Context.h>
-#include "defines.h"
+#include <defines.h>
 
 #include "jni/Game.h"
 

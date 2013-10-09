@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6E9A5FE1-6EA2-4B80-A5DE-A3CEA1106C80}</ProjectGuid>
     <RootNamespace>Game</RootNamespace>
+    <ProjectName>StarGame</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -46,7 +47,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>StarEngine;libs\SDL2_mixer-2.0.0\include;libs\SDL2-2.0.0\include;libs\libpng;libs\OpenGL\GLEW\include\GL;libs\OpenGL\GLUT\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>StarEngine\jni;libs\SDL2_mixer-2.0.0\include;libs\SDL2-2.0.0\include;libs\libpng;libs\OpenGL\GLEW\include\GL;libs\OpenGL\GLUT\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

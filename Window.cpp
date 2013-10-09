@@ -63,7 +63,8 @@ Window * Window::GetInstance()
 
 void Window::Initialize(HINSTANCE instance)
 {
-	Logger::GetInstance()->Initialize();
+	star::Logger::GetInstance()->Initialize();
+
 	ASSERT(!m_IsInitialized, _T("Engine is already initialized!"));
 	if(!m_IsInitialized)
 	{
@@ -175,18 +176,12 @@ void Window::Initialize(HINSTANCE instance)
 
 		// Sets the pixel format
 		ASSERT(SetPixelFormat(mHDC, pixelFormat, &pixelFormatDesc) != 0, _T("Couldn't set the pixel format!"));
-			// [TODO] Fix this
-			//return 0;
-		}
 
 		HGLRC hglrc = wglCreateContext(mHDC); // Creates the rendering context
 		ASSERT(hglrc != NULL, _T("Couldn't create the rendering context!"));
 
 		// Attaches the rendering context
-		ASSERT(wglMakeCurrent(mHDC, hglrc) != 0), _T("Action couldn't be completed!")):
-			// [TODO] Fix this
-			//return 0;
-		}
+		ASSERT(wglMakeCurrent(mHDC, hglrc) != 0, _T("Action couldn't be completed!"));
 
 		MSG msg ={};
 
