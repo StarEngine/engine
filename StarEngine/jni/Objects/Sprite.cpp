@@ -2,6 +2,7 @@
 #include "../Logger.h"
 #include "../Helpers/Filepath.h"
 #include "../AssetManaging/TextureManager.h"
+#include "../GraphicsManager.h"
 
 namespace star
 {
@@ -72,9 +73,23 @@ namespace star
 		glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, mUvCoords);
 		glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
 
+		uint32 width = GraphicsManager::GetInstance()->GetWindowWidth();
+		uint32 height = GraphicsManager::GetInstance()->GetWindowHeigth();
+
+		GLfloat Projection[16] = {
+			 1.0f/width, 0,	0,	0
+			,0,	1.0f/height,	0,	0
+			,0,	0,	1,	0
+			,0,	0,	0,	1};
+
+		GLfloat Translation[16] = {
+			 1, 0,	0,	800.0f
+			,0,	1,	0,	-400.0f
+			,0,	0,	1,	0
+			,0,	0,	0,	1};
 		
-		glUniformMatrix4fv(glGetUniformLocation(mShader.GetId(),"Projection"),1,GL_FALSE,mShader.GetProjection());
-		glUniformMatrix4fv(glGetUniformLocation(mShader.GetId(),"Translation"),1,GL_FALSE,mShader.GetTranslation());
+		glUniformMatrix4fv(glGetUniformLocation(mShader.GetId(),"Projection"),1,GL_FALSE,Projection);
+		glUniformMatrix4fv(glGetUniformLocation(mShader.GetId(),"Translation"),1,GL_FALSE,Translation);
 
 		glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 

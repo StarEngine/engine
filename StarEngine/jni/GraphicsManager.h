@@ -30,8 +30,8 @@ namespace star
 		void StartDraw();
 		void StopDraw();
 
-		int32 GetScreenWidth() const { return mScreenWidth; }
-		int32 GetScreenHeight() const { return mScreenHeight; }
+		int32 GetWindowWidth() const { return mScreenWidth; }
+		int32 GetWindowHeigth() const { return mScreenHeight; }
 
 	private:
 		GraphicsManager();

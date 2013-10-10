@@ -233,9 +233,9 @@ namespace star
 		{
 			SLPlayItf pPlay = file->mPlayer;
 			(*pPlay)->SetPlayState(pPlay,SL_PLAYSTATE_STOPPED);
-			file->bStopped=true;
-			if(file->bQueuedPlay)
-				star::SoundService::GetInstance()->NextSongInQueue();
+			file->mbStopped=true;
+			if(file->mbQueuedPlay)
+				star::SoundService::GetInstance()->PlayNextSongInQueue();
 		}
 		else
 		{

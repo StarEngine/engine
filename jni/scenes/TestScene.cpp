@@ -161,7 +161,7 @@ status TestScene::Initialize( const star::Context& context)
 	}
 	star::PathFindManager::GetInstance()->FindPath(m_pObjectOne->GetComponent<star::TransformComponent>()->GetWorldPosition(), vec3(3,2,0));
 
-	if(pos.y>(star::GraphicsManager::GetInstance()->GetScreenHeight()/2) && pos.y< star::GraphicsManager::GetInstance()->GetScreenHeight())
+	if(pos.y>(star::GraphicsManager::GetInstance()->GetWindowHeigth()/2) && pos.y< star::GraphicsManager::GetInstance()->GetWindowHeigth())
 	{
 		star::SceneManager::GetInstance()->SetActiveScene(_T("TestScene2"));
 	}

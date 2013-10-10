@@ -46,61 +46,7 @@ namespace star
 			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Failed to link shader"));
 			return false;
 		}
-
-		GLfloat Projection[16] = {
-			 1.0f/1280.0f, 0,	0,	0
-			,0,	1.0f/720.0f,	0,	0
-			,0,	0,	1,	0
-			,0,	0,	0,	1};
-
-		GLfloat Translation[16] = {
-			 1, 0,	0,	800.0f
-			,0,	1,	0,	-400.0f
-			,0,	0,	1,	0
-			,0,	0,	0,	1};
-
-		GlTranslation = (GLfloat*)malloc(4*4*sizeof(float));
-		GlTranslation[0] = Translation[0];
-		GlTranslation[1] = Translation[1];
-		GlTranslation[2] = Translation[2];
-		GlTranslation[3] = Translation[3];
-	
-		GlTranslation[4] = Translation[4];
-		GlTranslation[5] = Translation[5];
-		GlTranslation[6] = Translation[6];
-		GlTranslation[7] = Translation[7];
-
-		GlTranslation[8] = Translation[8];
-		GlTranslation[9] = Translation[9];
-		GlTranslation[10] = Translation[10];
-		GlTranslation[11] = Translation[11];
-
-		GlTranslation[12] = Translation[12];
-		GlTranslation[13] = Translation[13];
-		GlTranslation[14] = Translation[14];
-		GlTranslation[15] = Translation[15];
-
-		GlProjection = (GLfloat*)malloc(4*4*sizeof(float));
-		GlProjection[0] = Projection[0];
-		GlProjection[1] = Projection[1];
-		GlProjection[2] = Projection[2];
-		GlProjection[3] = Projection[3];
-	
-		GlProjection[4] = Projection[4];
-		GlProjection[5] = Projection[5];
-		GlProjection[6] = Projection[6];
-		GlProjection[7] = Projection[7];
-
-		GlProjection[8] = Projection[8];
-		GlProjection[9] = Projection[9];
-		GlProjection[10] = Projection[10];
-		GlProjection[11] = Projection[11];
-
-		GlProjection[12] = Projection[12];
-		GlProjection[13] = Projection[13];
-		GlProjection[14] = Projection[14];
-		GlProjection[15] = Projection[15];
-
+		
 		return true;
 	}
 

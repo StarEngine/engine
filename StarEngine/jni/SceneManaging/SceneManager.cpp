@@ -192,7 +192,7 @@ namespace star
 
 		case APP_CMD_LOST_FOCUS:
 			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_LOST_FOCUS"));
-			star::SoundService::GetInstance()->PauzeAllSound();
+			star::SoundService::GetInstance()->PauseAllSound();
 			DeActivate();
 			break;
 
@@ -202,13 +202,13 @@ namespace star
 
 		case APP_CMD_PAUSE:
 			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_PAUSE"));
-			m_bPauzeRequested=true;
-			star::SoundService::GetInstance()->PauzeAllSound();
+			m_bPauseRequested=true;
+			star::SoundService::GetInstance()->PauseAllSound();
 			break;
 
 		case APP_CMD_RESUME:
 			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_RESUME"));
-			m_bPauzeRequested=false;
+			m_bPauseRequested=false;
 			star::SoundService::GetInstance()->ResumeAllSound();
 			break;
 
