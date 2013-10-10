@@ -129,6 +129,13 @@ namespace star
 	}
 
 	template <>
+	uint32 string_cast<uint32, tstring>
+		(const tstring & value)
+	{
+		return uint32(string_cast<int>(value));
+	}
+
+	template <>
 	long string_cast<long, tstring>
 		(const tstring & value)
 	{

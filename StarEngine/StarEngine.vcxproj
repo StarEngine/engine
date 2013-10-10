@@ -105,6 +105,7 @@
     <ClInclude Include="jni\SceneManaging\PathFindManager.h" />
     <ClInclude Include="jni\SceneManaging\SceneManager.h" />
     <ClInclude Include="jni\SceneManaging\SearchCell.h" />
+    <ClInclude Include="jni\SceneManaging\TiledScene.h" />
     <ClInclude Include="jni\Shaders\Shader.h" />
     <ClInclude Include="jni\Sound\SoundEffect.h" />
     <ClInclude Include="jni\Sound\SoundFile.h" />
@@ -142,6 +143,7 @@
     <ClCompile Include="jni\SceneManaging\CollisionManager.cpp" />
     <ClCompile Include="jni\SceneManaging\PathFindManager.cpp" />
     <ClCompile Include="jni\SceneManaging\SceneManager.cpp" />
+    <ClCompile Include="jni\SceneManaging\TiledScene.cpp" />
     <ClCompile Include="jni\Shaders\Shader.cpp" />
     <ClCompile Include="jni\Sound\SoundEffect.cpp" />
     <ClCompile Include="jni\Sound\SoundFile.cpp" />

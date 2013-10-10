@@ -129,9 +129,6 @@
     <ClInclude Include="jni\Shaders\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Sound\AudioManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="jni\Sound\SoundService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -139,6 +136,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="jni\Sound\SoundFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\SceneManaging\TiledScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -236,9 +236,6 @@
     <ClCompile Include="jni\Shaders\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\Sound\AudioManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="jni\Sound\SoundService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -246,6 +243,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Sound\SoundFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\SceneManaging\TiledScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

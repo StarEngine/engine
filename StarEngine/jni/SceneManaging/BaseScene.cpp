@@ -19,6 +19,10 @@ namespace star
 		if(isInitialized == STATUS_OK)
 		{
 			m_Initialized = true;
+			for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
+			{
+				m_Objects[i]->Initialize();
+			}
 			return STATUS_OK;
 		}
 		return STATUS_KO;

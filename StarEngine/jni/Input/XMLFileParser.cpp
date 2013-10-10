@@ -19,6 +19,12 @@ namespace star
 
 	}
 
+	XMLFileParser::XMLFileParser(const Filepath & file_path)
+		: m_File(file_path)
+	{
+
+	}
+
 	XMLFileParser::XMLFileParser(const tstring & path, const tstring & file)
 		: m_File(path, file)
 	{

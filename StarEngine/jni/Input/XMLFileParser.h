@@ -16,6 +16,7 @@ namespace star
 	{
 	public:
 		XMLFileParser(const tstring & full_path);
+		XMLFileParser(const Filepath & file_path);
 		XMLFileParser(const tstring & path, const tstring & file);
 		~XMLFileParser();
 

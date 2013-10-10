@@ -73,6 +73,10 @@ namespace star
 		(const tstring & value);
 
 	template <>
+	uint32 string_cast<uint32, tstring>
+		(const tstring & value);
+
+	template <>
 	long string_cast<long, tstring>
 		(const tstring & value);
 

@@ -7,6 +7,7 @@ namespace star
 	class Filepath
 	{
 	public:
+		Filepath();
 		Filepath(const tstring & full_path);
 		Filepath(const tstring & path, const tstring & file);
 		Filepath(const Filepath & yRef);

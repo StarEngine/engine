@@ -6,9 +6,16 @@ namespace star
 tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 #endif
 
+	Filepath::Filepath()
+		: m_Path(EMPTY_STRING) 
+		, m_File(EMPTY_STRING)
+	{
+
+	}
+
 	Filepath::Filepath(const tstring & full_path)
-		: m_Path(_T(""))
-		, m_File(_T(""))
+		: m_Path(EMPTY_STRING)
+		, m_File(EMPTY_STRING)
 	{
 		auto index = full_path.find_last_of('/');
 		if(index == tstring::npos)
