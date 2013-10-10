@@ -14,19 +14,20 @@ namespace star
 class EventLoop
 {
 public:
-	static android_app* mApplicationPtr;
+	~EventLoop();
 
-	EventLoop(android_app* pApplication);
+	static EventLoop * GetInstance();
 
-	void run();
-	void end();
+	void Run();
+	void End();
 
-	//[COMMENT] Scanning through the sample files, these methodes are private. can they be moved?
+	void Initialize(android_app* pApplication);
+	const android_app * GetAndroidApp() const;
+
 protected:
-	static void activityCallback(android_app* pApplication, int32_t pCommand);
-	static int32 inputCallback(android_app* pApplication, AInputEvent* pEvent);
 
 private:
+	static EventLoop *mEventLoop;
 
 	bool mMainGameInitialized;
 	bool mEnabled;
@@ -34,4 +35,10 @@ private:
 	Game* mMainGame;
 	star::TimeManager* mTimeManager;
 	star::Context mContext;
+	android_app* mApplicationPtr;
+
+	EventLoop();
+
+	static void activityCallback(android_app* pApplication, int32_t pCommand);
+	static int32 inputCallback(android_app* pApplication, AInputEvent* pEvent);
 };

@@ -6,27 +6,51 @@
 #include "../StarEngine/jni/Input/InputManager.h"
 #include "../StarEngine/jni/StarEngine.h"
 
-android_app* EventLoop::mApplicationPtr = nullptr;
+EventLoop * EventLoop::mEventLoop = nullptr;
 
-EventLoop::EventLoop(android_app* pApplication):
-			mEnabled(true),
+EventLoop::~EventLoop()
+{
+	delete mMainGame;
+	delete mTimeManager;
+}
+
+EventLoop::EventLoop():
+			mMainGameInitialized(false),
 			mQuit(false),
-			mMainGameInitialized(false)
+			mEnabled(true),
+			mMainGame(new Game()),
+			mTimeManager(new star::TimeManager()),
+			mApplicationPtr(nullptr)
 {
 	star::StarEngine::GetInstance()->Initialize(0,0);
+}
 
+void EventLoop::Initialize(android_app * pApplication)
+{
 	mApplicationPtr = pApplication;
 	mApplicationPtr->onAppCmd = activityCallback;
 	mApplicationPtr->userData = this;
-	mMainGame = new Game();
-	mTimeManager = new star::TimeManager();
 	mContext.mTimeManager = mTimeManager;
 	//mApplicationPtr->onAppCmd = activityCallback;
 	mApplicationPtr->onInputEvent = inputCallback;
 	star::StarEngine::GetInstance()->SetAndroidApp(mApplicationPtr);
 }
 
-void EventLoop::run()
+const android_app * EventLoop::GetAndroidApp() const
+{
+	return mApplicationPtr;
+}
+
+EventLoop * EventLoop::GetInstance()
+{
+	if(mEventLoop == nullptr)
+	{
+		mEventLoop = new EventLoop();
+	}
+	return mEventLoop;
+}
+
+void EventLoop::Run()
 {
 	int32 lResult;
 	int32 lEvents;
@@ -58,12 +82,12 @@ void EventLoop::run()
 			if(mMainGame->Update(mContext) != STATUS_OK)
 			{
 				mQuit = true;
-				end();
+				End();
 			}
 			else if(mMainGame->Draw() != STATUS_OK)
 			{
 				mQuit = true;
-				end();
+				End();
 			}
 		}
 		usleep(100);
@@ -71,7 +95,7 @@ void EventLoop::run()
 	}
 }
 
-void EventLoop::end()
+void EventLoop::End()
 {
 	star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Ending App"));
 	mMainGame->End();
@@ -80,6 +104,7 @@ void EventLoop::end()
 
 void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 {
+	// [COMMENT] Use C++ Casts please!
 	EventLoop& lEventLoop = *(EventLoop*) pApplication->userData;
 	if(!lEventLoop.mMainGameInitialized)
 	{
@@ -93,17 +118,19 @@ void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 				}
 			break;
 			case APP_CMD_GAINED_FOCUS:
-				lEventLoop.mEnabled=true;
+				lEventLoop.mEnabled = true;
 				if(lEventLoop.mMainGame->Initialize(0,0) != STATUS_OK)
 				{
-					lEventLoop.mQuit=true;
-					lEventLoop.end();
+					lEventLoop.mQuit = true;
+					lEventLoop.End();
 				}
 				else
-					lEventLoop.mMainGameInitialized=true;
+				{
+					lEventLoop.mMainGameInitialized = true;
+				}
 				break;
 			case APP_CMD_LOST_FOCUS:
-				lEventLoop.mEnabled=false;
+				lEventLoop.mEnabled = false;
 				break;
 			default:
 				break;
@@ -116,6 +143,7 @@ void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 	}
 }
 
-int32 EventLoop::inputCallback(android_app* pApplication, AInputEvent* pEvent) {
+int32 EventLoop::inputCallback(android_app* pApplication, AInputEvent* pEvent)
+{
 	return star::SceneManager::GetInstance()->processInputEvent(pEvent);
 }

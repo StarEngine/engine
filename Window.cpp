@@ -232,7 +232,6 @@ void Window::Initialize(HINSTANCE instance)
 		// Main message loop:
 		while(msg.message != WM_QUIT)
 		{
-			//[TODO] move these things to the engine class!!
 			mTimeManager->StartMonitoring();
 
 			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))

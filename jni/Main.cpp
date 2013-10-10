@@ -16,7 +16,7 @@ void android_main(android_app* pApplication)
 {
 	app_dummy();
 
-    EventLoop lEventLoop(pApplication);
-    lEventLoop.run();
+	EventLoop::GetInstance()->Initialize(pApplication);
+	EventLoop::GetInstance()->Run();
 }
 #endif
