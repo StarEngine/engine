@@ -28,11 +28,8 @@ namespace star
 #ifdef _WIN32
 		if(mMusic == NULL)
 		{
-			int buffersize= 128;
-			char* cpath = reinterpret_cast<char*>( malloc (buffersize));
-			size_t i;
-			wcstombs_s(&i,cpath,static_cast<size_t>(buffersize),path.c_str(),static_cast<size_t>(buffersize));
-			mMusic = Mix_LoadMUS(cpath);
+			std::string sound_path = string_cast<std::string>(path);
+			mMusic = Mix_LoadMUS(sound_path.c_str());
 			if(!mMusic)
 			{
 				star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not load song, reason : ")+string_cast<tstring>(Mix_GetError()));

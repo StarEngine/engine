@@ -25,26 +25,20 @@ namespace star
 		mPlayers(MAX_SAMPLES)
 #endif
 	{
-
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("AudioFile : Creating File"));
 #ifdef _WIN32	
-		mPlayChannel=PlayChannels;
+		mPlayChannel = PlayChannels;
 		++PlayChannels;
-		int buffersize= 128;
-		char* cpath = reinterpret_cast<char*>( malloc (buffersize));
-		size_t i;
-		wcstombs_s(&i,cpath,static_cast<size_t>(buffersize),path.c_str(),static_cast<size_t>(buffersize));
+		std::string sound_path = string_cast<std::string>(path);
 		if(mSoundEffect==NULL)
 		{
-			mSoundEffect= Mix_LoadWAV(cpath);
+			mSoundEffect= Mix_LoadWAV(sound_path.c_str());
 			if(!mSoundEffect)
 			{
 				star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not load song, reason : ")+string_cast<tstring>(Mix_GetError()));
 			}
 		}
 #else
-
-
 		SLEngineItf mEngine = SoundService::GetInstance()->GetEngine();
 		for(int i=0; i<MAX_SAMPLES;++i)
 		{
