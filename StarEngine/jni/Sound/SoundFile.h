@@ -22,18 +22,17 @@ namespace star
 		~SoundFile();
 
 		//for infinite loop set "looptimes" to -1
-		void Play(int32 looptimes);
-		void PlayQueued(int32 looptimes);
+		void Play(int32 looptimes=0);
+		void PlayQueued(int32 looptimes=0);
 		void Stop();
 		void Pause();
 		void Resume();
-		// [COMMENT] const correctness!!! 
-		bool IsStopped(){return bStopped;}
+		const bool IsStopped(){return mbStopped;}
 
 	private:
 		int32 mLoopTimes;
-		bool bStopped;
-		bool bQueuedPlay;
+		bool mbStopped;
+		bool mbQueuedPlay;
 #ifdef _WIN32
 		Mix_Music * mMusic;
 		static void MusicStoppedCallback();

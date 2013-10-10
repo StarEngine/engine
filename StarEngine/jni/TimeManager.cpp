@@ -5,8 +5,6 @@ namespace star
 	TimeManager::TimeManager()
 #ifdef _WIN32
 		:mFrequency()
-		// [COMMENT] Why put mF1 and mF2 in both versions? Why not just leave it
-		// out of the macro then... ?
 		,mF1()
 		,mF2()
 #else

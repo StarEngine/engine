@@ -47,7 +47,7 @@ namespace star
 		bool m_bSwitchingScene,
 			 m_bInitialized,
 			 m_bDestroyRequested,
-			 m_bPauzeRequested;
+			 m_bPauseRequested;
 		tstring m_CurrentSceneName;
 
 		bool InitializeCurScene(const Context& context);

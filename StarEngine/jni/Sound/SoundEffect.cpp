@@ -12,14 +12,13 @@
 namespace star
 {
 #ifdef _WIN32
-	int SoundEffect::PlayChannels = 0;
+	int SoundEffect::mPlayChannels = 0;
 #endif
 
 	SoundEffect::SoundEffect(const tstring& path):
-		bStopped(false),
+		mbStopped(false),
 #ifdef _WIN32
-		// [COMMENT] use nullnptr
-		mSoundEffect(NULL),
+		mSoundEffect(nullptr),
 		mPlayChannel(0)
 #else
 		mPlayerObjs(MAX_SAMPLES),
@@ -27,11 +26,10 @@ namespace star
 #endif
 	{
 #ifdef _WIN32	
-		mPlayChannel = PlayChannels;
-		++PlayChannels;
+		mPlayChannel = mPlayChannels;
+		++mPlayChannels;
 		std::string sound_path = string_cast<std::string>(path);
-		// [COMMENT] use nullnptr
-		if(mSoundEffect == NULL)
+		if(mSoundEffect == nullptr)
 		{
 			mSoundEffect = Mix_LoadWAV(sound_path.c_str());
 			if(!mSoundEffect)
@@ -176,14 +174,12 @@ namespace star
 #endif
 	}
 	
-	// [COMMENT] Pauze is written with an 's'... so Pause!
-	void SoundEffect::Pauze()
+	void SoundEffect::Pause()
 	{
 #ifdef _WIN32
 		Mix_HaltChannel(mPlayChannel);
 #else
-		// [COMMENT] please seperate your operators with spaces, like the for loop loop on line 175
-		for(int i=0; i<MAX_SAMPLES;++i)
+		for(int i = 0; i < MAX_SAMPLES ; ++i)
 		{
 			SLresult lres=(*mPlayers[i])->GetPlayState(mPlayers[i],&lres);
 			if(lres==SL_PLAYSTATE_PLAYING)
@@ -197,8 +193,7 @@ namespace star
 #ifdef _WIN32
 		Mix_HaltChannel(mPlayChannel);
 #else
-		// [COMMENT] please seperate your operators with spaces, like the for loop loop on line 175
-		for(int i=0; i<MAX_SAMPLES;++i)
+		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			SLresult lres=(*mPlayers[i])->GetPlayState(mPlayers[i],&lres);
 			if(lres==SL_PLAYSTATE_PAUSED)

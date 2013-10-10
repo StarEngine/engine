@@ -13,17 +13,14 @@ namespace star
 {
 	SceneManager* SceneManager::m_pSceneManager = nullptr;
 
-	// [COMMENT] RESPECT THE ORDER OF YOUR DATAMEMBERS IN THE HEADER FILE!
-	// In this case it won't give you errors, but it's a good practice to do so,
-	// so please, do so!!!
 	SceneManager::SceneManager( void )
 		: m_ActiveScene(nullptr)
 		, m_NewActiveScene(nullptr)
 		, m_bSwitchingScene(false)
 		, m_bInitialized(false)
-		, m_CurrentSceneName(EMPTY_STRING)
 		, m_bDestroyRequested(false)
-		, m_bPauzeRequested(false)
+		, m_bPauseRequested(false)
+		, m_CurrentSceneName(EMPTY_STRING)
 #ifndef _WIN32
 		, mApplicationPtr(nullptr)
 #endif
@@ -122,7 +119,7 @@ namespace star
 
 	status SceneManager::Update(const Context& context)
 	{
-		if(m_bDestroyRequested || m_bPauzeRequested)
+		if(m_bDestroyRequested || m_bPauseRequested)
 		{
 			return (STATUS_OK);
 		}
@@ -149,7 +146,7 @@ namespace star
 
 	status SceneManager::Draw()
 	{
-		if(m_bDestroyRequested || m_bPauzeRequested)
+		if(m_bDestroyRequested || m_bPauseRequested)
 		{
 			return (STATUS_OK);
 		}

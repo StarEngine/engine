@@ -13,8 +13,8 @@ namespace star
 {
 	SoundFile::SoundFile(const tstring& path):
 		mLoopTimes(0),
-		bStopped(false),
-		bQueuedPlay(false),
+		mbStopped(false),
+		mbQueuedPlay(false),
 #ifdef _WIN32
 		mMusic(nullptr)
 #else
@@ -117,15 +117,14 @@ namespace star
 	SoundFile::~SoundFile()
 	{
 #ifdef _WIN32
-		// [COMMENT] always use { and } for if statements!!!!
 		if(mMusic != nullptr)
+		{	
 			Mix_FreeMusic(mMusic);
-		// [COMMENT] this line is useless when it is already nullptr,
-		// so better to include it in the body of the if statement!
-		mMusic=nullptr;
+			mMusic=nullptr;
+		}
+
 #else
-		// [COMMENT] use nullptr!
-		if(mPlayer != NULL)
+		if(mPlayer != nullptr)
 		{
 			SLuint32 lPlayerState;
 			(*mPlayerObj)->GetState(mPlayerObj, &lPlayerState);
@@ -133,11 +132,8 @@ namespace star
 			{
 				(*mPlayer)->SetPlayState(mPlayer,SL_PLAYSTATE_PAUSED);
 				(*mPlayerObj)->Destroy(mPlayerObj);
-				// [COMMENT] use nullptr!
 				mPlayerObj = NULL;
-				// [COMMENT] use nullptr!
 				mPlayer = NULL;
-				// [COMMENT] use nullptr!
 				mPlayerSeek = NULL;
 				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Soundfile Destroyed"));
 			}
@@ -145,14 +141,11 @@ namespace star
 #endif
 	}
 
-	// [COMMENT] Put default parameters in the header file,
-	// not in the implementation file!!!
-	void SoundFile::Play(int32 looptimes=0)
+	void SoundFile::Play(int32 looptimes)
 	{
 		mLoopTimes = looptimes;
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("AudioFile : Playing File , Looptimes = ")+ star::string_cast<tstring>(mLoopTimes));
 #ifdef _WIN32
-		// [COMMENT] use nullptr!
 		Mix_HookMusicFinished(NULL);
 		Mix_PlayMusic(mMusic, mLoopTimes);
 #else
@@ -178,12 +171,10 @@ namespace star
 #endif
 	}
 	
-	// [COMMENT] Put default parameters in the header file,
-	// not in the implementation file!!!
-	void SoundFile::PlayQueued(int32 looptimes =0)
+	void SoundFile::PlayQueued(int32 looptimes)
 	{
 		mLoopTimes = looptimes;
-		bQueuedPlay = true;
+		mbQueuedPlay = true;
 
 #ifdef _WIN32
 		Mix_HookMusicFinished(MusicStoppedCallback);
@@ -229,7 +220,7 @@ namespace star
 #ifdef _WIN32
 	void SoundFile::MusicStoppedCallback()
 	{
-		star::SoundService::GetInstance()->NextSongInQueue();
+		star::SoundService::GetInstance()->PlayNextSongInQueue();
 	}
 
 #else

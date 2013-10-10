@@ -25,20 +25,15 @@ namespace star
 
 		void Play();
 		void Stop();
-		// [COMMENT] Pauze is written with an 's'... so Pause!
-		void Pauze();
+		void Pause();
 		void Resume();
-		// [COMMENT] Const correctness!! Cmon, this is basics!
-		bool IsStopped() { return bStopped; }
+		const bool IsStopped() { return mbStopped; }
 
 	private:
-		// [COMMENT] why not respecting your own naming convention?
-		// Either never use m as a prefix for datamembers, or do it 
-		// for all your datamembers, but don't do it just for some of them...
-		bool bStopped;
+		bool mbStopped;
 #ifdef _WIN32
 		Mix_Chunk* mSoundEffect;
-		static int PlayChannels;
+		static int mPlayChannels;
 		int mPlayChannel;
 #else
 		static void MusicStoppedCallback(SLPlayItf caller,void *pContext,SLuint32 event);

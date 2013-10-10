@@ -65,7 +65,6 @@ namespace star
 
 		Mix_QuerySpec(&actual_rate,&actual_format,&actual_channels);
 		tstringstream buffer;
-		// [COMMENT] it's better to pass these strings within the _T(...) macro!
 		buffer << "Actual Rate : " << actual_rate << ", Actual Format : " << actual_format << ", Actual Channels : " << actual_channels << std::endl;
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : SDL specs : ")+buffer.str());
 		Mix_Volume(-1,100);
@@ -239,7 +238,7 @@ namespace star
 		return STATUS_KO;
 	}
 
-	void SoundService::NextSongInQueue()
+	void SoundService::PlayNextSongInQueue()
 	{
 		++mQueueIterator;
 		if(mQueueIterator!=mBackgroundQueue.end())
@@ -280,7 +279,7 @@ namespace star
 		}
 	}
 
-	void SoundService::PauzeAllSound()
+	void SoundService::PauseAllSound()
 	{
 		auto it = mMusicList.begin();
 		for(it; it!= mMusicList.end();++it)
@@ -291,7 +290,7 @@ namespace star
 		auto it2 = mEffectsList.begin();
 		for(it2; it2!= mEffectsList.end();++it2)
 		{
-			it2->second->Pauze();
+			it2->second->Pause();
 		}
 	}
 
