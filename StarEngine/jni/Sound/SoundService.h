@@ -63,6 +63,7 @@ namespace star
 		SoundService();
 
 		static SoundService* mSoundService;
+		static bool mbIsInitialized;
 
 		std::map<tstring,SoundFile*> mMusicList;
 		std::map<tstring,SoundEffect*> mEffectsList;

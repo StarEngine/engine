@@ -129,9 +129,9 @@ namespace star
 		}
 		doc[length]=0;
 
-		tstring filecontent= tstring(doc);
+		/*tstring filecontent= tstring(doc);
 
-		star::Logger::GetInstance()->Log(LogLevel::Info,filecontent);
+		star::Logger::GetInstance()->Log(LogLevel::Info,filecontent);*/
 
 		source = const_cast<GLchar*>(&doc[0]);
 		resource.close();

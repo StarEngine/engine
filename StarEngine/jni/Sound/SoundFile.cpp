@@ -23,7 +23,6 @@ namespace star
 		mPlayerSeek(NULL)
 #endif
 	{
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("AudioFile : Creating File"));
 #ifdef _WIN32
 		if(mMusic == NULL)
 		{
@@ -112,7 +111,6 @@ namespace star
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Can't set callback"));
 		}
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("AudioFile :Audiofile Created"));
 #endif
 	}
 

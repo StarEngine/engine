@@ -10,6 +10,7 @@
 namespace star
 {
 	SoundService* SoundService::mSoundService = nullptr;
+	bool SoundService::mbIsInitialized = false;
 
 	SoundService* SoundService::GetInstance()
 	{
@@ -32,6 +33,9 @@ namespace star
 
 	status SoundService::Start()
 	{
+		if(mbIsInitialized)return STATUS_OK;
+
+		mbIsInitialized=true;
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Started making Audio Engine"));
 
 #ifdef _WIN32

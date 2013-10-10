@@ -282,7 +282,7 @@ namespace star
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Going trough DeActivate"));
 		star::GraphicsManager::GetInstance()->Destroy();
 		star::TextureManager::GetInstance()->EraseTextures();
-		star::SoundService::GetInstance()->Stop();
+		//star::SoundService::GetInstance()->Stop();
 		m_SceneList.clear();
 		m_CurrentSceneName = EMPTY_STRING;
 	}

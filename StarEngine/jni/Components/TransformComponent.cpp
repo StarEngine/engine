@@ -17,7 +17,7 @@ namespace star
 		m_World(),
 		BaseComponent()
 	{
-		Logger::GetInstance()->Log(LogLevel::Info,_T("TransformComponent Added"));
+
 	}
 
 	TransformComponent::TransformComponent(star::Object* parent):
@@ -33,7 +33,7 @@ namespace star
 		m_World()
 	{
 		m_pParentObject = parent;
-		Logger::GetInstance()->Log(LogLevel::Info,_T("TransformComponent Added"));
+
 	}
 
 	TransformComponent::~TransformComponent(void)

@@ -28,7 +28,6 @@ namespace star
 
 	void CollisionManager::CheckCollision(const tstring& tag)
 	{
-		Logger::GetInstance()->Log(LogLevel::Info, _T("Entered CheckCollision"));
 		//Check which objects need collisionchecking
 		for(auto object : m_ObjectList)
 		{

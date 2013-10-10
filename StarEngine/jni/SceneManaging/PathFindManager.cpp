@@ -277,9 +277,7 @@ namespace star
 			{
 				str << _T("(")<< element.x<< _T(", ") << element.y << _T(")\n");
 			}
-			Logger::GetInstance()->Log(LogLevel::Info, str.str());
 
-			Logger::GetInstance()->Log(LogLevel::Info, _T("Reached the fucking end! Finished with pathfinding"));
 			m_bFoundGoal = true;
 			return;
 		}

@@ -17,12 +17,12 @@ EventLoop::~EventLoop()
 EventLoop::EventLoop():
 			mMainGameInitialized(false),
 			mQuit(false),
-			mEnabled(true),
+			mEnabled(false),
 			mMainGame(new Game()),
 			mTimeManager(new star::TimeManager()),
 			mApplicationPtr(nullptr)
 {
-	star::StarEngine::GetInstance()->Initialize(0,0);
+
 }
 
 void EventLoop::Initialize(android_app * pApplication)
@@ -70,11 +70,12 @@ void EventLoop::Run()
 			{
 				star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Exiting Event"));
 				mQuit = true;
+				mEnabled=false;
 				return;
 			}
 		}
 
-		if((mEnabled)&& (!mQuit) && mMainGameInitialized)
+		if((mEnabled)&& (!mQuit))
 		{
 
 			if(mMainGame->Update(mContext) != STATUS_OK)
@@ -104,41 +105,38 @@ void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 {
 	// [COMMENT] Use C++ Casts please!
 	EventLoop& lEventLoop = *(EventLoop*) pApplication->userData;
-	if(!lEventLoop.mMainGameInitialized)
+
+	switch(pCommand)
 	{
-		switch(pCommand)
-			{
-			case APP_CMD_INIT_WINDOW:
-				if(pApplication->window != nullptr)
-				{
-					star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Eventloop Callback : Window Handle Made"));
-					star::GraphicsManager::GetInstance()->Initialize(pApplication);
-				}
-			break;
-			case APP_CMD_GAINED_FOCUS:
-				lEventLoop.mEnabled = true;
-				if(lEventLoop.mMainGame->Initialize(0,0) != STATUS_OK)
-				{
-					lEventLoop.mQuit = true;
-					lEventLoop.End();
-				}
-				else
-				{
-					lEventLoop.mMainGameInitialized = true;
-				}
-				break;
-			case APP_CMD_LOST_FOCUS:
-				lEventLoop.mEnabled = false;
-				break;
-			default:
-				break;
-			}
-	}
-	else
-	{
-		star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Callback to scenemanager"));
+	case APP_CMD_INIT_WINDOW:
+		if(pApplication->window != nullptr)
+		{
+			star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Eventloop Callback : INIT Window"));
+			star::GraphicsManager::GetInstance()->Initialize(pApplication);
+			lEventLoop.mQuit=false;
+		}
+	break;
+
+	case APP_CMD_GAINED_FOCUS:
+		if(lEventLoop.mMainGame->Initialize(0,0) != STATUS_OK)
+		{
+			lEventLoop.mEnabled = false;
+			lEventLoop.End();
+		}
+		else
+		{
+			lEventLoop.mEnabled = true;
+			star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Eventloop Callback : GAINED FOXUS, Initited MainGame"));
+		}
+		break;
+
+	default:
+		//star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Callback to scenemanager"));
 		star::SceneManager::GetInstance()->processActivityEvent(pCommand,pApplication);
+		break;
 	}
+
+
 }
 
 int32 EventLoop::inputCallback(android_app* pApplication, AInputEvent* pEvent)

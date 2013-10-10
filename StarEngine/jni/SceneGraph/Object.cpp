@@ -117,7 +117,6 @@ namespace star
 			PathFindManager::GetInstance()->AddObject(this);
 		}
 
-		Logger::GetInstance()->Log(LogLevel::Info, _T("Component Added"));
 	}
 
 	void Object::RemoveComponent(const BaseComponent* pComponent)
@@ -125,7 +124,6 @@ namespace star
 		m_pComponents.erase(std::find(m_pComponents.begin(), m_pComponents.end(), pComponent));
 		delete pComponent;
 
-		Logger::GetInstance()->Log(LogLevel::Info, _T("Component Removed"));
 	}
 
 	void Object::AddChild(Object *pChild)
@@ -138,16 +136,12 @@ namespace star
 		}
 
 		m_pChildren.push_back(pChild);
-
-		Logger::GetInstance()->Log(LogLevel::Info, _T("Child Added"));
 	}
 
 	void Object::RemoveChild(const Object* pObject)
 	{
 		m_pChildren.erase(std::find(m_pChildren.begin(), m_pChildren.end(), pObject));
 		delete pObject;
-
-		Logger::GetInstance()->Log(LogLevel::Info, _T("Child Removed"));
 	}
 
 	void Object::CollisionCheck(Object* otherObject)
@@ -202,10 +196,8 @@ namespace star
 
 		if(left > otherRight || right < otherLeft || top > otherBottom || bottom < otherTop)
 		{
-			Logger::GetInstance()->Log(LogLevel::Info, _T("They don't collide"));
 			return (false);
 		}
-		Logger::GetInstance()->Log(LogLevel::Info, _T("They do collide"));
 		return (true);
 	}
 
@@ -220,10 +212,8 @@ namespace star
 
 		if((objectPos - otherObjectPos).length() > radius + otherRadius)
 		{
-			Logger::GetInstance()->Log(LogLevel::Info, _T("They don't collide"));
 			return (false);
 		}
-		Logger::GetInstance()->Log(LogLevel::Info, _T("They do collide"));
 		return (true);
 	}
 
@@ -286,10 +276,8 @@ namespace star
 		float distanceSquared = sqrt((distanceX * distanceX) + (distanceY * distanceY));
 		if( distanceSquared < radius)
 		{
-			Logger::GetInstance()->Log(LogLevel::Info, _T("They do collide"));
 			return (true);
 		}
-		Logger::GetInstance()->Log(LogLevel::Info, _T("They don't collide"));
 		return (false);
 	}
 }

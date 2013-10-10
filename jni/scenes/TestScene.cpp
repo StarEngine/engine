@@ -92,7 +92,7 @@ status TestScene::Initialize( const star::Context& context)
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectOne);
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectTwo);
 
-	star::CollisionManager::GetInstance()->CheckCollision(_T("Default"));
+	//star::CollisionManager::GetInstance()->CheckCollision(_T("Default"));
 
 	star::Filepath soundspath(_T("Sounds/"),_T("StereoTest.mp3"));
 	star::SoundService::GetInstance()->LoadMusic(soundspath.GetFullPath(),_T("Stereo"));

@@ -6,7 +6,7 @@ namespace star
 	PathFindNodeComponent::PathFindNodeComponent():
 		BaseComponent()
 	{
-		Logger::GetInstance()->Log(LogLevel::Info, _T("PathFindNodeComponent initialized"));
+
 	}
 
 	PathFindNodeComponent::~PathFindNodeComponent(void)

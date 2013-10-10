@@ -97,7 +97,7 @@ namespace star
 			return;
 		}
 		glViewport(0,0,mScreenWidth,mScreenHeight);
-
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialized"));
 	}
 
 	void GraphicsManager::Destroy()
@@ -118,6 +118,7 @@ namespace star
             }
             eglTerminate(mDisplay);
             mDisplay = EGL_NO_DISPLAY;
+            star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Destroyed"));
         }
 	}
 #endif

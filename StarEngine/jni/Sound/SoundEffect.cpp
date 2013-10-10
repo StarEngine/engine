@@ -26,7 +26,6 @@ namespace star
 		mPlayers(MAX_SAMPLES)
 #endif
 	{
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("AudioFile : Creating File"));
 #ifdef _WIN32	
 		mPlayChannel = PlayChannels;
 		++PlayChannels;
@@ -113,7 +112,6 @@ namespace star
 			{
 				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Can't set callback"));
 			}
-			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("AudioFile :Audiofile Created"));
 		}
 #endif
 	}
@@ -144,7 +142,6 @@ namespace star
 
 	void SoundEffect::Play()
 	{
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("AudioFile : Playing Effect"));
 #ifdef _WIN32
 
 		Mix_PlayChannel(mPlayChannel,mSoundEffect,0);
@@ -188,6 +185,8 @@ namespace star
 		// [COMMENT] please seperate your operators with spaces, like the for loop loop on line 175
 		for(int i=0; i<MAX_SAMPLES;++i)
 		{
+			SLresult lres=(*mPlayers[i])->GetPlayState(mPlayers[i],&lres);
+			if(lres==SL_PLAYSTATE_PLAYING)
 			(*mPlayers[i])->SetPlayState(mPlayers[i],SL_PLAYSTATE_PAUSED);
 		}
 #endif
@@ -212,8 +211,6 @@ namespace star
 #ifndef _WIN32
 	void SoundEffect::MusicStoppedCallback(SLPlayItf caller,void *pContext,SLuint32 event)
 	{
-		//SLPlayItf player = reinterpret_cast<SLPlayItf>(pContext);
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("AudioFile : Callback Entered"));
 		(*caller)->SetPlayState(caller, SL_PLAYSTATE_STOPPED);
 	}
 #endif
