@@ -39,5 +39,7 @@ namespace star
 				m_Paused,
 				m_Infinite;
 		std::function<void ()> m_ExcecutingFunction;
+
+		Timer(Timer&& yRef);
 	};
 }

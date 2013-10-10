@@ -42,9 +42,7 @@ namespace star
 		StarEngine();
 
 		StarEngine(const StarEngine &);
-#ifdef _WIN32
 		StarEngine(StarEngine &&);
-#endif
 		StarEngine & operator=(const StarEngine &);
 	};
 }

@@ -53,9 +53,7 @@ namespace star
 		double	mTotalMS;
 
 		TimeManager(const TimeManager& t);
-#ifdef _WIN32
 		TimeManager(TimeManager&& t);
-#endif
 		TimeManager& operator=(const TimeManager& t);
 	};
 }

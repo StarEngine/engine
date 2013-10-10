@@ -258,7 +258,6 @@ namespace star
 
 		if(rectObject == circleObject)
 		{
-			//[TODO] Assert this instead of checking
 			//ASSERT(rectObject != circleObject, _T("Object has both CircleColliderComponent and RectangleComponent"))
 			Logger::GetInstance()->Log(LogLevel::Info,
 				_T("Error, Object has both CircleColliderComponent and RectangleComponent"));

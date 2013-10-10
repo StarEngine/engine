@@ -22,7 +22,6 @@ public:
 	status End();
 	
 private:
-
 	Game(const Game&);
 	Game(Game&&);
 	Game& operator=(const Game&);

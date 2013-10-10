@@ -199,11 +199,9 @@ namespace star
 		std::vector<FingerPointerANDR> m_OldPointerVec;
 #endif
 		GestureManager* m_GestureManager;
-		// -------------------------
-		// Disabling default copy constructor and default
-		// assignment operator.
-		// -------------------------
+
 		InputManager(const InputManager& t);
+		InputManager(InputManager&& t);
 		InputManager& operator=(const InputManager& t);
 	};
 }

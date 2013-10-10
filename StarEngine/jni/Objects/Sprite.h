@@ -29,5 +29,9 @@ namespace star
 
 		GLfloat mVertices[8];
 		GLfloat mUvCoords[8];
+
+		Sprite(const Sprite &);
+		Sprite(Sprite &&);
+		Sprite & operator=(const Sprite &);
 	};
 }
