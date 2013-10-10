@@ -2,10 +2,12 @@
 
 #include "../defines.h"
 #include "../Input/Gestures/GestureManager.h"
+#include <vector>
 
 namespace star 
 {
 	struct Context;
+	class Object;
 
 	class BaseScene
 	{
@@ -17,7 +19,7 @@ namespace star
 		status BaseOnActivate();
 		void BaseOnDeactivate();
 		status BaseUpdate(const Context& context);
-		virtual status Draw() {return STATUS_OK;}
+		status Draw();
 
 		virtual void OnStart() {}
 		virtual void OnResume() {}
@@ -37,6 +39,9 @@ namespace star
 		const tstring & GetName() const { return m_Name; }
 		bool IsInitialized() const { return m_Initialized; }
 
+		void AddObject(Object * object); 
+		void RemoveObject(Object * object);
+
 	protected:
 		virtual status Initialize(const Context& context) { return STATUS_OK; }
 		virtual status OnActivate() { return STATUS_OK; }
@@ -44,6 +49,8 @@ namespace star
 		virtual status Update(const Context& context) { return STATUS_OK; }
 
 		GestureManager* m_GestureManagerPtr;
+
+		std::vector<Object*> m_Objects;
 
 	private:
 		bool m_Initialized;

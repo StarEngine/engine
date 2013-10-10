@@ -92,7 +92,7 @@ status TestScene::Initialize( const star::Context& context)
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectOne);
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectTwo);
 
-	//star::CollisionManager::GetInstance()->CheckCollision(_T("Default"));
+	star::CollisionManager::GetInstance()->CheckCollision(_T("Default"));
 
 	star::Filepath soundspath(_T("Sounds/"),_T("StereoTest.mp3"));
 	star::SoundService::GetInstance()->LoadMusic(soundspath.GetFullPath(),_T("Stereo"));
@@ -107,6 +107,14 @@ status TestScene::Initialize( const star::Context& context)
 
 	star::Filepath effectpath2(_T("Sounds/"),_T("Electric.wav"));
 	star::SoundService::GetInstance()->LoadSoundEffect(effectpath2.GetFullPath(),_T("Electric"));
+
+	AddObject(m_pObjectOne);
+	AddObject(m_pObjectTwo); 
+	AddObject(m_pObjectThree);
+	AddObject(m_pObjectFour);
+	AddObject(m_pObjectFive);
+	AddObject(m_pObjectSix);
+
 	return STATUS_OK;
 	}
 

@@ -1,6 +1,7 @@
 #include "BaseScene.h"
 #include "../Context.h"
 #include "../Input/InputManager.h"
+#include "../SceneGraph/Object.h"
 
 namespace star 
 {
@@ -8,6 +9,7 @@ namespace star
 		: m_GestureManagerPtr(nullptr)
 		, m_Name(name)
 		, m_Initialized(false) 
+		, m_Objects()
 	{
 		m_GestureManagerPtr = new GestureManager();
 	}
@@ -49,6 +51,40 @@ namespace star
 		{
 			m_GestureManagerPtr->Update(context);
 		}
+		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
+		{
+			m_Objects[i]->Update(context);
+		}
 		return Update(context);
+	}
+
+	
+	status BaseScene::Draw()
+	{
+		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
+		{
+			m_Objects[i]->Draw();
+		}
+		return STATUS_OK; 
+	}
+
+	void BaseScene::AddObject(Object * object)
+	{
+		auto it = std::find(m_Objects.begin(), m_Objects.end(), object);
+		if(it == m_Objects.end())
+		{
+			m_Objects.push_back(object);
+			object->SetScene(this);
+		}
+	}
+
+	void BaseScene::RemoveObject(Object * object)
+	{
+		auto it = std::find(m_Objects.begin(), m_Objects.end(), object);
+		if(it != m_Objects.end())
+		{
+			m_Objects.erase(it);
+			object->UnsetScene();
+		}
 	}
 }

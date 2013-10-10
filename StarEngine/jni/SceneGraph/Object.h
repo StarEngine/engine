@@ -16,7 +16,7 @@ namespace star
 	class Object
 	{
 	public:
-		Object(void);
+		Object();
 		virtual ~Object(void);
 
 		Object* GetParent() const { return (m_pParentGameObject); }
@@ -41,6 +41,11 @@ namespace star
 		bool RectangleCollision(Object* object, Object* otherObject);
 		bool CircleCollision(Object* object, Object* otherObject);
 		bool RectangleCircleCollision(Object* object, Object* otherObject);
+
+		void SetScene(BaseScene * pScene);
+		void UnsetScene(); 
+
+		BaseScene * GetScene() const { return m_pScene; }
 
 		//Template functions
 		//-----------------------------
@@ -84,6 +89,7 @@ namespace star
 		bool m_bIsInitialized;
 		Object* m_pParentGameObject;
 		PathFindNodeComponent* m_pPathFindComp;
+		BaseScene *m_pScene;
 
 		std::vector<BaseComponent*> m_pComponents;
 		std::vector<Object*> m_pChildren;

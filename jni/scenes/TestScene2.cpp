@@ -82,6 +82,13 @@ status TestScene2::Initialize(const star::Context& context)
 	m_pObjectSix->AddComponent(m_pPathFindCompSix);
 	m_pObjectSix->GetComponent<star::TransformComponent>()->Translate(3,2,0);
 
+	AddObject(m_pObjectOne);
+	AddObject(m_pObjectTwo);
+	AddObject(m_pObjectThree);
+	AddObject(m_pObjectFour);
+	AddObject(m_pObjectFive);
+	AddObject(m_pObjectSix); 
+
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectOne);
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectTwo);
 
