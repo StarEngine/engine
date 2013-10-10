@@ -2,9 +2,9 @@
 #include "../Logger.h"
 #include "../Helpers/Helpers.h"
 
+
 #ifndef _WIN32
 #include "../AssetManaging/Resource.h"
-#include "../StarEngine.h"
 #endif
 
 namespace star
@@ -20,24 +20,19 @@ namespace star
 		return mSoundService;
 	}
 
-	SoundService::SoundService():
-#ifdef _WIN32
-		mMusic(nullptr)
-#else
+	SoundService::SoundService()
+#ifndef _WIN32
+		:mEngine(NULL),
 		mEngineObj(NULL),
-		mEngine(NULL),
-		mOutputMixObj(NULL),
-		mPlayerObj(NULL),
-		mPlayer(NULL),
-		mPlayerSeek(NULL)
+		mOutputMixObj(NULL)
 #endif
 	{
-
+		mQueueIterator = mBackgroundQueue.begin();
 	}
 
 	status SoundService::Start()
 	{
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio: Started making Audio StarEngine"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Started making Audio Engine"));
 
 #ifdef _WIN32
 		int32 audio_rate(44100);
@@ -50,12 +45,12 @@ namespace star
 		int innited = Mix_Init(flags);
 		if((innited & flags) != flags)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio: Could not init Ogg and Mp3, reason : ")+ string_cast<tstring>(Mix_GetError()));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not init Ogg and Mp3, reason : ")+ string_cast<tstring>(Mix_GetError()));
 		}
 
 		if(Mix_OpenAudio(audio_rate, audio_format,audio_channels,audio_buffers))
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio: Could Not open Audio Mix SDL"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Could Not open Audio Mix SDL"));
 			Stop();
 			return STATUS_KO;
 		}
@@ -66,10 +61,11 @@ namespace star
 
 		Mix_QuerySpec(&actual_rate,&actual_format,&actual_channels);
 		tstringstream buffer;
-		buffer << "Actual Rate: " << actual_rate << ", Actual Format: " << actual_format << ", Actual Channels : " << actual_channels << std::endl;
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio: SDL specs : ")+buffer.str());
+		buffer << "Actual Rate : " << actual_rate << ", Actual Format : " << actual_format << ", Actual Channels : " << actual_channels << std::endl;
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : SDL specs : ")+buffer.str());
 		Mix_Volume(-1,100);
 #else
+		
 		SLresult lRes;
 		const SLuint32 lEngineMixIIDCount =1;
 		const SLInterfaceID lEngineMixIIDs[]={SL_IID_ENGINE};
@@ -81,7 +77,7 @@ namespace star
 		lRes = slCreateEngine(&mEngineObj, 0, NULL, lEngineMixIIDCount, lEngineMixIIDs, lEngineMixReqs);
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't make Audio StarEngine"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't make Audio Engine"));
 			Stop();
 			return STATUS_KO;
 		}
@@ -89,7 +85,7 @@ namespace star
 		lRes = (*mEngineObj)->Realize(mEngineObj, SL_BOOLEAN_FALSE);
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't realize StarEngine"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't realize Engine"));
 			Stop();
 			return STATUS_KO;
 		}
@@ -117,14 +113,15 @@ namespace star
 			Stop();
 			return STATUS_KO;
 		}
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Succesfull made Audio StarEngine"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Succesfull made Audio Engine"));
 #endif
 		return STATUS_OK;
 	}
 
 	void SoundService::Stop()
 	{
-		StopSound();
+		StopAllSound();
+		DeleteAllSound();
 
 #ifdef _WIN32
 		Mix_CloseAudio();
@@ -143,131 +140,185 @@ namespace star
 			mEngine = NULL;
 		}
 #endif
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio: Stopped audio StarEngine"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Stopped audio Engine"));
 	}
 
-	status SoundService::PlaySoundFile(const tstring& path)
+	status SoundService::LoadMusic(const tstring& path, const tstring& name)
 	{
-#ifdef _WIN32
-		if(mMusic == NULL)
+		auto it = mMusicList.find(name);
+		if(it == mMusicList.end())
 		{
-			int buffersize= 128;
-			char* cpath = new char(buffersize);
-			size_t i;
-			wcstombs_s(&i,cpath,(size_t)buffersize,path.c_str(),(size_t)buffersize);
-			mMusic = Mix_LoadMUS(cpath);
-			if(!mMusic)
-			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not load song, reason : ")+string_cast<tstring>(Mix_GetError()));
-			}
-			Mix_PlayMusic(mMusic,-1);
+			SoundFile* music = new SoundFile(path);
+			mMusicList[name] = music;
+			return (STATUS_OK);
 		}
-#else
-		SLresult lRes;
-		Resource lResource(star::StarEngine::GetInstance()->GetAndroidApp(), path);
-		ResourceDescriptor lDescriptor = lResource.DeScript();
-		if(lDescriptor.mDescriptor < 0)
-		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Could not open file"));
-			return STATUS_KO;
-		}
-		SLDataLocator_AndroidFD lDataLocatorIn;
-		lDataLocatorIn.locatorType = SL_DATALOCATOR_ANDROIDFD;
-		lDataLocatorIn.fd = lDescriptor.mDescriptor;
-		lDataLocatorIn.offset = lDescriptor.mStart;
-		lDataLocatorIn.length = lDescriptor.mLength;
-
-		SLDataFormat_MIME lDataFormat;
-		lDataFormat.formatType = SL_DATAFORMAT_MIME;
-		lDataFormat.mimeType = NULL;
-		lDataFormat.containerType = SL_CONTAINERTYPE_UNSPECIFIED;
-
-		SLDataSource lDataSource;
-		lDataSource.pLocator = &lDataLocatorIn;
-		lDataSource.pFormat = &lDataFormat;
-
-		SLDataLocator_OutputMix lDataLocatorOut;
-		lDataLocatorOut.locatorType = SL_DATALOCATOR_OUTPUTMIX;
-		lDataLocatorOut.outputMix = mOutputMixObj;
-
-		SLDataSink lDataSink;
-		lDataSink.pLocator=&lDataLocatorOut;
-		lDataSink.pFormat= NULL;
-
-		const SLuint32 lPlayerIIDCount = 2;
-		const SLInterfaceID lPlayerIIDs[] ={ SL_IID_PLAY, SL_IID_SEEK };
-		const SLboolean lPlayerReqs[] ={ SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE };
-		lRes = (*mEngine)->CreateAudioPlayer(mEngine,&mPlayerObj, &lDataSource, &lDataSink,lPlayerIIDCount, lPlayerIIDs, lPlayerReqs);
-		if (lRes != SL_RESULT_SUCCESS)
-		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't create audio player"));
-			Stop();
-			return STATUS_KO;
-		}
-
-		lRes = (*mPlayerObj)->Realize(mPlayerObj,SL_BOOLEAN_FALSE);
-		if (lRes != SL_RESULT_SUCCESS)
-		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't realise audio player"));
-			Stop();
-			return STATUS_KO;
-		}
-
-		lRes = (*mPlayerObj)->GetInterface(mPlayerObj,SL_IID_PLAY, &mPlayer);
-		if (lRes != SL_RESULT_SUCCESS)
-		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't get audio play interface"));
-			Stop();
-			return STATUS_KO;
-		}
-
-		lRes = (*mPlayerObj)->GetInterface(mPlayerObj,SL_IID_SEEK, &mPlayerSeek);
-		if (lRes != SL_RESULT_SUCCESS)
-		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't get audio seek interface"));
-			Stop();
-			return STATUS_KO;
-		}
-
-		lRes = (*mPlayerSeek)->SetLoop(mPlayerSeek,SL_BOOLEAN_TRUE, 0, SL_TIME_UNKNOWN);
-		if (lRes != SL_RESULT_SUCCESS)
-		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't set audio loop"));
-			Stop();
-			return STATUS_KO;
-		}
-
-		lRes = (*mPlayer)->SetPlayState(mPlayer,SL_PLAYSTATE_PLAYING);
-		if (lRes != SL_RESULT_SUCCESS)
-		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't play audio"));
-			Stop();
-			return STATUS_KO;
-		};
-
-#endif
-		return STATUS_OK;
+		return (STATUS_KO);
 	}
 
-	void SoundService::StopSound()
+	status SoundService::LoadSoundEffect(const tstring& path, const tstring& name)
 	{
-#ifdef _WIN32
-		Mix_FreeMusic(mMusic);
-		mMusic=NULL;
-#else
-		if(mPlayer != NULL)
+		auto it = mEffectsList.find(name);
+		if(it == mEffectsList.end())
 		{
-			SLuint32 lPlayerState;
-			(*mPlayerObj)->GetState(mPlayerObj, &lPlayerState);
-			if(lPlayerState == SL_OBJECT_STATE_REALIZED)
-			{
-				(*mPlayer)->SetPlayState(mPlayer,SL_PLAYSTATE_PAUSED);
-				(*mPlayerObj)->Destroy(mPlayerObj);
-				mPlayerObj = NULL;
-				mPlayer = NULL;
-				mPlayerSeek = NULL;
-			}
+			SoundEffect* effect = new SoundEffect(path);
+			mEffectsList[name] = effect;
+			return (STATUS_OK);
 		}
-#endif
+		return (STATUS_KO);
+
 	}
+
+	status SoundService::PlaySoundFile(const tstring& path, const tstring& name)
+	{
+		auto it = mMusicList.find(name);
+		if(it == mMusicList.end())
+		{
+			SoundFile* music = new SoundFile(path);
+			mMusicList[name] = music;
+		}
+		return PlaySoundFile(name);
+	}
+
+	status SoundService::PlaySoundFile(const tstring& name)
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			mMusicList[name]->Play(0);
+			return (STATUS_OK);
+		}
+		return (STATUS_KO);
+	}
+
+	status SoundService::PlaySoundEffect(const tstring& path, const tstring& name)
+	{
+		auto it = mEffectsList.find(name);
+		if(it == mEffectsList.end())
+		{
+			SoundEffect* effect = new SoundEffect(path);
+			mEffectsList[name] = effect;
+		}
+		return PlaySoundFile(name);
+	}
+
+	status SoundService::PlaySoundEffect(const tstring& name)
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			mEffectsList[name]->Play();
+			return (STATUS_OK);
+		}
+		return (STATUS_KO);
+	}
+
+	status SoundService::AddToBackgroundQueue(const tstring& name)
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			mBackgroundQueue.push_back(mMusicList[name]);
+			return (STATUS_OK);
+		}
+		return (STATUS_KO);
+	}
+
+	status SoundService::PlayBackgroundQueue()
+	{
+		mQueueIterator = mBackgroundQueue.begin();
+		if(mQueueIterator!=mBackgroundQueue.end())
+		{
+			(*mQueueIterator)->PlayQueued(0);
+			return (STATUS_OK);
+		}
+		return STATUS_KO;
+	}
+
+	void SoundService::NextSongInQueue()
+	{
+		++mQueueIterator;
+		if(mQueueIterator!=mBackgroundQueue.end())
+		{
+			(*mQueueIterator)->PlayQueued(0);
+		}
+	}
+
+	void SoundService::StopSound(const tstring& name)
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			mMusicList[name]->Stop();
+			return;
+		}
+
+		auto it2 = mEffectsList.find(name);
+		if(it2 != mEffectsList.end())
+		{
+			mEffectsList[name]->Stop();
+			return;
+		}
+	}
+
+	void SoundService::StopAllSound()
+	{
+		auto it = mMusicList.begin();
+		for(it; it!= mMusicList.end();++it)
+		{
+			it->second->Stop();
+		}
+
+		auto it2 = mEffectsList.begin();
+		for(it2; it2!= mEffectsList.end();++it2)
+		{
+			it2->second->Stop();
+		}
+	}
+
+	void SoundService::PauzeAllSound()
+	{
+		auto it = mMusicList.begin();
+		for(it; it!= mMusicList.end();++it)
+		{
+			it->second->Pause();
+		}
+
+		auto it2 = mEffectsList.begin();
+		for(it2; it2!= mEffectsList.end();++it2)
+		{
+			it2->second->Pauze();
+		}
+	}
+
+	void SoundService::ResumeAllSound()
+	{
+		auto it = mMusicList.begin();
+		for(it; it!= mMusicList.end();++it)
+		{
+			it->second->Resume();
+		}
+
+		auto it2 = mEffectsList.begin();
+		for(it2; it2!= mEffectsList.end();++it2)
+		{
+			it2->second->Resume();
+		}
+	}
+
+	void SoundService::DeleteAllSound()
+	{
+
+		auto it = mMusicList.begin();
+		for(it; it!= mMusicList.end();++it)
+		{
+			mMusicList.erase(it);
+		}
+
+		auto it2 = mEffectsList.begin();
+		for(it2; it2!= mEffectsList.end();++it2)
+		{
+			mEffectsList.erase(it2);
+		}
+	}
+
 }

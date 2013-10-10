@@ -106,7 +106,8 @@
     <ClInclude Include="jni\SceneManaging\SceneManager.h" />
     <ClInclude Include="jni\SceneManaging\SearchCell.h" />
     <ClInclude Include="jni\Shaders\Shader.h" />
-    <ClInclude Include="jni\Sound\AudioManager.h" />
+    <ClInclude Include="jni\Sound\SoundEffect.h" />
+    <ClInclude Include="jni\Sound\SoundFile.h" />
     <ClInclude Include="jni\Sound\SoundService.h" />
     <ClInclude Include="jni\StarComponents.h" />
     <ClInclude Include="jni\StarEngine.h" />
@@ -142,7 +143,8 @@
     <ClCompile Include="jni\SceneManaging\PathFindManager.cpp" />
     <ClCompile Include="jni\SceneManaging\SceneManager.cpp" />
     <ClCompile Include="jni\Shaders\Shader.cpp" />
-    <ClCompile Include="jni\Sound\AudioManager.cpp" />
+    <ClCompile Include="jni\Sound\SoundEffect.cpp" />
+    <ClCompile Include="jni\Sound\SoundFile.cpp" />
     <ClCompile Include="jni\Sound\SoundService.cpp" />
     <ClCompile Include="jni\StarEngine.cpp" />
     <ClCompile Include="jni\TimeManager.cpp" />

@@ -20,6 +20,7 @@ namespace star
 		, m_bInitialized(false)
 		, m_CurrentSceneName(_T(""))
 		, m_bDestroyRequested(false)
+		, m_bPauzeRequested(false)
 #ifndef _WIN32
 		, mApplicationPtr(nullptr)
 #endif
@@ -118,7 +119,7 @@ namespace star
 
 	status SceneManager::Update(const Context& context)
 	{
-		if(m_bDestroyRequested)
+		if(m_bDestroyRequested || m_bPauzeRequested)
 		{
 			return (STATUS_OK);
 		}
@@ -145,7 +146,7 @@ namespace star
 
 	status SceneManager::Draw()
 	{
-		if(m_bDestroyRequested)
+		if(m_bDestroyRequested || m_bPauzeRequested)
 		{
 			return (STATUS_OK);
 		}
@@ -168,44 +169,65 @@ namespace star
 		switch(pCommand)
 		{
 		case APP_CMD_CONFIG_CHANGED:
+			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_CONFIG_CHANGED"));
 			m_ActiveScene->OnConfigurationChanged();
 			break;
+
 		case APP_CMD_INIT_WINDOW:
+			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_INIT_WINDOW"));
 			m_ActiveScene->OnCreateWindow();
+
 			break;
+
 		case APP_CMD_DESTROY:
-			m_ActiveScene->OnDestroy();
+			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_DESTROY"));
+
 			break;
+
 		case APP_CMD_GAINED_FOCUS:
+			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_GAINED_FOCUS"));
 			Activate();
-			m_ActiveScene->OnGainFocus();
+			star::SoundService::GetInstance()->ResumeAllSound();
 			break;
+
 		case APP_CMD_LOST_FOCUS:
-			m_ActiveScene->OnLostFocus();
+			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_LOST_FOCUS"));
+			star::SoundService::GetInstance()->PauzeAllSound();
 			DeActivate();
 			break;
+
 		case APP_CMD_LOW_MEMORY:
-			m_ActiveScene->OnLowMemory();
+			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_LOW_MEMORY"));
 			break;
+
 		case APP_CMD_PAUSE:
-			m_ActiveScene->OnPause();
-			DeActivate();
+			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_PAUSE"));
+			m_bPauzeRequested=true;
+			star::SoundService::GetInstance()->PauzeAllSound();
 			break;
+
 		case APP_CMD_RESUME:
-			m_ActiveScene->OnResume();
+			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_RESUME"));
+			m_bPauzeRequested=false;
+			star::SoundService::GetInstance()->ResumeAllSound();
 			break;
+
 		case APP_CMD_SAVE_STATE:
+			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_SAVE_STATE"));
 			m_ActiveScene->OnSaveState(&mApplicationPtr->savedState,&mApplicationPtr->savedStateSize);
 			break;
+
 		case APP_CMD_START:
-			m_ActiveScene->OnStart();
+			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_START"));
 			break;
+
 		case APP_CMD_STOP:
-			m_ActiveScene->OnStop();
-			DeActivate();
+			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_STOP"));
+			//star::SoundService::GetInstance()->Stop();
 			break;
+
 		case APP_CMD_TERM_WINDOW:
-			m_ActiveScene->OnDestroyWindow();
+			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_TERM_WINDOW"));
 			DeActivate();
 			break;
 		}

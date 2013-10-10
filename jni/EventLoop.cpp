@@ -36,10 +36,6 @@ void EventLoop::Initialize(android_app * pApplication)
 	star::StarEngine::GetInstance()->SetAndroidApp(mApplicationPtr);
 }
 
-const android_app * EventLoop::GetAndroidApp() const
-{
-	return mApplicationPtr;
-}
 
 EventLoop * EventLoop::GetInstance()
 {
@@ -51,10 +47,12 @@ EventLoop * EventLoop::GetInstance()
 }
 
 void EventLoop::Run()
-{
-	int32 lResult;
-	int32 lEvents;
-	android_poll_source* lSource;
+	{
+		int32 lResult;
+		int32 lEvents;
+		android_poll_source* lSource;
+
+		app_dummy();
 
 	star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Starting EventLoop"));
 

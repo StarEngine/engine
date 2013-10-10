@@ -135,6 +135,12 @@
     <ClInclude Include="jni\Sound\SoundService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Sound\SoundEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Sound\SoundFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -234,6 +240,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Sound\SoundService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Sound\SoundEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Sound\SoundFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

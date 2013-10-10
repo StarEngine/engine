@@ -94,22 +94,43 @@ status TestScene::Initialize( const star::Context& context)
 
 	star::CollisionManager::GetInstance()->CheckCollision(_T("Default"));
 
-	star::Filepath soundspath(_T("Sounds/"),_T("Sample.ogg"));
-	star::SoundService::GetInstance()->PlaySoundFile(soundspath.GetFullPath());
+	star::Filepath soundspath(_T("Sounds/"),_T("StereoTest.mp3"));
+	star::SoundService::GetInstance()->LoadMusic(soundspath.GetFullPath(),_T("Stereo"));
+	star::SoundService::GetInstance()->AddToBackgroundQueue(_T("Stereo"));
 
+	star::Filepath soundspath2(_T("Sounds/"),_T("Silly.mp3"));
+	star::SoundService::GetInstance()->LoadMusic(soundspath2.GetFullPath(),_T("Silly"));
+	star::SoundService::GetInstance()->AddToBackgroundQueue(_T("Silly"));
+
+	star::Filepath effectpath(_T("Sounds/"),_T("Explosion.wav"));
+	star::SoundService::GetInstance()->LoadSoundEffect(effectpath.GetFullPath(),_T("Explosion"));
+
+	star::Filepath effectpath2(_T("Sounds/"),_T("Electric.wav"));
+	star::SoundService::GetInstance()->LoadSoundEffect(effectpath2.GetFullPath(),_T("Electric"));
 	return STATUS_OK;
-}
-
-status TestScene::Update(const star::Context& context)
-{
-	if(m_TapGesture->CompletedGesture())
-	{
-		LOGGER->Log(star::LogLevel::Info, _T("Tapped!"));
 	}
-	auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
-	//tstringstream posBuffer;
-	//posBuffer << _T("Current Mouse Pos: ( ") << pos.x << _T(" , ") << pos.y << _T(" )");
-	//LOGGER->Log(LogLevel::Warning, posBuffer.str());
+
+	status TestScene::Update(const star::Context& context)
+	{
+		if(m_TapGesture->CompletedGesture())
+		{
+			LOGGER->Log(star::LogLevel::Info, _T("Tapped!"));
+			star::SoundService::GetInstance()->PlayBackgroundQueue();
+			
+		}
+		auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
+
+		if(INPUT_MANAGER->IsFingerTapCP(1))
+		{
+			star::SoundService::GetInstance()->PlaySoundEffect(_T("Explosion"));
+		}
+		if(INPUT_MANAGER->IsFingerTapCP(2))
+		{
+			star::SoundService::GetInstance()->PlaySoundEffect(_T("Electric"));
+		}
+		//tstringstream posBuffer;
+		//posBuffer << _T("Current Mouse Pos: ( ") << pos.x << _T(" , ") << pos.y << _T(" )");
+		//LOGGER->Log(LogLevel::Warning, posBuffer.str());
 
 	++m_TotalFrames;
 	m_PassedMiliseconds += float(context.mTimeManager->GetMicroSeconds());
