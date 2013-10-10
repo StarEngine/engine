@@ -21,7 +21,8 @@ namespace star
 
 		void Initialize();
 		void Log(LogLevel level, const tstring& pMessage, const tstring& tag = ANDROID_LOG_TAG) const;
-
+		void _CheckGlError(const char* file, int line);
+		#define CheckGlError() _CheckGlError(__FILE__,__LINE__);
 	private:
 		//SINGLETON IMPLEMENTATION
 		//----------------------------------

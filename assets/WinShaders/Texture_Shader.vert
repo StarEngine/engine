@@ -1,12 +1,9 @@
-#version 150 core
-in vec3 in_Position;
-in vec2 in_UV;
+attribute vec4 position;
+attribute vec4 inputTextureCoordinate;
+varying vec2 textureCoordinate;
 
-out vec2 pass_UV;
-
-void main(void)
+void main()
 {
-     gl_Position = vec4(in_Position, 1.0);
-     
-	 pass_UV = in_UV;
+    gl_Position = position;
+    textureCoordinate = inputTextureCoordinate.xy;
 }

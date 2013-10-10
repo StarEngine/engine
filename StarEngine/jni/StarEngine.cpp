@@ -33,12 +33,8 @@ namespace star
 		//within the Graphics Manager
 #ifdef _WIN32
 		GraphicsManager::GetInstance()->Initialize(window_width, window_height);
-		Logger::GetInstance()->Log(LogLevel::Info,_T("GraphicsManager Initialized"));
 #endif
 		SoundService::GetInstance()->Start();
-		Logger::GetInstance()->Log(LogLevel::Info,_T("SoundService Initialized"));
-
-		Logger::GetInstance()->Log(LogLevel::Info,_T("StarEngine Initialized"));
 
 		return STATUS_OK;
 	}
@@ -53,6 +49,7 @@ namespace star
 		}
 		
 		InputManager::GetInstance()->EndUpdate();
+		//Logger::GetInstance()->CheckGlError();
 
 		return STATUS_OK;
 	}

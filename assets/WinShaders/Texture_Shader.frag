@@ -1,11 +1,8 @@
-#version 150 core
+precision mediump float;
+varying vec2 textureCoordinate;
+uniform sampler2D textureSampler;
 
-in vec2 pass_UV;
-out vec4 out_Color;
-
-uniform sampler2D texSampler;
-
-void main(void)
+void main()
 {
-	  out_Color = texture( texSampler, pass_UV );
+    gl_FragColor = texture2D(textureSampler, textureCoordinate);
 }

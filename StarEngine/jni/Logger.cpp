@@ -6,7 +6,11 @@
 #else
 	#include <android/log.h>
 #endif
-
+#ifdef _WIN32
+#include <glew.h>
+#else
+#include <GLES2/gl2.h>
+#endif
 namespace star {
 	Logger* Logger::m_LoggerPtr = nullptr;
 
@@ -108,5 +112,39 @@ namespace star {
 			#endif
 			}
 		#endif
+	}
+
+	void Logger::_CheckGlError(const char* file, int line) 
+	{
+		GLenum err (glGetError());
+        while(err!= GL_NO_ERROR) 
+		{
+                tstring error;
+				switch(err) 
+				{
+                        case GL_INVALID_OPERATION:      
+							error = _T("INVALID_OPERATION");     
+							break;
+                        case GL_INVALID_ENUM:
+							error = _T("INVALID_ENUM");
+							break;
+                        case GL_INVALID_VALUE:
+							error = _T("INVALID_VALUE");
+							break;
+                        case GL_OUT_OF_MEMORY:  
+							error = _T("OUT_OF_MEMORY"); 
+							break;
+                        case GL_INVALID_FRAMEBUFFER_OPERATION:
+							error = _T("INVALID_FRAMEBUFFER_OPERATION");
+							break;
+						default:
+							error =_T("UNKNOWN_ERROR");
+							break;
+                }
+				tstringstream buffer;
+                buffer << "GL_" << error << " - " << file << ":" << line << std::endl;
+				Logger::GetInstance()->Log(LogLevel::Error,buffer.str(),_T("OPENGL"));
+				err = glGetError();
+        }
 	}
 }

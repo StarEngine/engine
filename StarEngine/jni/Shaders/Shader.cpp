@@ -20,25 +20,16 @@ namespace star
 	bool Shader::Init(const tstring& vsFile, const tstring& fsFile )
 	{
 		mShaderID = glCreateProgram();
-
 		if(!CompileShader(&mVertexShader, GL_VERTEX_SHADER, vsFile ))
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Failed To load Vertex Shader"));
+			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Failed To load Vertex Shader"));
 			return false;
-		}
-		else
-		{
-			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Compiled Vertex Shader"));
 		}
 
 		if(!CompileShader(&mFragmentShader, GL_FRAGMENT_SHADER, fsFile))
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Failed To load Fragment Shader"));
+			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Failed To load Fragment Shader"));
 			return false;
-		}
-		else
-		{
-			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Compiled Fragment Shader"));
 		}
 
 		glAttachShader(mShaderID, mVertexShader);
@@ -52,12 +43,8 @@ namespace star
 		glGetProgramiv(mShaderID,GL_LINK_STATUS,&status);
 		if(status == 0)
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Failed to link shader"));
+			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Failed to link shader"));
 			return false;
-		}
-		else
-		{
-			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Shader Linked"));
 		}
 		return true;
 	}
@@ -71,7 +58,7 @@ namespace star
 		Resource resource(StarEngine::GetInstance()->GetAndroidApp(), file);
 		if(resource.open()==STATUS_KO)
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : Failed to open file"));
+			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Android Shader : Failed to open file"));
 			return false;
 		}
 	
@@ -99,7 +86,7 @@ namespace star
 
 		if(!source)
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader: Invalid Source"));
+			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Shader: Invalid Source"));
 			return false;
 		}
 		*shader = glCreateShader(type);
@@ -108,10 +95,38 @@ namespace star
 		glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
 		if(status == 0)
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader: Failed Compile"));
+			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Shader : Failed Compile"));
 			GLint infolength;
 			glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &infolength);
+			if (infolength) 
+			{
+                char* buf = (char*) malloc(infolength);
+                if (buf) 
+				{
+                    glGetShaderInfoLog(*shader, infolength, NULL, buf);
+					tstringstream buffer;
+					buffer << _T("Could not compile shader") << (int)type << _T(" : ") << std::endl << buf;
+                    Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
+                    free(buf);
+                }
+            }
+#ifndef _WIN32
+			else
+			{
+				//This is necessairy due to an android bug!
+				char* buf = (char*) malloc(4096);
+				if (buf)
+				{
+					glGetShaderInfoLog(*shader, 4096, NULL, buf);
+					tstringstream buffer;
+					buffer << _T("Could not compile shader") << (int)type << _T(" : ") << std::endl << buf;
+					Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
+					free(buf);
+				}
+			}
+#endif
 			glDeleteShader(*shader);
+			*shader = 0;
 			return false;
 		}
 		return true;
