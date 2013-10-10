@@ -85,8 +85,8 @@ namespace glm
 
 	/// Return pi / 4.
 	/// @see gtc_constants
-	template <typename genType>
-	GLM_FUNC_DECL genType quarter_pi();
+	//template <typename genType>
+	//GLM_FUNC_DECL genType quarter_pi();
 
 	/// Return 1 / pi.
 	/// @see gtc_constants

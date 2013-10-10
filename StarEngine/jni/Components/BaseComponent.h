@@ -23,6 +23,8 @@ namespace star
 		Object* GetParent() const {return m_pParentObject;}
 		void SetParent(Object* parent) {m_pParentObject = parent;}
 
+		BaseScene* GetGameScene() const {return m_pParentObject->GetScene();}
+
 	protected:
 		virtual void InitializeComponent() = 0;
 
