@@ -7,6 +7,7 @@
 #include <algorithm>
 #endif
 #include "../Logger.h"
+#include "../StarEngine.h"
 
 namespace star
 {
@@ -642,13 +643,16 @@ namespace star
 	void InputManager::OnKeyboardEvent(AInputEvent* pEvent)
 	{
 		//[TODO] I will still clean this up later, might need this
-		/*
+
 		if(AKeyEvent_getAction(pEvent) == AKEY_EVENT_ACTION_DOWN)
 		{
 			switch(AKeyEvent_getKeyCode(pEvent))
 			{
 			case AKEYCODE_BACK:
-				//return false;
+				ANativeActivity_finish(StarEngine::GetInstance()->GetAndroidApp()->activity);
+				break;
+			case AKEYCODE_VOLUME_DOWN:
+				break;
 			}
 		}
 		else
@@ -659,9 +663,9 @@ namespace star
 				//return false;
 				break;
 			case AKEYCODE_BACK:
-				return false;
+				break;
 			}
-		}*/
+		}
 	}
 
 	FingerPointerANDR InputManager::GetTouchPropertiesANDR(uint8 fingerIndex)const

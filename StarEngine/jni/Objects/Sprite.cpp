@@ -76,16 +76,6 @@ namespace star
 		glUniformMatrix4fv(glGetUniformLocation(mShader.GetId(),"Projection"),1,GL_FALSE,mShader.GetProjection());
 		glUniformMatrix4fv(glGetUniformLocation(mShader.GetId(),"Translation"),1,GL_FALSE,mShader.GetTranslation());
 
-		GLfloat getLocation[16];
-		glGetUniformfv(mShader.GetId(),glGetUniformLocation(mShader.GetId(),"Projection"),getLocation);
-		/*tstringstream buffer;
-		for(int i = 0; i < 16; ++i)
-		{
-			buffer << _T("Projection shader Value [") << i << _T("] : ") << getLocation[i] << std::endl;
-			Logger::GetInstance()->Log(LogLevel::Info,buffer.str());
-		}
-		*/
-
 		glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
 		//Unbind attributes and buffers
