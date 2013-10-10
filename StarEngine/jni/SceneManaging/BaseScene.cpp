@@ -59,13 +59,13 @@ namespace star
 	}
 
 	
-	status BaseScene::Draw()
+	status BaseScene::BaseDraw()
 	{
 		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
 		{
 			m_Objects[i]->Draw();
 		}
-		return STATUS_OK; 
+		return Draw(); 
 	}
 
 	void BaseScene::AddObject(Object * object)

@@ -155,7 +155,7 @@ namespace star
 		}
 		if(m_ActiveScene != nullptr)
 		{
-			m_ActiveScene->Draw();
+			m_ActiveScene->BaseDraw();
 		}
 		return (STATUS_OK);
 	}

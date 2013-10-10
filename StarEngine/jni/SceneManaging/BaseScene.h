@@ -19,7 +19,7 @@ namespace star
 		status BaseOnActivate();
 		void BaseOnDeactivate();
 		status BaseUpdate(const Context& context);
-		status Draw();
+		status BaseDraw();
 
 		virtual void OnStart() {}
 		virtual void OnResume() {}
@@ -47,7 +47,7 @@ namespace star
 		virtual status OnActivate() { return STATUS_OK; }
 		virtual void OnDeactivate() {}
 		virtual status Update(const Context& context) { return STATUS_OK; }
-
+		virtual status Draw() {return STATUS_OK;}
 		GestureManager* m_GestureManagerPtr;
 
 		std::vector<Object*> m_Objects;
