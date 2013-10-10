@@ -13,12 +13,15 @@ namespace star
 {
 	SceneManager* SceneManager::m_pSceneManager = nullptr;
 
+	// [COMMENT] RESPECT THE ORDER OF YOUR DATAMEMBERS IN THE HEADER FILE!
+	// In this case it won't give you errors, but it's a good practice to do so,
+	// so please, do so!!!
 	SceneManager::SceneManager( void )
 		: m_ActiveScene(nullptr)
 		, m_NewActiveScene(nullptr)
 		, m_bSwitchingScene(false)
 		, m_bInitialized(false)
-		, m_CurrentSceneName(_T(""))
+		, m_CurrentSceneName(EMPTY_STRING)
 		, m_bDestroyRequested(false)
 		, m_bPauzeRequested(false)
 #ifndef _WIN32

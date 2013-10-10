@@ -12,12 +12,13 @@
 namespace star
 {
 #ifdef _WIN32
-	int SoundEffect::PlayChannels=0;
+	int SoundEffect::PlayChannels = 0;
 #endif
 
 	SoundEffect::SoundEffect(const tstring& path):
 		bStopped(false),
 #ifdef _WIN32
+		// [COMMENT] use nullnptr
 		mSoundEffect(NULL),
 		mPlayChannel(0)
 #else
@@ -30,9 +31,10 @@ namespace star
 		mPlayChannel = PlayChannels;
 		++PlayChannels;
 		std::string sound_path = string_cast<std::string>(path);
-		if(mSoundEffect==NULL)
+		// [COMMENT] use nullnptr
+		if(mSoundEffect == NULL)
 		{
-			mSoundEffect= Mix_LoadWAV(sound_path.c_str());
+			mSoundEffect = Mix_LoadWAV(sound_path.c_str());
 			if(!mSoundEffect)
 			{
 				star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not load song, reason : ")+string_cast<tstring>(Mix_GetError()));
@@ -121,7 +123,7 @@ namespace star
 #ifdef _WIN32
 		Mix_HaltChannel(mPlayChannel);
 #else
-		for(int i=0; i<MAX_SAMPLES;++i)
+		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			if(mPlayers[i] != NULL)
 			{
@@ -170,18 +172,20 @@ namespace star
 #ifdef _WIN32
 		Mix_HaltChannel(mPlayChannel);
 #else	
-		for(int i=0; i<MAX_SAMPLES;++i)
+		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			(*mPlayers[i])->SetPlayState(mPlayers[i],SL_PLAYSTATE_STOPPED);
 		}
 #endif
 	}
-
+	
+	// [COMMENT] Pauze is written with an 's'... so Pause!
 	void SoundEffect::Pauze()
 	{
 #ifdef _WIN32
 		Mix_HaltChannel(mPlayChannel);
 #else
+		// [COMMENT] please seperate your operators with spaces, like the for loop loop on line 175
 		for(int i=0; i<MAX_SAMPLES;++i)
 		{
 			(*mPlayers[i])->SetPlayState(mPlayers[i],SL_PLAYSTATE_PAUSED);
@@ -194,6 +198,7 @@ namespace star
 #ifdef _WIN32
 		Mix_HaltChannel(mPlayChannel);
 #else
+		// [COMMENT] please seperate your operators with spaces, like the for loop loop on line 175
 		for(int i=0; i<MAX_SAMPLES;++i)
 		{
 			SLresult lres=(*mPlayers[i])->GetPlayState(mPlayers[i],&lres);
@@ -207,7 +212,6 @@ namespace star
 #ifndef _WIN32
 	void SoundEffect::MusicStoppedCallback(SLPlayItf caller,void *pContext,SLuint32 event)
 	{
-
 		//SLPlayItf player = reinterpret_cast<SLPlayItf>(pContext);
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("AudioFile : Callback Entered"));
 		(*caller)->SetPlayState(caller, SL_PLAYSTATE_STOPPED);

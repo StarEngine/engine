@@ -27,6 +27,7 @@ namespace star
 		void Stop();
 		void Pause();
 		void Resume();
+		// [COMMENT] const correctness!!! 
 		bool IsStopped(){return bStopped;}
 
 	private:

@@ -25,11 +25,16 @@ namespace star
 
 		void Play();
 		void Stop();
+		// [COMMENT] Pauze is written with an 's'... so Pause!
 		void Pauze();
 		void Resume();
-		bool IsStopped(){return bStopped;}
+		// [COMMENT] Const correctness!! Cmon, this is basics!
+		bool IsStopped() { return bStopped; }
 
 	private:
+		// [COMMENT] why not respecting your own naming convention?
+		// Either never use m as a prefix for datamembers, or do it 
+		// for all your datamembers, but don't do it just for some of them...
 		bool bStopped;
 #ifdef _WIN32
 		Mix_Chunk* mSoundEffect;

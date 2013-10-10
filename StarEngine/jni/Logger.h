@@ -24,20 +24,13 @@ namespace star
 		void _CheckGlError(const char* file, int line);
 		#define CheckGlError() _CheckGlError(__FILE__,__LINE__);
 	private:
-		//SINGLETON IMPLEMENTATION
-		//----------------------------------
 		Logger(void);
 		static Logger* m_LoggerPtr;
-		//----------------------------------
 
 		#ifdef _WIN32
 		HANDLE m_ConsoleHandle;
 		#endif
 
-		// -------------------------
-		// Disabling default copy constructor and default 
-		// assignment operator.
-		// -------------------------
 		Logger(const Logger& t);
 		Logger(Logger&& t);
 		Logger& operator=(const Logger& t);

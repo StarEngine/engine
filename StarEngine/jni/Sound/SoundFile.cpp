@@ -23,7 +23,6 @@ namespace star
 		mPlayerSeek(NULL)
 #endif
 	{
-
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("AudioFile : Creating File"));
 #ifdef _WIN32
 		if(mMusic == NULL)
@@ -120,10 +119,14 @@ namespace star
 	SoundFile::~SoundFile()
 	{
 #ifdef _WIN32
-		if(mMusic!=nullptr)
+		// [COMMENT] always use { and } for if statements!!!!
+		if(mMusic != nullptr)
 			Mix_FreeMusic(mMusic);
+		// [COMMENT] this line is useless when it is already nullptr,
+		// so better to include it in the body of the if statement!
 		mMusic=nullptr;
 #else
+		// [COMMENT] use nullptr!
 		if(mPlayer != NULL)
 		{
 			SLuint32 lPlayerState;
@@ -132,8 +135,11 @@ namespace star
 			{
 				(*mPlayer)->SetPlayState(mPlayer,SL_PLAYSTATE_PAUSED);
 				(*mPlayerObj)->Destroy(mPlayerObj);
+				// [COMMENT] use nullptr!
 				mPlayerObj = NULL;
+				// [COMMENT] use nullptr!
 				mPlayer = NULL;
+				// [COMMENT] use nullptr!
 				mPlayerSeek = NULL;
 				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Soundfile Destroyed"));
 			}
@@ -141,14 +147,16 @@ namespace star
 #endif
 	}
 
+	// [COMMENT] Put default parameters in the header file,
+	// not in the implementation file!!!
 	void SoundFile::Play(int32 looptimes=0)
 	{
-
-		mLoopTimes=looptimes;
+		mLoopTimes = looptimes;
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("AudioFile : Playing File , Looptimes = ")+ star::string_cast<tstring>(mLoopTimes));
 #ifdef _WIN32
+		// [COMMENT] use nullptr!
 		Mix_HookMusicFinished(NULL);
-		Mix_PlayMusic(mMusic,mLoopTimes);
+		Mix_PlayMusic(mMusic, mLoopTimes);
 #else
 		SLresult lRes;
 		if(mLoopTimes==-1)
@@ -171,11 +179,13 @@ namespace star
 		};
 #endif
 	}
-
+	
+	// [COMMENT] Put default parameters in the header file,
+	// not in the implementation file!!!
 	void SoundFile::PlayQueued(int32 looptimes =0)
 	{
-		mLoopTimes=looptimes;
-		bQueuedPlay=true;
+		mLoopTimes = looptimes;
+		bQueuedPlay = true;
 
 #ifdef _WIN32
 		Mix_HookMusicFinished(MusicStoppedCallback);
@@ -183,9 +193,7 @@ namespace star
 #else
 		Play(mLoopTimes);
 #endif
-
 	}
-
 
 	void SoundFile::Stop()
 	{		
@@ -229,7 +237,6 @@ namespace star
 #else
 	void SoundFile::MusicStoppedCallback(SLPlayItf caller,void *pContext,SLuint32 event)
 	{
-
 		SoundFile* file = reinterpret_cast<SoundFile*>(pContext);
 
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("AudioFile : Callback Entered, Looptimes = ")+star::string_cast<tstring>(file->mLoopTimes));
@@ -249,6 +256,5 @@ namespace star
 			file->Play(file->mLoopTimes);
 		}
 	}
-
 #endif
 }

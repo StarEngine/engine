@@ -5,7 +5,6 @@
 
 #ifdef _WIN32
 #else
-
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 #include <EGL/egl.h>
@@ -16,7 +15,7 @@ namespace star
 	class Sprite
 	{
 	public:
-		Sprite(const tstring& filePath,const tstring& spriteName);
+		Sprite(const tstring& filePath, const tstring& spriteName);
 		~Sprite();
 
 		void Draw();

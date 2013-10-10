@@ -43,10 +43,15 @@ namespace star
 
 		//For looptimes : -1 repeat forever, 0 play once 
 		status PlayBackgroundQueue();
+		// [COMMENT] next song in que what? Play it? 
+		// I can't know for sure by reading this, so in case
+		// it does play the next song in que, then call it also
+		// 'PlayNextSongInQue'
 		void NextSongInQueue();
 
 		void StopSound(const tstring& name);
 		void StopAllSound();
+		// [COMMENT] Pauze is with an 's', so Pause...
 		void PauzeAllSound();
 		void ResumeAllSound();
 		void DeleteAllSound();

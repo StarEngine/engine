@@ -122,7 +122,6 @@ namespace star
 	}
 #endif
 
-
 	void GraphicsManager::StartDraw()
 	{
 		glClearColor(1.0f, 0.0f, 0.0f, 1.0f); // Clear the background of our window to red
@@ -142,7 +141,6 @@ namespace star
 	void GraphicsManager::StopDraw()
 	{
 		 glDisable(GL_BLEND);
-
 #ifndef _WIN32
 		 if (eglSwapBuffers(mDisplay, mSurface) != EGL_TRUE)
 		 {
