@@ -191,7 +191,6 @@ status TestScene::Draw()
 	glClearColor(mRed,mGreen,mBlue, 1.0f); // Clear the background of our window to red
 
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
-	glViewport(0,0, 1920, 1080);
 
 	m_pTestSprite->Draw();
 

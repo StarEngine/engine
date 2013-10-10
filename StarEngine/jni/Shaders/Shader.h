@@ -22,6 +22,8 @@ namespace star
 	{
 		ATTRIB_VERTEX,
 		ATTRIB_TEXTUREPOSITON,
+		ATTRIB_PROJECTION,
+		ATTRIB_TRANSLATION,
 		NUM_ATTRIBUTES
 	};
 
@@ -36,7 +38,10 @@ namespace star
 		void Bind();
 		void Unbind();
 
-		const GLuint GetId();
+		const GLuint GetId() const	{return mShaderID;}
+		const GLfloat* GetProjection() const	{return GlProjection;}
+		const GLfloat* GetTranslation() const	{return GlTranslation;}
+
 
 	private:
 		const char* TextFileReading(const tstring& fileName);
@@ -45,6 +50,9 @@ namespace star
 		GLuint mShaderID;
 		GLuint mVertexShader;
 		GLuint mFragmentShader;
+
+		GLfloat* GlProjection;
+		GLfloat* GlTranslation;
 
 		Shader(const Shader& t);
 		Shader(Shader&& t);

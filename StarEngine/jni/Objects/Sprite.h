@@ -27,7 +27,7 @@ namespace star
 		Shader mShader;
 		tstring mSpriteName;
 
-		GLfloat mVertices[8];
+		GLfloat mVertices[12];
 		GLfloat mUvCoords[8];
 
 		Sprite(const Sprite &);

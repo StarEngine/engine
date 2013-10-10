@@ -34,14 +34,18 @@ namespace star
 
 	void Sprite::CreateSquare()
 	{
-		mVertices[0] = 0.5f;
-		mVertices[1] = 0.5f;
-		mVertices[2] = 0.5f;
-		mVertices[3] = -0.5f;
-		mVertices[4] = -0.5f;
-		mVertices[5] = 0.5f;
-		mVertices[6] = -0.5f;
-		mVertices[7] = -0.5f;
+		mVertices[0] = 512;
+		mVertices[1] = 512;
+		mVertices[2] = 0;
+		mVertices[3] = 512;
+		mVertices[4] = 0;
+		mVertices[5] = 0;
+		mVertices[6] = 0;
+		mVertices[7] = 512;
+		mVertices[8] = 0;
+		mVertices[9] = 0;
+		mVertices[10] = 0;
+		mVertices[11] = 0;
 
 		mUvCoords[0] = 1.0f;
 		mUvCoords[1] = 1.0f;
@@ -63,10 +67,24 @@ namespace star
 		glUniform1i(s_textureId, 0);
 
 		//Set attributes and buffers
-		glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT,0,0, mVertices);
+		glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, mVertices);
 		glEnableVertexAttribArray(ATTRIB_VERTEX);
 		glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, mUvCoords);
 		glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+
+		
+		glUniformMatrix4fv(glGetUniformLocation(mShader.GetId(),"Projection"),1,GL_FALSE,mShader.GetProjection());
+		glUniformMatrix4fv(glGetUniformLocation(mShader.GetId(),"Translation"),1,GL_FALSE,mShader.GetTranslation());
+
+		GLfloat getLocation[16];
+		glGetUniformfv(mShader.GetId(),glGetUniformLocation(mShader.GetId(),"Projection"),getLocation);
+		tstringstream buffer;
+		for(int i = 0; i < 16; ++i)
+		{
+			buffer << _T("Projection shader Value [") << i << _T("] : ") << getLocation[i] << std::endl;
+			Logger::GetInstance()->Log(LogLevel::Info,buffer.str());
+		}
+		
 
 		glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 

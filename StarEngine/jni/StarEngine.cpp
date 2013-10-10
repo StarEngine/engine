@@ -49,6 +49,7 @@ namespace star
 		}
 		
 		InputManager::GetInstance()->EndUpdate();
+		Logger::GetInstance()->CheckGlError();
 
 		return STATUS_OK;
 	}
