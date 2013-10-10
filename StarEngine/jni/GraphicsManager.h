@@ -33,6 +33,8 @@ namespace star
 		int32 GetWindowWidth() const { return mScreenWidth; }
 		int32 GetWindowHeigth() const { return mScreenHeight; }
 
+		void SetWindowDimensions(int32 width, int32 height);
+
 	private:
 		GraphicsManager();
 

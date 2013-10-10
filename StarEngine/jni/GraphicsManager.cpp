@@ -150,4 +150,11 @@ namespace star
 #endif
 		 glFlush();
 	}
+
+	
+	void GraphicsManager::SetWindowDimensions(int32 width, int32 height)
+	{
+		mScreenWidth = width;
+		mScreenHeight = height;
+	}
 }

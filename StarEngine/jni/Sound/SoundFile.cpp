@@ -120,7 +120,7 @@ namespace star
 		if(mMusic != nullptr)
 		{	
 			Mix_FreeMusic(mMusic);
-			mMusic=nullptr;
+			mMusic = nullptr;
 		}
 
 #else

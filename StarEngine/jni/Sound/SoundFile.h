@@ -27,6 +27,7 @@ namespace star
 		void Stop();
 		void Pause();
 		void Resume();
+		// [COMMENT] const correctness...
 		const bool IsStopped(){return mbStopped;}
 
 	private:
