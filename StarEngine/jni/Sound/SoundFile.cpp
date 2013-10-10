@@ -5,7 +5,7 @@
 #include "../Helpers/Helpers.h"
 
 #ifndef _WIN32
-#include "../StarEngine.h".h"
+#include "../StarEngine.h"
 #endif
 
 
