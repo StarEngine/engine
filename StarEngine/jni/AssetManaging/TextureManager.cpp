@@ -83,4 +83,15 @@ namespace star
 		}
 		return 0;
 	}
+
+	//ivec2 contains first width, then height
+	ivec2 TextureManager::GetTextureDimensions(const tstring& name)
+	{
+		auto it = mTextureList.find(name);
+		if(it != mTextureList.end())
+		{
+			return (ivec2(it->second->getWidth(),it->second->getHeight()));
+		}
+		return ivec2(0,0);
+	}
 }

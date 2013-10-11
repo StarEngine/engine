@@ -91,6 +91,7 @@ using glm::vec2;
 using glm::vec3;
 using glm::quat;
 using glm::mat4x4;
+using glm::ivec2;
 
 #define EMPTY_STRING _T("")
 #define ANDROID_LOG_TAG _T("STAR_ENGINE")
