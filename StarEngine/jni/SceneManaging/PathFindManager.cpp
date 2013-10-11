@@ -312,7 +312,7 @@ namespace star
 		}
 	}
 
-	const vec3& PathFindManager::NextPathPos(Object* enemy)
+	vec3 PathFindManager::NextPathPos(Object* enemy)
 	{
 		uint16 index = 1;
 
@@ -331,7 +331,7 @@ namespace star
 		return nextPos;
 	}
 
-	const vec3& PathFindManager::GetStep(uint16 step)
+	vec3 PathFindManager::GetStep(uint16 step)
 	{
 		if(m_PathToGoal.size() == 0)
 		{
