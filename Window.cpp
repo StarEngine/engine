@@ -9,6 +9,7 @@
 #include <Input/XMLContainer.h>
 #include <Input/XMLFileParser.h>
 #include <GraphicsManager.h>
+#include <StarEngine.h>
 
 #pragma comment(lib, "opengl32.lib")
 
@@ -64,15 +65,27 @@ Window * Window::GetInstance()
 
 void Window::Initialize(HINSTANCE instance)
 {
-	star::Logger::GetInstance()->Initialize();
-
 	ASSERT(!m_IsInitialized, _T("Engine is already initialized!"));
 	if(!m_IsInitialized)
 	{
+		star::Logger::GetInstance()->Initialize();
+
 		m_IsInitialized = true;
 		star::XMLContainer winManifest;
 		star::XMLFileParser manifestParser(EMPTY_STRING, _T("Win32Manifest.xml"));
 		manifestParser.Read(winManifest);
+
+		//set console position
+		HWND consoleHandle = GetConsoleHWND();
+		if(consoleHandle != NULL)
+		{
+			auto consoleAttributes = winManifest[_T("console")]->GetAttributes();
+			int x = star::string_cast<int>(consoleAttributes[_T("x")]);
+			int y = star::string_cast<int>(consoleAttributes[_T("y")]);
+			int width = star::string_cast<int>(consoleAttributes[_T("width")]);
+			int height = star::string_cast<int>(consoleAttributes[_T("height")]);
+			MoveWindow(consoleHandle, x, y, width, height, true);
+		}
 
 		mContext.mTimeManager = mTimeManager;
 
@@ -122,6 +135,8 @@ void Window::Initialize(HINSTANCE instance)
 
 		m_CanGoFullScreen =
 			star::string_cast<bool>(winManifest[_T("allow_fullscreen")]->GetValue());
+		m_UpdateGameWhenInactive = 
+			star::string_cast<bool>(winManifest[_T("update_game_when_inactive")]->GetValue());
 
 		auto & resolution = winManifest[_T("resolution")]->GetAttributes();
 		auto & position = winManifest[_T("position")]->GetAttributes();
@@ -229,26 +244,38 @@ void Window::Initialize(HINSTANCE instance)
 		}
 	
 		mMainGamePtr->Initialize(position_width,position_height);
+
 		// Main message loop:
 		while(msg.message != WM_QUIT)
 		{
-			mTimeManager->StartMonitoring();
+			bool monitor_started(false);
+			if(m_IsActive)
+			{
+				mTimeManager->StartMonitoring();
+				monitor_started = true;
+			}
 
 			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 			{
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
-			else // We've processed all pending Win32 messages, and can now do a rendering update.
+			else if(m_IsActive) // We've processed all pending Win32 messages, and can now do a rendering update.
 			{
 				mMainGamePtr->Draw();
 		
 			}
 			SwapBuffers(Window::mHDC); // Swaps display buffers
 
-			mMainGamePtr->Update(mContext);
+			if(m_IsActive)
+			{
+				mMainGamePtr->Update(mContext);
+			}
 
-			mTimeManager->StopMonitoring();
+			if(monitor_started)
+			{
+				mTimeManager->StopMonitoring();
+			}
 		}
 
 		mMainGamePtr->End();
@@ -260,6 +287,8 @@ Window::Window()
 	, m_IsFullScreen(false)
 	, m_CanGoFullScreen(false)
 	, m_WindowMoved(false)
+	, m_IsActive(true)
+	, m_UpdateGameWhenInactive(false)
 	, m_SavedWindowState()
 	, mMainGamePtr(new Game())
 	, mTimeManager(new star::TimeManager())
@@ -368,6 +397,48 @@ void Window::UpdateClippingIfNeeded()
 	}
 }
 
+void Window::SetWindowMoved()
+{
+	m_WindowMoved = true;
+}
+
+void Window::SetWindowActive(bool active)
+{
+	m_IsActive = active;
+}
+
+HWND Window::GetConsoleHWND()
+{
+	#define MY_BUFSIZE 1024 // Buffer size for console window titles.
+    HWND hwndFound;         // This is what is returned to the caller.
+    tchar pszNewWindowTitle[MY_BUFSIZE]; // Contains fabricated
+                                        // WindowTitle.
+    tchar pszOldWindowTitle[MY_BUFSIZE]; // Contains original
+                                        // WindowTitle.
+    
+	// Fetch current window title.
+    GetConsoleTitle(pszOldWindowTitle, MY_BUFSIZE);
+
+    // Format a "unique" NewWindowTitle.
+    wsprintf(pszNewWindowTitle,_T("%d/%d"),
+                GetTickCount(),
+                GetCurrentProcessId());
+
+    // Change current window title.
+    SetConsoleTitle(pszNewWindowTitle);
+
+    // Ensure window title has been updated.
+    Sleep(40);
+
+    // Look for NewWindowTitle.
+    hwndFound=FindWindow(NULL, pszNewWindowTitle);
+
+    // Restore original window title.
+    SetConsoleTitle(pszOldWindowTitle);
+
+    return(hwndFound);
+}
+
 LRESULT CALLBACK Window::wEventsProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
@@ -381,15 +452,32 @@ LRESULT CALLBACK Window::wEventsProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		case WM_SETFOCUS:
 			Window::GetInstance()->WindowInactiveUpdate(false);
 			break;
-		case WM_LBUTTONDOWN:
-			
+		case WM_LBUTTONUP:
+			Window::GetInstance()->UpdateClippingIfNeeded();
 			break;
 		case WM_ACTIVATE:
-			Window::GetInstance()->WindowInactiveUpdate(wParam == WA_INACTIVE);
+			{
+				bool active = !(LOWORD(wParam) == WA_INACTIVE);
+				Window::GetInstance()->WindowInactiveUpdate(!active);
+				Window::GetInstance()->SetWindowActive(
+					Window::GetInstance()->UpdateGameWhenInactive() || active
+					);
+				if(!Window::GetInstance()->UpdateGameWhenInactive())
+				{
+					if(active)
+					{
+						star::StarEngine::GetInstance()->SetActive();
+					}
+					else
+					{
+						star::StarEngine::GetInstance()->SetInactive();
+					}
+				}
+			}
 			break;
 		case WM_MOVE:
 			UpdateWindowClipping(hWnd);
-			//Window::GetInstance()->Se
+			Window::GetInstance()->SetWindowMoved();
 			Window::GetInstance()->WindowInactiveUpdate(true);
 			break;
 		case WM_SYSCOMMAND:
@@ -429,6 +517,8 @@ void Window::WindowInactiveUpdate(bool inactive)
 	}
 	else if(mClipRect.left != -1)
 	{
+		SetActiveWindow(mHandle);
+		ClipCursor(NULL);
 		ClipCursor(&mClipRect);
 	}
 }

@@ -72,6 +72,16 @@ namespace star
 	{
 		return STATUS_OK;
 	}
+	
+	void StarEngine::SetActive()
+	{
+		// [TODO] (windows) continue playing sound
+	}
+
+	void StarEngine::SetInactive()
+	{
+		// [TODO] (windows) play playing sound
+	}
 
 	StarEngine::StarEngine()
 	{

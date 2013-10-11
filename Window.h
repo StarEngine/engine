@@ -32,10 +32,16 @@ public:
 	bool IsCursorClipped() const;
 	bool IsFullScreen() const { return m_IsFullScreen; }
 	bool CanGoFullScreen() const { return m_CanGoFullScreen; }
+	bool IsActive() const { return m_IsActive; }
+	bool UpdateGameWhenInactive() const { return m_UpdateGameWhenInactive; }
 
 	void ToggleFullScreen(HWND hWnd);
 	void SetFullScreen(HWND hWnd, bool fullscreen);
 	void UpdateClippingIfNeeded();
+	void SetWindowMoved();
+	void SetWindowActive(bool active);
+
+	HWND GetConsoleHWND();
 
 private:
 	Window();
@@ -46,6 +52,8 @@ private:
 	bool m_IsFullScreen;
 	bool m_CanGoFullScreen;
 	bool m_WindowMoved;
+	bool m_IsActive;
+	bool m_UpdateGameWhenInactive;
 
 	struct WindowState
 	{

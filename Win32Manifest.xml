@@ -8,6 +8,8 @@
 	<position x="-1" y="-1"/>
 	<resolution width="1280" height="720"/>
 	<allow_fullscreen>True</allow_fullscreen>
+	<update_game_when_inactive>False</update_game_when_inactive>
+	<console x="0" y="25" width="720" height="350"/>
 	<!-- class_styles options:
 		Information @
 		http://msdn.microsoft.com/en-us/library/aa925944.aspx
@@ -36,7 +38,7 @@
 			 - The width shouldn't be bigger than the width of the window
 			 - The height shouldn't be bigger than the height of the window
 		-->
-		<clip x="0" y="-25" width="-1" height="-1"/>
+		<clip x="0" y="0" width="-1" height="-1"/>
 	</cursor>
 	<assets root="./assets/"/>
 </manifest>

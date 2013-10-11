@@ -27,6 +27,9 @@ namespace star
 
 		status End();
 
+		void SetActive();
+		void SetInactive();
+
 #ifndef _WIN32
 		void SetAndroidApp(android_app * app) { m_pAndroidApp = app; }
 		android_app * GetAndroidApp() const { return m_pAndroidApp; }
