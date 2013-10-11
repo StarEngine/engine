@@ -47,7 +47,6 @@ TestScene2::TestScene2(const tstring & Name):
 
 TestScene2::~TestScene2()
 {
-	delete  m_pTestSprite;
 	delete  m_pObjectOne;
 	delete 	m_pObjectTwo;
 	delete 	m_pObjectThree;
