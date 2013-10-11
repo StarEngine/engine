@@ -75,12 +75,12 @@ namespace star
 	
 	void StarEngine::SetActive()
 	{
-		// [TODO] (windows) continue playing sound
+		SoundService::GetInstance()->ResumeAllSound();
 	}
 
 	void StarEngine::SetInactive()
 	{
-		// [TODO] (windows) play playing sound
+		SoundService::GetInstance()->PauseAllSound();
 	}
 
 	StarEngine::StarEngine()
