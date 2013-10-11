@@ -1,5 +1,6 @@
 #pragma once
 #include "..\defines.h"
+#include "BaseComponent.h"
 
 namespace star
 {
@@ -19,6 +20,8 @@ namespace star
 		
 		void SetActive();
 		bool IsActive() const {return m_bIsActive;}
+		void Activate() {m_bIsActive = false;}
+		void Deactivate() {m_bIsActive = true;}
 
 		mat4x4 GetView() const {return m_View;}
 		mat4x4 GetProjection() const {return m_Projection;}

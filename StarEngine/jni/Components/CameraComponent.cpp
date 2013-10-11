@@ -1,4 +1,5 @@
 #include "CameraComponent.h"
+#include "..\GraphicsManager.h"
 #include "..\SceneGraph\Object.h"
 #include "..\Context.h"
 #include "..\Logger.h"
@@ -6,12 +7,13 @@
 namespace star
 {
 	CameraComponent::CameraComponent():
-		m_FOV(static_cast<float>(glm::quarter_pi)),
+		m_FOV(3.14159265358979323846264338327950288f /4),
 		m_NearPlane(0.1f),
 		m_FarPlane(5000.0f),
 		m_Size(25.0f),
 		m_bPerspectiveProjection(true),
-		m_bIsActive(false)
+		m_bIsActive(false),
+		BaseComponent()
 	{
 	}
 
@@ -21,7 +23,7 @@ namespace star
 
 	void CameraComponent::Update(const Context& context)
 	{
-		float aspectRatio = context.Window->GetAspectRatio();
+		float aspectRatio = GraphicsManager::GetInstance()->GetScreenAspectRatio();
 	
 		if(m_bPerspectiveProjection)
 		{
@@ -32,7 +34,7 @@ namespace star
 			//calc ortho matrix
 			if(m_Size < 0)
 			{
-				m_Size = context.Window->GetBufferWidth();
+				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetScreenWidth());
 			}
 
 			m_Projection = MatrixOrtho(m_Size * aspectRatio, m_Size, m_NearPlane, m_FarPlane);
@@ -68,8 +70,7 @@ namespace star
 		}
 		else
 		{
-			//[TODO] setActiveCamera function in the scene
-			//scene->SetActiveCamera(this);
+			scene->SetActiveCamera(this);
 		}
 	}
 

@@ -2,6 +2,7 @@
 #include "../Context.h"
 #include "../Input/InputManager.h"
 #include "../SceneGraph/Object.h"
+#include "../StarComponents.h"
 
 namespace star 
 {
@@ -10,6 +11,7 @@ namespace star
 		, m_Name(name)
 		, m_Initialized(false) 
 		, m_Objects()
+		, m_pActiveCamera(nullptr)
 	{
 		m_GestureManagerPtr = new GestureManager();
 	}
@@ -90,5 +92,16 @@ namespace star
 			m_Objects.erase(it);
 			object->UnsetScene();
 		}
+	}
+
+	void BaseScene::SetActiveCamera(CameraComponent* pCameraComponent)
+	{
+		if(m_pActiveCamera != nullptr)
+		{
+			m_pActiveCamera->Deactivate();
+		}
+
+		m_pActiveCamera = pCameraComponent;
+		m_pActiveCamera->Activate();
 	}
 }

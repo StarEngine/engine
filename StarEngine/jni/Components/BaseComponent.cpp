@@ -31,4 +31,9 @@ namespace star
 		InitializeComponent();
 		m_bInitialized = true;
 	}
+
+	BaseScene* BaseComponent::GetGameScene() const
+	{ 
+		return m_pParentObject->GetScene();
+	}
 }

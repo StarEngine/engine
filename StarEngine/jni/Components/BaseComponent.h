@@ -6,6 +6,7 @@ namespace star
 {
 	struct Context;
 	class Object;
+	class BaseScene;
 
 	class BaseComponent
 	{
@@ -14,7 +15,7 @@ namespace star
 		BaseComponent(Object* parent);
 		virtual ~BaseComponent(void);
 
-		virtual void Initialize();
+		void Initialize();
 		virtual void Update(const Context& context) = 0;
 		virtual void Draw() = 0;
 
@@ -23,7 +24,7 @@ namespace star
 		Object* GetParent() const {return m_pParentObject;}
 		void SetParent(Object* parent) {m_pParentObject = parent;}
 
-		BaseScene* GetGameScene() const {return m_pParentObject->GetScene();}
+		BaseScene* GetGameScene() const;
 
 	protected:
 		virtual void InitializeComponent() = 0;
