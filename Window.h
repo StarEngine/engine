@@ -25,12 +25,36 @@ public:
 	const tstring & GetAssetRoot() const;
 	const HDC & GetHDC() const;
 	const HWND & GetHandle() const;
+	void CalculateRect(RECT & rect);
+	void SetClipRect(const RECT & rect);
+
+	bool IsInitialized() const { return m_IsInitialized; }
+	bool IsCursorClipped() const;
+	bool IsFullScreen() const { return m_IsFullScreen; }
+	bool CanGoFullScreen() const { return m_CanGoFullScreen; }
+
+	void ToggleFullScreen(HWND hWnd);
+	void SetFullScreen(HWND hWnd, bool fullscreen);
+	void UpdateClippingIfNeeded();
 
 private:
 	Window();
+
 	static Window *m_pInstance;
 
 	bool m_IsInitialized;
+	bool m_IsFullScreen;
+	bool m_CanGoFullScreen;
+	bool m_WindowMoved;
+
+	struct WindowState
+	{
+		BOOL Maximized;
+		long Style, ExStyle;
+		RECT WinRect;
+	};
+
+	WindowState m_SavedWindowState;
 
 	Game* mMainGamePtr;
 	star::TimeManager* mTimeManager;
@@ -58,3 +82,5 @@ private:
 	Window(const Window&);
 	Window(Window&&);
 };
+
+void UpdateWindowClipping(HWND hWnd);

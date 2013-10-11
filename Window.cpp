@@ -8,6 +8,7 @@
 #include <Helpers/Filepath.h>
 #include <Input/XMLContainer.h>
 #include <Input/XMLFileParser.h>
+#include <GraphicsManager.h>
 
 #pragma comment(lib, "opengl32.lib")
 
@@ -115,10 +116,12 @@ void Window::Initialize(HINSTANCE instance)
 		}
 		while(win_style_it != win_style_end_it);
 
-		if(!RegisterClassEx(&wndClass))
-		{
-		
-		}
+#pragma warning ( disable : 4800 )
+		ASSERT(RegisterClassEx(&wndClass), _T("Couldn't register the Windows Class!"));
+#pragma warning ( default : 4800 )
+
+		m_CanGoFullScreen =
+			star::string_cast<bool>(winManifest[_T("allow_fullscreen")]->GetValue());
 
 		auto & resolution = winManifest[_T("resolution")]->GetAttributes();
 		auto & position = winManifest[_T("position")]->GetAttributes();
@@ -220,10 +223,7 @@ void Window::Initialize(HINSTANCE instance)
 				mClipRect.bottom = mClipRect.top + height;
 			}
 
-			mClipRect.top += 25;
-			mClipRect.left += 5;
-			mClipRect.right -= 5;
-			mClipRect.bottom -= 5;
+			CalculateRect(mClipRect);
 
 			ClipCursor(&mClipRect);
 		}
@@ -257,6 +257,10 @@ void Window::Initialize(HINSTANCE instance)
 
 Window::Window()
 	: m_IsInitialized(false)
+	, m_IsFullScreen(false)
+	, m_CanGoFullScreen(false)
+	, m_WindowMoved(false)
+	, m_SavedWindowState()
 	, mMainGamePtr(new Game())
 	, mTimeManager(new star::TimeManager())
 	, mHandle()
@@ -265,6 +269,103 @@ Window::Window()
 	, mClipRect()
 	, mAssetsRoot()
 {
+}
+
+void Window::CalculateRect(RECT & rect)
+{
+	rect.top += 25;
+	rect.left += 5;
+	rect.right -= 5;
+	rect.bottom -= 5;
+}
+
+void Window::SetClipRect(const RECT & rect)
+{
+	mClipRect = rect;
+}
+
+bool Window::IsCursorClipped() const
+{
+	return mClipRect.top != -1;
+}
+
+void Window::ToggleFullScreen(HWND hWnd)
+{
+	SetFullScreen(hWnd, !m_IsFullScreen);
+}
+
+void Window::SetFullScreen(HWND hWnd, bool fullscreen)
+{
+	if(!m_IsFullScreen)
+	{
+		m_SavedWindowState.Maximized = IsZoomed(hWnd);
+		if(m_SavedWindowState.Maximized)
+		{
+			// window can't be maximized in fullscreen modus
+			SendMessage(hWnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+		}
+		m_SavedWindowState.Style = GetWindowLong(hWnd, GWL_STYLE);
+		m_SavedWindowState.ExStyle = GetWindowLong(hWnd, GWL_EXSTYLE);
+		GetWindowRect(hWnd, &m_SavedWindowState.WinRect);
+	}
+
+	m_IsFullScreen = fullscreen;
+	auto hdc = GetDC(hWnd);
+
+	WindowInactiveUpdate(false);
+
+	if (m_IsFullScreen) 
+	{
+		DEVMODE fullscreenSettings;
+
+		int screenWidth = GetDeviceCaps(hdc, HORZRES);
+		int screenHeight = GetDeviceCaps(hdc, VERTRES);
+
+		EnumDisplaySettings(NULL, 0, &fullscreenSettings);
+		fullscreenSettings.dmPelsWidth        = screenWidth;
+		fullscreenSettings.dmPelsHeight       = screenHeight;
+		fullscreenSettings.dmBitsPerPel       = GetDeviceCaps(hdc, BITSPIXEL);
+		fullscreenSettings.dmDisplayFrequency = GetDeviceCaps(hdc, VREFRESH);
+		fullscreenSettings.dmFields           = DM_PELSWIDTH |
+												DM_PELSHEIGHT |
+												DM_BITSPERPEL |
+												DM_DISPLAYFREQUENCY;
+
+		SetWindowLongPtr(hWnd, GWL_EXSTYLE, WS_EX_APPWINDOW | WS_EX_TOPMOST);
+		SetWindowLongPtr(hWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
+		SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, screenWidth, screenHeight, SWP_SHOWWINDOW);
+		bool isChangeSuccessful = ChangeDisplaySettings(&fullscreenSettings, CDS_FULLSCREEN) == DISP_CHANGE_SUCCESSFUL;
+		ASSERT(isChangeSuccessful, _T("Couldn't put the screen into fullscreen mode..."));
+		ShowWindow(hWnd, SW_MAXIMIZE);
+	}
+	else
+	{
+		SetWindowLongPtr(hWnd, GWL_EXSTYLE, m_SavedWindowState.ExStyle);
+		SetWindowLongPtr(hWnd, GWL_STYLE, m_SavedWindowState.Style);
+		bool isChangeSuccessful = ChangeDisplaySettings(NULL, CDS_RESET) == DISP_CHANGE_SUCCESSFUL;
+		ASSERT(isChangeSuccessful, _T("Couldn't put the screen into windowed mode..."));
+		SetWindowPos(hWnd, HWND_NOTOPMOST, 
+			m_SavedWindowState.WinRect.left,
+			m_SavedWindowState.WinRect.top,
+			m_SavedWindowState.WinRect.right - m_SavedWindowState.WinRect.left,
+			m_SavedWindowState.WinRect.bottom - m_SavedWindowState.WinRect.top,
+			SWP_SHOWWINDOW);
+		ShowWindow(hWnd, SW_RESTORE);
+
+		if (m_SavedWindowState.Maximized)
+		{
+			SendMessage(hWnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+		}
+	}
+}
+
+void Window::UpdateClippingIfNeeded()
+{
+	if(m_WindowMoved)
+	{
+		WindowInactiveUpdate(false);
+		m_WindowMoved = false;
+	}
 }
 
 LRESULT CALLBACK Window::wEventsProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -280,8 +381,28 @@ LRESULT CALLBACK Window::wEventsProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		case WM_SETFOCUS:
 			Window::GetInstance()->WindowInactiveUpdate(false);
 			break;
+		case WM_LBUTTONDOWN:
+			
+			break;
 		case WM_ACTIVATE:
 			Window::GetInstance()->WindowInactiveUpdate(wParam == WA_INACTIVE);
+			break;
+		case WM_MOVE:
+			UpdateWindowClipping(hWnd);
+			//Window::GetInstance()->Se
+			Window::GetInstance()->WindowInactiveUpdate(true);
+			break;
+		case WM_SYSCOMMAND:
+			if (Window::GetInstance()->CanGoFullScreen()
+				&& SC_KEYMENU == (wParam & 0xFFF0))
+			{
+				//alt - enter => FullScreen
+				Window::GetInstance()->ToggleFullScreen(hWnd);
+				return 1;
+			}
+			break;
+		case WM_SIZE:
+			UpdateWindowClipping(hWnd);
 			break;
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
@@ -295,7 +416,7 @@ Window::~Window(void)
 
 void Window::WindowInactiveUpdate(bool inactive)
 {
-	if(inactive && mClipRect.left != -1)
+	if(m_IsFullScreen || (inactive && mClipRect.left != -1))
 	{
 		RECT windowRect;
 				
@@ -351,4 +472,23 @@ int Window::CastStringToWinStyle(const tstring & style)
 	}
 	ASSERT(false, _T("Invalid window style found in Win32Manifest.xml"));
 	return NULL;
+}
+
+void UpdateWindowClipping(HWND hWnd)
+{
+	RECT winRect;
+	GetWindowRect(hWnd, &winRect);
+	star::GraphicsManager::GetInstance()->SetWindowDimensions(
+		winRect.right - winRect.left, 
+		winRect.bottom - winRect.top);
+	if(Window::GetInstance()->IsCursorClipped()
+				&& Window::GetInstance()->IsInitialized())
+	{
+		Window::GetInstance()->CalculateRect(winRect);
+		Window::GetInstance()->SetClipRect(winRect);
+		tstringstream strstr;
+		strstr << _T("Resizing to... Top = ") << winRect.top << _T(", Bottom = ") << winRect.bottom <<
+			_T(", Left = ") << winRect.left << _T(", Right = ") << winRect.right;
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, strstr.str());
+	}
 }

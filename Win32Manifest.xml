@@ -7,6 +7,7 @@
 	-->
 	<position x="-1" y="-1"/>
 	<resolution width="1280" height="720"/>
+	<allow_fullscreen>True</allow_fullscreen>
 	<!-- class_styles options:
 		Information @
 		http://msdn.microsoft.com/en-us/library/aa925944.aspx
@@ -23,6 +24,7 @@
 		<style>WS_OVERLAPPED</style>
 		<style>WS_SYSMENU</style>
 		<style>WS_MINIMIZEBOX</style>
+		<style>WS_MAXIMIZEBOX</style>
 	</window_styles>
 	<cursor hidden="False">
 		<!-- defines the region in which the cursor gets clipped. 
