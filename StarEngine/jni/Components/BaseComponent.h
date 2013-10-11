@@ -5,8 +5,9 @@
 namespace star
 {
 	struct Context;
-	class Object;
 	class BaseScene;
+	class TransformComponent;
+	class Object;
 
 	class BaseComponent
 	{
@@ -25,6 +26,8 @@ namespace star
 		void SetParent(Object* parent) {m_pParentObject = parent;}
 
 		BaseScene* GetGameScene() const;
+
+		TransformComponent* GetTransform() const;
 
 	protected:
 		virtual void InitializeComponent() = 0;

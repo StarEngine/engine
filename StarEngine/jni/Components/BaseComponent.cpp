@@ -2,6 +2,7 @@
 #include "..\SceneGraph\Object.h"
 #include "..\Context.h"
 #include "..\Logger.h"
+#include "../SceneGraph/Object.h"
 
 namespace star
 {
@@ -35,5 +36,10 @@ namespace star
 	BaseScene* BaseComponent::GetGameScene() const
 	{ 
 		return m_pParentObject->GetScene();
+	}
+
+	TransformComponent* BaseComponent::GetTransform() const
+	{
+		 return m_pParentObject->GetComponent<TransformComponent>();
 	}
 }

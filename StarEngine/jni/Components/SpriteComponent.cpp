@@ -3,6 +3,7 @@
 #include "../Helpers/Filepath.h"
 #include "../AssetManaging/TextureManager.h"
 #include "../GraphicsManager.h"
+#include "../Components/TransformComponent.h"
 
 namespace star
 {
@@ -93,8 +94,8 @@ namespace star
 
 
 		mat4x4 translation = mat4x4(
-			 1, 0,	0,	800.0f
-			,0,	1,	0,	-400.0f
+			 1, 0,	0,	0.0f
+			,0,	1,	0,	0.0f
 			,0,	0,	1,	0
 			,0,	0,	0,	1
 			);

@@ -170,39 +170,10 @@ status TestScene::Initialize( const star::Context& context)
 		star::SceneManager::GetInstance()->SetActiveScene(_T("TestScene2"));
 	}
 
-	if(mRed>=1.0 && mGreen <1.0 && mBlue <1.0)
-	{
-		mGreen += static_cast<float>(context.mTimeManager->GetSeconds());
-	}
-	if(mGreen>=1.0 && mRed > 0 && mBlue <1.0)
-	{
-		mRed -= static_cast<float>(context.mTimeManager->GetSeconds());
-	}
-	if(mGreen>=1.0 && mRed<=0.0 && mBlue<1.0)
-	{
-		mBlue += static_cast<float>(context.mTimeManager->GetSeconds());
-	}
-	if(mBlue>=1.0 && mGreen>0 && mRed <1.0)
-	{
-		mGreen -= static_cast<float>(context.mTimeManager->GetSeconds());
-	}
-	if(mBlue >=1.0 && mGreen<=0.0 && mRed <1.0)
-	{
-		mRed += static_cast<float>(context.mTimeManager->GetSeconds());
-	}
-	if(mRed >=1.0 && mBlue >0 && mGreen <1.0)
-	{
-		mBlue -= static_cast<float>(context.mTimeManager->GetSeconds());
-	}
-
 	return STATUS_OK;
 }
 
 status TestScene::Draw()
 {
-	glClearColor(mRed,mGreen,mBlue, 1.0f); // Clear the background of our window to red
-
-	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
-
 	return STATUS_OK;
 }
