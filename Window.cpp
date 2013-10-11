@@ -135,6 +135,8 @@ void Window::Initialize(HINSTANCE instance)
 
 		m_CanGoFullScreen =
 			star::string_cast<bool>(winManifest[_T("allow_fullscreen")]->GetValue());
+		m_ManipulateWindowResolution = 
+			star::string_cast<bool>(winManifest[_T("allow_fullscreen")]->GetAttributes()[_T("manipulate_window_resolution")]);
 		m_UpdateGameWhenInactive = 
 			star::string_cast<bool>(winManifest[_T("update_game_when_inactive")]->GetValue());
 
@@ -289,6 +291,7 @@ Window::Window()
 	, m_WindowMoved(false)
 	, m_IsActive(true)
 	, m_UpdateGameWhenInactive(false)
+	, m_ManipulateWindowResolution(false)
 	, m_SavedWindowState()
 	, mMainGamePtr(new Game())
 	, mTimeManager(new star::TimeManager())
@@ -349,6 +352,12 @@ void Window::SetFullScreen(HWND hWnd, bool fullscreen)
 
 		int screenWidth = GetDeviceCaps(hdc, HORZRES);
 		int screenHeight = GetDeviceCaps(hdc, VERTRES);
+
+		if(m_ManipulateWindowResolution)
+		{
+			screenWidth = m_SavedWindowState.WinRect.right - m_SavedWindowState.WinRect.left;
+			screenHeight = m_SavedWindowState.WinRect.bottom - m_SavedWindowState.WinRect.top;
+		}
 
 		EnumDisplaySettings(NULL, 0, &fullscreenSettings);
 		fullscreenSettings.dmPelsWidth        = screenWidth;

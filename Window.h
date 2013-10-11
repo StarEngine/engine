@@ -34,6 +34,7 @@ public:
 	bool CanGoFullScreen() const { return m_CanGoFullScreen; }
 	bool IsActive() const { return m_IsActive; }
 	bool UpdateGameWhenInactive() const { return m_UpdateGameWhenInactive; }
+	bool ChangeResolutionWhenGoingFullScreen() const { return m_ManipulateWindowResolution; }
 
 	void ToggleFullScreen(HWND hWnd);
 	void SetFullScreen(HWND hWnd, bool fullscreen);
@@ -54,6 +55,7 @@ private:
 	bool m_WindowMoved;
 	bool m_IsActive;
 	bool m_UpdateGameWhenInactive;
+	bool m_ManipulateWindowResolution;
 
 	struct WindowState
 	{
