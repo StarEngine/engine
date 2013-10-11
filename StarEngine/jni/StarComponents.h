@@ -6,3 +6,4 @@
 #include "Components\TransformComponent.h"
 #include "Components\PathFindNodeComponent.h"
 #include "Components\CameraComponent.h"
+#include "Components\SpriteComponent.h"

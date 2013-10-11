@@ -19,7 +19,7 @@ namespace star
 		~SpriteComponent();
 
 		void Draw();
-
+		void Update(const Context& context) {};
 	protected:
 		virtual void InitializeComponent();
 	private:
@@ -30,7 +30,7 @@ namespace star
 		tstring m_SpriteName;
 		
 		int32 m_Width;
-		int32 m_Height;
+		int32 m_Heigth;
 
 		GLfloat m_Vertices[12];
 		GLfloat m_UvCoords[8];

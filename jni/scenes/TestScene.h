@@ -6,7 +6,6 @@
 #include "../../StarEngine/jni/Context.h"
 #include "../../StarEngine/jni/SceneGraph/Object.h"
 #include "../../StarEngine/jni/StarComponents.h"
-#include "../../StarEngine/jni/Objects/Sprite.h"
 #include "../../StarEngine/jni/Input/Gestures/TapGesture.h"
 
 class TestScene : public star::BaseScene
@@ -28,13 +27,13 @@ private:
 
 	float mRed, mGreen, mBlue;
 
-	star::Sprite* m_pTestSprite;
 	star::Object	*m_pObjectOne, 
 			*m_pObjectTwo, 
 			*m_pObjectThree,
 			*m_pObjectFour, 
 			*m_pObjectFive, 
-			*m_pObjectSix;
+			*m_pObjectSix,
+			*m_pSpriteObject;
 
 	star::RectangleColliderComponent* m_pRectCompOne;
 	star::CircleColliderComponent	*m_pRectCompTwo;
@@ -45,6 +44,8 @@ private:
 								*m_pPathFindCompFour, 
 								*m_pPathFindCompFive, 
 								*m_pPathFindCompSix;
+
+	star::SpriteComponent *m_pSpriteComp1;
 		
 	TestScene(const TestScene& t);
 	TestScene(TestScene&& t);

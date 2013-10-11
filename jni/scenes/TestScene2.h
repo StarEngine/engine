@@ -9,7 +9,6 @@
 #include "../../StarEngine/jni/Shaders/Shader.h"
 #include "../../StarEngine/jni/Objects/QuadCol.h"
 #include "../../StarEngine/jni/Input/XMLContainer.h"
-#include "../../StarEngine/jni/Objects/Sprite.h"
 
 class TestScene2 : public star::BaseScene
 {
@@ -26,7 +25,6 @@ private:
 	int m_Step;
 	int m_FPS;
 	float m_PassedMiliseconds;
-	star::Sprite* m_pTestSprite;
 	star::XMLContainer mTestXMLFile;
 
 	star::Object	*m_pObjectOne, 
@@ -34,7 +32,8 @@ private:
 					*m_pObjectThree,
 					*m_pObjectFour, 
 					*m_pObjectFive, 
-					*m_pObjectSix;
+					*m_pObjectSix,
+					*m_pSpriteObject;
 
 	star::RectangleColliderComponent* m_pRectCompOne;
 	star::CircleColliderComponent *m_pRectCompTwo;
@@ -45,6 +44,8 @@ private:
 								*m_pPathFindCompFour, 
 								*m_pPathFindCompFive, 
 								*m_pPathFindCompSix;
+
+	star::SpriteComponent * m_pSpriteComp1;
 		
 	TestScene2(const TestScene2& t);
 	TestScene2(TestScene2&& t);

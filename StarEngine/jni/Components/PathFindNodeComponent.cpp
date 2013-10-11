@@ -13,10 +13,6 @@ namespace star
 	{
 	}
 
-	void PathFindNodeComponent::Initialize()
-	{
-	}
-
 	void PathFindNodeComponent::InitializeComponent()
 	{
 		m_bInitialized = true;

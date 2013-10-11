@@ -24,13 +24,13 @@ TestScene2::TestScene2(const tstring & Name):
 	m_FPS(0),
 	m_Step(0),
 	m_PassedMiliseconds(0),
-	m_pTestSprite(nullptr),
 	m_pObjectOne(nullptr),
 	m_pObjectTwo(nullptr),
 	m_pObjectThree(nullptr),
 	m_pObjectFour(nullptr),
 	m_pObjectFive(nullptr),
 	m_pObjectSix(nullptr),
+	m_pSpriteObject(nullptr),
 	m_pRectCompOne(nullptr),
 	m_pRectCompTwo(nullptr),
 	m_pPathFindComp(nullptr),
@@ -39,6 +39,7 @@ TestScene2::TestScene2(const tstring & Name):
 	m_pPathFindCompFour(nullptr),
 	m_pPathFindCompFive(nullptr),
 	m_pPathFindCompSix(nullptr),
+	m_pSpriteComp1(nullptr),
 	mTestXMLFile()
 {
 		
@@ -46,9 +47,6 @@ TestScene2::TestScene2(const tstring & Name):
 
 status TestScene2::Initialize(const star::Context& context)
 {
-	star::Filepath tex1path(_T(""),_T("TestDaPng.png"));
-	m_pTestSprite = new star::Sprite(tex1path.GetFullPath(),_T("TestDaPng"));
-
 	m_pObjectOne = new star::Object();
 	m_pRectCompOne = new star::RectangleColliderComponent(10,10);
 	m_pPathFindComp = new star::PathFindNodeComponent();
@@ -82,12 +80,18 @@ status TestScene2::Initialize(const star::Context& context)
 	m_pObjectSix->AddComponent(m_pPathFindCompSix);
 	m_pObjectSix->GetComponent<star::TransformComponent>()->Translate(3,2,0);
 
+	m_pSpriteObject = new star::Object();
+	star::Filepath tex1path(_T(""),_T("TestDaPng.png"));
+	m_pSpriteComp1 = new star::SpriteComponent(tex1path.GetFullPath(),_T("TestDaPng"));
+	m_pSpriteObject->AddComponent(m_pSpriteComp1);
+
 	AddObject(m_pObjectOne);
 	AddObject(m_pObjectTwo);
 	AddObject(m_pObjectThree);
 	AddObject(m_pObjectFour);
 	AddObject(m_pObjectFive);
 	AddObject(m_pObjectSix); 
+	AddObject(m_pSpriteObject);
 
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectOne);
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectTwo);
@@ -153,8 +157,6 @@ status TestScene2::Draw()
 	glClearColor(0.0f, 1.0f, 1.0f, 1.0f); // Clear the background of our window to red
 
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
-
-	m_pTestSprite->Draw();
 
 	return STATUS_OK;
 }

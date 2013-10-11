@@ -13,7 +13,6 @@ namespace star
 		RectangleColliderComponent(uint16 width, uint16 height);
 		~RectangleColliderComponent(void);
 
-		void Initialize();
 		void Update(const Context& context);
 		void Draw();
 

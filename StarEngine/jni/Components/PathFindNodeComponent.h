@@ -13,7 +13,6 @@ namespace star
 		PathFindNodeComponent();
 		~PathFindNodeComponent(void);
 
-		void Initialize();
 		void Update(const Context& context);
 		void Draw();
 

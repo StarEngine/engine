@@ -13,7 +13,6 @@ namespace star
 		CircleColliderComponent(float radius);
 		~CircleColliderComponent(void);
 
-		void Initialize();
 		void Update(const Context& context);
 		void Draw();
 

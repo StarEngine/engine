@@ -15,10 +15,6 @@ namespace star
 	{
 	}
 
-	void RectangleColliderComponent::Initialize()
-	{
-	}
-
 	void RectangleColliderComponent::InitializeComponent()
 	{
 		m_bInitialized = true;

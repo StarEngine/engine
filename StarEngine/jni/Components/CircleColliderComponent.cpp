@@ -15,10 +15,6 @@ namespace star
 	{
 	}
 
-	void CircleColliderComponent::Initialize()
-	{
-	}
-
 	void CircleColliderComponent::InitializeComponent()
 	{
 		ASSERT(m_Radius > 0, _T("Negative Radius"));

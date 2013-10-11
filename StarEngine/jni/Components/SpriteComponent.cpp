@@ -30,7 +30,8 @@ namespace star
 		}
 
 		TextureManager::GetInstance()->LoadTexture(m_FilePath,m_SpriteName);
-		//TextureManager::GetInstance()->
+		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x;
+		m_Heigth =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y;
 
 		CreateSquare();
 	}
@@ -43,13 +44,13 @@ namespace star
 	void SpriteComponent::CreateSquare()
 	{
 		m_Vertices[0] = m_Width;
-		m_Vertices[1] = m_Height;
+		m_Vertices[1] = m_Heigth;
 		m_Vertices[2] = 0;
 		m_Vertices[3] = m_Width;
 		m_Vertices[4] = 0;
 		m_Vertices[5] = 0;
 		m_Vertices[6] = 0;
-		m_Vertices[7] = m_Height;
+		m_Vertices[7] = m_Heigth;
 		m_Vertices[8] = 0;
 		m_Vertices[9] = 0;
 		m_Vertices[10] = 0;
