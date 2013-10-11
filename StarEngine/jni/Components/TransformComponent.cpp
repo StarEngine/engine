@@ -115,36 +115,33 @@ namespace star
 			return;
 		}
 
-		if(m_pParentObject==nullptr)
+		if(m_pParentObject == nullptr)
 		{
 			return;
 		}
 
-		if(m_IsChanged != TransformChanged::NONE || force || m_Invalidate)
+		mat4x4 matRot, matTrans, matScale;
+
+		matTrans = glm::translate(m_LocalPosition);
+		matRot   = glm::toMat4(m_LocalRotation);
+		matScale = glm::scale(m_LocalScale);
+
+		m_World = matScale * matRot * matTrans;
+
+		auto parentGameObj = m_pParentObject->GetParent();
+
+		if(parentGameObj == nullptr)
 		{
-			mat4x4 matRot, matTrans, matScale;
-
-			matTrans = glm::translate(m_LocalPosition);
-			matRot   = glm::toMat4(m_LocalRotation);
-			matScale = glm::scale(m_LocalScale);
-
-			m_World = matScale * matRot * matTrans;
-
-			auto parentGameObj = m_pParentObject->GetParent();
-
-			if(parentGameObj == nullptr)
-			{
-				m_WorldPosition = m_LocalPosition;
-				m_WorldScale = m_LocalScale;
-				m_WorldRotation = m_LocalRotation;
-			}
-			else
-			{
-				m_World =  m_World * parentGameObj->GetComponent<TransformComponent>()->GetWorldMatrix();
-			}
-
-			m_IsChanged = TransformChanged::NONE;
+			m_WorldPosition = m_LocalPosition;
+			m_WorldScale = m_LocalScale;
+			m_WorldRotation = m_LocalRotation;
 		}
+		else
+		{
+			m_World =  m_World * parentGameObj->GetComponent<TransformComponent>()->GetWorldMatrix();
+		}
+
+		m_IsChanged = TransformChanged::NONE;
 
 		m_Invalidate = false;
 	}

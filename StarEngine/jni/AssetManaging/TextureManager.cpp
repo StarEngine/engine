@@ -71,11 +71,12 @@ namespace star
 
 	GLuint TextureManager::GetTextureID(const tstring& name)
 	{
+		//[COMMENT] Why assert and check? It should break before it ever gets the chance to exit the function
 		ASSERT(mTextureManager != nullptr, _T("Texture manager is invalid."));
-		if(mTextureManager == nullptr)
-		{
-			return 0;
-		}
+		//if(mTextureManager == nullptr)
+		//{
+		//	return 0;
+		//}
 
 		if(mTextureList.find(name) != mTextureList.end())
 		{

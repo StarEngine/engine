@@ -33,9 +33,8 @@ namespace star
 
 		void FindPath(const vec2& currentPos, const vec2& targetPos);
 		void FindPath(const vec3& currentPos, const vec3& targetPos);
-		vec3 NextPathPos(Object* enemy);
-		// [COMMENT] cont corectness !!!!
-		vec3 GetStep(uint16 step);
+		const vec3& NextPathPos(Object* enemy);
+		const vec3& GetStep(uint16 step);
 
 		void ClearOpenList() {m_OpenList.clear();}
 		void ClearVisitedList() {m_VisitedList.clear();}

@@ -26,22 +26,22 @@ namespace star
 		void Update(const Context& context);
 		void Draw() {}
 
-		void Translate(const vec3 & translation);
+		void Translate(const vec3& translation);
 		void Translate(float x, float y, float z);
 
 		void Rotate(const quat & rotation);
 		//void Rotate(float x, float y, float z);
 
-		void Scale(const vec3 & scale);
+		void Scale(const vec3& scale);
 		void Scale(float x, float y, float z);
 
-		const vec3 & GetWorldPosition();
+		const vec3& GetWorldPosition();
 		vec3 GetLocalPosition() const;
-		const quat & GetWorldRotation();
+		const quat& GetWorldRotation();
 		quat GetLocalRotation() const;
-		const vec3 & GetWorldScale();
+		const vec3& GetWorldScale();
 		vec3 GetLocalScale() const;
-		const mat4x4 & GetWorldMatrix();
+		const mat4x4& GetWorldMatrix();
 
 	private:
 		void InitializeComponent();
