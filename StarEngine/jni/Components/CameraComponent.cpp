@@ -23,7 +23,7 @@ namespace star
 
 	void CameraComponent::Update(const Context& context)
 	{
-		float aspectRatio = GraphicsManager::GetInstance()->GetScreenAspectRatio();
+		float aspectRatio = GraphicsManager::GetInstance()->GetWindowAspectRatio();
 	
 		if(m_bPerspectiveProjection)
 		{
@@ -34,7 +34,7 @@ namespace star
 			//calc ortho matrix
 			if(m_Size < 0)
 			{
-				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetScreenWidth());
+				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetWindowWidth());
 			}
 
 			m_Projection = MatrixOrtho(m_Size * aspectRatio, m_Size, m_NearPlane, m_FarPlane);

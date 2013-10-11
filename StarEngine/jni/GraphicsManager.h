@@ -32,6 +32,7 @@ namespace star
 
 		int32 GetWindowWidth() const { return mScreenWidth; }
 		int32 GetWindowHeigth() const { return mScreenHeight; }
+		float GetWindowAspectRatio() const {return static_cast<float>(mScreenWidth/mScreenHeight);}
 
 		void SetWindowDimensions(int32 width, int32 height);
 
