@@ -173,15 +173,8 @@ namespace star
 			m_ActiveScene->OnConfigurationChanged();
 			break;
 
-		case APP_CMD_INIT_WINDOW:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_INIT_WINDOW"));
-			m_ActiveScene->OnCreateWindow();
-
-			break;
-
 		case APP_CMD_DESTROY:
 			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_DESTROY"));
-
 			break;
 
 		case APP_CMD_GAINED_FOCUS:
@@ -263,8 +256,6 @@ namespace star
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Going trough activate"));
 		if(mApplicationPtr->window != nullptr)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("native window not null"));
-			star::GraphicsManager::GetInstance()->Initialize(mApplicationPtr);
 			if(m_ActiveScene->BaseOnActivate() != STATUS_OK)
 			{
 				ANativeActivity_finish(mApplicationPtr->activity);

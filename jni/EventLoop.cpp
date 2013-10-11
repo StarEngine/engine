@@ -115,6 +115,11 @@ void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 			star::GraphicsManager::GetInstance()->Initialize(pApplication);
 			lEventLoop.mQuit=false;
 		}
+		else
+		{
+			lEventLoop.mQuit = true;
+			ANativeActivity_finish(pApplication->activity);
+		}
 	break;
 
 	case APP_CMD_GAINED_FOCUS:
