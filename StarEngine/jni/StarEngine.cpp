@@ -41,6 +41,8 @@ namespace star
 
 	status StarEngine::Update(const Context & context)
 	{
+		m_FPS.Update(context);
+
 		InputManager::GetInstance()->Update();
 
 		if(SceneManager::GetInstance()->Update(context) != STATUS_OK)
@@ -83,7 +85,30 @@ namespace star
 		SoundService::GetInstance()->PauseAllSound();
 	}
 
+	int StarEngine::GetCurrentFPS() const
+	{
+		return m_FPS.CurrentFPS;
+	}
+
+	int StarEngine::GetPreviousFPS() const
+	{
+		return m_FPS.PreviousFPS;
+	}
+
+	void StarEngine::SetGameTitle(const tstring & title)
+	{
+		m_Title = title;
+	}
+
+	void StarEngine::SetGameSubTitle(const tstring & title)
+	{
+		m_SubTitle = title;
+	}
+
 	StarEngine::StarEngine()
+		: m_FPS()
+		, m_Title(EMPTY_STRING)
+		, m_SubTitle(EMPTY_STRING)
 	{
 	}
 }

@@ -141,6 +141,9 @@
     <ClInclude Include="jni\Components\SpriteComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Helpers\FPS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -246,6 +249,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Components\SpriteComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Helpers\FPS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

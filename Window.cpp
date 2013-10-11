@@ -160,8 +160,11 @@ void Window::Initialize(HINSTANCE instance)
 			position_y -= position_height / 2;
 		}
 
+		tstring windowsTitle = winManifest[_T("title")]->GetValue();
+		star::StarEngine::GetInstance()->SetGameTitle(windowsTitle);
+
 		mHandle = CreateWindowA(	star::string_cast<std::string>(winManifest[_T("class")]->GetValue()).c_str(),
-								star::string_cast<std::string>(winManifest[_T("title")]->GetValue()).c_str(),
+								star::string_cast<std::string>(windowsTitle).c_str(),
 								windowStyles,
 								position_x,
 								position_y,
@@ -272,6 +275,7 @@ void Window::Initialize(HINSTANCE instance)
 			if(m_IsActive)
 			{
 				mMainGamePtr->Update(mContext);
+				SetWindowsTitle();
 			}
 
 			if(monitor_started)
@@ -414,6 +418,12 @@ void Window::SetWindowMoved()
 void Window::SetWindowActive(bool active)
 {
 	m_IsActive = active;
+}
+
+void Window::SetWindowsTitle() const
+{
+	SetWindowText(mHandle, 
+		(star::StarEngine::GetInstance()->m_Title + star::StarEngine::GetInstance()->m_SubTitle).c_str());
 }
 
 HWND Window::GetConsoleHWND()
@@ -578,9 +588,5 @@ void UpdateWindowClipping(HWND hWnd)
 	{
 		Window::GetInstance()->CalculateRect(winRect);
 		Window::GetInstance()->SetClipRect(winRect);
-		tstringstream strstr;
-		strstr << _T("Resizing to... Top = ") << winRect.top << _T(", Bottom = ") << winRect.bottom <<
-			_T(", Left = ") << winRect.left << _T(", Right = ") << winRect.right;
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, strstr.str());
 	}
 }

@@ -42,10 +42,11 @@ public:
 	void SetWindowMoved();
 	void SetWindowActive(bool active);
 
-	HWND GetConsoleHWND();
-
 private:
 	Window();
+
+	HWND GetConsoleHWND();
+	void SetWindowsTitle() const;
 
 	static Window *m_pInstance;
 

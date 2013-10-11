@@ -2,6 +2,7 @@
 #include "../StarEngine/jni/SceneManaging/SceneManager.h"
 #include "../StarEngine/jni/Context.h"
 #include "../StarEngine/jni/StarEngine.h"
+#include "../StarEngine/jni/Helpers/Helpers.h"
 #include "scenes/TestScene.h"
 #include "scenes/TestScene2.h"
 
@@ -28,6 +29,9 @@ status Game::Initialize(int32 window_width, int32 window_height)
 
 status Game::Update(const star::Context& context)
 {
+	tstring subTitle(_T("... FPS: "));
+	subTitle += star::string_cast<tstring>(star::StarEngine::GetInstance()->GetCurrentFPS());
+	star::StarEngine::GetInstance()->SetGameSubTitle(subTitle);
 	return star::StarEngine::GetInstance()->Update(context);
 }
 

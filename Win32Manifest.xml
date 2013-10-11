@@ -1,6 +1,6 @@
 <manifest platform="WIN32">
     <class>StarGame</class>
-	<title>Hello StarGame Title!</title>
+	<title>StarGame</title>
 	<!-- Defines the position of the window 
 		+ Set the x value to '-1' to center the window horizontally
 		+ Set the y value to '-1' to center the window vertically

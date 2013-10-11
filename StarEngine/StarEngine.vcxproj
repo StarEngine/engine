@@ -84,6 +84,7 @@
     <ClInclude Include="jni\GraphicsManager.h" />
     <ClInclude Include="jni\Helpers\Dictionary.h" />
     <ClInclude Include="jni\Helpers\Filepath.h" />
+    <ClInclude Include="jni\Helpers\FPS.h" />
     <ClInclude Include="jni\Helpers\Helpers.h" />
     <ClInclude Include="jni\Helpers\Rect.h" />
     <ClInclude Include="jni\Helpers\State.h" />
@@ -125,6 +126,7 @@
     <ClCompile Include="jni\GraphicsManager.cpp" />
     <ClCompile Include="jni\Helpers\Dictionary.cpp" />
     <ClCompile Include="jni\Helpers\Filepath.cpp" />
+    <ClCompile Include="jni\Helpers\FPS.cpp" />
     <ClCompile Include="jni\Helpers\Helpers.cpp" />
     <ClCompile Include="jni\Helpers\StateManager.cpp" />
     <ClCompile Include="jni\Helpers\Stopwatch.cpp" />
