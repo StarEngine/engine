@@ -86,22 +86,14 @@ namespace star
 		uint32 height = GraphicsManager::GetInstance()->GetWindowHeigth();
 
 		mat4x4 projection = mat4x4(
-				 1.0f/width	, 0				, 0, 0
-				,0			, 1.0f/height	, 0, 0
+				 (1.0f/width)/0.5f	, 0				, 0, -1
+				,0			, (1.0f/height)/0.5f	, 0, -1
 				,0			, 0				, 1, 0
 				,0			, 0				, 0, 1
 				);
 
-
-		mat4x4 translation = mat4x4(
-			 1, 0,	0,	0.0f
-			,0,	1,	0,	0.0f
-			,0,	0,	1,	0
-			,0,	0,	0,	1
-			);
-		
 		glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Projection"),1,GL_FALSE,glm::value_ptr(projection));
-		glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Translation"),1,GL_FALSE,glm::value_ptr(translation));
+		glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Translation"),1,GL_FALSE,glm::value_ptr(GetTransform()->GetWorldMatrix()));
 
 		glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 

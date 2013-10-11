@@ -91,6 +91,7 @@ status TestScene::Initialize( const star::Context& context)
 	star::Filepath tex1path(_T(""),_T("Awesome.png"));
 	m_pSpriteComp1 = new star::SpriteComponent(tex1path.GetFullPath(),_T("Awesome"));
 	m_pSpriteObject->AddComponent(m_pSpriteComp1);
+	//m_pSpriteObject->GetComponent<star::TransformComponent>()->Translate(200,400,0);
 
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectOne);
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectTwo);
