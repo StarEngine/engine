@@ -98,7 +98,7 @@
     <ClInclude Include="jni\Input\XMLFileParser.h" />
     <ClInclude Include="jni\Input\XMLFileSerializer.h" />
     <ClInclude Include="jni\Logger.h" />
-    <ClInclude Include="jni\Objects\Sprite.h" />
+    <ClInclude Include="jni\Components\SpriteComponent.h" />
     <ClInclude Include="jni\SceneGraph\Object.h" />
     <ClInclude Include="jni\SceneManaging\BaseScene.h" />
     <ClInclude Include="jni\SceneManaging\CollisionManager.h" />
@@ -137,7 +137,7 @@
     <ClCompile Include="jni\Input\XMLFileParser.cpp" />
     <ClCompile Include="jni\Input\XMLFileSerializer.cpp" />
     <ClCompile Include="jni\Logger.cpp" />
-    <ClCompile Include="jni\Objects\Sprite.cpp" />
+    <ClCompile Include="jni\Components\SpriteComponent.cpp" />
     <ClCompile Include="jni\SceneGraph\Object.cpp" />
     <ClCompile Include="jni\SceneManaging\BaseScene.cpp" />
     <ClCompile Include="jni\SceneManaging\CollisionManager.cpp" />
