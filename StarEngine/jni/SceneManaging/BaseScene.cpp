@@ -3,6 +3,7 @@
 #include "../Input/InputManager.h"
 #include "../SceneGraph/Object.h"
 #include "../StarComponents.h"
+#include "../Logger.h"
 
 namespace star 
 {
@@ -41,7 +42,15 @@ namespace star
 
 	void BaseScene::BaseOnDeactivate()
 	{
+		auto it = m_Objects.begin();
+		for(it=m_Objects.begin(); it !=m_Objects.end();++it)
+		{
+			delete* it;
+		}
+		m_Objects.clear();
 		OnDeactivate();
+
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("BaseScene Objects Cleared"));
 	}
 
 	status BaseScene::BaseUpdate(const Context& context)

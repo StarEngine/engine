@@ -12,7 +12,7 @@ class TestScene : public star::BaseScene
 {
 public:
 	TestScene(const tstring& name);
-	virtual ~TestScene() {}
+	virtual ~TestScene();
 
 	status Initialize(const star::Context& context);
 	status Update(const star::Context& context);

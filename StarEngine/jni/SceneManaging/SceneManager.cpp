@@ -19,7 +19,6 @@ namespace star
 		, m_bSwitchingScene(false)
 		, m_bInitialized(false)
 		, m_bDestroyRequested(false)
-		, m_bPauseRequested(false)
 		, m_CurrentSceneName(EMPTY_STRING)
 #ifndef _WIN32
 		, mApplicationPtr(nullptr)
@@ -119,7 +118,7 @@ namespace star
 
 	status SceneManager::Update(const Context& context)
 	{
-		if(m_bDestroyRequested || m_bPauseRequested)
+		if(m_bDestroyRequested)
 		{
 			return (STATUS_OK);
 		}
@@ -146,7 +145,7 @@ namespace star
 
 	status SceneManager::Draw()
 	{
-		if(m_bDestroyRequested || m_bPauseRequested)
+		if(m_bDestroyRequested)
 		{
 			return (STATUS_OK);
 		}
@@ -168,61 +167,28 @@ namespace star
 		mApplicationPtr = pApplication;
 		switch(pCommand)
 		{
-		case APP_CMD_CONFIG_CHANGED:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_CONFIG_CHANGED"));
-			m_ActiveScene->OnConfigurationChanged();
-			break;
 
-		case APP_CMD_DESTROY:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_DESTROY"));
-			break;
+		//First save state - then Stop - then Start - then Resume - then gained focus
 
-		case APP_CMD_GAINED_FOCUS:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_GAINED_FOCUS"));
-			Activate();
-			star::SoundService::GetInstance()->ResumeAllSound();
-			break;
-
-		case APP_CMD_LOST_FOCUS:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_LOST_FOCUS"));
-			star::SoundService::GetInstance()->PauseAllSound();
+		case APP_CMD_STOP:
+			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_STOP"));
 			DeActivate();
 			break;
 
-		case APP_CMD_LOW_MEMORY:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_LOW_MEMORY"));
+			//only activate here because this is after the graphics manager was initialized and has a window ptr
+		case APP_CMD_GAINED_FOCUS:
+			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_START"));
+			Activate();
 			break;
 
-		case APP_CMD_PAUSE:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_PAUSE"));
-			m_bPauseRequested=true;
-			star::SoundService::GetInstance()->PauseAllSound();
-			break;
-
-		case APP_CMD_RESUME:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_RESUME"));
-			m_bPauseRequested=false;
-			star::SoundService::GetInstance()->ResumeAllSound();
-			break;
 
 		case APP_CMD_SAVE_STATE:
 			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_SAVE_STATE"));
 			m_ActiveScene->OnSaveState(&mApplicationPtr->savedState,&mApplicationPtr->savedStateSize);
 			break;
 
-		case APP_CMD_START:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_START"));
-			break;
 
-		case APP_CMD_STOP:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_STOP"));
-			//star::SoundService::GetInstance()->Stop();
-			break;
 
-		case APP_CMD_TERM_WINDOW:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_TERM_WINDOW"));
-			DeActivate();
-			break;
 		}
 	}
 
@@ -265,11 +231,13 @@ namespace star
 
 	void SceneManager::DeActivate()
 	{
-		m_ActiveScene->BaseOnDeactivate();
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Going trough DeActivate"));
-		star::GraphicsManager::GetInstance()->Destroy();
-		star::TextureManager::GetInstance()->EraseTextures();
-		//star::SoundService::GetInstance()->Stop();
+		/*auto iter = m_SceneList.begin();
+		for(iter; iter != m_SceneList.end(); ++iter)
+		{
+			iter->second->BaseOnDeactivate();
+			//delete iter->second;
+		}*/
 		m_SceneList.clear();
 		m_CurrentSceneName = EMPTY_STRING;
 	}

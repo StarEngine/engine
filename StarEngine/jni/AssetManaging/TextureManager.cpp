@@ -15,8 +15,9 @@ namespace star
 		auto iter = mTextureList.begin();
 		for(iter; iter != mTextureList.end(); ++iter)
 		{
-			mTextureList.erase(iter);
+			delete iter->second;
 		}
+		mTextureList.clear();
 		mPathList.clear();
 	}
 
@@ -63,6 +64,7 @@ namespace star
 		auto it = mTextureList.find(name);
 		if(it != mTextureList.end())
 		{
+			delete it->second;
 			mTextureList.erase(it);
 			return (true);
 		}

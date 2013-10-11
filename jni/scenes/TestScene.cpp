@@ -48,6 +48,26 @@ TestScene::TestScene(const tstring & Name):
 		
 }
 
+TestScene::~TestScene()
+{
+	delete  m_pTestSprite;
+	delete  m_pObjectOne;
+	delete 	m_pObjectTwo;
+	delete 	m_pObjectThree;
+	delete 	m_pObjectFour;
+	delete 	m_pObjectFive;
+	delete 	m_pObjectSix;
+	delete 	m_pRectCompOne;
+	delete 	m_pRectCompTwo;
+	delete 	m_pPathFindComp;
+	delete 	m_pPathFindCompTwo;
+	delete 	m_pPathFindCompThree;
+	delete 	m_pPathFindCompFour;
+	delete 	m_pPathFindCompFive;
+	delete 	m_pPathFindCompSix;
+	delete 	m_TapGesture;
+}
+
 status TestScene::Initialize( const star::Context& context)
 {
 

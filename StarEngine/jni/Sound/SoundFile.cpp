@@ -198,7 +198,6 @@ namespace star
 	{
 #ifdef _WIN32
 		Mix_PauseMusic();
-		Mix_RewindMusic();
 #else
 		(*mPlayer)->SetPlayState(mPlayer,SL_PLAYSTATE_PAUSED);
 #endif
@@ -207,8 +206,7 @@ namespace star
 	void SoundFile::Resume()
 	{
 #ifdef _WIN32
-		Mix_PauseMusic();
-		Mix_RewindMusic();
+		Mix_ResumeMusic();
 #else
 		SLresult lres=(*mPlayer)->GetPlayState(mPlayer,&lres);
 		if(lres==SL_PLAYSTATE_PAUSED)
