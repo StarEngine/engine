@@ -71,7 +71,7 @@ status TestScene::Initialize( const star::Context& context)
 	m_pPathFindCompThree = new star::PathFindNodeComponent();
 	m_pObjectThree->AddComponent(m_pPathFindCompThree);
 	m_pObjectThree->GetComponent<star::TransformComponent>()->Translate(1,1,0);
-
+	
 	m_pObjectFour = new star::Object();
 	m_pPathFindCompFour = new star::PathFindNodeComponent();
 	m_pObjectFour->AddComponent(m_pPathFindCompFour);
