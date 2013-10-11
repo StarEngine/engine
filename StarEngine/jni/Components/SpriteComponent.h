@@ -29,6 +29,8 @@ namespace star
 		tstring m_FilePath;
 		tstring m_SpriteName;
 		
+		int32 m_Width;
+		int32 m_Height;
 
 		GLfloat m_Vertices[12];
 		GLfloat m_UvCoords[8];
