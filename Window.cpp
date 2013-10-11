@@ -482,7 +482,8 @@ LRESULT CALLBACK Window::wEventsProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			break;
 		case WM_SYSCOMMAND:
 			if (Window::GetInstance()->CanGoFullScreen()
-				&& SC_KEYMENU == (wParam & 0xFFF0))
+				&& SC_KEYMENU == (wParam & 0xFFF0)
+				&& GetKeyState(VK_RETURN))
 			{
 				//alt - enter => FullScreen
 				Window::GetInstance()->ToggleFullScreen(hWnd);
@@ -496,7 +497,6 @@ LRESULT CALLBACK Window::wEventsProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-
 Window::~Window(void)
 {
 	delete mMainGamePtr;
@@ -506,14 +506,7 @@ void Window::WindowInactiveUpdate(bool inactive)
 {
 	if(m_IsFullScreen || (inactive && mClipRect.left != -1))
 	{
-		RECT windowRect;
-				
-		windowRect.left = 0;
-		windowRect.top = 0;
-		windowRect.right = GetSystemMetrics(SM_CXSCREEN);
-		windowRect.bottom = GetSystemMetrics(SM_CYSCREEN);
-
-		ClipCursor(&windowRect);
+		ClipCursor(NULL);
 	}
 	else if(mClipRect.left != -1)
 	{
