@@ -7,6 +7,8 @@ namespace star
 	struct Context;
 	class Object;
 
+	//[TODO] Make EraseAllCollisions function , now on reseting all objects keep being stored!!
+
 	class CollisionManager
 	{
 	public:

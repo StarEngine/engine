@@ -30,6 +30,12 @@
     <ClCompile Include="jni\scenes\TestScene2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="jni\Gestures\TapGesture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Gestures\DoubleTapGesture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="jni\Game.h">
@@ -42,6 +48,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="jni\scenes\TestScene2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Gestures\TapGesture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Gestures\DoubleTapGesture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

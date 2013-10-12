@@ -46,8 +46,7 @@ namespace star
 		std::map<tstring, BaseScene*> m_SceneList;
 		bool m_bSwitchingScene,
 			 m_bInitialized,
-			 m_bDestroyRequested,
-			 m_bPauseRequested;
+			 m_bDestroyRequested;
 		tstring m_CurrentSceneName;
 
 		bool InitializeCurScene(const Context& context);

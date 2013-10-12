@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include "../StarEngine/jni/Input/InputManager.h"
 #include "../StarEngine/jni/StarEngine.h"
+#include "../StarEngine/jni/Sound/SoundService.h"
 
 EventLoop * EventLoop::mEventLoop = nullptr;
 
@@ -108,10 +109,11 @@ void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 
 	switch(pCommand)
 	{
+		//Gets called first on fresh app launch
 	case APP_CMD_INIT_WINDOW:
 		if(pApplication->window != nullptr)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Eventloop Callback : INIT Window"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Eventloop : APP CMD INIT WINDOW"));
 			star::GraphicsManager::GetInstance()->Initialize(pApplication);
 			lEventLoop.mQuit=false;
 		}
@@ -122,6 +124,7 @@ void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 		}
 	break;
 
+		//Gets called second after the window init
 	case APP_CMD_GAINED_FOCUS:
 		if(lEventLoop.mMainGame->Initialize(0,0) != STATUS_OK)
 		{
@@ -131,12 +134,59 @@ void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 		else
 		{
 			lEventLoop.mEnabled = true;
-			star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Eventloop Callback : GAINED FOXUS, Initited MainGame"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Eventloop : APP CMD GAINED FOXUS, Initited MainGame"));
+			star::SceneManager::GetInstance()->processActivityEvent(pCommand,pApplication);
 		}
 		break;
 
+	case APP_CMD_LOST_FOCUS:
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Eventloop : APP_CMD_LOST_FOCUS"));
+		star::SoundService::GetInstance()->PauseAllSound();
+		break;
+
+		//Gets called first when rotating the screen
+		//After this the Save State gets called in the scene manager
+	case APP_CMD_PAUSE:
+		star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Eventloop : APP CMD PAUSE"));
+		lEventLoop.mEnabled = false;
+		star::SoundService::GetInstance()->PauseAllSound();
+		break;
+
+	case APP_CMD_RESUME:
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Eventloop : APP_CMD_RESUME"));
+		break;
+
+		//Gets called after the pause command
+	case APP_CMD_STOP:
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Eventloop : APP_CMD_STOP"));
+		star::SceneManager::GetInstance()->processActivityEvent(pCommand,pApplication);
+		break;
+
+	case APP_CMD_START:
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Eventloop : APP_CMD_START"));
+		break;
+
+	case APP_CMD_TERM_WINDOW:
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Eventloop : APP_CMD_TERM_WINDOW"));
+		star::TextureManager::GetInstance()->EraseTextures();
+		break;
+
+	case APP_CMD_DESTROY:
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Eventloop : APP_CMD_DESTROY"));
+		star::GraphicsManager::GetInstance()->Destroy();
+
+		break;
+
+
+	case APP_CMD_LOW_MEMORY:
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Eventloop : APP_CMD_LOW_MEMORY"));
+		break;
+
+	case APP_CMD_CONFIG_CHANGED:
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Eventloop : APP_CMD_CONFIG_CHANGED"));
+		break;
+
 	default:
-		//star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Callback to scenemanager"));
 		star::SceneManager::GetInstance()->processActivityEvent(pCommand,pApplication);
 		break;
 	}

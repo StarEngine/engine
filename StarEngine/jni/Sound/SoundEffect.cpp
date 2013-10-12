@@ -177,7 +177,7 @@ namespace star
 	void SoundEffect::Pause()
 	{
 #ifdef _WIN32
-		Mix_HaltChannel(mPlayChannel);
+		Mix_Pause(mPlayChannel);
 #else
 		for(int i = 0; i < MAX_SAMPLES ; ++i)
 		{
@@ -191,7 +191,7 @@ namespace star
 	void SoundEffect::Resume()
 	{
 #ifdef _WIN32
-		Mix_HaltChannel(mPlayChannel);
+		Mix_Resume(mPlayChannel);
 #else
 		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
 		{

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../defines.h"
-#include "../Input/Gestures/GestureManager.h"
+#include "../Input/GestureManager.h"
 #include <vector>
 
 namespace star 

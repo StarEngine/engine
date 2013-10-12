@@ -14,7 +14,7 @@ class TestScene2 : public star::BaseScene
 {
 public:
 	TestScene2(const tstring& name);
-	virtual ~TestScene2() {}
+	virtual ~TestScene2();
 
 	status Initialize(const star::Context& context);
 	status Update(const star::Context& context);
