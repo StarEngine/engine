@@ -96,15 +96,6 @@
     <ClInclude Include="jni\Input\XMLFileSerializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Input\Gestures\BaseGesture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\Input\Gestures\GestureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\Input\Gestures\TapGesture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="jni\SceneGraph\Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -145,6 +136,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="jni\Objects\FreeCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Helpers\FPS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Input\BaseGesture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Input\GestureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -212,15 +212,6 @@
     <ClCompile Include="jni\Input\XMLFileSerializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\Input\Gestures\BaseGesture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="jni\Input\Gestures\GestureManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="jni\Input\Gestures\TapGesture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="jni\SceneGraph\Object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -258,6 +249,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Objects\FreeCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Helpers\FPS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Input\BaseGesture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Input\GestureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

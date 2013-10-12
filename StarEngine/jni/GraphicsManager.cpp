@@ -1,6 +1,11 @@
 #include "GraphicsManager.h"
 #include "Logger.h"
 
+#ifdef _WIN32
+#include <Windows.h>
+#include <wglext.h>
+#endif
+
 namespace star
 {
 	GraphicsManager* GraphicsManager::mGraphicsManager = nullptr;
@@ -97,6 +102,14 @@ namespace star
 			return;
 		}
 		glViewport(0,0,mScreenWidth,mScreenHeight);
+
+#ifdef _WIN32
+		star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Initializing OpenGL Functors"));
+		if(InitializeOpenGLFunctors())
+		{
+			wglSwapIntervalEXT(1);
+		}
+#endif
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialized"));
 	}
 
@@ -157,4 +170,45 @@ namespace star
 		mScreenWidth = width;
 		mScreenHeight = height;
 	}
+
+#ifdef _WIN32
+
+	bool GraphicsManager::WGLExtensionSupported(const char* extension_name)
+	{
+		// this is the pointer to the function which returns the pointer to string with the list of all wgl extensions
+		PFNWGLGETEXTENSIONSSTRINGEXTPROC _wglGetExtensionsStringEXT = NULL;
+
+		// determine pointer to wglGetExtensionsStringEXT function
+		_wglGetExtensionsStringEXT = (PFNWGLGETEXTENSIONSSTRINGEXTPROC) wglGetProcAddress("wglGetExtensionsStringEXT");
+
+		if (strstr(_wglGetExtensionsStringEXT(), extension_name) == NULL)
+		{
+			// string was not found
+			return false;
+		}
+
+		// extension is supported
+		return true;
+	}
+
+	bool GraphicsManager::InitializeOpenGLFunctors()
+	{
+		PFNWGLSWAPINTERVALEXTPROC       wglSwapIntervalEXT = NULL;
+		PFNWGLGETSWAPINTERVALEXTPROC    wglGetSwapIntervalEXT = NULL;
+
+		if (WGLExtensionSupported("WGL_EXT_swap_control"))
+		{
+			// Extension is supported, init pointers.
+			wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress("wglSwapIntervalEXT");
+
+			// this is another function from WGL_EXT_swap_control extension
+			wglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC) wglGetProcAddress("wglGetSwapIntervalEXT");
+
+			return true;
+		}
+		return false;
+	}
+
+#endif
+
 }

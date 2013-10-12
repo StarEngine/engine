@@ -39,6 +39,11 @@ namespace star
 	private:
 		GraphicsManager();
 
+#ifdef _WIN32
+		bool WGLExtensionSupported(const char* extension_name);
+		bool InitializeOpenGLFunctors();
+#endif
+
 		static GraphicsManager* mGraphicsManager;
 
 		int32 mScreenWidth;

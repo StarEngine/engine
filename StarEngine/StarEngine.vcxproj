@@ -40,7 +40,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <ReferencePath>..\libs\SDL2_mixer-2.0.0\lib\x86;..\libs\SDL2-2.0.0\lib\x86;..\libs\OpenSL;..\libs\OpenGL\GLUT\lib\x86\Debug;..\libs\OpenGL\GLEW\lib\Release\Win32;..\libs\Libpng_Debug;$(ReferencePath)</ReferencePath>
+    <ReferencePath>..\libs\SDL2_mixer-2.0.0\lib\x86;..\libs\SDL2-2.0.0\lib\x86;..\libs\OpenSL;..\libs\OpenGL\GL;..\libs\OpenGL\GLUT\lib\x86\Debug;..\libs\OpenGL\GLEW\lib\Release\Win32;..\libs\Libpng_Debug;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ExecutablePath>..\libs\SDL2_mixer-2.0.0\lib\x86;..\libs\SDL2-2.0.0\lib\x86;..\libs\OpenSL;..\libs\OpenGL\GLUT\lib\x86\Debug;..\libs\OpenGL\GLEW\lib\Release\Win32;..\libs\Libpng_Debug;$(ExecutablePath)</ExecutablePath>
@@ -49,7 +49,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\libs\SDL2_mixer-2.0.0\include;..\libs\SDL2-2.0.0\include;..\libs\libpng;$(ProjectDir);..\libs\OpenGL\GLEW\include\GL;..\libs\OpenGL\GLUT\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\libs\SDL2_mixer-2.0.0\include;..\libs\SDL2-2.0.0\include;..\libs\libpng;$(ProjectDir);..\libs\OpenGL\GL;..\libs\OpenGL\GLEW\include\GL;..\libs\OpenGL\GLUT\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
