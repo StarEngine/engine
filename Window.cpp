@@ -422,8 +422,12 @@ void Window::SetWindowActive(bool active)
 
 void Window::SetWindowsTitle() const
 {
-	SetWindowText(mHandle, 
-		(star::StarEngine::GetInstance()->m_Title + star::StarEngine::GetInstance()->m_SubTitle).c_str());
+	if (star::StarEngine::GetInstance()->HasTitleUpdated())
+	{
+		SetWindowText(mHandle, 
+			(star::StarEngine::GetInstance()->m_Title + star::StarEngine::GetInstance()->m_SubTitle).c_str());
+		star::StarEngine::GetInstance()->ResetTitleUpdateMark();
+	}
 }
 
 HWND Window::GetConsoleHWND()

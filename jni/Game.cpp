@@ -31,7 +31,7 @@ status Game::Update(const star::Context& context)
 {
 	tstring subTitle(_T("... FPS: "));
 	subTitle += star::string_cast<tstring>(star::StarEngine::GetInstance()->GetCurrentFPS());
-	star::StarEngine::GetInstance()->SetGameSubTitle(subTitle);
+	//star::StarEngine::GetInstance()->SetGameSubTitle(subTitle);
 	return star::StarEngine::GetInstance()->Update(context);
 }
 

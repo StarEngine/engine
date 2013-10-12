@@ -39,6 +39,9 @@ namespace star
 		void SetGameTitle(const tstring & title);
 		void SetGameSubTitle(const tstring & title);
 
+		bool HasTitleUpdated() const;
+		void ResetTitleUpdateMark();
+
 #ifndef _WIN32
 		void SetAndroidApp(android_app * app) { m_pAndroidApp = app; }
 		android_app * GetAndroidApp() const { return m_pAndroidApp; }
@@ -48,6 +51,7 @@ namespace star
 		static StarEngine * m_pEngine;
 		FPS m_FPS;
 		tstring m_Title, m_SubTitle;
+		bool m_TitleHasUpdated;
 
 #ifndef _WIN32
 		android_app *m_pAndroidApp;

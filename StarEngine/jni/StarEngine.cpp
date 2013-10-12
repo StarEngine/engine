@@ -98,17 +98,30 @@ namespace star
 	void StarEngine::SetGameTitle(const tstring & title)
 	{
 		m_Title = title;
+		m_TitleHasUpdated = true;
 	}
 
 	void StarEngine::SetGameSubTitle(const tstring & title)
 	{
 		m_SubTitle = title;
+		m_TitleHasUpdated = true;
+	}
+
+	bool StarEngine::HasTitleUpdated() const
+	{
+		return m_TitleHasUpdated;
+	}
+
+	void StarEngine::ResetTitleUpdateMark()
+	{
+		m_TitleHasUpdated = false;
 	}
 
 	StarEngine::StarEngine()
 		: m_FPS()
 		, m_Title(EMPTY_STRING)
 		, m_SubTitle(EMPTY_STRING)
+		, m_TitleHasUpdated(false)
 	{
 	}
 }
