@@ -265,7 +265,7 @@ void Window::Initialize(HINSTANCE instance)
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
-			else if(m_IsActive) // We've processed all pending Win32 messages, and can now do a rendering update.
+			if(m_IsActive) // We've processed all pending Win32 messages, and can now do a rendering update.
 			{
 				mMainGamePtr->Draw();
 		
