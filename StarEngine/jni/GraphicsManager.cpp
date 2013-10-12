@@ -30,10 +30,14 @@ namespace star
 	{
 		mScreenWidth = screenWidth;
 		mScreenHeight = screenHeight;
-
-#ifdef _WIN32
 		glewInit();
-#endif
+
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initializing OpenGL Functors"));
+		if(!InitializeOpenGLFunctors())
+		{
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Graphics card doesn't support VSync option!!"));
+		}
+
 		//Initializes base GL state.
 		// In a simple 2D game, we have control over the third
 		// dimension. So we do not really need a Z-buffer.
@@ -103,13 +107,7 @@ namespace star
 		}
 		glViewport(0,0,mScreenWidth,mScreenHeight);
 
-#ifdef _WIN32
-		star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Initializing OpenGL Functors"));
-		if(InitializeOpenGLFunctors())
-		{
-			wglSwapIntervalEXT(1);
-		}
-#endif
+
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialized"));
 	}
 
@@ -204,6 +202,7 @@ namespace star
 			// this is another function from WGL_EXT_swap_control extension
 			wglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC) wglGetProcAddress("wglGetSwapIntervalEXT");
 
+			wglSwapIntervalEXT(1);
 			return true;
 		}
 		return false;
