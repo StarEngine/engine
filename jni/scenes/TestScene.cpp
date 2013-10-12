@@ -2,6 +2,7 @@
 #include "../../StarEngine/jni/Helpers/Helpers.h"
 #include "../../StarEngine/jni/SceneManaging/CollisionManager.h"
 #include "../../StarEngine/jni/SceneManaging/PathFindManager.h"
+#include "../../StarEngine/jni/StarComponents.h"
 #include "../../StarEngine/jni/Input/InputManager.h"
 #include "../../StarEngine/jni/GraphicsManager.h"
 #include "../../StarEngine/jni/SceneManaging/SceneManager.h"
@@ -43,7 +44,8 @@ TestScene::TestScene(const tstring & Name):
 	m_pPathFindCompFive(nullptr),
 	m_pPathFindCompSix(nullptr),
 	m_pSpriteComp1(nullptr),
-	m_TapGesture(nullptr)
+	m_TapGesture(nullptr),
+	m_pActiveCamera(nullptr)
 {
 		
 }
@@ -59,7 +61,7 @@ status TestScene::Initialize( const star::Context& context)
 	m_pPathFindComp = new star::PathFindNodeComponent();
 	m_pObjectOne->AddComponent(m_pRectCompOne);
 	m_pObjectOne->AddComponent(m_pPathFindComp);
-
+	
 	m_pObjectTwo = new star::Object();
 	m_pRectCompTwo = new star::CircleColliderComponent(10);
 	m_pPathFindCompTwo = new star::PathFindNodeComponent();
@@ -76,26 +78,29 @@ status TestScene::Initialize( const star::Context& context)
 	m_pPathFindCompFour = new star::PathFindNodeComponent();
 	m_pObjectFour->AddComponent(m_pPathFindCompFour);
 	m_pObjectFour->GetComponent<star::TransformComponent>()->Translate(2,1,0);
-
+	
 	m_pObjectFive = new star::Object();
 	m_pPathFindCompFive = new star::PathFindNodeComponent();
 	m_pObjectFive->AddComponent(m_pPathFindCompFive);
 	m_pObjectFive->GetComponent<star::TransformComponent>()->Translate(3,1,0);
-
+	
 	m_pObjectSix = new star::Object();
 	m_pPathFindCompSix = new star::PathFindNodeComponent();
 	m_pObjectSix->AddComponent(m_pPathFindCompSix);
 	m_pObjectSix->GetComponent<star::TransformComponent>()->Translate(3,2,0);
-
+	
 	m_pSpriteObject = new star::Object();
 	star::Filepath tex1path(_T(""),_T("Awesome.png"));
 	m_pSpriteComp1 = new star::SpriteComponent(tex1path.GetFullPath(),_T("Awesome"));
 	m_pSpriteObject->AddComponent(m_pSpriteComp1);
 	//m_pSpriteObject->GetComponent<star::TransformComponent>()->Translate(200,400,0);
 
+	m_pActiveCamera = new star::FreeCamera();
+	AddObject(m_pActiveCamera);
+
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectOne);
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectTwo);
-
+	
 	star::CollisionManager::GetInstance()->CheckCollision(_T("Default"));
 
 	star::Filepath soundspath(_T("Sounds/"),_T("StereoTest.mp3"));
@@ -125,6 +130,11 @@ status TestScene::Initialize( const star::Context& context)
 
 	status TestScene::Update(const star::Context& context)
 	{
+		if(!m_pActiveCamera->GetComponent<star::CameraComponent>()->IsActive())
+		{
+			m_pActiveCamera->GetComponent<star::CameraComponent>()->SetActive();
+		}
+
 		if(m_TapGesture->CompletedGesture())
 		{
 			LOGGER->Log(star::LogLevel::Info, _T("Tapped!"));
@@ -166,7 +176,7 @@ status TestScene::Initialize( const star::Context& context)
 	}
 	star::PathFindManager::GetInstance()->FindPath(m_pObjectOne->GetComponent<star::TransformComponent>()->GetWorldPosition(), vec3(3,2,0));
 
-	if(pos.y>(star::GraphicsManager::GetInstance()->GetWindowHeigth()/2) && pos.y< star::GraphicsManager::GetInstance()->GetWindowHeigth())
+	if(pos.y>(star::GraphicsManager::GetInstance()->GetWindowHeight()/2) && pos.y< star::GraphicsManager::GetInstance()->GetWindowHeight())
 	{
 		star::SceneManager::GetInstance()->SetActiveScene(_T("TestScene2"));
 	}

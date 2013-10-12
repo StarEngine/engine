@@ -3,6 +3,7 @@
 #include "../Input/InputManager.h"
 #include "../SceneGraph/Object.h"
 #include "../StarComponents.h"
+#include "../Objects/FreeCamera.h"
 
 namespace star 
 {
@@ -11,7 +12,7 @@ namespace star
 		, m_Name(name)
 		, m_Initialized(false) 
 		, m_Objects()
-		, m_pActiveCamera(nullptr)
+		, m_pDefaultCamera(nullptr)
 	{
 		m_GestureManagerPtr = new GestureManager();
 	}
@@ -20,6 +21,9 @@ namespace star
 		status isInitialized(Initialize(context));
 		if(isInitialized == STATUS_OK)
 		{
+			m_pDefaultCamera = new FreeCamera();
+			AddObject(m_pDefaultCamera);
+
 			m_Initialized = true;
 			for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
 			{
@@ -99,12 +103,13 @@ namespace star
 
 	void BaseScene::SetActiveCamera(CameraComponent* pCameraComponent)
 	{
-		if(m_pActiveCamera != nullptr)
+		auto camComp = m_pDefaultCamera->GetComponent<CameraComponent>();
+		if(camComp != nullptr)
 		{
-			m_pActiveCamera->Deactivate();
+			camComp->Deactivate();
 		}
 
-		m_pActiveCamera = pCameraComponent;
-		m_pActiveCamera->Activate();
+		camComp = pCameraComponent;
+		camComp->Activate();
 	}
 }

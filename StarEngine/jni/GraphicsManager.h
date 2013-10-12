@@ -31,8 +31,8 @@ namespace star
 		void StopDraw();
 
 		int32 GetWindowWidth() const { return mScreenWidth; }
-		int32 GetWindowHeigth() const { return mScreenHeight; }
-		float GetWindowAspectRatio() const {return static_cast<float>(mScreenWidth/mScreenHeight);}
+		int32 GetWindowHeight() const { return mScreenHeight; }
+		float GetWindowAspectRatio() const {return static_cast<float>(mScreenWidth)/static_cast<float>(mScreenHeight);}
 
 		void SetWindowDimensions(int32 width, int32 height);
 

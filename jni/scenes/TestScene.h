@@ -7,6 +7,7 @@
 #include "../../StarEngine/jni/SceneGraph/Object.h"
 #include "../../StarEngine/jni/StarComponents.h"
 #include "../../StarEngine/jni/Input/Gestures/TapGesture.h"
+#include "../../StarEngine/jni/Objects/FreeCamera.h"
 
 class TestScene : public star::BaseScene
 {
@@ -34,6 +35,8 @@ private:
 			*m_pObjectFive, 
 			*m_pObjectSix,
 			*m_pSpriteObject;
+
+	star::FreeCamera *m_pActiveCamera;
 
 	star::RectangleColliderComponent* m_pRectCompOne;
 	star::CircleColliderComponent	*m_pRectCompTwo;

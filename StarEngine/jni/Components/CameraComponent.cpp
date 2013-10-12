@@ -1,19 +1,29 @@
 #include "CameraComponent.h"
 #include "..\GraphicsManager.h"
 #include "..\SceneGraph\Object.h"
+#include "../Input/InputManager.h"
 #include "..\Context.h"
 #include "..\Logger.h"
+
+//General info
+//
+//Using custom matrix4x4 calculation functions
+//since OpenGl uses matrices in a different way
 
 namespace star
 {
 	CameraComponent::CameraComponent():
-		m_FOV(3.14159265358979323846264338327950288f /4),
+		BaseComponent(),
+		m_Projection(),
+		m_View(),
+		m_ViewInverse(),
+		m_FarPlane(50.0f),
 		m_NearPlane(0.1f),
-		m_FarPlane(5000.0f),
-		m_Size(25.0f),
-		m_bPerspectiveProjection(true),
+		m_FOV(static_cast<float>(PI/4.0f)),
+		m_Size(0.0f),
 		m_bIsActive(false),
-		BaseComponent()
+		m_bPerspectiveProjection(false),
+		m_Zoom(1.0f)
 	{
 	}
 
@@ -21,7 +31,7 @@ namespace star
 	{
 	}
 
-	void CameraComponent::Update(const Context& context)
+	void CameraComponent::InitializeComponent()
 	{
 		float aspectRatio = GraphicsManager::GetInstance()->GetWindowAspectRatio();
 	
@@ -32,12 +42,28 @@ namespace star
 		else
 		{
 			//calc ortho matrix
-			if(m_Size < 0)
+			if(m_Size <= 0)
 			{
-				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetWindowWidth());
+				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetWindowHeight());
 			}
 
-			m_Projection = MatrixOrtho(m_Size * aspectRatio, m_Size, m_NearPlane, m_FarPlane);
+			m_Projection = MatrixOrtho(m_Size * aspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
+		}
+	}
+
+	void CameraComponent::Update(const Context& context)
+	{
+		if(InputManager::GetInstance()->IsKeyboardKeyDown('O'))
+		{
+			m_Zoom += 0.1f * static_cast<float>(context.mTimeManager->GetSeconds());
+			float aspectRatio = GraphicsManager::GetInstance()->GetWindowAspectRatio();
+			m_Projection = MatrixOrtho(m_Size * aspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
+		}
+		else if(InputManager::GetInstance()->IsKeyboardKeyDown('P'))
+		{
+			m_Zoom -= 0.1f * static_cast<float>(context.mTimeManager->GetSeconds());
+			float aspectRatio = GraphicsManager::GetInstance()->GetWindowAspectRatio();
+			m_Projection = MatrixOrtho(m_Size * aspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
 		}
 
 		vec3 vEyePt = m_pParentObject->GetComponent<TransformComponent>()->GetWorldPosition();
@@ -57,7 +83,7 @@ namespace star
 
 		//Calculate the viewmatrix and inverse
 		m_View = MatrixLookAt(vEyePt, (vEyePt + vLookat), vUpVec);
-		m_ViewInverse = glm::inverse(m_View);
+		m_ViewInverse = InverseMatrix(m_View);
 	}
 	
 	void CameraComponent::SetActive()
@@ -94,6 +120,7 @@ namespace star
 
 	mat4x4 CameraComponent::MatrixOrtho(float width, float height, float nearPlane, float farPlane)
 	{
+		//opengl standard is -1 to 1 --> 2 width
 		mat4x4 matOrtho
 		(
 		2/width, 0, 0, 0,
@@ -122,5 +149,48 @@ namespace star
 		);
 
 		return matLookAt;
+	}
+
+	mat4x4 CameraComponent::InverseMatrix(const mat4x4& matrix)
+	{
+		float x1, y1, z1, w1,
+			  x2, y2, z2, w2,
+			  x3, y3, z3, w3,
+			  x4, y4, z4, w4;
+
+		x1 = matrix[0][0];
+		x2 = matrix[1][0];
+		x3 = matrix[2][0];
+		x4 = matrix[3][0];
+
+		y1 = matrix[0][1];
+		y2 = matrix[1][1];
+		y3 = matrix[2][1];
+		y4 = matrix[3][1];
+
+		z1 = matrix[0][2];
+		z2 = matrix[1][2];
+		z3 = matrix[2][2];
+		z4 = matrix[3][2];
+
+		w1 = matrix[0][3];
+		w2 = matrix[1][3];
+		w3 = matrix[2][3];
+		w4 = matrix[3][3];
+
+		mat4x4 inverseMatrix
+		(
+		x1, y1, z1, x4,
+		x2, y2, z2, y4,
+		x3, y3, z3, z4,
+		w1, w2, w3, w4
+		);
+
+		return inverseMatrix;
+	}
+
+	mat4x4 CameraComponent::GetProjection() const
+	{
+		return m_Projection * m_ViewInverse;
 	}
 }

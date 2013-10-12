@@ -17,7 +17,7 @@ namespace star
 		virtual void Update(const Context& context);
 
 	protected:
-		virtual void InitializeComponent();
+		virtual void Initialize();
 		
 
 	private:

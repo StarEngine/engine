@@ -9,6 +9,7 @@ namespace star
 	struct Context;
 	class Object;
 	class CameraComponent;
+	class FreeCamera;
 
 	class BaseScene
 	{
@@ -44,6 +45,7 @@ namespace star
 		void RemoveObject(Object * object);
 
 		void SetActiveCamera(CameraComponent* pCameraComp);
+		FreeCamera* GetActiveCamera() const {return m_pDefaultCamera;}
 
 	protected:
 		virtual status Initialize(const Context& context) { return STATUS_OK; }
@@ -54,8 +56,8 @@ namespace star
 		GestureManager* m_GestureManagerPtr;
 
 		std::vector<Object*> m_Objects;
-		CameraComponent *m_pActiveCamera;
-		//FreeCamera* m_pDefaultCamera;
+		//CameraComponent *m_pActiveCamera;
+		FreeCamera* m_pDefaultCamera;
 
 	private:
 		bool m_Initialized;

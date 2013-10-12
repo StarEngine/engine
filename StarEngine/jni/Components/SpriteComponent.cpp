@@ -4,6 +4,9 @@
 #include "../AssetManaging/TextureManager.h"
 #include "../GraphicsManager.h"
 #include "../Components/TransformComponent.h"
+#include "../Objects/FreeCamera.h"
+#include "../Components/CameraComponent.h"
+#include "../SceneGraph/Object.h"
 
 namespace star
 {
@@ -83,14 +86,9 @@ namespace star
 		glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
 
 		uint32 width = GraphicsManager::GetInstance()->GetWindowWidth();
-		uint32 height = GraphicsManager::GetInstance()->GetWindowHeigth();
-
-		mat4x4 projection = mat4x4(
-				 (1.0f/width)/0.5f	, 0				, 0, -1
-				,0			, (1.0f/height)/0.5f	, 0, -1
-				,0			, 0				, 1, 0
-				,0			, 0				, 0, 1
-				);
+		uint32 height = GraphicsManager::GetInstance()->GetWindowHeight();
+		auto projectionObject = m_pParentObject->GetScene()->GetActiveCamera();
+		mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
 
 		glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Projection"),1,GL_FALSE,glm::value_ptr(projection));
 		glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Translation"),1,GL_FALSE,glm::value_ptr(GetTransform()->GetWorldMatrix()));

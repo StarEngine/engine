@@ -93,7 +93,7 @@ using glm::vec4;
 using glm::quat;
 using glm::mat4x4;
 using glm::ivec2;
-
+#define PI 3.14159265358979323846264338327950288
 #define EMPTY_STRING _T("")
 #define ANDROID_LOG_TAG _T("STAR_ENGINE")
 

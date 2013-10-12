@@ -6,9 +6,10 @@
 namespace star
 {
 	FreeCamera::FreeCamera():
-		m_TotalPitch(0)
+		Object()
+		,m_TotalPitch(0)
 		,m_TotalYaw(0)
-		,m_MoveSpeed(1000)
+		,m_MoveSpeed(1.0f)
 		,m_RotationSpeed(static_cast<float>(3.14)/2.0f)
 		,m_pCamera(nullptr)
 		,m_bisStatic(false)
@@ -19,7 +20,7 @@ namespace star
 	{
 	}
 
-	void FreeCamera::InitializeComponent()
+	void FreeCamera::Initialize()
 	{
 		//Camera Component
 		m_pCamera = new CameraComponent();
@@ -35,7 +36,7 @@ namespace star
 		if(m_pCamera->IsActive())
 		{
 			//HANDLE INPUT
-			vec2 move = vec2(0,0);
+			vec3 move = vec3(0,0,0);
 	
 			if(!m_bisStatic)
 			{

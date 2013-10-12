@@ -20,20 +20,21 @@ namespace star
 		
 		void SetActive();
 		bool IsActive() const {return m_bIsActive;}
-		void Activate() {m_bIsActive = false;}
-		void Deactivate() {m_bIsActive = true;}
+		void Activate() {m_bIsActive = true;}
+		void Deactivate() {m_bIsActive = false;}
 
 		mat4x4 GetView() const {return m_View;}
-		mat4x4 GetProjection() const {return m_Projection;}
+		mat4x4 GetProjection() const;
 		mat4x4 GetViewInverse() const {return m_ViewInverse;}
 
 	protected:
-		virtual void InitializeComponent() {};
+		virtual void InitializeComponent();
 
 	private:
 		mat4x4 MatrixPerspectiveFOV(float FovY, float ratio, float nearPlane, float farPlane);
 		mat4x4 MatrixOrtho(float width, float height, float nearPlane, float farPlane);
-		mat4x4 MatrixLookAt(const vec3& eye, const vec3& at, const vec3& up);
+		mat4x4 MatrixLookAt(const vec3 & eye, const vec3& at, const vec3& up);
+		mat4x4 InverseMatrix(const mat4x4& matrix);
 
 		mat4x4	m_Projection,
 				m_View,
@@ -42,7 +43,8 @@ namespace star
 		float	m_FarPlane,
 				m_NearPlane,
 				m_FOV,
-				m_Size;
+				m_Size,
+				m_Zoom;
 
 		bool m_bIsActive, m_bPerspectiveProjection;
 
