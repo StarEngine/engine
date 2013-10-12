@@ -88,6 +88,8 @@
     <ClInclude Include="jni\Helpers\FPS.h" />
     <ClInclude Include="jni\Helpers\Helpers.h" />
     <ClInclude Include="jni\Helpers\Rect.h" />
+    <ClInclude Include="jni\Helpers\SpriteAnimation.h" />
+    <ClInclude Include="jni\Helpers\Spritesheet.h" />
     <ClInclude Include="jni\Helpers\State.h" />
     <ClInclude Include="jni\Helpers\StateManager.h" />
     <ClInclude Include="jni\Helpers\Stopwatch.h" />
@@ -102,6 +104,7 @@
     <ClInclude Include="jni\Components\SpriteComponent.h" />
     <ClInclude Include="jni\Objects\FreeCamera.h" />
     <ClInclude Include="jni\SceneGraph\Object.h" />
+    <ClInclude Include="jni\SceneGraph\SpriteAnimationManager.h" />
     <ClInclude Include="jni\SceneManaging\BaseScene.h" />
     <ClInclude Include="jni\SceneManaging\CollisionManager.h" />
     <ClInclude Include="jni\SceneManaging\PathFindManager.h" />
@@ -130,6 +133,8 @@
     <ClCompile Include="jni\Helpers\Filepath.cpp" />
     <ClCompile Include="jni\Helpers\FPS.cpp" />
     <ClCompile Include="jni\Helpers\Helpers.cpp" />
+    <ClCompile Include="jni\Helpers\SpriteAnimation.cpp" />
+    <ClCompile Include="jni\Helpers\Spritesheet.cpp" />
     <ClCompile Include="jni\Helpers\StateManager.cpp" />
     <ClCompile Include="jni\Helpers\Stopwatch.cpp" />
     <ClCompile Include="jni\Helpers\Timer.cpp" />
@@ -143,6 +148,7 @@
     <ClCompile Include="jni\Components\SpriteComponent.cpp" />
     <ClCompile Include="jni\Objects\FreeCamera.cpp" />
     <ClCompile Include="jni\SceneGraph\Object.cpp" />
+    <ClCompile Include="jni\SceneGraph\SpriteAnimationManager.cpp" />
     <ClCompile Include="jni\SceneManaging\BaseScene.cpp" />
     <ClCompile Include="jni\SceneManaging\CollisionManager.cpp" />
     <ClCompile Include="jni\SceneManaging\PathFindManager.cpp" />

@@ -96,15 +96,6 @@
     <ClInclude Include="jni\Sound\SoundService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Components\SpriteComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\Components\CameraComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\Objects\FreeCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="jni\Input\BaseGesture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -145,6 +136,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="jni\Input\GestureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Input\BaseGesture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Input\GestureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Helpers\SpriteAnimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\SceneGraph\SpriteAnimationManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Helpers\Spritesheet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -212,15 +218,6 @@
     <ClCompile Include="jni\Shaders\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\SceneManaging\TiledScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="jni\Components\SpriteComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="jni\Components\CameraComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="jni\Objects\FreeCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -257,7 +254,19 @@
     <ClCompile Include="jni\Input\BaseGesture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="jni\Input\BaseGesture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="jni\Input\GestureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\SceneGraph\SpriteAnimationManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Helpers\SpriteAnimation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Helpers\Spritesheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
