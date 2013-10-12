@@ -4,7 +4,7 @@
 #include <android/input.h>
 #include <android_native_app_glue.h>
 #endif
-#include "../../defines.h"
+#include "../defines.h"
 
 namespace star
 {

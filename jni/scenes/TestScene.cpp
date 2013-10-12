@@ -70,7 +70,7 @@ TestScene::~TestScene()
 status TestScene::Initialize( const star::Context& context)
 {
 
-	m_TapGesture = new star::TapGesture();
+	m_TapGesture = new DoubleTapGesture();
 	m_GestureManagerPtr->AddGesture(m_TapGesture);
 
 	m_pObjectOne = new star::Object();
@@ -148,7 +148,6 @@ status TestScene::Initialize( const star::Context& context)
 		{
 			LOGGER->Log(star::LogLevel::Info, _T("Tapped!"));
 			star::SoundService::GetInstance()->PlayBackgroundQueue();
-			
 		}
 		auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
 

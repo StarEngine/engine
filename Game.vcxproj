@@ -72,6 +72,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="jni\Game.cpp" />
+    <ClCompile Include="jni\Gestures\DoubleTapGesture.cpp" />
+    <ClCompile Include="jni\Gestures\TapGesture.cpp" />
     <ClCompile Include="jni\Main.cpp" />
     <ClCompile Include="jni\scenes\TestScene.cpp" />
     <ClCompile Include="jni\scenes\TestScene2.cpp" />
@@ -79,6 +81,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="jni\Game.h" />
+    <ClInclude Include="jni\Gestures\DoubleTapGesture.h" />
+    <ClInclude Include="jni\Gestures\TapGesture.h" />
     <ClInclude Include="jni\scenes\TestScene.h" />
     <ClInclude Include="jni\scenes\TestScene2.h" />
     <ClInclude Include="Window.h" />

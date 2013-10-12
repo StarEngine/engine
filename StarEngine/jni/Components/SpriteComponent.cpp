@@ -86,10 +86,10 @@ namespace star
 		uint32 height = GraphicsManager::GetInstance()->GetWindowHeigth();
 
 		mat4x4 projection = mat4x4(
-				 (1.0f/width)/0.5f	, 0				, 0, -1
-				,0			, (1.0f/height)/0.5f	, 0, -1
-				,0			, 0				, 1, 0
-				,0			, 0				, 0, 1
+				 2.0f/width	, 0				, 0					, -1
+				,0			, 2.0f/height	, 0					, -1
+				,0			, 0				, -2/5000.0f - 0.5f	, -((5000.0f+0.5f)/(5000.0f + 0.5f))
+				,0			, 0				, 0					, 1
 				);
 
 		glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Projection"),1,GL_FALSE,glm::value_ptr(projection));
