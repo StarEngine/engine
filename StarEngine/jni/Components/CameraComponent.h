@@ -44,7 +44,8 @@ namespace star
 				m_NearPlane,
 				m_FOV,
 				m_Size,
-				m_Zoom;
+				m_Zoom,
+				m_AspectRatio;
 
 		bool m_bIsActive, m_bPerspectiveProjection;
 

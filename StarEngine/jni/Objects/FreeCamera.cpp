@@ -40,7 +40,7 @@ namespace star
 	
 			if(!m_bisStatic)
 			{
-#ifdef WIN32
+#ifdef _WIN32
 				move.y = InputManager::GetInstance()->IsKeyboardKeyDown('Z')?1.0f:0.0f;
 				if(move.y == 0) move.y = -(InputManager::GetInstance()->IsKeyboardKeyDown('S')?1.0f:0.0f);
 				if(move.y == 0) move.y = InputManager::GetInstance()->GetThumbstickPosition().y;

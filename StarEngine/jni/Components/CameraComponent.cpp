@@ -23,7 +23,8 @@ namespace star
 		m_Size(0.0f),
 		m_bIsActive(false),
 		m_bPerspectiveProjection(false),
-		m_Zoom(1.0f)
+		m_Zoom(1.0f),
+		m_AspectRatio(1.0f)
 	{
 	}
 
@@ -33,11 +34,11 @@ namespace star
 
 	void CameraComponent::InitializeComponent()
 	{
-		float aspectRatio = GraphicsManager::GetInstance()->GetWindowAspectRatio();
+		m_AspectRatio = GraphicsManager::GetInstance()->GetWindowAspectRatio();
 	
 		if(m_bPerspectiveProjection)
 		{
-			m_Projection = MatrixPerspectiveFOV(m_FOV, aspectRatio, m_NearPlane, m_FarPlane);
+			m_Projection = MatrixPerspectiveFOV(m_FOV, m_AspectRatio, m_NearPlane, m_FarPlane);
 		}
 		else
 		{
@@ -47,25 +48,38 @@ namespace star
 				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetWindowHeight());
 			}
 
-			m_Projection = MatrixOrtho(m_Size * aspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
+			m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
 		}
 	}
 
 	void CameraComponent::Update(const Context& context)
 	{
+#ifdef _WIN32
+		if(m_Size != GraphicsManager::GetInstance()->GetWindowHeight() || m_Size * m_AspectRatio != GraphicsManager::GetInstance()->GetWindowWidth())
+		{
+			m_AspectRatio = GraphicsManager::GetInstance()->GetWindowAspectRatio();
+			if(m_bPerspectiveProjection)
+			{
+				m_Projection = MatrixPerspectiveFOV(m_FOV, m_AspectRatio, m_NearPlane, m_FarPlane);
+			}
+			else
+			{
+				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetWindowHeight());
+				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
+			}
+		}
+
 		if(InputManager::GetInstance()->IsKeyboardKeyDown('O'))
 		{
-			m_Zoom += 0.1f * static_cast<float>(context.mTimeManager->GetSeconds());
-			float aspectRatio = GraphicsManager::GetInstance()->GetWindowAspectRatio();
-			m_Projection = MatrixOrtho(m_Size * aspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
+			m_Zoom += 0.1f * static_cast<float>(context.mTimeManager->GetSeconds());			
+			m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
 		}
 		else if(InputManager::GetInstance()->IsKeyboardKeyDown('P'))
 		{
 			m_Zoom -= 0.1f * static_cast<float>(context.mTimeManager->GetSeconds());
-			float aspectRatio = GraphicsManager::GetInstance()->GetWindowAspectRatio();
-			m_Projection = MatrixOrtho(m_Size * aspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
+			m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
 		}
-
+#endif
 		vec3 vEyePt = m_pParentObject->GetComponent<TransformComponent>()->GetWorldPosition();
 		vec3 vLookat, vUpVec;
 		mat4x4 rotTransform;

@@ -6,21 +6,21 @@
 #include "../../StarEngine/jni/Context.h"
 #include "../../StarEngine/jni/SceneGraph/Object.h"
 #include "../../StarEngine/jni/StarComponents.h"
-#include "../../StarEngine/jni/Input/Gestures/TapGesture.h"
+#include "../Gestures/DoubleTapGesture.h"
 #include "../../StarEngine/jni/Objects/FreeCamera.h"
 
 class TestScene : public star::BaseScene
 {
 public:
 	TestScene(const tstring& name);
-	virtual ~TestScene() {}
+	virtual ~TestScene();
 
 	status Initialize(const star::Context& context);
 	status Update(const star::Context& context);
 	status Draw();
 
 private:
-	star::TapGesture* m_TapGesture;
+	DoubleTapGesture* m_TapGesture;
 	int m_TotalFrames;
 	int m_Step;
 	int m_FPS;
