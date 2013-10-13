@@ -74,6 +74,7 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="jni\AssetManaging\Texture2D.h" />
     <ClInclude Include="jni\AssetManaging\TextureManager.h" />
+    <ClInclude Include="jni\BaseGame.h" />
     <ClInclude Include="jni\Components\BaseComponent.h" />
     <ClInclude Include="jni\Components\CameraComponent.h" />
     <ClInclude Include="jni\Components\CircleColliderComponent.h" />
@@ -83,6 +84,7 @@
     <ClInclude Include="jni\Components\TransformComponent.h" />
     <ClInclude Include="jni\Context.h" />
     <ClInclude Include="jni\defines.h" />
+    <ClInclude Include="jni\EventLoop.h" />
     <ClInclude Include="jni\GraphicsManager.h" />
     <ClInclude Include="jni\Helpers\Dictionary.h" />
     <ClInclude Include="jni\Helpers\Filepath.h" />
@@ -122,6 +124,7 @@
     <ClInclude Include="jni\StarComponents.h" />
     <ClInclude Include="jni\StarEngine.h" />
     <ClInclude Include="jni\TimeManager.h" />
+    <ClInclude Include="jni\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\AssetManaging\Texture2D.cpp" />
@@ -133,6 +136,7 @@
     <ClCompile Include="jni\Components\RectangleColliderComponent.cpp" />
     <ClCompile Include="jni\Components\SpritesheetComponent.cpp" />
     <ClCompile Include="jni\Components\TransformComponent.cpp" />
+    <ClCompile Include="jni\EventLoop.cpp" />
     <ClCompile Include="jni\GraphicsManager.cpp" />
     <ClCompile Include="jni\Helpers\Dictionary.cpp" />
     <ClCompile Include="jni\Helpers\Filepath.cpp" />
@@ -168,6 +172,7 @@
     <ClCompile Include="jni\Sound\SoundService.cpp" />
     <ClCompile Include="jni\StarEngine.cpp" />
     <ClCompile Include="jni\TimeManager.cpp" />
+    <ClCompile Include="jni\Window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -75,13 +75,11 @@
     <ClCompile Include="jni\Main.cpp" />
     <ClCompile Include="jni\scenes\TestScene.cpp" />
     <ClCompile Include="jni\scenes\TestScene2.cpp" />
-    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="jni\Game.h" />
     <ClInclude Include="jni\scenes\TestScene.h" />
     <ClInclude Include="jni\scenes\TestScene2.h" />
-    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="StarEngine\StarEngine.vcxproj">
