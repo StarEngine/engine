@@ -162,35 +162,36 @@ status TestScene2::Update(const star::Context& context)
 	star::PathFindManager::GetInstance()->FindPath(m_pObjectOne->GetComponent<star::TransformComponent>()->GetWorldPosition(), vec3(3,2,0));
 
 	if(pos.y < (star::GraphicsManager::GetInstance()->GetWindowHeight()/2)
+		&& pos.y > 0)
 	{
 		star::SceneManager::GetInstance()->SetActiveScene(_T("TestScene"));
 	}
 	else
 	{
-		if(m_CurrentAnimation != 4 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.8f)
+		if(m_CurrentAnimation != 4 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowHeight() * 0.8f)
 		{
 			m_CurrentAnimation = 4;
 			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("run left"));
 		}
-		else if(m_CurrentAnimation != 3 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.6f
-			&& pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.8f)
+		else if(m_CurrentAnimation != 3 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowHeight() * 0.6f
+			&& pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowHeight() * 0.8f)
 		{
 			m_CurrentAnimation = 3;
 			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("run up"));
 		}
-		else if(m_CurrentAnimation != 2 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.4f
-			&& pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.6f)
+		else if(m_CurrentAnimation != 2 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowHeight() * 0.4f
+			&& pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowHeight() * 0.6f)
 		{
 			m_CurrentAnimation = 2;
 			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("run right"));
 		}
-		else if(m_CurrentAnimation != 1 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.2f
-			&& pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.4f)
+		else if(m_CurrentAnimation != 1 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowHeight() * 0.2f
+			&& pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowHeight() * 0.4f)
 		{
 			m_CurrentAnimation = 1;
 			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("run down"));
 		}
-		else if(m_CurrentAnimation != 0 && pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.2f)
+		else if(m_CurrentAnimation != 0 && pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowHeight() * 0.2f)
 		{
 			m_CurrentAnimation = 0;
 			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("idle"));
