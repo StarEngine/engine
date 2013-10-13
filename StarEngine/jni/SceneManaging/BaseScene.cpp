@@ -16,6 +16,16 @@ namespace star
 	{
 		m_GestureManagerPtr = new GestureManager();
 	}
+	
+	BaseScene::~BaseScene()
+	{
+		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
+		{
+			delete m_Objects[i];
+		}
+		m_Objects.clear();
+	}
+
 	status BaseScene::BaseInitialize(const Context & context)
 	{
 		status isInitialized(Initialize(context));

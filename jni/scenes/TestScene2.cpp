@@ -7,6 +7,9 @@
 #include "../../StarEngine/jni/SceneManaging/SceneManager.h"
 #include "../../StarEngine/jni/Input/XMLFileParser.h"
 #include "../../StarEngine/jni/Input/XMLFileSerializer.h"
+#include "../../StarEngine/jni/SceneGraph/SpriteAnimationManager.h"
+#include "../../StarEngine/jni/Components/SpritesheetComponent.h"
+#include "../../StarEngine/jni/Components/TransformComponent.h"
 
 #ifdef _WIN32
 #include <glew.h>
@@ -23,6 +26,7 @@ TestScene2::TestScene2(const tstring & Name):
 	m_TotalFrames(0),
 	m_FPS(0),
 	m_Step(0),
+	m_CurrentAnimation(0),
 	m_PassedMiliseconds(0),
 	m_pObjectOne(nullptr),
 	m_pObjectTwo(nullptr),
@@ -47,12 +51,6 @@ TestScene2::TestScene2(const tstring & Name):
 
 TestScene2::~TestScene2()
 {
-	delete  m_pObjectOne;
-	delete 	m_pObjectTwo;
-	delete 	m_pObjectThree;
-	delete 	m_pObjectFour;
-	delete 	m_pObjectFive;
-	delete 	m_pObjectSix;
 	delete 	m_pRectCompOne;
 	delete 	m_pRectCompTwo;
 	delete 	m_pPathFindComp;
@@ -98,18 +96,12 @@ status TestScene2::Initialize(const star::Context& context)
 	m_pObjectSix->AddComponent(m_pPathFindCompSix);
 	m_pObjectSix->GetComponent<star::TransformComponent>()->Translate(3,2,0);
 
-	m_pSpriteObject = new star::Object();
-	star::Filepath tex1path(_T(""),_T("TestDaPng.png"));
-	m_pSpriteComp1 = new star::SpriteComponent(tex1path.GetFullPath(),_T("TestDaPng"));
-	m_pSpriteObject->AddComponent(m_pSpriteComp1);
-
 	AddObject(m_pObjectOne);
 	AddObject(m_pObjectTwo);
 	AddObject(m_pObjectThree);
 	AddObject(m_pObjectFour);
 	AddObject(m_pObjectFive);
 	AddObject(m_pObjectSix); 
-	AddObject(m_pSpriteObject);
 
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectOne);
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectTwo);
@@ -126,6 +118,15 @@ status TestScene2::Initialize(const star::Context& context)
 	LOGGER->Log(star::LogLevel::Info,_T("Writing XML File..."));
 	serializer.Write(mTestXMLFile);
 	LOGGER->Log(star::LogLevel::Info,_T("Writing Done!"));
+
+	star::SpriteAnimationManager::GetInstance()->AddSpritesheet(star::Filepath(_T("RPGCharacterSpritesheet.xml")));
+
+	m_pSpriteObject = new star::Object();
+	star::Filepath sprPath(_T(""),_T("MainGuySpriteSheet_0.png"));
+	auto sprComponent = new star::SpritesheetComponent(sprPath.GetFullPath(),_T("MainGuySpritesheet"), _T("RPGCharacter"));
+	m_pSpriteObject->AddComponent(sprComponent);
+
+	AddObject(m_pSpriteObject);
 
 	return STATUS_OK;
 }
@@ -161,9 +162,39 @@ status TestScene2::Update(const star::Context& context)
 	star::PathFindManager::GetInstance()->FindPath(m_pObjectOne->GetComponent<star::TransformComponent>()->GetWorldPosition(), vec3(3,2,0));
 
 	if(pos.y < (star::GraphicsManager::GetInstance()->GetWindowHeight()/2)
-		&& pos.y > 0)
 	{
 		star::SceneManager::GetInstance()->SetActiveScene(_T("TestScene"));
+	}
+	else
+	{
+		if(m_CurrentAnimation != 4 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.8f)
+		{
+			m_CurrentAnimation = 4;
+			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("run left"));
+		}
+		else if(m_CurrentAnimation != 3 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.6f
+			&& pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.8f)
+		{
+			m_CurrentAnimation = 3;
+			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("run up"));
+		}
+		else if(m_CurrentAnimation != 2 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.4f
+			&& pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.6f)
+		{
+			m_CurrentAnimation = 2;
+			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("run right"));
+		}
+		else if(m_CurrentAnimation != 1 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.2f
+			&& pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.4f)
+		{
+			m_CurrentAnimation = 1;
+			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("run down"));
+		}
+		else if(m_CurrentAnimation != 0 && pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowHeigth() * 0.2f)
+		{
+			m_CurrentAnimation = 0;
+			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("idle"));
+		}
 	}
 
 

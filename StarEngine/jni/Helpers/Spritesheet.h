@@ -22,7 +22,10 @@ namespace star
 		void SetName(const tstring & name);
 		const tstring & GetName() const;
 
+		const tstring & GetDefaultAnimation() const;
+
 	private:
 		tstring m_Name;
+		tstring m_DefaultAnimation;
 	};
 }

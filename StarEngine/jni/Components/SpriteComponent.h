@@ -16,12 +16,14 @@ namespace star
 	{
 	public:
 		SpriteComponent(const tstring& filePath, const tstring& spriteName);
-		~SpriteComponent();
+		virtual ~SpriteComponent();
 
 		void Draw();
-		void Update(const Context& context) {};
+		virtual void Update(const Context& context) {};
 	protected:
 		virtual void InitializeComponent();
+
+		GLfloat m_UvCoords[8];
 	private:
 		void CreateSquare();
 		mat4x4 InverseMatrix(const mat4x4& matrix);
@@ -34,7 +36,6 @@ namespace star
 		int32 m_Heigth;
 
 		GLfloat m_Vertices[12];
-		GLfloat m_UvCoords[8];
 
 		SpriteComponent(const SpriteComponent &);
 		SpriteComponent(SpriteComponent &&);

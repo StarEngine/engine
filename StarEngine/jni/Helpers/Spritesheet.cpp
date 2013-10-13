@@ -7,6 +7,7 @@ namespace star
 	Spritesheet::Spritesheet()
 		: Dictionary<tstring, SpriteAnimation>()
 		, m_Name(EMPTY_STRING)
+		, m_DefaultAnimation(EMPTY_STRING)
 	{
 
 	}
@@ -14,9 +15,11 @@ namespace star
 	Spritesheet::Spritesheet(XMLContainer & spritesheet)
 		: Dictionary<tstring, SpriteAnimation>()
 		, m_Name(EMPTY_STRING)
+		, m_DefaultAnimation(EMPTY_STRING)
 	{
 		auto attributes = spritesheet.GetAttributes();
 		m_Name = attributes[_T("name")];
+		m_DefaultAnimation = attributes[_T("default")];
 		int width = string_cast<int>(attributes[_T("width")]);
 		int height = string_cast<int>(attributes[_T("height")]);
 		int amount = width * height;
@@ -49,14 +52,16 @@ namespace star
 
 	Spritesheet::Spritesheet(const Spritesheet & yRef)
 		: Dictionary<tstring, SpriteAnimation>(yRef)
-		, m_Name(EMPTY_STRING)
+		, m_Name(yRef.m_Name)
+		, m_DefaultAnimation(yRef.m_DefaultAnimation)
 	{
 
 	}
 
 	Spritesheet::Spritesheet(Spritesheet && yRef)
 		: Dictionary<tstring, SpriteAnimation>(yRef)
-		, m_Name(EMPTY_STRING)
+		, m_Name(yRef.m_Name)
+		, m_DefaultAnimation(yRef.m_DefaultAnimation)
 	{
 
 	}
@@ -64,6 +69,7 @@ namespace star
 	Spritesheet::Spritesheet(iterator begin, iterator end)
 		: Dictionary<tstring, SpriteAnimation>(begin, end)
 		, m_Name(EMPTY_STRING)
+		, m_DefaultAnimation(EMPTY_STRING)
 	{
 
 	}
@@ -77,6 +83,7 @@ namespace star
 	{
 		Dictionary<tstring, SpriteAnimation>::operator=(yRef);
 		m_Name = yRef.m_Name;
+		m_DefaultAnimation = yRef.m_DefaultAnimation;
 
 		return *this;
 	}
@@ -89,5 +96,10 @@ namespace star
 	const tstring & Spritesheet::GetName() const
 	{
 		return m_Name;
+	}
+
+	const tstring & Spritesheet::GetDefaultAnimation() const
+	{
+		return m_DefaultAnimation;
 	}
 }

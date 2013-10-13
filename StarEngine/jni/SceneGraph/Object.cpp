@@ -23,14 +23,12 @@ namespace star
 		for(auto comp : m_pComponents)
 		{
 			delete comp;
-			comp = nullptr;
 		}
 		m_pComponents.clear();
 
 		for(auto child : m_pChildren)
 		{
 			delete child;
-			child = nullptr;
 		}
 		m_pChildren.clear();
 	}

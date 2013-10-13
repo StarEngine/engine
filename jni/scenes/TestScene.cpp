@@ -47,8 +47,6 @@ TestScene::TestScene(const tstring & Name):
 
 TestScene::~TestScene()
 {
-	delete  m_pObjectOne;
-	delete 	m_pObjectTwo;
 	delete 	m_pRectCompOne;
 	delete 	m_pRectCompTwo;
 	delete 	m_TapGesture;

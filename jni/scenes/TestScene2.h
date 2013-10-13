@@ -24,6 +24,7 @@ private:
 	int m_TotalFrames;
 	int m_Step;
 	int m_FPS;
+	int m_CurrentAnimation;
 	float m_PassedMiliseconds;
 	star::XMLContainer mTestXMLFile;
 

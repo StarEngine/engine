@@ -15,7 +15,7 @@ namespace star
 	{
 	public:
 		BaseScene(const tstring & name);
-		virtual ~BaseScene() {}
+		virtual ~BaseScene();
 		
 		status BaseInitialize(const Context& contex);
 		status BaseOnActivate();

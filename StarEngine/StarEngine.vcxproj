@@ -79,6 +79,7 @@
     <ClInclude Include="jni\Components\CircleColliderComponent.h" />
     <ClInclude Include="jni\Components\PathFindNodeComponent.h" />
     <ClInclude Include="jni\Components\RectangleColliderComponent.h" />
+    <ClInclude Include="jni\Components\SpritesheetComponent.h" />
     <ClInclude Include="jni\Components\TransformComponent.h" />
     <ClInclude Include="jni\Context.h" />
     <ClInclude Include="jni\defines.h" />
@@ -127,6 +128,7 @@
     <ClCompile Include="jni\Components\CircleColliderComponent.cpp" />
     <ClCompile Include="jni\Components\PathFindNodeComponent.cpp" />
     <ClCompile Include="jni\Components\RectangleColliderComponent.cpp" />
+    <ClCompile Include="jni\Components\SpritesheetComponent.cpp" />
     <ClCompile Include="jni\Components\TransformComponent.cpp" />
     <ClCompile Include="jni\GraphicsManager.cpp" />
     <ClCompile Include="jni\Helpers\Dictionary.cpp" />
