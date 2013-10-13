@@ -102,7 +102,7 @@ namespace star
 		return m_LocalScale;
 	}
 
-	const mat4x4 & TransformComponent::GetWorldMatrix()
+	mat4x4 TransformComponent::GetWorldMatrix()
 	{
 		CheckForUpdate();
 		return m_World;
@@ -126,7 +126,7 @@ namespace star
 		matRot   = glm::toMat4(m_LocalRotation);
 		matScale = glm::scale(m_LocalScale);
 
-		m_World = matScale * matRot * matTrans;
+		m_World = matTrans * matRot * matScale;
 
 		auto parentGameObj = m_pParentObject->GetParent();
 

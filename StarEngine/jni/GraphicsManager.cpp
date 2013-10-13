@@ -159,6 +159,7 @@ namespace star
 	{
 		mScreenWidth = width;
 		mScreenHeight = height;
+		glViewport(0,0,width, height);
 	}
 
 #ifdef _WIN32

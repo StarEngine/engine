@@ -5,6 +5,7 @@
 
 namespace star
 {
+	const vec3 PathFindManager::NO_PATH_AVAILBLE = vec3(-123456.0f, -123456.0f, -123456.0f);
 	PathFindManager* PathFindManager::m_pPathFindManager = nullptr;
 
 	PathFindManager::PathFindManager(void):
@@ -336,7 +337,7 @@ namespace star
 		if(m_PathToGoal.size() == 0)
 		{
 			Logger::GetInstance()->Log(LogLevel::Info, _T("There is no path availble."));
-			return vec3(0,0,0);
+			return NO_PATH_AVAILBLE;
 		}
 
 		if (step >= m_PathToGoal.size() - 1)

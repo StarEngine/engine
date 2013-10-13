@@ -29,26 +29,20 @@ private:
 	float mRed, mGreen, mBlue;
 
 	star::Object	*m_pObjectOne, 
-			*m_pObjectTwo, 
-			*m_pObjectThree,
-			*m_pObjectFour, 
-			*m_pObjectFive, 
-			*m_pObjectSix,
-			*m_pSpriteObject;
+					*m_pObjectTwo;
 
 	star::FreeCamera *m_pActiveCamera;
 
-	star::RectangleColliderComponent* m_pRectCompOne;
-	star::CircleColliderComponent	*m_pRectCompTwo;
+	star::RectangleColliderComponent* m_pRectCompOne, *m_pRectCompTwo;
+	star::CircleColliderComponent *m_pCircleCompOne, *m_pCircleCompTwo;
 
-	star::PathFindNodeComponent	*m_pPathFindComp, 
-								*m_pPathFindCompTwo, 
-								*m_pPathFindCompThree, 
-								*m_pPathFindCompFour, 
-								*m_pPathFindCompFive, 
-								*m_pPathFindCompSix;
+	star::SpriteComponent *m_pSpriteComp1,
+						  *m_pSpriteComp2;
 
-	star::SpriteComponent *m_pSpriteComp1;
+	float m_Angle, m_Scale, m_ScaleSign;
+	int m_XPos;
+
+	static const vec3 NO_PATH_AVAILBLE;
 		
 	TestScene(const TestScene& t);
 	TestScene(TestScene&& t);

@@ -1,9 +1,9 @@
 #include "CameraComponent.h"
-#include "..\GraphicsManager.h"
-#include "..\SceneGraph\Object.h"
+#include "../GraphicsManager.h"
+#include "../SceneGraph/Object.h"
 #include "../Input/InputManager.h"
-#include "..\Context.h"
-#include "..\Logger.h"
+#include "../Context.h"
+#include "../Logger.h"
 
 //General info
 //
@@ -17,7 +17,7 @@ namespace star
 		m_Projection(),
 		m_View(),
 		m_ViewInverse(),
-		m_FarPlane(50.0f),
+		m_FarPlane(100.0f),
 		m_NearPlane(0.1f),
 		m_FOV(static_cast<float>(PI/4.0f)),
 		m_Size(0.0f),
@@ -88,8 +88,8 @@ namespace star
 		rotTransform = glm::toMat4(rotation);
 
 		//Only vec4 * mat4x4  possible
-		vec4 vLookTemp = vec4(0,0,1,0) * rotTransform;
-		vec4 vUpVecTemp = vec4(0,1,0,0) * rotTransform;
+		vec4 vLookTemp = vec4(0,0,1,0) * InverseMatrix(rotTransform);
+		vec4 vUpVecTemp = vec4(0,1,0,0) * InverseMatrix(rotTransform);
 
 		//put them into a vec3
 		vLookat = vec3(vLookTemp.x, vLookTemp.y, vLookTemp.z);

@@ -19,6 +19,8 @@
 #define INPUT_MANAGER (star::InputManager::GetInstance())
 #define LOGGER (star::Logger::GetInstance())
 
+const vec3 TestScene::NO_PATH_AVAILBLE = vec3(-123456.0f, -123456.0f, -123456.0f);
+
 TestScene::TestScene(const tstring & Name):
 	BaseScene(Name),
 	m_TotalFrames(0),
@@ -30,22 +32,15 @@ TestScene::TestScene(const tstring & Name):
 	mBlue(0),
 	m_pObjectOne(nullptr),
 	m_pObjectTwo(nullptr),
-	m_pObjectThree(nullptr),
-	m_pObjectFour(nullptr),
-	m_pObjectFive(nullptr),
-	m_pObjectSix(nullptr),
-	m_pSpriteObject(nullptr),
 	m_pRectCompOne(nullptr),
 	m_pRectCompTwo(nullptr),
-	m_pPathFindComp(nullptr),
-	m_pPathFindCompTwo(nullptr),
-	m_pPathFindCompThree(nullptr), 
-	m_pPathFindCompFour(nullptr),
-	m_pPathFindCompFive(nullptr),
-	m_pPathFindCompSix(nullptr),
 	m_pSpriteComp1(nullptr),
 	m_TapGesture(nullptr),
-	m_pActiveCamera(nullptr)
+	m_pActiveCamera(nullptr),
+	m_Angle(0),
+	m_Scale(1),
+	m_ScaleSign(1),
+	m_XPos(0)
 {
 		
 }
@@ -54,18 +49,8 @@ TestScene::~TestScene()
 {
 	delete  m_pObjectOne;
 	delete 	m_pObjectTwo;
-	delete 	m_pObjectThree;
-	delete 	m_pObjectFour;
-	delete 	m_pObjectFive;
-	delete 	m_pObjectSix;
 	delete 	m_pRectCompOne;
 	delete 	m_pRectCompTwo;
-	delete 	m_pPathFindComp;
-	delete 	m_pPathFindCompTwo;
-	delete 	m_pPathFindCompThree;
-	delete 	m_pPathFindCompFour;
-	delete 	m_pPathFindCompFive;
-	delete 	m_pPathFindCompSix;
 	delete 	m_TapGesture;
 }
 
@@ -76,43 +61,22 @@ status TestScene::Initialize( const star::Context& context)
 	m_GestureManagerPtr->AddGesture(m_TapGesture);
 
 	m_pObjectOne = new star::Object();
-	m_pRectCompOne = new star::RectangleColliderComponent(10,10);
-	m_pPathFindComp = new star::PathFindNodeComponent();
+	m_pRectCompOne = new star::RectangleColliderComponent(200,215);
+	star::Filepath tex1path(_T(""),_T("Pikachu.png"));
+	m_pSpriteComp1 = new star::SpriteComponent(tex1path.GetFullPath(),_T("Pikachu"));
 	m_pObjectOne->AddComponent(m_pRectCompOne);
-	m_pObjectOne->AddComponent(m_pPathFindComp);
-	
+	m_pObjectOne->AddComponent(m_pSpriteComp1);
+
+	quat rotation(vec3(m_Angle, 0, 0));
+	m_pObjectOne->GetComponent<star::TransformComponent>()->Rotate(rotation);
+
 	m_pObjectTwo = new star::Object();
-	m_pRectCompTwo = new star::CircleColliderComponent(10);
-	m_pPathFindCompTwo = new star::PathFindNodeComponent();
+	m_pRectCompTwo = new star::RectangleColliderComponent(200,215);
+	star::Filepath tex2path(_T(""),_T("Pikachu.png"));
+	m_pSpriteComp2 = new star::SpriteComponent(tex2path.GetFullPath(),_T("Awesome"));
 	m_pObjectTwo->AddComponent(m_pRectCompTwo);
-	m_pObjectTwo->AddComponent(m_pPathFindCompTwo);
-	m_pObjectTwo->GetComponent<star::TransformComponent>()->Translate(1,0,0);
-		
-	m_pObjectThree = new star::Object();
-	m_pPathFindCompThree = new star::PathFindNodeComponent();
-	m_pObjectThree->AddComponent(m_pPathFindCompThree);
-	m_pObjectThree->GetComponent<star::TransformComponent>()->Translate(1,1,0);
-	
-	m_pObjectFour = new star::Object();
-	m_pPathFindCompFour = new star::PathFindNodeComponent();
-	m_pObjectFour->AddComponent(m_pPathFindCompFour);
-	m_pObjectFour->GetComponent<star::TransformComponent>()->Translate(2,1,0);
-	
-	m_pObjectFive = new star::Object();
-	m_pPathFindCompFive = new star::PathFindNodeComponent();
-	m_pObjectFive->AddComponent(m_pPathFindCompFive);
-	m_pObjectFive->GetComponent<star::TransformComponent>()->Translate(3,1,0);
-	
-	m_pObjectSix = new star::Object();
-	m_pPathFindCompSix = new star::PathFindNodeComponent();
-	m_pObjectSix->AddComponent(m_pPathFindCompSix);
-	m_pObjectSix->GetComponent<star::TransformComponent>()->Translate(3,2,0);
-	
-	m_pSpriteObject = new star::Object();
-	star::Filepath tex1path(_T(""),_T("Awesome.png"));
-	m_pSpriteComp1 = new star::SpriteComponent(tex1path.GetFullPath(),_T("Awesome"));
-	m_pSpriteObject->AddComponent(m_pSpriteComp1);
-	//m_pSpriteObject->GetComponent<star::TransformComponent>()->Translate(200,400,0);
+	m_pObjectTwo->AddComponent(m_pSpriteComp2);
+	m_pObjectTwo->GetComponent<star::TransformComponent>()->Translate(400,0,0);
 
 	m_pActiveCamera = new star::FreeCamera();
 	AddObject(m_pActiveCamera);
@@ -120,8 +84,6 @@ status TestScene::Initialize( const star::Context& context)
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectOne);
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectTwo);
 	
-	star::CollisionManager::GetInstance()->CheckCollision(_T("Default"));
-
 	star::Filepath soundspath(_T("Sounds/"),_T("StereoTest.mp3"));
 	star::SoundService::GetInstance()->LoadMusic(soundspath.GetFullPath(),_T("Stereo"));
 	star::SoundService::GetInstance()->AddToBackgroundQueue(_T("Stereo"));
@@ -138,11 +100,6 @@ status TestScene::Initialize( const star::Context& context)
 
 	AddObject(m_pObjectOne);
 	AddObject(m_pObjectTwo); 
-	AddObject(m_pObjectThree);
-	AddObject(m_pObjectFour);
-	AddObject(m_pObjectFive);
-	AddObject(m_pObjectSix);
-	AddObject(m_pSpriteObject);
 
 	return STATUS_OK;
 	}
@@ -169,9 +126,6 @@ status TestScene::Initialize( const star::Context& context)
 		{
 			star::SoundService::GetInstance()->PlaySoundEffect(_T("Electric"));
 		}
-		//tstringstream posBuffer;
-		//posBuffer << _T("Current Mouse Pos: ( ") << pos.x << _T(" , ") << pos.y << _T(" )");
-		//LOGGER->Log(LogLevel::Warning, posBuffer.str());
 
 	++m_TotalFrames;
 	m_PassedMiliseconds += float(context.mTimeManager->GetMicroSeconds());
@@ -180,24 +134,32 @@ status TestScene::Initialize( const star::Context& context)
 		m_FPS = m_TotalFrames;
 		m_TotalFrames = 0;
 		m_PassedMiliseconds -= 1000000;
-
-		tstringstream str;
-		str << "FPS: " << m_FPS;
-		//LOGGER->Log(LogLevel::Info, str.str());
-
-		m_pObjectOne->GetComponent<star::TransformComponent>()->Translate(star::PathFindManager::GetInstance()->GetStep(m_Step));
-		vec3 pos = m_pObjectOne->GetComponent<star::TransformComponent>()->GetWorldPosition();
-		//tstringstream tstr;
-		//tstr << _T("PlayerPos : (") << pos.x << _T(", ") << pos.y << _T(")");
-		//LOGGER->Log(LogLevel::Info, tstr.str());
-		++m_Step;
 	}
+
 	star::PathFindManager::GetInstance()->FindPath(m_pObjectOne->GetComponent<star::TransformComponent>()->GetWorldPosition(), vec3(3,2,0));
 
 	if(pos.y>(star::GraphicsManager::GetInstance()->GetWindowHeight()/2) && pos.y< star::GraphicsManager::GetInstance()->GetWindowHeight())
 	{
 		star::SceneManager::GetInstance()->SetActiveScene(_T("TestScene2"));
 	}
+
+	m_Angle += static_cast<float>(context.mTimeManager->GetSeconds());
+	quat rot (vec3(0, 0, m_Angle));
+	m_pObjectTwo->GetComponent<star::TransformComponent>()->Rotate(rot);
+	
+	//[COMMENT] need better way of collision... this is really really bad -_-
+	//if(star::CollisionManager::GetInstance()->CheckCollision(_T("Default")) == true);
+	//{
+	//	m_ScaleSign *= -1;
+	//}
+
+	m_Scale += m_ScaleSign * static_cast<float>(context.mTimeManager->GetSeconds());
+	m_pObjectOne->GetComponent<star::TransformComponent>()->Scale(m_Scale, m_Scale, m_Scale);
+
+	m_XPos += static_cast<int>(m_ScaleSign * 300 * context.mTimeManager->GetSeconds());
+	m_pObjectOne->GetComponent<star::TransformComponent>()->Translate(static_cast<float>(m_XPos), 0, 0);
+
+
 
 	return STATUS_OK;
 }

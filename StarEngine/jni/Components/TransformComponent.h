@@ -41,7 +41,7 @@ namespace star
 		quat GetLocalRotation() const;
 		const vec3& GetWorldScale();
 		vec3 GetLocalScale() const;
-		const mat4x4& GetWorldMatrix();
+		mat4x4 GetWorldMatrix();
 
 	private:
 		void InitializeComponent();

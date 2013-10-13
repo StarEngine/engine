@@ -24,6 +24,7 @@ namespace star
 		virtual void InitializeComponent();
 	private:
 		void CreateSquare();
+		mat4x4 InverseMatrix(const mat4x4& matrix);
 
 		Shader m_Shader;
 		tstring m_FilePath;

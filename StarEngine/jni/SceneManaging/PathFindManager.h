@@ -65,6 +65,7 @@ namespace star
 
 		static const int WORLD_SIZE = 100;
 		static const int STEP_SIZE = 1;
+		static const vec3 NO_PATH_AVAILBLE;
 
 		PathFindManager(const PathFindManager& yRef);
 		PathFindManager(PathFindManager&& yRef);
