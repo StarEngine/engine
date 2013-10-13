@@ -8,7 +8,7 @@
 
 namespace star
 {
-	struct WinInputState
+	struct WinInputState;
 
 	// [COMMENT] Gesture-Tags
 	// Gestures should also be given a user-defined tag 
