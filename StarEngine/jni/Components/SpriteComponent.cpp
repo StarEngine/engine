@@ -1,6 +1,5 @@
 #include "SpriteComponent.h"
 #include "../Logger.h"
-#include "../Helpers/Filepath.h"
 #include "../AssetManaging/TextureManager.h"
 #include "../GraphicsManager.h"
 #include "../Components/TransformComponent.h"
@@ -10,10 +9,10 @@
 
 namespace star
 {
-	SpriteComponent::SpriteComponent(const tstring& filePath,const tstring& spriteName)
+	SpriteComponent::SpriteComponent(const tstring& filepath,const tstring& spriteName)
 		: BaseComponent()
 		, m_Shader()
-		, m_FilePath(filePath)
+		, m_FilePath(filepath)
 		, m_SpriteName(spriteName)
 	{
 	}
@@ -33,7 +32,7 @@ namespace star
 			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Making Shader Failed"));
 		}
 
-		TextureManager::GetInstance()->LoadTexture(m_FilePath,m_SpriteName);
+		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetFullPath(),m_SpriteName);
 		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x;
 		m_Heigth =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y;
 

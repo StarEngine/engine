@@ -1,6 +1,7 @@
 #include "SoundService.h"
 #include "../Logger.h"
 #include "../Helpers/Helpers.h"
+#include "../Helpers/Filepath.h"
 
 
 #ifndef _WIN32
@@ -152,7 +153,8 @@ namespace star
 		auto it = mMusicList.find(name);
 		if(it == mMusicList.end())
 		{
-			SoundFile* music = new SoundFile(path);
+			Filepath real_path(path);
+			SoundFile* music = new SoundFile(real_path.GetFullPath());
 			mMusicList[name] = music;
 			return (STATUS_OK);
 		}
@@ -164,7 +166,8 @@ namespace star
 		auto it = mEffectsList.find(name);
 		if(it == mEffectsList.end())
 		{
-			SoundEffect* effect = new SoundEffect(path);
+			Filepath real_path(path);
+			SoundEffect* effect = new SoundEffect(real_path.GetFullPath());
 			mEffectsList[name] = effect;
 			return (STATUS_OK);
 		}
@@ -177,7 +180,8 @@ namespace star
 		auto it = mMusicList.find(name);
 		if(it == mMusicList.end())
 		{
-			SoundFile* music = new SoundFile(path);
+			Filepath real_path(path);
+			SoundFile* music = new SoundFile(real_path.GetFullPath());
 			mMusicList[name] = music;
 		}
 		return PlaySoundFile(name);
@@ -199,7 +203,8 @@ namespace star
 		auto it = mEffectsList.find(name);
 		if(it == mEffectsList.end())
 		{
-			SoundEffect* effect = new SoundEffect(path);
+			Filepath real_path(path);
+			SoundEffect* effect = new SoundEffect(real_path.GetFullPath());
 			mEffectsList[name] = effect;
 		}
 		return PlaySoundFile(name);

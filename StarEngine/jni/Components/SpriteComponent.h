@@ -3,6 +3,7 @@
 #include "../defines.h"
 #include "../Shaders/Shader.h"
 #include "BaseComponent.h"
+#include "../Helpers/Filepath.h"
 #ifdef _WIN32
 #else
 #include <GLES2/gl2.h>
@@ -15,7 +16,7 @@ namespace star
 	class SpriteComponent : public BaseComponent
 	{
 	public:
-		SpriteComponent(const tstring& filePath, const tstring& spriteName);
+		SpriteComponent(const tstring& filepath, const tstring& spriteName);
 		virtual ~SpriteComponent();
 
 		void Draw();
@@ -29,7 +30,7 @@ namespace star
 		mat4x4 InverseMatrix(const mat4x4& matrix);
 
 		Shader m_Shader;
-		tstring m_FilePath;
+		Filepath m_FilePath;
 		tstring m_SpriteName;
 		
 		int32 m_Width;

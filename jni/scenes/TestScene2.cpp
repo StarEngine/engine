@@ -51,14 +51,6 @@ TestScene2::TestScene2(const tstring & Name):
 
 TestScene2::~TestScene2()
 {
-	delete 	m_pRectCompOne;
-	delete 	m_pRectCompTwo;
-	delete 	m_pPathFindComp;
-	delete 	m_pPathFindCompTwo;
-	delete 	m_pPathFindCompThree;
-	delete 	m_pPathFindCompFour;
-	delete 	m_pPathFindCompFive;
-	delete 	m_pPathFindCompSix;
 }
 
 status TestScene2::Initialize(const star::Context& context)
@@ -122,8 +114,7 @@ status TestScene2::Initialize(const star::Context& context)
 	star::SpriteAnimationManager::GetInstance()->AddSpritesheet(star::Filepath(_T("RPGCharacterSpritesheet.xml")));
 
 	m_pSpriteObject = new star::Object();
-	star::Filepath sprPath(_T(""),_T("MainGuySpriteSheet_0.png"));
-	auto sprComponent = new star::SpritesheetComponent(sprPath.GetFullPath(),_T("MainGuySpritesheet"), _T("RPGCharacter"));
+	auto sprComponent = new star::SpritesheetComponent(_T("MainGuySpriteSheet_0.png"),_T("MainGuySpritesheet"), _T("RPGCharacter"));
 	m_pSpriteObject->AddComponent(sprComponent);
 
 	AddObject(m_pSpriteObject);

@@ -3,6 +3,7 @@
 #include "../Logger.h"
 #include "../AssetManaging/Resource.h"
 #include "../Helpers/Helpers.h"
+#include "../Helpers/Filepath.h"
 
 #ifndef _WIN32
 #include "../StarEngine.h"
@@ -28,13 +29,16 @@ namespace star
 #ifdef _WIN32	
 		mPlayChannel = mPlayChannels;
 		++mPlayChannels;
-		std::string sound_path = string_cast<std::string>(path);
+		
+		Filepath real_path(path);
+		std::string sound_path = string_cast<std::string>(real_path.GetFullPath());
 		if(mSoundEffect == nullptr)
 		{
 			mSoundEffect = Mix_LoadWAV(sound_path.c_str());
 			if(!mSoundEffect)
 			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not load song, reason : ")+string_cast<tstring>(Mix_GetError()));
+				star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not load song, reason : ")
+					+string_cast<tstring>(Mix_GetError()));
 			}
 		}
 #else
