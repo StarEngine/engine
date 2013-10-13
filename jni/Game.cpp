@@ -7,6 +7,7 @@
 #include "scenes/TestScene2.h"
 
 Game::Game()
+	: star::BaseGame()
 {
 	star::StarEngine::GetInstance();
 }

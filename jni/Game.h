@@ -1,14 +1,13 @@
 #pragma once
 
-#include "../StarEngine/jni/defines.h"
+#include "../StarEngine/jni/BaseGame.h"
 
 namespace star
 {
-	struct Context;
 	class SceneManager;
 }
 
-class Game
+class Game : public star::BaseGame
 {
 public:
 	Game();
