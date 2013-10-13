@@ -12,6 +12,7 @@
 #include "Input/XMLFileParser.h"
 #include "GraphicsManager.h"
 #include "StarEngine.h"
+#include "Input/InputManager.h"
 
 #pragma comment(lib, "opengl32.lib")
 
@@ -181,6 +182,7 @@ namespace star
 
 			ShowWindow(mHandle, SW_SHOWNORMAL);
 			UpdateWindow(mHandle);
+			InputManager::GetInstance()->SetWindowsHandle(mHandle);
 
 					PIXELFORMATDESCRIPTOR pixelFormatDesc = {
 				sizeof(PIXELFORMATDESCRIPTOR),

@@ -8,6 +8,7 @@
 #endif
 #include "../Logger.h"
 #include "../StarEngine.h"
+#include "../GraphicsManager.h"
 
 namespace star
 {
@@ -416,7 +417,8 @@ namespace star
 		{
 			ScreenToClient(mWindowsHandle,&mousePos);
 		}
-		m_CurrMousePosition = vec2(mousePos.x , mousePos.y);
+		//[TODO] Change to %
+		m_CurrMousePosition = vec2(mousePos.x , /*(float)GraphicsManager::GetInstance()->GetWindowHeight() - */mousePos.y);
 		m_MouseMovement.x = m_CurrMousePosition.x - m_OldMousePosition.x;
 		m_MouseMovement.y = m_CurrMousePosition.y - m_OldMousePosition.y;
 
