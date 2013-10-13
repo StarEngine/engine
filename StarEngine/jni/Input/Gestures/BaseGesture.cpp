@@ -1,6 +1,6 @@
 #include "BaseGesture.h"
-#include "../Logger.h"
-#include "../Context.h"
+#include "../../Logger.h"
+#include "../../Context.h"
 
 namespace star
 {

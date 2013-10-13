@@ -52,7 +52,7 @@ TestScene::~TestScene()
 status TestScene::Initialize( const star::Context& context)
 {
 
-	m_TapGesture = new DoubleTapGesture();
+	m_TapGesture = new star::DoubleTapGesture();
 	m_GestureManagerPtr->AddGesture(m_TapGesture);
 
 	m_pObjectOne = new star::Object();
@@ -105,7 +105,7 @@ status TestScene::Initialize( const star::Context& context)
 			LOGGER->Log(star::LogLevel::Info, _T("Tapped!"));
 			star::SoundService::GetInstance()->PlayBackgroundQueue();
 		}
-		auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
+		
 
 		if(INPUT_MANAGER->IsFingerTapCP(1))
 		{
@@ -127,6 +127,7 @@ status TestScene::Initialize( const star::Context& context)
 
 	star::PathFindManager::GetInstance()->FindPath(m_pObjectOne->GetComponent<star::TransformComponent>()->GetWorldPosition(), vec3(3,2,0));
 
+	auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
 	if(pos.y>(star::GraphicsManager::GetInstance()->GetWindowHeight()/2) && pos.y< star::GraphicsManager::GetInstance()->GetWindowHeight())
 	{
 		star::SceneManager::GetInstance()->SetActiveScene(_T("TestScene2"));

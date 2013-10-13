@@ -1,7 +1,7 @@
 #include "GestureManager.h"
 #include <algorithm>
 #include "BaseGesture.h"
-#include "InputManager.h"
+#include "../InputManager.h"
 
 namespace star
 {

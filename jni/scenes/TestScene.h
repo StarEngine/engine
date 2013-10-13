@@ -6,7 +6,7 @@
 #include "../../StarEngine/jni/Context.h"
 #include "../../StarEngine/jni/SceneGraph/Object.h"
 #include "../../StarEngine/jni/StarComponents.h"
-#include "../Gestures/DoubleTapGesture.h"
+#include "../../StarEngine/jni/Input/Gestures/DoubleTapGesture.h"
 #include "../../StarEngine/jni/Objects/FreeCamera.h"
 
 class TestScene : public star::BaseScene
@@ -20,7 +20,7 @@ public:
 	status Draw();
 
 private:
-	DoubleTapGesture* m_TapGesture;
+	star::DoubleTapGesture* m_TapGesture;
 	int m_TotalFrames;
 	int m_Step;
 	int m_FPS;

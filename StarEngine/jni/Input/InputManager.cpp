@@ -562,7 +562,6 @@ namespace star
 
 	void InputManager::OnTouchEvent(AInputEvent* pEvent)
 	{
-		m_GestureManager->OnTouchEvent(pEvent);
 		int32 action = AMotionEvent_getAction(pEvent);
 		uint32 flags = action & AMOTION_EVENT_ACTION_MASK;
 		switch(flags)
@@ -638,6 +637,8 @@ namespace star
 					{
 						return (a.ID < b.ID);
 					});
+
+		m_GestureManager->OnTouchEvent(pEvent);
 	}
 
 	void InputManager::OnKeyboardEvent(AInputEvent* pEvent)
@@ -723,7 +724,7 @@ namespace star
 #ifdef _WIN32
 		return GetCurrentMousePosition();
 #else
-		return (GetCurrentTouchPosANDR(fingerIndex));
+		return GetCurrentTouchPosANDR(fingerIndex);
 #endif
 	}
 

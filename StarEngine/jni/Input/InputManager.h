@@ -17,7 +17,7 @@
 #endif
 
 #include "../defines.h"
-#include "GestureManager.h"
+#include "Gestures/GestureManager.h"
 
 namespace star
 {
