@@ -95,6 +95,8 @@
     <ClInclude Include="jni\Helpers\Helpers.h" />
     <ClInclude Include="jni\Helpers\HelpersMath.h" />
     <ClInclude Include="jni\Helpers\Rect.h" />
+    <ClInclude Include="jni\Helpers\ScreenPercentX.h" />
+    <ClInclude Include="jni\Helpers\ScreenPercentY.h" />
     <ClInclude Include="jni\Helpers\SpriteAnimation.h" />
     <ClInclude Include="jni\Helpers\Spritesheet.h" />
     <ClInclude Include="jni\Helpers\State.h" />
@@ -130,6 +132,8 @@
     <ClInclude Include="jni\StarEngine.h" />
     <ClInclude Include="jni\TimeManager.h" />
     <ClInclude Include="jni\Window.h" />
+    <ClInclude Include="jni\Helpers\ScreenPercent.h" />
+    <ClInclude Include="jni\Helpers\ScreenPercentAbstract.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\AssetManaging\Texture2D.cpp" />
@@ -150,6 +154,8 @@
     <ClCompile Include="jni\Helpers\Helpers.cpp" />
     <ClCompile Include="jni\Helpers\HelpersMath.cpp" />
     <ClCompile Include="jni\Helpers\Rect.cpp" />
+    <ClCompile Include="jni\Helpers\ScreenPercentX.cpp" />
+    <ClCompile Include="jni\Helpers\ScreenPercentY.cpp" />
     <ClCompile Include="jni\Helpers\SpriteAnimation.cpp" />
     <ClCompile Include="jni\Helpers\Spritesheet.cpp" />
     <ClCompile Include="jni\Helpers\StateManager.cpp" />
@@ -182,6 +188,7 @@
     <ClCompile Include="jni\StarEngine.cpp" />
     <ClCompile Include="jni\TimeManager.cpp" />
     <ClCompile Include="jni\Window.cpp" />
+    <ClCompile Include="jni\Helpers\ScreenPercentAbstract.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

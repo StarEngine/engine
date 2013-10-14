@@ -94,6 +94,7 @@ namespace star
 			GetKeyboardState(m_pKeyboardState1);
 		}
 #else
+
 #endif
 		m_GestureManager = new GestureManager();
 	}
@@ -607,9 +608,6 @@ namespace star
 			Logger::GetInstance()->Log(LogLevel::Info, _T("Outside"));
 			break;
 		case AMOTION_EVENT_ACTION_MOVE:
-			AMotionEvent_getDownTime(pEvent);
-			AMotionEvent_getEdgeFlags(pEvent);
-			AMotionEvent_getEventTime(pEvent);
 			break;
 		default:
 			break;
@@ -639,20 +637,23 @@ namespace star
 		m_GestureManager->OnTouchEvent(pEvent);
 	}
 
-	void InputManager::OnKeyboardEvent(AInputEvent* pEvent)
+	bool InputManager::OnKeyboardEvent(AInputEvent* pEvent)
 	{
 		//[TODO] I will still clean this up later, might need this
 
 		if(AKeyEvent_getAction(pEvent) == AKEY_EVENT_ACTION_DOWN)
 		{
+			//Try: (char) cast the keycode
 			switch(AKeyEvent_getKeyCode(pEvent))
 			{
+			case AKEYCODE_HOME:
+				break;
 			case AKEYCODE_BACK:
-				ANativeActivity_finish(StarEngine::GetInstance()->GetAndroidApp()->activity);
 				break;
 			case AKEYCODE_VOLUME_DOWN:
 				break;
 			}
+			return false;
 		}
 		else
 		{
@@ -664,6 +665,7 @@ namespace star
 			case AKEYCODE_BACK:
 				break;
 			}
+			return false;
 		}
 	}
 

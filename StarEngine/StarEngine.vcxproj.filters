@@ -132,12 +132,6 @@
     <ClInclude Include="jni\Input\GestureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Input\BaseGesture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\Input\GestureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="jni\Helpers\SpriteAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -199,6 +193,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="jni\Helpers\2D\pos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Helpers\ScreenPercent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Helpers\ScreenPercentX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Helpers\ScreenPercentY.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Helpers\ScreenPercentAbstract.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -296,12 +302,6 @@
     <ClCompile Include="jni\Input\BaseGesture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\Input\BaseGesture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="jni\Input\GestureManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="jni\SceneGraph\SpriteAnimationManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -363,6 +363,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Helpers\2D\pos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Helpers\ScreenPercentX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Helpers\ScreenPercentY.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Helpers\ScreenPercentAbstract.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

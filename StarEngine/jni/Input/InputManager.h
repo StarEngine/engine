@@ -150,7 +150,7 @@ namespace star
 		FingerPointerANDR GetTouchPropertiesANDR(uint8 fingerIndex = 1) const;
 
 		void OnTouchEvent(AInputEvent* pEvent);
-		void OnKeyboardEvent(AInputEvent* pEvent);
+		bool OnKeyboardEvent(AInputEvent* pEvent);
 #endif
 
 	private:

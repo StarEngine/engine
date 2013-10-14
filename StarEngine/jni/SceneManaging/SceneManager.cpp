@@ -215,7 +215,7 @@ namespace star
 			break;
 
 		case AINPUT_EVENT_TYPE_KEY:
-			return (false);
+			return INPUT_MANAGER->OnKeyboardEvent(pEvent);
 		default:
 			return (false);
 		}
