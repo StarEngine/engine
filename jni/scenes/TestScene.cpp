@@ -110,10 +110,12 @@ status TestScene::Initialize( const star::Context& context)
 		if(INPUT_MANAGER->IsFingerTapCP(1))
 		{
 			star::SoundService::GetInstance()->PlaySoundEffect(_T("Explosion"));
+			LOGGER->Log(star::LogLevel::Info, _T("Explosion!"));
 		}
 		if(INPUT_MANAGER->IsFingerTapCP(2))
 		{
 			star::SoundService::GetInstance()->PlaySoundEffect(_T("Electric"));
+			LOGGER->Log(star::LogLevel::Info, _T("Electric!"));
 		}
 
 	++m_TotalFrames;

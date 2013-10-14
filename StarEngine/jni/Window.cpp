@@ -76,7 +76,6 @@ namespace star
 			mGamePtr = pBaseGame;
 			Logger::GetInstance()->Initialize();
 
-			m_IsInitialized = true;
 			XMLContainer winManifest;
 			XMLFileParser manifestParser(_T("Win32Manifest.xml"));
 			manifestParser.Read(winManifest);
@@ -118,7 +117,7 @@ namespace star
 			wndClass.cbWndExtra = 0;
 			wndClass.hInstance = instance;
 			wndClass.hIcon = NULL;
-			wndClass.hCursor = NULL;
+			wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 			wndClass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 			wndClass.lpszMenuName = NULL;
 			wndClass.lpszClassName = winManifest[_T("class")]->GetValue().c_str();
@@ -263,6 +262,8 @@ namespace star
 			pt.y = position_height / 2;
 			ClientToScreen(mHandle, &pt);
 			SetCursorPos(pt.x,pt.y);
+			
+			m_IsInitialized = true;
 
 			SetResolution(position_width, position_height);
 
@@ -338,7 +339,7 @@ namespace star
 
 	bool Window::IsCursorClipped() const
 	{
-		return mClipRect.top != -1;
+		return mClipRect.left != -1;
 	}
 
 	void Window::ToggleFullScreen(HWND hWnd)
@@ -567,15 +568,18 @@ namespace star
 
 	void Window::WindowInactiveUpdate(bool inactive)
 	{
-		if(m_IsFullScreen || (inactive && mClipRect.left != -1))
+		if(m_IsInitialized)
 		{
-			ClipCursor(NULL);
-		}
-		else if(mClipRect.left != -1)
-		{
-			SetActiveWindow(mHandle);
-			ClipCursor(NULL);
-			ClipCursor(&mClipRect);
+			if(m_IsFullScreen || (inactive && mClipRect.left != -1))
+			{
+				ClipCursor(NULL);
+			}
+			else if(mClipRect.left != -1)
+			{
+				SetActiveWindow(mHandle);
+				ClipCursor(NULL);
+				ClipCursor(&mClipRect);
+			}
 		}
 	}
 
