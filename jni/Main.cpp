@@ -8,6 +8,15 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) 
 {
+	//notify user if heap is corrupt
+	HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL,0);
+
+	// Enable run-time memory leak check for debug builds.
+	#if defined(DEBUG) | defined(_DEBUG)
+		_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+		_CrtSetBreakAlloc(2214);
+	#endif
+
 	Game * pGame = new Game();
 
 	star::Window::GetInstance()->Initialize(hInstance, pGame);
