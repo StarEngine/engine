@@ -27,6 +27,7 @@ namespace star
 	
 	PathFindManager::~PathFindManager(void)
 	{
+		//[TODO] fix mem leaks
 	}
 
 	PathFindManager* PathFindManager::GetInstance()
