@@ -57,7 +57,7 @@ status TestScene::Initialize( const star::Context& context)
 
 	m_pObjectOne = new star::Object();
 	m_pRectCompOne = new star::RectangleColliderComponent(200,215);
-	m_pSpriteComp1 = new star::SpriteComponent(_T("Pikachu.png"),_T("Pikachu"));
+	m_pSpriteComp1 = new star::SpriteComponent(_T("pikachu.png"),_T("Pikachu"));
 	m_pObjectOne->AddComponent(m_pRectCompOne);
 	m_pObjectOne->AddComponent(m_pSpriteComp1);
 
@@ -94,6 +94,7 @@ status TestScene::Initialize( const star::Context& context)
 
 	status TestScene::Update(const star::Context& context)
 	{
+		
 		if(!m_pActiveCamera->GetComponent<star::CameraComponent>()->IsActive())
 		{
 			m_pActiveCamera->GetComponent<star::CameraComponent>()->SetActive();
@@ -130,6 +131,7 @@ status TestScene::Initialize( const star::Context& context)
 	auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
 	if(pos.y>(star::GraphicsManager::GetInstance()->GetWindowHeight()/2) && 
 		pos.y< star::GraphicsManager::GetInstance()->GetWindowHeight())
+	LOGGER->Log(star::LogLevel::Info, buffer.str());
 	{
 		star::SceneManager::GetInstance()->SetActiveScene(_T("TestScene2"));
 	}
