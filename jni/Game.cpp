@@ -5,6 +5,7 @@
 #include "../StarEngine/jni/Helpers/Helpers.h"
 #include "scenes/TestScene.h"
 #include "scenes/TestScene2.h"
+#include "../StarEngine/jni/Input/InputManager.h"
 
 Game::Game()
 	: star::BaseGame()
@@ -33,6 +34,7 @@ status Game::Update(const star::Context& context)
 	tstring subTitle(_T("... FPS: "));
 	subTitle += star::string_cast<tstring>(star::StarEngine::GetInstance()->GetCurrentFPS());
 	star::StarEngine::GetInstance()->SetGameSubTitle(subTitle);
+
 	return star::StarEngine::GetInstance()->Update(context);
 }
 

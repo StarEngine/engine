@@ -182,6 +182,7 @@ namespace star
 
 			ShowWindow(mHandle, SW_SHOWNORMAL);
 			UpdateWindow(mHandle);
+
 			InputManager::GetInstance()->SetWindowsHandle(mHandle);
 
 					PIXELFORMATDESCRIPTOR pixelFormatDesc = {
@@ -256,6 +257,14 @@ namespace star
 			}
 	
 			mGamePtr->Initialize(position_width,position_height);
+
+			POINT pt;
+			pt.x = position_width / 2;
+			pt.y = position_height / 2;
+			ClientToScreen(mHandle, &pt);
+			SetCursorPos(pt.x,pt.y);
+
+			SetResolution(position_width, position_height);
 
 			// Main message loop:
 			while(msg.message != WM_QUIT)
@@ -384,7 +393,7 @@ namespace star
 			SetWindowLongPtr(hWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
 			SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, screenWidth, screenHeight, SWP_SHOWWINDOW);
 			bool isChangeSuccessful = ChangeDisplaySettings(&fullscreenSettings, CDS_FULLSCREEN) == DISP_CHANGE_SUCCESSFUL;
-			ASSERT(isChangeSuccessful, _T("Couldn't put the screen into fullscreen mode..."));
+			//ASSERT(isChangeSuccessful, _T("Couldn't put the screen into fullscreen mode..."));
 			ShowWindow(hWnd, SW_MAXIMIZE);
 		}
 		else
@@ -392,7 +401,7 @@ namespace star
 			SetWindowLongPtr(hWnd, GWL_EXSTYLE, m_SavedWindowState.ExStyle);
 			SetWindowLongPtr(hWnd, GWL_STYLE, m_SavedWindowState.Style);
 			bool isChangeSuccessful = ChangeDisplaySettings(NULL, CDS_RESET) == DISP_CHANGE_SUCCESSFUL;
-			ASSERT(isChangeSuccessful, _T("Couldn't put the screen into windowed mode..."));
+			//ASSERT(isChangeSuccessful, _T("Couldn't put the screen into windowed mode..."));
 			SetWindowPos(hWnd, HWND_NOTOPMOST, 
 				m_SavedWindowState.WinRect.left,
 				m_SavedWindowState.WinRect.top,
@@ -425,6 +434,31 @@ namespace star
 	void Window::SetWindowActive(bool active)
 	{
 		m_IsActive = active;
+	}
+	
+	void Window::SetResolution(int width, int height)
+	{
+		width += 5;
+		height += 25;
+
+		m_SavedWindowState.Maximized = IsZoomed(mHandle);
+		m_SavedWindowState.Style = GetWindowLong(mHandle, GWL_STYLE);
+		m_SavedWindowState.ExStyle = GetWindowLong(mHandle, GWL_EXSTYLE);
+		GetWindowRect(mHandle, &m_SavedWindowState.WinRect);
+
+		WindowInactiveUpdate(false);
+
+		SetWindowLongPtr(mHandle, GWL_EXSTYLE, m_SavedWindowState.ExStyle);
+		SetWindowLongPtr(mHandle, GWL_STYLE, m_SavedWindowState.Style);
+		bool isChangeSuccessful = ChangeDisplaySettings(NULL, CDS_RESET) == DISP_CHANGE_SUCCESSFUL;
+		//ASSERT(isChangeSuccessful, _T("Couldn't put the screen into windowed mode..."));
+		SetWindowPos(mHandle, HWND_NOTOPMOST, 
+			m_SavedWindowState.WinRect.left,
+			m_SavedWindowState.WinRect.top,
+			width,
+			height,
+			SWP_SHOWWINDOW);
+		ShowWindow(mHandle, SW_RESTORE);
 	}
 
 	void Window::SetWindowsTitle() const
@@ -521,7 +555,7 @@ namespace star
 				}
 				break;
 			case WM_SIZE:
-				UpdateWindowClipping(hWnd);
+					UpdateWindowClipping(hWnd);
 				break;
 		}
 		return DefWindowProc(hWnd, message, wParam, lParam);

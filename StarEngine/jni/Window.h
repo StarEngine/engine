@@ -41,6 +41,8 @@ namespace star
 		void SetWindowMoved();
 		void SetWindowActive(bool active);
 
+		void SetResolution(int width, int height);
+
 	private:
 		Window();
 
