@@ -13,6 +13,7 @@ namespace star
 
 	GestureManager::~GestureManager()
 	{
+		//[COMMENT] somehow there is a memory leak here?
 		for(auto gesture : m_GestureVec)
 		{
 			delete gesture;

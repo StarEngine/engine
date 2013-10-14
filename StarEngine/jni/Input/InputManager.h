@@ -9,7 +9,7 @@
 #include <windows.h>
 #include <XInput.h>
 #include <map>
-#include <memory>
+
 #pragma comment(lib, "XInput.lib")
 #else
 #include <vector>
@@ -18,6 +18,7 @@
 #endif
 
 #include "../defines.h"
+#include <memory>
 #include "Gestures/GestureManager.h"
 
 namespace star

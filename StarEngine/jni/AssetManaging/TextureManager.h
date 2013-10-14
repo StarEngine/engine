@@ -3,10 +3,10 @@
 #include <map>
 #include <vector>
 #include "../defines.h"
+#include <memory>
 
 #ifdef _WIN32
 #include <glew.h>
-#include <memory>
 #else
 #include "GLES/gl.h"
 #endif

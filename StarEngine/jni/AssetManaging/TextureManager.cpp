@@ -20,6 +20,16 @@ namespace star
 		mPathList.clear();
 	}
 
+	void TextureManager::EraseTextures()
+	{
+		 auto iter = mTextureList.begin();
+		 for(iter; iter != mTextureList.end(); ++iter)
+		 {
+			 delete iter->second;
+		 }
+		 mTextureList.clear();
+		 mPathList.clear();
+	 }
 	std::shared_ptr<TextureManager> TextureManager::GetInstance()
 	{
 		if(mTextureManager == nullptr)
