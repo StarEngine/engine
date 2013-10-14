@@ -7,14 +7,12 @@
 
 namespace star
 {
-	class Filepath;
-
 	class SpriteAnimationManager final
 	{
 	public:
 		~SpriteAnimationManager();
 
-		void AddSpritesheet(const Filepath & file);
+		void AddSpritesheet(const tstring & file);
 		const Spritesheet & GetSpritesheet(const tstring & name) const;
 
 		static std::shared_ptr<SpriteAnimationManager> GetInstance();

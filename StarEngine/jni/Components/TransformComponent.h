@@ -26,21 +26,38 @@ namespace star
 		void Update(const Context& context);
 		void Draw() {}
 
+#ifdef STAR2D
+		void Translate(const vec2& translation);
+		void Translate(float x, float y);
+
+		void Rotate(float rotation);
+
+		void Scale(const vec2& scale);
+		void Scale(float x, float y);
+		
+		const vec2& GetWorldPosition();
+		const vec2& GetLocalPosition() const;
+		float GetWorldRotation();
+		float GetLocalRotation() const;
+		const vec2& GetWorldScale();
+		const vec2& GetLocalScale() const;
+#else
 		void Translate(const vec3& translation);
 		void Translate(float x, float y, float z);
 
 		void Rotate(const quat & rotation);
-		//void Rotate(float x, float y, float z);
 
 		void Scale(const vec3& scale);
 		void Scale(float x, float y, float z);
 
 		const vec3& GetWorldPosition();
-		vec3 GetLocalPosition() const;
+		const vec3& GetLocalPosition() const;
 		const quat& GetWorldRotation();
-		quat GetLocalRotation() const;
+		const quat& GetLocalRotation() const;
 		const vec3& GetWorldScale();
-		vec3 GetLocalScale() const;
+		const vec3& GetLocalScale() const;
+#endif
+		// [COMMENT] Do we need this in 2D?
 		mat4x4 GetWorldMatrix();
 
 	private:
@@ -49,9 +66,15 @@ namespace star
 
 		unsigned char m_IsChanged;
 		bool m_Invalidate;
+#ifdef STAR2D
+		vec2 m_WorldPosition, m_LocalPosition;
+		float m_WorldRotation, m_LocalRotation;
+		vec2 m_WorldScale, m_LocalScale;
+#else
 		vec3 m_WorldPosition, m_LocalPosition;
 		quat m_WorldRotation, m_LocalRotation;
 		vec3 m_WorldScale, m_LocalScale;
+#endif
 		mat4x4 m_World;
 
 		TransformComponent(const TransformComponent& yRef);

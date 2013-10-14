@@ -11,7 +11,7 @@ namespace star
 
 	}
 
-	void SpriteAnimationManager::AddSpritesheet(const Filepath & file)
+	void SpriteAnimationManager::AddSpritesheet(const tstring & file)
 	{
 		XMLFileParser parser(file);
 		XMLContainer container;

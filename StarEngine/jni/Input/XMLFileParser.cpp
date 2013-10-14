@@ -13,20 +13,8 @@
 
 namespace star
 {
-	XMLFileParser::XMLFileParser(const tstring & full_path)
-		: m_File(full_path)
-	{
-
-	}
-
-	XMLFileParser::XMLFileParser(const Filepath & file_path)
-		: m_File(file_path)
-	{
-
-	}
-
-	XMLFileParser::XMLFileParser(const tstring & path, const tstring & file)
-		: m_File(path, file)
+	XMLFileParser::XMLFileParser(const tstring & path)
+		: m_File(path)
 	{
 
 	}

@@ -49,11 +49,8 @@ namespace star
 
 		bool m_bIsActive, m_bPerspectiveProjection;
 
-		// -------------------------
-		// Disabling default copy constructor and default 
-		// assignment operator.
-		// -------------------------
 		CameraComponent(const CameraComponent& t);
+		CameraComponent(CameraComponent&& t);
 		CameraComponent& operator=(const CameraComponent& t);
 	};
 }

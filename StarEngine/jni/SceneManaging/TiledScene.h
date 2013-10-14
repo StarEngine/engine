@@ -1,7 +1,6 @@
 #pragma once
 
 #include "BaseScene.h"
-#include "../Helpers/Filepath.h"
 #include <map>
 #include <functional>
 
@@ -12,7 +11,7 @@ namespace star
 	class TiledScene : public BaseScene
 	{
 	public:
-		TiledScene(const tstring & name, const Filepath & file, float scale = 1.0f);
+		TiledScene(const tstring & name, const tstring & file, float scale = 1.0f);
 		virtual ~TiledScene();
 
 		void DefineSpecialObject(uint32 object_id, const std::function<Object*()> & func);
@@ -20,14 +19,14 @@ namespace star
 	protected:
 		virtual status Initialize(const Context& context);
 
-		Filepath m_File;
+		tstring m_File;
 		uint32 m_Width, m_Height, m_TileWidth, m_TileHeight;
 		float m_Scale;
 
 		struct TileSet
 		{
 			uint32 FirstGid, TileWidth, TileHeight, Width, Height;
-			Filepath Texture;
+			tstring Texture;
 		};
 
 		std::map<tstring, TileSet> m_TileSets;

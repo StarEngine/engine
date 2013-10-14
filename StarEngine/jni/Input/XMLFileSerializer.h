@@ -10,8 +10,7 @@ namespace star
 	class XMLFileSerializer
 	{
 	public:
-		XMLFileSerializer(const tstring & full_path);
-		XMLFileSerializer(const tstring & path, const tstring & file);
+		XMLFileSerializer(const tstring & path);
 		~XMLFileSerializer();
 
 		void Write(XMLContainer & container);

@@ -192,6 +192,9 @@
     <ClInclude Include="jni\EventLoop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Helpers\HelpersMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -342,6 +345,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\EventLoop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Helpers\HelpersMath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Helpers\Rect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\SceneManaging\SearchCell.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

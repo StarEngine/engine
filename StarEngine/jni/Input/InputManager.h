@@ -155,11 +155,9 @@ namespace star
 
 	private:
 
-		//SINGLETON IMPLEMENTATION
-		//----------------------------
 		InputManager();
 		static InputManager*  m_InputManagerPtr;
-		//----------------------------
+
 #ifdef _WIN32
 		std::map<int,InputAction> m_InputActions;
 		BYTE *m_pCurrKeyboardState, *m_pOldKeyboardState, *m_pKeyboardState0, *m_pKeyboardState1;

@@ -15,9 +15,7 @@ namespace star
 	class XMLFileParser
 	{
 	public:
-		XMLFileParser(const tstring & full_path);
-		XMLFileParser(const Filepath & file_path);
-		XMLFileParser(const tstring & path, const tstring & file);
+		XMLFileParser(const tstring & path);
 		~XMLFileParser();
 
 		bool Read(XMLContainer & container);

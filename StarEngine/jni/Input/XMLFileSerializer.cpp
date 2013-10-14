@@ -4,14 +4,8 @@
 
 namespace star
 {
-	XMLFileSerializer::XMLFileSerializer(const tstring & full_path)
-		: m_File(full_path)
-	{
-
-	}
-
-	XMLFileSerializer::XMLFileSerializer(const tstring & path, const tstring & file)
-		: m_File(path, file)
+	XMLFileSerializer::XMLFileSerializer(const tstring & path)
+		: m_File(path)
 	{
 
 	}

@@ -50,6 +50,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\libs\SDL2_mixer-2.0.0\include;..\libs\SDL2-2.0.0\include;..\libs\libpng;$(ProjectDir);..\libs\OpenGL\GL;..\libs\OpenGL\GLEW\include\GL;..\libs\OpenGL\GLUT\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>STAR2D;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -63,6 +64,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>STAR2D;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -90,6 +92,7 @@
     <ClInclude Include="jni\Helpers\Filepath.h" />
     <ClInclude Include="jni\Helpers\FPS.h" />
     <ClInclude Include="jni\Helpers\Helpers.h" />
+    <ClInclude Include="jni\Helpers\HelpersMath.h" />
     <ClInclude Include="jni\Helpers\Rect.h" />
     <ClInclude Include="jni\Helpers\SpriteAnimation.h" />
     <ClInclude Include="jni\Helpers\Spritesheet.h" />
@@ -142,6 +145,8 @@
     <ClCompile Include="jni\Helpers\Filepath.cpp" />
     <ClCompile Include="jni\Helpers\FPS.cpp" />
     <ClCompile Include="jni\Helpers\Helpers.cpp" />
+    <ClCompile Include="jni\Helpers\HelpersMath.cpp" />
+    <ClCompile Include="jni\Helpers\Rect.cpp" />
     <ClCompile Include="jni\Helpers\SpriteAnimation.cpp" />
     <ClCompile Include="jni\Helpers\Spritesheet.cpp" />
     <ClCompile Include="jni\Helpers\StateManager.cpp" />
@@ -165,6 +170,7 @@
     <ClCompile Include="jni\SceneManaging\CollisionManager.cpp" />
     <ClCompile Include="jni\SceneManaging\PathFindManager.cpp" />
     <ClCompile Include="jni\SceneManaging\SceneManager.cpp" />
+    <ClCompile Include="jni\SceneManaging\SearchCell.cpp" />
     <ClCompile Include="jni\SceneManaging\TiledScene.cpp" />
     <ClCompile Include="jni\Shaders\Shader.cpp" />
     <ClCompile Include="jni\Sound\SoundEffect.cpp" />

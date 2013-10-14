@@ -8,7 +8,7 @@ namespace star
 {
 	TiledScene::TiledScene(
 		const tstring & name,
-		const Filepath & file,
+		const tstring & file,
 		float scale )
 		: BaseScene(name)
 		, m_File(file)
@@ -60,7 +60,7 @@ namespace star
 			tileSet.TileWidth = string_cast<uint32>(tileSetAttributes[_T("tilewidth")]);
 			tileSet.TileHeight = string_cast<uint32>(tileSetAttributes[_T("tileheight")]);
 
-			tileSet.Texture = Filepath(imageAttributes[_T("source")]);
+			tileSet.Texture = imageAttributes[_T("source")];
 			tileSet.Width = string_cast<uint32>(imageAttributes[_T("width")]);
 			tileSet.Height = string_cast<uint32>(imageAttributes[_T("height")]);
 
@@ -91,13 +91,21 @@ namespace star
 			while(TIT != tilesEnd)
 			{
 				Object * obj = new Object();
-				auto transform = obj->GetComponent<TransformComponent>();
+				auto transform = obj->GetTransform();
+#ifdef STAR2D
+				transform->Translate(
+					( i % m_Width ) * m_Scale,
+					( i / m_Width ) * m_Scale);
+				transform->Scale(m_Scale, m_Scale);
+				// [TODO] define texture?
+#else
 				transform->Translate(
 					( i % m_Width ) * m_Scale,
 					( i / m_Width ) * m_Scale,
 					height * m_Scale );
 				transform->Scale(m_Scale, m_Scale, m_Scale);
 				// [TODO] define texture?
+#endif
 				++i;
 				++TIT;
 			}
@@ -133,12 +141,19 @@ namespace star
 						_T("Object with ID '") + objAttributes[_T("gid")] + _T("' wasn't defined!"));
 					obj = new Object();
 				}
-				auto transform = obj->GetComponent<TransformComponent>();
+				auto transform = obj->GetTransform();
+#ifdef STAR2D
+				transform->Translate(
+					( i % m_Width ) * m_Scale,
+					( i / m_Width ) * m_Scale);
+				transform->Scale(m_Scale, m_Scale);
+#else
 				transform->Translate(
 					( i % m_Width ) * m_Scale,
 					( i / m_Width ) * m_Scale,
 					height * m_Scale );
 				transform->Scale(m_Scale, m_Scale, m_Scale);
+#endif
 				++i;
 				++OIT;
 			}

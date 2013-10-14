@@ -4,6 +4,7 @@
 #include "../Input/InputManager.h"
 #include "../Context.h"
 #include "../Logger.h"
+#include "../Helpers/HelpersMath.h"
 
 //General info
 //
@@ -80,11 +81,22 @@ namespace star
 			m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
 		}
 #endif
-		vec3 vEyePt = m_pParentObject->GetComponent<TransformComponent>()->GetWorldPosition();
+#ifdef STAR2D
+		auto twPos = m_pParentObject->GetTransform()->GetWorldPosition();
+		vec3 vEyePt = vec3(twPos.x, twPos.y, ZDEPTH_0);
+#else
+		vec3 vEyePt = m_pParentObject->GetTransform()->GetWorldPosition();
+#endif
 		vec3 vLookat, vUpVec;
 		mat4x4 rotTransform;
 	
-		quat rotation = m_pParentObject->GetComponent<TransformComponent>()->GetWorldRotation();
+#ifdef STAR2D
+		float rotDegrees = m_pParentObject->GetTransform()->GetWorldRotation();
+		rotDegrees = RadiansToDegrees(rotDegrees);
+		quat rotation(vec3(0, 0, rotDegrees));
+#else
+		quat rotation = m_pParentObject->GetTransform()->GetWorldRotation();
+#endif
 		rotTransform = glm::toMat4(rotation);
 
 		//Only vec4 * mat4x4  possible

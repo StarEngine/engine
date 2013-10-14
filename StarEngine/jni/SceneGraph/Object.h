@@ -45,45 +45,15 @@ namespace star
 		void SetScene(BaseScene * pScene);
 		void UnsetScene(); 
 
+		TransformComponent * GetTransform() const;
+
 		BaseScene * GetScene() const { return m_pScene; }
 
-		//Template functions
-		//-----------------------------
 		template<class T>
-		T* GetComponent(bool searchChildren = false)
-		{
-			const std::type_info& ti = typeid(T);
-			for(auto *component : m_pComponents)
-			{
-				if(component && typeid(*component) == ti)
-				{
-					return ((T*)component);
-				}
-			}
-
-			if(searchChildren)
-			{
-				for(auto *child : m_pChildren)
-				{
-					return (child->GetComponent<T>(searchChildren));
-				}
-			}
-			return (nullptr);
-		}
+		T* GetComponent(bool searchChildren = false) const;
 
 		template<class T>
-		T* GetChild()
-		{
-			const std::type_info& ti = typeid(T);
-			for(auto *child : m_pChildren)
-			{
-				if(child && typeid(*child) == ti)
-				{
-					return ((T*)child);
-				}
-			}
-			return (nullptr);
-		}
+		T* GetChild() const;
 
 	protected:
 		bool m_bIsInitialized;
@@ -100,4 +70,40 @@ namespace star
 		Object(Object&& t);
 		Object& operator=(const Object& t);
 	};
+
+	template<class T>
+	T* Object::GetComponent(bool searchChildren) const
+	{
+		const std::type_info& ti = typeid(T);
+		for(auto *component : m_pComponents)
+		{
+			if(component && typeid(*component) == ti)
+			{
+				return ((T*)component);
+			}
+		}
+
+		if(searchChildren)
+		{
+			for(auto *child : m_pChildren)
+			{
+				return (child->GetComponent<T>(searchChildren));
+			}
+		}
+		return (nullptr);
+	}
+
+	template<class T>
+	T* Object::GetChild() const
+	{
+		const std::type_info& ti = typeid(T);
+		for(auto *child : m_pChildren)
+		{
+			if(child && typeid(*child) == ti)
+			{
+				return ((T*)child);
+			}
+		}
+		return (nullptr);
+	}
 }

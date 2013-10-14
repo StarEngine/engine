@@ -300,4 +300,9 @@ namespace star
 	{
 		m_pScene = nullptr;
 	}
+	
+	TransformComponent * Object::GetTransform() const
+	{
+		return GetComponent<TransformComponent>();
+	}
 }

@@ -61,15 +61,14 @@ status TestScene::Initialize( const star::Context& context)
 	m_pObjectOne->AddComponent(m_pRectCompOne);
 	m_pObjectOne->AddComponent(m_pSpriteComp1);
 
-	quat rotation(vec3(m_Angle, 0, 0));
-	m_pObjectOne->GetComponent<star::TransformComponent>()->Rotate(rotation);
+	m_pObjectOne->GetTransform()->Rotate(m_Angle);
 
 	m_pObjectTwo = new star::Object();
 	m_pRectCompTwo = new star::RectangleColliderComponent(200,215);
 	m_pSpriteComp2 = new star::SpriteComponent(_T("Pikachu.png"),_T("Awesome"));
 	m_pObjectTwo->AddComponent(m_pRectCompTwo);
 	m_pObjectTwo->AddComponent(m_pSpriteComp2);
-	m_pObjectTwo->GetComponent<star::TransformComponent>()->Translate(400,0,0);
+	m_pObjectTwo->GetTransform()->Translate(400,0);
 
 	m_pActiveCamera = new star::FreeCamera();
 	AddObject(m_pActiveCamera);
@@ -125,17 +124,18 @@ status TestScene::Initialize( const star::Context& context)
 		m_PassedMiliseconds -= 1000000;
 	}
 
-	star::PathFindManager::GetInstance()->FindPath(m_pObjectOne->GetComponent<star::TransformComponent>()->GetWorldPosition(), vec3(3,2,0));
+	star::PathFindManager::GetInstance()->
+		FindPath(m_pObjectOne->GetTransform()->GetWorldPosition(), vec2(3,2));
 
 	auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
-	if(pos.y>(star::GraphicsManager::GetInstance()->GetWindowHeight()/2) && pos.y< star::GraphicsManager::GetInstance()->GetWindowHeight())
+	if(pos.y>(star::GraphicsManager::GetInstance()->GetWindowHeight()/2) && 
+		pos.y< star::GraphicsManager::GetInstance()->GetWindowHeight())
 	{
 		star::SceneManager::GetInstance()->SetActiveScene(_T("TestScene2"));
 	}
 
 	m_Angle += static_cast<float>(context.mTimeManager->GetSeconds());
-	quat rot (vec3(0, 0, m_Angle));
-	m_pObjectTwo->GetComponent<star::TransformComponent>()->Rotate(rot);
+	m_pObjectTwo->GetTransform()->Rotate(m_Angle);
 	
 	//[COMMENT] need better way of collision... this is really really bad -_-
 	//if(star::CollisionManager::GetInstance()->CheckCollision(_T("Default")) == true);
@@ -144,12 +144,10 @@ status TestScene::Initialize( const star::Context& context)
 	//}
 
 	m_Scale += m_ScaleSign * static_cast<float>(context.mTimeManager->GetSeconds());
-	m_pObjectOne->GetComponent<star::TransformComponent>()->Scale(m_Scale, m_Scale, m_Scale);
+	m_pObjectOne->GetTransform()->Scale(m_Scale, m_Scale);
 
 	m_XPos += static_cast<int>(m_ScaleSign * 300 * context.mTimeManager->GetSeconds());
-	m_pObjectOne->GetComponent<star::TransformComponent>()->Translate(static_cast<float>(m_XPos), 0, 0);
-
-
+	m_pObjectOne->GetTransform()->Translate(static_cast<float>(m_XPos), 0);
 
 	return STATUS_OK;
 }

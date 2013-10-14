@@ -77,7 +77,7 @@ namespace star
 
 			m_IsInitialized = true;
 			XMLContainer winManifest;
-			XMLFileParser manifestParser(EMPTY_STRING, _T("Win32Manifest.xml"));
+			XMLFileParser manifestParser(_T("Win32Manifest.xml"));
 			manifestParser.Read(winManifest);
 
 			//set console position

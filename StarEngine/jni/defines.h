@@ -97,6 +97,10 @@ using glm::ivec2;
 #define EMPTY_STRING _T("")
 #define ANDROID_LOG_TAG _T("STAR_ENGINE")
 
+#ifdef STAR2D
+const float ZDEPTH_0 = 0.0f;
+#endif
+
 #ifndef NDEBUG
 #ifdef _WIN32
 	#define ASSERT \

@@ -41,8 +41,6 @@ namespace star
 		//Initializes base GL state.
 		// In a simple 2D game, we have control over the third
 		// dimension. So we do not really need a Z-buffer.
-		// [COMMENT] Depends. It's one of many techniques
-		// for ordering your 2D elements in different/the same layer(s).
 		glDisable(GL_DEPTH_TEST);
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}
