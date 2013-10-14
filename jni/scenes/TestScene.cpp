@@ -131,7 +131,6 @@ status TestScene::Initialize( const star::Context& context)
 	auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
 	if(pos.y>(star::GraphicsManager::GetInstance()->GetWindowHeight()/2) && 
 		pos.y< star::GraphicsManager::GetInstance()->GetWindowHeight())
-	LOGGER->Log(star::LogLevel::Info, buffer.str());
 	{
 		star::SceneManager::GetInstance()->SetActiveScene(_T("TestScene2"));
 	}
