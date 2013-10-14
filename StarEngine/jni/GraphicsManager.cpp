@@ -8,7 +8,7 @@
 
 namespace star
 {
-	GraphicsManager* GraphicsManager::mGraphicsManager = nullptr;
+	std::shared_ptr<GraphicsManager> GraphicsManager::mGraphicsManager = nullptr;
 
 	GraphicsManager::GraphicsManager() :
 			mScreenHeight(0),
@@ -16,11 +16,11 @@ namespace star
 	{
 	}
 
-	GraphicsManager* GraphicsManager::GetInstance()
+	std::shared_ptr<GraphicsManager> GraphicsManager::GetInstance()
 	{
 		if(mGraphicsManager == nullptr)
 		{
-			mGraphicsManager = new GraphicsManager();
+			mGraphicsManager = std::shared_ptr<GraphicsManager>(new GraphicsManager());
 		}			
 		return mGraphicsManager;	
 	}

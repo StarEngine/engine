@@ -8,18 +8,17 @@
 
 namespace star
 {
-	StarEngine * StarEngine::m_pEngine = nullptr;
+	std::shared_ptr<StarEngine> StarEngine::m_pEngine = nullptr;
 
 	StarEngine::~StarEngine()
 	{
-
 	}
 
-	StarEngine * StarEngine::GetInstance()
+	std::shared_ptr<StarEngine> StarEngine::GetInstance()
 	{
 		if(m_pEngine == nullptr)
 		{
-			m_pEngine = new StarEngine();
+			m_pEngine = std::shared_ptr<StarEngine>(new StarEngine());
 		}
 		return m_pEngine;
 	}

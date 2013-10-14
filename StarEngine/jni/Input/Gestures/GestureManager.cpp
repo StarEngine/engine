@@ -13,7 +13,12 @@ namespace star
 
 	GestureManager::~GestureManager()
 	{
-
+		for(auto gesture : m_GestureVec)
+		{
+			delete gesture;
+			gesture = nullptr;
+		}
+		m_GestureVec.clear();
 	}
 
 #ifdef _WIN32

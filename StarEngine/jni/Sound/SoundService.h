@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../defines.h"
+#include <memory>
 
 #ifdef _WIN32
 #include "SDL.h"
@@ -23,8 +24,8 @@ namespace star
 	class SoundService
 	{
 	public:
-		static SoundService* GetInstance();
-		~SoundService(){}
+		static  std::shared_ptr<SoundService> GetInstance();
+		~SoundService();
 		status Start();
 		void Stop();
 
@@ -58,7 +59,7 @@ namespace star
 	private:
 		SoundService();
 
-		static SoundService* mSoundService;
+		static  std::shared_ptr<SoundService> mSoundService;
 		static bool mbIsInitialized;
 
 		std::map<tstring,SoundFile*> mMusicList;

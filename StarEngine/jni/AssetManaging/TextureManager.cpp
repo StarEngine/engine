@@ -9,23 +9,22 @@
 
 namespace star 
 {
-	TextureManager* TextureManager::mTextureManager = nullptr;
-	void TextureManager::EraseTextures()
+	std::shared_ptr<TextureManager> TextureManager::mTextureManager = nullptr;
+	TextureManager::~TextureManager()
 	{
-		auto iter = mTextureList.begin();
-		for(iter; iter != mTextureList.end(); ++iter)
+		for(auto texture : mTextureList)
 		{
-			delete iter->second;
+			delete texture.second;
 		}
 		mTextureList.clear();
 		mPathList.clear();
 	}
 
-	TextureManager* TextureManager::GetInstance()
+	std::shared_ptr<TextureManager> TextureManager::GetInstance()
 	{
 		if(mTextureManager == nullptr)
 		{
-			mTextureManager = new TextureManager();
+			mTextureManager = std::shared_ptr<TextureManager>(new TextureManager());
 		}
 		return (mTextureManager);
 	}

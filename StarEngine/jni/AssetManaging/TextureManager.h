@@ -6,6 +6,7 @@
 
 #ifdef _WIN32
 #include <glew.h>
+#include <memory>
 #else
 #include "GLES/gl.h"
 #endif
@@ -17,9 +18,9 @@ namespace star
 	class TextureManager
 	{
 	public:
-		~TextureManager(void) {}
+		~TextureManager(void);
 
-		static TextureManager* GetInstance();
+		static std::shared_ptr<TextureManager> GetInstance();
 
 		bool LoadTexture(const tstring& path, const tstring& name);
 		bool DeleteTexture(const tstring& name);
@@ -29,7 +30,7 @@ namespace star
 
 	private:
 		//Data Members
-		static TextureManager* mTextureManager;
+		static std::shared_ptr<TextureManager> mTextureManager;
 		std::map<tstring, Texture2D*> mTextureList;
 		std::vector<tstring> mPathList;
 

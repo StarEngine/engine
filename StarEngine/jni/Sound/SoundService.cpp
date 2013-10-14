@@ -9,14 +9,14 @@
 
 namespace star
 {
-	SoundService* SoundService::mSoundService = nullptr;
+	 std::shared_ptr<SoundService> SoundService::mSoundService = nullptr;
 	bool SoundService::mbIsInitialized = false;
 
-	SoundService* SoundService::GetInstance()
+	 std::shared_ptr<SoundService> SoundService::GetInstance()
 	{
 		if(mSoundService == nullptr)
 		{
-			mSoundService = new SoundService();
+			mSoundService = std::shared_ptr<SoundService>(new SoundService());
 		}
 		return mSoundService;
 	}
@@ -29,6 +29,21 @@ namespace star
 #endif
 	{
 		mQueueIterator = mBackgroundQueue.begin();
+	}
+
+	SoundService::~SoundService()
+	{
+		for(auto music : mMusicList)
+		{
+			delete (music.second);
+			music.second = nullptr;
+		}
+
+		for(auto effect : mEffectsList)
+		{
+			delete (effect.second);
+			effect.second = nullptr;
+		}
 	}
 
 	status SoundService::Start()

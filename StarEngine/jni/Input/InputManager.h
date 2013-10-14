@@ -9,6 +9,7 @@
 #include <windows.h>
 #include <XInput.h>
 #include <map>
+#include <memory>
 #pragma comment(lib, "XInput.lib")
 #else
 #include <vector>
@@ -103,8 +104,7 @@ namespace star
 		virtual ~InputManager(void);
 
 		// Static methods
-		static InputManager* GetInstance();
-		static void ResetSingleton();
+		static std::shared_ptr<InputManager> GetInstance();
 
 		void Initialize();
 		void Update();
@@ -156,7 +156,7 @@ namespace star
 	private:
 
 		InputManager();
-		static InputManager*  m_InputManagerPtr;
+		static std::shared_ptr<InputManager>  m_InputManagerPtr;
 
 #ifdef _WIN32
 		std::map<int,InputAction> m_InputActions;

@@ -13,7 +13,7 @@
 #endif
 
 namespace star {
-	Logger* Logger::m_LoggerPtr = nullptr;
+	std::shared_ptr<Logger> Logger::m_LoggerPtr = nullptr;
 
 	Logger::Logger()
 #ifdef _WIN32
@@ -27,11 +27,11 @@ namespace star {
 
 	}
 
-	Logger* Logger::GetInstance()
+	std::shared_ptr<Logger> Logger::GetInstance()
 	{
 		if(m_LoggerPtr == nullptr)
 		{
-			m_LoggerPtr = new Logger();
+			m_LoggerPtr = std::shared_ptr<Logger>(new Logger());
 		}
 		return m_LoggerPtr;
 	}

@@ -57,13 +57,13 @@ namespace star
 			psip(_T("WS_SYSMENU"), WS_SYSMENU)
 		};
 
-	Window *Window::m_pInstance = nullptr;
+	std::shared_ptr<Window> Window::m_pInstance = nullptr;
 
-	Window * Window::GetInstance()
+	std::shared_ptr<Window> Window::GetInstance()
 	{
 		if(m_pInstance == nullptr)
 		{
-			m_pInstance = new Window();
+			m_pInstance = std::shared_ptr<Window>(new Window());
 		}
 		return m_pInstance;
 	}
@@ -564,6 +564,11 @@ namespace star
 
 	Window::~Window(void)
 	{
+		delete (mGamePtr);
+		mGamePtr = nullptr;
+
+		delete (mTimeManager);
+		mTimeManager = nullptr;
 	}
 
 	void Window::WindowInactiveUpdate(bool inactive)

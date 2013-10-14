@@ -1,6 +1,7 @@
 #pragma once
 
 #include "defines.h"
+#include <memory>
 
 #ifdef _WIN32
 #include <glew.h>
@@ -18,7 +19,7 @@ namespace star
 	public:
 		~GraphicsManager() {}
 
-		static GraphicsManager* GetInstance();
+		static std::shared_ptr<GraphicsManager> GetInstance();
 
 #ifdef _WIN32
 		void Initialize(int32 screenWidth, int32 screenHeight);
@@ -44,7 +45,7 @@ namespace star
 		bool InitializeOpenGLFunctors();
 #endif
 
-		static GraphicsManager* mGraphicsManager;
+		static std::shared_ptr<GraphicsManager> mGraphicsManager;
 
 		int32 mScreenWidth;
 		int32 mScreenHeight;

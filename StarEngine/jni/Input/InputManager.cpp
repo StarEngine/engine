@@ -21,7 +21,7 @@ namespace star
 #endif
 
 	//Make this a static object
-	InputManager* InputManager::m_InputManagerPtr = nullptr;
+	std::shared_ptr<InputManager> InputManager::m_InputManagerPtr = nullptr;
 
 	InputManager::InputManager(void)
 	#ifdef _WIN32
@@ -66,21 +66,18 @@ namespace star
 			m_pOldKeyboardState = nullptr;
 		}
 #endif
+
+		delete m_GestureManager;
+		m_GestureManager = nullptr;
 	}
 
-	InputManager* InputManager::GetInstance()
+	std::shared_ptr<InputManager> InputManager::GetInstance()
 	{
 		if (m_InputManagerPtr == nullptr)
 		{
-			m_InputManagerPtr = new InputManager();
+			m_InputManagerPtr = std::shared_ptr<InputManager>(new InputManager());
 		}
 		return (m_InputManagerPtr);
-	}
-
-	void InputManager::ResetSingleton()
-	{
-		delete m_InputManagerPtr;
-		m_InputManagerPtr = nullptr;
 	}
 	
 	//Initializes the keyboard states
@@ -98,7 +95,6 @@ namespace star
 		}
 #else
 #endif
-
 		m_GestureManager = new GestureManager();
 	}
 

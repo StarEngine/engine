@@ -5,7 +5,7 @@
 
 namespace star
 {
-	CollisionManager* CollisionManager::m_pCollisionManager = nullptr;
+	std::shared_ptr<CollisionManager> CollisionManager::m_pCollisionManager = nullptr;
 
 	CollisionManager::CollisionManager(void):
 		m_ObjectList(),
@@ -17,11 +17,11 @@ namespace star
 	{
 	}
 
-	CollisionManager* CollisionManager::GetInstance()
+	std::shared_ptr<CollisionManager> CollisionManager::GetInstance()
 	{
 		if(m_pCollisionManager == nullptr)
 		{
-			m_pCollisionManager = new CollisionManager();
+			m_pCollisionManager = std::shared_ptr<CollisionManager>(new CollisionManager());
 		}
 		return m_pCollisionManager;
 	}

@@ -2,6 +2,7 @@
 
 #include <map>
 #include "../defines.h"
+#include <memory>
 
 #ifndef _WIN32
 #include <android_native_app_glue.h>
@@ -17,7 +18,7 @@ namespace star
 	public:
 		~SceneManager();
 
-		static SceneManager* GetInstance();
+		static std::shared_ptr<SceneManager> GetInstance();
 
 		BaseScene* GetActiveScene(){ return (m_ActiveScene); }
 		BaseScene* GetScene(const tstring & name);
@@ -38,7 +39,7 @@ namespace star
 		android_app* mApplicationPtr;
 #endif
 	private:
-		static SceneManager* m_pSceneManager;
+		static std::shared_ptr<SceneManager> m_pSceneManager;
 
 		BaseScene	*m_ActiveScene, 
 					*m_NewActiveScene;

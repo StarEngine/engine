@@ -46,7 +46,7 @@ TestScene::TestScene(const tstring & Name):
 
 TestScene::~TestScene()
 {
-	m_GestureManagerPtr->RemoveGesture(m_TapGesture);
+	//m_GestureManagerPtr->RemoveGesture(m_TapGesture);
 }
 
 status TestScene::Initialize( const star::Context& context)

@@ -10,7 +10,7 @@ namespace star
 #else
 	const vec3 PathFindManager::NO_PATH_AVAILBLE = vec3(-123456.0f, -123456.0f, -123456.0f);
 #endif
-	PathFindManager* PathFindManager::m_pPathFindManager = nullptr;
+	std::shared_ptr<PathFindManager> PathFindManager::m_pPathFindManager = nullptr;
 
 	PathFindManager::PathFindManager(void):
 		m_ObjectList(),
@@ -27,14 +27,28 @@ namespace star
 	
 	PathFindManager::~PathFindManager(void)
 	{
-		//[TODO] fix mem leaks
+		for(auto cell : m_OpenList)
+		{
+			delete cell;
+			cell = nullptr;
+		}
+		m_OpenList.clear();
+
+		for(auto cell : m_VisitedList)
+		{
+			delete cell;
+			cell = nullptr;
+		}
+		m_VisitedList.clear();
+
+		m_ObjectList.clear();
 	}
 
-	PathFindManager* PathFindManager::GetInstance()
+	std::shared_ptr<PathFindManager> PathFindManager::GetInstance()
 	{
 		if(m_pPathFindManager == nullptr)
 		{
-			m_pPathFindManager = new PathFindManager();
+			m_pPathFindManager = std::shared_ptr<PathFindManager>(new PathFindManager());
 		}
 		return m_pPathFindManager;
 	}

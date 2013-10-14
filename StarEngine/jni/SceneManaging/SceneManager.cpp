@@ -11,7 +11,7 @@
 
 namespace star 
 {
-	SceneManager* SceneManager::m_pSceneManager = nullptr;
+	std::shared_ptr<SceneManager> SceneManager::m_pSceneManager = nullptr;
 
 	SceneManager::SceneManager( void )
 		: m_ActiveScene(nullptr)
@@ -28,15 +28,20 @@ namespace star
 
 	SceneManager::~SceneManager(void)
 	{
+		for(auto scene : m_SceneList)
+		{
+			delete(scene.second);
+			scene.second = nullptr;
+		}
 		m_SceneList.clear();
 	}
 
 
-	SceneManager* SceneManager::GetInstance()
+	std::shared_ptr<SceneManager> SceneManager::GetInstance()
 	{
 		if(m_pSceneManager == nullptr)
 		{
-			m_pSceneManager = new SceneManager();
+			m_pSceneManager = std::shared_ptr<SceneManager>(new SceneManager());
 		}
 		return (m_pSceneManager);
 	}

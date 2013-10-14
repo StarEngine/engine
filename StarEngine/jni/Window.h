@@ -3,6 +3,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <memory>
 #include "BaseGame.h"
 #include "Context.h"
 
@@ -14,10 +15,9 @@ namespace star
 	class Window final
 	{
 	public:
-		static Window * GetInstance();
-
 		~Window(void);
 
+		static std::shared_ptr<Window> GetInstance();
 		void Initialize(HINSTANCE instance, BaseGame * pBaseGame);
 
 		void WindowInactiveUpdate(bool inactive);
@@ -49,7 +49,7 @@ namespace star
 		HWND GetConsoleHWND();
 		void SetWindowsTitle() const;
 
-		static Window *m_pInstance;
+		static std::shared_ptr<Window> m_pInstance;
 
 		bool m_IsInitialized;
 		bool m_IsFullScreen;

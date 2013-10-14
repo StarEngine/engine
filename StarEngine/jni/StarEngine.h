@@ -2,6 +2,7 @@
 
 #include "defines.h"
 #include "Helpers/FPS.h"
+#include <memory>
 
 #ifndef _WIN32
 #include "android_native_app_glue.h"
@@ -21,7 +22,7 @@ namespace star
 	public:
 		~StarEngine();
 
-		static StarEngine * GetInstance();
+		static std::shared_ptr<StarEngine> GetInstance();
 
 		status Initialize(int32 window_width, int32 window_height);
 
@@ -48,7 +49,7 @@ namespace star
 #endif
 
 	private:
-		static StarEngine * m_pEngine;
+		static std::shared_ptr<StarEngine> m_pEngine;
 		FPS m_FPS;
 		tstring m_Title, m_SubTitle;
 		bool m_TitleHasUpdated;

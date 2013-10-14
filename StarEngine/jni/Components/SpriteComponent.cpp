@@ -41,7 +41,6 @@ namespace star
 
 	SpriteComponent::~SpriteComponent()
 	{
-		TextureManager::GetInstance()->DeleteTexture(m_SpriteName);
 	}
 
 	void SpriteComponent::CreateSquare()

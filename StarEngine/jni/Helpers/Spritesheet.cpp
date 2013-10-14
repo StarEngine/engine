@@ -44,6 +44,7 @@ namespace star
 			SpriteAnimation spriteAnimation(aName, uv, aSpeed * speed, aRepeat,
 				frames, width, amount);
 
+			//[COMMENT] A memory leak starts below
 			insert(std::pair<tstring, SpriteAnimation>(aName, spriteAnimation));
 
 			++it;
