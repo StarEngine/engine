@@ -32,13 +32,13 @@ namespace star
 		void AddObstacle(Object* object);
 
 #ifdef STAR2D
-		void FindPath(const vec2& currentPos, const vec2& targetPos);
-		vec2 NextPathPos(Object* enemy);
-		vec2 GetStep(uint16 step);
+		void FindPath(const pos& currentPos, const pos& targetPos);
+		const pos & NextPathPos(Object* enemy);
+		const pos & GetStep(uint16 step) const;
 #else
 		void FindPath(const vec3& currentPos, const vec3& targetPos);
-		vec3 NextPathPos(Object* enemy);
-		vec3 GetStep(uint16 step);
+		const vec3 & NextPathPos(Object* enemy);
+		const vec3 & GetStep(uint16 step) const;
 #endif
 
 		void ClearOpenList() { m_OpenList.clear(); }
@@ -59,7 +59,7 @@ namespace star
 		std::vector<Object*> m_ObjectList;
 
 #ifdef STAR2D
-		std::vector<vec2> m_PositionList;
+		std::vector<pos> m_PositionList;
 #else
 		std::vector<vec3> m_PositionList;
 #endif
@@ -70,7 +70,7 @@ namespace star
 		std::vector<SearchCell*> m_VisitedList;
 
 #ifdef STAR2D
-		std::vector<vec2> m_PathToGoal;
+		std::vector<pos> m_PathToGoal;
 #else
 		std::vector<vec3> m_PathToGoal;
 #endif
@@ -82,7 +82,7 @@ namespace star
 		static const int STEP_SIZE = 1;
 
 #ifdef STAR2D
-		static const vec2 NO_PATH_AVAILBLE;
+		static const pos NO_PATH_AVAILBLE;
 #else
 		static const vec3 NO_PATH_AVAILBLE;
 #endif

@@ -195,6 +195,12 @@
     <ClInclude Include="jni\Helpers\HelpersMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\defines2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Helpers\2D\pos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -354,6 +360,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\SceneManaging\SearchCell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Helpers\2D\pos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

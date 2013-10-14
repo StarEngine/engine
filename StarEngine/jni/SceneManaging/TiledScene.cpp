@@ -93,9 +93,11 @@ namespace star
 				Object * obj = new Object();
 				auto transform = obj->GetTransform();
 #ifdef STAR2D
+				// [TODO] Use height from layer name instead of this hack
 				transform->Translate(
 					( i % m_Width ) * m_Scale,
-					( i / m_Width ) * m_Scale);
+					( i / m_Width ) * m_Scale,
+					height);
 				transform->Scale(m_Scale, m_Scale);
 				// [TODO] define texture?
 #else
@@ -143,9 +145,11 @@ namespace star
 				}
 				auto transform = obj->GetTransform();
 #ifdef STAR2D
+				// [TODO] Use height from layer name instead of this hack
 				transform->Translate(
 					( i % m_Width ) * m_Scale,
-					( i / m_Width ) * m_Scale);
+					( i / m_Width ) * m_Scale,
+					height);
 				transform->Scale(m_Scale, m_Scale);
 #else
 				transform->Translate(

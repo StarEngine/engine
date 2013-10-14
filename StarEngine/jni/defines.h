@@ -98,7 +98,7 @@ using glm::ivec2;
 #define ANDROID_LOG_TAG _T("STAR_ENGINE")
 
 #ifdef STAR2D
-const float ZDEPTH_0 = 0.0f;
+#include "defines2D.h" 
 #endif
 
 #ifndef NDEBUG

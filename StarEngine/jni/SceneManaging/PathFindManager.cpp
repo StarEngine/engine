@@ -6,7 +6,7 @@
 namespace star
 {
 #ifdef STAR2D
-	const vec2 PathFindManager::NO_PATH_AVAILBLE = vec2(-123456.0f, -123456.0f);
+	const pos PathFindManager::NO_PATH_AVAILBLE = pos(-123456.0f, -123456.0f);
 #else
 	const vec3 PathFindManager::NO_PATH_AVAILBLE = vec3(-123456.0f, -123456.0f, -123456.0f);
 #endif
@@ -52,13 +52,13 @@ namespace star
 	}
 
 #ifdef STAR2D
-	void PathFindManager::FindPath(const vec2& currentPos, const vec2& targetPos)
+	void PathFindManager::FindPath(const pos& currentPos, const pos& targetPos)
 	{
 		//Clear and refill the positionlist
 		m_PositionList.clear();
 		for(auto object : m_ObjectList)
 		{
-			vec2 pos = object->GetTransform()->GetWorldPosition();
+			pos pos = object->GetTransform()->GetWorldPosition();
 			m_PositionList.push_back(pos);
 		}
 
@@ -182,7 +182,7 @@ namespace star
 		{
 			nextCell = m_OpenList[cellIndex];
 			
-			if(find(m_PositionList.begin(), m_PositionList.end(),vec2(nextCell->X, nextCell->Y)) 
+			if(find(m_PositionList.begin(), m_PositionList.end(),pos(nextCell->X, nextCell->Y)) 
 				== m_PositionList.end())
 			{
 				Logger::GetInstance()->Log(LogLevel::Info, _T("Position not accessible (GetNextCell())"));
@@ -198,7 +198,7 @@ namespace star
 	void PathFindManager::PathOpened(int x, int y, float newCost, SearchCell *parent, Direction dir)
 	{
 		//check if position is accesible
-		if(find(m_PositionList.begin(), m_PositionList.end(), vec2(x,y)) == m_PositionList.end())
+		if(find(m_PositionList.begin(), m_PositionList.end(), pos(x,y)) == m_PositionList.end())
 		{
 			return;
 		}
@@ -209,11 +209,11 @@ namespace star
 #ifdef STAR2D
 			case Direction::GoingUpLeft:
 			{
-				if(find(m_PositionList.begin(), m_PositionList.end(), vec2(x,y-1)) == m_PositionList.end())
+				if(find(m_PositionList.begin(), m_PositionList.end(), pos(x,y-1)) == m_PositionList.end())
 				{
 					return;
 				}
-				if(find(m_PositionList.begin(), m_PositionList.end(), vec2(x+1,y)) == m_PositionList.end())
+				if(find(m_PositionList.begin(), m_PositionList.end(), pos(x+1,y)) == m_PositionList.end())
 				{
 					return;
 				}
@@ -221,11 +221,11 @@ namespace star
 			}
 			case Direction::GoingUpRight:
 			{
-				if(find(m_PositionList.begin(), m_PositionList.end(), vec2(x,y-1)) == m_PositionList.end())
+				if(find(m_PositionList.begin(), m_PositionList.end(), pos(x,y-1)) == m_PositionList.end())
 				{
 					return;
 				}
-				if(find(m_PositionList.begin(), m_PositionList.end(), vec2(x-1,y)) == m_PositionList.end())
+				if(find(m_PositionList.begin(), m_PositionList.end(), pos(x-1,y)) == m_PositionList.end())
 				{
 					return;
 				}
@@ -233,11 +233,11 @@ namespace star
 			}
 			case Direction::GoingDownLeft:
 			{
-				if(find(m_PositionList.begin(), m_PositionList.end(), vec2(x,y+1)) == m_PositionList.end())
+				if(find(m_PositionList.begin(), m_PositionList.end(), pos(x,y+1)) == m_PositionList.end())
 				{
 					return;
 				}
-				if(find(m_PositionList.begin(), m_PositionList.end(), vec2(x+1,y)) == m_PositionList.end())
+				if(find(m_PositionList.begin(), m_PositionList.end(), pos(x+1,y)) == m_PositionList.end())
 				{
 					return;
 				}
@@ -245,11 +245,11 @@ namespace star
 			}
 			case Direction::GoingDownRight:
 			{
-				if(find(m_PositionList.begin(), m_PositionList.end(), vec2(x,y+1)) == m_PositionList.end())
+				if(find(m_PositionList.begin(), m_PositionList.end(), pos(x,y+1)) == m_PositionList.end())
 				{
 					return;
 				}
-				if(find(m_PositionList.begin(), m_PositionList.end(), vec2(x-1,y)) == m_PositionList.end())
+				if(find(m_PositionList.begin(), m_PositionList.end(), pos(x-1,y)) == m_PositionList.end())
 				{
 					return;
 				}
@@ -422,14 +422,12 @@ namespace star
 	}
 
 #ifdef STAR2D
-	vec2 PathFindManager::NextPathPos(Object* enemy)
+	const pos & PathFindManager::NextPathPos(Object* enemy)
 	{
 		uint16 index = 1;
 
-		vec2 nextPos;
-		nextPos.x = m_PathToGoal[m_PathToGoal.size() - index].x;
-		nextPos.y = m_PathToGoal[m_PathToGoal.size() - index].y;
-		vec2 distance = nextPos - enemy->GetTransform()->GetWorldPosition();
+		pos & nextPos = m_PathToGoal[m_PathToGoal.size() - index];
+		pos distance = nextPos - enemy->GetTransform()->GetWorldPosition();
 		
 		if(index < m_PathToGoal.size())
 		{
@@ -441,7 +439,7 @@ namespace star
 		return nextPos;
 	}
 
-	vec2 PathFindManager::GetStep(uint16 step)
+	const pos & PathFindManager::GetStep(uint16 step) const
 	{
 		if(m_PathToGoal.size() == 0)
 		{
@@ -456,13 +454,11 @@ namespace star
 		return m_PathToGoal[m_PathToGoal.size() - step - 1];
 	}
 #else
-	vec3 PathFindManager::NextPathPos(Object* enemy)
+	const vec3 & PathFindManager::NextPathPos(Object* enemy)
 	{
 		uint16 index = 1;
 
-		vec3 nextPos;
-		nextPos.x = m_PathToGoal[m_PathToGoal.size() - index].x;
-		nextPos.y = m_PathToGoal[m_PathToGoal.size() - index].y;
+		vec3 & nextPos = m_PathToGoal[m_PathToGoal.size() - index];
 		vec3 distance = nextPos - enemy->GetTransform()->GetWorldPosition();
 		
 		if(index < m_PathToGoal.size())

@@ -62,13 +62,33 @@ namespace star
 #ifdef STAR2D
 	void TransformComponent::Translate(const vec2 & translation)
 	{
-		m_LocalPosition = translation;
+		m_LocalPosition.x = translation.x;
+		m_LocalPosition.y = translation.y;
 		m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
 	void TransformComponent::Translate(float x, float y)
 	{
 		Translate(vec2(x, y));
+	}
+
+	void TransformComponent::Translate(const vec2 & translation, lay l)
+	{
+		m_LocalPosition.x = translation.x;
+		m_LocalPosition.y = translation.y;
+		m_LocalPosition.l = l;
+		m_IsChanged |= TransformChanged::TRANSLATION;
+	}
+
+	void TransformComponent::Translate(float x, float y, lay l)
+	{
+		Translate(vec2(x, y), l);
+	}
+
+	void TransformComponent::Translate(const pos & pos2D)
+	{
+		m_LocalPosition = pos2D;
+		m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
 	void TransformComponent::Rotate(float rotation)
@@ -88,13 +108,13 @@ namespace star
 		Scale(vec2(x, y));
 	}
 
-	const vec2 & TransformComponent::GetWorldPosition()
+	const pos & TransformComponent::GetWorldPosition()
 	{
 		CheckForUpdate();
 		return m_WorldPosition;
 	}
 
-	const vec2 & TransformComponent::GetLocalPosition() const
+	const pos & TransformComponent::GetLocalPosition() const
 	{
 		return m_LocalPosition;
 	}
@@ -205,7 +225,7 @@ namespace star
 		mat4x4 matRot, matTrans, matScale;
 
 #ifdef STAR2D
-		matTrans = glm::translate(vec3(m_LocalPosition.x, m_LocalPosition.y, 0));
+		matTrans = glm::translate(m_LocalPosition.pos3D());
 		float rotDegrees = RadiansToDegrees(m_LocalRotation);
 		matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
 		matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,0));

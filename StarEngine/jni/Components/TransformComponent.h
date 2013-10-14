@@ -29,14 +29,17 @@ namespace star
 #ifdef STAR2D
 		void Translate(const vec2& translation);
 		void Translate(float x, float y);
+		void Translate(const vec2& translation, lay l);
+		void Translate(float x, float y, lay l);
+		void Translate(const pos & pos2D);
 
 		void Rotate(float rotation);
 
 		void Scale(const vec2& scale);
 		void Scale(float x, float y);
 		
-		const vec2& GetWorldPosition();
-		const vec2& GetLocalPosition() const;
+		const pos& GetWorldPosition();
+		const pos& GetLocalPosition() const;
 		float GetWorldRotation();
 		float GetLocalRotation() const;
 		const vec2& GetWorldScale();
@@ -67,7 +70,7 @@ namespace star
 		unsigned char m_IsChanged;
 		bool m_Invalidate;
 #ifdef STAR2D
-		vec2 m_WorldPosition, m_LocalPosition;
+		pos m_WorldPosition, m_LocalPosition;
 		float m_WorldRotation, m_LocalRotation;
 		vec2 m_WorldScale, m_LocalScale;
 #else
