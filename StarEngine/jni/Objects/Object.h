@@ -4,9 +4,9 @@
 #include "../defines.h"
 #include "../Logger.h"
 #include "../Context.h"
-#include "../SceneManaging/BaseScene.h"
+#include "../Scenes/BaseScene.h"
 #include "../Components/TransformComponent.h"
-#include "../SceneManaging/PathFindManager.h"
+#include "../AI/Pathfinding/PathFindManager.h"
 
 namespace star
 {

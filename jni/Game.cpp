@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "../StarEngine/jni/SceneManaging/SceneManager.h"
+#include "../StarEngine/jni/Scenes/SceneManager.h"
 #include "../StarEngine/jni/Context.h"
 #include "../StarEngine/jni/StarEngine.h"
 #include "../StarEngine/jni/Helpers/Helpers.h"

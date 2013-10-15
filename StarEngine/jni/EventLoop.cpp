@@ -2,8 +2,8 @@
 
 #include "EventLoop.h"
 #include "Logger.h"
-#include "SceneManaging/SceneManager.h"
-#include "GraphicsManager.h"
+#include "Scenes/SceneManager.h"
+#include "Graphics/GraphicsManager.h"
 #include <unistd.h>
 #include "Input/InputManager.h"
 #include "StarEngine.h"

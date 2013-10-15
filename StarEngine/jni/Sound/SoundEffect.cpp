@@ -1,7 +1,7 @@
 #include "SoundEffect.h"
 #include "SoundService.h"
 #include "../Logger.h"
-#include "../AssetManaging/Resource.h"
+#include "../Assets/Resource.h"
 #include "../Helpers/Helpers.h"
 #include "../Helpers/Filepath.h"
 

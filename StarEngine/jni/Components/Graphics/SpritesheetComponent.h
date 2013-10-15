@@ -2,8 +2,8 @@
 
 #include "SpriteComponent.h"
 #include <list>
-#include "../Helpers/SpriteAnimation.h"
-#include "../Helpers/Spritesheet.h"
+#include "../../Helpers/SpriteAnimation.h"
+#include "../../Helpers/Spritesheet.h"
 
 namespace star
 {

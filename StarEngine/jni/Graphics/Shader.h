@@ -12,7 +12,7 @@
 #include <iostream>
 #include <fstream>
 //#include "../EventLoop.h"
-#include "../AssetManaging/Resource.h"
+#include "../Assets/Resource.h"
 #endif
 
 namespace star

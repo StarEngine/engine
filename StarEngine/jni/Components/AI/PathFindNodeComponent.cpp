@@ -1,5 +1,5 @@
 #include "PathFindNodeComponent.h"
-#include "..\Logger.h"
+#include "../../Logger.h"
 
 namespace star
 {

@@ -3,8 +3,8 @@
 #include "../Context.h"
 #include "BaseScene.h"
 #include "../Input/InputManager.h"
-#include "../GraphicsManager.h"
-#include "../AssetManaging/TextureManager.h"
+#include "../Graphics/GraphicsManager.h"
+#include "../Assets/TextureManager.h"
 #include "../Sound/SoundService.h"
 
 #define INPUT_MANAGER (InputManager::GetInstance())

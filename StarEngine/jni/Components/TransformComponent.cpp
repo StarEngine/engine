@@ -1,5 +1,5 @@
 #include "TransformComponent.h"
-#include "..\SceneGraph\Object.h"
+#include "..\Objects\Object.h"
 #include "..\Logger.h"
 #include "..\Context.h"
 #include "..\Helpers\HelpersMath.h"

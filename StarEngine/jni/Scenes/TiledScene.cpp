@@ -2,7 +2,7 @@
 #include "../Input/XMLContainer.h"
 #include "../Input/XMLFileParser.h"
 #include "../Helpers/Helpers.h"
-#include "../SceneGraph/Object.h"
+#include "../Objects/Object.h"
 
 namespace star
 {

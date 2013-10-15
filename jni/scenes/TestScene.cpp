@@ -1,11 +1,11 @@
 #include "TestScene.h"
 #include "../../StarEngine/jni/Helpers/Helpers.h"
-#include "../../StarEngine/jni/SceneManaging/CollisionManager.h"
-#include "../../StarEngine/jni/SceneManaging/PathFindManager.h"
+#include "../../StarEngine/jni/Physics/Collision/CollisionManager.h"
+#include "../../StarEngine/jni/AI/Pathfinding/PathFindManager.h"
 #include "../../StarEngine/jni/StarComponents.h"
 #include "../../StarEngine/jni/Input/InputManager.h"
-#include "../../StarEngine/jni/GraphicsManager.h"
-#include "../../StarEngine/jni/SceneManaging/SceneManager.h"
+#include "../../StarEngine/jni/Graphics/GraphicsManager.h"
+#include "../../StarEngine/jni/Scenes/SceneManager.h"
 #include "../../StarEngine/jni/Sound/SoundService.h"
 
 #ifdef _WIN32

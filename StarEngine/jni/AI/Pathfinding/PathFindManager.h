@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "SearchCell.h"
-#include "../defines.h"
+#include "../../defines.h"
 #include <memory>
 
 namespace star

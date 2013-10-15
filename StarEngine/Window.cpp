@@ -2,17 +2,17 @@
 
 #include "Window.h"
 #include <string>
-#include "SceneManaging/SceneManager.h"
-#include "AssetManaging/TextureManager.h"
-#include "Logger.h"
-#include "TimeManager.h"
-#include "Helpers/Helpers.h"
-#include "Helpers/Filepath.h"
-#include "Input/XMLContainer.h"
-#include "Input/XMLFileParser.h"
-#include "GraphicsManager.h"
-#include "StarEngine.h"
-#include "Input/InputManager.h"
+#include "jni/Scenes/SceneManager.h"
+#include "jni/Assets/TextureManager.h"
+#include "jni/Logger.h"
+#include "jni/TimeManager.h"
+#include "jni/Helpers/Helpers.h"
+#include "jni/Helpers/Filepath.h"
+#include "jni/Input/XMLContainer.h"
+#include "jni/Input/XMLFileParser.h"
+#include "jni/Graphics/GraphicsManager.h"
+#include "jni/StarEngine.h"
+#include "jni/Input/InputManager.h"
 
 #pragma comment(lib, "opengl32.lib")
 

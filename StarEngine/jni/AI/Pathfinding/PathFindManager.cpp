@@ -1,6 +1,6 @@
 #include "PathFindManager.h"
-#include "../SceneGraph/Object.h"
-#include "../StarComponents.h"
+#include "../../Objects/Object.h"
+#include "../../StarComponents.h"
 #include <algorithm>
 
 namespace star

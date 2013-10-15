@@ -1,7 +1,7 @@
 #include "SpritesheetComponent.h"
-#include "../SceneGraph/SpriteAnimationManager.h"
+#include "../../Graphics/SpriteAnimationManager.h"
 #ifdef _DEBUG
-#include "../Logger.h"
+#include "../../Logger.h"
 #endif
 
 namespace star

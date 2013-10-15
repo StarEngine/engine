@@ -1,7 +1,7 @@
 #include "BaseScene.h"
 #include "../Context.h"
 #include "../Input/InputManager.h"
-#include "../SceneGraph/Object.h"
+#include "../Objects/Object.h"
 #include "../StarComponents.h"
 #include "../Objects/FreeCamera.h"
 

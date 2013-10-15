@@ -4,8 +4,8 @@
 
 #include <Windows.h>
 #include <memory>
-#include "BaseGame.h"
-#include "Context.h"
+#include "jni/BaseGame.h"
+#include "jni/Context.h"
 
 namespace star
 {

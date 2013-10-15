@@ -1,8 +1,8 @@
 #include "BaseComponent.h"
-#include "../SceneGraph\Object.h"
+#include "../Objects/Object.h"
 #include "../Context.h"
 #include "../Logger.h"
-#include "../SceneGraph/Object.h"
+#include "../Objects/Object.h"
 
 namespace star
 {

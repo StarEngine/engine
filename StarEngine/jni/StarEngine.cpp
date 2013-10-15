@@ -1,6 +1,6 @@
 #include "StarEngine.h"
-#include "GraphicsManager.h"
-#include "SceneManaging/SceneManager.h"
+#include "Graphics/GraphicsManager.h"
+#include "Scenes/SceneManager.h"
 #include "Input/InputManager.h"
 #include "Context.h"
 #include "Logger.h"

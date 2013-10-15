@@ -1,7 +1,7 @@
 #pragma once
-#include "BaseComponent.h"
-#include "..\defines.h"
-#include "..\Helpers\Rect.h"
+#include "../BaseComponent.h"
+#include "../../defines.h"
+#include "../../Helpers/Rect.h"
 
 namespace star
 {

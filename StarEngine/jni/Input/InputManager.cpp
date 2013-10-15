@@ -8,7 +8,7 @@
 #endif
 #include "../Logger.h"
 #include "../StarEngine.h"
-#include "../GraphicsManager.h"
+#include "../Graphics/GraphicsManager.h"
 
 namespace star
 {

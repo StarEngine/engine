@@ -1,6 +1,6 @@
 #include "CameraComponent.h"
-#include "../GraphicsManager.h"
-#include "../SceneGraph/Object.h"
+#include "../Graphics/GraphicsManager.h"
+#include "../Objects/Object.h"
 #include "../Input/InputManager.h"
 #include "../Context.h"
 #include "../Logger.h"

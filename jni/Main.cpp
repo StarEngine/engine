@@ -3,7 +3,7 @@
 
 #ifdef _WIN32
 
-#include "../StarEngine/jni/Window.h"
+#include "../StarEngine/Window.h"
 #include <Windows.h>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) 

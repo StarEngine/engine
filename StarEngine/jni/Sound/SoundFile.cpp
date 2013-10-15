@@ -1,7 +1,7 @@
 #include "SoundFile.h"
 #include "SoundService.h"
 #include "../Logger.h"
-#include "../AssetManaging/Resource.h"
+#include "../Assets/Resource.h"
 #include "../Helpers/Helpers.h"
 
 #ifndef _WIN32

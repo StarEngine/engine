@@ -4,7 +4,7 @@
 
 
 #ifndef _WIN32
-#include "../AssetManaging/Resource.h"
+#include "../Assets/Resource.h"
 #endif
 
 namespace star

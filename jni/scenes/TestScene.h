@@ -1,10 +1,10 @@
 #pragma once
 
 #include "../../StarEngine/jni/defines.h"
-#include "../../StarEngine/jni/SceneManaging/BaseScene.h"
+#include "../../StarEngine/jni/Scenes/BaseScene.h"
 #include "../../StarEngine/jni/Logger.h"
 #include "../../StarEngine/jni/Context.h"
-#include "../../StarEngine/jni/SceneGraph/Object.h"
+#include "../../StarEngine/jni/Objects/Object.h"
 #include "../../StarEngine/jni/StarComponents.h"
 #include "../../StarEngine/jni/Input/Gestures/DoubleTapGesture.h"
 #include "../../StarEngine/jni/Objects/FreeCamera.h"

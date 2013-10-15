@@ -1,7 +1,7 @@
 #pragma once
 #include "../defines.h"
 #include "../Context.h"
-#include "../SceneGraph/Object.h"
+#include "../Objects/Object.h"
 
 namespace star
 {

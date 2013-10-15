@@ -1,7 +1,7 @@
 #pragma once
 
 #include "TimeManager.h"
-#include "AssetManaging/TextureManager.h"
+#include "Assets/TextureManager.h"
 
 namespace star
 {
