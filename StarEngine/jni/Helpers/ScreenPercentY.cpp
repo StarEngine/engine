@@ -1,5 +1,6 @@
 #include "ScreenPercentY.h"
 #include "ScreenPercentX.h"
+#include "../Graphics/GraphicsManager.h"
 
 namespace star
 {
@@ -38,6 +39,8 @@ namespace star
 
 	void ScreenPercentY::ConvertPercentToScreenPos()
 	{
-		// [TODO] Implement
+		int32 height = GraphicsManager::GetInstance()->GetWindowHeight();
+		m_ScreenValue = height/100.0f;
+		m_ScreenValue *= m_ScreenPercentage;
 	}
 }
