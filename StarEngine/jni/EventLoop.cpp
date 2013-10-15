@@ -108,8 +108,7 @@ namespace star
 
 	void EventLoop::activityCallback(android_app* pApplication, int32_t pCommand)
 	{
-		// [COMMENT] Use C++ Casts please!
-		EventLoop& lEventLoop = *(EventLoop*) pApplication->userData;
+		EventLoop& lEventLoop = *reinterpret_cast<EventLoop*>(pApplication->userData);
 
 		switch(pCommand)
 		{

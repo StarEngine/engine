@@ -11,6 +11,7 @@ namespace star
 	SwipeGesture::SwipeGesture(): 
 		star::BaseGesture(),
 		m_ElapsedTime(0),
+		m_Speed(0),
 		m_StartPos(),
 		m_CurrentPos(),
 		m_OldPos(),
@@ -61,9 +62,11 @@ namespace star
 						m_OldPos = INPUT_MANAGER->GetCurrentMousePosition();
 						m_OldDirection = dir;
 					}
+					//Check speed:
+					m_TotalDistance = glm::length(m_CurrentPos - m_StartPos);
+					m_Speed = m_TotalDistance / (float)m_ElapsedTime ;
 				}
-			}
-			
+			}			
 
 		}
 		if(INPUT_MANAGER->IsMouseButtonUpWIN(VK_LBUTTON))
@@ -72,12 +75,8 @@ namespace star
 			//div average dir by amount of times it was down, calc speed, dir and length :)
 			if(m_bIsGestureOk)
 			{
-				//Check speed:
-				m_TotalDistance = glm::length(m_CurrentPos - m_StartPos);
-				float speed = m_TotalDistance / (float)m_ElapsedTime ;
-
 				//[TODO] -- make distance in % of screen!
-				if(speed >= MIN_SWIPE_SPEED && m_TotalDistance >= MIN_SWIPE_DISTANCE)
+				if(m_Speed >= MIN_SWIPE_SPEED && m_TotalDistance >= MIN_SWIPE_DISTANCE)
 				{
 					m_bCompletedGesture = true;
 				}
@@ -124,6 +123,9 @@ namespace star
 						m_OldPos = INPUT_MANAGER->GetCurrentTouchPosANDR();
 						m_OldDirection = dir;
 					}
+					//Check speed:
+					m_TotalDistance = glm::length(m_CurrentPos - m_StartPos);
+					m_Speed = m_TotalDistance / (float)m_ElapsedTime ;
 				}
 			}
 			break;
@@ -132,12 +134,8 @@ namespace star
 			//div average dir by amount of times it was down, calc speed, dir and length :)
 			if(m_bIsGestureOk)
 			{
-				//Check speed:
-				m_TotalDistance = glm::length(m_CurrentPos - m_StartPos);
-				float speed = m_TotalDistance / (float)m_ElapsedTime ;
-
 				//[TODO] -- make distance in % of screen!
-				if(speed >= MIN_SWIPE_SPEED && m_TotalDistance >= MIN_SWIPE_DISTANCE)
+				if(m_Speed >= MIN_SWIPE_SPEED && m_TotalDistance >= MIN_SWIPE_DISTANCE)
 				{
 					m_bCompletedGesture = true;
 				}
@@ -155,8 +153,6 @@ namespace star
 		}
 	}
 
-	// [COMMENT] can you tell me via skype why 
-	// you would make a function like this?
 	void SwipeGesture::InitializeAllVars()
 	{
 		//Start recording the move
@@ -164,8 +160,30 @@ namespace star
 		m_CurrentPos = m_StartPos;
 		m_OldPos = m_StartPos;
 		m_ElapsedTime = 0;
+		m_Speed = 0;
 		m_bIsGestureOk = true;
 		m_OldDirection = vec2();
 		m_TotalDistance = 0;
+	}
+
+	vec2 SwipeGesture::GetSwipeDirection() const
+	{
+		vec2 vec = m_CurrentPos - m_StartPos;
+		if(vec != vec2())
+		{
+			return glm::normalize(vec);
+		}
+		return vec;
+	}
+
+	float SwipeGesture::GetSwipeSpeed() const
+	{
+		return m_Speed;
+	}
+
+	float SwipeGesture::GetSwipeLength() const
+	{
+		//[TODO] In % 
+		return m_TotalDistance;
 	}
 }

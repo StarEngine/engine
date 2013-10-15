@@ -31,9 +31,10 @@ namespace star
 		if(INPUT_MANAGER->IsMouseButtonUpWIN(VK_LBUTTON))
 		{
 			double timeSinceDown = m_TimeSinceBeginning - m_StartTime;
-			// [COMMENT] don't forget '{' and '}'
 			if(timeSinceDown > MINIMUM_TAP_TIME && timeSinceDown < MAXIMUM_TAP_TIME)
+			{
 				m_bCompletedGesture = true;
+			}
 		}
 	}
 	#else

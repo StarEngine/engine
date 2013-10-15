@@ -83,10 +83,18 @@ namespace star
 	#endif
 		, m_GestureManager(nullptr)
 	{
-		// [COMMENT] If you call the initialize function yourself from
-		// the constructor, then better to not make an initialize 
-		// function and just put the code in the body...
-		Initialize();
+#ifdef _WIN32
+		//Init new keyboard states
+		if(m_pKeyboardState0 == nullptr)
+		{
+			m_pKeyboardState0 = new BYTE[256];
+			m_pKeyboardState1 = new BYTE[256];
+
+			GetKeyboardState(m_pKeyboardState0);
+			GetKeyboardState(m_pKeyboardState1);
+		}
+#endif
+		m_GestureManager = new GestureManager();
 	}
 
 
@@ -117,25 +125,6 @@ namespace star
 			m_InputManagerPtr = std::shared_ptr<InputManager>(new InputManager());
 		}
 		return (m_InputManagerPtr);
-	}
-	
-	//Initializes the keyboard states
-	void InputManager::Initialize()
-	{
-#ifdef _WIN32
-		//Init new keyboard states
-		if(m_pKeyboardState0 == nullptr)
-		{
-			m_pKeyboardState0 = new BYTE[256];
-			m_pKeyboardState1 = new BYTE[256];
-
-			GetKeyboardState(m_pKeyboardState0);
-			GetKeyboardState(m_pKeyboardState1);
-		}
-#else
-
-#endif
-		m_GestureManager = new GestureManager();
 	}
 
 #ifdef _WIN32
@@ -279,22 +268,23 @@ namespace star
 
 	bool InputManager::IsAnyKeyDown() const
 	{
-		// [COMMENT] No Magic numbers!
-		for (int i = 0; i < 256; ++i)
+		for (uint8 i = 0; i < NUMBER_OF_KEYBOARDKEYS; ++i)
 		{
-					// [COMMENT] Don't forget '{' and '}' for if statements!
 			if( (char) (GetAsyncKeyState(i) >> 8))
+			{
 				return true;
+			}
 		}
-		for(int index = 0; index < XUSER_MAX_COUNT; ++index)
+		for(uint8 index = 0; index < XUSER_MAX_COUNT; ++index)
 		{
 			if(m_ConnectedGamepads[index] == true)
 			{
-				for(WORD button = 0x00000001; button < 0x8000; button *= 2)
+				for(WORD button = 0x00000001; button < MAX_GAMEPAD_VALUE; button *= 2)
 				{
-					// [COMMENT] Don't forget '{' and '}' for if statements!
 					if(IsGamepadButtonDown(button,static_cast<GamepadIndex>(index)))
+					{
 						return true;
+					}
 				}
 			}
 		}
@@ -306,13 +296,11 @@ namespace star
 	{
 		if(previousFrame)
 		{
-			// [COMMENT] Spacing between opterators please... (readability)
-			return (m_pOldKeyboardState[key]&0xF0)!=0;
+			return (m_pOldKeyboardState[key] & 0xF0) != 0;
 		}
 		else
 		{
-			// [COMMENT] Spacing between opterators please... (readability)
-			return (m_pCurrKeyboardState[key]&0xF0)!=0;
+			return (m_pCurrKeyboardState[key] & 0xF0) != 0;
 		}
 	}
 
@@ -321,13 +309,11 @@ namespace star
 	{
 		if(previousFrame)
 		{
-			// [COMMENT] Spacing between opterators please... (readability)
-			return (m_pOldKeyboardState[button]&0xF0)!=0;
+			return (m_pOldKeyboardState[button ]& 0xF0) != 0;
 		}
 		else
 		{
-			// [COMMENT] Spacing between opterators please... (readability)
-			return (m_pCurrKeyboardState[button]&0xF0)!=0;
+			return (m_pCurrKeyboardState[button] & 0xF0) != 0;
 		}
 	}
 
@@ -340,11 +326,11 @@ namespace star
 		}
 		if(previousFrame)
 		{
-			return (m_OldGamepadState[playerIndex].Gamepad.wButtons&button)!=0;
+			return (m_OldGamepadState[playerIndex].Gamepad.wButtons&button) != 0;
 		}
 		else
 		{
-			return (m_CurrGamepadState[playerIndex].Gamepad.wButtons&button)!=0;
+			return (m_CurrGamepadState[playerIndex].Gamepad.wButtons&button) != 0;
 		}
 	}
 	
@@ -578,6 +564,26 @@ namespace star
 		vibration.wRightMotorSpeed = static_cast<WORD>(rightVibration * MAX_VALUE_OF_WORD);
 		XInputSetState(playerIndex, &vibration);
 	}
+
+	uint8 InputManager::ConvertIndexToVK(uint8 fingerIndex) const
+	{
+		switch(fingerIndex)
+		{
+		case 1:
+			return VK_LBUTTON;
+		case 2:
+			return VK_RBUTTON;
+		case 3:
+			return VK_MBUTTON;
+		case 4:
+			return VK_XBUTTON1;
+		case 5:
+			return VK_XBUTTON2;
+		default:
+			Logger::GetInstance()->Log(LogLevel::Warning,_T("Only 5 (0 - 4) finger Indices supported for mouse. Using VK_XBUTTON2"));
+			return VK_XBUTTON2;
+		}
+	}
 #else
 
 	bool InputManager::IsTouchTapANDR(uint8 fingerIndex) const
@@ -763,35 +769,39 @@ namespace star
 	#endif
 	}
 
-	bool InputManager::IsFingerTapCP(uint8 finger) const
+	bool InputManager::IsFingerTapCP(uint8 fingerIndex) const
 	{
+		++fingerIndex;
 #ifdef _WIN32
-		return IsMouseButtonTapWIN(finger);
+		return IsMouseButtonTapWIN(ConvertIndexToVK(fingerIndex));
 #else
-		return (IsTouchTapANDR(finger));
+		return (IsTouchTapANDR(fingerIndex));
 #endif
 	}
 
-	bool InputManager::IsFingerDownCP(uint8 finger) const
+	bool InputManager::IsFingerDownCP(uint8 fingerIndex) const
 	{
+		++fingerIndex;
 #ifdef _WIN32
-		return IsMouseButtonDownWIN(finger);
+		return IsMouseButtonDownWIN(ConvertIndexToVK(fingerIndex));
 #else
-		return (IsTouchDownANDR(finger));
+		return (IsTouchDownANDR(fingerIndex));
 #endif
 	}
 
-	bool InputManager::IsFingerUpCP(uint8 finger) const
+	bool InputManager::IsFingerUpCP(uint8 fingerIndex) const
 	{
+		++fingerIndex;
 #ifdef _WIN32
-		return IsMouseButtonUpWIN(finger);
+		return IsMouseButtonUpWIN(ConvertIndexToVK(fingerIndex));
 #else
-		return (IsTouchUpANDR(finger));
+		return (IsTouchUpANDR(fingerIndex));
 #endif
 	}
 
 	vec2 InputManager::GetCurrentFingerPosCP(uint8 fingerIndex) const
 	{
+		++fingerIndex;
 #ifdef _WIN32
 		return GetCurrentMousePosition();
 #else
@@ -801,6 +811,7 @@ namespace star
 
 	vec2 InputManager::GetOldFingerPosCP(uint8 fingerIndex) const
 	{
+		++fingerIndex;
 #ifdef _WIN32
 		return GetOldMousePosition();
 #else
