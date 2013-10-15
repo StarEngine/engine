@@ -66,6 +66,9 @@ namespace star
 #endif
 
 		//Containers for a* algorithm
+		// [COMMENT] why are you making pointers of these variables?
+		// why not just use them as value objects?! (prevents the change 
+		// of getting memory leaks )
 		SearchCell *m_pStartCell, *m_pEndCell;
 		std::vector<SearchCell*> m_OpenList;
 		std::vector<SearchCell*> m_VisitedList;

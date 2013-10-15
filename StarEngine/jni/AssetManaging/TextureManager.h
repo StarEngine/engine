@@ -1,6 +1,8 @@
 #pragma once
 
 #include <map>
+// [COMMENT] if you fix the comment on line 38, don't forget
+// to delete this include as well then.
 #include <vector>
 #include "../defines.h"
 #include <memory>
@@ -24,7 +26,9 @@ namespace star
 
 		bool LoadTexture(const tstring& path, const tstring& name);
 		bool DeleteTexture(const tstring& name);
+		// [COMMENT] const corectness 
 		GLuint GetTextureID(const tstring& name);
+		// [COMMENT] const corectness 
 		ivec2 GetTextureDimensions(const tstring& name);
 		void EraseTextures();
 
@@ -32,14 +36,14 @@ namespace star
 		//Data Members
 		static std::shared_ptr<TextureManager> mTextureManager;
 		std::map<tstring, Texture2D*> mTextureList;
+		// [COMMENT] if you don't use this anymore, why do you still have it 
+		// then as a variable? Takes memory for nothing imho
 		std::vector<tstring> mPathList;
 
-		TextureManager(void) {}
+		TextureManager(void);
 
 		TextureManager(const TextureManager& yRef);
-#ifdef _WIN32
 		TextureManager(TextureManager&& yRef);
-#endif
 		TextureManager& operator=(const TextureManager& yRef);
 	};
 }

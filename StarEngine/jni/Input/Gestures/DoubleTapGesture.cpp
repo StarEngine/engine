@@ -12,6 +12,8 @@ namespace star
 		BaseGesture(),
 		m_StartTime(0),
 		m_TimeSinceBeginning(0),
+		// [COMMENT] initialize 'm_TimeBetweenTaps'
+		// [COMMENT] initialize 'm_Count' as last
 		m_Count(0),
 		m_StartPos(),
 		m_bIsGestureOk(false)
@@ -127,6 +129,7 @@ namespace star
 	}
 
 	#endif
+
 	void DoubleTapGesture::Update(const Context& context)
 	{
 		m_TimeSinceBeginning = context.mTimeManager->GetMilliSecondsSinceStart();
@@ -135,4 +138,5 @@ namespace star
 			m_TimeBetweenTaps += context.mTimeManager->GetMilliSeconds();
 		}
 	}
+
 }

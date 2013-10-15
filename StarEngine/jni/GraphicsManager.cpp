@@ -123,7 +123,7 @@ namespace star
             if (mSurface != EGL_NO_SURFACE)
             {
                 eglDestroySurface(mDisplay, mSurface);
-                mSurface = EGL_NO_SURFACE;
+                mSurface = EGL_NO_SURFACE;	
             }
             eglTerminate(mDisplay);
             mDisplay = EGL_NO_DISPLAY;

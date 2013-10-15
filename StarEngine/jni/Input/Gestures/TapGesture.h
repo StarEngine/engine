@@ -13,6 +13,7 @@ namespace star
 		virtual ~TapGesture();
 
 		virtual void Update(const Context& context);
+
 	private:
 	#ifdef _WIN32
 		virtual void OnUpdateWinInputState();

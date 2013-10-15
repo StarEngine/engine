@@ -11,7 +11,9 @@ namespace star
 	public:
 		SwipeGesture();
 		virtual ~SwipeGesture();
+
 		virtual void Update(const Context& context);
+		// [COMMENT] these functions don't have implementations?!
 		vec2 GetSwipeDirection() const;
 		float GetSwipeSpeed() const;
 		float GetSwipeLength() const;

@@ -29,7 +29,15 @@ namespace star
 		 }
 		 mTextureList.clear();
 		 mPathList.clear();
-	 }
+	}
+
+	TextureManager::TextureManager(void)
+		: mTextureList()
+		, mPathList()
+	{
+
+	}
+
 	std::shared_ptr<TextureManager> TextureManager::GetInstance()
 	{
 		if(mTextureManager == nullptr)

@@ -1,8 +1,3 @@
-//----------------------------
-//This class will bundle all input information
-//In this case that is only 
-//Keyboard and gamepad for WIN32. and Touch and keyboard events for ANDROID
-//----------------------------
 #pragma once
 
 #ifdef _WIN32
@@ -23,9 +18,7 @@
 
 namespace star
 {
-
-//ENUMS AND STRUCTS
-	#ifdef _WIN32
+#ifdef _WIN32
 
 	enum GamepadIndex : byte
 	{
@@ -98,13 +91,11 @@ namespace star
 
 #endif
 
-	//CLASS
 	class InputManager
 	{
 	public:
 		virtual ~InputManager(void);
 
-		// Static methods
 		static std::shared_ptr<InputManager> GetInstance();
 
 		void Initialize();
@@ -125,7 +116,10 @@ namespace star
 		//[TODO] -- END TODO
 		void IsCursorVisible(bool visible) { ShowCursor(visible); }
 
-		vec2 GetThumbstickPosition(bool leftThumbstick = true, GamepadIndex playerIndex = GamepadIndex::PlayerOne) const;
+		vec2 GetThumbstickPosition(bool leftThumbstick = true, 
+			GamepadIndex playerIndex = GamepadIndex::PlayerOne) const;
+		// [COMMENT] don't make your lines so long, rather split it up a little
+		// like the example on line 119/120
 		float GetTriggerPressure(bool leftTrigger = true, GamepadIndex playerIndex = GamepadIndex::PlayerOne) const;
 		void SetVibration(float leftVibration, float rightVibration, GamepadIndex playerIndex = GamepadIndex::PlayerOne);
 		bool IsGamepadConnected(GamepadIndex index) const { return m_ConnectedGamepads[(DWORD)index]; }

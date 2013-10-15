@@ -18,7 +18,6 @@ namespace star
 		m_bIsGestureOk(false),
 		m_TotalDistance(0)
 	{
-
 	}
 
 	SwipeGesture::~SwipeGesture()
@@ -156,6 +155,8 @@ namespace star
 		}
 	}
 
+	// [COMMENT] can you tell me via skype why 
+	// you would make a function like this?
 	void SwipeGesture::InitializeAllVars()
 	{
 		//Start recording the move

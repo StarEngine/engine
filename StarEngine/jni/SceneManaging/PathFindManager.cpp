@@ -30,6 +30,7 @@ namespace star
 		for(auto cell : m_OpenList)
 		{
 			delete cell;
+			// [comment] assignment to null is useless in this scenario
 			cell = nullptr;
 		}
 		m_OpenList.clear();
@@ -37,6 +38,7 @@ namespace star
 		for(auto cell : m_VisitedList)
 		{
 			delete cell;
+			// [comment] assignment to null is useless in this scenario
 			cell = nullptr;
 		}
 		m_VisitedList.clear();

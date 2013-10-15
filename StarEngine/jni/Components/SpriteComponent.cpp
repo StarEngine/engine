@@ -41,6 +41,9 @@ namespace star
 
 	SpriteComponent::~SpriteComponent()
 	{
+		// [COMMENT] can you explain me why you wouldn't want
+		// to destroy the texture once this spritecomponent
+		// is deleted. (you can do that via skype)
 	}
 
 	void SpriteComponent::CreateSquare()

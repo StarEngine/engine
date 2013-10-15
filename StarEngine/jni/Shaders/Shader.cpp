@@ -146,6 +146,12 @@ namespace star
 	const char* Shader::TextFileReading(const tstring& fileName)
 	{
 		char* text(NULL);
+		// [COMMENT] playing a dangerous game here
+		// 1) Don't use C style memory allocations => Use C++ way (new / delete)
+		// 2) Prevent using C-style strings ( char arrays )
+		// 3) If you do use c-Arrays => don't forget them to delete them
+		//	  In this case you return it, so you have to delete it outside
+		//	  this function ( even more dangerous )
 		if (fileName != EMPTY_STRING)
 		{
 			FILE *file;
