@@ -88,6 +88,8 @@
     <ClInclude Include="jni\defines.h" />
     <ClInclude Include="jni\EventLoop.h" />
     <ClInclude Include="jni\Graphics\GraphicsManager.h" />
+    <ClInclude Include="jni\Graphics\UI\UIDock.h" />
+    <ClInclude Include="jni\Graphics\UI\UIUserElement.h" />
     <ClInclude Include="jni\Helpers\2D\pos.h" />
     <ClInclude Include="jni\Helpers\Dictionary.h" />
     <ClInclude Include="jni\Helpers\Filepath.h" />
@@ -147,6 +149,8 @@
     <ClCompile Include="jni\Components\TransformComponent.cpp" />
     <ClCompile Include="jni\EventLoop.cpp" />
     <ClCompile Include="jni\Graphics\GraphicsManager.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UIDock.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UIUserElement.cpp" />
     <ClCompile Include="jni\Helpers\2D\pos.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="jni\Helpers\Dictionary.cpp" />

@@ -201,6 +201,12 @@
     <ClInclude Include="jni\Graphics\GraphicsManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Graphics\UI\UIDock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Graphics\UI\UIUserElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -372,6 +378,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Graphics\GraphicsManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Graphics\UI\UIDock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Graphics\UI\UIUserElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

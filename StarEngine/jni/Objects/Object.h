@@ -55,6 +55,9 @@ namespace star
 		template<class T>
 		T* GetChild() const;
 
+		template<class T>
+		T* GetChild(const tstring & name) const;
+
 	protected:
 		bool m_bIsInitialized;
 		Object* m_pParentGameObject;
@@ -101,7 +104,22 @@ namespace star
 		{
 			if(child && typeid(*child) == ti)
 			{
-				return ((T*)child);
+				return (dynamic_cast<T*>(child));
+			}
+		}
+		return (nullptr);
+	}
+
+	template<class T>
+	T* Object::GetChild(const tstring & name) const
+	{
+		const std::type_info& ti = typeid(T);
+		for(auto *child : m_pChildren)
+		{
+			if(child && typeid(*child) == ti
+				&& child->GetName() == name)
+			{
+				return (dynamic_cast<T*>(child));
 			}
 		}
 		return (nullptr);
