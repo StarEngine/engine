@@ -96,10 +96,8 @@ namespace star
 				sibling = sibling.next_sibling();
 			} while (sibling != NULL);
 		}
-		if(child->GetName() != _T(""))
+		if(child->GetName() != EMPTY_STRING)
 		{
-			//[COMMENT] Memory leak starts here
-			//[TODO][G] FIX IT!
 			parent.insert(std::make_pair(star::string_cast<tstring>(node.name()), child));
 		}
 	}
