@@ -51,6 +51,7 @@ namespace star {
 
 	void Logger::Log(LogLevel level, const tstring& pMessage, const tstring& tag) const
 	{
+#if LOGGER_MIN_LEVEL > 0
 		#ifdef _WIN32
 		tstring levelName;
 		switch(level)
@@ -76,47 +77,65 @@ namespace star {
 			switch(level)
 			{
 			case LogLevel::Info :
+#if LOGGER_MIN_LEVEL < 2
 				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 				tprintf(combinedMessage.c_str());
+#endif
 				break;
 			case LogLevel::Warning :
+#if LOGGER_MIN_LEVEL < 3
 				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
 				tprintf(combinedMessage.c_str());
+#endif
 				break;
 			case LogLevel::Error :
+#if LOGGER_MIN_LEVEL < 4
 				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED);
 				tprintf(combinedMessage.c_str());
 				break;
+#endif
 			case LogLevel::Debug :
+#if LOGGER_MIN_LEVEL < 5
 				#ifdef DEBUG
 				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
 				tprintf(combinedMessage.c_str());
 				#endif
+#endif
 				break;
 			}
 		#else
 			switch(level)
 			{
 			case LogLevel::Info:
+#if LOGGER_MIN_LEVEL < 2
 				__android_log_print(ANDROID_LOG_INFO, tag.c_str(), "%s", pMessage.c_str());
+#endif
 				break;
 			case LogLevel::Warning:
+#if LOGGER_MIN_LEVEL < 3
 				__android_log_print(ANDROID_LOG_WARN, tag.c_str(), "%s", pMessage.c_str());
+#endif
 				break;
 			case LogLevel::Error:
+#if LOGGER_MIN_LEVEL < 4
 				__android_log_print(ANDROID_LOG_ERROR, tag.c_str(), "%s", pMessage.c_str());
+#endif
 				break;
-			#ifdef DEBUG
 			case LogLevel::Debug:
+#if LOGGER_MIN_LEVEL < 5
+			#ifdef DEBUG
 				__android_log_print(ANDROID_LOG_DEBUG, tag.c_str(), pMessage.c_str());
-				break;
 			#endif
+#endif
+				break;
 			}
 		#endif
+#endif
 	}
 
 	void Logger::_CheckGlError(const char* file, int line) 
 	{
+#if LOGGER_MIN_LEVEL > 0
 		GLenum err (glGetError());
         while(err!= GL_NO_ERROR) 
 		{
@@ -147,5 +166,6 @@ namespace star {
 			Logger::GetInstance()->Log(LogLevel::Error,buffer.str(),_T("OPENGL"));
 			err = glGetError();
         }
+#endif
 	}
 }
