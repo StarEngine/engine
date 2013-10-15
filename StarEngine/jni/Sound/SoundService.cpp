@@ -339,4 +339,16 @@ namespace star
 			mEffectsList.erase(it2);
 		}
 	}
+
+#ifndef _WIN32
+	const SLEngineItf& SoundService::GetEngine() const
+	{
+		return mEngine;
+	}
+
+	const SLObjectItf& SoundService::GetOutputMixObject() const
+	{
+		return mOutputMixObj;
+	}
+#endif
 }

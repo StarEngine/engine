@@ -27,13 +27,13 @@ namespace star
 		void CalculateRect(RECT & rect);
 		void SetClipRect(const RECT & rect);
 
-		bool IsInitialized() const { return m_IsInitialized; }
+		bool IsInitialized() const;
 		bool IsCursorClipped() const;
-		bool IsFullScreen() const { return m_IsFullScreen; }
-		bool CanGoFullScreen() const { return m_CanGoFullScreen; }
-		bool IsActive() const { return m_IsActive; }
-		bool UpdateGameWhenInactive() const { return m_UpdateGameWhenInactive; }
-		bool ChangeResolutionWhenGoingFullScreen() const { return m_ManipulateWindowResolution; }
+		bool IsFullScreen() const;
+		bool CanGoFullScreen() const;
+		bool IsActive() const;
+		bool UpdateGameWhenInactive() const;
+		bool ChangeResolutionWhenGoingFullScreen() const;
 
 		void ToggleFullScreen(HWND hWnd);
 		void SetFullScreen(HWND hWnd, bool fullscreen);

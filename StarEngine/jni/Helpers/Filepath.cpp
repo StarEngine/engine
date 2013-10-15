@@ -97,4 +97,11 @@ tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 		full_path += m_Path + m_File;
 		return full_path;
 	}
+
+#ifdef _WIN32
+	void Filepath::SetAssetsRoot(const tstring & root)
+	{
+		m_AssetsRoot = root;
+	}
+#endif
 }

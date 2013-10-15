@@ -337,9 +337,38 @@ namespace star
 		mClipRect = rect;
 	}
 
+	bool Window::IsInitialized() const
+	{
+		return m_IsInitialized;
+	}
+	
 	bool Window::IsCursorClipped() const
 	{
 		return mClipRect.left != -1;
+	}
+	bool Window::IsFullScreen() const
+	{
+		return m_IsFullScreen;
+	}
+
+	bool Window::CanGoFullScreen() const
+	{
+		return m_CanGoFullScreen;
+	}
+
+	bool Window::IsActive() const
+	{
+		return m_IsActive;
+	}
+
+	bool Window::UpdateGameWhenInactive() const
+	{
+		return m_UpdateGameWhenInactive;
+	}
+
+	bool Window::ChangeResolutionWhenGoingFullScreen() const
+	{
+		return m_ManipulateWindowResolution;
 	}
 
 	void Window::ToggleFullScreen(HWND hWnd)

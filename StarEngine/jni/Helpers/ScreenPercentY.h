@@ -6,6 +6,7 @@ namespace star
 
 	class ScreenPercentY : public ScreenPercentAbstract
 	{
+	public:
 		ScreenPercentY();
 		ScreenPercentY(int value);
 		ScreenPercentY(float value);
@@ -68,6 +69,7 @@ namespace star
 		const ScreenPercentY operator/(const double &yRef) const;
 
 	private: 
+		// [COMMENT] Why not make the entire class final?
 		void ConvertPercentToScreenPos() final;
 	};
 }

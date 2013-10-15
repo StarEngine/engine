@@ -31,4 +31,19 @@ namespace star
 	void RectangleColliderComponent::Draw()
 	{
 	}
+	
+	void RectangleColliderComponent::SetAsTrigger(bool isTrigger)
+	{
+		m_bIsTrigger = isTrigger;
+	}
+
+	bool RectangleColliderComponent::IsTrigger() const
+	{
+		return m_bIsTrigger;
+	}
+
+	const Rect & RectangleColliderComponent::GetCollisionRect() const
+	{
+		return m_CollisionRect;
+	}
 }

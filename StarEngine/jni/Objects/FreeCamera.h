@@ -13,7 +13,8 @@ namespace star
 		FreeCamera(void);
 		~FreeCamera(void);
 
-		void SetStatic(bool isStatic) {m_bisStatic=  isStatic;};
+		void SetStatic(bool isStatic);
+		// [COMMENT] if you make this virtual, why not the destructor then ?! o.O
 		virtual void Update(const Context& context);
 
 	protected:
@@ -26,11 +27,8 @@ namespace star
 		CameraComponent *m_pCamera;
 		bool m_bisStatic;
 
-		// -------------------------
-		// Disabling default copy constructor and default 
-		// assignment operator.
-		// -------------------------
 		FreeCamera(const FreeCamera &);
+		FreeCamera(FreeCamera &&);
 		FreeCamera & operator=(const FreeCamera &);
 	};
 }

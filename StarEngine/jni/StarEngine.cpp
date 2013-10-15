@@ -116,6 +116,18 @@ namespace star
 		m_TitleHasUpdated = false;
 	}
 
+#ifndef _WIN32
+	void StarEngine::SetAndroidApp(android_app * app)
+	{
+		m_pAndroidApp = app;
+	}
+
+	android_app * StarEngine::GetAndroidApp() const
+	{
+		return m_pAndroidApp;
+	}
+#endif
+
 	StarEngine::StarEngine()
 		: m_FPS()
 		, m_Title(EMPTY_STRING)

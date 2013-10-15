@@ -29,7 +29,7 @@ namespace star
 
 	class Shader {
 	public:
-		Shader() {}
+		Shader();
 		Shader(const tstring& vsFile, const tstring& fsFile);
 		~Shader();
 
@@ -38,9 +38,9 @@ namespace star
 		void Bind();
 		void Unbind();
 
-		const GLuint GetId() const	{ return mShaderID; }
-		const GLfloat* GetProjection() const { return GlProjection; }
-		const GLfloat* GetTranslation() const { return GlTranslation; }
+		const GLuint GetId() const;
+		const GLfloat* GetProjection() const;
+		const GLfloat* GetTranslation() const;
 
 	private:
 		const char* TextFileReading(const tstring& fileName);

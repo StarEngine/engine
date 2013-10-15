@@ -4,28 +4,28 @@
 
 namespace star
 {
-	class CameraComponent:public BaseComponent
+	class CameraComponent : public BaseComponent
 	{
 	public:
 		CameraComponent(void);
 		virtual ~CameraComponent(void);
 
 		virtual void Update(const Context& context);
-		virtual void Draw() {};
+		virtual void Draw();
 
-		void SetFieldOfView(float fov) {m_FOV = fov;}
-		void SetOrthoSize(float size) {m_Size = size;}
-		void SetNearClippingPlane(float nearPlane) {m_NearPlane = nearPlane;}
-		void SetFarClippingPlane(float farPlane) {m_FarPlane = farPlane;}
+		void SetFieldOfView(float fov);
+		void SetOrthoSize(float size);
+		void SetNearClippingPlane(float nearPlane);
+		void SetFarClippingPlane(float farPlane);
 		
 		void SetActive();
-		bool IsActive() const {return m_bIsActive;}
-		void Activate() {m_bIsActive = true;}
-		void Deactivate() {m_bIsActive = false;}
+		bool IsActive() const;
+		void Activate();
+		void Deactivate();
 
-		mat4x4 GetView() const {return m_View;}
+		const mat4x4 & GetView() const;
 		mat4x4 GetProjection() const;
-		mat4x4 GetViewInverse() const {return m_ViewInverse;}
+		const mat4x4 & GetViewInverse() const;
 
 	protected:
 		virtual void InitializeComponent();

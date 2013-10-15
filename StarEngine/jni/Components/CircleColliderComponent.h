@@ -16,9 +16,9 @@ namespace star
 		void Update(const Context& context);
 		void Draw();
 
-		void SetAsTrigger(bool isTrigger) {m_bIsTrigger = isTrigger;}
-		bool IsTrigger() const {return m_bIsTrigger;}
-		float GetRadius() const {return m_Radius;}
+		void SetAsTrigger(bool isTrigger);
+		bool IsTrigger() const;
+		float GetRadius() const;
 
 	protected:
 		void InitializeComponent();

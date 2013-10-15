@@ -25,8 +25,8 @@ namespace star
 		void SetState(const tstring & name);
 		void SetPreviousState();
 
-		const tstring & GetCurrentStateName() const { return (m_CurrentStateName); }
-		State * GetCurrentState() const { return (m_pCurrentState); }
+		const tstring & GetCurrentStateName() const;
+		State * GetCurrentState() const;
 
 	private:
 		void DeactiveCurrentState();

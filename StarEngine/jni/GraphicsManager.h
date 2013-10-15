@@ -17,7 +17,7 @@ namespace star
 	class GraphicsManager
 	{
 	public:
-		~GraphicsManager() {}
+		~GraphicsManager();
 
 		static std::shared_ptr<GraphicsManager> GetInstance();
 
@@ -31,9 +31,9 @@ namespace star
 		void StartDraw();
 		void StopDraw();
 
-		int32 GetWindowWidth() const { return mScreenWidth; }
-		int32 GetWindowHeight() const { return mScreenHeight; }
-		float GetWindowAspectRatio() const {return static_cast<float>(mScreenWidth)/static_cast<float>(mScreenHeight);}
+		int32 GetWindowWidth() const;
+		int32 GetWindowHeight() const;
+		float GetWindowAspectRatio() const;
 
 		void SetWindowDimensions(int32 width, int32 height);
 

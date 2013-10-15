@@ -104,6 +104,10 @@ namespace star
 
 		m_Shader.Unbind();
 	}
+	
+	void SpriteComponent::Update(const Context& context)
+	{
+	}
 
 	mat4x4 SpriteComponent::InverseMatrix(const mat4x4& matrix)
 	{

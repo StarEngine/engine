@@ -23,36 +23,36 @@ namespace star
 		status BaseUpdate(const Context& context);
 		status BaseDraw();
 
-		virtual void OnStart() {}
-		virtual void OnResume() {}
-		virtual void OnPause() {}
-		virtual void OnStop() {}
-		virtual void OnDestroy() {}
+		virtual void OnStart();
+		virtual void OnResume();
+		virtual void OnPause();
+		virtual void OnStop();
+		virtual void OnDestroy();
 
-		virtual void OnSaveState(void** pData,size_t* pSize) {}
-		virtual void OnConfigurationChanged() {}
-		virtual void OnLowMemory() {}
+		virtual void OnSaveState(void** pData,size_t* pSize);
+		virtual void OnConfigurationChanged();
+		virtual void OnLowMemory();
 
-		virtual void OnCreateWindow() {}
-		virtual void OnDestroyWindow() {}
-		virtual void OnGainFocus() {}
-		virtual void OnLostFocus() {}
+		virtual void OnCreateWindow();
+		virtual void OnDestroyWindow();
+		virtual void OnGainFocus();
+		virtual void OnLostFocus();
 
-		const tstring & GetName() const { return m_Name; }
-		bool IsInitialized() const { return m_Initialized; }
+		const tstring & GetName() const;
+		bool IsInitialized() const;
 
 		void AddObject(Object * object); 
 		void RemoveObject(Object * object);
 
 		void SetActiveCamera(CameraComponent* pCameraComp);
-		FreeCamera* GetActiveCamera() const { return m_pDefaultCamera; }
+		FreeCamera* GetActiveCamera() const;
 
 	protected:
-		virtual status Initialize(const Context& context) { return STATUS_OK; }
-		virtual status OnActivate() { return STATUS_OK; }
-		virtual void OnDeactivate() {}
-		virtual status Update(const Context& context) { return STATUS_OK; }
-		virtual status Draw() {return STATUS_OK;}
+		virtual status Initialize(const Context& context);
+		virtual status OnActivate();
+		virtual void OnDeactivate();
+		virtual status Update(const Context& context);
+		virtual status Draw();
 		GestureManager* m_GestureManagerPtr;
 
 		std::vector<Object*> m_Objects;

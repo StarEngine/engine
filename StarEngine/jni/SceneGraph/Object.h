@@ -19,14 +19,14 @@ namespace star
 		Object();
 		virtual ~Object(void);
 
-		Object* GetParent() const { return (m_pParentGameObject); }
+		Object* GetParent() const;
 
 		virtual void Initialize();
 		virtual void Update(const Context& context);
 		virtual void Draw();
 
-		const tstring& GetName() const {return (m_Name); }
-		void SetName(const tstring& name) { m_Name = name; }
+		const tstring& GetName() const;
+		void SetName(const tstring& name);
 
 		void AddComponent(BaseComponent* pComponent);
 		void RemoveComponent(const BaseComponent* pComponent);
@@ -34,8 +34,8 @@ namespace star
 		void AddChild(Object* pObject);
 		void RemoveChild(const Object* pObject);
 
-		void SetCollisionTag(const tstring& tag) {m_CollisionTag = tag; }
-		const tstring& GetCollisionTag() const { return (m_CollisionTag); }
+		void SetCollisionTag(const tstring& tag);
+		const tstring& GetCollisionTag() const;
 
 		void CollisionCheck(Object* otherObject);
 		bool RectangleCollision(Object* object, Object* otherObject);
@@ -47,7 +47,7 @@ namespace star
 
 		TransformComponent * GetTransform() const;
 
-		BaseScene * GetScene() const { return m_pScene; }
+		BaseScene * GetScene() const;
 
 		template<class T>
 		T* GetComponent(bool searchChildren = false) const;

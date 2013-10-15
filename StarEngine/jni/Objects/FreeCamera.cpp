@@ -19,6 +19,11 @@ namespace star
 	FreeCamera::~FreeCamera()
 	{
 	}
+	
+	void FreeCamera::SetStatic(bool isStatic)
+	{
+		m_bisStatic = isStatic;
+	}
 
 	void FreeCamera::Initialize()
 	{

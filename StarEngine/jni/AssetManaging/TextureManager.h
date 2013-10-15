@@ -26,9 +26,7 @@ namespace star
 
 		bool LoadTexture(const tstring& path, const tstring& name);
 		bool DeleteTexture(const tstring& name);
-		// [COMMENT] const corectness 
 		GLuint GetTextureID(const tstring& name);
-		// [COMMENT] const corectness 
 		ivec2 GetTextureDimensions(const tstring& name);
 		void EraseTextures();
 

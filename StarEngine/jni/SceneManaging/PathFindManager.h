@@ -42,11 +42,12 @@ namespace star
 		const vec3 & GetStep(uint16 step) const;
 #endif
 
-		void ClearOpenList() { m_OpenList.clear(); }
-		void ClearVisitedList() { m_VisitedList.clear(); }
-		void ClearPathToGoal() { m_PathToGoal.clear(); }
-		bool GetInitializedGoal() const { return m_bInitializedStartGoal; }
-		bool GetFoundGoal() const { m_bFoundGoal; }
+		void ClearOpenList();
+		void ClearVisitedList();
+		void ClearPathToGoal();
+		bool GetInitializedGoal() const;
+		bool GetFoundGoal() const;
+
 	private:
 		PathFindManager(void);
 		void SetStartAndGoal(const SearchCell& start, const SearchCell& end);

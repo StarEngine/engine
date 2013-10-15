@@ -20,7 +20,8 @@ namespace star
 		virtual ~SpriteComponent();
 
 		void Draw();
-		virtual void Update(const Context& context) {};
+		virtual void Update(const Context& context);
+
 	protected:
 		virtual void InitializeComponent();
 

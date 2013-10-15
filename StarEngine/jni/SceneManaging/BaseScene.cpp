@@ -91,6 +91,76 @@ namespace star
 		return Draw(); 
 	}
 
+	void BaseScene::OnStart()
+	{
+
+	}
+
+	void BaseScene::OnResume()
+	{
+
+	}
+
+	void BaseScene::OnPause()
+	{
+
+	}
+
+	void BaseScene::OnStop()
+	{
+
+	}
+
+	void BaseScene::OnDestroy()
+	{
+
+	}
+
+	void BaseScene::OnSaveState(void** pData, size_t* pSize)
+	{
+
+	}
+
+	void BaseScene::OnConfigurationChanged()
+	{
+
+	}
+
+	void BaseScene::OnLowMemory()
+	{
+
+	}
+
+	void BaseScene::OnCreateWindow()
+	{
+
+	}
+
+	void BaseScene::OnDestroyWindow()
+	{
+
+	}
+
+	void BaseScene::OnGainFocus()
+	{
+
+	}
+
+	void BaseScene::OnLostFocus()
+	{
+
+	}
+
+	const tstring & BaseScene::GetName() const
+	{
+		return m_Name;
+	}
+
+	bool BaseScene::IsInitialized() const
+	{
+		return m_Initialized;
+	}
+
 	void BaseScene::AddObject(Object * object)
 	{
 		auto it = std::find(m_Objects.begin(), m_Objects.end(), object);
@@ -121,5 +191,34 @@ namespace star
 
 		camComp = pCameraComponent;
 		camComp->Activate();
+	}
+	
+	FreeCamera* BaseScene::GetActiveCamera() const
+	{
+		return m_pDefaultCamera;
+	}
+
+	status BaseScene::Initialize(const Context& context)
+	{
+		return STATUS_OK;
+	}
+
+	status BaseScene::OnActivate()
+	{
+		return STATUS_OK;
+	}
+
+	void BaseScene::OnDeactivate()
+	{
+	}
+
+	status BaseScene::Update(const Context& context)
+	{
+		return STATUS_OK;
+	}
+
+	status BaseScene::Draw()
+	{
+		return STATUS_OK;
 	}
 }

@@ -6,7 +6,7 @@ namespace star
 	//			Use the TextureManager to load your textures.
 	//			This ensures a same texture is not loaded multiple times
 #ifdef _WIN32
-	Texture2D::Texture2D(tstring pPath):
+	Texture2D::Texture2D(const tstring & pPath):
 			mPath(pPath),
 			mTextureId(0),
 			mFormat(0),
@@ -14,10 +14,9 @@ namespace star
 			mHeight(0)
 	{
 		this->Load();
-
 	}
 #else
-	Texture2D::Texture2D(tstring pPath, android_app* pApplication):
+	Texture2D::Texture2D(const tstring & pPath, android_app* pApplication):
 			mResource(pApplication , pPath),
 			mPath(pPath),
 			mTextureId(0),
@@ -28,12 +27,12 @@ namespace star
 		this->Load();
 	}
 
-	void Texture2D::Callback_Read(png_structp png, png_bytep data, png_size_t size)
+	void Texture2D::CallbackRead(png_structp png, png_bytep data, png_size_t size)
 	{
 		Resource& lReader = *((Resource*)png_get_io_ptr(png));
-		if(lReader.read(data,size)!=STATUS_OK)
+		if(lReader.Read(data,size) != STATUS_OK)
 		{
-			lReader.close();
+			lReader.Close();
 			png_error(png, "Error while reading PNG file");
 		}
 	}
@@ -56,7 +55,7 @@ namespace star
 		png_byte header[8];
 		png_structp lPngPtr = NULL;
 		png_infop lInfoPtr = NULL;
-		png_byte* lImageBuffer=NULL;
+		png_byte* lImageBuffer = NULL;
 		png_bytep* lRowPtrs = NULL;
 		png_int_32 lRowSize;
 		bool lTransparency;
@@ -67,60 +66,60 @@ namespace star
 
 		if(fp == NULL)
 		{ 
-			Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : png could not be loaded"));
+			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : png could not be loaded"));
 			return NULL;
 		}
 
 		fread(header, 8, 1, fp);
 #else
-		if(mResource.open()==STATUS_KO)
+		if(mResource.Open() == STATUS_KO)
 		{
-			mResource.close();
-			Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : Could Not Open Resource"));
+			mResource.Close();
+			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : Could Not Open Resource"));
 			return NULL;
 		}
-		if(mResource.read(header, sizeof(header))==STATUS_KO)
+		if(mResource.Read(header, sizeof(header)) == STATUS_KO)
 		{
-			mResource.close();
-			Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : Could Not Read"));
+			mResource.Close();
+			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : Could Not Read"));
 			return NULL;
 		}
 #endif
 
 		if(png_sig_cmp(header, 0, 8))
 		{
-			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : Not a PNG file"));
+			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : Not a PNG file"));
 			return NULL;
 		}
 
 		lPngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 		if(!lPngPtr)
 		{
-			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : create struct string failed"));
+			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : create struct string failed"));
 			return NULL;
 		}
 
 		lInfoPtr = png_create_info_struct(lPngPtr);
 		if(!lInfoPtr)
 		{
-			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : create info failed"));
+			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : create info failed"));
 			return NULL;
 		}
 
 #ifdef _WIN32
 		if(setjmp(png_jmpbuf(lPngPtr)))
 		{
-			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : Error during init io"));
+			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : Error during init io"));
 			return NULL;
 		}
 
 		png_init_io(lPngPtr, fp);
 #else
-		png_set_read_fn(lPngPtr, &mResource, Callback_Read);
+		png_set_read_fn(lPngPtr, &mResource, CallbackRead);
 		if(setjmp(png_jmpbuf(lPngPtr)))
 		{
-			mResource.close();
-			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : Error during init io"));
+			mResource.Close();
+			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : Error during init io"));
 			return NULL;
 		}
 #endif
@@ -140,7 +139,7 @@ namespace star
 			lTransparency=true;
 
 #ifndef _WIN32
-			mResource.close();
+			mResource.Close();
 #endif
 			delete [] lRowPtrs;
 			delete [] lImageBuffer;
@@ -195,21 +194,21 @@ namespace star
 		lRowSize = png_get_rowbytes(lPngPtr,lInfoPtr);
 		if(lRowSize <= 0)
 		{
-			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : png rowsize smaller or equal to 0"));
+			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : png rowsize smaller or equal to 0"));
 			return NULL;
 		}
 
 		lImageBuffer = new png_byte[lRowSize * pHeight];
 		if(!lImageBuffer)
 		{
-			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : Error during image buffer creation"));
+			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : Error during image buffer creation"));
 			return NULL;
 		}
 
 		lRowPtrs = new png_bytep[pHeight];
 		if(!lRowPtrs)
 		{
-			Logger::GetInstance()->Log(LogLevel::Info,_T("PNG : Error during row pointer creation"));
+			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : Error during row pointer creation"));
 			return NULL;
 		}
 
@@ -222,7 +221,7 @@ namespace star
 #ifdef _WIN32
 		fclose(fp);
 #else
-		mResource.close();
+		mResource.Close();
 #endif
 		png_destroy_read_struct(&lPngPtr, &lInfoPtr, NULL);
 		delete[] lRowPtrs;
@@ -239,7 +238,7 @@ namespace star
 		uint8* lImageBuffer = this->ReadPNG();
 		if(lImageBuffer == NULL)
 		{
-			Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : READING PNG FAILED - NO IMAGE BUFFER"));
+			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : READING PNG FAILED - NO IMAGE BUFFER"));
 			return STATUS_KO;
 		}
 
@@ -263,16 +262,16 @@ namespace star
 			switch(errormsg)
 			{
 			case GL_INVALID_ENUM:
-				Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : Unacceptable value for imagebuffer"));
+				Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : Unacceptable value for imagebuffer"));
 				break;
 			case GL_INVALID_VALUE:
-				Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : value out of range"));
+				Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : value out of range"));
 				break;
 			case GL_INVALID_OPERATION:
-				Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : Not allowed in current state"));
+				Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : Not allowed in current state"));
 				break;
 			case GL_OUT_OF_MEMORY:
-				Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : Out of Memory"));
+				Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : Out of Memory"));
 				break;
 			}
 			errormsg = glGetError();
@@ -280,7 +279,7 @@ namespace star
 
 		if(hasError)
 		{
-			Logger::GetInstance()->Log(LogLevel::Info, _T("PNG : Error loading pnginto OpenGl"));
+			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : Error loading pnginto OpenGl"));
 			if(mTextureId != 0)
 			{
 				glDeleteTextures(1, &mTextureId);
@@ -294,22 +293,27 @@ namespace star
 		return STATUS_OK;
 	}
 
-	const tstring Texture2D::getPath() const
+	const tstring & Texture2D::GetPath() const
 	{
 #ifdef _WIN32
 		return mPath;
 #else
-		return mResource.getPath();
+		return mResource.GetPath();
 #endif
 	}
 
-	const int32 Texture2D::getHeight() const
+	int32 Texture2D::GetHeight() const
 	{
 		return mHeight;
 	}
 
-	const int32 Texture2D::getWidth() const
+	int32 Texture2D::GetWidth() const
 	{
 		return mWidth;
+	}
+
+	GLuint Texture2D::GetTextureID() const
+	{
+		return mTextureId;
 	}
 }

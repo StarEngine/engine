@@ -46,6 +46,11 @@ namespace star
 		return (m_pSceneManager);
 	}
 
+	BaseScene* SceneManager::GetActiveScene()
+	{
+		return (m_ActiveScene);
+	}
+
 	BaseScene* SceneManager::GetScene(const tstring & name)
 	{
 		if(m_SceneList.find(name) != m_SceneList.end())

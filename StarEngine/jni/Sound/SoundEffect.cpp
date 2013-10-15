@@ -205,7 +205,11 @@ namespace star
 		}
 #endif
 	}
-
+	
+	bool SoundEffect::IsStopped() const
+	{
+		return mbStopped;
+	}
 
 #ifndef _WIN32
 	void SoundEffect::MusicStoppedCallback(SLPlayItf caller,void *pContext,SLuint32 event)

@@ -214,6 +214,10 @@ namespace star
 #endif
 	}
 
+	bool SoundFile::IsStopped() const
+	{
+		return mbStopped;
+	}
 
 #ifdef _WIN32
 	void SoundFile::MusicStoppedCallback()

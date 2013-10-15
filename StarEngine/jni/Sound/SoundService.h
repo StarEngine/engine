@@ -53,8 +53,8 @@ namespace star
 		void ResumeAllSound();
 		void DeleteAllSound();
 #ifndef _WIN32
-		const SLEngineItf& GetEngine(){return mEngine;}
-		const SLObjectItf& GetOutputMixObject(){return mOutputMixObj;}
+		const SLEngineItf& GetEngine() const;
+		const SLObjectItf& GetOutputMixObject() const;
 #endif
 	private:
 		SoundService();

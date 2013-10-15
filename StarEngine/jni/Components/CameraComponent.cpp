@@ -110,19 +110,77 @@ namespace star
 		m_View = MatrixLookAt(vEyePt, (vEyePt + vLookat), vUpVec);
 		m_ViewInverse = InverseMatrix(m_View);
 	}
-	
+
+	void CameraComponent::Draw()
+	{
+
+	}
+
+	void CameraComponent::SetFieldOfView(float fov)
+	{
+		m_FOV = fov;
+	}
+
+	void CameraComponent::SetOrthoSize(float size)
+	{
+		m_Size = size;
+	}
+
+	void CameraComponent::SetNearClippingPlane(float nearPlane)
+	{
+		m_NearPlane = nearPlane;
+	}
+
+	void CameraComponent::SetFarClippingPlane(float farPlane)
+	{
+		m_FarPlane = farPlane;
+	}
+		
 	void CameraComponent::SetActive()
 	{
 		auto scene = GetGameScene();
 	
-		if(scene==nullptr)
+		if(scene == nullptr)
 		{
-			Logger::GetInstance()->Log( LogLevel::Error,_T("Can't set camera active, add this camera to a scene first!"));
+			Logger::GetInstance()->Log( 
+				LogLevel::Error,
+				_T("Can't set camera active, add this camera to a scene first!")
+				);
 		}
 		else
 		{
 			scene->SetActiveCamera(this);
 		}
+	}
+
+	bool CameraComponent::IsActive() const
+	{
+		return m_bIsActive;
+	}
+
+	void CameraComponent::Activate()
+	{
+		m_bIsActive = true;
+	}
+	
+	void CameraComponent::Deactivate()
+	{
+		m_bIsActive = false;
+	}
+
+	const mat4x4 & CameraComponent::GetView() const
+	{
+		return m_View;
+	}
+
+	mat4x4 CameraComponent::GetProjection() const
+	{
+		return m_Projection * m_ViewInverse;
+	}
+
+	const mat4x4 & CameraComponent::GetViewInverse() const
+	{
+		return m_ViewInverse;
 	}
 
 	mat4x4 CameraComponent::MatrixPerspectiveFOV(float FovY, float ratio, float nearPlane, float farPlane)
@@ -167,10 +225,10 @@ namespace star
 		
 		mat4x4 matLookAt 
 		(
-		 xAxis.x, yAxis.x, zAxis.x, 0,
-		 xAxis.y, yAxis.y, zAxis.y, 0,
-		 xAxis.z, yAxis.z, zAxis.z, 0,
-		-glm::dot(xAxis, eye),  -glm::dot(yAxis, eye),  -glm::dot(zAxis, eye),  1
+			 xAxis.x, yAxis.x, zAxis.x, 0,
+			 xAxis.y, yAxis.y, zAxis.y, 0,
+			 xAxis.z, yAxis.z, zAxis.z, 0,
+			-glm::dot(xAxis, eye),  -glm::dot(yAxis, eye),  -glm::dot(zAxis, eye),  1
 		);
 
 		return matLookAt;
@@ -210,12 +268,6 @@ namespace star
 		x3, y3, z3, z4,
 		w1, w2, w3, w4
 		);
-
 		return inverseMatrix;
-	}
-
-	mat4x4 CameraComponent::GetProjection() const
-	{
-		return m_Projection * m_ViewInverse;
 	}
 }

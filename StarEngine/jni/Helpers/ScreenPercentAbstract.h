@@ -103,17 +103,12 @@ namespace star
 		// [COMMENT] for native (build-in C++) never use references...
 		// just pass them by value 'T name' (much faster)
 		bool operator!=(const double& yRef) const;
-		
 
 	protected:
 		float m_ScreenPercentage;
 		float m_ScreenValue;
 
-	private:						   
+	private:
 		virtual void ConvertPercentToScreenPos() = 0;
-		
-		
-
-		
 	};
 }

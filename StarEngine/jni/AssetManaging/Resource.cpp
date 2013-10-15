@@ -4,27 +4,25 @@
 
 namespace star
 {
-// [COMMENT]  check comment in hader file
-	Resource::Resource(android_app* pApplication,tstring pPath):
+	Resource::Resource(android_app* pApplication, const tstring & pPath):
 			mPath(pPath),
 			mAssetManager(pApplication->activity->assetManager),
 			mAsset(NULL)
 	{
 	}
 
-	// [COMMENT] watch header file for comment
-	const tstring Resource::getPath() const
+	const tstring & Resource::GetPath() const
 	{
 		return mPath;
 	}
 
-	status Resource::open()
+	status Resource::Open()
 	{
 		mAsset = AAssetManager_open(mAssetManager, mPath.c_str(), AASSET_MODE_UNKNOWN);
 		return (mAsset != NULL) ? STATUS_OK : STATUS_KO;
 	}
 
-	void Resource::close()
+	void Resource::Close()
 	{
 		if(mAsset != NULL)
 		{
@@ -33,27 +31,19 @@ namespace star
 		}
 	}
 
-	status Resource::read(void* pBuffer, size_t pCount)
+	status Resource::Read(void* pBuffer, size_t pCount)
 	{
 		int32_t lReadCount = AAsset_read(mAsset,pBuffer, pCount);
 		return (lReadCount == pCount) ? STATUS_OK : STATUS_KO;
 	}
 
-	/*status Resource::readAll(void* pBuffer)
-	{
-		off_t start;
-		off_t length;
-		int fd = AAsset_openFileDescriptor(mAsset, &start, &length);
-	}*/
-
-	// [COMMENT] watch header file for comment
-	off_t Resource::getLength()
+	off_t Resource::GetLength() const
 	{
 		return AAsset_getLength(mAsset);
 	}
 
 	// [COMMENT] watch header file for comment
-	const void* Resource::bufferize()
+	const void* Resource::GetBufferize() const
 	{
 		return AAsset_getBuffer(mAsset);
 	}

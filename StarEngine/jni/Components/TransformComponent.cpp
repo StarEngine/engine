@@ -247,7 +247,7 @@ namespace star
 		}
 		else
 		{
-			m_World =  m_World * parentGameObj->GetComponent<TransformComponent>()->GetWorldMatrix();
+			m_World *= parentGameObj->GetTransform()->GetWorldMatrix();
 		}
 
 		m_IsChanged = TransformChanged::NONE;

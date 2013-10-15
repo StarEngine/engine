@@ -126,12 +126,6 @@
     <ClInclude Include="jni\Helpers\FPS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Input\BaseGesture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\Input\GestureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="jni\Helpers\SpriteAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -299,9 +293,6 @@
     <ClCompile Include="jni\Helpers\FPS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\Input\BaseGesture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="jni\SceneGraph\SpriteAnimationManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -372,6 +363,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Helpers\ScreenPercentAbstract.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Helpers\ScreenPercent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Helpers\State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

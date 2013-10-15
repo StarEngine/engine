@@ -32,6 +32,11 @@ namespace star
 		}
 		m_pChildren.clear();
 	}
+	
+	Object* Object::GetParent() const
+	{
+		return (m_pParentGameObject);
+	}
 
 	void Object::Initialize()
 	{
@@ -97,6 +102,16 @@ namespace star
 		}
 	}
 
+	const tstring& Object::GetName() const
+	{
+		return (m_Name);
+	}
+
+	void Object::SetName(const tstring& name)
+	{
+		m_Name = name;
+	}
+
 	void Object::AddComponent(BaseComponent *pComponent)
 	{
 		pComponent->SetParent(this);
@@ -146,6 +161,16 @@ namespace star
 		delete pObject;
 
 		Logger::GetInstance()->Log(LogLevel::Info, _T("Child Removed"));
+	}
+
+	void Object::SetCollisionTag(const tstring& tag)
+	{
+		m_CollisionTag = tag;
+	}
+
+	const tstring& Object::GetCollisionTag() const
+	{
+		return (m_CollisionTag);
 	}
 
 	void Object::CollisionCheck(Object* otherObject)
@@ -304,5 +329,10 @@ namespace star
 	TransformComponent * Object::GetTransform() const
 	{
 		return GetComponent<TransformComponent>();
+	}
+	
+	BaseScene * Object::GetScene() const
+	{
+		return m_pScene;
 	}
 }

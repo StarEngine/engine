@@ -5,7 +5,14 @@
 
 namespace star
 {
+	Shader::Shader()
+		// [COMMENT] Initialize all your datamembers!
+	{
+
+	}
+
 	Shader::Shader( const tstring& vsFile, const tstring& fsFile )
+		// [COMMENT] Initialize all your datamembers!
 	{
 		Init(vsFile,fsFile);
 	}
@@ -57,20 +64,20 @@ namespace star
 
 #ifndef _WIN32
 		Resource resource(StarEngine::GetInstance()->GetAndroidApp(), file);
-		if(resource.open()==STATUS_KO)
+		if(resource.Open() == STATUS_KO)
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Android Shader : Failed to open file"));
 			return false;
 		}
 	
-		int32 length = resource.getLength();
+		int32 length = resource.GetLength();
 		star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : File size :")+star::string_cast<tstring>(length));
 		char* doc = reinterpret_cast<char*>( malloc (length+1));
 
-		if(resource.read(doc,length)==STATUS_KO)
+		if(resource.Read(doc,length) == STATUS_KO)
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : Failed to read file"));
-			resource.close();
+			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Android Shader : Failed to read file"));
+			resource.Close();
 			return false;
 		}
 		doc[length]=0;
@@ -80,7 +87,7 @@ namespace star
 		star::Logger::GetInstance()->Log(LogLevel::Info,filecontent);*/
 
 		source = const_cast<GLchar*>(&doc[0]);
-		resource.close();
+		resource.Close();
 #else
 		source = const_cast<GLchar*>(TextFileReading(file));
 #endif
@@ -141,6 +148,21 @@ namespace star
 	void Shader::Unbind()
 	{
 		glUseProgram(0);
+	}
+
+	const GLuint Shader::GetId() const
+	{
+		return mShaderID;
+	}
+
+	const GLfloat* Shader::GetProjection() const
+	{
+		return GlProjection;
+	}
+
+	const GLfloat* Shader::GetTranslation() const
+	{
+		return GlTranslation;
 	}
 
 	const char* Shader::TextFileReading(const tstring& fileName)

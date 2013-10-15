@@ -20,17 +20,6 @@ namespace star
 		mPathList.clear();
 	}
 
-	void TextureManager::EraseTextures()
-	{
-		 auto iter = mTextureList.begin();
-		 for(iter; iter != mTextureList.end(); ++iter)
-		 {
-			 delete iter->second;
-		 }
-		 mTextureList.clear();
-		 mPathList.clear();
-	}
-
 	TextureManager::TextureManager(void)
 		: mTextureList()
 		, mPathList()
@@ -54,6 +43,8 @@ namespace star
 			return (false);
 		}
 
+		// [COMMENT] Remove commented Code! Ty...
+
 		/*if(std::find(mPathList.begin(), mPathList.end(), path)!=mPathList.end())
 		{
 			return (false);
@@ -71,6 +62,7 @@ namespace star
 		Texture2D* temp = new Texture2D(path, star::StarEngine::GetInstance()->GetAndroidApp());
 #endif
 		mTextureList[name] = temp;
+		// [COMMENT] Remove commented Code! Ty...
 		//mPathList.push_back(path);
 
 		return (true);
@@ -92,6 +84,7 @@ namespace star
 	{
 		//[COMMENT] Why assert and check? It should break before it ever gets the chance to exit the function
 		ASSERT(mTextureManager != nullptr, _T("Texture manager is invalid."));
+		// [COMMENT] Remove commented Code! Ty...
 		//if(mTextureManager == nullptr)
 		//{
 		//	return 0;
@@ -99,19 +92,33 @@ namespace star
 
 		if(mTextureList.find(name) != mTextureList.end())
 		{
-			return mTextureList[name]->getTextureID();
+			return mTextureList[name]->GetTextureID();
 		}
 		return 0;
 	}
 
 	//ivec2 contains first width, then height
+	// [COMMENT] oh Really? Don't place obvious comments please...
+	//	 1) That's local that it first contains width
+	//	 2) You can see it in your code...
 	ivec2 TextureManager::GetTextureDimensions(const tstring& name)
 	{
 		auto it = mTextureList.find(name);
 		if(it != mTextureList.end())
 		{
-			return (ivec2(it->second->getWidth(),it->second->getHeight()));
+			return (ivec2(it->second->GetWidth(), it->second->GetHeight()));
 		}
 		return ivec2(0,0);
+	}
+
+	void TextureManager::EraseTextures()
+	{
+		 auto iter = mTextureList.begin();
+		 for(iter; iter != mTextureList.end(); ++iter)
+		 {
+			 delete iter->second;
+		 }
+		 mTextureList.clear();
+		 mPathList.clear();
 	}
 }

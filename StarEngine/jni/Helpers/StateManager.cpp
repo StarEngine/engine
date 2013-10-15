@@ -92,6 +92,16 @@ namespace star
 		SetState(m_PreviousStateName);
 	}
 
+	const tstring & StateManager::GetCurrentStateName() const
+	{
+		return (m_CurrentStateName);
+	}
+
+	State * StateManager::GetCurrentState() const
+	{
+		return (m_pCurrentState);
+	}
+
 	void StateManager::DeactiveCurrentState()
 	{
 		if(m_pCurrentState != nullptr && m_pCurrentState->IsActive())

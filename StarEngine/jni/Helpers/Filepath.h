@@ -22,7 +22,7 @@ namespace star
 		tstring GetExtension() const;
 		tstring GetFullPath() const;
 #ifdef _WIN32
-		static void SetAssetsRoot(const tstring & root) { m_AssetsRoot = root; }
+		static void SetAssetsRoot(const tstring & root);
 #endif
 
 	private:

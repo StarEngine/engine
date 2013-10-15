@@ -9,19 +9,20 @@ namespace star
 	class State
 	{
 	public:
-		virtual ~State() {}
+		virtual ~State();
 
 		virtual void Initialize(void) = 0;
 		virtual void Update(const Context& context) = 0;
-		virtual void Draw() {}
+		virtual void Draw();
 
-		virtual void Activate() { m_Active = true; }
-		virtual void Deactivate() { m_Active = false; }
+		virtual void Activate();
+		virtual void Deactivate();
 
-		bool IsActive() const { return m_Active; }
+		bool IsActive() const;
 
 	protected:
-		State() : m_Active(false) {}
+		State();
+
 		bool m_Active;
 
 	private:

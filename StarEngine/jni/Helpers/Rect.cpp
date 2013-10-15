@@ -96,10 +96,6 @@ namespace star
 		c.m_Width = right - left;
 		c.m_Height = bottom - top;
 
-		if(c.m_Width <= 0 || c.m_Height <= 0)
-		{
-			return false;
-		}
-		return true;
+		return !(c.m_Width <= 0 || c.m_Height <= 0);
 	}
 }

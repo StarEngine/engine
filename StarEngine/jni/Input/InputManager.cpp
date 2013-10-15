@@ -23,6 +23,42 @@ namespace star
 	//Make this a static object
 	std::shared_ptr<InputManager> InputManager::m_InputManagerPtr = nullptr;
 
+#ifdef _WIN32
+	InputAction::InputAction():
+		ActionID(-1),
+		TriggerState(InputTriggerState::Pressed),
+		KeyboardCode(-1),
+		MouseButtonCode(-1),
+		GamepadButtonCode(0),
+		PlayerIndex(GamepadIndex::PlayerOne),
+		IsTriggered(false)
+	{
+	}
+
+	InputAction::InputAction(int actionID, InputTriggerState triggerState,
+				int keyboardCode, int mouseButtonCode, WORD gamepadButtonCode,
+				GamepadIndex playerIndex):
+		ActionID(actionID),
+		TriggerState(triggerState),
+		KeyboardCode(keyboardCode),
+		MouseButtonCode(mouseButtonCode),
+		GamepadButtonCode(gamepadButtonCode),
+		PlayerIndex(playerIndex),
+		IsTriggered(false)
+	{
+	}
+#else
+	FingerPointerANDR::FingerPointerANDR():
+		Position(),
+		RawPosition(),
+		Pressure(0.0f),
+		ToolMajor(0.0f),
+		ToolMinor(0.0f),
+		ID(0)
+	{
+	}
+#endif
+
 	InputManager::InputManager(void)
 	#ifdef _WIN32
 		: m_ThreadAvailable(true)
@@ -47,6 +83,9 @@ namespace star
 	#endif
 		, m_GestureManager(nullptr)
 	{
+		// [COMMENT] If you call the initialize function yourself from
+		// the constructor, then better to not make an initialize 
+		// function and just put the code in the body...
 		Initialize();
 	}
 
@@ -119,6 +158,11 @@ namespace star
 		return m_InputActions.at(actionID).IsTriggered;
 	}
 	//[TODO] -- end TODO
+
+	void InputManager::IsCursorVisible(bool visible)
+	{
+		ShowCursor(visible);
+	}
 
 	void InputManager::UpdateGamepadStates()
 	{
@@ -204,6 +248,11 @@ namespace star
 		return false;
 	}
 
+	void InputManager::SetWindowsHandle(HWND hWnd)
+	{
+		mWindowsHandle = hWnd;
+	}
+
 	bool InputManager::IsGamepadButtonDown(WORD button, GamepadIndex playerIndex, bool previousFrame) const
 	{
 		if(button > 0x0000 && button<=0x8000)
@@ -213,10 +262,27 @@ namespace star
 		return false;
 	}
 
+	const vec2 & InputManager::GetCurrentMousePosition() const
+	{
+		return m_CurrMousePosition;
+	}
+
+	const vec2 & InputManager::GetOldMousePosition() const
+	{
+		return m_OldMousePosition;
+	}
+
+	const vec2 & InputManager::GetMouseMovement() const
+	{
+		return m_MouseMovement;
+	}
+
 	bool InputManager::IsAnyKeyDown() const
 	{
+		// [COMMENT] No Magic numbers!
 		for (int i = 0; i < 256; ++i)
 		{
+					// [COMMENT] Don't forget '{' and '}' for if statements!
 			if( (char) (GetAsyncKeyState(i) >> 8))
 				return true;
 		}
@@ -226,6 +292,7 @@ namespace star
 			{
 				for(WORD button = 0x00000001; button < 0x8000; button *= 2)
 				{
+					// [COMMENT] Don't forget '{' and '}' for if statements!
 					if(IsGamepadButtonDown(button,static_cast<GamepadIndex>(index)))
 						return true;
 				}
@@ -239,10 +306,12 @@ namespace star
 	{
 		if(previousFrame)
 		{
+			// [COMMENT] Spacing between opterators please... (readability)
 			return (m_pOldKeyboardState[key]&0xF0)!=0;
 		}
 		else
 		{
+			// [COMMENT] Spacing between opterators please... (readability)
 			return (m_pCurrKeyboardState[key]&0xF0)!=0;
 		}
 	}
@@ -252,10 +321,12 @@ namespace star
 	{
 		if(previousFrame)
 		{
+			// [COMMENT] Spacing between opterators please... (readability)
 			return (m_pOldKeyboardState[button]&0xF0)!=0;
 		}
 		else
 		{
+			// [COMMENT] Spacing between opterators please... (readability)
 			return (m_pCurrKeyboardState[button]&0xF0)!=0;
 		}
 	}
@@ -746,5 +817,15 @@ namespace star
 		m_bPointerIsDown = false;
 		m_bPointerIsUp = false;
 #endif
+	}
+
+	void InputManager::SetGestureManager(GestureManager* gestureManager)
+	{
+		m_GestureManager = gestureManager;
+	}
+
+	const GestureManager* InputManager::GetGestureManager() const
+	{
+		return m_GestureManager;
 	}
 }

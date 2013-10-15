@@ -25,32 +25,28 @@ namespace star
 	{
 	public:
 #ifdef _WIN32
-		Texture2D(tstring pPath);
+		Texture2D(const tstring & pPath);
 #else
-		Texture2D(tstring pPath,android_app* pApplication );
+		Texture2D(const tstring & pPath, android_app* pApplication);
 #endif
 		~Texture2D();
 
-		const tstring getPath() const;
-		const int32 getHeight() const;
-		const int32 getWidth() const;
-
-		const GLuint getTextureID(){return mTextureId;}
+		const tstring & GetPath() const;
+		int32 GetHeight() const;
+		int32 GetWidth() const;
+		GLuint GetTextureID() const;
 
 	private:
 		uint8* ReadPNG();
 		status Load();
 
-	private:
 		tstring mPath;
-
 		GLuint	mTextureId;	
 		GLint	mFormat;
-
 		int32 mWidth, mHeight;
 #ifndef _WIN32
 		Resource mResource;
-		static void Callback_Read(png_structp png, png_bytep data, png_size_t size);
+		static void CallbackRead(png_structp png, png_bytep data, png_size_t size);
 #endif
 		Texture2D(const Texture2D& yRef);
 		Texture2D(Texture2D&& yRef);

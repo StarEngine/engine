@@ -20,10 +20,10 @@ namespace star
 		virtual void Update(const Context& context) = 0;
 		virtual void Draw() = 0;
 
-		bool IsInitialized() const {return m_bInitialized;}
+		bool IsInitialized() const;
 
-		Object* GetParent() const {return m_pParentObject;}
-		void SetParent(Object* parent) {m_pParentObject = parent;}
+		Object* GetParent() const;
+		void SetParent(Object* parent);
 
 		BaseScene* GetGameScene() const;
 

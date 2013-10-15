@@ -8,7 +8,7 @@ namespace star
 		mShader = new Shader();
 		if(!mShader->Init(_T("ColorShader.vert"), _T("ColorShader.frag")))
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Making Shader Failed"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Making Shader Failed"));
 		}
 		createSquare();
 		rotMatrix = glm::mat4(1.0f);

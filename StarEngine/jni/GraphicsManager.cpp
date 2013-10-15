@@ -9,6 +9,10 @@
 namespace star
 {
 	std::shared_ptr<GraphicsManager> GraphicsManager::mGraphicsManager = nullptr;
+	
+	GraphicsManager::~GraphicsManager()
+	{
+	}
 
 	GraphicsManager::GraphicsManager() :
 			mScreenHeight(0),
@@ -152,6 +156,20 @@ namespace star
 #endif
 	}
 
+	int32 GraphicsManager::GetWindowWidth() const
+	{
+		return mScreenWidth;
+	}
+
+	int32 GraphicsManager::GetWindowHeight() const
+	{
+		return mScreenHeight;
+	}
+
+	float GraphicsManager::GetWindowAspectRatio() const
+	{
+		return float(mScreenWidth) / float(mScreenHeight);
+	}
 	
 	void GraphicsManager::SetWindowDimensions(int32 width, int32 height)
 	{

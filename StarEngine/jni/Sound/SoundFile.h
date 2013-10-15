@@ -22,13 +22,12 @@ namespace star
 		~SoundFile();
 
 		//for infinite loop set "looptimes" to -1
-		void Play(int32 looptimes=0);
-		void PlayQueued(int32 looptimes=0);
+		void Play(int32 looptimes = 0);
+		void PlayQueued(int32 looptimes = 0);
 		void Stop();
 		void Pause();
 		void Resume();
-		// [COMMENT] const correctness...
-		const bool IsStopped(){return mbStopped;}
+		bool IsStopped() const;
 
 	private:
 		int32 mLoopTimes;

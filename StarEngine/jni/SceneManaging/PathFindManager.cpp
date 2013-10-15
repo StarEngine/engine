@@ -503,4 +503,29 @@ namespace star
 		return m_PathToGoal[m_PathToGoal.size() - step - 1];
 	}
 #endif
+
+	void PathFindManager::ClearOpenList()
+	{
+		m_OpenList.clear();
+	}
+
+	void PathFindManager::ClearVisitedList()
+	{
+		m_VisitedList.clear();
+	}
+
+	void PathFindManager::ClearPathToGoal()
+	{
+		m_PathToGoal.clear();
+	}
+
+	bool PathFindManager::GetInitializedGoal() const
+	{
+		return m_bInitializedStartGoal;
+	}
+
+	bool PathFindManager::GetFoundGoal() const
+	{
+		return m_bFoundGoal;
+	}
 }

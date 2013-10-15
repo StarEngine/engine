@@ -35,4 +35,19 @@ namespace star
 	void CircleColliderComponent::Draw()
 	{
 	}
+	
+	void CircleColliderComponent::SetAsTrigger(bool isTrigger)
+	{
+		m_bIsTrigger = isTrigger;
+	}
+
+	bool CircleColliderComponent::IsTrigger() const
+	{
+		return m_bIsTrigger;
+	}
+
+	float CircleColliderComponent::GetRadius() const
+	{
+		return m_Radius;
+	}
 }

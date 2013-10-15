@@ -1,11 +1,20 @@
 #include "Stopwatch.h"
 #include "Timer.h"
-#include "..\Context.h"
+#include "../Context.h"
 #include <algorithm>
+
+#ifdef _DEBUG
+#include "../Logger.h"
+#endif
 
 namespace star
 {
 	Stopwatch * Stopwatch::m_pStopwatch = nullptr;
+
+	Stopwatch::~Stopwatch()
+	{
+
+	}
 
 	Stopwatch * Stopwatch::GetInstance()
 	{
@@ -165,7 +174,10 @@ namespace star
 				return it.second.GetCurrentMinutes();
 			}
 		}
-		// [TODO] insert error handeling here
+#ifdef _DEBUG
+		Logger::GetInstance()->Log(LogLevel::Warning, 
+			_T("GetTimerMinutes: Couldn't find the timer '") + name + _T("'."));
+#endif
 		return 0;
 	}
 
@@ -178,7 +190,10 @@ namespace star
 				return it.second.GetCurrentSeconds();
 			}
 		}
-		// [TODO] insert error handeling here
+#ifdef _DEBUG
+		Logger::GetInstance()->Log(LogLevel::Warning, 
+			_T("GetTimerSeconds: Couldn't find the timer '") + name + _T("'."));
+#endif
 		return 0;
 	}
 
@@ -191,7 +206,10 @@ namespace star
 				return it.second.GetCurrentTotalSeconds();
 			}
 		}
-		// [TODO] insert error handeling here
+#ifdef _DEBUG
+		Logger::GetInstance()->Log(LogLevel::Warning, 
+			_T("GetTimerTotalSeconds: Couldn't find the timer '") + name + _T("'."));
+#endif
 		return 0;
 	}
 
@@ -204,7 +222,15 @@ namespace star
 				return it.second.GetCurrentAccurateTime();
 			}
 		}
-		// [TODO] insert error handeling here
+#ifdef _DEBUG
+		Logger::GetInstance()->Log(LogLevel::Warning, 
+			_T("GetTimerAccurateTime: Couldn't find the timer '") + name + _T("'."));
+#endif
 		return 0;
+	}
+
+	Stopwatch::Stopwatch()
+	{
+
 	}
 }

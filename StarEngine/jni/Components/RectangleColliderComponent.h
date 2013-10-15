@@ -16,10 +16,11 @@ namespace star
 		void Update(const Context& context);
 		void Draw();
 
-		void SetAsTrigger(bool isTrigger) {m_bIsTrigger = isTrigger;}
-		bool IsTrigger() const {return m_bIsTrigger;}
+		void SetAsTrigger(bool isTrigger);
+		bool IsTrigger() const;
 
-		const Rect GetCollisionRect() const {return m_CollisionRect;}
+		const Rect & GetCollisionRect() const;
+		// [COMMENT] Create Implementation!
 		Rect CollisionTest(const Rect& collider);
 
 	private:

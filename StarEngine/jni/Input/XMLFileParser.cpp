@@ -99,6 +99,7 @@ namespace star
 		if(child->GetName() != _T(""))
 		{
 			//[COMMENT] Memory leak starts here
+			//[TODO][G] FIX IT!
 			parent.insert(std::make_pair(star::string_cast<tstring>(node.name()), child));
 		}
 	}

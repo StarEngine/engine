@@ -38,27 +38,10 @@ namespace star
 //[TODO] - Add for android
 	struct InputAction
 	{
-		InputAction():
-			ActionID(-1),
-			TriggerState(InputTriggerState::Pressed),
-			KeyboardCode(-1),
-			MouseButtonCode(-1),
-			GamepadButtonCode(0),
-			PlayerIndex(GamepadIndex::PlayerOne),
-			IsTriggered(false)
-		{}
-
+		InputAction();
 		InputAction(int actionID, InputTriggerState triggerState = InputTriggerState::Pressed,
 					int keyboardCode = -1, int mouseButtonCode = -1, WORD gamepadButtonCode = 0,
-					GamepadIndex playerIndex = GamepadIndex::PlayerOne):
-			ActionID(actionID),
-			TriggerState(triggerState),
-			KeyboardCode(keyboardCode),
-			MouseButtonCode(mouseButtonCode),
-			GamepadButtonCode(gamepadButtonCode),
-			PlayerIndex(playerIndex),
-			IsTriggered(false)
-		{}
+					GamepadIndex playerIndex = GamepadIndex::PlayerOne);
 
 		int ActionID;
 		InputTriggerState TriggerState;
@@ -72,14 +55,7 @@ namespace star
 #else
 	struct FingerPointerANDR
 	{
-		FingerPointerANDR():
-			Position(),
-			RawPosition(),
-			Pressure(0.0f),
-			ToolMajor(0.0f),
-			ToolMinor(0.0f),
-			ID(0)
-		{}
+		FingerPointerANDR();
 
 		vec2 Position;
 		vec2 RawPosition;
@@ -88,7 +64,6 @@ namespace star
 		float ToolMinor;
 		int ID;
 	};
-
 #endif
 
 	class InputManager
@@ -100,21 +75,25 @@ namespace star
 
 		void Initialize();
 		void Update();
+		// [COMMENT] is 1 the first id? 
+		// if so, don't do this and change it to 0.
+		// as a programmer you always think that 1 == 2. 
+		// if this is the case then ignore this comment and remove it without taking action.
 		bool IsFingerTapCP(uint8 finger = 1) const;
 		bool IsFingerDownCP(uint8 finger = 1) const;
 		bool IsFingerUpCP(uint8 finger = 1) const;
 		vec2 GetCurrentFingerPosCP(uint8 finger = 1) const;
 		vec2 GetOldFingerPosCP(uint8 finger = 1) const;
 		void EndUpdate();
-		void SetGestureManager(GestureManager* gestureManager) {m_GestureManager = gestureManager;}
-		const GestureManager* GetGestureManager() const {return m_GestureManager;}
+		void SetGestureManager(GestureManager* gestureManager);
+		const GestureManager* GetGestureManager() const;
 #ifdef _WIN32
 		
 		//[TODO] add InputActions for android
 		bool AddInputAction(const InputAction& action);
 		bool IsActionTriggered(int actionID) const;
 		//[TODO] -- END TODO
-		void IsCursorVisible(bool visible) { ShowCursor(visible); }
+		void IsCursorVisible(bool visible);
 
 		vec2 GetThumbstickPosition(bool leftThumbstick = true, 
 			GamepadIndex playerIndex = GamepadIndex::PlayerOne) const;
@@ -125,9 +104,9 @@ namespace star
 		bool IsGamepadConnected(GamepadIndex index) const { return m_ConnectedGamepads[(DWORD)index]; }
 		bool IsGamepadButtonDown(WORD button, GamepadIndex playerIndex = GamepadIndex::PlayerOne, bool previousFrame = false) const;
 
-		vec2 GetCurrentMousePosition() const {return m_CurrMousePosition; }
-		vec2 GetOldMousePosition() const {return m_OldMousePosition; }
-		vec2 GetMouseMovement() const { return m_MouseMovement; }
+		const vec2 & GetCurrentMousePosition() const;
+		const vec2 & GetOldMousePosition() const;
+		const vec2 & GetMouseMovement() const;
 		bool IsKeyboardKeyDown(uint8 key, bool previousFrame = false) const;
 		bool IsAnyKeyDown() const;
 
@@ -135,7 +114,7 @@ namespace star
 		bool IsMouseButtonTapWIN(uint8 button) const;
 		bool IsMouseButtonUpWIN(uint8 button) const;
 
-		void SetWindowsHandle(const HWND & hwnd) { mWindowsHandle = hwnd; }
+		void SetWindowsHandle(const HWND hWnd);
 #else
 		bool IsTouchTapANDR(uint8 fingerIndex = 1) const;
 		bool IsTouchDownANDR(uint8 fingerIndex = 1) const;
@@ -173,6 +152,8 @@ namespace star
 		HWND mWindowsHandle;
 
 		void UpdateGamepadStates();
+		// [COMMENT] don't make your lines so long, rather split it up a little
+		// like the example on line 119/120
 		bool IsGamepadButtonDown_unsafe(WORD button, GamepadIndex playerIndex = GamepadIndex::PlayerOne, bool previousFrame = false) const;
 		bool UpdateKeyboardStates();
 		bool IsKeyboardKeyDown_unsafe(uint8 key, bool previousFrame = false) const;

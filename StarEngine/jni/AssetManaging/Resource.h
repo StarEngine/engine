@@ -19,26 +19,16 @@ namespace star
 	class Resource
 	{
 	public:
-		// [COMMENT] const correctness please.... and pass it by
-		// reference. thank you!
-		Resource(android_app* pApplication,tstring pPath);
+		Resource(android_app* pApplication, const tstring & pPath);
 
-		// [COMMENT] pass by reference, thank you very much
-		// also please let functions start with a capital.
-		const tstring getPath() const;
+		const tstring  & GetPath() const;
 
-		status open();
-		void close();
-		status read(void* pBuffer, size_t pCount);
-		//status readAll(void* pBuffer);
+		status Open();
+		void Close();
+		status Read(void* pBuffer, size_t pCount);
 
-		// [COMMENT] const correctness please
-		off_t getLength();
-		// [COMMENT] what does this function do?
-		// name is very confusing and doesnt explain me anything
-		const void* bufferize();
-		// [COMMENT] what does this function do? I don't know it by reading
-		// the name...
+		off_t GetLength() const;
+		const void* GetBufferize() const;
 		ResourceDescriptor DeScript();
 
 	private:
