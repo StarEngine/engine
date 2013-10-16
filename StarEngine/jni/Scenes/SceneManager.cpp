@@ -6,6 +6,7 @@
 #include "../Graphics/GraphicsManager.h"
 #include "../Assets/TextureManager.h"
 #include "../Sound/SoundService.h"
+#include "SpriteBatch.h"
 
 #define INPUT_MANAGER (InputManager::GetInstance())
 
@@ -162,6 +163,7 @@ namespace star
 		if(m_ActiveScene != nullptr)
 		{
 			m_ActiveScene->BaseDraw();
+			SpriteBatch::GetInstance()->Flush();
 		}
 		return (STATUS_OK);
 	}

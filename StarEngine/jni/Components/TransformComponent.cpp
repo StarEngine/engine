@@ -228,7 +228,7 @@ namespace star
 		matTrans = glm::translate(m_LocalPosition.pos3D());
 		float rotDegrees = RadiansToDegrees(m_LocalRotation);
 		matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
-		matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,0));
+		matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
 #else
 		matTrans = glm::translate(m_LocalPosition);
 		matRot   = glm::toMat4(m_LocalRotation);

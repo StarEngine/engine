@@ -6,6 +6,7 @@
 #include "../../Objects/FreeCamera.h"
 #include "../CameraComponent.h"
 #include "../../Objects/Object.h"
+#include "../SceneManaging/SpriteBatch.h"
 
 namespace star
 {
@@ -20,18 +21,18 @@ namespace star
 	void SpriteComponent::InitializeComponent()
 	{
 		
-#ifdef _WIN32
-		Filepath texshaderVertex(_T("WinShaders/"), _T("Texture_Shader.vert"));
-		Filepath texshaderFrag(_T("WinShaders/"), _T("Texture_Shader.frag"));
-#else
-		Filepath texshaderVertex(_T("AndroidShaders/"), _T("BaseTexShader.vert"));
-		Filepath texshaderFrag(_T("AndroidShaders/"), _T("BaseTexShader.frag"));
-
-#endif
-		if(!m_Shader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
-		{
-			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Making Shader Failed"));
-		}
+		#ifdef _WIN32
+				Filepath texshaderVertex(_T("WinShaders/"), _T("Texture_Shader.vert"));
+				Filepath texshaderFrag(_T("WinShaders/"), _T("Texture_Shader.frag"));
+		#else
+				Filepath texshaderVertex(_T("AndroidShaders/"), _T("BaseTexShader.vert"));
+				Filepath texshaderFrag(_T("AndroidShaders/"), _T("BaseTexShader.frag"));
+		
+		#endif
+				if(!m_Shader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
+				{
+					Logger::GetInstance()->Log(star::LogLevel::Info, _T("Making Shader Failed"));
+				}
 		
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetFullPath(),m_SpriteName);
 		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x;
@@ -78,36 +79,38 @@ namespace star
 
 	void SpriteComponent::Draw()
 	{
-		m_Shader.Bind();
+		//m_Shader.Bind();
+		//
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(m_SpriteName));
+		//GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
+		//glUniform1i(s_textureId, 0);
+		//
+		////Set attributes and buffers
+		//glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, m_Vertices);
+		//glEnableVertexAttribArray(ATTRIB_VERTEX);
+		//glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, m_UvCoords);
+		//glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		//
+		//uint32 width = GraphicsManager::GetInstance()->GetWindowWidth();
+		//uint32 height = GraphicsManager::GetInstance()->GetWindowHeight();
+		//auto projectionObject = m_pParentObject->GetScene()->GetActiveCamera();
+		//mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
+		//
+		//glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Projection"),1,GL_FALSE,glm::value_ptr(projection));
+		//mat4x4 world = GetTransform()->GetWorldMatrix();
+		//mat4x4 worldInverse = InverseMatrix(world);
+		//glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Translation"),1,GL_FALSE,glm::value_ptr(worldInverse));
+		//
+		//glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+		//
+		////Unbind attributes and buffers
+		//glDisableVertexAttribArray(ATTRIB_VERTEX);
+		//glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		//
+		//m_Shader.Unbind();
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(m_SpriteName));
-		GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
-		glUniform1i(s_textureId, 0);
-
-		//Set attributes and buffers
-		glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, m_Vertices);
-		glEnableVertexAttribArray(ATTRIB_VERTEX);
-		glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, m_UvCoords);
-		glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
-
-		uint32 width = GraphicsManager::GetInstance()->GetWindowWidth();
-		uint32 height = GraphicsManager::GetInstance()->GetWindowHeight();
-		auto projectionObject = m_pParentObject->GetScene()->GetActiveCamera();
-		mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
-
-		glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Projection"),1,GL_FALSE,glm::value_ptr(projection));
-		mat4x4 world = GetTransform()->GetWorldMatrix();
-		mat4x4 worldInverse = InverseMatrix(world);
-		glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Translation"),1,GL_FALSE,glm::value_ptr(worldInverse));
-
-		glDrawArrays(GL_TRIANGLE_STRIP,0,4);
-
-		//Unbind attributes and buffers
-		glDisableVertexAttribArray(ATTRIB_VERTEX);
-		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
-
-		m_Shader.Unbind();
+		SpriteBatch::GetInstance()->AddSpriteToQueue(this);
 	}
 	
 	void SpriteComponent::Update(const Context& context)
@@ -150,5 +153,49 @@ namespace star
 		);
 		
 		return inverseMatrix;
+	}
+
+	const tstring& SpriteComponent::GetFilePath() const
+	{
+		return m_FilePath.GetPath();
+	}
+
+	const tstring& SpriteComponent::GetName() const
+	{
+		return m_SpriteName;
+	}
+
+	int32 SpriteComponent::GetWidth() const
+	{
+		return m_Width;
+	}
+
+	int32 SpriteComponent::GetHeight() const
+	{
+		return m_Heigth;
+	}
+
+	std::vector<GLfloat> SpriteComponent::GetVertices() const
+	{
+		std::vector<GLfloat> vertices;
+		vertices.clear();
+		
+		for(int i = 0; i < 12; ++i)
+		{
+			vertices.push_back(m_Vertices[i]);
+		}
+		return vertices;
+	}
+
+	std::vector<GLfloat> SpriteComponent::GetUVCoords() const
+	{
+		std::vector<GLfloat> uvCoords;
+		uvCoords.clear();
+		
+		for(int i = 0; i < 8; ++i)
+		{
+			uvCoords.push_back(m_UvCoords[i]);
+		}
+		return uvCoords;
 	}
 }

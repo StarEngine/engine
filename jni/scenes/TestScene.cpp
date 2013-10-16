@@ -64,7 +64,7 @@ status TestScene::Initialize( const star::Context& context)
 
 	m_pObjectTwo = new star::Object();
 	m_pRectCompTwo = new star::RectangleColliderComponent(200,215);
-	m_pSpriteComp2 = new star::SpriteComponent(_T("pikachu.png"),_T("Awesome"));
+	m_pSpriteComp2 = new star::SpriteComponent(_T("pikachu.png"),_T("Pikachu"));
 	m_pObjectTwo->AddComponent(m_pRectCompTwo);
 	m_pObjectTwo->AddComponent(m_pSpriteComp2);
 	m_pObjectTwo->GetTransform()->Translate(400,0);
