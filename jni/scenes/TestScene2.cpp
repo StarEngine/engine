@@ -60,7 +60,7 @@ status TestScene2::Initialize(const star::Context& context)
 	m_pPathFindComp = new star::PathFindNodeComponent();
 	m_pObjectOne->AddComponent(m_pRectCompOne);
 	m_pObjectOne->AddComponent(m_pPathFindComp);
-
+	
 	m_pObjectTwo = new star::Object();
 	m_pRectCompTwo = new star::CircleColliderComponent(10);
 	m_pPathFindCompTwo = new star::PathFindNodeComponent();
@@ -72,7 +72,7 @@ status TestScene2::Initialize(const star::Context& context)
 	m_pPathFindCompThree = new star::PathFindNodeComponent();
 	m_pObjectThree->AddComponent(m_pPathFindCompThree);
 	m_pObjectThree->GetTransform()->Translate(1,1);
-
+	
 	m_pObjectFour = new star::Object();
 	m_pPathFindCompFour = new star::PathFindNodeComponent();
 	m_pObjectFour->AddComponent(m_pPathFindCompFour);
@@ -87,19 +87,19 @@ status TestScene2::Initialize(const star::Context& context)
 	m_pPathFindCompSix = new star::PathFindNodeComponent();
 	m_pObjectSix->AddComponent(m_pPathFindCompSix);
 	m_pObjectSix->GetTransform()->Translate(3,2);
-
+	
 	AddObject(m_pObjectOne);
 	AddObject(m_pObjectTwo);
 	AddObject(m_pObjectThree);
 	AddObject(m_pObjectFour);
 	AddObject(m_pObjectFive);
 	AddObject(m_pObjectSix); 
-
+	
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectOne);
 	star::CollisionManager::GetInstance()->AddObject(m_pObjectTwo);
 
 	//CollisionManager::GetInstance()->CheckCollision(_T("Default"));
-
+	
 	star::XMLFileParser parser(_T("book_catalog.xml"));
 	LOGGER->Log(star::LogLevel::Info,_T("Loading XML File..."));
 	parser.Read(mTestXMLFile);
@@ -110,20 +110,22 @@ status TestScene2::Initialize(const star::Context& context)
 	LOGGER->Log(star::LogLevel::Info,_T("Writing XML File..."));
 	serializer.Write(mTestXMLFile);
 	LOGGER->Log(star::LogLevel::Info,_T("Writing Done!"));
-
+	
 	star::SpriteAnimationManager::GetInstance()->AddSpritesheet(_T("RPGCharacterSpritesheet.xml"));
-
+	
 	m_pSpriteObject = new star::Object();
 	auto sprComponent = new star::SpritesheetComponent(_T("MainGuySpriteSheet_0.png"),_T("MainGuySpritesheet"), _T("RPGCharacter"));
 	m_pSpriteObject->AddComponent(sprComponent);
-
+	
 	AddObject(m_pSpriteObject);
-
+	
 	return STATUS_OK;
+	
 }
 
 status TestScene2::Update(const star::Context& context)
 {
+	
 	auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
 	//tstringstream posBuffer;
 	//posBuffer << _T("Current Mouse Pos: ( ") << pos.x << _T(" , ") << pos.y << _T(" )");
@@ -151,9 +153,10 @@ status TestScene2::Update(const star::Context& context)
 		//LOGGER->Log(LogLevel::Info, tstr.str());
 		++m_Step;
 	}
+	
 	star::PathFindManager::GetInstance()->FindPath(m_pObjectOne->
 		GetComponent<star::TransformComponent>()->GetWorldPosition(), vec2(3,2));
-
+	
 	if(pos.y < (star::GraphicsManager::GetInstance()->GetWindowHeight()/2)
 		&& pos.y > 0)
 	{
@@ -190,8 +193,7 @@ status TestScene2::Update(const star::Context& context)
 			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("idle"));
 		}
 	}
-
-
+	
 	return STATUS_OK;
 }
 

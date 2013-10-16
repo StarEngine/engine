@@ -19,6 +19,7 @@ namespace star
 
 	void SpriteComponent::InitializeComponent()
 	{
+		
 #ifdef _WIN32
 		Filepath texshaderVertex(_T("WinShaders/"), _T("Texture_Shader.vert"));
 		Filepath texshaderFrag(_T("WinShaders/"), _T("Texture_Shader.frag"));
@@ -31,7 +32,7 @@ namespace star
 		{
 			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Making Shader Failed"));
 		}
-
+		
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetFullPath(),m_SpriteName);
 		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x;
 		m_Heigth =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y;
@@ -44,7 +45,7 @@ namespace star
 		// [COMMENT] can you explain me why you wouldn't want
 		// to destroy the texture once this spritecomponent
 		// is deleted. (you can do that via skype)
-		// [COMMENT] at Simon: We should discuss if RemoveTexture should be called here. 
+		// [COMMENT] @ Simon: We should discuss if RemoveTexture should be called here. 
 		// Really depends of the structure of the TextureManager
 
 		//TextureManager::GetInstance()->DeleteTexture(m_SpriteName);
@@ -147,7 +148,7 @@ namespace star
 		x3, y3, z3, z4,
 		w1, w2, w3, w4
 		);
-
+		
 		return inverseMatrix;
 	}
 }

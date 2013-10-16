@@ -3,7 +3,8 @@
 #else
 #include <android_native_app_glue.h>
 #endif
-#include <vector>
+#include <map>
+#include <memory>
 #include "BaseGesture.h"
 
 namespace star
@@ -29,8 +30,10 @@ namespace star
 		GestureManager();
 		~GestureManager();
 		void Update(const Context& context);
-		void AddGesture(BaseGesture* gesture);
+		void AddGesture(BaseGesture* gesture, const tstring& tag);
 		void RemoveGesture(BaseGesture* gesture);
+		void RemoveGesture(const tstring& tag);
+		const BaseGesture* GetGesture(const tstring& tag);
 
 #ifdef _WIN32
 		void OnUpdateWinInputState();
@@ -38,7 +41,7 @@ namespace star
 		void OnTouchEvent(AInputEvent* pEvent);
 #endif
 	private:
-		std::vector<BaseGesture*> m_GestureVec;
+		std::map<tstring, std::shared_ptr<BaseGesture>> m_GestureMap;
 		double m_dTime;
 		double m_TotalTime;
 

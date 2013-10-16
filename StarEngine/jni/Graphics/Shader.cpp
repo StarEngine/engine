@@ -27,18 +27,19 @@ namespace star
 	bool Shader::Init(const tstring& vsFile, const tstring& fsFile )
 	{
 		mShaderID = glCreateProgram();
+		
 		if(!CompileShader(&mVertexShader, GL_VERTEX_SHADER, vsFile ))
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Failed To load Vertex Shader"));
 			return false;
 		}
-
+		
 		if(!CompileShader(&mFragmentShader, GL_FRAGMENT_SHADER, fsFile))
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Failed To load Fragment Shader"));
 			return false;
 		}
-
+		
 		glAttachShader(mShaderID, mVertexShader);
 		glAttachShader(mShaderID,mFragmentShader);
 
@@ -58,7 +59,7 @@ namespace star
 	}
 
 	bool Shader::CompileShader(GLuint* shader, GLenum type, const tstring& file)
-	{
+	{		
 		GLint status;
 		const GLchar* source;
 
@@ -99,6 +100,7 @@ namespace star
 		}
 		*shader = glCreateShader(type);
 		glShaderSource(*shader, 1, &source, NULL);
+		delete[] source;
 		glCompileShader(*shader);
 		glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
 		if(status == 0)

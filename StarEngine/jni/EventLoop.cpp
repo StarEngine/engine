@@ -171,7 +171,7 @@ namespace star
 
 		case APP_CMD_TERM_WINDOW:
 			Logger::GetInstance()->Log(LogLevel::Info, _T("Eventloop : APP_CMD_TERM_WINDOW"));
-			TextureManager::GetInstance()->EraseTextures();
+			TextureManager::GetInstance()->EraseAllTextures();
 			break;
 
 		case APP_CMD_DESTROY:

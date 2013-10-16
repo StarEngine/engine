@@ -45,11 +45,11 @@ namespace star
 	}
 
 	status BaseScene::BaseOnActivate()
-	{
+	{/*
 		if(m_GestureManagerPtr)
 		{
 			InputManager::GetInstance()->SetGestureManager(m_GestureManagerPtr);
-		}
+		}*/
 		return OnActivate();
 	}
 
