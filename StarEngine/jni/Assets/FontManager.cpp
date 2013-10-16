@@ -1,9 +1,9 @@
 #include "FontManager.h"
 #include "../Logger.h"
 #include "../Context.h"
-#include "../GraphicsManager.h"
-#include "../SceneManaging/SceneManager.h"
-#include "../SceneManaging/BaseScene.h"
+#include "../Graphics/GraphicsManager.h"
+#include "../Scenes/SceneManager.h"
+#include "../Scenes/BaseScene.h"
 #include "../Components/CameraComponent.h"
 #include "../Objects/FreeCamera.h"
 

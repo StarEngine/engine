@@ -3,7 +3,7 @@
 #include "../StarEngine/jni/Context.h"
 #include "../StarEngine/jni/StarEngine.h"
 #include "../StarEngine/jni/Helpers/Helpers.h"
-#include "../StarEngine/jni/AssetManaging/FontManager.h"
+#include "../StarEngine/jni/Assets/FontManager.h"
 #include "scenes/TestScene.h"
 #include "scenes/TestScene2.h"
 #include "../StarEngine/jni/Input/InputManager.h"
@@ -50,6 +50,9 @@ status Game::Draw()
 
 status Game::End()
 {
+#ifdef _WIN32
+	star::FontManager::GetInstance()->EraseFonts();
+#endif
 	star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Game ends."));
 	return star::StarEngine::GetInstance()->End();
 }

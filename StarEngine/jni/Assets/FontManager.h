@@ -8,7 +8,7 @@
 #include "../Helpers/Filepath.h"
 #include "../Helpers/Helpers.h"
 #include "Font.h"
-#include "../Shaders/Shader.h"
+#include "../Graphics/Shader.h"
 
 #ifdef _WIN32
 #include <ft2build.h>

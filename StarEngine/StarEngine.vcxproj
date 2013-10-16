@@ -78,10 +78,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
-    <ClInclude Include="jni\AssetManaging\Font.h" />
-    <ClInclude Include="jni\AssetManaging\FontManager.h" />
-    <ClInclude Include="jni\AssetManaging\Texture2D.h" />
-    <ClInclude Include="jni\AssetManaging\TextureManager.h" />
+    <ClInclude Include="jni\Assets\Font.h" />
+    <ClInclude Include="jni\Assets\FontManager.h" />
+    <ClInclude Include="jni\Assets\Texture2D.h" />
+    <ClInclude Include="jni\Assets\TextureManager.h" />
     <ClInclude Include="jni\BaseGame.h" />
     <ClInclude Include="jni\Components\BaseComponent.h" />
     <ClInclude Include="jni\Components\CameraComponent.h" />
@@ -145,10 +145,10 @@
     <ClInclude Include="jni\Helpers\ScreenPercentAbstract.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="jni\AssetManaging\Font.cpp" />
-    <ClCompile Include="jni\AssetManaging\FontManager.cpp" />
-    <ClCompile Include="jni\AssetManaging\Texture2D.cpp" />
-    <ClCompile Include="jni\AssetManaging\TextureManager.cpp" />
+    <ClCompile Include="jni\Assets\Font.cpp" />
+    <ClCompile Include="jni\Assets\FontManager.cpp" />
+    <ClCompile Include="jni\Assets\Texture2D.cpp" />
+    <ClCompile Include="jni\Assets\TextureManager.cpp" />
     <ClCompile Include="jni\Components\BaseComponent.cpp" />
     <ClCompile Include="jni\Components\CameraComponent.cpp" />
     <ClCompile Include="jni\Components\Physics\CircleColliderComponent.cpp" />
