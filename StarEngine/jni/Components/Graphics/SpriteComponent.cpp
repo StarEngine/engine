@@ -38,7 +38,8 @@ namespace star
 		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x;
 		m_Heigth =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y;
 
-		CreateSquare();
+		CreateVertices();
+		CreateIndices();
 	}
 
 	SpriteComponent::~SpriteComponent()
@@ -52,7 +53,7 @@ namespace star
 		//TextureManager::GetInstance()->DeleteTexture(m_SpriteName);
 	}
 
-	void SpriteComponent::CreateSquare()
+	void SpriteComponent::CreateVertices()
 	{
 		m_Vertices[0] = (GLfloat)m_Width;
 		m_Vertices[1] = (GLfloat)m_Heigth;
@@ -66,7 +67,10 @@ namespace star
 		m_Vertices[9] = 0;
 		m_Vertices[10] = 0;
 		m_Vertices[11] = 0;
-		 
+	}
+
+	void SpriteComponent::CreateIndices()
+	{
 		m_UvCoords[0] = 1.0f;
 		m_UvCoords[1] = 1.0f;
 		m_UvCoords[2] = 1.0f;

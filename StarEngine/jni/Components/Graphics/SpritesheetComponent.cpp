@@ -164,4 +164,20 @@ namespace star
 		SetSpritesheet(m_SpritesheetName);
 		SpriteComponent::InitializeComponent();
 	}
+
+	void SpritesheetComponent::CreateVertices()
+	{
+		m_Vertices[0] = (GLfloat)m_Width;
+		m_Vertices[1] = (GLfloat)m_Heigth;
+		m_Vertices[2] = 0;
+		m_Vertices[3] = (GLfloat)m_Width;
+		m_Vertices[4] = 0;
+		m_Vertices[5] = 0;
+		m_Vertices[6] = 0;
+		m_Vertices[7] = (GLfloat)m_Heigth;
+		m_Vertices[8] = 0;
+		m_Vertices[9] = 0;
+		m_Vertices[10] = 0;
+		m_Vertices[11] = 0;
+	}
 }
