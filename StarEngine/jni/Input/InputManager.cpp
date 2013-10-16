@@ -465,14 +465,15 @@ namespace star
 		//Mouse Position
 		m_OldMousePosition = m_CurrMousePosition;
 		POINT mousePos;
-		mousePos.x = (LONG)m_CurrMousePosition.x;
-		mousePos.y = (LONG)m_CurrMousePosition.y;
 		if(GetCursorPos(&mousePos))
 		{
 			ScreenToClient(mWindowsHandle,&mousePos);
 		}
 		//[TODO] Change to %
 		m_CurrMousePosition = vec2(mousePos.x , /*(float)GraphicsManager::GetInstance()->GetWindowHeight() - */mousePos.y);
+		/*tstringstream buffer;
+		buffer << _T("Current Mouse Pos: ") << _T("( ") << m_CurrMousePosition.x << _T(" , ") << m_CurrMousePosition.y << _T(" )");
+		Logger::GetInstance()->Log(LogLevel::Info, buffer.str());*/
 		m_MouseMovement.x = m_CurrMousePosition.x - m_OldMousePosition.x;
 		m_MouseMovement.y = m_CurrMousePosition.y - m_OldMousePosition.y;
 
