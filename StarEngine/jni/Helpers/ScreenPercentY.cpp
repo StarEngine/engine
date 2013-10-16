@@ -1,5 +1,6 @@
 #include "ScreenPercentY.h"
 #include "ScreenPercentX.h"
+#include "../Graphics/GraphicsManager.h"
 
 namespace star
 {
@@ -25,16 +26,10 @@ namespace star
 
 	}
 
-	ScreenPercentY::ScreenPercentY(const ScreenPercentY & yRef)
+	ScreenPercentY::ScreenPercentY(const ScreenPercentAbstract & yRef)
 		:ScreenPercentAbstract(yRef)
 	{
 
-	}
-
-	ScreenPercentY::ScreenPercentY(const ScreenPercentX & screenPercentX)
-		:ScreenPercentAbstract(screenPercentX)
-	{
-		//m_ScreenPercentage = screenPercentX.
 	}
 
 	ScreenPercentY::~ScreenPercentY()
@@ -44,166 +39,8 @@ namespace star
 
 	void ScreenPercentY::ConvertPercentToScreenPos()
 	{
-		// [TODO] Where is the implementation ?!
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A + B + C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator+(const ScreenPercentAbstract &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp += yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A + B + C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator+(const int &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp += yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A + B + C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator+(const float &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp += yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A + B + C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator+(const double &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp += yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A - B - C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator-(const ScreenPercentAbstract &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp -= yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A - B - C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator-(const int &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp -= yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A - B - C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator-(const float &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp -= yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A - B - C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator-(const double &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp -= yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A * B * C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator*(const ScreenPercentAbstract &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp *= yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A * B * C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator*(const int &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp *= yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A * B * C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator*(const float &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp *= yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A * B * C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator*(const double &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp *= yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A / B / C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator/(const ScreenPercentAbstract &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp /= yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A / B / C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator/(const int &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp /= yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A / B / C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator/(const float &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp /= yRef;
-		return temp;
-	}
-	
-	// [COMMENT] const on a copy is useless and it prevents from doing things like A / B / C,
-	// as the result of A and B whill be const and so you can't change it... 
-	const ScreenPercentY ScreenPercentY::operator/(const double &yRef) const
-	{
-		// [COMMENT] initialisation > assignment
-		ScreenPercentY temp = *this;
-		temp /= yRef;
-		return temp;
+		int32 height = GraphicsManager::GetInstance()->GetWindowHeight();
+		m_ScreenValue = height/100.0f;
+		m_ScreenValue *= m_ScreenPercentage;
 	}
 }

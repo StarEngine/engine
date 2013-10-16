@@ -12,11 +12,10 @@ namespace star
 		BaseGesture(),
 		m_StartTime(0),
 		m_TimeSinceBeginning(0),
-		// [COMMENT] initialize 'm_TimeBetweenTaps'
-		// [COMMENT] initialize 'm_Count' as last
-		m_Count(0),
+		m_TimeBetweenTaps(0),
 		m_StartPos(),
-		m_bIsGestureOk(false)
+		m_bIsGestureOk(false),
+		m_Count(0)
 	{
 
 	}

@@ -73,17 +73,12 @@ namespace star
 
 		static std::shared_ptr<InputManager> GetInstance();
 
-		void Initialize();
 		void Update();
-		// [COMMENT] is 1 the first id? 
-		// if so, don't do this and change it to 0.
-		// as a programmer you always think that 1 == 2. 
-		// if this is the case then ignore this comment and remove it without taking action.
-		bool IsFingerTapCP(uint8 finger = 1) const;
-		bool IsFingerDownCP(uint8 finger = 1) const;
-		bool IsFingerUpCP(uint8 finger = 1) const;
-		vec2 GetCurrentFingerPosCP(uint8 finger = 1) const;
-		vec2 GetOldFingerPosCP(uint8 finger = 1) const;
+		bool IsFingerTapCP(uint8 finger = 0) const;
+		bool IsFingerDownCP(uint8 finger = 0) const;
+		bool IsFingerUpCP(uint8 finger = 0) const;
+		vec2 GetCurrentFingerPosCP(uint8 finger = 0) const;
+		vec2 GetOldFingerPosCP(uint8 finger = 0) const;
 		void EndUpdate();
 		void SetGestureManager(GestureManager* gestureManager);
 		const GestureManager* GetGestureManager() const;
@@ -97,12 +92,16 @@ namespace star
 
 		vec2 GetThumbstickPosition(bool leftThumbstick = true, 
 			GamepadIndex playerIndex = GamepadIndex::PlayerOne) const;
-		// [COMMENT] don't make your lines so long, rather split it up a little
-		// like the example on line 119/120
-		float GetTriggerPressure(bool leftTrigger = true, GamepadIndex playerIndex = GamepadIndex::PlayerOne) const;
-		void SetVibration(float leftVibration, float rightVibration, GamepadIndex playerIndex = GamepadIndex::PlayerOne);
+
+		float GetTriggerPressure(bool leftTrigger = true, 
+			GamepadIndex playerIndex = GamepadIndex::PlayerOne) const;
+
+		void SetVibration(float leftVibration, float rightVibration, 
+			GamepadIndex playerIndex = GamepadIndex::PlayerOne);
+
 		bool IsGamepadConnected(GamepadIndex index) const { return m_ConnectedGamepads[(DWORD)index]; }
-		bool IsGamepadButtonDown(WORD button, GamepadIndex playerIndex = GamepadIndex::PlayerOne, bool previousFrame = false) const;
+		bool IsGamepadButtonDown(WORD button, 
+			GamepadIndex playerIndex = GamepadIndex::PlayerOne, bool previousFrame = false) const;
 
 		const vec2 & GetCurrentMousePosition() const;
 		const vec2 & GetOldMousePosition() const;
@@ -115,13 +114,15 @@ namespace star
 		bool IsMouseButtonUpWIN(uint8 button) const;
 
 		void SetWindowsHandle(const HWND hWnd);
+
+		uint8 ConvertIndexToVK(uint8 fingerIndex) const;
 #else
-		bool IsTouchTapANDR(uint8 fingerIndex = 1) const;
-		bool IsTouchDownANDR(uint8 fingerIndex = 1) const;
-		bool IsTouchUpANDR(uint8 fingerIndex = 1) const;
-		vec2 GetCurrentTouchPosANDR(uint8 fingerIndex = 1) const;
-		vec2 GetOldTouchPosANDR(uint8 fingerIndex = 1) const;
-		FingerPointerANDR GetTouchPropertiesANDR(uint8 fingerIndex = 1) const;
+		bool IsTouchTapANDR(uint8 fingerIndex = 0) const;
+		bool IsTouchDownANDR(uint8 fingerIndex = 0) const;
+		bool IsTouchUpANDR(uint8 fingerIndex = 0) const;
+		vec2 GetCurrentTouchPosANDR(uint8 fingerIndex = 0) const;
+		vec2 GetOldTouchPosANDR(uint8 fingerIndex = 0) const;
+		FingerPointerANDR GetTouchPropertiesANDR(uint8 fingerIndex = 0) const;
 
 		void OnTouchEvent(AInputEvent* pEvent);
 		bool OnKeyboardEvent(AInputEvent* pEvent);
@@ -140,6 +141,7 @@ namespace star
 		XINPUT_STATE m_OldGamepadState[XUSER_MAX_COUNT], m_CurrGamepadState[XUSER_MAX_COUNT];
 		bool m_ConnectedGamepads[XUSER_MAX_COUNT];
 		bool m_ThreadAvailable;
+		static const int NUMBER_OF_KEYBOARDKEYS = 256;
 		static const int MIN_KEYBOARD_VALUE = 0x07;
 		static const int MAX_KEYBOARD_VALUE = 0xFE;
 		static const int MIN_MOUSE_BUTTON_VALUE = 0x00;
@@ -152,9 +154,9 @@ namespace star
 		HWND mWindowsHandle;
 
 		void UpdateGamepadStates();
-		// [COMMENT] don't make your lines so long, rather split it up a little
-		// like the example on line 119/120
-		bool IsGamepadButtonDown_unsafe(WORD button, GamepadIndex playerIndex = GamepadIndex::PlayerOne, bool previousFrame = false) const;
+		bool IsGamepadButtonDown_unsafe(WORD button, 
+			GamepadIndex playerIndex = GamepadIndex::PlayerOne, 
+			bool previousFrame = false) const;
 		bool UpdateKeyboardStates();
 		bool IsKeyboardKeyDown_unsafe(uint8 key, bool previousFrame = false) const;
 		bool IsMouseButtonDown_unsafe(uint8 button, bool previousFrame = false) const;

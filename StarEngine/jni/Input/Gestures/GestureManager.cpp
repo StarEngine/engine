@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "BaseGesture.h"
 #include "../InputManager.h"
+#include "../../Logger.h"
 
 namespace star
 {
@@ -19,10 +20,6 @@ namespace star
 		for(auto gesture : m_GestureVec)
 		{
 			delete gesture;
-			// [ COMMENT] assigning to nullptr is useless,
-			// you only do such a thing if you gonna use the pointer variable
-			// again, which is not the case in this situation.
-			gesture = nullptr;
 		}
 		m_GestureVec.clear();
 	}
@@ -51,12 +48,13 @@ namespace star
 	
 	void GestureManager::AddGesture(BaseGesture* gesture)
 	{
-		// Check if the gesture is not already in the vector
-		// [COMMENT] you might log this information as a warning,
-		// this can help programmers to find code that shouldnt be in their game.
 		if(std::find(m_GestureVec.begin(), m_GestureVec.end(), gesture) == m_GestureVec.end())
 		{
 			m_GestureVec.push_back(gesture);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,_T("The gesture manager already contains this gesture!"));
 		}
 	}
 

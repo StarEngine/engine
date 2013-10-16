@@ -44,6 +44,10 @@ namespace star
 		// [COMMENT] can you explain me why you wouldn't want
 		// to destroy the texture once this spritecomponent
 		// is deleted. (you can do that via skype)
+		// [COMMENT] at Simon: We should discuss if RemoveTexture should be called here. 
+		// Really depends of the structure of the TextureManager
+
+		//TextureManager::GetInstance()->DeleteTexture(m_SpriteName);
 	}
 
 	void SpriteComponent::CreateSquare()

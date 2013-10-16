@@ -93,9 +93,15 @@ using glm::vec4;
 using glm::quat;
 using glm::mat4x4;
 using glm::ivec2;
+
+//[COMMENT] make this a const float or double
 #define PI 3.14159265358979323846264338327950288
 #define EMPTY_STRING _T("")
 #define ANDROID_LOG_TAG _T("STAR_ENGINE")
+
+#include "Helpers\ScreenPercentX.h"
+#include "Helpers\ScreenPercentY.h"
+#include "Helpers\ScreenPercent.h"
 
 #ifdef STAR2D
 #include "defines2D.h" 

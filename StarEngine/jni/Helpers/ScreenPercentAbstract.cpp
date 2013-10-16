@@ -62,8 +62,9 @@ namespace star
 	{
 	}
 
-	float ScreenPercentAbstract::GetScreenValue() const
+	float ScreenPercentAbstract::GetScreenValue()
 	{
+		ConvertPercentToScreenPos();
 		return m_ScreenValue;
 	}
 
@@ -73,7 +74,6 @@ namespace star
 		if(this != &yRef)
 		{
 			m_ScreenPercentage = yRef.m_ScreenPercentage;
-			//[TODO] make sure this value will get updated in the very beginning of the update loop! before anything else!
 			m_ScreenValue = 0;
 		}
 
@@ -81,21 +81,21 @@ namespace star
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator=(const int &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator=(int yRef)
 	{
 		m_ScreenPercentage = (float)yRef;
 		m_ScreenValue = 0;
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator=(const float &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator=(float yRef)
 	{
 		m_ScreenPercentage = yRef;
 		m_ScreenValue = 0;
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator=(const double &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator=(double yRef)
 	{
 		m_ScreenPercentage = (float)yRef;
 		m_ScreenValue = 0;
@@ -109,21 +109,21 @@ namespace star
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator+=(const int &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator+=(int yRef)
 	{
 		m_ScreenPercentage += (float)yRef;
 		m_ScreenValue = 0;
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator+=(const float &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator+=(float yRef)
 	{
 		m_ScreenPercentage += yRef;
 		m_ScreenValue = 0;
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator+=(const double &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator+=(double yRef)
 	{
 		m_ScreenPercentage += (float)yRef;
 		m_ScreenValue = 0;
@@ -137,21 +137,21 @@ namespace star
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator-=(const int &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator-=(int yRef)
 	{
 		m_ScreenPercentage -= (float)yRef;
 		m_ScreenValue = 0;
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator-=(const float &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator-=(float yRef)
 	{
 		m_ScreenPercentage -= yRef;
 		m_ScreenValue = 0;
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator-=(const double &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator-=(double yRef)
 	{
 		m_ScreenPercentage -= (float)yRef;
 		m_ScreenValue = 0;
@@ -165,21 +165,21 @@ namespace star
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator*=(const int &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator*=(int yRef)
 	{
 		m_ScreenPercentage *= (float)yRef;
 		m_ScreenValue = 0;
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator*=(const float &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator*=(float yRef)
 	{
 		m_ScreenPercentage *= yRef;
 		m_ScreenValue = 0;
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator*=(const double &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator*=(double yRef)
 	{
 		m_ScreenPercentage *= (float)yRef;
 		m_ScreenValue = 0;
@@ -193,21 +193,21 @@ namespace star
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator/=(const int &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator/=(int yRef)
 	{
 		m_ScreenPercentage /= (float)yRef;
 		m_ScreenValue = 0;
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator/=(const float &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator/=(float yRef)
 	{
 		m_ScreenPercentage /= (float)yRef;
 		m_ScreenValue = 0;
 		return *this;
 	}
 
-	ScreenPercentAbstract& ScreenPercentAbstract::operator/=(const double &yRef)
+	ScreenPercentAbstract& ScreenPercentAbstract::operator/=(double yRef)
 	{
 		m_ScreenPercentage /= (float)yRef;
 		m_ScreenValue = 0;
@@ -223,7 +223,7 @@ namespace star
 		return false;
 	}
 
-	bool ScreenPercentAbstract::operator==(const int& yRef) const
+	bool ScreenPercentAbstract::operator==(int yRef) const
 	{
 		if(m_ScreenPercentage == (float)yRef)
 		{
@@ -232,7 +232,7 @@ namespace star
 		return false;
 	}
 
-	bool ScreenPercentAbstract::operator==(const float& yRef) const
+	bool ScreenPercentAbstract::operator==(float yRef) const
 	{
 		if(m_ScreenPercentage == yRef)
 		{
@@ -241,7 +241,7 @@ namespace star
 		return false;
 	}
 
-	bool ScreenPercentAbstract::operator==(const double& yRef) const
+	bool ScreenPercentAbstract::operator==(double yRef) const
 	{
 		if(m_ScreenPercentage == (float)yRef)
 		{
@@ -255,18 +255,130 @@ namespace star
 		return !(*this == yRef);
 	}
 
-	bool ScreenPercentAbstract::operator!=(const int& yRef) const
+	bool ScreenPercentAbstract::operator!=(int yRef) const
 	{
 		return !(*this == yRef);
 	}
 
-	bool ScreenPercentAbstract::operator!=(const float& yRef) const
+	bool ScreenPercentAbstract::operator!=(float yRef) const
 	{
 		return !(*this == yRef);
 	}
 
-	bool ScreenPercentAbstract::operator!=(const double& yRef) const
+	bool ScreenPercentAbstract::operator!=(double yRef) const
 	{
 		return !(*this == yRef);
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator+(const ScreenPercentAbstract &yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp += yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator+(int yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp += yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator+(float yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp += yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator+(double yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp += yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator-(const ScreenPercentAbstract &yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp -= yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator-(int yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp -= yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator-(float yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp -= yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator-(double yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp -= yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator*(const ScreenPercentAbstract &yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp *= yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator*(int yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp *= yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator*(float yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp *= yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator*(double yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp *= yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator/(const ScreenPercentAbstract &yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp /= yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator/(int yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp /= yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator/(float yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp /= yRef;
+		return temp;
+	}
+
+	ScreenPercentAbstract ScreenPercentAbstract::operator/(double yRef) const
+	{
+		ScreenPercentAbstract temp(*this);
+		temp /= yRef;
+		return temp;
 	}
 }

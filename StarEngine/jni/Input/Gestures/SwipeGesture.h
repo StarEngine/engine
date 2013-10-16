@@ -13,7 +13,6 @@ namespace star
 		virtual ~SwipeGesture();
 
 		virtual void Update(const Context& context);
-		// [COMMENT] these functions don't have implementations?!
 		vec2 GetSwipeDirection() const;
 		float GetSwipeSpeed() const;
 		float GetSwipeLength() const;
@@ -26,6 +25,7 @@ namespace star
 		void InitializeAllVars();
 
 		double m_ElapsedTime;
+		float m_Speed;
 		vec2 m_StartPos;
 		vec2 m_CurrentPos;
 		vec2 m_OldPos;
