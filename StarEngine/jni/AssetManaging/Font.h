@@ -1,0 +1,64 @@
+#pragma once
+#ifdef _WIN32
+
+#include <map>
+#include <vector>
+#include <array>
+#include "../defines.h"
+#include "../Helpers/Filepath.h"
+#include "../Helpers/Helpers.h"
+
+#ifdef _WIN32
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#include <glew.h>
+#else
+#include <GLES/gl.h>
+#include <GLES/glext.h>
+#endif
+
+namespace star
+{
+#define FONT_DPI 96
+#define FONT_TEXTURES 128
+	typedef struct{
+		GLfloat ver[12];
+	}fontVertices;
+
+	typedef struct{
+		GLfloat uv[8];
+	}fontUvCoords;
+
+	class Font
+	{
+	public:
+		Font(){}
+		~Font(){};
+
+		bool Init(const tstring& path, int32 size, FT_Library& library);
+		void DeleteFont();
+
+		GLuint GetListBase()const {return mList_base;}
+		GLuint* GetTextures()const {return mTextures;}
+		float GetSize()const {return mSize;}
+		std::vector< fontUvCoords > getUvCoords()const {return mUVcoordsList;}
+		std::vector< fontVertices > getVetrices()const {return mVecticesList;}
+
+	private:
+		void Make_D_List(FT_Face face, char ch, GLuint list_base, GLuint * tex_base);
+		int32 NextPowerOfTwo(const int32& a);
+
+		FT_Face mFace;
+		GLuint* mTextures;
+		GLuint mList_base;
+
+		std::vector< fontUvCoords > mUVcoordsList;
+		std::vector< fontVertices > mVecticesList;
+
+		float mSize;
+	};
+
+
+}
+
+#endif

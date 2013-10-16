@@ -41,20 +41,20 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ReferencePath>$(ReferencePath)</ReferencePath>
-    <ExecutablePath>libs\SDL2_mixer-2.0.0\lib\x86;libs\SDL2-2.0.0\lib\x86;libs\OpenSL;libs\OpenGL\GLUT\lib\x86\Debug;libs\OpenGL\GLEW\lib\Release\Win32;libs\Libpng_Debug;$(ReferencePath);$(ExecutablePath)</ExecutablePath>
+    <ExecutablePath>libs\freetype-2.5.0.1\objs\win32\vc2010;libs\SDL2_mixer-2.0.0\lib\x86;libs\SDL2-2.0.0\lib\x86;libs\OpenSL;libs\OpenGL\GLUT\lib\x86\Debug;libs\OpenGL\GLEW\lib\Release\Win32;libs\Libpng_Debug;$(ReferencePath);$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>StarEngine\jni;libs\SDL2_mixer-2.0.0\include;libs\SDL2-2.0.0\include;libs\libpng;libs\OpenGL\GLEW\include\GL;libs\OpenGL\GLUT\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>libs\freetype-2.5.0.1\include;libs\freetype-2.5.0.1\include\freetype;StarEngine\jni;libs\SDL2_mixer-2.0.0\include;libs\SDL2-2.0.0\include;libs\libpng;libs\OpenGL\GLEW\include\GL;libs\OpenGL\GLUT\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>STAR2D;LOGGER_MIN_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)\libs\SDL2-2.0.0\lib\x86;$(ProjectDir)\libs\SDL2_mixer-2.0.0\lib\x86;$(ProjectDir)\libs\OpenGL\GLEW\lib\Release\Win32;$(ProjectDir)\libs\Libpng_Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;libpng16.lib;zlib.lib;SDL2.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\libs\freetype-2.5.0.1\objs\win32\vc2010;$(ProjectDir)\libs\SDL2-2.0.0\lib\x86;$(ProjectDir)\libs\SDL2_mixer-2.0.0\lib\x86;$(ProjectDir)\libs\OpenGL\GLEW\lib\Release\Win32;$(ProjectDir)\libs\Libpng_Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;libpng16.lib;zlib.lib;SDL2.lib;SDL2_mixer.lib;freetype250_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>

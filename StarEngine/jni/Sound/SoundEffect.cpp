@@ -37,7 +37,7 @@ namespace star
 			mSoundEffect = Mix_LoadWAV(sound_path.c_str());
 			if(!mSoundEffect)
 			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not load song, reason : ")
+				star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Sound Effect :Could not load song, reason : ")
 					+string_cast<tstring>(Mix_GetError()));
 			}
 		}
@@ -51,7 +51,7 @@ namespace star
 			ResourceDescriptor lDescriptor = lResource.DeScript();
 			if(lDescriptor.mDescriptor < 0)
 			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Could not open file"));
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Could not open file"));
 				return;
 			}
 			SLDataLocator_AndroidFD lDataLocatorIn;
@@ -84,7 +84,7 @@ namespace star
 			lRes = (*mEngine)->CreateAudioPlayer(mEngine,&mPlayerObjs[i], &lDataSource, &lDataSink,lPlayerIIDCount, lPlayerIIDs, lPlayerReqs);
 			if (lRes != SL_RESULT_SUCCESS)
 			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Can't create audio player"));
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Can't create audio player"));
 				Stop();
 				return;
 			}
@@ -92,7 +92,7 @@ namespace star
 			lRes = (*mPlayerObjs[i])->Realize(mPlayerObjs[i],SL_BOOLEAN_FALSE);
 			if (lRes != SL_RESULT_SUCCESS)
 			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Can't realise audio player"));
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Can't realise audio player"));
 				Stop();
 				return;
 			}
@@ -100,7 +100,7 @@ namespace star
 			lRes = (*mPlayerObjs[i])->GetInterface(mPlayerObjs[i],SL_IID_PLAY, &mPlayers[i]);
 			if (lRes != SL_RESULT_SUCCESS)
 			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Can't get audio play interface"));
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Can't get audio play interface"));
 				Stop();
 				return;
 			}
@@ -108,11 +108,11 @@ namespace star
 
 			if((*mPlayers[i])->SetCallbackEventsMask(mPlayers[i],SL_PLAYSTATE_STOPPED)!=SL_RESULT_SUCCESS)
 			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Can't set callback flags"));
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Can't set callback flags"));
 			}
 			if((*mPlayers[i])->RegisterCallback(mPlayers[i],MusicStoppedCallback,&mPlayers[i])!=SL_RESULT_SUCCESS)
 			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Can't set callback"));
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Can't set callback"));
 			}
 		}
 #endif
@@ -135,7 +135,7 @@ namespace star
 					(*mPlayerObjs[i])->Destroy(mPlayerObjs[i]);
 					mPlayerObjs[i] = NULL;
 					mPlayers[i] = NULL;
-					star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Soundfile Destroyed"));
+					star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Soundfile Destroyed"));
 				}
 			}
 		}
@@ -157,7 +157,7 @@ namespace star
 				lRes = (*mPlayers[i])->SetPlayState(mPlayers[i],SL_PLAYSTATE_PLAYING);
 				if (lRes != SL_RESULT_SUCCESS)
 				{
-					star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't play audio"));
+					star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Can't play audio"));
 					Stop();
 					return;
 				};

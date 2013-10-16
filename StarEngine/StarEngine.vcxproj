@@ -40,7 +40,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <ReferencePath>..\libs\SDL2_mixer-2.0.0\lib\x86;..\libs\SDL2-2.0.0\lib\x86;..\libs\OpenSL;..\libs\OpenGL\GL;..\libs\OpenGL\GLUT\lib\x86\Debug;..\libs\OpenGL\GLEW\lib\Release\Win32;..\libs\Libpng_Debug;$(ReferencePath)</ReferencePath>
+    <ReferencePath>..\libs\freetype-2.5.0.1\objs\win32\vc2010;..\libs\SDL2_mixer-2.0.0\lib\x86;..\libs\SDL2-2.0.0\lib\x86;..\libs\OpenSL;..\libs\OpenGL\GL;..\libs\OpenGL\GLUT\lib\x86\Debug;..\libs\OpenGL\GLEW\lib\Release\Win32;..\libs\Libpng_Debug;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ExecutablePath>..\libs\SDL2_mixer-2.0.0\lib\x86;..\libs\SDL2-2.0.0\lib\x86;..\libs\OpenSL;..\libs\OpenGL\GLUT\lib\x86\Debug;..\libs\OpenGL\GLEW\lib\Release\Win32;..\libs\Libpng_Debug;$(ExecutablePath)</ExecutablePath>
@@ -49,7 +49,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\libs\SDL2_mixer-2.0.0\include;..\libs\SDL2-2.0.0\include;..\libs\libpng;$(ProjectDir);..\libs\OpenGL\GL;..\libs\OpenGL\GLEW\include\GL;..\libs\OpenGL\GLUT\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\libs\freetype-2.5.0.1\include\freetype;..\libs\freetype-2.5.0.1\include;..\libs\SDL2_mixer-2.0.0\include;..\libs\SDL2-2.0.0\include;..\libs\libpng;$(ProjectDir);..\libs\OpenGL\GL;..\libs\OpenGL\GLEW\include\GL;..\libs\OpenGL\GLUT\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>STAR2D;LOGGER_MIN_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
@@ -78,8 +78,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
-    <ClInclude Include="jni\Assets\Texture2D.h" />
-    <ClInclude Include="jni\Assets\TextureManager.h" />
+    <ClInclude Include="jni\AssetManaging\Font.h" />
+    <ClInclude Include="jni\AssetManaging\FontManager.h" />
+    <ClInclude Include="jni\AssetManaging\Texture2D.h" />
+    <ClInclude Include="jni\AssetManaging\TextureManager.h" />
     <ClInclude Include="jni\BaseGame.h" />
     <ClInclude Include="jni\Components\BaseComponent.h" />
     <ClInclude Include="jni\Components\CameraComponent.h" />
@@ -143,8 +145,10 @@
     <ClInclude Include="jni\Helpers\ScreenPercentAbstract.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="jni\Assets\Texture2D.cpp" />
-    <ClCompile Include="jni\Assets\TextureManager.cpp" />
+    <ClCompile Include="jni\AssetManaging\Font.cpp" />
+    <ClCompile Include="jni\AssetManaging\FontManager.cpp" />
+    <ClCompile Include="jni\AssetManaging\Texture2D.cpp" />
+    <ClCompile Include="jni\AssetManaging\TextureManager.cpp" />
     <ClCompile Include="jni\Components\BaseComponent.cpp" />
     <ClCompile Include="jni\Components\CameraComponent.cpp" />
     <ClCompile Include="jni\Components\Physics\CircleColliderComponent.cpp" />

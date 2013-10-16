@@ -30,7 +30,7 @@ namespace star
 			mMusic = Mix_LoadMUS(sound_path.c_str());
 			if(!mMusic)
 			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not load song, reason : ")+string_cast<tstring>(Mix_GetError()));
+				star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Sound File :Could not load song, reason : ")+string_cast<tstring>(Mix_GetError()));
 			}
 			
 		}
@@ -41,7 +41,7 @@ namespace star
 		ResourceDescriptor lDescriptor = lResource.DeScript();
 		if(lDescriptor.mDescriptor < 0)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Could not open file"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound File : Could not open file"));
 			return;
 		}
 		SLDataLocator_AndroidFD lDataLocatorIn;
@@ -74,7 +74,7 @@ namespace star
 		lRes = (*mEngine)->CreateAudioPlayer(mEngine,&mPlayerObj, &lDataSource, &lDataSink,lPlayerIIDCount, lPlayerIIDs, lPlayerReqs);
 		if (lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Can't create audio player"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound File : Can't create audio player"));
 			Stop();
 			return;
 		}
@@ -82,7 +82,7 @@ namespace star
 		lRes = (*mPlayerObj)->Realize(mPlayerObj,SL_BOOLEAN_FALSE);
 		if (lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Can't realise audio player"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound File : Can't realise audio player"));
 			Stop();
 			return;
 		}
@@ -90,7 +90,7 @@ namespace star
 		lRes = (*mPlayerObj)->GetInterface(mPlayerObj,SL_IID_PLAY, &mPlayer);
 		if (lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Can't get audio play interface"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound File : Can't get audio play interface"));
 			Stop();
 			return;
 		}
@@ -98,18 +98,18 @@ namespace star
 		lRes = (*mPlayerObj)->GetInterface(mPlayerObj,SL_IID_SEEK, &mPlayerSeek);
 		if (lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Can't get audio seek interface"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound File : Can't get audio seek interface"));
 			Stop();
 			return;
 		}
 
 		if((*mPlayer)->SetCallbackEventsMask(mPlayer,SL_PLAYSTATE_STOPPED)!=SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Can't set callback flags"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound File : Can't set callback flags"));
 		}
 		if((*mPlayer)->RegisterCallback(mPlayer,MusicStoppedCallback,this)!=SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Can't set callback"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound File : Can't set callback"));
 		}
 #endif
 	}
@@ -135,7 +135,7 @@ namespace star
 				mPlayerObj = NULL;
 				mPlayer = NULL;
 				mPlayerSeek = NULL;
-				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("AudioFile : Soundfile Destroyed"));
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound File : Soundfile Destroyed"));
 			}
 		}
 #endif
@@ -144,7 +144,7 @@ namespace star
 	void SoundFile::Play(int32 looptimes)
 	{
 		mLoopTimes = looptimes;
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("AudioFile : Playing File , Looptimes = ")+ star::string_cast<tstring>(mLoopTimes));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Sound File : Playing File , Looptimes = ")+ star::string_cast<tstring>(mLoopTimes));
 #ifdef _WIN32
 		Mix_HookMusicFinished(NULL);
 		Mix_PlayMusic(mMusic, mLoopTimes);
@@ -155,7 +155,7 @@ namespace star
 			lRes = (*mPlayerSeek)->SetLoop(mPlayerSeek,SL_BOOLEAN_TRUE, 0, SL_TIME_UNKNOWN);
 			if (lRes != SL_RESULT_SUCCESS)
 			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't set audio loop"));
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound File : Can't set audio loop"));
 				Stop();
 				return;
 			}
@@ -164,7 +164,7 @@ namespace star
 		lRes = (*mPlayer)->SetPlayState(mPlayer,SL_PLAYSTATE_PLAYING);
 		if (lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't play audio"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound File : Can't play audio"));
 			Stop();
 			return;
 		};
@@ -230,7 +230,7 @@ namespace star
 	{
 		SoundFile* file = reinterpret_cast<SoundFile*>(pContext);
 
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("AudioFile : Callback Entered, Looptimes = ")+star::string_cast<tstring>(file->mLoopTimes));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Sound File : Callback Entered, Looptimes = ")+star::string_cast<tstring>(file->mLoopTimes));
 		if(file->mLoopTimes==0)
 		{
 			SLPlayItf pPlay = file->mPlayer;

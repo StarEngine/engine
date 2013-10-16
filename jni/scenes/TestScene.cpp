@@ -87,7 +87,11 @@ status TestScene::Initialize( const star::Context& context)
 
 	AddObject(m_pObjectOne);
 	AddObject(m_pObjectTwo); 
-
+#ifdef _WIN32
+	star::FontManager::GetInstance()->LoadFont(_T("arial.ttf"),_T("Arial"),50);
+	star::FontManager::GetInstance()->LoadFont(_T("tf2professor.ttf"),_T("Professor"),50);
+	star::FontManager::GetInstance()->LoadFont(_T("Coalition_v2.ttf"),_T("Coalition"),50);
+#endif
 	return STATUS_OK;
 	}
 
@@ -156,5 +160,12 @@ status TestScene::Initialize( const star::Context& context)
 
 status TestScene::Draw()
 {
+	// Blue text
+#ifdef _WIN32
+
+	star::FontManager::GetInstance()->DrawTextW(_T("TeXt Dr@WtE$T v.1"),_T("Arial"),ivec2(-500,200));
+	star::FontManager::GetInstance()->DrawTextW(_T("TeXt Dr@WtE$T v.1"),_T("Professor"),ivec2(-500,00));
+	star::FontManager::GetInstance()->DrawTextW(_T("TeXt Dr@WtE$T v.1"),_T("Coalition"),ivec2(-500,-200));
+#endif
 	return STATUS_OK;
 }
