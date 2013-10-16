@@ -52,8 +52,8 @@ namespace star
 		Filepath texshaderVertex(_T("WinShaders/"), _T("Texture_Batch_Shader.vert"));
 		Filepath texshaderFrag(_T("WinShaders/"), _T("Texture_Batch_Shader.frag"));
 #else
-		Filepath texshaderVertex(_T("AndroidShaders/"), _T("BaseTexShader.vert"));
-		Filepath texshaderFrag(_T("AndroidShaders/"), _T("BaseTexShader.frag"));
+		Filepath texshaderVertex(_T("AndroidShaders/"), _T("BatchTexShader.vert"));
+		Filepath texshaderFrag(_T("AndroidShaders/"), _T("BatchTexShader.frag"));
 
 #endif
 		if(!m_Shader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
