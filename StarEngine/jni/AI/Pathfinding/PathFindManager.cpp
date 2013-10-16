@@ -35,6 +35,9 @@ namespace star
 		}
 		m_OpenList.clear();
 
+		delete m_pEndCell;
+		m_pEndCell = nullptr;
+
 		for(auto cell : m_VisitedList)
 		{
 			delete cell;
@@ -78,13 +81,13 @@ namespace star
 			pos pos = object->GetTransform()->GetWorldPosition();
 			m_PositionList.push_back(pos);
 		}
-
+		
 		//Check if the startpos or the targetpos are accessible
 		if(find(m_PositionList.begin(), m_PositionList.end(), currentPos) == m_PositionList.end())
 		{
 			return;
 		}
-
+		
 		//if not initialized, clear everything and initialize
 		if(!m_bInitializedStartGoal)
 		{
@@ -101,7 +104,7 @@ namespace star
 			m_OpenList.clear();
 			m_VisitedList.clear();
 			m_PathToGoal.clear();
-
+			
 			//Initialize start
 			SearchCell start;
 			start.X = static_cast<int>(currentPos.x);
@@ -390,6 +393,7 @@ namespace star
 #endif
 				m_PathToGoal.push_back(temp);
 			}
+			
 			tstringstream str;
 			for(auto element : m_PathToGoal)
 			{
@@ -427,11 +431,12 @@ namespace star
 			//right-down diagonal	  								
 			PathOpened(currentCell->X + STEP_SIZE, currentCell->Y - STEP_SIZE, currentCell->G + 1.414f,
 				currentCell, Direction::GoingDownRight);
-
+			
 			for (uint16 i = 0 ; i < m_OpenList.size() ; ++i)
 			{
 				if (currentCell->Id == m_OpenList[i]->Id)
 				{
+					//[COMMENT] Meory leak starting here
 					m_OpenList.erase(m_OpenList.begin() + i);
 				}
 			}

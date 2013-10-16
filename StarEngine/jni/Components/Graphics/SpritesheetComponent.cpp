@@ -19,7 +19,7 @@ namespace star
 
 	SpritesheetComponent::~SpritesheetComponent()
 	{
-
+		m_Animations.clear();
 	}
 
 	void SpritesheetComponent::Update(const Context& context)
@@ -40,7 +40,6 @@ namespace star
 			m_UvCoords[7] = uvInfo.y;
 
 		}
-
 		SpriteComponent::Update(context);
 	}
 
@@ -163,7 +162,6 @@ namespace star
 	void SpritesheetComponent::InitializeComponent()
 	{
 		SetSpritesheet(m_SpritesheetName);
-
 		SpriteComponent::InitializeComponent();
 	}
 }

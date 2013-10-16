@@ -12,16 +12,12 @@ namespace star
 	std::shared_ptr<TextureManager> TextureManager::mTextureManager = nullptr;
 	TextureManager::~TextureManager()
 	{
-		for(auto texture : mTextureList)
-		{
-			delete texture.second;
-		}
-		mTextureList.clear();
+		mTextureMap.clear();
 		mPathList.clear();
 	}
 
 	TextureManager::TextureManager(void)
-		: mTextureList()
+		: mTextureMap()
 		, mPathList()
 	{
 
@@ -50,18 +46,17 @@ namespace star
 			return (false);
 		}*/
 
-		if(mTextureList.find(name) != mTextureList.end())
+		if(mTextureMap.find(name) != mTextureMap.end())
 		{
 			return (false);
 		}
 
 #ifdef _WIN32
-
-		Texture2D* temp = new Texture2D(path);
+		mTextureMap[name] = std::shared_ptr<Texture2D>(new Texture2D(path));
 #else
-		Texture2D* temp = new Texture2D(path, star::StarEngine::GetInstance()->GetAndroidApp());
+		mTextureMap[name] = std::shared_ptr<Texture2D>(new Texture2D(path, star::StarEngine::GetInstance()->GetAndroidApp()));
 #endif
-		mTextureList[name] = temp;
+		
 		// [COMMENT] Remove commented Code! Ty...
 		//mPathList.push_back(path);
 
@@ -70,11 +65,10 @@ namespace star
 
 	bool TextureManager::DeleteTexture(const tstring& name)
 	{
-		auto it = mTextureList.find(name);
-		if(it != mTextureList.end())
+		auto it = mTextureMap.find(name);
+		if(it != mTextureMap.end())
 		{
-			delete it->second;
-			mTextureList.erase(it);
+			mTextureMap.erase(it);
 			return (true);
 		}
 		return (false);
@@ -90,9 +84,9 @@ namespace star
 		//	return 0;
 		//}
 
-		if(mTextureList.find(name) != mTextureList.end())
+		if(mTextureMap.find(name) != mTextureMap.end())
 		{
-			return mTextureList[name]->GetTextureID();
+			return mTextureMap[name]->GetTextureID();
 		}
 		return 0;
 	}
@@ -103,22 +97,17 @@ namespace star
 	//	 2) You can see it in your code...
 	ivec2 TextureManager::GetTextureDimensions(const tstring& name)
 	{
-		auto it = mTextureList.find(name);
-		if(it != mTextureList.end())
+		auto it = mTextureMap.find(name);
+		if(it != mTextureMap.end())
 		{
 			return (ivec2(it->second->GetWidth(), it->second->GetHeight()));
 		}
 		return ivec2(0,0);
 	}
 
-	void TextureManager::EraseTextures()
+	void TextureManager::EraseAllTextures()
 	{
-		 auto iter = mTextureList.begin();
-		 for(iter; iter != mTextureList.end(); ++iter)
-		 {
-			 delete iter->second;
-		 }
-		 mTextureList.clear();
+		 mTextureMap.clear();
 		 mPathList.clear();
 	}
 }

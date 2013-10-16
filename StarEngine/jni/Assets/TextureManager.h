@@ -28,12 +28,12 @@ namespace star
 		bool DeleteTexture(const tstring& name);
 		GLuint GetTextureID(const tstring& name);
 		ivec2 GetTextureDimensions(const tstring& name);
-		void EraseTextures();
+		void EraseAllTextures();
 
 	private:
 		//Data Members
 		static std::shared_ptr<TextureManager> mTextureManager;
-		std::map<tstring, Texture2D*> mTextureList;
+		std::map<tstring, std::shared_ptr<Texture2D> > mTextureMap;
 		// [COMMENT] if you don't use this anymore, why do you still have it 
 		// then as a variable? Takes memory for nothing imho
 		std::vector<tstring> mPathList;

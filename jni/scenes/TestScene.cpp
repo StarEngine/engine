@@ -51,9 +51,8 @@ TestScene::~TestScene()
 
 status TestScene::Initialize( const star::Context& context)
 {
-
 	m_TapGesture = new star::DoubleTapGesture();
-	m_GestureManagerPtr->AddGesture(m_TapGesture);
+	m_GestureManagerPtr->AddGesture(m_TapGesture, _T("DoubleTapGesture"));
 
 	m_pObjectOne = new star::Object();
 	m_pRectCompOne = new star::RectangleColliderComponent(200,215);
@@ -65,7 +64,7 @@ status TestScene::Initialize( const star::Context& context)
 
 	m_pObjectTwo = new star::Object();
 	m_pRectCompTwo = new star::RectangleColliderComponent(200,215);
-	m_pSpriteComp2 = new star::SpriteComponent(_T("pikachu.png"),_T("Awesome"));
+	m_pSpriteComp2 = new star::SpriteComponent(_T("pikachu.png"),_T("Pikachu"));
 	m_pObjectTwo->AddComponent(m_pRectCompTwo);
 	m_pObjectTwo->AddComponent(m_pSpriteComp2);
 	m_pObjectTwo->GetTransform()->Translate(400,0);
@@ -99,7 +98,7 @@ status TestScene::Initialize( const star::Context& context)
 		{
 			m_pActiveCamera->GetComponent<star::CameraComponent>()->SetActive();
 		}
-
+		
 		if(m_TapGesture->CompletedGesture())
 		{
 			LOGGER->Log(star::LogLevel::Info, _T("Tapped!"));
