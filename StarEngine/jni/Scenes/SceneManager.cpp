@@ -6,7 +6,7 @@
 #include "../Graphics/GraphicsManager.h"
 #include "../Assets/TextureManager.h"
 #include "../Sound/SoundService.h"
-#include "SpriteBatch.h"
+#include "../Graphics/SpriteBatch.h"
 
 #define INPUT_MANAGER (InputManager::GetInstance())
 

@@ -2,8 +2,8 @@
 #include <vector>
 #include "../defines.h"
 #include <memory>
-#include "../Shaders/Shader.h"
-#include "../Components/SpriteComponent.h"
+#include "Shader.h"
+#include "../Components/Graphics/SpriteComponent.h"
 
 namespace star
 {

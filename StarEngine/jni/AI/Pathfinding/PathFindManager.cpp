@@ -12,6 +12,11 @@ namespace star
 #endif
 	std::shared_ptr<PathFindManager> PathFindManager::m_pPathFindManager = nullptr;
 
+	bool idCheckerCompare(int leftId, int rightId) 
+	{
+		return (leftId == rightId);
+	}
+
 	PathFindManager::PathFindManager(void):
 		m_ObjectList(),
 		m_PositionList(),
@@ -30,8 +35,6 @@ namespace star
 		for(auto cell : m_OpenList)
 		{
 			delete cell;
-			// [comment] assignment to null is useless in this scenario
-			cell = nullptr;
 		}
 		m_OpenList.clear();
 
@@ -41,8 +44,6 @@ namespace star
 		for(auto cell : m_VisitedList)
 		{
 			delete cell;
-			// [comment] assignment to null is useless in this scenario
-			cell = nullptr;
 		}
 		m_VisitedList.clear();
 
@@ -434,11 +435,17 @@ namespace star
 			
 			for (uint16 i = 0 ; i < m_OpenList.size() ; ++i)
 			{
-				if (currentCell->Id == m_OpenList[i]->Id)
-				{
-					//[COMMENT] Meory leak starting here
-					m_OpenList.erase(m_OpenList.begin() + i);
-				}
+				int id = m_OpenList[i]->Id;
+				m_OpenList.erase(std::remove_if(m_OpenList.begin(), m_OpenList.end(),
+					[&id](SearchCell * currentCell)
+					{
+						if(currentCell->Id == id)
+						{
+							delete currentCell;
+							return true;
+						}
+						return false;
+					}), m_OpenList.end());
 			}
 		}
 	}

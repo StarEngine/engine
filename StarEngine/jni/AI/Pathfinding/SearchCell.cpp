@@ -22,6 +22,10 @@ namespace star
 		H(0)
 	{
 	}
+	
+	SearchCell::~SearchCell()
+	{
+	}
 
 	float SearchCell::GetF() const
 	{

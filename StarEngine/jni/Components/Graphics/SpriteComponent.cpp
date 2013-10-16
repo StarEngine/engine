@@ -6,7 +6,7 @@
 #include "../../Objects/FreeCamera.h"
 #include "../CameraComponent.h"
 #include "../../Objects/Object.h"
-#include "../SceneManaging/SpriteBatch.h"
+#include "../../Graphics/SpriteBatch.h"
 
 namespace star
 {
@@ -79,42 +79,7 @@ namespace star
 
 	void SpriteComponent::Draw()
 	{
-		//m_Shader.Bind();
-		//
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(m_SpriteName));
-		//GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
-		//glUniform1i(s_textureId, 0);
-		//
-		////Set attributes and buffers
-		//glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, m_Vertices);
-		//glEnableVertexAttribArray(ATTRIB_VERTEX);
-		//glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, m_UvCoords);
-		//glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
-		//
-		//uint32 width = GraphicsManager::GetInstance()->GetWindowWidth();
-		//uint32 height = GraphicsManager::GetInstance()->GetWindowHeight();
-		//auto projectionObject = m_pParentObject->GetScene()->GetActiveCamera();
-		//mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
-		//
-		//glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Projection"),1,GL_FALSE,glm::value_ptr(projection));
-		//mat4x4 world = GetTransform()->GetWorldMatrix();
-		//mat4x4 worldInverse = InverseMatrix(world);
-		//glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Translation"),1,GL_FALSE,glm::value_ptr(worldInverse));
-		//
-		//glDrawArrays(GL_TRIANGLE_STRIP,0,4);
-		//
-		////Unbind attributes and buffers
-		//glDisableVertexAttribArray(ATTRIB_VERTEX);
-		//glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
-		//
-		//m_Shader.Unbind();
-
 		SpriteBatch::GetInstance()->AddSpriteToQueue(this);
-	}
-	
-	void SpriteComponent::Update(const Context& context)
-	{
 	}
 
 	mat4x4 SpriteComponent::InverseMatrix(const mat4x4& matrix)

@@ -1,11 +1,11 @@
 #include "SpriteBatch.h"
-#include "../SceneGraph/Object.h"
+#include "../Objects/Object.h"
 #include "../StarComponents.h"
-#include "../SceneManaging/SceneManager.h"
-#include "../GraphicsManager.h"
+#include "../Scenes/SceneManager.h"
+#include "GraphicsManager.h"
 #include "../Components/CameraComponent.h"
 #include "../Objects/FreeCamera.h"
-#include "../SceneManaging/BaseScene.h"
+#include "../Scenes/BaseScene.h"
 #include <algorithm>
 
 namespace star

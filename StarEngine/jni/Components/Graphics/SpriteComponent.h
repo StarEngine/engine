@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../defines.h"
-#include "../Shaders/Shader.h"
-#include "BaseComponent.h"
-#include "../Helpers/Filepath.h"
+#include "../../defines.h"
+#include "../../Graphics/Shader.h"
+#include "../BaseComponent.h"
+#include "../../Helpers/Filepath.h"
 #include <vector>
 #ifdef _WIN32
 #else

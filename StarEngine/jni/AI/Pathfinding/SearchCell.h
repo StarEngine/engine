@@ -12,6 +12,7 @@ namespace star
 
 		SearchCell();
 		SearchCell(int x, int y, SearchCell *parent);
+		~SearchCell();
 		float GetF() const;
 		float ManhattanDistance(SearchCell *nodeEnd);
 	};
