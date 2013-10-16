@@ -43,6 +43,8 @@ namespace star
 
 		void SetResolution(int width, int height);
 
+		void ForceTimerCalculation();
+
 	private:
 		Window();
 

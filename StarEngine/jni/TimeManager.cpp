@@ -1,4 +1,6 @@
 #include "TimeManager.h"
+#include "Logger.h"
+#include "Helpers\Helpers.h"
 
 namespace star
 {
@@ -36,6 +38,7 @@ namespace star
 #ifdef _WIN32
 		QueryPerformanceCounter(&mF2);
 		QueryPerformanceFrequency(&mFrequency);
+
 		mDeltauS = (mF2.QuadPart - mF1.QuadPart) * MICROMULTIPLIER / mFrequency.QuadPart;
 		mDeltaMs = (mF2.QuadPart - mF1.QuadPart) * MILLIMULTIPLIER / mFrequency.QuadPart;
 		mDeltaS	 = (mF2.QuadPart - mF1.QuadPart) * SECONDMULTIPLIER / mFrequency.QuadPart;

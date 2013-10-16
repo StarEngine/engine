@@ -292,6 +292,7 @@ namespace star
 				if(m_IsActive)
 				{
 					mGamePtr->Update(mContext);
+					
 					SetWindowsTitle();
 				}
 
@@ -491,6 +492,12 @@ namespace star
 		ShowWindow(mHandle, SW_RESTORE);
 	}
 
+	void Window::ForceTimerCalculation()
+	{
+		mTimeManager->StartMonitoring();
+		mTimeManager->StopMonitoring();
+	}
+
 	void Window::SetWindowsTitle() const
 	{
 		if (StarEngine::GetInstance()->HasTitleUpdated())
@@ -540,6 +547,13 @@ namespace star
 			case WM_DESTROY:
 				PostQuitMessage(0);
 				return 1;
+			case WM_ENTERSIZEMOVE:
+				Window::GetInstance()->SetWindowActive(false);
+				break;
+			case WM_EXITSIZEMOVE:
+				Window::GetInstance()->SetWindowActive(true);
+				Window::GetInstance()->ForceTimerCalculation();
+				break;
 			case WM_KILLFOCUS:
 				Window::GetInstance()->WindowInactiveUpdate(true);
 				break;
