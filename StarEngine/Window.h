@@ -80,6 +80,9 @@ namespace star
 		RECT mClipRect;
 		tstring mAssetsRoot;
 
+		HANDLE m_hKeybThread;
+		DWORD m_dKeybThreadID;
+
 		static LRESULT CALLBACK wEventsProc(HWND handle, UINT msg, WPARAM wParam, LPARAM lParam);
 
 		static const uint32 CLASS_STYLES_COUNT = 5;
@@ -99,4 +102,6 @@ namespace star
 
 	void UpdateWindowClipping(HWND hWnd);
 }
+
+DWORD WINAPI KeybThreadProc ();
 #endif

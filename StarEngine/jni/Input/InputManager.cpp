@@ -61,7 +61,7 @@ namespace star
 
 	InputManager::InputManager(void)
 	#ifdef _WIN32
-		: m_ThreadAvailable(true)
+		: m_ThreadAvailable(false)
 		, m_pCurrKeyboardState(nullptr)
 		, m_pOldKeyboardState(nullptr)
 		, m_pKeyboardState0(nullptr)
@@ -334,154 +334,166 @@ namespace star
 		}
 	}
 	
-	void InputManager::UpdateWin()
+	DWORD InputManager::UpdateWin()
 	{
-		m_ThreadAvailable = false;
-
-		UpdateKeyboardStates();
-		UpdateGamepadStates();
-
-		//Reset previous InputAction States
-		for(auto elem : m_InputActions)
+		while(m_ThreadAvailable)
 		{
-			auto currAction = &(elem.second);
-			//Reset the previous state before updating/checking the new state
-			currAction->IsTriggered = false;
 
-			switch(currAction->TriggerState)
+			UpdateKeyboardStates();
+			UpdateGamepadStates();
+
+			//Reset previous InputAction States
+			for(auto elem : m_InputActions)
 			{
-				//if the input wasnt down last frame, but it is now, it is pressed
-			case InputTriggerState::Pressed:
-				//KEYBOARD
-				if(	currAction->KeyboardCode > MIN_KEYBOARD_VALUE && 
-					currAction->KeyboardCode <= MAX_KEYBOARD_VALUE)
-				{
-					if(!IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) && 
-						IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
-					{
-						currAction->IsTriggered = true;
-					}
-				}
+				auto currAction = &(elem.second);
+				//Reset the previous state before updating/checking the new state
+				currAction->IsTriggered = false;
 
-				//MOUSE
-				if(!currAction->IsTriggered &&
-					currAction->MouseButtonCode > MIN_MOUSE_BUTTON_VALUE &&
-					currAction->MouseButtonCode <= MAX_MOUSE_BUTTON_VALUE)
+				switch(currAction->TriggerState)
 				{
-					if(!IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) &&
-						IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
+					//if the input wasnt down last frame, but it is now, it is pressed
+				case InputTriggerState::Pressed:
+					//KEYBOARD
+					if(	currAction->KeyboardCode > MIN_KEYBOARD_VALUE && 
+						currAction->KeyboardCode <= MAX_KEYBOARD_VALUE)
 					{
-						currAction->IsTriggered = true;
-						Logger::GetInstance()->Log(LogLevel::Info, 
-							_T("Clicked mouse button."));
-					}
-				}
-
-				//GAMEPADS
-				if(!currAction->IsTriggered && currAction->GamepadButtonCode != 0)
-					if(!IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) &&
-						IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
-					{
-						currAction->IsTriggered = true;
+						if(!IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) && 
+							IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
+						{
+							currAction->IsTriggered = true;
+						}
 					}
 
-				break;
+					//MOUSE
+					if(!currAction->IsTriggered &&
+						currAction->MouseButtonCode > MIN_MOUSE_BUTTON_VALUE &&
+						currAction->MouseButtonCode <= MAX_MOUSE_BUTTON_VALUE)
+					{
+						if(!IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) &&
+							IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
+						{
+							currAction->IsTriggered = true;
+							Logger::GetInstance()->Log(LogLevel::Info, 
+								_T("Clicked mouse button."));
+						}
+					}
 
-				//if the input was down last frame, and is down now, it is down.
-			case InputTriggerState::Down:
-				//KEYBOARD
-				if(currAction->KeyboardCode > MIN_KEYBOARD_VALUE && 
-					currAction->KeyboardCode <= MAX_KEYBOARD_VALUE)
-				{
-					if(IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) &&
-						IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
-					{
-						currAction->IsTriggered = true;
-					}
-				}
+					//GAMEPADS
+					if(!currAction->IsTriggered && currAction->GamepadButtonCode != 0)
+						if(!IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) &&
+							IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
+						{
+							currAction->IsTriggered = true;
+						}
 
-				//MOUSE
-				if(!currAction->IsTriggered &&
-					currAction->MouseButtonCode > MIN_MOUSE_BUTTON_VALUE &&
-					currAction->MouseButtonCode <= MAX_MOUSE_BUTTON_VALUE)
-				{
-					if(	IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) &&
-						IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
-					{
-						currAction->IsTriggered = true;
-					}
-				}
-				//GAMEPADS
-				if(!currAction->IsTriggered && currAction->GamepadButtonCode != 0)
-				{
-					if(	IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) &&
-						IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
-					{
-						currAction->IsTriggered = true;
-					}
-				}
-				break;
+					break;
 
-				//If the input was down last frame, but isn't down anymore, it was released.
-			case InputTriggerState::Released:
-				//KEYBOARD
-				if(	currAction->KeyboardCode > MIN_KEYBOARD_VALUE &&
-					currAction->KeyboardCode <= MAX_KEYBOARD_VALUE)
-				{
-					if(	IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) && 
-						!IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
+					//if the input was down last frame, and is down now, it is down.
+				case InputTriggerState::Down:
+					//KEYBOARD
+					if(currAction->KeyboardCode > MIN_KEYBOARD_VALUE && 
+						currAction->KeyboardCode <= MAX_KEYBOARD_VALUE)
 					{
-						currAction->IsTriggered = true;
+						if(IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) &&
+							IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
+						{
+							currAction->IsTriggered = true;
+						}
 					}
-				}
 
-				//MOUSE
-				if(!currAction->IsTriggered && 
-					currAction->MouseButtonCode > MIN_MOUSE_BUTTON_VALUE && 
-					currAction->MouseButtonCode <= MAX_MOUSE_BUTTON_VALUE)
-				{
-					if(	IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) && 
-						!IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
+					//MOUSE
+					if(!currAction->IsTriggered &&
+						currAction->MouseButtonCode > MIN_MOUSE_BUTTON_VALUE &&
+						currAction->MouseButtonCode <= MAX_MOUSE_BUTTON_VALUE)
 					{
-						currAction->IsTriggered = true;
+						if(	IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) &&
+							IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
+						{
+							currAction->IsTriggered = true;
+						}
 					}
-				}
+					//GAMEPADS
+					if(!currAction->IsTriggered && currAction->GamepadButtonCode != 0)
+					{
+						if(	IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) &&
+							IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
+						{
+							currAction->IsTriggered = true;
+						}
+					}
+					break;
 
-				//GAMEPADS
-				if(!currAction->IsTriggered && 
-					currAction->GamepadButtonCode > MIN_GAMEPAD_VALUE && 
-					currAction->GamepadButtonCode <= MAX_GAMEPAD_VALUE)
-				{
-					if(	IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) && 
-						!IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
+					//If the input was down last frame, but isn't down anymore, it was released.
+				case InputTriggerState::Released:
+					//KEYBOARD
+					if(	currAction->KeyboardCode > MIN_KEYBOARD_VALUE &&
+						currAction->KeyboardCode <= MAX_KEYBOARD_VALUE)
 					{
-						currAction->IsTriggered = true;
+						if(	IsKeyboardKeyDown_unsafe(currAction->KeyboardCode,true) && 
+							!IsKeyboardKeyDown_unsafe(currAction->KeyboardCode))
+						{
+							currAction->IsTriggered = true;
+						}
 					}
+
+					//MOUSE
+					if(!currAction->IsTriggered && 
+						currAction->MouseButtonCode > MIN_MOUSE_BUTTON_VALUE && 
+						currAction->MouseButtonCode <= MAX_MOUSE_BUTTON_VALUE)
+					{
+						if(	IsMouseButtonDown_unsafe(currAction->MouseButtonCode,true) && 
+							!IsMouseButtonDown_unsafe(currAction->MouseButtonCode))
+						{
+							currAction->IsTriggered = true;
+						}
+					}
+
+					//GAMEPADS
+					if(!currAction->IsTriggered && 
+						currAction->GamepadButtonCode > MIN_GAMEPAD_VALUE && 
+						currAction->GamepadButtonCode <= MAX_GAMEPAD_VALUE)
+					{
+						if(	IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) && 
+							!IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
+						{
+							currAction->IsTriggered = true;
+						}
+					}
+					break;
 				}
-				break;
 			}
+
+			//Mouse Position
+			m_OldMousePosition = m_CurrMousePosition;
+			POINT mousePos;
+			if(GetCursorPos(&mousePos))
+			{
+				ScreenToClient(mWindowsHandle,&mousePos);
+			}
+			//[TODO] Change to %
+			m_CurrMousePosition = vec2(mousePos.x , /*(float)GraphicsManager::GetInstance()->GetWindowHeight() - */mousePos.y);
+			/*tstringstream buffer;
+			buffer << _T("Current Mouse Pos: ") << _T("( ") << m_CurrMousePosition.x << _T(" , ") << m_CurrMousePosition.y << _T(" )");
+			Logger::GetInstance()->Log(LogLevel::Info, buffer.str());*/
+			m_MouseMovement.x = m_CurrMousePosition.x - m_OldMousePosition.x;
+			m_MouseMovement.y = m_CurrMousePosition.y - m_OldMousePosition.y;
+
+			m_GestureManager->OnUpdateWinInputState();
+
+			Sleep(1000/60);
 		}
-
-		//Mouse Position
-		m_OldMousePosition = m_CurrMousePosition;
-		POINT mousePos;
-		if(GetCursorPos(&mousePos))
-		{
-			ScreenToClient(mWindowsHandle,&mousePos);
-		}
-		//[TODO] Change to %
-		m_CurrMousePosition = vec2(mousePos.x , /*(float)GraphicsManager::GetInstance()->GetWindowHeight() - */mousePos.y);
-		/*tstringstream buffer;
-		buffer << _T("Current Mouse Pos: ") << _T("( ") << m_CurrMousePosition.x << _T(" , ") << m_CurrMousePosition.y << _T(" )");
-		Logger::GetInstance()->Log(LogLevel::Info, buffer.str());*/
-		m_MouseMovement.x = m_CurrMousePosition.x - m_OldMousePosition.x;
-		m_MouseMovement.y = m_CurrMousePosition.y - m_OldMousePosition.y;
-
-		m_GestureManager->OnUpdateWinInputState();
-
-		m_ThreadAvailable = true;
+		return 0;
 	}
 	
+	void InputManager::StartKeyboardThread()
+	{
+		m_ThreadAvailable = true;
+	}
+
+	void InputManager::StopKeyboardThread()
+	{
+		m_ThreadAvailable = false;
+	}
 	vec2 InputManager::GetThumbstickPosition
 				(bool leftThumbstick, GamepadIndex playerIndex) const
 	{
@@ -756,19 +768,6 @@ namespace star
 		return (FingerPointerANDR());
 	}
 #endif
-
-	void InputManager::Update()
-	{
-	#ifdef _WIN32
-	/*	if(m_ThreadAvailable)
-		{
-			std::async(std::launch::async, [&] () 
-			{*/
-				UpdateWin();
-			/*});
-		}*/
-	#endif
-	}
 
 	bool InputManager::IsFingerTapCP(uint8 fingerIndex) const
 	{
