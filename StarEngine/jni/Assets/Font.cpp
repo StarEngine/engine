@@ -7,9 +7,9 @@ namespace star
 
 	bool Font::Init(const tstring& path, int32 size, FT_Library& library )
 	{
-		mSize = size;
+		mSize = static_cast<float>(size);
 		mTextures = new GLuint[FONT_TEXTURES];
-
+		mMaxLetterHeight=0;
 		//Convert from wstring to const char* trough std::string
 		std::string font_path = string_cast<std::string>(path);
 		auto error = FT_New_Face(library,font_path.c_str(),0,&mFace);
@@ -35,7 +35,7 @@ namespace star
 		}
 
 		FT_Done_Face(mFace);
-
+		return true;
 	}
 
 	void Font::DeleteFont()
@@ -51,7 +51,7 @@ namespace star
 		FT_UInt glyph_index;
 		glyph_index = FT_Get_Char_Index(face,ch );
 
-		auto error = FT_Load_Glyph(face, glyph_index, FT_LOAD_DEFAULT);
+		auto error = FT_Load_Char(face, ch, FT_LOAD_DEFAULT);
 		if(error)
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error,_T("Font : could not load Glyph"));
@@ -89,6 +89,14 @@ namespace star
 		glBindTexture(GL_TEXTURE_2D,tex_base[ch]);
 		float x=static_cast<float>(bitmap.width) / static_cast<float>(width);
 		float y=static_cast<float>(bitmap.rows) / static_cast<float>(height);
+		int dimx = (face->glyph->metrics.horiAdvance/64);
+		int dimy = ((face->glyph->metrics.horiBearingY)-(face->glyph->metrics.height))/64;
+		ivec2 tempdim(dimx,dimy);
+		if(mMaxLetterHeight<face->glyph->bitmap_top)mMaxLetterHeight=face->glyph->bitmap_top;
+		//ivec2 tempdim(width,height);
+		mLetterSizeList.push_back(tempdim);
+
+		
 
 		fontVertices tempVertices;
 		tempVertices.ver[0] = (GLfloat)bitmap.width;

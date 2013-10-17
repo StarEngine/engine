@@ -41,8 +41,10 @@ namespace star
 		GLuint GetListBase()const {return mList_base;}
 		GLuint* GetTextures()const {return mTextures;}
 		float GetSize()const {return mSize;}
-		std::vector< fontUvCoords > getUvCoords()const {return mUVcoordsList;}
-		std::vector< fontVertices > getVetrices()const {return mVecticesList;}
+		const std::vector<fontUvCoords>& getUvCoords()const {return mUVcoordsList;}
+		const std::vector<fontVertices>& getVetrices()const {return mVecticesList;}
+		const std::vector<ivec2>& GetLetterDimensions() const {return mLetterSizeList;}
+		const int& GetMaxLetterHeight() const {return mMaxLetterHeight;}
 
 	private:
 		void Make_D_List(FT_Face face, char ch, GLuint list_base, GLuint * tex_base);
@@ -51,10 +53,11 @@ namespace star
 		FT_Face mFace;
 		GLuint* mTextures;
 		GLuint mList_base;
+		int mMaxLetterHeight;
 
 		std::vector< fontUvCoords > mUVcoordsList;
 		std::vector< fontVertices > mVecticesList;
-
+		std::vector< ivec2 > mLetterSizeList;
 		float mSize;
 	};
 
