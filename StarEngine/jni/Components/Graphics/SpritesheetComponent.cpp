@@ -1,8 +1,6 @@
 #include "SpritesheetComponent.h"
 #include "../../Graphics/SpriteAnimationManager.h"
-#ifdef _DEBUG
 #include "../../Logger.h"
-#endif
 
 namespace star
 {
@@ -161,12 +159,22 @@ namespace star
 
 	int SpritesheetComponent::GetFramesHorizontal() const
 	{
-		return m_Spritesheet.GetFramesHorizontal();
+		int nrOfFrames = m_Spritesheet.GetFramesHorizontal();
+		if(nrOfFrames == 0)
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning, _T("GetFramesHorizontal() -- nrOfFrames = 0!"));
+		}
+		return nrOfFrames;
 	}
 
 	int SpritesheetComponent::GetFramesVertical() const
 	{
-		return m_Spritesheet.GetFramesVertical();
+		int nrOfFrames = m_Spritesheet.GetFramesVertical();
+		if(nrOfFrames == 0)
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning, _T("GetFramesVertical() -- nrOfFrames = 0!"));
+		}
+		return nrOfFrames;
 	}
 
 	void SpritesheetComponent::InitializeComponent()
@@ -177,14 +185,14 @@ namespace star
 
 	void SpritesheetComponent::CreateVertices()
 	{
-		m_Vertices[0] = (GLfloat)m_Width;
-		m_Vertices[1] = (GLfloat)m_Heigth;
+		m_Vertices[0] = (GLfloat)m_Width / GetFramesHorizontal();
+		m_Vertices[1] = (GLfloat)m_Heigth / GetFramesVertical();
 		m_Vertices[2] = 0;
-		m_Vertices[3] = (GLfloat)m_Width;
+		m_Vertices[3] = (GLfloat)m_Width / GetFramesHorizontal();
 		m_Vertices[4] = 0;
 		m_Vertices[5] = 0;
 		m_Vertices[6] = 0;
-		m_Vertices[7] = (GLfloat)m_Heigth;
+		m_Vertices[7] = (GLfloat)m_Heigth / GetFramesVertical();
 		m_Vertices[8] = 0;
 		m_Vertices[9] = 0;
 		m_Vertices[10] = 0;

@@ -18,6 +18,8 @@ namespace star
 		: Dictionary<tstring, SpriteAnimation>()
 		, m_Name(EMPTY_STRING)
 		, m_DefaultAnimation(EMPTY_STRING)
+		, m_FramesHorizontal(0)
+		, m_FramesVertical(0)
 	{
 		auto attributes = spritesheet.GetAttributes();
 		m_Name = attributes[_T("name")];
@@ -57,6 +59,8 @@ namespace star
 		: Dictionary<tstring, SpriteAnimation>(yRef)
 		, m_Name(yRef.m_Name)
 		, m_DefaultAnimation(yRef.m_DefaultAnimation)
+		, m_FramesHorizontal(yRef.m_FramesHorizontal)
+		, m_FramesVertical(yRef.m_FramesVertical)
 	{
 
 	}
@@ -65,6 +69,8 @@ namespace star
 		: Dictionary<tstring, SpriteAnimation>(yRef)
 		, m_Name(yRef.m_Name)
 		, m_DefaultAnimation(yRef.m_DefaultAnimation)
+		, m_FramesHorizontal(yRef.m_FramesHorizontal)
+		, m_FramesVertical(yRef.m_FramesVertical)
 	{
 
 	}
@@ -73,6 +79,8 @@ namespace star
 		: Dictionary<tstring, SpriteAnimation>(begin, end)
 		, m_Name(EMPTY_STRING)
 		, m_DefaultAnimation(EMPTY_STRING)
+		, m_FramesHorizontal(0)
+		, m_FramesVertical(0)
 	{
 
 	}
@@ -87,6 +95,8 @@ namespace star
 		Dictionary<tstring, SpriteAnimation>::operator=(yRef);
 		m_Name = yRef.m_Name;
 		m_DefaultAnimation = yRef.m_DefaultAnimation;
+		m_FramesHorizontal = yRef.m_FramesHorizontal;
+		m_FramesVertical = yRef.m_FramesVertical;
 
 		return *this;
 	}
