@@ -2,6 +2,7 @@
 
 #ifdef _WIN32
 
+#include <memory>
 #include <map>
 #include <vector>
 #include "../defines.h"
@@ -27,7 +28,7 @@ namespace star
 	public:
 		~FontManager(void) {}
 
-		static FontManager* GetInstance();
+		static std::shared_ptr<FontManager> GetInstance();
 
 		bool LoadFont(const tstring& path, const tstring& name, int32 size);
 		bool DeleteFont(const tstring& name);
@@ -36,7 +37,7 @@ namespace star
 
 	private:
 		//Data Members
-		static FontManager* mFontManager;
+		static std::shared_ptr<FontManager> mFontManager;
 
 		FT_Library mLibrary;
 

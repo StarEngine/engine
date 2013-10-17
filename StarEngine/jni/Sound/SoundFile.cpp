@@ -3,6 +3,7 @@
 #include "../Logger.h"
 #include "../Assets/Resource.h"
 #include "../Helpers/Helpers.h"
+#include "../Helpers/Filepath.h"
 
 #ifndef _WIN32
 #include "../StarEngine.h"
@@ -26,7 +27,8 @@ namespace star
 #ifdef _WIN32
 		if(mMusic == NULL)
 		{
-			std::string sound_path = string_cast<std::string>(path);
+			Filepath real_path(path);
+			std::string sound_path = string_cast<std::string>(real_path.GetFullPath());
 			mMusic = Mix_LoadMUS(sound_path.c_str());
 			if(!mMusic)
 			{
