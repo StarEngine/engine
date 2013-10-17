@@ -159,6 +159,16 @@ namespace star
 		return m_SpritesheetName;
 	}
 
+	int SpritesheetComponent::GetFramesHorizontal() const
+	{
+		return m_Spritesheet.GetFramesHorizontal();
+	}
+
+	int SpritesheetComponent::GetFramesVertical() const
+	{
+		return m_Spritesheet.GetFramesVertical();
+	}
+
 	void SpritesheetComponent::InitializeComponent()
 	{
 		SetSpritesheet(m_SpritesheetName);

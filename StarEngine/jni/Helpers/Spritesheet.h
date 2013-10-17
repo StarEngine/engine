@@ -24,8 +24,14 @@ namespace star
 
 		const tstring & GetDefaultAnimation() const;
 
+		int GetFramesHorizontal() const;
+		int GetFramesVertical() const;
+		
+
 	private:
 		tstring m_Name;
 		tstring m_DefaultAnimation;
+		int m_FramesHorizontal;
+		int m_FramesVertical;
 	};
 }

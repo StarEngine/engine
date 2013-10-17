@@ -8,6 +8,8 @@ namespace star
 		: Dictionary<tstring, SpriteAnimation>()
 		, m_Name(EMPTY_STRING)
 		, m_DefaultAnimation(EMPTY_STRING)
+		, m_FramesHorizontal(0)
+		, m_FramesVertical(0)
 	{
 
 	}
@@ -20,9 +22,9 @@ namespace star
 		auto attributes = spritesheet.GetAttributes();
 		m_Name = attributes[_T("name")];
 		m_DefaultAnimation = attributes[_T("default")];
-		int width = string_cast<int>(attributes[_T("width")]);
-		int height = string_cast<int>(attributes[_T("height")]);
-		int amount = width * height;
+		m_FramesHorizontal = string_cast<int>(attributes[_T("width")]);
+		m_FramesVertical = string_cast<int>(attributes[_T("height")]);
+		int amount = m_FramesHorizontal * m_FramesVertical;
 		float speed = string_cast<float>(attributes[_T("speed")]);
 
 		auto it = spritesheet.lower_bound(_T("animation"));
@@ -38,11 +40,11 @@ namespace star
 			tstring frames = animation->GetValue();
 
 			vec2 uv;
-			uv.x = 1.0f / (float)width;
-			uv.y = 1.0f / (float)height;
+			uv.x = 1.0f / (float)m_FramesHorizontal;
+			uv.y = 1.0f / (float)m_FramesVertical;
 
 			SpriteAnimation spriteAnimation(aName, uv, aSpeed * speed, aRepeat,
-				frames, width, amount);
+				frames, m_FramesHorizontal, amount);
 
 			//[COMMENT] A memory leak starts below
 			insert(std::pair<tstring, SpriteAnimation>(aName, spriteAnimation));
@@ -102,5 +104,15 @@ namespace star
 	const tstring & Spritesheet::GetDefaultAnimation() const
 	{
 		return m_DefaultAnimation;
+	}
+
+	int Spritesheet::GetFramesHorizontal() const
+	{
+		return m_FramesHorizontal;
+	}
+
+	int Spritesheet::GetFramesVertical() const
+	{
+		return m_FramesVertical;
 	}
 }

@@ -32,6 +32,9 @@ namespace star
 		tstring GetCurrentAnimation() const;
 		const tstring & GetcurrentSpritesheet() const;
 
+		int GetFramesHorizontal() const;
+		int GetFramesVertical() const;
+
 	protected:
 		void InitializeComponent();
 		void CreateVertices();
