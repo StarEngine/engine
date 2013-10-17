@@ -45,6 +45,11 @@ namespace star
 		}
 		return m_pManager;
 	}
+	
+	void SpriteAnimationManager::Clear()
+	{
+		m_Spritesheets.clear();
+	}
 
 	SpriteAnimationManager::SpriteAnimationManager()
 		: m_Spritesheets()

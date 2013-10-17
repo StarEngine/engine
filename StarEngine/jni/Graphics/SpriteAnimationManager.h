@@ -14,8 +14,8 @@ namespace star
 
 		void AddSpritesheet(const tstring & file);
 		const Spritesheet & GetSpritesheet(const tstring & name) const;
-
 		static std::shared_ptr<SpriteAnimationManager> GetInstance();
+		void Clear();
 
 	private:
 		static std::shared_ptr<SpriteAnimationManager> m_pManager;
