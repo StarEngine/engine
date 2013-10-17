@@ -180,7 +180,7 @@ namespace star
 			if(start_line[i] != 0)
 			{
 				int offset = curfont.GetMaxLetterHeight()-tempsizes[start_line[i] ].y;
-				world = glm::translate(glm::vec3(position.x,position.y-offset,0));
+				world = glm::translate(glm::vec3(position.x,position.y+curfont.GetMaxLetterHeight()-offset,0));
 				position.x+=tempsizes[start_line[i] ].x;
 			}
 			else
