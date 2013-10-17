@@ -266,8 +266,6 @@ namespace star
 			
 			m_IsInitialized = true;
 
-			SetResolution(position_width, position_height);
-
 			AttachThreadInput(m_dKeybThreadID, GetCurrentThreadId(), true);
 
 			// Main message loop:
@@ -596,12 +594,7 @@ namespace star
 				Window::GetInstance()->WindowInactiveUpdate(true);
 				break;
 			case WM_SYSCOMMAND:
-				if(wParam == SC_KEYMENU || 
-					wParam == SC_MOUSEMENU)
-				{
-					Logger::GetInstance()->Log(LogLevel::Info, _T("Menu opened?!"));
-				}
-				else if (Window::GetInstance()->CanGoFullScreen()
+				if (Window::GetInstance()->CanGoFullScreen()
 					&& SC_KEYMENU == (wParam & 0xFFF0)
 					&& GetKeyState(VK_RETURN))
 				{
