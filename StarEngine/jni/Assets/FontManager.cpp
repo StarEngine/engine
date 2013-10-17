@@ -127,16 +127,13 @@ namespace star
 
 		GLuint font=curfont.GetListBase();
 		float h = curfont.GetSize()/0.63f;
-		char  ctext[256]; 
-		va_list ap;
-		va_start(ap,text);
-		std::string conv_text = star::string_cast<std::string>(text);
-		vsprintf(ctext,conv_text.c_str(),ap);
-		va_end(ap);
 
-		const char *start_line=ctext;
-		std::vector<std::string> lines;
-		/*for(const char *c=ctext; *c ; c++ ) 
+		std::string conv_text = star::string_cast<std::string>(text);
+		const char *start_line=conv_text.c_str();
+		
+		//[INFO] Needed for later text rendering (line breaks)
+		/*std::vector<std::string> lines;
+		for(const char *c=ctext; *c ; c++ ) 
 		{
 			if(*c=='\n') 
 			{
@@ -156,8 +153,9 @@ namespace star
 
 
 		GLuint* textures = curfont.GetTextures();
-		std::vector< fontUvCoords > tempuvs = curfont.getUvCoords();
-		std::vector< fontVertices > tempverts = curfont.getVetrices();
+		std::vector<fontUvCoords> tempuvs = curfont.getUvCoords();
+		std::vector<fontVertices> tempverts = curfont.getVetrices();
+		std::vector<ivec2> tempsizes = curfont.GetLetterDimensions();
 		m_Shader.Bind();
 		for(int i=0;start_line[i]!=0;i++) 
 		{
@@ -178,7 +176,17 @@ namespace star
 			mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
 
 			glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Projection"),1,GL_FALSE,glm::value_ptr(projection));
-			mat4x4 world = glm::translate(glm::vec3(position.x+i*50,position.y,0));
+			mat4x4 world;
+			if(start_line[i] != 0)
+			{
+				int offset = curfont.GetMaxLetterHeight()-tempsizes[start_line[i] ].y;
+				world = glm::translate(glm::vec3(position.x,position.y-offset,0));
+				position.x+=tempsizes[start_line[i] ].x;
+			}
+			else
+			{
+				world = glm::translate(glm::vec3(position.x,position.y,0));
+			}
 			mat4x4 worldInverse = InverseMatrix(world);
 			glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Translation"),1,GL_FALSE,glm::value_ptr(worldInverse));
 
@@ -190,7 +198,7 @@ namespace star
 		}
 		m_Shader.Unbind();
 
-		   
+		return true;   
 	}
 
 	mat4x4 FontManager::InverseMatrix(const mat4x4& matrix)
