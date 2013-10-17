@@ -13,6 +13,7 @@
 #include "jni/Graphics/GraphicsManager.h"
 #include "jni/StarEngine.h"
 #include "jni/Input/InputManager.h"
+#include "resource.h"
 
 #pragma comment(lib, "opengl32.lib")
 
@@ -116,12 +117,12 @@ namespace star
 			wndClass.cbClsExtra = 0;
 			wndClass.cbWndExtra = 0;
 			wndClass.hInstance = instance;
-			wndClass.hIcon = NULL;
+			wndClass.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_STARGAMEICON));
 			wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 			wndClass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 			wndClass.lpszMenuName = NULL;
 			wndClass.lpszClassName = winManifest[_T("class")]->GetValue().c_str();
-			wndClass.hIconSm = NULL;
+			wndClass.hIconSm = (HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_STARGAMEICON), IMAGE_ICON, 16, 16, 0);
 
 			uint32 windowStyles(0);
 			auto window_map = winManifest[_T("window_styles")];
@@ -565,7 +566,6 @@ namespace star
 				break;
 			case WM_ACTIVATE:
 				{
-					Logger::GetInstance()->Log(LogLevel::Info, _T("Activate Window!"));
 					bool active = !(LOWORD(wParam) == WA_INACTIVE);
 					Window::GetInstance()->WindowInactiveUpdate(!active);
 					Window::GetInstance()->SetWindowActive(

@@ -140,6 +140,7 @@
     <ClInclude Include="jni\StarComponents.h" />
     <ClInclude Include="jni\StarEngine.h" />
     <ClInclude Include="jni\TimeManager.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="jni\Helpers\ScreenPercent.h" />
     <ClInclude Include="jni\Helpers\ScreenPercentAbstract.h" />
