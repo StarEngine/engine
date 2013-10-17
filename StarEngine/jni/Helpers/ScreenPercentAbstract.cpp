@@ -68,6 +68,11 @@ namespace star
 		return m_ScreenValue;
 	}
 
+	void ScreenPercentAbstract::ConvertPercentToScreenPos()
+	{
+
+	}
+
 	ScreenPercentAbstract& ScreenPercentAbstract::operator=(const ScreenPercentAbstract &yRef)
 	{
 		//Check for self assignment, could fuck things up!

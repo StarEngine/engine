@@ -60,32 +60,32 @@ namespace star
 	}
 
 #ifdef STAR2D
-	void TransformComponent::Translate(const vec2 & translation)
+	void TransformComponent::Translate(ScreenPercent & translation)
 	{
-		m_LocalPosition.x = translation.x;
-		m_LocalPosition.y = translation.y;
+		m_LocalPosition.x = translation.x.GetScreenValue();
+		m_LocalPosition.y = translation.y.GetScreenValue();
 		m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-	void TransformComponent::Translate(float x, float y)
+	void TransformComponent::Translate(ScreenPercentX x, ScreenPercentY y)
 	{
-		Translate(vec2(x, y));
+		Translate(ScreenPercent(x, y));
 	}
 
-	void TransformComponent::Translate(const vec2 & translation, lay l)
+	void TransformComponent::Translate(ScreenPercent & translation, lay l)
 	{
-		m_LocalPosition.x = translation.x;
-		m_LocalPosition.y = translation.y;
+		m_LocalPosition.x = translation.x.GetScreenValue();
+		m_LocalPosition.y = translation.y.GetScreenValue();
 		m_LocalPosition.l = l;
 		m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-	void TransformComponent::Translate(float x, float y, lay l)
+	void TransformComponent::Translate(ScreenPercentX x, ScreenPercentY y, lay l)
 	{
-		Translate(vec2(x, y), l);
+		Translate(ScreenPercent(x, y), l);
 	}
 
-	void TransformComponent::Translate(const pos & pos2D)
+	void TransformComponent::TranslateAbsolute(const pos & pos2D)
 	{
 		m_LocalPosition = pos2D;
 		m_IsChanged |= TransformChanged::TRANSLATION;
@@ -97,15 +97,15 @@ namespace star
 		m_IsChanged |= TransformChanged::ROTATION;
 	}
 
-	void TransformComponent::Scale(const vec2 & scale)
+	void TransformComponent::Scale(ScreenPercent & scale)
 	{
-		m_LocalScale = scale;
+		m_LocalScale = scale.GetScreenValue();
 		m_IsChanged |= TransformChanged::SCALE;
 	}
 
-	void TransformComponent::Scale(float x, float y)
+	void TransformComponent::Scale(ScreenPercentX x, ScreenPercentY y)
 	{
-		Scale(vec2(x, y));
+		Scale(ScreenPercent(x, y));
 	}
 
 	const pos & TransformComponent::GetWorldPosition()

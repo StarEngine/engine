@@ -113,7 +113,6 @@ namespace star
 			m_pOldKeyboardState = nullptr;
 		}
 #endif
-
 		delete m_GestureManager;
 		m_GestureManager = nullptr;
 	}
@@ -478,7 +477,7 @@ namespace star
 			m_MouseMovement.x = m_CurrMousePosition.x - m_OldMousePosition.x;
 			m_MouseMovement.y = m_CurrMousePosition.y - m_OldMousePosition.y;
 
-			m_GestureManager->OnUpdateWinInputState();
+			//m_GestureManager->OnUpdateWinInputState();
 
 			Sleep(1000/60);
 		}

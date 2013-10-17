@@ -2,6 +2,7 @@
 #include "../Logger.h"
 #include "../Input/InputManager.h"
 #include "../StarComponents.h"
+#include "../Graphics/GraphicsManager.h"
 
 namespace star
 {
@@ -82,10 +83,9 @@ namespace star
 			//
 			//quat finalOrientation(vec3(m_TotalYaw,m_TotalPitch,0));
 			//
-			transform->Translate(currPos);
+			transform->TranslateAbsolute(currPos);
 			//transform->Rotate(finalOrientation);
 		}
-	
 		Object::Update(context);
 	}
 }

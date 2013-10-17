@@ -13,7 +13,7 @@ namespace star
 		ScreenPercentX(const ScreenPercentAbstract & yRef);
 		~ScreenPercentX();
 
-	private: 
-		void ConvertPercentToScreenPos();
+	protected: 
+		virtual void ConvertPercentToScreenPos();
 	};
 }

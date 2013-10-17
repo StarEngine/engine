@@ -77,11 +77,12 @@ namespace star
 		ScreenPercentAbstract(double value);
 		ScreenPercentAbstract(const ScreenPercentAbstract & yRef);
 		ScreenPercentAbstract(ScreenPercentAbstract&& t);
+		virtual void ConvertPercentToScreenPos();
 
 		float m_ScreenPercentage;
 		float m_ScreenValue;
+		
 
 	private:
-		virtual void ConvertPercentToScreenPos() {};
 	};
 }

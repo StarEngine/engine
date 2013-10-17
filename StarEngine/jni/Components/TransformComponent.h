@@ -27,16 +27,15 @@ namespace star
 		void Draw() {}
 
 #ifdef STAR2D
-		void Translate(const vec2& translation);
-		void Translate(float x, float y);
-		void Translate(const vec2& translation, lay l);
-		void Translate(float x, float y, lay l);
-		void Translate(const pos & pos2D);
-
+		void Translate(ScreenPercent& translation);
+		void Translate(ScreenPercentX x, ScreenPercentY y);
+		void Translate(ScreenPercent& translation, lay l);
+		void Translate(ScreenPercentX x, ScreenPercentY y, lay l);
+		void TranslateAbsolute(const pos & pos2D);
 		void Rotate(float rotation);
 
-		void Scale(const vec2& scale);
-		void Scale(float x, float y);
+		void Scale(ScreenPercent& scale);
+		void Scale(ScreenPercentX x, ScreenPercentY y);
 		
 		const pos& GetWorldPosition();
 		const pos& GetLocalPosition() const;

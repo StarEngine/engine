@@ -144,9 +144,10 @@ status TestScene2::Update(const star::Context& context)
 		tstringstream str;
 		str << "FPS: " << m_FPS;
 		//LOGGER->Log(LogLevel::Info, str.str());
-
+		//[TODO] % --> This function should return in % probably
+		/*
 		m_pObjectOne->GetComponent<star::TransformComponent>()->
-			Translate(star::PathFindManager::GetInstance()->GetStep(m_Step));
+			Translate(star::PathFindManager::GetInstance()->GetStep(m_Step));*/
 		//vec2 pos = m_pObjectOne->GetTransform()->GetWorldPosition();
 		//tstringstream tstr;
 		//tstr << _T("PlayerPos : (") << pos.x << _T(", ") << pos.y << _T(")");

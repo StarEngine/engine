@@ -11,6 +11,10 @@ namespace star
 		ScreenPercent(const ScreenPercentX & widthPercent,
 					const ScreenPercentY & heightPercent);
 		~ScreenPercent(void);
+		vec2 GetScreenValue()
+		{
+			return vec2(x.GetScreenValue(),	y.GetScreenValue());
+		}
 
 		ScreenPercentX x;
 		ScreenPercentY y;
