@@ -99,10 +99,6 @@ using glm::ivec2;
 #define EMPTY_STRING _T("")
 #define ANDROID_LOG_TAG _T("STAR_ENGINE")
 
-#include "Helpers\ScreenPercentX.h"
-#include "Helpers\ScreenPercentY.h"
-#include "Helpers\ScreenPercent.h"
-
 #ifdef STAR2D
 #include "defines2D.h" 
 #endif

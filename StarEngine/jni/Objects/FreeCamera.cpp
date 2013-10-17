@@ -83,7 +83,7 @@ namespace star
 			//
 			//quat finalOrientation(vec3(m_TotalYaw,m_TotalPitch,0));
 			//
-			transform->TranslateAbsolute(currPos);
+			transform->Translate(currPos);
 			//transform->Rotate(finalOrientation);
 		}
 		Object::Update(context);
