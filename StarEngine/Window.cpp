@@ -285,14 +285,12 @@ namespace star
 				if(m_IsActive) // We've processed all pending Win32 messages, and can now do a rendering update.
 				{
 					mGamePtr->Draw();
-		
+					SwapBuffers(Window::mHDC); // Swaps display buffers
 				}
-				SwapBuffers(Window::mHDC); // Swaps display buffers
 
 				if(m_IsActive)
 				{
 					mGamePtr->Update(mContext);
-					
 					SetWindowsTitle();
 				}
 
@@ -548,9 +546,11 @@ namespace star
 				PostQuitMessage(0);
 				return 1;
 			case WM_ENTERSIZEMOVE:
+			case WM_NCRBUTTONDOWN:
 				Window::GetInstance()->SetWindowActive(false);
 				break;
 			case WM_EXITSIZEMOVE:
+			case WM_EXITMENULOOP:
 				Window::GetInstance()->SetWindowActive(true);
 				Window::GetInstance()->ForceTimerCalculation();
 				break;
@@ -565,6 +565,7 @@ namespace star
 				break;
 			case WM_ACTIVATE:
 				{
+					Logger::GetInstance()->Log(LogLevel::Info, _T("Activate Window!"));
 					bool active = !(LOWORD(wParam) == WA_INACTIVE);
 					Window::GetInstance()->WindowInactiveUpdate(!active);
 					Window::GetInstance()->SetWindowActive(
@@ -589,7 +590,12 @@ namespace star
 				Window::GetInstance()->WindowInactiveUpdate(true);
 				break;
 			case WM_SYSCOMMAND:
-				if (Window::GetInstance()->CanGoFullScreen()
+				if(wParam == SC_KEYMENU || 
+					wParam == SC_MOUSEMENU)
+				{
+					Logger::GetInstance()->Log(LogLevel::Info, _T("Menu opened?!"));
+				}
+				else if (Window::GetInstance()->CanGoFullScreen()
 					&& SC_KEYMENU == (wParam & 0xFFF0)
 					&& GetKeyState(VK_RETURN))
 				{
