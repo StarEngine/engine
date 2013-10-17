@@ -35,10 +35,11 @@ namespace star
 #else
 	void GestureManager::OnTouchEvent(AInputEvent* pEvent)
 	{
+		/*
 		for(auto gesture : m_GestureMap)
 		{
 			gesture.second->OnTouchEventBase(pEvent);
-		}
+		}*/
 	}
 #endif
 	

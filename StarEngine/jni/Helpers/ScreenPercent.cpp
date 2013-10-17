@@ -19,4 +19,9 @@ namespace star
 	ScreenPercent::~ScreenPercent(void)
 	{
 	}
+
+	glm::vec2 ScreenPercent::GetScreenValue()
+	{
+		return glm::vec2(x.GetScreenValue(), y.GetScreenValue());
+	}
 }

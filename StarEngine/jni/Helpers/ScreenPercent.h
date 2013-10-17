@@ -2,6 +2,7 @@
 
 #include "ScreenPercentX.h"
 #include "ScreenPercentY.h"
+#include "glm\glm.h"
 
 namespace star
 {
@@ -11,10 +12,7 @@ namespace star
 		ScreenPercent(const ScreenPercentX & widthPercent,
 					const ScreenPercentY & heightPercent);
 		~ScreenPercent(void);
-		vec2 GetScreenValue()
-		{
-			return vec2(x.GetScreenValue(),	y.GetScreenValue());
-		}
+		glm::vec2 GetScreenValue();
 
 		ScreenPercentX x;
 		ScreenPercentY y;

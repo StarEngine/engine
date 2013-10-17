@@ -69,7 +69,8 @@ namespace star
 
 	void TransformComponent::Translate(ScreenPercentX x, ScreenPercentY y)
 	{
-		Translate(ScreenPercent(x, y));
+		auto temp = ScreenPercent(x, y);
+		Translate(temp);
 	}
 
 	void TransformComponent::Translate(ScreenPercent & translation, lay l)
@@ -82,7 +83,8 @@ namespace star
 
 	void TransformComponent::Translate(ScreenPercentX x, ScreenPercentY y, lay l)
 	{
-		Translate(ScreenPercent(x, y), l);
+		auto temp = ScreenPercent(x, y);
+		Translate(temp, l);
 	}
 
 	void TransformComponent::TranslateAbsolute(const pos & pos2D)
@@ -97,15 +99,16 @@ namespace star
 		m_IsChanged |= TransformChanged::ROTATION;
 	}
 
+	void TransformComponent::Scale(ScreenPercentX x, ScreenPercentY y)
+	{
+		auto temp = ScreenPercent(x, y);
+		Scale(temp);
+	}
+
 	void TransformComponent::Scale(ScreenPercent & scale)
 	{
 		m_LocalScale = scale.GetScreenValue();
 		m_IsChanged |= TransformChanged::SCALE;
-	}
-
-	void TransformComponent::Scale(ScreenPercentX x, ScreenPercentY y)
-	{
-		Scale(ScreenPercent(x, y));
 	}
 
 	const pos & TransformComponent::GetWorldPosition()
