@@ -21,14 +21,14 @@ namespace star
 		tstring GetName() const;
 		tstring GetExtension() const;
 		tstring GetFullPath() const;
-#ifdef _WIN32
+#ifdef DESKTOP
 		static void SetAssetsRoot(const tstring & root);
 #endif
 
 	private:
 		tstring m_Path,
 				m_File;
-#ifdef _WIN32
+#ifdef DESKTOP
 		static tstring m_AssetsRoot;
 #endif
 	};

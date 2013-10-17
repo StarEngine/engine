@@ -30,7 +30,7 @@ namespace star
 		//Only for windows we need to pas the window paramaters
 		//for android these will be fetched when setting up the OpenGL context
 		//within the Graphics Manager
-#ifdef _WIN32
+#ifdef DESKTOP
 		GraphicsManager::GetInstance()->Initialize(window_width, window_height);
 #endif
 		SoundService::GetInstance()->Start();
@@ -114,7 +114,7 @@ namespace star
 		m_TitleHasUpdated = false;
 	}
 
-#ifndef _WIN32
+#ifdef ANDROID
 	void StarEngine::SetAndroidApp(android_app * app)
 	{
 		m_pAndroidApp = app;

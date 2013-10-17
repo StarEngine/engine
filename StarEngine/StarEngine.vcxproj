@@ -92,6 +92,8 @@
     <ClInclude Include="jni\Components\TransformComponent.h" />
     <ClInclude Include="jni\Context.h" />
     <ClInclude Include="jni\defines.h" />
+    <ClInclude Include="jni\definesAndroid.h" />
+    <ClInclude Include="jni\definesWindows.h" />
     <ClInclude Include="jni\EventLoop.h" />
     <ClInclude Include="jni\Graphics\GraphicsManager.h" />
     <ClInclude Include="jni\Graphics\SpriteBatch.h" />

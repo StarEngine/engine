@@ -1,6 +1,6 @@
 #include "InputManager.h"
 
-#ifdef _WIN32
+#ifdef DESKTOP
 #include <future>
 #else
 #include <cmath>
@@ -14,7 +14,7 @@ namespace star
 {
 	//Initialize all static variables
 
-#ifdef _WIN32
+#ifdef DESKTOP
 	const float InputManager::BYTE_TO_DOUBLE_VALUE = 255.0f;
 #else
 	const float InputManager::UNDEFINED_POINTER_POSITION = -123456.0f;
@@ -23,7 +23,7 @@ namespace star
 	//Make this a static object
 	std::shared_ptr<InputManager> InputManager::m_InputManagerPtr = nullptr;
 
-#ifdef _WIN32
+#ifdef DESKTOP
 	InputAction::InputAction():
 		ActionID(-1),
 		TriggerState(InputTriggerState::Pressed),
@@ -60,7 +60,7 @@ namespace star
 #endif
 
 	InputManager::InputManager(void)
-	#ifdef _WIN32
+	#ifdef DESKTOP
 		: m_ThreadAvailable(false)
 		, m_pCurrKeyboardState(nullptr)
 		, m_pOldKeyboardState(nullptr)
@@ -83,7 +83,7 @@ namespace star
 	#endif
 		, m_GestureManager(nullptr)
 	{
-#ifdef _WIN32
+#ifdef DESKTOP
 		//Init new keyboard states
 		if(m_pKeyboardState0 == nullptr)
 		{
@@ -100,7 +100,7 @@ namespace star
 
 	InputManager::~InputManager(void)
 	{
-#ifdef _WIN32
+#ifdef DESKTOP
 		//Make sure to delete the used memory
 		if(m_pKeyboardState0 != nullptr)
 		{
@@ -127,7 +127,7 @@ namespace star
 		return (m_InputManagerPtr);
 	}
 
-#ifdef _WIN32
+#ifdef DESKTOP
 	//[TODO] add this for android
 
 	//Adds an inputAction to the list of inputActions
@@ -802,7 +802,7 @@ namespace star
 	vec2 InputManager::GetCurrentFingerPosCP(uint8 fingerIndex) const
 	{
 		++fingerIndex;
-#ifdef _WIN32
+#ifdef DESKTOP
 		return GetCurrentMousePosition();
 #else
 		return GetCurrentTouchPosANDR(fingerIndex);
@@ -812,7 +812,7 @@ namespace star
 	vec2 InputManager::GetOldFingerPosCP(uint8 fingerIndex) const
 	{
 		++fingerIndex;
-#ifdef _WIN32
+#ifdef DESKTOP
 		return GetOldMousePosition();
 #else
 		return (GetOldTouchPosANDR(fingerIndex));
@@ -822,7 +822,7 @@ namespace star
 
 	void InputManager::EndUpdate()
 	{
-#ifndef _WIN32
+#ifndef DESKTOP
 		m_bMainIsDown = false;
 		m_bMainIsUp = false;
 		m_bPointerIsDown = false;

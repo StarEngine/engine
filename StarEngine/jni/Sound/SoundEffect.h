@@ -1,7 +1,7 @@
 #pragma once
 #include "../defines.h"
 
-#ifdef _WIN32
+#ifdef DESKTOP
 #include "SDL.h"
 #include "SDL_mixer.h"
 #else
@@ -31,7 +31,7 @@ namespace star
 
 	private:
 		bool mbStopped;
-#ifdef _WIN32
+#ifdef DESKTOP
 		Mix_Chunk* mSoundEffect;
 		static int mPlayChannels;
 		int mPlayChannel;

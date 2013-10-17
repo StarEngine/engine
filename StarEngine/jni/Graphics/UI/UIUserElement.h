@@ -13,7 +13,7 @@ namespace star
 		enum class ElementStates : byte
 		{
 			IDLE = 0,
-#ifdef _WIN32
+#ifdef DESKTOP
 			HOVER = 1,
 #endif
 			CLICK = 2,
@@ -33,7 +33,7 @@ namespace star
 
 		void SetSelectCallback(std::function<void()> callback);
 
-#ifdef _WIN32
+#ifdef DESKTOP
 		void SetHoverCallback(std::function<void()> callback);
 		void SetUnhoverCallback(std::function<void()> callback);
 #endif
@@ -42,7 +42,7 @@ namespace star
 		std::function<void()>
 			m_SelectCallback;
 
-#ifdef _WIN32
+#ifdef DESKTOP
 		std::function<void()>
 			m_HoverCallback,
 			m_UnhoverCallback;

@@ -21,7 +21,7 @@ namespace star
 		, m_bInitialized(false)
 		, m_bDestroyRequested(false)
 		, m_CurrentSceneName(EMPTY_STRING)
-#ifndef _WIN32
+#ifdef ANDROID
 		, mApplicationPtr(nullptr)
 #endif
 	{
@@ -168,7 +168,7 @@ namespace star
 		return (STATUS_OK);
 	}
 
-#ifndef _WIN32
+#ifdef ANDROID
 
 	void SceneManager::processActivityEvent(int32 pCommand, android_app* pApplication)
 	{
@@ -253,5 +253,5 @@ namespace star
 		m_SceneList.clear();
 		m_CurrentSceneName = EMPTY_STRING;
 	}
-#endif // _WIN32
+#endif
 }

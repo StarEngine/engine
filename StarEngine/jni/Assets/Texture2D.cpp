@@ -5,7 +5,7 @@ namespace star
 	//[NOTE]	You're not supposed to make Textures yourself.
 	//			Use the TextureManager to load your textures.
 	//			This ensures a same texture is not loaded multiple times
-#ifdef _WIN32
+#ifdef DESKTOP
 	Texture2D::Texture2D(const tstring & pPath):
 			mPath(pPath),
 			mTextureId(0),
@@ -60,7 +60,7 @@ namespace star
 		png_int_32 lRowSize;
 		bool lTransparency;
 
-#ifdef _WIN32
+#ifdef DESKTOP
 		FILE *fp;
 		_wfopen_s(&fp,mPath.c_str(), _T("rb"));
 
@@ -106,7 +106,7 @@ namespace star
 			return NULL;
 		}
 
-#ifdef _WIN32
+#ifdef DESKTOP
 		if(setjmp(png_jmpbuf(lPngPtr)))
 		{
 			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : Error during init io"));
@@ -138,7 +138,7 @@ namespace star
 			png_set_tRNS_to_alpha(lPngPtr);
 			lTransparency=true;
 
-#ifndef _WIN32
+#ifdef ANDROID
 			mResource.Close();
 #endif
 			delete [] lRowPtrs;
@@ -218,7 +218,7 @@ namespace star
 		}
 		png_read_image(lPngPtr, lRowPtrs);
 
-#ifdef _WIN32
+#ifdef DESKTOP
 		fclose(fp);
 #else
 		mResource.Close();
@@ -295,7 +295,7 @@ namespace star
 
 	const tstring & Texture2D::GetPath() const
 	{
-#ifdef _WIN32
+#ifdef DESKTOP
 		return mPath;
 #else
 		return mResource.GetPath();

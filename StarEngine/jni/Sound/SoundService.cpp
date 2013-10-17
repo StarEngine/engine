@@ -3,7 +3,7 @@
 #include "../Helpers/Helpers.h"
 
 
-#ifndef _WIN32
+#ifdef ANDROID
 #include "../Assets/Resource.h"
 #endif
 
@@ -22,7 +22,7 @@ namespace star
 	}
 
 	SoundService::SoundService()
-#ifndef _WIN32
+#ifdef ANDROID
 		:mEngine(NULL),
 		mEngineObj(NULL),
 		mOutputMixObj(NULL)
@@ -53,7 +53,7 @@ namespace star
 		mbIsInitialized=true;
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Started making Audio Engine"));
 
-#ifdef _WIN32
+#ifdef DESKTOP
 		int32 audio_rate(44100);
 		uint16 audio_format(MIX_DEFAULT_FORMAT);
 		int32 audio_channels(2);
@@ -142,7 +142,7 @@ namespace star
 		StopAllSound();
 		DeleteAllSound();
 
-#ifdef _WIN32
+#ifdef DESKTOP
 		Mix_CloseAudio();
 		Mix_Quit();
 		SDL_Quit();
@@ -340,7 +340,7 @@ namespace star
 		}
 	}
 
-#ifndef _WIN32
+#ifdef ANDROID
 	const SLEngineItf& SoundService::GetEngine() const
 	{
 		return mEngine;

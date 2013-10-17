@@ -2,7 +2,7 @@
 
 namespace star
 {
-#ifdef _WIN32
+#ifdef DESKTOP
 tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 #endif
 
@@ -91,14 +91,14 @@ tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 	tstring Filepath::GetFullPath() const
 	{
 		tstring full_path(EMPTY_STRING);
-#ifdef _WIN32
+#ifdef DESKTOP
 		full_path = m_AssetsRoot;
 #endif
 		full_path += m_Path + m_File;
 		return full_path;
 	}
 
-#ifdef _WIN32
+#ifdef DESKTOP
 	void Filepath::SetAssetsRoot(const tstring & root)
 	{
 		m_AssetsRoot = root;

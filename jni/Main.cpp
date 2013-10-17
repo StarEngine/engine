@@ -24,7 +24,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, 
 	return 0;
 }
 
-#else
+#elif defined(ANDROID)
+
 #include "../StarEngine/jni/EventLoop.h"
 
 void android_main(android_app* pApplication) 
@@ -38,4 +39,5 @@ void android_main(android_app* pApplication)
 
 	delete pGame;
 }
+
 #endif

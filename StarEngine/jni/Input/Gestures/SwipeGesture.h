@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseGesture.h"
-#ifndef _WIN32
+#ifdef ANDROID
 #include <android_native_app_glue.h>
 #endif
 

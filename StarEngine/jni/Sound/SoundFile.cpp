@@ -5,7 +5,7 @@
 #include "../Helpers/Helpers.h"
 #include "../Helpers/Filepath.h"
 
-#ifndef _WIN32
+#ifdef ANDROID
 #include "../StarEngine.h"
 #endif
 
@@ -16,7 +16,7 @@ namespace star
 		mLoopTimes(0),
 		mbStopped(false),
 		mbQueuedPlay(false),
-#ifdef _WIN32
+#ifdef DESKTOP
 		mMusic(nullptr)
 #else
 		mPlayerObj(NULL),
@@ -24,7 +24,7 @@ namespace star
 		mPlayerSeek(NULL)
 #endif
 	{
-#ifdef _WIN32
+#ifdef DESKTOP
 		if(mMusic == NULL)
 		{
 			Filepath real_path(path);
@@ -118,13 +118,12 @@ namespace star
 
 	SoundFile::~SoundFile()
 	{
-#ifdef _WIN32
+#ifdef DESKTOP
 		if(mMusic != nullptr)
 		{	
 			Mix_FreeMusic(mMusic);
 			mMusic = nullptr;
 		}
-
 #else
 		if(mPlayer != nullptr)
 		{
@@ -147,7 +146,7 @@ namespace star
 	{
 		mLoopTimes = looptimes;
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Sound File : Playing File , Looptimes = ")+ star::string_cast<tstring>(mLoopTimes));
-#ifdef _WIN32
+#ifdef DESKTOP
 		Mix_HookMusicFinished(NULL);
 		Mix_PlayMusic(mMusic, mLoopTimes);
 #else
@@ -178,7 +177,7 @@ namespace star
 		mLoopTimes = looptimes;
 		mbQueuedPlay = true;
 
-#ifdef _WIN32
+#ifdef DESKTOP
 		Mix_HookMusicFinished(MusicStoppedCallback);
 		Mix_PlayMusic(mMusic,mLoopTimes);
 #else
@@ -188,7 +187,7 @@ namespace star
 
 	void SoundFile::Stop()
 	{		
-#ifdef _WIN32
+#ifdef DESKTOP
 		Mix_PauseMusic();
 		Mix_RewindMusic();
 #else	
@@ -198,7 +197,7 @@ namespace star
 
 	void SoundFile::Pause()
 	{
-#ifdef _WIN32
+#ifdef DESKTOP
 		Mix_PauseMusic();
 #else
 		(*mPlayer)->SetPlayState(mPlayer,SL_PLAYSTATE_PAUSED);
@@ -207,7 +206,7 @@ namespace star
 
 	void SoundFile::Resume()
 	{
-#ifdef _WIN32
+#ifdef DESKTOP
 		Mix_ResumeMusic();
 #else
 		SLresult lres=(*mPlayer)->GetPlayState(mPlayer,&lres);
@@ -221,7 +220,7 @@ namespace star
 		return mbStopped;
 	}
 
-#ifdef _WIN32
+#ifdef DESKTOP
 	void SoundFile::MusicStoppedCallback()
 	{
 		star::SoundService::GetInstance()->PlayNextSongInQueue();

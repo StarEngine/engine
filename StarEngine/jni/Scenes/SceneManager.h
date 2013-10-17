@@ -4,7 +4,7 @@
 #include "../defines.h"
 #include <memory>
 
-#ifndef _WIN32
+#ifdef ANDROID
 #include <android_native_app_glue.h>
 #endif
 
@@ -29,7 +29,7 @@ namespace star
 		status Update(const Context& context);
 		status Draw();
 
-#ifndef _WIN32
+#ifdef ANDROID
 		void processActivityEvent(int32 pCommand, android_app* pApplication);
 		int32 processInputEvent(AInputEvent* pEvent);
 		void Activate();

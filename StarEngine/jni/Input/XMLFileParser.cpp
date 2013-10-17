@@ -4,7 +4,7 @@
 #include "XMLContainer.h"
 #include "..\Helpers\Helpers.h"
 
-#ifndef _WIN32
+#ifdef ANDROID
 #include <memory>
 //#include "..\EventLoop.h"
 #include <android_native_app_glue.h>
@@ -28,7 +28,7 @@ namespace star
 	{
 		pugi::xml_document XMLDocument;
 		pugi::xml_parse_result result;
-#ifdef _WIN32
+#ifdef DESKTOP
 		result = XMLDocument.load_file(m_File.GetFullPath().c_str());
 #else
 		auto app = StarEngine::GetInstance()->GetAndroidApp();

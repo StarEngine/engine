@@ -5,20 +5,20 @@
 #include "../Helpers/Helpers.h"
 #include "../Helpers/Filepath.h"
 
-#ifndef _WIN32
+#ifdef ANDROID
 #include "../StarEngine.h"
 #endif
 
 
 namespace star
 {
-#ifdef _WIN32
+#ifdef DESKTOP
 	int SoundEffect::mPlayChannels = 0;
 #endif
 
 	SoundEffect::SoundEffect(const tstring& path):
 		mbStopped(false),
-#ifdef _WIN32
+#ifdef DESKTOP
 		mSoundEffect(nullptr),
 		mPlayChannel(0)
 #else
@@ -26,7 +26,7 @@ namespace star
 		mPlayers(MAX_SAMPLES)
 #endif
 	{
-#ifdef _WIN32	
+#ifdef DESKTOP	
 		mPlayChannel = mPlayChannels;
 		++mPlayChannels;
 		
@@ -120,7 +120,7 @@ namespace star
 
 	SoundEffect::~SoundEffect()
 	{
-#ifdef _WIN32
+#ifdef DESKTOP
 		Mix_HaltChannel(mPlayChannel);
 #else
 		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
@@ -144,8 +144,7 @@ namespace star
 
 	void SoundEffect::Play()
 	{
-#ifdef _WIN32
-
+#ifdef DESKTOP
 		Mix_PlayChannel(mPlayChannel,mSoundEffect,0);
 #else
 		for(int i=0; i<MAX_SAMPLES;++i)
@@ -168,7 +167,7 @@ namespace star
 	}
 	void SoundEffect::Stop()
 	{		
-#ifdef _WIN32
+#ifdef DESKTOP
 		Mix_HaltChannel(mPlayChannel);
 #else	
 		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
@@ -180,7 +179,7 @@ namespace star
 	
 	void SoundEffect::Pause()
 	{
-#ifdef _WIN32
+#ifdef DESKTOP
 		Mix_Pause(mPlayChannel);
 #else
 		for(int i = 0; i < MAX_SAMPLES ; ++i)
@@ -194,7 +193,7 @@ namespace star
 
 	void SoundEffect::Resume()
 	{
-#ifdef _WIN32
+#ifdef DESKTOP
 		Mix_Resume(mPlayChannel);
 #else
 		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
@@ -211,7 +210,7 @@ namespace star
 		return mbStopped;
 	}
 
-#ifndef _WIN32
+#ifdef ANDROID
 	void SoundEffect::MusicStoppedCallback(SLPlayItf caller,void *pContext,SLuint32 event)
 	{
 		(*caller)->SetPlayState(caller, SL_PLAYSTATE_STOPPED);

@@ -2,7 +2,7 @@
 
 #include "../defines.h"
 
-#ifdef _WIN32
+#ifdef DESKTOP
 #include <stdlib.h>
 #include <glew.h>
 #else

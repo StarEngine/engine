@@ -3,7 +3,7 @@
 #include "../defines.h"
 #include <memory>
 
-#ifdef _WIN32
+#ifdef DESKTOP
 #include <glew.h>
 #else
 #include <GLES2/gl2.h>
@@ -21,7 +21,7 @@ namespace star
 
 		static std::shared_ptr<GraphicsManager> GetInstance();
 
-#ifdef _WIN32
+#ifdef DESKTOP
 		void Initialize(int32 screenWidth, int32 screenHeight);
 #else
 		void Initialize(const android_app* pApplication);
@@ -40,7 +40,7 @@ namespace star
 	private:
 		GraphicsManager();
 
-#ifdef _WIN32
+#ifdef DESKTOP
 		bool WGLExtensionSupported(const char* extension_name);
 		bool InitializeOpenGLFunctors();
 #endif
@@ -50,7 +50,7 @@ namespace star
 		int32 mScreenWidth;
 		int32 mScreenHeight;
 
-#ifndef _WIN32
+#ifdef ANDROID
         EGLDisplay mDisplay;
         EGLSurface mSurface;
         EGLContext mContext;

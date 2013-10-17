@@ -1,4 +1,4 @@
-#ifndef _WIN32
+#ifdef ANDROID
 
 #include "EventLoop.h"
 #include "Logger.h"

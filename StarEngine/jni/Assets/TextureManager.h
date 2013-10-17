@@ -7,7 +7,7 @@
 #include "../defines.h"
 #include <memory>
 
-#ifdef _WIN32
+#ifdef DESKTOP
 #include <glew.h>
 #else
 #include "GLES/gl.h"

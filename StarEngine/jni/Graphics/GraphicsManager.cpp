@@ -1,7 +1,7 @@
 #include "GraphicsManager.h"
 #include "../Logger.h"
 
-#ifdef _WIN32
+#ifdef DESKTOP
 #include <Windows.h>
 #include <wglext.h>
 #endif
@@ -29,7 +29,7 @@ namespace star
 		return mGraphicsManager;	
 	}
 
-#ifdef _WIN32
+#ifdef DESKTOP
 	void GraphicsManager::Initialize(int32 screenWidth, int32 screenHeight)
 	{
 		mScreenWidth = screenWidth;
@@ -148,7 +148,7 @@ namespace star
 	void GraphicsManager::StopDraw()
 	{
 		 glDisable(GL_BLEND);
-#ifndef _WIN32
+#ifdef ANDROID
 		 if (eglSwapBuffers(mDisplay, mSurface) != EGL_TRUE)
 		 {
 			 return;
@@ -178,7 +178,7 @@ namespace star
 		glViewport(0,0,width, height);
 	}
 
-#ifdef _WIN32
+#ifdef DESKTOP
 
 	bool GraphicsManager::WGLExtensionSupported(const char* extension_name)
 	{

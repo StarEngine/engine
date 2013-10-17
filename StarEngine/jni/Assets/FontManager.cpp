@@ -9,7 +9,7 @@
 
 #ifdef _WIN32
 
-#ifndef _WIN32
+#ifdef ANDROID
 #include "../StarEngine.h"
 #endif
 

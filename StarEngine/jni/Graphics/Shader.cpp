@@ -63,7 +63,7 @@ namespace star
 		GLint status;
 		const GLchar* source;
 
-#ifndef _WIN32
+#ifdef ANDROID
 		Resource resource(StarEngine::GetInstance()->GetAndroidApp(), file);
 		if(resource.Open() == STATUS_KO)
 		{
@@ -120,7 +120,7 @@ namespace star
                     free(buf);
                 }
             }
-#ifndef _WIN32
+#ifdef ANDROID
 			else
 			{
 				//This is necessairy due to an android bug!
@@ -179,7 +179,7 @@ namespace star
 		if (fileName != EMPTY_STRING)
 		{
 			FILE *file;
-#ifdef _WIN32
+#ifdef DESKTOP
 			_wfopen_s(&file,fileName.c_str(), _T("rb"));
 #endif
 			if (file != NULL)

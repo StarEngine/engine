@@ -11,7 +11,7 @@
 #include "../../StarEngine/jni/Components/Graphics/SpritesheetComponent.h"
 #include "../../StarEngine/jni/Components/TransformComponent.h"
 
-#ifdef _WIN32
+#ifdef DESKTOP
 #include <glew.h>
 #else
 #include <GLES2/gl2.h>

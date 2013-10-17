@@ -5,7 +5,7 @@ namespace star
 	UIUserElement::UIUserElement(void)
 		: Object()
 		, m_SelectCallback(nullptr)
-#ifdef _WIN32
+#ifdef DESKTOP
 		, m_HoverCallback(nullptr)
 		, m_UnhoverCallback(nullptr)
 #endif
@@ -49,7 +49,7 @@ namespace star
 		m_SelectCallback = callback;
 	}
 
-#ifdef _WIN32
+#ifdef DESKTOP
 	void UIUserElement::SetHoverCallback(std::function<void()> callback)
 	{
 		m_HoverCallback = callback;

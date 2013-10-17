@@ -1,7 +1,7 @@
 #pragma once
 #include "../defines.h"
 
-#ifdef _WIN32
+#ifdef DESKTOP
 #include "SDL.h"
 #include "SDL_mixer.h"
 #else
@@ -33,7 +33,7 @@ namespace star
 		int32 mLoopTimes;
 		bool mbStopped;
 		bool mbQueuedPlay;
-#ifdef _WIN32
+#ifdef DESKTOP
 		Mix_Music * mMusic;
 		static void MusicStoppedCallback();
 #else

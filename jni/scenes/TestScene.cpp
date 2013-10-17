@@ -8,7 +8,7 @@
 #include "../../StarEngine/jni/Scenes/SceneManager.h"
 #include "../../StarEngine/jni/Sound/SoundService.h"
 
-#ifdef _WIN32
+#ifdef DESKTOP
 #include <glew.h>
 #else
 #include <GLES2/gl2.h>

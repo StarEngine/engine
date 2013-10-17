@@ -48,7 +48,7 @@ namespace star
 	void SpriteBatch::Initialize()
 	{
 		//Set Shader and shader variables
-		#ifdef _WIN32
+#ifdef DESKTOP
 		Filepath texshaderVertex(_T("WinShaders/"), _T("Texture_Batch_Shader.vert"));
 		Filepath texshaderFrag(_T("WinShaders/"), _T("Texture_Batch_Shader.frag"));
 #else

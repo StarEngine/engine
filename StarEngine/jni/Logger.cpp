@@ -3,10 +3,10 @@
 #ifdef _WIN32
 #include <stdio.h>
 #include "Console.h"
-#else
+#elif defined(ANDROID)
 #include <android/log.h>
 #endif
-#ifdef _WIN32
+#ifdef DESKTOP
 #include <glew.h>
 #else
 #include <GLES2/gl2.h>
@@ -52,7 +52,7 @@ namespace star {
 	void Logger::Log(LogLevel level, const tstring& pMessage, const tstring& tag) const
 	{
 #if LOGGER_MIN_LEVEL > 0
-		#ifdef _WIN32
+		#ifdef DESKTOP
 		tstring levelName;
 		switch(level)
 		{

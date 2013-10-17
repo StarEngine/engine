@@ -1,4 +1,4 @@
-#ifndef _WIN32
+#ifdef ANDROID
 
 #pragma once
 

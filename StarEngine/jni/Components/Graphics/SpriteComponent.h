@@ -5,8 +5,7 @@
 #include "../BaseComponent.h"
 #include "../../Helpers/Filepath.h"
 #include <vector>
-#ifdef _WIN32
-#else
+#ifdef ANDROID
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 #include <EGL/egl.h>

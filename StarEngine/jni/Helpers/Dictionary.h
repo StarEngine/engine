@@ -215,7 +215,7 @@ namespace star
 	typename Dictionary<TKey, TValue>::const_interator
 		Dictionary<TKey, TValue>::lower_bound(const TKey & key) const
 	{
-#ifdef _WIN32
+#ifdef DESKTOP
 		return (m_MultiMap.lower_bound(key));
 #else
 		return m_MultiMap.equal_range(key).first;
@@ -226,7 +226,7 @@ namespace star
 	typename Dictionary<TKey, TValue>::const_interator
 		Dictionary<TKey, TValue>::upper_bound(const TKey & key) const
 	{
-#ifdef _WIN32
+#ifdef DESKTOP
 		return (m_MultiMap.upper_bound(key));
 #else
 		return m_MultiMap.equal_range(key).second;

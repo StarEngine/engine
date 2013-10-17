@@ -3,7 +3,7 @@
 #include "../defines.h"
 #include <memory>
 
-#ifdef _WIN32
+#ifdef DESKTOP
 #include "SDL.h"
 #include "SDL_mixer.h"
 #else
@@ -52,7 +52,7 @@ namespace star
 		void PauseAllSound();
 		void ResumeAllSound();
 		void DeleteAllSound();
-#ifndef _WIN32
+#ifdef ANDROID
 		const SLEngineItf& GetEngine() const;
 		const SLObjectItf& GetOutputMixObject() const;
 #endif
@@ -67,7 +67,7 @@ namespace star
 		std::vector<SoundFile*> mBackgroundQueue;
 		std::vector<SoundFile*>::iterator mQueueIterator;
 
-#ifndef _WIN32
+#ifdef ANDROID
 		SLObjectItf mEngineObj;
 		SLEngineItf mEngine;
 		SLObjectItf mOutputMixObj;

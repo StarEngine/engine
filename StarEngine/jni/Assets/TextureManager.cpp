@@ -3,7 +3,7 @@
 #include "../Context.h"
 #include "Texture2D.h"
 
-#ifndef _WIN32
+#ifdef ANDROID
 #include "../StarEngine.h"
 #endif
 
@@ -51,7 +51,7 @@ namespace star
 			return (false);
 		}
 
-#ifdef _WIN32
+#ifdef DESKTOP
 		mTextureMap[name] = std::shared_ptr<Texture2D>(new Texture2D(path));
 #else
 		mTextureMap[name] = std::shared_ptr<Texture2D>(new Texture2D(path, star::StarEngine::GetInstance()->GetAndroidApp()));

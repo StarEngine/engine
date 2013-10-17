@@ -18,7 +18,7 @@
 
 namespace star
 {
-#ifdef _WIN32
+#ifdef DESKTOP
 
 	enum GamepadIndex : byte
 	{
@@ -81,7 +81,7 @@ namespace star
 		void EndUpdate();
 		void SetGestureManager(GestureManager* gestureManager);
 		const GestureManager* GetGestureManager() const;
-#ifdef _WIN32
+#ifdef DESKTOP
 		
 		//[TODO] add InputActions for android
 		bool AddInputAction(const InputAction& action);
@@ -135,7 +135,7 @@ namespace star
 		InputManager();
 		static std::shared_ptr<InputManager>  m_InputManagerPtr;
 
-#ifdef _WIN32
+#ifdef DESKTOP
 		std::map<int,InputAction> m_InputActions;
 		BYTE *m_pCurrKeyboardState, *m_pOldKeyboardState, *m_pKeyboardState0, *m_pKeyboardState1;
 		bool m_KeyboardState0Active;
@@ -162,7 +162,6 @@ namespace star
 		bool UpdateKeyboardStates();
 		bool IsKeyboardKeyDown_unsafe(uint8 key, bool previousFrame = false) const;
 		bool IsMouseButtonDown_unsafe(uint8 button, bool previousFrame = false) const;
-		
 #else
 		static const int INVALID_POINTER_ID = -1;
 		static const float UNDEFINED_POINTER_POSITION;

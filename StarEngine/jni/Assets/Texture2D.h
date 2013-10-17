@@ -3,7 +3,7 @@
 #include "../defines.h"
 #include "../Logger.h"
 
-#ifdef _WIN32
+#ifdef DESKTOP
 #pragma warning (disable : 4172)
 #pragma warning (disable : 4099)
 #include <png.h>
@@ -24,7 +24,7 @@ namespace star
 	class Texture2D
 	{
 	public:
-#ifdef _WIN32
+#ifdef DESKTOP
 		Texture2D(const tstring & pPath);
 #else
 		Texture2D(const tstring & pPath, android_app* pApplication);
@@ -44,7 +44,7 @@ namespace star
 		GLuint	mTextureId;	
 		GLint	mFormat;
 		int32 mWidth, mHeight;
-#ifndef _WIN32
+#ifdef ANDROID
 		Resource mResource;
 		static void CallbackRead(png_structp png, png_bytep data, png_size_t size);
 #endif

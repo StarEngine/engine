@@ -55,7 +55,7 @@ namespace star
 
 	void CameraComponent::Update(const Context& context)
 	{
-#ifdef _WIN32
+#ifdef DESKTOP
 		if(m_Size != GraphicsManager::GetInstance()->GetWindowHeight() || m_Size * m_AspectRatio != GraphicsManager::GetInstance()->GetWindowWidth())
 		{
 			m_AspectRatio = GraphicsManager::GetInstance()->GetWindowAspectRatio();

@@ -4,12 +4,12 @@
 #include "Helpers/FPS.h"
 #include <memory>
 
-#ifndef _WIN32
+#ifdef ANDROID
 #include "android_native_app_glue.h"
 #include  <SLES/OpenSLES.h>
 #include  <SLES/OpenSLES_Android.h>
 #include  <SLES/OpenSLES_AndroidConfiguration.h>
-#else
+#elif defined(_WIN32)
 class Window;
 #endif
 
@@ -43,7 +43,7 @@ namespace star
 		bool HasTitleUpdated() const;
 		void ResetTitleUpdateMark();
 
-#ifndef _WIN32
+#ifdef ANDROID
 		void SetAndroidApp(android_app * app);
 		android_app * GetAndroidApp() const;
 #endif
@@ -54,7 +54,7 @@ namespace star
 		tstring m_Title, m_SubTitle;
 		bool m_TitleHasUpdated;
 
-#ifndef _WIN32
+#ifdef ANDROID
 		android_app *m_pAndroidApp;
 #endif
 

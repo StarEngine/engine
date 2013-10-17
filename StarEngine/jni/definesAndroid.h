@@ -1,0 +1,62 @@
+#pragma once
+
+#ifdef ANDROID
+
+#include <stdint.h>
+
+typedef uint8_t		BYTE, byte;
+typedef uint8_t *        PBYTE;
+
+typedef struct myPoint
+{
+    int32_t  x;
+    int32_t  y;
+} POINT;
+
+#include <android/log.h>
+
+#define _T(x) x
+
+#ifndef NDEBUG
+#define ASSERT \
+	if ( false ) {} \
+	else \
+	struct LocalAssert { \
+		int mLine; \
+		LocalAssert(int line=__LINE__) : mLine(line) {} \
+		LocalAssert(bool isOK, const tchar* message=_T("")) { \
+		if ( !isOK ) { \
+		tstringstream buffer; \
+		buffer << _T("ERROR!! Assert failed on line ") << LocalAssert().mLine << _T(" in file '") << __FILE__ << std::endl << _T("Message: \"") << message << _T("\"\n"); \
+		__android_log_print(ANDROID_LOG_ERROR, ANDROID_LOG_TAG, "%s", buffer.str().c_str()); \
+		} \
+	} \
+	} myAsserter = LocalAssert
+	#define ASSERTC \
+		if ( false ) {} \
+	else \
+	struct LocalAssert { \
+		int mLine; \
+		LocalAssert(int line=__LINE__) : mLine(line) {} \
+		LocalAssert(bool isOK, const char* message="") { \
+		if ( !isOK ) { \
+		std::stringstream buffer; \
+		buffer << "ERROR!! Assert failed on line " << LocalAssert().mLine << " in file '" << __FILE__ << std::endl << "Message: \"" << message << "\"\n"; \
+		__android_log_print(ANDROID_LOG_ERROR, ANDROID_LOG_TAG, "%s", buffer.str().c_str()); \
+		} \
+	} \
+	} myAsserter = LocalAssert
+#else
+#define ASSERT \
+	if ( true ) {} else \
+struct NoAssert { \
+	NoAssert(bool isOK, const tchar* message=_T("")) {} \
+} myAsserter = NoAssert
+#define ASSERTC \
+	if ( true ) {} else \
+struct NoAssert { \
+	NoAssert(bool isOK, const tchar* message=_T("")) {} \
+} myAsserter = NoAssert
+#endif
+
+#endif

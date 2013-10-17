@@ -20,15 +20,14 @@ namespace star
 
 	void SpriteComponent::InitializeComponent()
 	{
-		
-		#ifdef _WIN32
+		#ifdef DESKTOP
 				Filepath texshaderVertex(_T("WinShaders/"), _T("Texture_Shader.vert"));
 				Filepath texshaderFrag(_T("WinShaders/"), _T("Texture_Shader.frag"));
 		#else
 				Filepath texshaderVertex(_T("AndroidShaders/"), _T("BaseTexShader.vert"));
 				Filepath texshaderFrag(_T("AndroidShaders/"), _T("BaseTexShader.frag"));
-		
 		#endif
+
 				if(!m_Shader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
 				{
 					Logger::GetInstance()->Log(star::LogLevel::Info, _T("Making Shader Failed"));
