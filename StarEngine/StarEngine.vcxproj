@@ -141,6 +141,7 @@
     <ClInclude Include="jni\StarEngine.h" />
     <ClInclude Include="jni\TimeManager.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="jni\Graphics\ScaleSystem.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +201,7 @@
     <ClCompile Include="jni\Sound\SoundService.cpp" />
     <ClCompile Include="jni\StarEngine.cpp" />
     <ClCompile Include="jni\TimeManager.cpp" />
+    <ClCompile Include="jni\Graphics\ScaleSystem.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
