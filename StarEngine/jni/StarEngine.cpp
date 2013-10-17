@@ -42,8 +42,6 @@ namespace star
 	{
 		m_FPS.Update(context);
 
-		InputManager::GetInstance()->Update();
-
 		if(SceneManager::GetInstance()->Update(context) != STATUS_OK)
 		{
 			return STATUS_KO;

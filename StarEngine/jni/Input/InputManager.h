@@ -73,7 +73,6 @@ namespace star
 
 		static std::shared_ptr<InputManager> GetInstance();
 
-		void Update();
 		bool IsFingerTapCP(uint8 finger = 0) const;
 		bool IsFingerDownCP(uint8 finger = 0) const;
 		bool IsFingerUpCP(uint8 finger = 0) const;
@@ -114,6 +113,9 @@ namespace star
 		bool IsMouseButtonUpWIN(uint8 button) const;
 
 		void SetWindowsHandle(const HWND hWnd);
+		DWORD UpdateWin();
+		void StartKeyboardThread();
+		void StopKeyboardThread();
 
 		uint8 ConvertIndexToVK(uint8 fingerIndex) const;
 #else
@@ -160,7 +162,7 @@ namespace star
 		bool UpdateKeyboardStates();
 		bool IsKeyboardKeyDown_unsafe(uint8 key, bool previousFrame = false) const;
 		bool IsMouseButtonDown_unsafe(uint8 button, bool previousFrame = false) const;
-		void UpdateWin();
+		
 #else
 		static const int INVALID_POINTER_ID = -1;
 		static const float UNDEFINED_POINTER_POSITION;

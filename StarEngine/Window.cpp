@@ -268,6 +268,8 @@ namespace star
 
 			SetResolution(position_width, position_height);
 
+			AttachThreadInput(m_dKeybThreadID, GetCurrentThreadId(), true);
+
 			// Main message loop:
 			while(msg.message != WM_QUIT)
 			{
@@ -321,7 +323,11 @@ namespace star
 		, mHDC()
 		, mClipRect()
 		, mAssetsRoot()
+		, m_hKeybThread()
+		, m_dKeybThreadID()
 	{
+		InputManager::GetInstance()->StartKeyboardThread();
+		m_hKeybThread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE) :: KeybThreadProc, this, NULL, &m_dKeybThreadID);
 	}
 
 	void Window::CalculateRect(RECT & rect)
@@ -613,6 +619,10 @@ namespace star
 
 	Window::~Window(void)
 	{
+		InputManager::GetInstance()->StopKeyboardThread();
+		WaitForSingleObject( m_hKeybThread, INFINITE );
+		CloseHandle( m_hKeybThread );
+
 		delete (mGamePtr);
 		mGamePtr = nullptr;
 
@@ -693,5 +703,12 @@ namespace star
 		}
 	}
 }
+
+DWORD WINAPI KeybThreadProc()
+{
+	return star::InputManager::GetInstance()->UpdateWin();
+}
+
+
 
 #endif
