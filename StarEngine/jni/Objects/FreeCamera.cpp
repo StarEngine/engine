@@ -2,6 +2,7 @@
 #include "../Logger.h"
 #include "../Input/InputManager.h"
 #include "../StarComponents.h"
+#include "../Graphics/GraphicsManager.h"
 
 namespace star
 {
@@ -85,7 +86,6 @@ namespace star
 			transform->Translate(currPos);
 			//transform->Rotate(finalOrientation);
 		}
-	
 		Object::Update(context);
 	}
 }

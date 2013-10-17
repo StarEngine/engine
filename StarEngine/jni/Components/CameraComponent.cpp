@@ -206,8 +206,8 @@ namespace star
 		//opengl standard is -1 to 1 --> 2 width
 		mat4x4 matOrtho
 		(
-		2/width, 0, 0, 0,
-		0, 2/height, 0, 0,
+		2/width, 0, 0, -1,
+		0, 2/height, 0, -1,
 		0, 0, 1/(farPlane - nearPlane), 0,
 		0, 0, nearPlane/(nearPlane - farPlane), 1
 		);
