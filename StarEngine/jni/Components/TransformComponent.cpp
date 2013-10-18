@@ -467,6 +467,7 @@ namespace star
 
         void TransformComponent::InitializeComponent()
         {
-                m_Invalidate = true;
+			CheckForUpdate(true);
+			m_Invalidate = true;
         }
 }

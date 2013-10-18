@@ -127,7 +127,10 @@ status TestScene2::CreateObjects()
 
 status TestScene2::AfterInitializedObjects(const star::Context& context)
 {
-	m_pSpriteObject->GetTransform()->Translate(star::ScaleSystem::GetInstance()->GetWorkingResolution().x /2- (m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->GetWidth()/2),100);
+	float windowWidth = star::ScaleSystem::GetInstance()->GetWorkingResolution().x / 2.0f;
+	float spriteWidth = m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->GetWidth()/2.0f;
+	float spriteScale = m_pSpriteObject->GetTransform()->GetWorldScale().x;
+	m_pSpriteObject->GetTransform()->Translate(windowWidth - (spriteWidth * spriteScale),100);
 	return STATUS_OK;
 }
 
