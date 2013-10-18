@@ -34,9 +34,7 @@ namespace star
 		//Data Members
 		static std::shared_ptr<TextureManager> mTextureManager;
 		std::map<tstring, std::shared_ptr<Texture2D> > mTextureMap;
-		// [COMMENT] if you don't use this anymore, why do you still have it 
-		// then as a variable? Takes memory for nothing imho
-		std::vector<tstring> mPathList;
+		std::map<tstring,tstring> mPathList;
 
 		TextureManager(void);
 

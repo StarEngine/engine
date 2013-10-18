@@ -164,42 +164,81 @@ namespace star
 
 	status SoundService::LoadMusic(const tstring& path, const tstring& name)
 	{
-		auto it = mMusicList.find(name);
-		if(it == mMusicList.end())
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+
+		if(mMusicList.find(name) != mMusicList.end())
 		{
-			SoundFile* music = new SoundFile(path);
-			mMusicList[name] = music;
-			return (STATUS_OK);
+			return (STATUS_KO);
 		}
-		return (STATUS_KO);
+
+		auto pathit = mMusicPathList.find(path);
+		if(pathit!=mMusicPathList.end())
+		{
+			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Sound File Path Already Exists"));
+			tstring nameold = pathit->second;
+			auto nameit = mMusicList.find(nameold);
+			if(nameit!= mMusicList.end())
+			{
+				star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Found sound file of old path, making copy for new name"));
+				mMusicList[name]=nameit->second;
+				return (STATUS_OK);
+			}
+			mMusicPathList.erase(pathit);
+			return (STATUS_KO);
+		}
+
+		SoundFile* music = new SoundFile(path);
+		mMusicList[name] = music;
+		mMusicPathList[path]=name;
+		return (STATUS_OK);
 	}
 
 	status SoundService::LoadSoundEffect(const tstring& path, const tstring& name)
 	{
-		auto it = mEffectsList.find(name);
-		if(it == mEffectsList.end())
-		{
-			SoundEffect* effect = new SoundEffect(path);
-			mEffectsList[name] = effect;
-			return (STATUS_OK);
-		}
-		return (STATUS_KO);
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
+		if(mEffectsList.find(name) != mEffectsList.end())
+		{
+			return (STATUS_KO);
+		}
+
+		auto pathit = mSoundEffectPathList.find(path);
+		if(pathit!=mSoundEffectPathList.end())
+		{
+			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Sound Effect Path Already Exists"));
+			tstring nameold = pathit->second;
+			auto nameit = mMusicList.find(nameold);
+			if(nameit!= mMusicList.end())
+			{
+				star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Found Sound Effect of old path, making copy for new name"));
+				mMusicList[name]=nameit->second;
+				return (STATUS_OK);
+			}
+			mSoundEffectPathList.erase(pathit);
+			return (STATUS_KO);
+		}
+
+		SoundEffect* effect = new SoundEffect(path);
+		mEffectsList[name] = effect;
+		mSoundEffectPathList[path]=name;
+		return (STATUS_OK);
 	}
 
 	status SoundService::PlaySoundFile(const tstring& path, const tstring& name)
 	{
-		auto it = mMusicList.find(name);
-		if(it == mMusicList.end())
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+
+		if(mMusicList.find(name)==mMusicList.end())
 		{
-			SoundFile* music = new SoundFile(path);
-			mMusicList[name] = music;
+			LoadMusic(path,name);
 		}
 		return PlaySoundFile(name);
 	}
 
 	status SoundService::PlaySoundFile(const tstring& name)
 	{
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
@@ -211,17 +250,19 @@ namespace star
 
 	status SoundService::PlaySoundEffect(const tstring& path, const tstring& name)
 	{
-		auto it = mEffectsList.find(name);
-		if(it == mEffectsList.end())
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+
+		if(mEffectsList.find(name)==mEffectsList.end())
 		{
-			SoundEffect* effect = new SoundEffect(path);
-			mEffectsList[name] = effect;
+			LoadSoundEffect(path,name);
 		}
 		return PlaySoundFile(name);
 	}
 
 	status SoundService::PlaySoundEffect(const tstring& name)
 	{
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
@@ -233,6 +274,8 @@ namespace star
 
 	status SoundService::AddToBackgroundQueue(const tstring& name)
 	{
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
@@ -244,6 +287,8 @@ namespace star
 
 	status SoundService::PlayBackgroundQueue()
 	{
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+
 		mQueueIterator = mBackgroundQueue.begin();
 		if(mQueueIterator!=mBackgroundQueue.end())
 		{
@@ -255,6 +300,8 @@ namespace star
 
 	void SoundService::PlayNextSongInQueue()
 	{
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+
 		++mQueueIterator;
 		if(mQueueIterator!=mBackgroundQueue.end())
 		{
@@ -264,6 +311,8 @@ namespace star
 
 	void SoundService::StopSound(const tstring& name)
 	{
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
@@ -281,6 +330,8 @@ namespace star
 
 	void SoundService::StopAllSound()
 	{
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+
 		auto it = mMusicList.begin();
 		for(it; it!= mMusicList.end();++it)
 		{
@@ -296,6 +347,8 @@ namespace star
 
 	void SoundService::PauseAllSound()
 	{
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+
 		auto it = mMusicList.begin();
 		for(it; it!= mMusicList.end();++it)
 		{
@@ -311,6 +364,8 @@ namespace star
 
 	void SoundService::ResumeAllSound()
 	{
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+
 		auto it = mMusicList.begin();
 		for(it; it!= mMusicList.end();++it)
 		{
@@ -326,6 +381,7 @@ namespace star
 
 	void SoundService::DeleteAllSound()
 	{
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
 		auto it = mMusicList.begin();
 		for(it; it!= mMusicList.end();++it)

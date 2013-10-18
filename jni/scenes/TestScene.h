@@ -33,7 +33,8 @@ private:
 	float mRed, mGreen, mBlue;
 
 	star::Object	*m_pObjectOne, 
-					*m_pObjectTwo;
+					*m_pObjectTwo,
+					*m_pObjectThree;
 
 	star::FreeCamera *m_pActiveCamera;
 

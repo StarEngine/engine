@@ -34,22 +34,31 @@ namespace star
 
 	bool TextureManager::LoadTexture(const tstring& path, const tstring& name)
 	{
-		if(mTextureManager == nullptr)
-		{
-			return (false);
-		}
+		ASSERT(mTextureManager != nullptr, _T("Texture manager is invalid."));
 
-		// [COMMENT] Remove commented Code! Ty...
-
-		/*if(std::find(mPathList.begin(), mPathList.end(), path)!=mPathList.end())
-		{
-			return (false);
-		}*/
 
 		if(mTextureMap.find(name) != mTextureMap.end())
 		{
 			return (false);
 		}
+
+		auto pathit = mPathList.find(path);
+		if(pathit!=mPathList.end())
+		{
+			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Texture Path Already Exists"));
+			tstring nameold = pathit->second;
+			auto nameit = mTextureMap.find(nameold);
+			if(nameit!= mTextureMap.end())
+			{
+				star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Found texture old path, making copy for new name"));
+				mTextureMap[name]=nameit->second;
+				return (true);
+			}
+			mPathList.erase(pathit);
+			return (false);
+		}
+
+
 
 #ifdef DESKTOP
 		mTextureMap[name] = std::shared_ptr<Texture2D>(new Texture2D(path));
@@ -57,14 +66,15 @@ namespace star
 		mTextureMap[name] = std::shared_ptr<Texture2D>(new Texture2D(path, star::StarEngine::GetInstance()->GetAndroidApp()));
 #endif
 		
-		// [COMMENT] Remove commented Code! Ty...
-		//mPathList.push_back(path);
+		mPathList[path]=name;
 
 		return (true);
 	}
 
 	bool TextureManager::DeleteTexture(const tstring& name)
 	{
+		ASSERT(mTextureManager != nullptr, _T("Texture manager is invalid."));
+
 		auto it = mTextureMap.find(name);
 		if(it != mTextureMap.end())
 		{
@@ -76,13 +86,7 @@ namespace star
 
 	GLuint TextureManager::GetTextureID(const tstring& name)
 	{
-		//[COMMENT] Why assert and check? It should break before it ever gets the chance to exit the function
 		ASSERT(mTextureManager != nullptr, _T("Texture manager is invalid."));
-		// [COMMENT] Remove commented Code! Ty...
-		//if(mTextureManager == nullptr)
-		//{
-		//	return 0;
-		//}
 
 		if(mTextureMap.find(name) != mTextureMap.end())
 		{
@@ -91,12 +95,10 @@ namespace star
 		return 0;
 	}
 
-	//ivec2 contains first width, then height
-	// [COMMENT] oh Really? Don't place obvious comments please...
-	//	 1) That's local that it first contains width
-	//	 2) You can see it in your code...
 	ivec2 TextureManager::GetTextureDimensions(const tstring& name)
 	{
+		ASSERT(mTextureManager != nullptr, _T("Texture manager is invalid."));
+
 		auto it = mTextureMap.find(name);
 		if(it != mTextureMap.end())
 		{

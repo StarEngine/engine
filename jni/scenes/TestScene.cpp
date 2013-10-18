@@ -70,6 +70,13 @@ status TestScene::Initialize( const star::Context& context)
 	m_pObjectTwo->AddComponent(m_pRectCompTwo);
 	m_pObjectTwo->AddComponent(m_pSpriteComp2);
 	m_pObjectTwo->GetTransform()->Translate(100,100);
+
+
+	m_pObjectThree = new star::Object();
+	star::SpriteComponent* temp3 = new star::SpriteComponent(_T("pikachu.png"),_T("Pikachu2"));
+	m_pObjectThree->AddComponent(temp3);
+	m_pObjectThree->GetTransform()->Translate(200,100);
+
 	m_pActiveCamera = new star::FreeCamera();
 	AddObject(m_pActiveCamera);
 
@@ -88,6 +95,7 @@ status TestScene::Initialize( const star::Context& context)
 
 	AddObject(m_pObjectOne);
 	AddObject(m_pObjectTwo); 
+	AddObject(m_pObjectThree);
 #ifdef _WIN32
 	star::FontManager::GetInstance()->LoadFont(_T("arial.ttf"),_T("Arial"),30);
 	star::FontManager::GetInstance()->LoadFont(_T("tf2professor.ttf"),_T("Professor"),60);
