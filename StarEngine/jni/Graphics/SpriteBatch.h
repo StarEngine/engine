@@ -43,6 +43,7 @@ namespace star
 		std::vector<GLfloat> m_VertexBuffer;
 		std::vector<GLfloat> m_UvCoordBuffer;
 		std::vector<mat4x4> m_WorldMatBuffer;
+		int m_CurrentSprite;
 		Shader m_Shader;	
 
 		//disabling default copy constructor

@@ -25,6 +25,7 @@ namespace star
 		m_bIsActive(false),
 		m_bPerspectiveProjection(false),
 		m_Zoom(1.0f),
+		m_ZoomSpeed(0.5f),
 		m_AspectRatio(1.0f)
 	{
 	}
@@ -72,12 +73,12 @@ namespace star
 
 		if(InputManager::GetInstance()->IsKeyboardKeyDown('O'))
 		{
-			m_Zoom += 0.1f * static_cast<float>(context.mTimeManager->GetSeconds());			
+			m_Zoom += m_ZoomSpeed * static_cast<float>(context.mTimeManager->GetSeconds());			
 			m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
 		}
 		else if(InputManager::GetInstance()->IsKeyboardKeyDown('P'))
 		{
-			m_Zoom -= 0.1f * static_cast<float>(context.mTimeManager->GetSeconds());
+			m_Zoom -= m_ZoomSpeed * static_cast<float>(context.mTimeManager->GetSeconds());
 			m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
 		}
 #endif

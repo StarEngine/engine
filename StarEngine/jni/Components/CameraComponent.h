@@ -45,6 +45,7 @@ namespace star
 				m_FOV,
 				m_Size,
 				m_Zoom,
+				m_ZoomSpeed,
 				m_AspectRatio;
 
 		bool m_bIsActive, m_bPerspectiveProjection;

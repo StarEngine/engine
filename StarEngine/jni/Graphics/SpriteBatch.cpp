@@ -17,6 +17,7 @@ namespace star
 		m_VertexBuffer(),
 		m_UvCoordBuffer(),
 		m_WorldMatBuffer(),
+		m_CurrentSprite(0),
 		m_Shader()
 	{
 		m_SpriteQueue.clear();
@@ -64,11 +65,16 @@ namespace star
 
 	void SpriteBatch::Begin()
 	{
+		
 	}
 	
 	void SpriteBatch::End()
 	{
 		m_SpriteQueue.clear();
+		m_WorldMatBuffer.clear();
+		m_VertexBuffer.clear();
+		m_UvCoordBuffer.clear();
+		m_CurrentSprite = 0;
 	}
 	
 	void SpriteBatch::Flush()
@@ -110,6 +116,7 @@ namespace star
 			//if No
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, currTexture);
+
 			GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
 			glUniform1i(s_textureId, 0);
 
@@ -121,32 +128,21 @@ namespace star
 	
 			auto projectionObject = SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
 			mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
-			//glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Projection"),1,GL_FALSE,glm::value_ptr(projection));
-			
-			//mat4x4 world = m_SpriteQueue[i].transform;
-			//mat4x4 worldInverse = InverseMatrix(world);
-			for(auto sprite : m_SpriteQueue)
-			{
 				auto inverse = InverseMatrix(sprite.transform);
 				m_WorldMatBuffer.push_back(inverse * projection);
-			}
 
 			for(int j = 0; j < ((batchSize/4)); ++j)
 			{
-				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"), 1, GL_FALSE, glm::value_ptr(m_WorldMatBuffer[j]));
+				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"), 1, GL_FALSE, glm::value_ptr(InverseMatrix(m_SpriteQueue[m_CurrentSprite + j].transform) * projection));
 				glDrawArrays(GL_TRIANGLE_STRIP,batchStart,4);
-				batchStart += 4;
-			}
-
-			m_Shader.Unbind();
+			}			
 	
 			batchStart += batchSize;
+			m_CurrentSprite += batchSize/4;
 			batchSize = 0;
 		}
-		m_WorldMatBuffer.clear();
-		m_VertexBuffer.clear();
-		m_UvCoordBuffer.clear();
-		m_SpriteQueue.clear();
+
+		m_Shader.Unbind();
 
 		//Unbind attributes and buffers
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
