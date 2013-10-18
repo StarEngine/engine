@@ -1,12 +1,12 @@
 #include "Game.h"
-#include "../StarEngine/jni/Scenes/SceneManager.h"
-#include "../StarEngine/jni/Context.h"
-#include "../StarEngine/jni/StarEngine.h"
-#include "../StarEngine/jni/Helpers/Helpers.h"
-#include "../StarEngine/jni/Assets/FontManager.h"
+#include "Scenes/SceneManager.h"
+#include "Context.h"
+#include "StarEngine.h"
+#include "Helpers/Helpers.h"
+#include "Assets/FontManager.h"
 #include "scenes/TestScene.h"
 #include "scenes/TestScene2.h"
-#include "../StarEngine/jni/Input/InputManager.h"
+#include "Input/InputManager.h"
 
 Game::Game()
 	: star::BaseGame()

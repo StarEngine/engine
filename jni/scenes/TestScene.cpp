@@ -1,13 +1,13 @@
 #include "TestScene.h"
-#include "../../StarEngine/jni/Helpers/Helpers.h"
-#include "../../StarEngine/jni/Physics/Collision/CollisionManager.h"
-#include "../../StarEngine/jni/AI/Pathfinding/PathFindManager.h"
-#include "../../StarEngine/jni/StarComponents.h"
-#include "../../StarEngine/jni/Input/InputManager.h"
-#include "../../StarEngine/jni/Graphics/GraphicsManager.h"
-#include "../../StarEngine/jni/Scenes/SceneManager.h"
-#include "../../StarEngine/jni/Sound/SoundService.h"
-#include "../../StarEngine/jni/Helpers/Stopwatch.h"
+#include "Helpers/Helpers.h"
+#include "Physics/Collision/CollisionManager.h"
+#include "AI/Pathfinding/PathFindManager.h"
+#include "StarComponents.h"
+#include "Input/InputManager.h"
+#include "Graphics/GraphicsManager.h"
+#include "Scenes/SceneManager.h"
+#include "Sound/SoundService.h"
+#include "Helpers/Stopwatch.h"
 
 #ifdef DESKTOP
 #include <glew.h>

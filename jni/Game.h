@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../StarEngine/jni/BaseGame.h"
+#include "BaseGame.h"
 
 namespace star
 {

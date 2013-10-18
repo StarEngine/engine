@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../../StarEngine/jni/defines.h"
-#include "../../StarEngine/jni/Scenes/BaseScene.h"
-#include "../../StarEngine/jni/Logger.h"
-#include "../../StarEngine/jni/Context.h"
-#include "../../StarEngine/jni/Objects/Object.h"
-#include "../../StarEngine/jni/StarComponents.h"
-#include "../../StarEngine/jni/Input/Gestures/DoubleTapGesture.h"
-#include "../../StarEngine/jni/Objects/FreeCamera.h"
+#include "defines.h"
+#include "Scenes/BaseScene.h"
+#include "Logger.h"
+#include "Context.h"
+#include "Objects/Object.h"
+#include "StarComponents.h"
+#include "Input/Gestures/DoubleTapGesture.h"
+#include "Objects/FreeCamera.h"
 
 #ifdef _WIN32
 #include "../../StarEngine/jni/Assets/FontManager.h"
