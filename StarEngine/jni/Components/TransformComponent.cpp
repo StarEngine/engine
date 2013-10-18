@@ -91,6 +91,50 @@ namespace star
                 m_IsChanged |= TransformChanged::TRANSLATION;
         }
 
+		void TransformComponent::TranslateX(float x)
+		{
+			m_LocalPosition.x = x;
+            m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+		void TransformComponent::TranslateY(float y)
+		{
+			m_LocalPosition.y = y;
+            m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+		void TransformComponent::TranslateL(lay l)
+		{
+			m_LocalPosition.l = l;
+            m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+		void TransformComponent::Move(const vec2& translation)
+		{
+			m_LocalPosition.x += translation.x;
+			m_LocalPosition.y += translation.y;
+            m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+		void TransformComponent::Move(float x, float y)
+		{
+			m_LocalPosition.x += x;
+			m_LocalPosition.y += y;
+            m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+		void TransformComponent::MoveX(float x)
+		{
+			m_LocalPosition.x += x;
+            m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+		void TransformComponent::MoveY(float y)
+		{
+			m_LocalPosition.y += y;
+            m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
         void TransformComponent::Rotate(float rotation)
         {
                 m_LocalRotation = rotation;
@@ -108,9 +152,25 @@ namespace star
                 Scale(vec2(x, y));
         }
 
+        void TransformComponent::Scale(float u)
+        {
+                Scale(vec2(u, u));
+        }
+
+		void TransformComponent::ScaleX(float x)
+		{
+			m_LocalScale.x = x;
+            m_IsChanged |= TransformChanged::SCALE;
+		}
+
+		void TransformComponent::ScaleY(float y)
+		{
+			m_LocalScale.y = y;
+            m_IsChanged |= TransformChanged::SCALE;
+		}
+
         const pos & TransformComponent::GetWorldPosition()
         {
-                CheckForUpdate();
                 return m_WorldPosition;
         }
 
@@ -121,7 +181,6 @@ namespace star
 
         float TransformComponent::GetWorldRotation()
         {
-                CheckForUpdate();
                 return m_WorldRotation;
         }
 
@@ -133,7 +192,6 @@ namespace star
 
         const vec2 & TransformComponent::GetWorldScale()
         {
-                CheckForUpdate();
                 return m_WorldScale;
         }
 
@@ -153,6 +211,95 @@ namespace star
                 Translate(vec3(x,y,z));
         }
 
+        void TransformComponent::TranslateXY(float x, float y)
+		{
+			m_LocalPosition.x = x;
+			m_LocalPosition.y = y;
+			m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+        void TransformComponent::TranslateXZ(float x, float z)
+		{
+			m_LocalPosition.x = x;
+			m_LocalPosition.z = z;
+			m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+        void TransformComponent::TranslateX(float x)
+		{
+			m_LocalPosition.x = x;
+			m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+        void TransformComponent::TranslateYZ(float y, float z)
+		{
+			m_LocalPosition.y = y;
+			m_LocalPosition.z = z;
+			m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+        void TransformComponent::TranslateY(float y)
+		{
+			m_LocalPosition.y = y;
+			m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+        void TransformComponent::TranslateZ(float z)
+		{
+			m_LocalPosition.z = z;
+			m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+		void TransformComponent::Move(const vec3 & translation)
+        {
+                m_LocalPosition += translation;
+                m_IsChanged |= TransformChanged::TRANSLATION;
+        }
+
+        void TransformComponent::Move(float x, float y, float z)
+        {
+                Move(vec3(x,y,z));
+        }
+
+        void TransformComponent::MoveXY(float x, float y)
+		{
+			m_LocalPosition.x += x;
+			m_LocalPosition.y += y;
+			m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+        void TransformComponent::MoveXZ(float x, float z)
+		{
+			m_LocalPosition.x += x;
+			m_LocalPosition.z += z;
+			m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+        void TransformComponent::MoveX(float x)
+		{
+			m_LocalPosition.x += x;
+			m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+        void TransformComponent::MoveYZ(float y, float z)
+		{
+			m_LocalPosition.y += y;
+			m_LocalPosition.z += z;
+			m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+        void TransformComponent::MoveY(float y)
+		{
+			m_LocalPosition.y += y;
+			m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
+        void TransformComponent::MoveZ(float z)
+		{
+			m_LocalPosition.z += z;
+			m_IsChanged |= TransformChanged::TRANSLATION;
+		}
+
         void TransformComponent::Rotate(const quat & rotation)
         {
                 m_LocalRotation = rotation;
@@ -170,9 +317,52 @@ namespace star
                 Scale(vec3(x,y,z));
         }
 
+        void TransformComponent::Scale(float u)
+        {
+                Scale(vec3(u, u, u));
+        }
+
+        void TransformComponent::ScaleXY(float x, float y)
+		{
+			m_LocalScale.x = x;
+			m_LocalScale.y = y;
+			m_IsChanged |= TransformChanged::SCALE;
+		}
+
+        void TransformComponent::ScaleXZ(float x, float z)
+		{
+			m_LocalScale.x = x;
+			m_LocalScale.z = z;
+			m_IsChanged |= TransformChanged::SCALE;
+		}
+
+        void TransformComponent::ScaleX(float x)
+		{
+			m_LocalScale.x = x;
+			m_IsChanged |= TransformChanged::SCALE;
+		}
+
+        void TransformComponent::ScaleYZ(float y, float z)
+		{
+			m_LocalScale.y = y;
+			m_LocalScale.z = z;
+			m_IsChanged |= TransformChanged::SCALE;
+		}
+
+        void TransformComponent::ScaleY(float y)
+		{
+			m_LocalScale.y = y;
+			m_IsChanged |= TransformChanged::SCALE;
+		}
+
+        void TransformComponent::ScaleZ(float z)
+		{
+			m_LocalScale.z = z;
+			m_IsChanged |= TransformChanged::SCALE;
+		}
+
         const vec3 & TransformComponent::GetWorldPosition()
         {
-                CheckForUpdate();
                 return m_WorldPosition;
         }
 
@@ -183,7 +373,6 @@ namespace star
 
         const quat & TransformComponent::GetWorldRotation()
         {
-                CheckForUpdate();
                 return m_WorldRotation;
         }
 
@@ -194,7 +383,6 @@ namespace star
 
         const vec3 & TransformComponent::GetWorldScale()
         {
-                CheckForUpdate();
                 return m_WorldScale;
         }
 
@@ -206,7 +394,6 @@ namespace star
 
         mat4x4 TransformComponent::GetWorldMatrix()
         {
-                CheckForUpdate();
                 return m_World;
         }
 
@@ -257,8 +444,13 @@ namespace star
 
         void TransformComponent::Update(const Context& context)
         {
-                CheckForUpdate(true);
+             CheckForUpdate(true);
         }
+        
+		void TransformComponent::Draw()
+		{
+
+		}
 
         void TransformComponent::InitializeComponent()
         {

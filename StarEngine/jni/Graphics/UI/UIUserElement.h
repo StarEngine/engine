@@ -25,8 +25,6 @@ namespace star
 		virtual ~UIUserElement(void);
 
 		virtual void Initialize();
-		virtual void Update(const Context& context);
-		virtual void Draw();
 
 		bool IsToggled() const;
 		bool IsDisabled() const;
@@ -39,6 +37,9 @@ namespace star
 #endif
 
 	protected:
+		virtual void UpdateObject(const Context& context);
+		virtual void DrawObject();
+
 		std::function<void()>
 			m_SelectCallback;
 

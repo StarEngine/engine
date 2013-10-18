@@ -22,8 +22,8 @@ namespace star
 		Object* GetParent() const;
 
 		virtual void Initialize();
-		virtual void Update(const Context& context);
-		virtual void Draw();
+		void Update(const Context& context);
+		void Draw();
 
 		const tstring& GetName() const;
 		void SetName(const tstring& name);
@@ -36,6 +36,15 @@ namespace star
 
 		void SetCollisionTag(const tstring& tag);
 		const tstring& GetCollisionTag() const;
+
+		void SetVisible(bool visible);
+		bool IsVisible() const;
+
+		void Freeze(bool freeze);
+		bool IsFrozen() const;
+
+		void SetDisabled(bool disabled);
+		bool IsDisabled() const;
 
 		void CollisionCheck(Object* otherObject);
 		bool RectangleCollision(Object* object, Object* otherObject);
@@ -59,7 +68,12 @@ namespace star
 		T* GetChild(const tstring & name) const;
 
 	protected:
+		virtual void UpdateObject(const Context & context);
+		virtual void DrawObject();
+
 		bool m_bIsInitialized;
+		bool m_IsVisible;
+		bool m_IsFrozen;
 		Object* m_pParentGameObject;
 		PathFindNodeComponent* m_pPathFindComp;
 		BaseScene *m_pScene;

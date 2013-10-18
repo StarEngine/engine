@@ -55,6 +55,7 @@ status TestScene::Initialize( const star::Context& context)
 	m_GestureManagerPtr->AddGesture(m_TapGesture, _T("DoubleTapGesture"));
 	*/
 	m_pObjectOne = new star::Object();
+	m_pObjectOne->Freeze(true);
 	m_pRectCompOne = new star::RectangleColliderComponent(200,215);
 	m_pSpriteComp1 = new star::SpriteComponent(_T("pikachu.png"),_T("Pikachu"));
 	m_pObjectOne->AddComponent(m_pRectCompOne);

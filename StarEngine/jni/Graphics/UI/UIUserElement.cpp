@@ -24,14 +24,14 @@ namespace star
 		Object::Initialize();
 	}
 
-	void UIUserElement::Update(const Context& context)
+	void UIUserElement::UpdateObject(const Context& context)
 	{
-		Object::Update(context);
+		Object::UpdateObject(context);
 	}
 
-	void UIUserElement::Draw()
+	void UIUserElement::DrawObject()
 	{
-		Object::Draw();
+		Object::DrawObject();
 	}
 
 	bool UIUserElement::IsToggled() const

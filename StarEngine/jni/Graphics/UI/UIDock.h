@@ -12,10 +12,11 @@ namespace star
 		virtual ~UIDock(void);
 
 		virtual void Initialize();
-		virtual void Update(const Context& context);
-		virtual void Draw();
 
 	protected:
+		virtual void UpdateObject(const Context& context);
+		virtual void DrawObject();
+
 		vec2 m_ScreenScale;
 
 	private:

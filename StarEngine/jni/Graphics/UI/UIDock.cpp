@@ -19,13 +19,13 @@ namespace star
 		Object::Initialize();
 	}
 
-	void UIDock::Update(const Context& context)
+	void UIDock::UpdateObject(const Context& context)
 	{
-		Object::Update(context);
+		Object::UpdateObject(context);
 	}
 
-	void UIDock::Draw()
+	void UIDock::DrawObject()
 	{
-		Object::Draw();
+		Object::DrawObject();
 	}
 }

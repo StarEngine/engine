@@ -169,29 +169,39 @@ status TestScene2::Update(const star::Context& context)
 		{
 			m_CurrentAnimation = 4;
 			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("run left"));
+			m_pSpriteObject->SetVisible(true);
+			m_pSpriteObject->Freeze(false);
 		}
 		else if(m_CurrentAnimation != 3 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowWidth() * 0.6f
 			&& pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowWidth() * 0.8f)
 		{
 			m_CurrentAnimation = 3;
 			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("run up"));
+			m_pSpriteObject->SetVisible(true);
+			m_pSpriteObject->Freeze(true);
 		}
 		else if(m_CurrentAnimation != 2 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowWidth() * 0.4f
 			&& pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowWidth() * 0.6f)
 		{
 			m_CurrentAnimation = 2;
 			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("run right"));
+			m_pSpriteObject->SetVisible(false);
+			m_pSpriteObject->Freeze(false);
 		}
 		else if(m_CurrentAnimation != 1 && pos.x > (float)star::GraphicsManager::GetInstance()->GetWindowWidth() * 0.2f
 			&& pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowWidth() * 0.4f)
 		{
 			m_CurrentAnimation = 1;
 			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("run down"));
+			m_pSpriteObject->SetVisible(true);
+			m_pSpriteObject->Freeze(false);
 		}
 		else if(m_CurrentAnimation != 0 && pos.x < (float)star::GraphicsManager::GetInstance()->GetWindowWidth() * 0.2f)
 		{
 			m_CurrentAnimation = 0;
 			m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->PlayAnimation(_T("idle"));
+			m_pSpriteObject->SetVisible(true);
+			m_pSpriteObject->Freeze(false);
 		}
 	}
 	

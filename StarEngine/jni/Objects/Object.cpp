@@ -7,6 +7,8 @@ namespace star
 {
 	Object::Object(void):
 		m_bIsInitialized(false),
+		m_IsVisible(true),
+		m_IsFrozen(false),
 		m_pParentGameObject(nullptr),
 		m_pPathFindComp(nullptr),
 		m_pScene(nullptr),
@@ -66,6 +68,14 @@ namespace star
 
 	void Object::Update(const Context& context)
 	{
+		if(!m_IsFrozen)
+		{
+			UpdateObject(context);
+		}
+	}
+	
+	void Object::UpdateObject(const Context & context)
+	{
 		for(auto *component : m_pComponents)
 		{
 			if(component)
@@ -84,6 +94,14 @@ namespace star
 	}
 
 	void Object::Draw()
+	{
+		if(m_IsVisible)
+		{
+			DrawObject();
+		}
+	}
+
+	void Object::DrawObject()
 	{
 		for(auto *component : m_pComponents)
 		{
@@ -171,6 +189,37 @@ namespace star
 	const tstring& Object::GetCollisionTag() const
 	{
 		return (m_CollisionTag);
+	}
+
+	void Object::SetVisible(bool visible)
+	{
+		m_IsVisible = visible;
+	}
+
+	bool Object::IsVisible() const
+	{
+		return m_IsVisible;
+	}
+
+	void Object::Freeze(bool freeze)
+	{
+		m_IsFrozen = freeze;
+	}
+
+	bool Object::IsFrozen() const
+	{
+		return m_IsFrozen;
+	}
+
+	void Object::SetDisabled(bool disabled)
+	{
+		m_IsVisible = !disabled;
+		m_IsFrozen = disabled;
+	}
+
+	bool Object::IsDisabled() const
+	{
+		return !m_IsVisible && m_IsFrozen;
 	}
 
 	void Object::CollisionCheck(Object* otherObject)
