@@ -1,5 +1,6 @@
 #include "GraphicsManager.h"
 #include "../Logger.h"
+#include "ScaleSystem.h"
 
 #ifdef DESKTOP
 #include <Windows.h>
@@ -170,12 +171,13 @@ namespace star
 	{
 		return float(mScreenWidth) / float(mScreenHeight);
 	}
-	
+
 	void GraphicsManager::SetWindowDimensions(int32 width, int32 height)
 	{
 		mScreenWidth = width;
 		mScreenHeight = height;
 		glViewport(0,0,width, height);
+		ScaleSystem::GetInstance()->UpdateWorkingResolution();
 	}
 
 #ifdef DESKTOP

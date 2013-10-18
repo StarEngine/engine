@@ -69,7 +69,7 @@ status TestScene::Initialize( const star::Context& context)
 	m_pSpriteComp2 = new star::SpriteComponent(_T("pikachu.png"),_T("Pikachu"));
 	m_pObjectTwo->AddComponent(m_pRectCompTwo);
 	m_pObjectTwo->AddComponent(m_pSpriteComp2);
-	m_pObjectTwo->GetTransform()->Translate(100,100);
+	m_pObjectTwo->GetTransform()->Translate(1800,100);
 
 
 	m_pObjectThree = new star::Object();

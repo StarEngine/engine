@@ -102,10 +102,11 @@ namespace star
 
                 unsigned char m_IsChanged;
                 bool m_Invalidate;
+
 #ifdef STAR2D
-                pos m_WorldPosition, m_LocalPosition;
+                pos m_WorldPosition, m_LocalPosition, m_UnScaledLocalPos;
                 float m_WorldRotation, m_LocalRotation;
-                vec2 m_WorldScale, m_LocalScale;
+                vec2 m_WorldScale, m_LocalScale, m_UnScaledLocalScale;
 #else
                 vec3 m_WorldPosition, m_LocalPosition;
                 quat m_WorldRotation, m_LocalRotation;

@@ -22,6 +22,7 @@ namespace star
 		vec2 m_WorkingRes;
 		float m_Scale;
 		float m_AspectRatio;
+		bool m_bIninitialized;
 
 		static std::shared_ptr<ScaleSystem> m_ScaleSystemPtr;
 	};
