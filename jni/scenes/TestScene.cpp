@@ -177,9 +177,9 @@ status TestScene::Draw()
 	// Blue text
 #ifdef _WIN32
 	auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
-	star::FontManager::GetInstance()->DrawTextW(_T("The quick brown fox jumps over the lazy dog &'(!).123456789?;:,/\ "),_T("Arial"),ivec2(0,0));
-	star::FontManager::GetInstance()->DrawTextW(_T("The quick brown fox jumps over the lazy dog"),_T("Professor"),ivec2(0,300));
-	star::FontManager::GetInstance()->DrawTextW(_T("The quick brown fox jumps over the lazy dog"),_T("Coalition"),ivec2(0,600));
+	star::FontManager::GetInstance()->DrawTextW(_T("The quick brown fox jumps over the lazy dog &'(!).123456789?;:,/\ "),_T("Arial"),ivec2(0,0),vec4(0,1,0,1));
+	star::FontManager::GetInstance()->DrawTextW(_T("The quick brown fox jumps over the lazy dog"),_T("Professor"),ivec2(0,300),vec4(0,1,1,1));
+	star::FontManager::GetInstance()->DrawTextW(_T("The quick brown fox jumps over the lazy dog"),_T("Coalition"),ivec2(0,600),vec4(0,0,1,1));
 #endif
 	return STATUS_OK;
 }

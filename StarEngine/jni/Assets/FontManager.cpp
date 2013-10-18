@@ -37,8 +37,8 @@ namespace star
 		}
 
 #ifdef _WIN32
-		Filepath texshaderVertex(_T("WinShaders/"), _T("Texture_Shader.vert"));
-		Filepath texshaderFrag(_T("WinShaders/"), _T("Texture_Shader.frag"));
+		Filepath texshaderVertex(_T("WinShaders/"), _T("Font_Shader.vert"));
+		Filepath texshaderFrag(_T("WinShaders/"), _T("Font_Shader.frag"));
 #else
 		Filepath texshaderVertex(_T("AndroidShaders/"), _T("BaseTexShader.vert"));
 		Filepath texshaderFrag(_T("AndroidShaders/"), _T("BaseTexShader.frag"));
@@ -116,7 +116,7 @@ namespace star
 		return (false);
 	}
 
-	bool FontManager::DrawText( const tstring& text, const tstring& fontname, ivec2 position)
+	bool FontManager::DrawText( const tstring& text, const tstring& fontname, ivec2 position, vec4 color)
 	{
 		if(text==EMPTY_STRING)return false;
 		
@@ -164,6 +164,8 @@ namespace star
 			GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
 			glUniform1i(s_textureId, 0);
 
+			GLint s_colorId = glGetUniformLocation(m_Shader.GetId(), "colorMultiplier");
+			glUniform4f(s_colorId,color.r,color.g,color.b,color.a);
 			//Set attributes and buffers
 			glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0,tempverts[start_line[i]].ver);
 			glEnableVertexAttribArray(ATTRIB_VERTEX);
