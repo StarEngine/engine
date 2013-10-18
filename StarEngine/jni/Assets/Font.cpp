@@ -1,10 +1,8 @@
 #include "Font.h"
 #include "../Logger.h"
 
-#ifdef _WIN32
 namespace star
 {
-
 	bool Font::Init(const tstring& path, int32 size, FT_Library& library )
 	{
 		mSize = static_cast<float>(size);
@@ -27,7 +25,7 @@ namespace star
 
 		FT_Set_Char_Size(mFace,size<<6, size<<6, FONT_DPI, FONT_DPI);
 
-		mList_base=glGenLists(FONT_TEXTURES);
+		//mList_base=glGenLists(FONT_TEXTURES);
 		glGenTextures(FONT_TEXTURES,mTextures);
 		for(unsigned char i=0; i < FONT_TEXTURES; ++i)
 		{
@@ -40,7 +38,7 @@ namespace star
 
 	void Font::DeleteFont()
 	{
-		glDeleteLists(mList_base,FONT_TEXTURES);
+		//glDeleteLists(mList_base,FONT_TEXTURES);
 		glDeleteTextures(FONT_TEXTURES,mTextures);
 		delete[] mTextures;
 	}
@@ -133,6 +131,4 @@ namespace star
 		while(rval<a)rval<<=1;
 		return rval;
 	}
-
 }
-#endif

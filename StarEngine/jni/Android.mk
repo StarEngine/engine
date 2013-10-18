@@ -7,7 +7,8 @@ LS_CPP+= $(subst $(1)/,,$(wildcard $(1)/**/*.cpp))
 LS_CPP+= $(subst $(1)/,,$(wildcard $(1)/**/**/*.cpp))
 LS_CPP+= $(subst $(1)/,,$(wildcard $(1)/**/**/**/*.cpp))
 LOCAL_MODULE    := starengine
-LOCAL_CPPFLAGS  := -std=gnu++11 -D STAR2D=1 -D LOGGER_MIN_LEVEL=1
+LOCAL_CFLAGS 	:= -D FT_FREETYPE_H="\"freetype/freetype.h\""
+LOCAL_CPPFLAGS  := -std=gnu++11 -D STAR2D=1 -D LOGGER_MIN_LEVEL=1 -I ..\libs\freetype-Android\include
 LOCAL_SRC_FILES := $(call LS_CPP,$(LOCAL_PATH))
 APP_PLATFORM := android-14
 APP_OPTIM := debug

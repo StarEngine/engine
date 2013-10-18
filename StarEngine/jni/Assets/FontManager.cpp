@@ -7,8 +7,6 @@
 #include "../Components/CameraComponent.h"
 #include "../Objects/FreeCamera.h"
 
-#ifdef _WIN32
-
 #ifdef ANDROID
 #include "../StarEngine.h"
 #endif
@@ -239,5 +237,3 @@ namespace star
 		return inverseMatrix;
 	}
 }
-
-#endif

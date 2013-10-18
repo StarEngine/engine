@@ -1,5 +1,4 @@
 #pragma once
-#ifdef _WIN32
 
 #include <map>
 #include <vector>
@@ -8,9 +7,10 @@
 #include "../Helpers/Filepath.h"
 #include "../Helpers/Helpers.h"
 
-#ifdef _WIN32
-#include <ft2build.h>
-#include FT_FREETYPE_H
+#include "ft2build.h"
+#include "freetype/freetype.h"
+
+#ifdef DESKTOP
 #include <glew.h>
 #else
 #include <GLES/gl.h>
@@ -60,8 +60,4 @@ namespace star
 		std::vector< ivec2 > mLetterSizeList;
 		float mSize;
 	};
-
-
 }
-
-#endif

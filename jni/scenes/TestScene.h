@@ -9,10 +9,6 @@
 #include "Input/Gestures/DoubleTapGesture.h"
 #include "Objects/FreeCamera.h"
 
-#ifdef _WIN32
-#include "../../StarEngine/jni/Assets/FontManager.h"
-#endif
-
 class TestScene : public star::BaseScene
 {
 public:

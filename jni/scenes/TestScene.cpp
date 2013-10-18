@@ -9,6 +9,8 @@
 #include "Sound/SoundService.h"
 #include "Helpers/Stopwatch.h"
 
+#include "Assets/FontManager.h"
+
 #ifdef DESKTOP
 #include <glew.h>
 #else
@@ -88,11 +90,11 @@ status TestScene::Initialize( const star::Context& context)
 
 	AddObject(m_pObjectOne);
 	AddObject(m_pObjectTwo); 
-#ifdef _WIN32
+
 	star::FontManager::GetInstance()->LoadFont(_T("arial.ttf"),_T("Arial"),30);
 	star::FontManager::GetInstance()->LoadFont(_T("tf2professor.ttf"),_T("Professor"),60);
 	star::FontManager::GetInstance()->LoadFont(_T("Coalition_v2.ttf"),_T("Coalition"),30);
-#endif
+
 	return STATUS_OK;
 	}
 
@@ -162,11 +164,9 @@ status TestScene::Initialize( const star::Context& context)
 status TestScene::Draw()
 {
 	// Blue text
-#ifdef _WIN32
 	auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
-	star::FontManager::GetInstance()->DrawTextW(_T("The quick brown fox jumps over the lazy dog &'(!).123456789?;:,/\ "),_T("Arial"),ivec2(0,0));
-	star::FontManager::GetInstance()->DrawTextW(_T("The quick brown fox jumps over the lazy dog"),_T("Professor"),ivec2(0,300));
-	star::FontManager::GetInstance()->DrawTextW(_T("The quick brown fox jumps over the lazy dog"),_T("Coalition"),ivec2(0,600));
-#endif
+	star::FontManager::GetInstance()->DrawText(_T("The quick brown fox jumps over the lazy dog &'(!).123456789?;:,/\ "),_T("Arial"),ivec2(0,0));
+	star::FontManager::GetInstance()->DrawText(_T("The quick brown fox jumps over the lazy dog"),_T("Professor"),ivec2(0,300));
+	star::FontManager::GetInstance()->DrawText(_T("The quick brown fox jumps over the lazy dog"),_T("Coalition"),ivec2(0,600));
 	return STATUS_OK;
 }
