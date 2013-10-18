@@ -37,7 +37,7 @@ namespace star
 		m_pCamera->SetActive();
 	}
 
-	void FreeCamera::Update(const Context& context)
+	void FreeCamera::BaseUpdate(const Context& context)
 	{
 		if(m_pCamera->IsActive())
 		{
@@ -86,6 +86,6 @@ namespace star
 			transform->Translate(currPos);
 			//transform->Rotate(finalOrientation);
 		}
-		Object::Update(context);
+		Object::BaseUpdate(context);
 	}
 }

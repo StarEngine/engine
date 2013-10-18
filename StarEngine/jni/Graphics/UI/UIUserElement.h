@@ -37,8 +37,8 @@ namespace star
 #endif
 
 	protected:
-		virtual void UpdateObject(const Context& context);
-		virtual void DrawObject();
+		virtual void BaseUpdate(const Context& context);
+		virtual void BaseDraw();
 
 		std::function<void()>
 			m_SelectCallback;

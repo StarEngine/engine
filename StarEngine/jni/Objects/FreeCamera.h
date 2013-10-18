@@ -11,14 +11,13 @@ namespace star
 	{
 	public:
 		FreeCamera(void);
-		~FreeCamera(void);
+		virtual ~FreeCamera(void);
 
 		void SetStatic(bool isStatic);
-		// [COMMENT] if you make this virtual, why not the destructor then ?! o.O
-		virtual void Update(const Context& context);
 
 	protected:
 		virtual void Initialize();
+		virtual void BaseUpdate(const Context& context);
 		
 
 	private:

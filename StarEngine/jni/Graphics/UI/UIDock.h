@@ -14,8 +14,8 @@ namespace star
 		virtual void Initialize();
 
 	protected:
-		virtual void UpdateObject(const Context& context);
-		virtual void DrawObject();
+		virtual void BaseUpdate(const Context& context);
+		virtual void BaseDraw();
 
 		vec2 m_ScreenScale;
 

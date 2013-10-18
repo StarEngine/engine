@@ -70,11 +70,11 @@ namespace star
 	{
 		if(!m_IsFrozen)
 		{
-			UpdateObject(context);
+			BaseUpdate(context);
 		}
 	}
 	
-	void Object::UpdateObject(const Context & context)
+	void Object::BaseUpdate(const Context & context)
 	{
 		for(auto *component : m_pComponents)
 		{
@@ -97,11 +97,11 @@ namespace star
 	{
 		if(m_IsVisible)
 		{
-			DrawObject();
+			BaseDraw();
 		}
 	}
 
-	void Object::DrawObject()
+	void Object::BaseDraw()
 	{
 		for(auto *component : m_pComponents)
 		{

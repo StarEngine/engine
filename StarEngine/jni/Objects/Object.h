@@ -68,8 +68,8 @@ namespace star
 		T* GetChild(const tstring & name) const;
 
 	protected:
-		virtual void UpdateObject(const Context & context);
-		virtual void DrawObject();
+		virtual void BaseUpdate(const Context & context);
+		virtual void BaseDraw();
 
 		bool m_bIsInitialized;
 		bool m_IsVisible;
