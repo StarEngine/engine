@@ -56,7 +56,7 @@
       <AdditionalLibraryDirectories>$(ProjectDir)\libs\freetype-2.5.0.1\objs\win32\vc2010;$(ProjectDir)\libs\SDL2-2.0.0\lib\x86;$(ProjectDir)\libs\SDL2_mixer-2.0.0\lib\x86;$(ProjectDir)\libs\OpenGL\GLEW\lib\Release\Win32;$(ProjectDir)\libs\Libpng_Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;libpng16.lib;zlib.lib;SDL2.lib;SDL2_mixer.lib;freetype250_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/ignore:4099 /ignore:4204 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>

@@ -52,6 +52,8 @@
       <AdditionalIncludeDirectories>..\libs\freetype-2.5.0.1\include\freetype;..\libs\freetype-2.5.0.1\include;..\libs\SDL2_mixer-2.0.0\include;..\libs\SDL2-2.0.0\include;..\libs\libpng;$(ProjectDir);..\libs\OpenGL\GL;..\libs\OpenGL\GLEW\include\GL;..\libs\OpenGL\GLUT\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>STAR2D;LOGGER_MIN_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
+      <AdditionalOptions>/ignore:4099 /ignore:4204 /ignore:4221 %(AdditionalOptions)</AdditionalOptions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -69,6 +71,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>STAR2D;LOGGER_MIN_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/ignore:4099 /ignore:4204 /ignore:4221 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
