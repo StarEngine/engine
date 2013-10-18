@@ -12,9 +12,12 @@ namespace star
 {
 	SpriteComponent::SpriteComponent(const tstring& filepath,const tstring& spriteName)
 		: BaseComponent()
+		, m_Width(0)
+		, m_Heigth(0)
 		, m_Shader()
 		, m_FilePath(filepath)
 		, m_SpriteName(spriteName)
+		
 	{
 	}
 
@@ -135,12 +138,12 @@ namespace star
 
 	int32 SpriteComponent::GetWidth() const
 	{
-		return m_Width;
+		return m_Width * m_pParentObject->GetTransform()->GetWorldScale().x;
 	}
 
 	int32 SpriteComponent::GetHeight() const
 	{
-		return m_Heigth;
+		return m_Heigth * m_pParentObject->GetTransform()->GetWorldScale().y;
 	}
 
 	std::vector<GLfloat> SpriteComponent::GetVertices() const

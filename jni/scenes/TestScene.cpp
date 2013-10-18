@@ -50,7 +50,7 @@ TestScene::~TestScene()
 	//m_GestureManagerPtr->RemoveGesture(m_TapGesture);
 }
 
-status TestScene::Initialize( const star::Context& context)
+status TestScene::CreateObjects()
 {/*
 	m_TapGesture = new star::DoubleTapGesture();
 	m_GestureManagerPtr->AddGesture(m_TapGesture, _T("DoubleTapGesture"));
@@ -102,7 +102,12 @@ status TestScene::Initialize( const star::Context& context)
 	star::FontManager::GetInstance()->LoadFont(_T("Coalition_v2.ttf"),_T("Coalition"),30);
 #endif
 	return STATUS_OK;
-	}
+}
+
+status TestScene::AfterInitializedObjects(const star::Context& context)
+{
+	return STATUS_OK;
+}
 
 	status TestScene::Update(const star::Context& context)
 	{

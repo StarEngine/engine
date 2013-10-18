@@ -19,7 +19,8 @@ public:
 	TestScene(const tstring& name);
 	virtual ~TestScene();
 
-	status Initialize(const star::Context& context);
+	status CreateObjects();
+	status AfterInitializedObjects(const star::Context& context);
 	status Update(const star::Context& context);
 	status Draw();
 

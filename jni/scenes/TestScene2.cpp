@@ -10,6 +10,7 @@
 #include "Graphics/SpriteAnimationManager.h"
 #include "Components/Graphics/SpritesheetComponent.h"
 #include "Components/TransformComponent.h"
+#include "Graphics/ScaleSystem.h"
 
 #ifdef DESKTOP
 #include <glew.h>
@@ -53,7 +54,7 @@ TestScene2::~TestScene2()
 {
 }
 
-status TestScene2::Initialize(const star::Context& context)
+status TestScene2::CreateObjects()
 {
 	m_pObjectOne = new star::Object();
 	m_pRectCompOne = new star::RectangleColliderComponent(10,10);
@@ -116,11 +117,18 @@ status TestScene2::Initialize(const star::Context& context)
 	m_pSpriteObject = new star::Object();
 	auto sprComponent = new star::SpritesheetComponent(_T("MainGuySpriteSheet_0.png"),_T("MainGuySpritesheet"), _T("RPGCharacter"));
 	m_pSpriteObject->AddComponent(sprComponent);
+	m_pSpriteObject->GetTransform()->Scale(10,10);
 	
 	AddObject(m_pSpriteObject);
 	
 	return STATUS_OK;
 	
+}
+
+status TestScene2::AfterInitializedObjects(const star::Context& context)
+{
+	m_pSpriteObject->GetTransform()->Translate(star::ScaleSystem::GetInstance()->GetWorkingResolution().x /2- (m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->GetWidth()/2),100);
+	return STATUS_OK;
 }
 
 status TestScene2::Update(const star::Context& context)

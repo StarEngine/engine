@@ -13,6 +13,7 @@ namespace star
 		static std::shared_ptr<ScaleSystem> GetInstance();
 		void SetWorkingResolution(int xPixels, int yPixels);
 		void SetWorkingResolution(const vec2& pixels);
+		vec2 GetWorkingResolution() const;
 		float GetScale();
 		float GetAspectRatio();
 		void UpdateWorkingResolution();

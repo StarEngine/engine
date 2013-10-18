@@ -30,6 +30,11 @@ namespace star
 	{
 		SetWorkingResolution(vec2(xPixels, yPixels));
 	}
+	
+	vec2 ScaleSystem::GetWorkingResolution() const
+	{
+		return m_WorkingRes;
+	}
 
 	void ScaleSystem::SetWorkingResolution(const vec2& pixels)
 	{

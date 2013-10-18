@@ -181,6 +181,8 @@ namespace star
 	{
 		SetSpritesheet(m_SpritesheetName);
 		SpriteComponent::InitializeComponent();
+		m_Width /= GetFramesHorizontal();
+		m_Heigth += GetFramesVertical();
 	}
 
 	void SpritesheetComponent::CreateVertices()
