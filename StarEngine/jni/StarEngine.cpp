@@ -5,6 +5,7 @@
 #include "Context.h"
 #include "Logger.h"
 #include "Sound/SoundService.h"
+#include "Helpers/Stopwatch.h"
 
 namespace star
 {
@@ -26,6 +27,7 @@ namespace star
 	status StarEngine::Initialize(int32 window_width, int32 window_height)
 	{
 		Logger::GetInstance()->Initialize();
+		Stopwatch::GetInstance();
 
 		//Only for windows we need to pas the window paramaters
 		//for android these will be fetched when setting up the OpenGL context
@@ -46,6 +48,8 @@ namespace star
 		{
 			return STATUS_KO;
 		}
+
+		Stopwatch::GetInstance()->Update(context);
 		
 		InputManager::GetInstance()->EndUpdate();
 		Logger::GetInstance()->CheckGlError();

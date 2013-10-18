@@ -7,6 +7,7 @@
 #include "../../StarEngine/jni/Graphics/GraphicsManager.h"
 #include "../../StarEngine/jni/Scenes/SceneManager.h"
 #include "../../StarEngine/jni/Sound/SoundService.h"
+#include "../../StarEngine/jni/Helpers/Stopwatch.h"
 
 #ifdef DESKTOP
 #include <glew.h>
@@ -55,11 +56,13 @@ status TestScene::Initialize( const star::Context& context)
 	m_GestureManagerPtr->AddGesture(m_TapGesture, _T("DoubleTapGesture"));
 	*/
 	m_pObjectOne = new star::Object();
-	m_pObjectOne->Freeze(true);
 	m_pRectCompOne = new star::RectangleColliderComponent(200,215);
 	m_pSpriteComp1 = new star::SpriteComponent(_T("pikachu.png"),_T("Pikachu"));
 	m_pObjectOne->AddComponent(m_pRectCompOne);
 	m_pObjectOne->AddComponent(m_pSpriteComp1);
+
+	star::Stopwatch::GetInstance()->CreateTimer(_T("O1FT"), 2.0f, false, false,
+		[&]() { m_pObjectOne->Freeze(true);}, false);
 
 	m_pObjectTwo = new star::Object();
 	m_pRectCompTwo = new star::RectangleColliderComponent(200,215);
