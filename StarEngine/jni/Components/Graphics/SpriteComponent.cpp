@@ -12,9 +12,12 @@ namespace star
 {
 	SpriteComponent::SpriteComponent(const tstring& filepath,const tstring& spriteName)
 		: BaseComponent()
+		, m_Width(0)
+		, m_Heigth(0)
 		, m_Shader()
 		, m_FilePath(filepath)
 		, m_SpriteName(spriteName)
+		
 	{
 	}
 

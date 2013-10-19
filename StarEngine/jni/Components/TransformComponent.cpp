@@ -3,6 +3,8 @@
 #include "..\Logger.h"
 #include "..\Context.h"
 #include "..\Helpers\HelpersMath.h"
+#include "..\Graphics\ScaleSystem.h"
+#include "..\Graphics\GraphicsManager.h"
 
 namespace star
 {
@@ -12,18 +14,22 @@ namespace star
 #ifdef STAR2D
                 m_WorldPosition(0,0),
                 m_LocalPosition(0,0),
+				m_UnScaledLocalPos(0,0),
 #else
                 m_WorldPosition(0,0,0),
                 m_LocalPosition(0,0,0),
+				m_UnScaledLocalPos(0,0,0),
 #endif
                 m_WorldRotation(),
                 m_LocalRotation(),
 #ifdef STAR2D
                 m_WorldScale(1,1),
                 m_LocalScale(1,1),
+				m_UnScaledLocalScale(1,1),
 #else
                 m_WorldScale(1,1,1),
                 m_LocalScale(1,1,1),
+				m_UnScaledLocalScale(1,1,1),
 #endif
                 m_World(),
                 BaseComponent()
@@ -37,18 +43,22 @@ namespace star
 #ifdef STAR2D
                 m_WorldPosition(0,0),
                 m_LocalPosition(0,0),
+				m_UnScaledLocalPos(0,0),
 #else
                 m_WorldPosition(0,0,0),
                 m_LocalPosition(0,0,0),
+				m_UnScaledLocalPos(0,0,0),
 #endif
                 m_WorldRotation(),
                 m_LocalRotation(),
 #ifdef STAR2D
                 m_WorldScale(1,1),
                 m_LocalScale(1,1),
+				m_UnScaledLocalScale(1,1),
 #else
                 m_WorldScale(1,1,1),
                 m_LocalScale(1,1,1),
+
 #endif
                 m_World()
         {
@@ -62,8 +72,8 @@ namespace star
 #ifdef STAR2D
         void TransformComponent::Translate(const vec2 & translation)
         {
-                m_LocalPosition.x = translation.x;
-                m_LocalPosition.y = translation.y;
+                m_UnScaledLocalPos.x = translation.x;
+                m_UnScaledLocalPos.y = translation.y;
                 m_IsChanged |= TransformChanged::TRANSLATION;
         }
 
@@ -74,9 +84,9 @@ namespace star
 
         void TransformComponent::Translate(const vec2 & translation, lay l)
         {
-                m_LocalPosition.x = translation.x;
-                m_LocalPosition.y = translation.y;
-                m_LocalPosition.l = l;
+                m_UnScaledLocalPos.x = translation.x;
+                m_UnScaledLocalPos.y = translation.y;
+                m_UnScaledLocalPos.l = l;
                 m_IsChanged |= TransformChanged::TRANSLATION;
         }
 
@@ -87,51 +97,51 @@ namespace star
 
         void TransformComponent::Translate(const pos & pos2D)
         {
-                m_LocalPosition = pos2D;
+                m_UnScaledLocalPos = pos2D;
                 m_IsChanged |= TransformChanged::TRANSLATION;
         }
 
 		void TransformComponent::TranslateX(float x)
 		{
-			m_LocalPosition.x = x;
+			m_UnScaledLocalPos.x = x;
             m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
 		void TransformComponent::TranslateY(float y)
 		{
-			m_LocalPosition.y = y;
+			m_UnScaledLocalPos.y = y;
             m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
 		void TransformComponent::TranslateL(lay l)
 		{
-			m_LocalPosition.l = l;
+			m_UnScaledLocalPos.l = l;
             m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
 		void TransformComponent::Move(const vec2& translation)
 		{
-			m_LocalPosition.x += translation.x;
-			m_LocalPosition.y += translation.y;
+			m_UnScaledLocalPos.x += translation.x;
+			m_UnScaledLocalPos.y += translation.y;
             m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
 		void TransformComponent::Move(float x, float y)
 		{
-			m_LocalPosition.x += x;
-			m_LocalPosition.y += y;
+			m_UnScaledLocalPos.x += x;
+			m_UnScaledLocalPos.y += y;
             m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
 		void TransformComponent::MoveX(float x)
 		{
-			m_LocalPosition.x += x;
+			m_UnScaledLocalPos.x += x;
             m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
 		void TransformComponent::MoveY(float y)
 		{
-			m_LocalPosition.y += y;
+			m_UnScaledLocalPos.y += y;
             m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
@@ -143,7 +153,7 @@ namespace star
 
         void TransformComponent::Scale(const vec2 & scale)
         {
-                m_LocalScale = scale;
+                m_UnScaledLocalScale = scale;
                 m_IsChanged |= TransformChanged::SCALE;
         }
 
@@ -159,13 +169,13 @@ namespace star
 
 		void TransformComponent::ScaleX(float x)
 		{
-			m_LocalScale.x = x;
+			m_UnScaledLocalScale.x = x;
             m_IsChanged |= TransformChanged::SCALE;
 		}
 
 		void TransformComponent::ScaleY(float y)
 		{
-			m_LocalScale.y = y;
+			m_UnScaledLocalScale.y = y;
             m_IsChanged |= TransformChanged::SCALE;
 		}
 
@@ -202,7 +212,7 @@ namespace star
 #else
         void TransformComponent::Translate(const vec3 & translation)
         {
-                m_LocalPosition = translation;
+                m_UnScaledLocalPos = translation;
                 m_IsChanged |= TransformChanged::TRANSLATION;
         }
 
@@ -213,46 +223,46 @@ namespace star
 
         void TransformComponent::TranslateXY(float x, float y)
 		{
-			m_LocalPosition.x = x;
-			m_LocalPosition.y = y;
+			m_UnScaledLocalPos.x = x;
+			m_UnScaledLocalPos.y = y;
 			m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
         void TransformComponent::TranslateXZ(float x, float z)
 		{
-			m_LocalPosition.x = x;
-			m_LocalPosition.z = z;
+			m_UnScaledLocalPos.x = x;
+			m_UnScaledLocalPos.z = z;
 			m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
         void TransformComponent::TranslateX(float x)
 		{
-			m_LocalPosition.x = x;
+			m_UnScaledLocalPos.x = x;
 			m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
         void TransformComponent::TranslateYZ(float y, float z)
 		{
-			m_LocalPosition.y = y;
-			m_LocalPosition.z = z;
+			m_UnScaledLocalPos.y = y;
+			m_UnScaledLocalPos.z = z;
 			m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
         void TransformComponent::TranslateY(float y)
 		{
-			m_LocalPosition.y = y;
+			m_UnScaledLocalPos.y = y;
 			m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
         void TransformComponent::TranslateZ(float z)
 		{
-			m_LocalPosition.z = z;
+			m_UnScaledLocalPos.z = z;
 			m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
 		void TransformComponent::Move(const vec3 & translation)
         {
-                m_LocalPosition += translation;
+                m_UnScaledLocalPos += translation;
                 m_IsChanged |= TransformChanged::TRANSLATION;
         }
 
@@ -263,40 +273,40 @@ namespace star
 
         void TransformComponent::MoveXY(float x, float y)
 		{
-			m_LocalPosition.x += x;
-			m_LocalPosition.y += y;
+			m_UnScaledLocalPos.x += x;
+			m_UnScaledLocalPos.y += y;
 			m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
         void TransformComponent::MoveXZ(float x, float z)
 		{
-			m_LocalPosition.x += x;
-			m_LocalPosition.z += z;
+			m_UnScaledLocalPos.x += x;
+			m_UnScaledLocalPos.z += z;
 			m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
         void TransformComponent::MoveX(float x)
 		{
-			m_LocalPosition.x += x;
+			m_UnScaledLocalPos.x += x;
 			m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
         void TransformComponent::MoveYZ(float y, float z)
 		{
-			m_LocalPosition.y += y;
-			m_LocalPosition.z += z;
+			m_UnScaledLocalPos.y += y;
+			m_UnScaledLocalPos.z += z;
 			m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
         void TransformComponent::MoveY(float y)
 		{
-			m_LocalPosition.y += y;
+			m_UnScaledLocalPos.y += y;
 			m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
         void TransformComponent::MoveZ(float z)
 		{
-			m_LocalPosition.z += z;
+			m_UnScaledLocalPos.z += z;
 			m_IsChanged |= TransformChanged::TRANSLATION;
 		}
 
@@ -308,7 +318,7 @@ namespace star
 
         void TransformComponent::Scale(const vec3 & scale)
         {
-                m_LocalScale = scale;
+                m_UnScaledLocalScale = scale;
                 m_IsChanged |= TransformChanged::SCALE;
         }
 
@@ -324,40 +334,40 @@ namespace star
 
         void TransformComponent::ScaleXY(float x, float y)
 		{
-			m_LocalScale.x = x;
-			m_LocalScale.y = y;
+			m_UnScaledLocalScale.x = x;
+			m_UnScaledLocalScale.y = y;
 			m_IsChanged |= TransformChanged::SCALE;
 		}
 
         void TransformComponent::ScaleXZ(float x, float z)
 		{
-			m_LocalScale.x = x;
-			m_LocalScale.z = z;
+			m_UnScaledLocalScale.x = x;
+			m_UnScaledLocalScale.z = z;
 			m_IsChanged |= TransformChanged::SCALE;
 		}
 
         void TransformComponent::ScaleX(float x)
 		{
-			m_LocalScale.x = x;
+			m_UnScaledLocalScale.x = x;
 			m_IsChanged |= TransformChanged::SCALE;
 		}
 
         void TransformComponent::ScaleYZ(float y, float z)
 		{
-			m_LocalScale.y = y;
-			m_LocalScale.z = z;
+			m_UnScaledLocalScale.y = y;
+			m_UnScaledLocalScale.z = z;
 			m_IsChanged |= TransformChanged::SCALE;
 		}
 
         void TransformComponent::ScaleY(float y)
 		{
-			m_LocalScale.y = y;
+			m_UnScaledLocalScale.y = y;
 			m_IsChanged |= TransformChanged::SCALE;
 		}
 
         void TransformComponent::ScaleZ(float z)
 		{
-			m_LocalScale.z = z;
+			m_UnScaledLocalScale.z = z;
 			m_IsChanged |= TransformChanged::SCALE;
 		}
 
@@ -399,16 +409,19 @@ namespace star
 
         void TransformComponent::CheckForUpdate(bool force)
         {
-                if(m_IsChanged == TransformChanged::NONE && !force && !m_Invalidate)
-                {
-                        return;
-                }
+				m_LocalPosition = m_UnScaledLocalPos * ScaleSystem::GetInstance()->GetScale();
+				m_LocalScale = m_UnScaledLocalScale * ScaleSystem::GetInstance()->GetScale();
 
-                if(m_pParentObject == nullptr)
-                {
-                        return;
-                }
+				if(m_IsChanged == TransformChanged::NONE && !force && !m_Invalidate)
+				{
+						return;
+				}
 
+				if(m_pParentObject == nullptr)
+				{
+						return;
+				}
+				
                 mat4x4 matRot, matTrans, matScale;
 
 #ifdef STAR2D
@@ -454,6 +467,7 @@ namespace star
 
         void TransformComponent::InitializeComponent()
         {
-                m_Invalidate = true;
+			CheckForUpdate(true);
+			m_Invalidate = true;
         }
 }

@@ -28,7 +28,7 @@ namespace star
 
 	status BaseScene::BaseInitialize(const Context & context)
 	{
-		status isInitialized(Initialize(context));
+		status isInitialized(CreateObjects());
 		if(isInitialized == STATUS_OK)
 		{
 			m_pDefaultCamera = new FreeCamera();
@@ -39,7 +39,14 @@ namespace star
 			{
 				m_Objects[i]->Initialize();
 			}
-			return STATUS_OK;
+			if(AfterInitializedObjects(context) ==  STATUS_OK)
+			{
+				return STATUS_OK;
+			}
+			else
+			{
+				return STATUS_KO;
+			}
 		}
 		return STATUS_KO;
 	}
@@ -198,7 +205,12 @@ namespace star
 		return m_pDefaultCamera;
 	}
 
-	status BaseScene::Initialize(const Context& context)
+	status BaseScene::CreateObjects()
+	{
+		return STATUS_OK;
+	}
+
+	status BaseScene::AfterInitializedObjects(const Context& context)
 	{
 		return STATUS_OK;
 	}

@@ -63,7 +63,9 @@ namespace star
 		static bool mbIsInitialized;
 
 		std::map<tstring,SoundFile*> mMusicList;
+		std::map<tstring,tstring> mMusicPathList;
 		std::map<tstring,SoundEffect*> mEffectsList;
+		std::map<tstring,tstring> mSoundEffectPathList;
 		std::vector<SoundFile*> mBackgroundQueue;
 		std::vector<SoundFile*>::iterator mQueueIterator;
 

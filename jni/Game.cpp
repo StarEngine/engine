@@ -7,6 +7,7 @@
 #include "scenes/TestScene.h"
 #include "scenes/TestScene2.h"
 #include "Input/InputManager.h"
+#include "Graphics/ScaleSystem.h"
 
 Game::Game()
 	: star::BaseGame()
@@ -16,6 +17,7 @@ Game::Game()
 
 status Game::Initialize(int32 window_width, int32 window_height)
 {
+	star::ScaleSystem::GetInstance()->SetWorkingResolution(1920,1080);
 	ASSERT(star::StarEngine::GetInstance()->Initialize(window_width, window_height) == STATUS_OK, _T("StarEngine couldn't be initialized!"));
 
 #ifdef _WIN32

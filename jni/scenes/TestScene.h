@@ -15,7 +15,8 @@ public:
 	TestScene(const tstring& name);
 	virtual ~TestScene();
 
-	status Initialize(const star::Context& context);
+	status CreateObjects();
+	status AfterInitializedObjects(const star::Context& context);
 	status Update(const star::Context& context);
 	status Draw();
 
@@ -29,7 +30,8 @@ private:
 	float mRed, mGreen, mBlue;
 
 	star::Object	*m_pObjectOne, 
-					*m_pObjectTwo;
+					*m_pObjectTwo,
+					*m_pObjectThree;
 
 	star::FreeCamera *m_pActiveCamera;
 

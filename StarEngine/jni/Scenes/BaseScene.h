@@ -48,7 +48,8 @@ namespace star
 		FreeCamera* GetActiveCamera() const;
 
 	protected:
-		virtual status Initialize(const Context& context);
+		virtual status CreateObjects();
+		virtual status AfterInitializedObjects(const Context& context);
 		virtual status OnActivate();
 		virtual void OnDeactivate();
 		virtual status Update(const Context& context);

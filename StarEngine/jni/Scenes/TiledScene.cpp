@@ -33,7 +33,7 @@ namespace star
 		m_DefinedObject[object_id] = func;
 	}
 
-	status TiledScene::Initialize(const Context& context)
+	status TiledScene::CreateObjects()
 	{
 		XMLContainer container;
 		XMLFileParser parser(m_File);
@@ -73,7 +73,12 @@ namespace star
 
 		CreateGroupedObjects(container);
 
-		return BaseScene::Initialize(context);
+		return STATUS_OK;
+	}
+
+	status TiledScene::AfterInitializedObjects(const star::Context& context)
+	{
+		return STATUS_OK;
 	}
 
 	void TiledScene::CreateTiledObjects(XMLContainer & container)

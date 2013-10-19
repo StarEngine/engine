@@ -9,7 +9,6 @@ LS_CPP+= $(subst $(1)/,,$(wildcard $(1)/**/**/**/*.cpp))
 LOCAL_MODULE    := stargame
 LOCAL_CFLAGS 	:= -D FT_FREETYPE_H="freetype/freetype.h"
 LOCAL_CPPFLAGS  := -std=gnu++11 -D STAR2D=1 -D LOGGER_MIN_LEVEL=1 -I StarEngine\jni 
-LOCAL_CPPFLAGS  += -I E:\GameDevelopment\Programming\StarEngine\libs\freetype\include
 LOCAL_SRC_FILES := $(call LS_CPP,$(LOCAL_PATH))
 LOCAL_LDLIBS    := -landroid -llog -lEGL -lGLESv1_CM -lGLESv2 -lOpenSLES
 APP_PLATFORM := android-14

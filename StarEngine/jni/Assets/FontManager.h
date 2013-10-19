@@ -33,7 +33,7 @@ namespace star
 		bool LoadFont(const tstring& path, const tstring& name, int32 size);
 		bool DeleteFont(const tstring& name);
 		void EraseFonts();
-		bool DrawText(const tstring& text, const tstring& fontname, ivec2 position);
+		bool DrawText(const tstring& text, const tstring& fontname, ivec2 position, vec4 color=vec4(0,0,0,1));
 
 	private:
 		//Data Members
