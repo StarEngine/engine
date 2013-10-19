@@ -1,6 +1,7 @@
 #include "Object.h"
 #include "../StarComponents.h"
 #include "../Components/TransformComponent.h"
+#include "../Graphics/GraphicsManager.h"
 #include <algorithm>
 
 namespace star
@@ -71,6 +72,10 @@ namespace star
 		if(!m_IsFrozen)
 		{
 			BaseUpdate(context);
+		}
+		else if(GraphicsManager::GetInstance()->GetHasWindowChanged())
+		{
+			GetTransform()->UpdateFrozenObjects(context);
 		}
 	}
 	

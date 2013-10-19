@@ -24,6 +24,7 @@ namespace star
                 ~TransformComponent(void);
 
                 void Update(const Context& context);
+				void UpdateFrozenObjects(const Context& context);
                 void Draw();
 
 #ifdef STAR2D
@@ -104,9 +105,9 @@ namespace star
                 bool m_Invalidate;
 
 #ifdef STAR2D
-                pos m_WorldPosition, m_LocalPosition, m_UnScaledWorldPos, m_UnScaledLocalPos;
+                pos m_WorldPosition, m_LocalPosition, m_UnScaledWorldPos, m_UnScaledLocalPos, m_LastUnScaledLocalPos;
                 float m_WorldRotation, m_LocalRotation;
-                vec2 m_WorldScale, m_LocalScale, m_UnScaledWorldScale, m_UnScaledLocalScale;
+                vec2 m_WorldScale, m_LocalScale, m_UnScaledWorldScale, m_UnScaledLocalScale, m_LastUnScaledLocalScale;
 #else
                 vec3 m_WorldPosition, m_LocalPosition;
                 quat m_WorldRotation, m_LocalRotation;
