@@ -15,10 +15,12 @@ namespace star
                 m_WorldPosition(0,0),
                 m_LocalPosition(0,0),
 				m_UnScaledLocalPos(0,0),
+				m_UnScaledWorldPos(0,0),
 #else
                 m_WorldPosition(0,0,0),
                 m_LocalPosition(0,0,0),
 				m_UnScaledLocalPos(0,0,0),
+				m_UnScaledWorldPos(0,0,0),
 #endif
                 m_WorldRotation(),
                 m_LocalRotation(),
@@ -26,10 +28,12 @@ namespace star
                 m_WorldScale(1,1),
                 m_LocalScale(1,1),
 				m_UnScaledLocalScale(1,1),
+				m_UnScaledWorldScale(1,1),
 #else
                 m_WorldScale(1,1,1),
                 m_LocalScale(1,1,1),
 				m_UnScaledLocalScale(1,1,1),
+				m_UnScaledWorldScale(1,1,1),
 #endif
                 m_World(),
                 BaseComponent()
@@ -44,10 +48,12 @@ namespace star
                 m_WorldPosition(0,0),
                 m_LocalPosition(0,0),
 				m_UnScaledLocalPos(0,0),
+				m_UnScaledWorldPos(0,0),
 #else
                 m_WorldPosition(0,0,0),
                 m_LocalPosition(0,0,0),
 				m_UnScaledLocalPos(0,0,0),
+				m_UnScaledWorldPos(0,0,0),
 #endif
                 m_WorldRotation(),
                 m_LocalRotation(),
@@ -55,9 +61,12 @@ namespace star
                 m_WorldScale(1,1),
                 m_LocalScale(1,1),
 				m_UnScaledLocalScale(1,1),
+				m_UnScaledWorldScale(1,1),
 #else
                 m_WorldScale(1,1,1),
                 m_LocalScale(1,1,1),
+				m_UnScaledLocalScale(1,1,1),
+				m_UnScaledWorldScale(1,1,1),
 
 #endif
                 m_World()
@@ -409,19 +418,17 @@ namespace star
 
         void TransformComponent::CheckForUpdate(bool force)
         {
+			if(m_IsChanged == TransformChanged::NONE && !force && !m_Invalidate
+				&& !GraphicsManager::GetInstance()->GetHasWindowChanged())
+			{
+					return;
+			}
+
+			ASSERT(m_pParentObject != nullptr , _T("Parent object is nullptr! Shouldn't be!"));
+
 			m_LocalPosition = m_UnScaledLocalPos * ScaleSystem::GetInstance()->GetScale();
 			m_LocalScale = m_UnScaledLocalScale  * ScaleSystem::GetInstance()->GetScale();
 
-			if(m_IsChanged == TransformChanged::NONE && !force && !m_Invalidate)
-			{
-					return;
-			}
-
-			if(m_pParentObject == nullptr)
-			{
-					return;
-			}
-				
             mat4x4 matRot, matTrans, matScale;
 
 #ifdef STAR2D
@@ -460,7 +467,7 @@ namespace star
 
         void TransformComponent::Update(const Context& context)
         {
-             CheckForUpdate(true);
+             CheckForUpdate();
         }
         
 		void TransformComponent::Draw()

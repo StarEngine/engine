@@ -17,7 +17,6 @@ namespace star
 		, m_Shader()
 		, m_FilePath(filepath)
 		, m_SpriteName(spriteName)
-		
 	{
 	}
 

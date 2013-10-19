@@ -31,7 +31,7 @@ namespace star
 		SetWorkingResolution(vec2(xPixels, yPixels));
 	}
 	
-	vec2 ScaleSystem::GetWorkingResolution() const
+	const vec2& ScaleSystem::GetWorkingResolution() const
 	{
 		return m_WorkingRes;
 	}
@@ -58,8 +58,10 @@ namespace star
 	{
 		if(m_bIninitialized)
 		{
-			ASSERT(m_WorkingRes != vec2(), _T("Working resolution is 0! Please set correct working Resolution in the Game.cpp file!"));
-			m_Scale = (float)GraphicsManager::GetInstance()->GetWindowWidth() / m_WorkingRes.x;
+			ASSERT(m_WorkingRes != vec2(), 
+				_T("Working resolution is 0! Please set correct working Resolution in the Game.cpp file!"));
+			m_Scale = (float)GraphicsManager::GetInstance()
+					->GetWindowWidth() / m_WorkingRes.x;
 		}
 	}
 }

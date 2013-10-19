@@ -36,6 +36,8 @@ namespace star
 		float GetWindowAspectRatio() const;
 
 		void SetWindowDimensions(int32 width, int32 height);
+		void SetHasWindowChanged(bool isTrue);
+		bool GetHasWindowChanged() const;
 
 	private:
 		GraphicsManager();
@@ -49,6 +51,7 @@ namespace star
 
 		int32 mScreenWidth;
 		int32 mScreenHeight;
+		bool m_bHasWindowChanged;
 
 #ifdef ANDROID
         EGLDisplay mDisplay;

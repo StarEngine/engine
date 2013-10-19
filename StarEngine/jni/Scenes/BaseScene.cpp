@@ -39,14 +39,7 @@ namespace star
 			{
 				m_Objects[i]->Initialize();
 			}
-			if(AfterInitializedObjects(context) ==  STATUS_OK)
-			{
-				return STATUS_OK;
-			}
-			else
-			{
-				return STATUS_KO;
-			}
+			return AfterInitializedObjects(context);
 		}
 		return STATUS_KO;
 	}

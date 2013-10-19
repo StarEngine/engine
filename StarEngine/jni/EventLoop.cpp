@@ -82,7 +82,7 @@ namespace star
 
 			if((mEnabled)&& (!mQuit))
 			{
-
+				GraphicsManager::GetInstance()->SetHasWindowChanged(false);
 				if(mMainGame->Update(mContext) != STATUS_OK)
 				{
 					mQuit = true;
@@ -114,6 +114,7 @@ namespace star
 		{
 			//Gets called first on fresh app launch
 		case APP_CMD_INIT_WINDOW:
+			GraphicsManager::GetInstance()->SetHasWindowChanged(true);
 			if(pApplication->window != nullptr)
 			{
 				Logger::GetInstance()->Log(LogLevel::Info,_T("Eventloop : APP CMD INIT WINDOW"));

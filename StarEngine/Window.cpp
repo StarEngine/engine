@@ -290,9 +290,10 @@ namespace star
 				}
 
 				if(m_IsActive)
-				{
+				{					
 					mGamePtr->Update(mContext);
 					SetWindowsTitle();
+					GraphicsManager::GetInstance()->SetHasWindowChanged(false);
 				}
 
 				if(monitor_started)
@@ -604,6 +605,7 @@ namespace star
 				}
 				break;
 			case WM_SIZE:
+					GraphicsManager::GetInstance()->SetHasWindowChanged(true);
 					UpdateWindowClipping(hWnd);
 				break;
 		}

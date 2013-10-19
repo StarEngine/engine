@@ -17,7 +17,8 @@ namespace star
 
 	GraphicsManager::GraphicsManager() :
 			mScreenHeight(0),
-			mScreenWidth(0)
+			mScreenWidth(0),
+			m_bHasWindowChanged(false)
 	{
 	}
 
@@ -178,6 +179,16 @@ namespace star
 		mScreenHeight = height;
 		glViewport(0,0,width, height);
 		ScaleSystem::GetInstance()->UpdateWorkingResolution();
+	}
+
+	void GraphicsManager::SetHasWindowChanged(bool isTrue)
+	{
+		m_bHasWindowChanged = isTrue;
+	}
+
+	bool GraphicsManager::GetHasWindowChanged() const
+	{
+		return m_bHasWindowChanged;
 	}
 
 #ifdef DESKTOP
