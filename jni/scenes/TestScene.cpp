@@ -111,31 +111,30 @@ status TestScene::AfterInitializedObjects(const star::Context& context)
 	return STATUS_OK;
 }
 
-	status TestScene::Update(const star::Context& context)
+status TestScene::Update(const star::Context& context)
+{
+	if(!m_pActiveCamera->GetComponent<star::CameraComponent>()->IsActive())
 	{
-		
-		if(!m_pActiveCamera->GetComponent<star::CameraComponent>()->IsActive())
-		{
-			m_pActiveCamera->GetComponent<star::CameraComponent>()->SetActive();
-		}
-		/*
-		if(m_TapGesture->CompletedGesture())
-		{
-			LOGGER->Log(star::LogLevel::Info, _T("Tapped!"));
-			star::SoundService::GetInstance()->PlayBackgroundQueue();
-		}*/
-		
+		m_pActiveCamera->GetComponent<star::CameraComponent>()->SetActive();
+	}
 
-		if(INPUT_MANAGER->IsFingerTapCP(0))
-		{
-			star::SoundService::GetInstance()->PlaySoundEffect(_T("Explosion"));
-			LOGGER->Log(star::LogLevel::Info, _T("Explosion!"));
-		}
-		if(INPUT_MANAGER->IsFingerTapCP(1))
-		{
-			star::SoundService::GetInstance()->PlaySoundEffect(_T("Electric"));
-			LOGGER->Log(star::LogLevel::Info, _T("Electric!"));
-		}
+	/*
+	if(m_TapGesture->CompletedGesture())
+	{
+		LOGGER->Log(star::LogLevel::Info, _T("Tapped!"));
+		star::SoundService::GetInstance()->PlayBackgroundQueue();
+	}*/
+
+	if(INPUT_MANAGER->IsFingerTapCP(0))
+	{
+		star::SoundService::GetInstance()->PlaySoundEffect(_T("Explosion"));
+		LOGGER->Log(star::LogLevel::Info, _T("Explosion!"));
+	}
+	if(INPUT_MANAGER->IsFingerTapCP(1))
+	{
+		star::SoundService::GetInstance()->PlaySoundEffect(_T("Electric"));
+		LOGGER->Log(star::LogLevel::Info, _T("Electric!"));
+	}
 
 	++m_TotalFrames;
 	m_PassedMiliseconds += float(context.mTimeManager->GetMicroSeconds());

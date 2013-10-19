@@ -82,7 +82,8 @@ namespace star
 		}
 #endif
 #ifdef STAR2D
-		vec3 vEyePt = m_pParentObject->GetTransform()->GetWorldPosition().pos3D();
+		auto pos = m_pParentObject->GetTransform()->GetWorldPosition();
+		vec3 vEyePt = pos.pos3D();
 #else
 		vec3 vEyePt = m_pParentObject->GetTransform()->GetWorldPosition();
 #endif

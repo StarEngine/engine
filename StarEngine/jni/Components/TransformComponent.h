@@ -50,11 +50,11 @@ namespace star
 				void ScaleY(float y);
                 
                 const pos& GetWorldPosition();
-                const pos& GetLocalPosition() const;
+                const pos& GetLocalPosition();
                 float GetWorldRotation();
                 float GetLocalRotation() const;
                 const vec2& GetWorldScale();
-                const vec2& GetLocalScale() const;
+                const vec2& GetLocalScale();
 #else
                 void Translate(const vec3& translation);
                 void Translate(float x, float y, float z);
@@ -87,11 +87,11 @@ namespace star
                 void ScaleZ(float z);
 
                 const vec3& GetWorldPosition();
-                const vec3& GetLocalPosition() const;
+                const vec3& GetLocalPosition();
                 const quat& GetWorldRotation();
                 const quat& GetLocalRotation() const;
                 const vec3& GetWorldScale();
-                const vec3& GetLocalScale() const;
+                const vec3& GetLocalScale();
 #endif
                 // [COMMENT] Do we need this in 2D?
                 mat4x4 GetWorldMatrix();
@@ -104,9 +104,9 @@ namespace star
                 bool m_Invalidate;
 
 #ifdef STAR2D
-                pos m_WorldPosition, m_LocalPosition, m_UnScaledLocalPos;
+                pos m_WorldPosition, m_LocalPosition, m_UnScaledWorldPos, m_UnScaledLocalPos;
                 float m_WorldRotation, m_LocalRotation;
-                vec2 m_WorldScale, m_LocalScale, m_UnScaledLocalScale;
+                vec2 m_WorldScale, m_LocalScale, m_UnScaledWorldScale, m_UnScaledLocalScale;
 #else
                 vec3 m_WorldPosition, m_LocalPosition;
                 quat m_WorldRotation, m_LocalRotation;

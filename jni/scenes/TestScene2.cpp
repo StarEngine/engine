@@ -129,6 +129,9 @@ status TestScene2::AfterInitializedObjects(const star::Context& context)
 {
 	float windowWidth = star::ScaleSystem::GetInstance()->GetWorkingResolution().x / 2.0f;
 	float spriteWidth = m_pSpriteObject->GetComponent<star::SpritesheetComponent>()->GetWidth()/2.0f;
+	//[COMMENT] Sadly, if you use the scale to position an object, and rescale the window, 
+	//the object won't be on exactly the correct position anymore. (very logical)
+	//If somebody knows a fix for this...
 	float spriteScale = m_pSpriteObject->GetTransform()->GetWorldScale().x;
 	m_pSpriteObject->GetTransform()->Translate(windowWidth - (spriteWidth * spriteScale),100);
 	return STATUS_OK;

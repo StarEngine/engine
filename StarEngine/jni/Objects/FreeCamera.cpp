@@ -3,6 +3,7 @@
 #include "../Input/InputManager.h"
 #include "../StarComponents.h"
 #include "../Graphics/GraphicsManager.h"
+#include "../Graphics/ScaleSystem.h"
 
 namespace star
 {
@@ -56,11 +57,6 @@ namespace star
 				if(move.x == 0) move.x = -(InputManager::GetInstance()->IsKeyboardKeyDown('Q')?1.0f:0.0f);
 				if(move.x == 0) move.x = InputManager::GetInstance()->GetThumbstickPosition().x;
 
-				//if(InputManager::GetInstance()->IsMouseButtonDownWIN(VK_LBUTTON))
-				//{
-				//	auto mouseMove = InputManager::GetInstance()->GetMouseMovement();
-				//	look = vec2(static_cast<float>(mouseMove.x),static_cast<float>(mouseMove.y));
-				//}
 				if(look.x == 0 && look.y == 0)
 				{
 					look = InputManager::GetInstance()->GetThumbstickPosition(false);
@@ -68,7 +64,6 @@ namespace star
 				}
 #endif
 			}
-
 			//CALCULATE TRANSFORMS
 			auto transform = GetComponent<TransformComponent>();
 			auto currPos = transform->GetWorldPosition();
@@ -76,15 +71,16 @@ namespace star
 	
 			currPos.y += static_cast<float>(move.y * m_MoveSpeed * context.mTimeManager->GetSeconds());
 			currPos.x += static_cast<float>(move.x * m_MoveSpeed * context.mTimeManager->GetSeconds());
+			
 	
-			//ROTATION
-			//m_TotalYaw += look.x * m_RotationSpeed * context.mTimeManager->GetSeconds();
-			//m_TotalPitch += look.y * m_RotationSpeed * context.mTimeManager->GetSeconds();
-			//
-			//quat finalOrientation(vec3(m_TotalYaw,m_TotalPitch,0));
-			//
-			transform->Translate(currPos);
-			//transform->Rotate(finalOrientation);
+		//ROTATION
+		//m_TotalYaw += look.x * m_RotationSpeed * context.mTimeManager->GetSeconds();
+		//m_TotalPitch += look.y * m_RotationSpeed * context.mTimeManager->GetSeconds();
+		//
+		//quat finalOrientation(vec3(m_TotalYaw,m_TotalPitch,0));
+		//
+		transform->Translate(currPos);
+		//transform->Rotate(finalOrientation);
 		}
 		Object::BaseUpdate(context);
 	}

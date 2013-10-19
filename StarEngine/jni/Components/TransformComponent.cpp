@@ -181,12 +181,12 @@ namespace star
 
         const pos & TransformComponent::GetWorldPosition()
         {
-                return m_WorldPosition;
+            return m_UnScaledWorldPos;
         }
 
-        const pos & TransformComponent::GetLocalPosition() const
+        const pos & TransformComponent::GetLocalPosition()
         {
-                return m_LocalPosition;
+                return m_UnScaledLocalPos;
         }
 
         float TransformComponent::GetWorldRotation()
@@ -202,12 +202,12 @@ namespace star
 
         const vec2 & TransformComponent::GetWorldScale()
         {
-                return m_WorldScale;
+                return m_UnScaledWorldScale;
         }
 
-        const vec2 & TransformComponent::GetLocalScale() const
+        const vec2 & TransformComponent::GetLocalScale()
         {
-                return m_LocalScale;
+                return m_UnScaledLocalScale;
         }
 #else
         void TransformComponent::Translate(const vec3 & translation)
@@ -373,12 +373,12 @@ namespace star
 
         const vec3 & TransformComponent::GetWorldPosition()
         {
-                return m_WorldPosition;
+                return m_UnScaledWorldPos;
         }
 
-        const vec3 & TransformComponent::GetLocalPosition() const
+        const vec3 & TransformComponent::GetLocalPosition()
         {
-                return m_LocalPosition;
+                return m_LocalPosition / ScaleSystem::GetInstance()->GetScale();
         }
 
         const quat & TransformComponent::GetWorldRotation()
@@ -393,12 +393,12 @@ namespace star
 
         const vec3 & TransformComponent::GetWorldScale()
         {
-                return m_WorldScale;
+                return m_UnScaledWorldScale;
         }
 
-        const vec3 & TransformComponent::GetLocalScale() const
+        const vec3 & TransformComponent::GetLocalScale()
         {
-                return m_LocalScale;
+                return m_LocalScale / ScaleSystem::GetInstance()->GetScale();
         }
 #endif
 
@@ -409,50 +409,53 @@ namespace star
 
         void TransformComponent::CheckForUpdate(bool force)
         {
-				m_LocalPosition = m_UnScaledLocalPos * ScaleSystem::GetInstance()->GetScale();
-				m_LocalScale = m_UnScaledLocalScale * ScaleSystem::GetInstance()->GetScale();
+			m_LocalPosition = m_UnScaledLocalPos * ScaleSystem::GetInstance()->GetScale();
+			m_LocalScale = m_UnScaledLocalScale  * ScaleSystem::GetInstance()->GetScale();
 
-				if(m_IsChanged == TransformChanged::NONE && !force && !m_Invalidate)
-				{
-						return;
-				}
+			if(m_IsChanged == TransformChanged::NONE && !force && !m_Invalidate)
+			{
+					return;
+			}
 
-				if(m_pParentObject == nullptr)
-				{
-						return;
-				}
+			if(m_pParentObject == nullptr)
+			{
+					return;
+			}
 				
-                mat4x4 matRot, matTrans, matScale;
+            mat4x4 matRot, matTrans, matScale;
 
 #ifdef STAR2D
-                matTrans = glm::translate(m_LocalPosition.pos3D());
-                float rotDegrees = RadiansToDegrees(m_LocalRotation);
-                matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
-                matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
+            matTrans = glm::translate(m_LocalPosition.pos3D());
+            float rotDegrees = RadiansToDegrees(m_LocalRotation);
+            matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
+            matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
 #else
-                matTrans = glm::translate(m_LocalPosition);
-                matRot   = glm::toMat4(m_LocalRotation);
-                matScale = glm::scale(m_LocalScale);
+            matTrans = glm::translate(m_LocalPosition);
+            matRot   = glm::toMat4(m_LocalRotation);
+            matScale = glm::scale(m_LocalScale);
 #endif
 
-                m_World = matTrans * matRot * matScale;
+            m_World = matTrans * matRot * matScale;
 
-                auto parentGameObj = m_pParentObject->GetParent();
+            auto parentGameObj = m_pParentObject->GetParent();
 
-                if(parentGameObj == nullptr)
-                {
-                        m_WorldPosition = m_LocalPosition;
-                        m_WorldScale = m_LocalScale;
-                        m_WorldRotation = m_LocalRotation;
-                }
-                else
-                {
-                        m_World *= parentGameObj->GetTransform()->GetWorldMatrix();
-                }
+            if(parentGameObj == nullptr)
+            {
+                    m_WorldPosition = m_LocalPosition;
+                    m_WorldScale = m_LocalScale;
+                    m_WorldRotation = m_LocalRotation;
 
-                m_IsChanged = TransformChanged::NONE;
+					m_UnScaledWorldPos = m_UnScaledLocalPos;
+                    m_UnScaledWorldScale = m_UnScaledLocalScale;
+            }
+            else
+            {
+                    m_World *= parentGameObj->GetTransform()->GetWorldMatrix();
+            }
 
-                m_Invalidate = false;
+            m_IsChanged = TransformChanged::NONE;
+
+            m_Invalidate = false;
         }
 
         void TransformComponent::Update(const Context& context)
