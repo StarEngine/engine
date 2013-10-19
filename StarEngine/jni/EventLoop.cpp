@@ -130,16 +130,24 @@ namespace star
 
 			//Gets called second after the window init
 		case APP_CMD_GAINED_FOCUS:
-			if(lEventLoop.mMainGame->Initialize(0,0) != STATUS_OK)
 			{
-				lEventLoop.mEnabled = false;
-				lEventLoop.End();
-			}
-			else
-			{
-				lEventLoop.mEnabled = true;
-				Logger::GetInstance()->Log(LogLevel::Info,_T("Eventloop : APP CMD GAINED FOXUS, Initited MainGame"));
-				SceneManager::GetInstance()->processActivityEvent(pCommand,pApplication);
+				status succes=STATUS_OK;
+				if(!lEventLoop.mMainGameInitialized)
+				{
+					if(succes = lEventLoop.mMainGame->Initialize(0,0) != STATUS_OK)
+					{
+						lEventLoop.mEnabled = false;
+						lEventLoop.End();
+					}
+				}
+				if(succes==STATUS_OK)
+				{
+					lEventLoop.mMainGameInitialized=true;
+					lEventLoop.mEnabled = true;
+					Logger::GetInstance()->Log(LogLevel::Info,_T("Eventloop : APP CMD GAINED FOXUS, Initited MainGame"));
+					TextureManager::GetInstance()->ReloadAllTextures();
+					SceneManager::GetInstance()->processActivityEvent(pCommand,pApplication);
+				}
 			}
 			break;
 
@@ -172,7 +180,7 @@ namespace star
 
 		case APP_CMD_TERM_WINDOW:
 			Logger::GetInstance()->Log(LogLevel::Info, _T("Eventloop : APP_CMD_TERM_WINDOW"));
-			TextureManager::GetInstance()->EraseAllTextures();
+			//TextureManager::GetInstance()->EraseAllTextures();
 			break;
 
 		case APP_CMD_DESTROY:

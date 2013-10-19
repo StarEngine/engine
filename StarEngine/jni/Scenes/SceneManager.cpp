@@ -184,7 +184,7 @@ namespace star
 
 		case APP_CMD_STOP:
 			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_STOP"));
-			DeActivate();
+			//DeActivate();
 			break;
 
 			//only activate here because this is after the graphics manager was initialized and has a window ptr

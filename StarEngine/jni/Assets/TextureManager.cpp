@@ -112,4 +112,15 @@ namespace star
 		 mTextureMap.clear();
 		 mPathList.clear();
 	}
+
+	bool TextureManager::ReloadAllTextures()
+	{
+		mTextureMap.clear();
+		auto it=mPathList.begin();
+		for(it; it != mPathList.end(); ++it)
+		{
+			mTextureMap[it->second] = std::shared_ptr<Texture2D>(new Texture2D(it->first, star::StarEngine::GetInstance()->GetAndroidApp()));
+		}
+		return (true);
+	}
 }

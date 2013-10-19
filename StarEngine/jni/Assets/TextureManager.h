@@ -29,6 +29,7 @@ namespace star
 		GLuint GetTextureID(const tstring& name);
 		ivec2 GetTextureDimensions(const tstring& name);
 		void EraseAllTextures();
+		bool ReloadAllTextures();
 
 	private:
 		//Data Members
