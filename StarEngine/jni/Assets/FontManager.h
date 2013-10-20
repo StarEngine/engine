@@ -9,6 +9,8 @@
 #include "Font.h"
 #include "../Graphics/Shader.h"
 
+#include "../Graphics/Color.h"
+
 #include "ft2build.h"
 #include "freetype/freetype.h"
 
@@ -33,7 +35,7 @@ namespace star
 		bool LoadFont(const tstring& path, const tstring& name, int32 size);
 		bool DeleteFont(const tstring& name);
 		void EraseFonts();
-		bool DrawText(const tstring& text, const tstring& fontname, ivec2 position, vec4 color=vec4(0,0,0,1));
+		bool DrawText(const tstring& text, const tstring& fontname, ivec2 position, Color color = Color::Black);
 
 	private:
 		//Data Members

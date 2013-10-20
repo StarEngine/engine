@@ -110,12 +110,23 @@ namespace star
 		return (false);
 	}
 
-	bool FontManager::DrawText( const tstring& text, const tstring& fontname, ivec2 position, vec4 color)
+	bool FontManager::DrawText( const tstring& text, const tstring& fontname, ivec2 position, Color color)
 	{
-		if(text==EMPTY_STRING)return false;
+		if(text == EMPTY_STRING)
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("FontManager::DrawText: Drawing an empty string..."));
+			return false;
+		}
 		
 		auto it = mFontList.find(fontname);
-		if(it == mFontList.end())return false;
+
+		if(it == mFontList.end())
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("FontManager::DrawText: font '") + fontname + _T("' couldn't be found."));
+			return false;
+		}
 
 		auto curfont = it->second;
 
