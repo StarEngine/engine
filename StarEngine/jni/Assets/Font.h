@@ -38,7 +38,6 @@ namespace star
 		bool Init(const tstring& path, int32 size, FT_Library& library);
 		void DeleteFont();
 
-		GLuint GetListBase()const {return mList_base;}
 		GLuint* GetTextures()const {return mTextures;}
 		float GetSize()const {return mSize;}
 		const std::vector<fontUvCoords>& getUvCoords()const {return mUVcoordsList;}
@@ -47,13 +46,15 @@ namespace star
 		const int& GetMaxLetterHeight() const {return mMaxLetterHeight;}
 
 	private:
-		void Make_D_List(FT_Face face, char ch, GLuint list_base, GLuint * tex_base);
+		void Make_D_List(FT_Face face, char ch,GLuint * tex_base);
 		int32 NextPowerOfTwo(const int32& a);
 
 		FT_Face mFace;
 		GLuint* mTextures;
-		GLuint mList_base;
 		int mMaxLetterHeight;
+#ifdef ANDROID
+		BYTE* mFontBuffer;
+#endif
 
 		std::vector< fontUvCoords > mUVcoordsList;
 		std::vector< fontVertices > mVecticesList;

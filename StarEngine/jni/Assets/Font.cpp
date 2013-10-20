@@ -1,6 +1,11 @@
 #include "Font.h"
 #include "../Logger.h"
 
+#ifndef DESKTOP
+#include "Resource.h"
+#include "../StarEngine.h"
+#endif
+
 namespace star
 {
 	bool Font::Init(const tstring& path, int32 size, FT_Library& library )
@@ -8,9 +13,33 @@ namespace star
 		mSize = static_cast<float>(size);
 		mTextures = new GLuint[FONT_TEXTURES];
 		mMaxLetterHeight=0;
+
+#ifdef DESKTOP
 		//Convert from wstring to const char* trough std::string
 		std::string font_path = string_cast<std::string>(path);
 		auto error = FT_New_Face(library,font_path.c_str(),0,&mFace);
+#else
+		Resource resource(StarEngine::GetInstance()->GetAndroidApp(), path);
+		if(resource.Open() == STATUS_KO)
+		{
+			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Font : Failed to open file"));
+			return false;
+		}
+
+		int32 length = resource.GetLength();
+		star::Logger::GetInstance()->Log(LogLevel::Info, _T("Font : File size :")+star::string_cast<tstring>(length));
+		mFontBuffer = new BYTE[length]();
+
+		if(resource.Read(mFontBuffer,length) == STATUS_KO)
+		{
+			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Font : Failed to read file"));
+			resource.Close();
+			return false;
+		}
+
+		auto error = FT_New_Memory_Face(library,mFontBuffer,length,0,&mFace);
+		resource.Close();
+#endif
 		if(error == FT_Err_Unknown_File_Format)
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error,_T("Font Manager : Font : ") + path + _T(" ,could be opened but its in unsuported format"));
@@ -25,29 +54,27 @@ namespace star
 
 		FT_Set_Char_Size(mFace,size<<6, size<<6, FONT_DPI, FONT_DPI);
 
-		//mList_base=glGenLists(FONT_TEXTURES);
 		glGenTextures(FONT_TEXTURES,mTextures);
 		for(unsigned char i=0; i < FONT_TEXTURES; ++i)
 		{
-			Make_D_List(mFace, i, mList_base, mTextures);
+			Make_D_List(mFace, i, mTextures);
 		}
-
 		FT_Done_Face(mFace);
 		return true;
 	}
 
 	void Font::DeleteFont()
 	{
-		//glDeleteLists(mList_base,FONT_TEXTURES);
+
 		glDeleteTextures(FONT_TEXTURES,mTextures);
 		delete[] mTextures;
+#ifdef ANDROID
+		delete [] mFontBuffer;
+#endif
 	}
 
-	void Font::Make_D_List( FT_Face face, char ch, GLuint list_base, GLuint * tex_base )
+	void Font::Make_D_List( FT_Face face, char ch,GLuint * tex_base )
 	{
-
-		FT_UInt glyph_index;
-		glyph_index = FT_Get_Char_Index(face,ch );
 
 		auto error = FT_Load_Char(face, ch, FT_LOAD_DEFAULT);
 		if(error)
@@ -81,17 +108,21 @@ namespace star
 		glBindTexture(GL_TEXTURE_2D, tex_base[ch]);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+#ifdef DESKTOP
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded_data);
+#else
+		//For android "internal format" must be the same as "format" in glTexImage2D
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded_data);
+#endif
+		Logger::GetInstance()->CheckGlError();
 		delete[] expanded_data;
 
-		glBindTexture(GL_TEXTURE_2D,tex_base[ch]);
 		float x=static_cast<float>(bitmap.width) / static_cast<float>(width);
 		float y=static_cast<float>(bitmap.rows) / static_cast<float>(height);
 		int dimx = (face->glyph->metrics.horiAdvance/64);
 		int dimy = ((face->glyph->metrics.horiBearingY)-(face->glyph->metrics.height))/64;
 		ivec2 tempdim(dimx,dimy);
 		if(mMaxLetterHeight<face->glyph->bitmap_top)mMaxLetterHeight=face->glyph->bitmap_top;
-		//ivec2 tempdim(width,height);
 		mLetterSizeList.push_back(tempdim);
 
 		

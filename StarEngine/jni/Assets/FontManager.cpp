@@ -38,8 +38,8 @@ namespace star
 		Filepath texshaderVertex(_T("WinShaders/"), _T("Font_Shader.vert"));
 		Filepath texshaderFrag(_T("WinShaders/"), _T("Font_Shader.frag"));
 #else
-		Filepath texshaderVertex(_T("AndroidShaders/"), _T("BaseTexShader.vert"));
-		Filepath texshaderFrag(_T("AndroidShaders/"), _T("BaseTexShader.frag"));
+		Filepath texshaderVertex(_T("AndroidShaders/"), _T("Font_Shader.vert"));
+		Filepath texshaderFrag(_T("AndroidShaders/"), _T("Font_Shader.frag"));
 
 #endif
 		if(!m_Shader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
@@ -81,22 +81,18 @@ namespace star
 			return (false);
 		}
 
-#ifdef _WIN32
 		star::Filepath filepath(_T("Fonts/"),path);
 
 		Font tempfont;
 		if(tempfont.Init(filepath.GetFullPath(),size,mLibrary))
 		{
 			mFontList[name] = tempfont;
+
 		}
 		else
 		{
 			return (false);
 		}
-
-#else
-
-#endif
 		
 		//mPathList.push_back(path);
 
@@ -123,7 +119,6 @@ namespace star
 
 		auto curfont = it->second;
 
-		GLuint font=curfont.GetListBase();
 		float h = curfont.GetSize()/0.63f;
 
 		std::string conv_text = star::string_cast<std::string>(text);

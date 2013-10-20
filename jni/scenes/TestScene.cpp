@@ -179,7 +179,7 @@ status TestScene::Draw()
 	auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
 
 	star::FontManager::GetInstance()->DrawText(_T("The quick brown fox jumps over the lazy dog &'(!).123456789?;:,/\ "),_T("Arial"),ivec2(0,0),vec4(1,0,1,1));
-	star::FontManager::GetInstance()->DrawText(_T("The quick brown fox jumps over the lazy dog"),_T("Professor"),ivec2(0,300));
-	star::FontManager::GetInstance()->DrawText(_T("The quick brown fox jumps over the lazy dog"),_T("Coalition"),ivec2(0,600));
+	star::FontManager::GetInstance()->DrawText(_T("The quick brown fox jumps over the lazy dog"),_T("Professor"),ivec2(0,300),vec4(0,1,1,1));
+	star::FontManager::GetInstance()->DrawText(_T("The quick brown fox jumps over the lazy dog"),_T("Coalition"),ivec2(0,600),vec4(0,1,0,0.5));
 	return STATUS_OK;
 }
