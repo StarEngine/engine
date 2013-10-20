@@ -119,7 +119,11 @@ namespace star
 		auto it=mPathList.begin();
 		for(it; it != mPathList.end(); ++it)
 		{
+#ifdef DESKTOP
+			mTextureMap[it->second] = std::shared_ptr<Texture2D>(new Texture2D(it->first));
+#else
 			mTextureMap[it->second] = std::shared_ptr<Texture2D>(new Texture2D(it->first, star::StarEngine::GetInstance()->GetAndroidApp()));
+#endif
 		}
 		return (true);
 	}
