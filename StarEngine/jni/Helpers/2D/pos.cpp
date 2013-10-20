@@ -74,9 +74,21 @@ namespace star
 		return is_true;
 	}
 
+	bool pos::operator==(const vec2 & yRef) const
+	{
+		bool is_true(x == yRef.x 
+			&& y == yRef.y);
+		return is_true;
+	}
+
 	bool pos::operator!=(const pos & yRef) const
 	{
-		return !(operator==(yRef));
+		return !(*this == yRef);
+	}
+
+	bool pos::operator!=(const vec2 & yRef) const
+	{
+		return !(*this == yRef);
 	}
 
 	pos & pos::operator=(const pos & yRef)
@@ -84,6 +96,14 @@ namespace star
 		x = yRef.x;
 		y = yRef.y;
 		l = yRef.l;
+
+		return *this;
+	}
+
+	pos & pos::operator=(const vec2 & yRef)
+	{
+		x = yRef.x;
+		y = yRef.y;
 
 		return *this;
 	}
@@ -96,7 +116,23 @@ namespace star
 		return *this;
 	}
 
+	pos & pos::operator+=(const vec2 & yRef)
+	{
+		x += yRef.x;
+		y += yRef.y;
+		
+		return *this;
+	}
+
 	pos & pos::operator-=(const pos & yRef)
+	{
+		x -= yRef.x;
+		y -= yRef.y;
+
+		return *this;
+	}
+
+	pos & pos::operator-=(const vec2 & yRef)
 	{
 		x -= yRef.x;
 		y -= yRef.y;
@@ -113,6 +149,15 @@ namespace star
 		return copy;
 	}
 
+	pos pos::operator+(const vec2 & yRef) const
+	{
+		pos copy(*this);
+		copy.x += yRef.x;
+		copy.y += yRef.y;
+
+		return copy;
+	}
+
 	pos pos::operator-(const pos & yRef) const
 	{
 		pos copy(*this);
@@ -120,6 +165,357 @@ namespace star
 		copy.y -= yRef.y;
 
 		return copy;
+	}
+
+	pos pos::operator-(const vec2 & yRef) const
+	{
+		pos copy(*this);
+		copy.x -= yRef.x;
+		copy.y -= yRef.y;
+
+		return copy;
+	}
+
+	pos pos::operator*(unsigned int n)
+	{
+		pos copy(*this);
+		copy *= n;
+		
+		return copy;
+	}
+
+	pos pos::operator*(unsigned long n)
+	{
+		pos copy(*this);
+		copy *= n;
+		
+		return copy;
+	}
+
+	pos pos::operator*(int n)
+	{
+		pos copy(*this);
+		copy *= n;
+		
+		return copy;
+	}
+
+	pos pos::operator*(long n)
+	{
+		pos copy(*this);
+		copy *= n;
+		
+		return copy;
+	}
+
+	pos pos::operator*(float n)
+	{
+		pos copy(*this);
+		copy *= n;
+		
+		return copy;
+	}
+
+	pos pos::operator*(double n)
+	{
+		pos copy(*this);
+		copy *= n;
+		
+		return copy;
+	}
+	
+	pos pos::operator/(unsigned int n)
+	{
+		pos copy(*this);
+		copy /= n;
+		
+		return copy;
+	}
+
+	pos pos::operator/(unsigned long n)
+	{
+		pos copy(*this);
+		copy /= n;
+		
+		return copy;
+	}
+
+	pos pos::operator/(int n)
+	{
+		pos copy(*this);
+		copy /= n;
+		
+		return copy;
+	}
+
+	pos pos::operator/(long n)
+	{
+		pos copy(*this);
+		copy /= n;
+		
+		return copy;
+	}
+
+	pos pos::operator/(float n)
+	{
+		pos copy(*this);
+		copy /= n;
+		
+		return copy;
+	}
+
+	pos pos::operator/(double n)
+	{
+		pos copy(*this);
+		copy /= n;
+		
+		return copy;
+	}
+	
+	pos & pos::operator*=(unsigned int n)
+	{
+		x *= (float)n;
+		y *= (float)n;
+
+		return *this;
+	}
+
+	pos & pos::operator*=(unsigned long n)
+	{
+		x *= (float)n;
+		y *= (float)n;
+
+		return *this;
+	}
+
+	pos & pos::operator*=(int n)
+	{
+		x *= (float)n;
+		y *= (float)n;
+
+		return *this;
+	}
+
+	pos & pos::operator*=(long n)
+	{
+		x *= (float)n;
+		y *= (float)n;
+
+		return *this;
+	}
+
+	pos & pos::operator*=(float n)
+	{
+		x *= n;
+		y *= n;
+
+		return *this;
+	}
+
+	pos & pos::operator*=(double n)
+	{
+		x *= (float)n;
+		y *= (float)n;
+
+		return *this;
+	}
+	
+	pos & pos::operator/=(unsigned int n)
+	{
+		x /= (float)n;
+		y /= (float)n;
+
+		return *this;
+	}
+
+	pos & pos::operator/=(unsigned long n)
+	{
+		x /= (float)n;
+		y /= (float)n;
+
+		return *this;
+	}
+
+	pos & pos::operator/=(int n)
+	{
+		x /= (float)n;
+		y /= (float)n;
+
+		return *this;
+	}
+
+	pos & pos::operator/=(long n)
+	{
+		x /= (float)n;
+		y /= (float)n;
+
+		return *this;
+	}
+
+	pos & pos::operator/=(float n)
+	{
+		x /= n;
+		y /= n;
+
+		return *this;
+	}
+
+	pos & pos::operator/=(double n)
+	{
+		x /= (float)n;
+		y /= (float)n;
+
+		return *this;
+	}
+	
+	pos operator*(unsigned int n, const pos & yRef)
+	{
+		pos copy(yRef);
+
+		copy.x *= (float)n;
+		copy.y *= (float)n;
+
+		return copy;
+	}
+
+	pos operator*(unsigned long n, const pos & yRef)
+	{
+		pos copy(yRef);
+
+		copy.x *= (float)n;
+		copy.y *= (float)n;
+
+		return copy;
+	}
+
+	pos operator*(int n, const pos & yRef)
+	{
+		pos copy(yRef);
+
+		copy.x *= (float)n;
+		copy.y *= (float)n;
+
+		return copy;
+	}
+
+	pos operator*(long n, const pos & yRef)
+	{
+		pos copy(yRef);
+
+		copy.x *= (float)n;
+		copy.y *= (float)n;
+
+		return copy;
+	}
+
+	pos operator*(float n, const pos & yRef)
+	{
+		pos copy(yRef);
+
+		copy.x *= n;
+		copy.y *= n;
+
+		return copy;
+	}
+
+	pos operator*(double n, const pos & yRef)
+	{
+		pos copy(yRef);
+
+		copy.x *= (float)n;
+		copy.y *= (float)n;
+
+		return copy;
+	}
+
+	pos operator*(const vec2 & v, const pos & yRef)
+	{
+		pos copy(yRef);
+
+		copy.x *= v.x;
+		copy.y *= v.y;
+
+		return copy;
+	}
+	
+	pos operator/(unsigned int n, const pos & yRef)
+	{
+		pos copy(yRef);
+
+		copy.x /= (float)n;
+		copy.y /= (float)n;
+
+		return copy;
+	}
+
+	pos operator/(unsigned long n, const pos & yRef)
+	{
+		pos copy(yRef);
+
+		copy.x /= (float)n;
+		copy.y /= (float)n;
+
+		return copy;
+	}
+
+	pos operator/(int n, const pos & yRef)
+	{
+		pos copy(yRef);
+
+		copy.x /= (float)n;
+		copy.y /= (float)n;
+
+		return copy;
+	}
+
+	pos operator/(long n, const pos & yRef)
+	{
+		pos copy(yRef);
+
+		copy.x /= (float)n;
+		copy.y /= (float)n;
+
+		return copy;
+	}
+
+	pos operator/(float n, const pos & yRef)
+	{
+		pos copy(yRef);
+
+		copy.x /= n;
+		copy.y /= n;
+
+		return copy;
+	}
+
+	pos operator/(double n, const pos & yRef)
+	{
+		pos copy(yRef);
+
+		copy.x /= (float)n;
+		copy.y /= (float)n;
+
+		return copy;
+	}
+
+	pos operator/(const vec2 & v, const pos & yRef)
+	{
+		pos copy(yRef);
+
+		copy.x /= v.x;
+		copy.y /= v.y;
+
+		return copy;
+	}
+
+	bool operator==(const vec2 & lRef, const pos & rRef)
+	{
+		return rRef == lRef;
+	}
+
+	bool operator!=(const vec2 & lRef, const pos & rRef)
+	{
+		return rRef == lRef;
 	}
 
 	vec2 pos::pos2D() const
@@ -138,221 +534,5 @@ namespace star
 	float pos::length() const
 	{
 		return sqrt(pow(x,2) + pow(y,2));
-	}
-	
-	pos & operator*=(pos & yRef, unsigned int n)
-	{
-		yRef.x *= (float)n;
-		yRef.y *= (float)n;
-
-		return yRef;
-	}
-
-	pos & operator*=(pos & yRef, unsigned long n)
-	{
-		yRef.x *= (float)n;
-		yRef.y *= (float)n;
-
-		return yRef;
-	}
-
-	pos & operator*=(pos & yRef, int n)
-	{
-		yRef.x *= (float)n;
-		yRef.y *= (float)n;
-
-		return yRef;
-	}
-
-	pos & operator*=(pos & yRef, long n)
-	{
-		yRef.x *= (float)n;
-		yRef.y *= (float)n;
-
-		return yRef;
-	}
-
-	pos & operator*=(pos & yRef, float n)
-	{
-		yRef.x *= n;
-		yRef.y *= n;
-
-		return yRef;
-	}
-
-	pos & operator*=(pos & yRef, double n)
-	{
-		yRef.x *= (float)n;
-		yRef.y *= (float)n;
-
-		return yRef;
-	}
-	
-	pos & operator/=(pos & yRef, unsigned int n)
-	{
-		yRef.x /= (float)n;
-		yRef.y /= (float)n;
-
-		return yRef;
-	}
-
-	pos & operator/=(pos & yRef, unsigned long n)
-	{
-		yRef.x /= (float)n;
-		yRef.y /= (float)n;
-
-		return yRef;
-	}
-
-	pos & operator/=(pos & yRef, int n)
-	{
-		yRef.x /= (float)n;
-		yRef.y /= (float)n;
-
-		return yRef;
-	}
-
-	pos & operator/=(pos & yRef, long n)
-	{
-		yRef.x /= (float)n;
-		yRef.y /= (float)n;
-
-		return yRef;
-	}
-
-	pos & operator/=(pos & yRef, float n)
-	{
-		yRef.x /= n;
-		yRef.y /= n;
-
-		return yRef;
-	}
-
-	pos & operator/=(pos & yRef, double n)
-	{
-		yRef.x /= (float)n;
-		yRef.y /= (float)n;
-
-		return yRef;
-	}
-	
-	pos operator*(pos & yRef, unsigned int n)
-	{
-		pos copy(yRef);
-
-		copy.x *= (float)n;
-		copy.y *= (float)n;
-
-		return copy;
-	}
-
-	pos operator*(pos & yRef, unsigned long n)
-	{
-		pos copy(yRef);
-
-		copy.x *= (float)n;
-		copy.y *= (float)n;
-
-		return copy;
-	}
-
-	pos operator*(pos & yRef, int n)
-	{
-		pos copy(yRef);
-
-		copy.x *= (float)n;
-		copy.y *= (float)n;
-
-		return copy;
-	}
-
-	pos operator*(pos & yRef, long n)
-	{
-		pos copy(yRef);
-
-		copy.x *= (float)n;
-		copy.y *= (float)n;
-
-		return copy;
-	}
-
-	pos operator*(pos & yRef, float n)
-	{
-		pos copy(yRef);
-
-		copy.x *= n;
-		copy.y *= n;
-
-		return copy;
-	}
-
-	pos operator*(pos & yRef, double n)
-	{
-		pos copy(yRef);
-
-		copy.x *= (float)n;
-		copy.y *= (float)n;
-
-		return copy;
-	}
-	
-	pos operator/(pos & yRef, unsigned int n)
-	{
-		pos copy(yRef);
-
-		copy.x /= (float)n;
-		copy.y /= (float)n;
-
-		return copy;
-	}
-
-	pos operator/(pos & yRef, unsigned long n)
-	{
-		pos copy(yRef);
-
-		copy.x /= (float)n;
-		copy.y /= (float)n;
-
-		return copy;
-	}
-
-	pos operator/(pos & yRef, int n)
-	{
-		pos copy(yRef);
-
-		copy.x /= (float)n;
-		copy.y /= (float)n;
-
-		return copy;
-	}
-
-	pos operator/(pos & yRef, long n)
-	{
-		pos copy(yRef);
-
-		copy.x /= (float)n;
-		copy.y /= (float)n;
-
-		return copy;
-	}
-
-	pos operator/(pos & yRef, float n)
-	{
-		pos copy(yRef);
-
-		copy.x /= n;
-		copy.y /= n;
-
-		return copy;
-	}
-
-	pos operator/(pos & yRef, double n)
-	{
-		pos copy(yRef);
-
-		copy.x /= (float)n;
-		copy.y /= (float)n;
-
-		return copy;
 	}
 }

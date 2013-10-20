@@ -19,45 +19,71 @@ namespace star
 		pos(pos && yRef);
 
 		bool operator==(const pos & yRef) const;
+		bool operator==(const vec2 & yRef) const;
 		bool operator!=(const pos & yRef) const;
+		bool operator!=(const vec2 & yRef) const;
 
 		pos & operator=(const pos & yRef);
+		pos & operator=(const vec2 & yRef);
 		pos & operator+=(const pos & yRef);
+		pos & operator+=(const vec2 & yRef);
 		pos & operator-=(const pos & yRef);
+		pos & operator-=(const vec2 & yRef);
 		pos operator+(const pos & yRef) const;
+		pos operator+(const vec2 & yRef) const;
 		pos operator-(const pos & yRef) const;
+		pos operator-(const vec2 & yRef) const;
+	
+		pos & operator*=(unsigned int n);
+		pos & operator*=(unsigned long n);
+		pos & operator*=(int n);
+		pos & operator*=(long n);
+		pos & operator*=(float n);
+		pos & operator*=(double n);
+	
+		pos & operator/=(unsigned int n);
+		pos & operator/=(unsigned long n);
+		pos & operator/=(int n);
+		pos & operator/=(long n);
+		pos & operator/=(float n);
+		pos & operator/=(double n);
+	
+		pos operator*(unsigned int n);
+		pos operator*(unsigned long n);
+		pos operator*(int n);
+		pos operator*(long n);
+		pos operator*(float n);
+		pos operator*(double n);
+	
+		pos operator/(unsigned int n);
+		pos operator/(unsigned long n);
+		pos operator/(int n);
+		pos operator/(long n);
+		pos operator/(float n);
+		pos operator/(double n);
 
 		vec2 pos2D() const;
 		vec3 pos3D() const;
 
 		float length() const;
+	
+		friend pos operator*(unsigned int n, const pos & yRef);
+		friend pos operator*(unsigned long n, const pos & yRef);
+		friend pos operator*(int n, const pos & yRef);
+		friend pos operator*(long n, const pos & yRef);
+		friend pos operator*(float n, const pos & yRef);
+		friend pos operator*(double n, const pos & yRef);
+		friend pos operator*(const vec2 & v, const pos & yRef);
+	
+		friend pos operator/(unsigned int n, const pos & yRef);
+		friend pos operator/(unsigned long n, const pos & yRef);
+		friend pos operator/(int n, const pos & yRef);
+		friend pos operator/(long n, const pos & yRef);
+		friend pos operator/(float n, const pos & yRef);
+		friend pos operator/(double n, const pos & yRef);
+		friend pos operator/(const vec2 & v, const pos & yRef);
+
+		friend bool operator==(const vec2 & lRef, const pos & rRef);
+		friend bool operator!=(const vec2 & lRef, const pos & rRef);
 	};
-	
-	pos & operator*=(pos & yRef, unsigned int n);
-	pos & operator*=(pos & yRef, unsigned long n);
-	pos & operator*=(pos & yRef, int n);
-	pos & operator*=(pos & yRef, long n);
-	pos & operator*=(pos & yRef, float n);
-	pos & operator*=(pos & yRef, double n);
-	
-	pos & operator/=(pos & yRef, unsigned int n);
-	pos & operator/=(pos & yRef, unsigned long n);
-	pos & operator/=(pos & yRef, int n);
-	pos & operator/=(pos & yRef, long n);
-	pos & operator/=(pos & yRef, float n);
-	pos & operator/=(pos & yRef, double n);
-	
-	pos operator*(pos & yRef, unsigned int n);
-	pos operator*(pos & yRef, unsigned long n);
-	pos operator*(pos & yRef, int n);
-	pos operator*(pos & yRef, long n);
-	pos operator*(pos & yRef, float n);
-	pos operator*(pos & yRef, double n);
-	
-	pos operator/(pos & yRef, unsigned int n);
-	pos operator/(pos & yRef, unsigned long n);
-	pos operator/(pos & yRef, int n);
-	pos operator/(pos & yRef, long n);
-	pos operator/(pos & yRef, float n);
-	pos operator/(pos & yRef, double n);
 }

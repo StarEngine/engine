@@ -96,6 +96,7 @@
     <ClInclude Include="jni\definesAndroid.h" />
     <ClInclude Include="jni\definesWindows.h" />
     <ClInclude Include="jni\EventLoop.h" />
+    <ClInclude Include="jni\Graphics\Color.h" />
     <ClInclude Include="jni\Graphics\GraphicsManager.h" />
     <ClInclude Include="jni\Graphics\SpriteBatch.h" />
     <ClInclude Include="jni\Graphics\UI\UIDock.h" />
@@ -158,6 +159,7 @@
     <ClCompile Include="jni\Components\Graphics\SpritesheetComponent.cpp" />
     <ClCompile Include="jni\Components\TransformComponent.cpp" />
     <ClCompile Include="jni\EventLoop.cpp" />
+    <ClCompile Include="jni\Graphics\Color.cpp" />
     <ClCompile Include="jni\Graphics\GraphicsManager.cpp" />
     <ClCompile Include="jni\Graphics\SpriteBatch.cpp" />
     <ClCompile Include="jni\Graphics\UI\UIDock.cpp" />
