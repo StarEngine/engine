@@ -194,6 +194,11 @@ namespace star
 		return float(mScreenWidth) / float(mScreenHeight);
 	}
 
+	vec2 GraphicsManager::GetWindowResolution() const
+	{
+		return vec2(mScreenWidth, mScreenHeight);
+	}
+
 	void GraphicsManager::SetWindowDimensions(int32 width, int32 height)
 	{
 		//star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : SetWindowDimensions"));

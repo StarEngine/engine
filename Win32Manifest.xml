@@ -1,0 +1,44 @@
+<manifest platform="WIN32">
+    <class>StarGame</class>
+	<title>StarGame</title>
+	<!-- Defines the position of the window 
+		+ Set the x value to '-1' to center the window horizontally
+		+ Set the y value to '-1' to center the window vertically
+	-->
+	<position x="-1" y="-1"/>
+	<resolution width="1380" height="720"/>
+	<allow_fullscreen manipulate_window_resolution="True">True</allow_fullscreen>
+	<update_game_when_inactive>False</update_game_when_inactive>
+	<console x="0" y="25" width="720" height="350"/>
+	<!-- class_styles options:
+		Information @
+		http://msdn.microsoft.com/en-us/library/aa925944.aspx
+	-->
+	<class_styles>
+		<style>CS_HREDRAW</style>
+		<style>CS_VREDRAW</style>
+	</class_styles>
+	<!-- window_styles options:
+		Information @
+		http://msdn.microsoft.com/en-us/library/windows/desktop/ms632600(v=vs.85).aspx
+	-->
+	<window_styles>
+		<style>WS_OVERLAPPED</style>
+		<style>WS_SYSMENU</style>
+		<style>WS_MINIMIZEBOX</style>
+		<style>WS_MAXIMIZEBOX</style>
+	</window_styles>
+	<cursor hidden="False">
+		<!-- defines the region in which the cursor gets clipped. 
+			 This means that the cursor cannot go outside this region.
+			 + Set the x value to '-1' to disable clipping
+			 + Set the width value to '-1' to use the entire window width
+			 + Set the height value to '-1' to use the entire window height
+			 - The x and y position of the window position is added to this position
+			 - The width shouldn't be bigger than the width of the window
+			 - The height shouldn't be bigger than the height of the window
+		-->
+		<clip x="-1" y="0" width="-1" height="-1"/>
+	</cursor>
+	<assets root="./assets/"/>
+</manifest>

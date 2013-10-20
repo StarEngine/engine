@@ -4,6 +4,8 @@
 #include "../Objects/Object.h"
 #include "../StarComponents.h"
 #include "../Objects/FreeCamera.h"
+#include "../Graphics/ScaleSystem.h"
+#include "../Graphics/GraphicsManager.h"
 
 namespace star 
 {
@@ -72,7 +74,7 @@ namespace star
 	
 	status BaseScene::BaseDraw()
 	{
-		glClearColor(1.0f,0.0f,0.0f, 1.0f); // Clear the background of our window to red
+		glClearColor(0.0f,0.0f,0.0f, 1.0f); // Clear the background of our window to red
 
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
 		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
@@ -156,6 +158,7 @@ namespace star
 
 	status BaseScene::AfterInitializedObjects(const Context& context)
 	{
+		CalculateViewPort();
 		return STATUS_OK;
 	}
 
@@ -177,5 +180,37 @@ namespace star
 	status BaseScene::Draw()
 	{
 		return STATUS_OK;
+	}
+
+	void BaseScene::CalculateViewPort()
+	{
+		//Calculate the correct viewport
+		vec2 screenRes = star::GraphicsManager::GetInstance()->GetWindowResolution();
+		vec2 workingRes = star::ScaleSystem::GetInstance()->GetWorkingResolution();
+		float aspectRatio = star::ScaleSystem::GetInstance()->GetAspectRatio();
+		
+		float width = screenRes.x / workingRes.x;
+		float height = screenRes.y / workingRes.y;
+		
+		if(width > height)
+		{
+			height = static_cast<int>(screenRes.y);
+			width = static_cast<int>(height * aspectRatio);
+		}
+		else
+		{
+			width = static_cast<int>(screenRes.x);
+			height = static_cast<int>(width / aspectRatio);
+		}
+
+#ifdef DESKTOP
+		int totalborderwidth = BORDERWIDTH * 2;
+		int xOffset = static_cast<int>((screenRes.x - width)/2 - totalborderwidth);
+		int yOffset = static_cast<int>((screenRes.y - height)/2 - totalborderwidth);
+#elif defined(ANDROID)
+		int xOffset = static_cast<int>((screenRes.x - width)/2);
+		int yOffset = static_cast<int>((screenRes.y - height)/2);
+#endif
+		glViewport(xOffset, yOffset, width, height);
 	}
 }
