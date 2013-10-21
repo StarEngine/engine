@@ -24,7 +24,9 @@ namespace star {
 	
 	Logger::~Logger()
 	{
+#ifdef _WIN32
 		CloseHandle(m_ConsoleHandle);
+#endif
 	}
 
 	Logger * Logger::GetInstance()
