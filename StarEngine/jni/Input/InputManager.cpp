@@ -700,8 +700,7 @@ namespace star
 					{
 						return (a.ID < b.ID);
 					});
-
-		m_GestureManager->OnTouchEvent(pEvent);
+		//m_GestureManager->OnTouchEvent(pEvent);
 	}
 
 	bool InputManager::OnKeyboardEvent(AInputEvent* pEvent)
