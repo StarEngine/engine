@@ -20,7 +20,6 @@ namespace star
 		void Initialize(HINSTANCE instance, BaseGame * pBaseGame);
 
 		void WindowInactiveUpdate(bool inactive);
-		const tstring & GetAssetRoot() const;
 		const HDC & GetHDC() const;
 		const HWND & GetHandle() const;
 		void CalculateRect(RECT & rect);
@@ -77,7 +76,6 @@ namespace star
 		HGLRC mOGLContext;
 		HDC mHDC;
 		RECT mClipRect;
-		tstring mAssetsRoot;
 
 		HANDLE m_hKeybThread;
 		DWORD m_dKeybThreadID;

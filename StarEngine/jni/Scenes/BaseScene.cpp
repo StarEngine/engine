@@ -25,7 +25,7 @@ namespace star
 			delete m_Objects[i];
 		}
 		m_Objects.clear();
-		//delete m_GestureManagerPtr;
+		delete m_GestureManagerPtr;
 	}
 
 	status BaseScene::BaseInitialize(const Context & context)

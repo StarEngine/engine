@@ -24,7 +24,7 @@ namespace star {
 	
 	Logger::~Logger()
 	{
-
+		CloseHandle(m_ConsoleHandle);
 	}
 
 	Logger * Logger::GetInstance()

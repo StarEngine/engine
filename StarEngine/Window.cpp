@@ -99,8 +99,7 @@ namespace star
 			wndClass.cbSize = sizeof(WNDCLASSEX);
 
 			auto assets_settings = winManifest[_T("assets")]->GetAttributes();
-			mAssetsRoot = assets_settings[_T("root")];
-			Filepath::SetAssetsRoot(mAssetsRoot);
+			Filepath::SetAssetsRoot(assets_settings[_T("root")]);
 
 			wndClass.style = 0;
 			auto class_map = winManifest[_T("class_styles")];
@@ -321,7 +320,6 @@ namespace star
 		, mOGLContext()
 		, mHDC()
 		, mClipRect()
-		, mAssetsRoot()
 		, m_hKeybThread()
 		, m_dKeybThreadID()
 	{
@@ -640,11 +638,6 @@ namespace star
 				ClipCursor(&mClipRect);
 			}
 		}
-	}
-
-	const tstring & Window::GetAssetRoot() const
-	{
-		return mAssetsRoot;
 	}
 
 	const HDC & Window::GetHDC() const
