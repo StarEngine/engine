@@ -2,6 +2,7 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#include <memory>
 #include <XInput.h>
 #include <map>
 
@@ -72,14 +73,16 @@ namespace star
 
 		static InputManager * GetInstance();
 
+		void UpdateGestures(const Context & context);
+
 		bool IsFingerTapCP(uint8 finger = 0) const;
 		bool IsFingerDownCP(uint8 finger = 0) const;
 		bool IsFingerUpCP(uint8 finger = 0) const;
 		vec2 GetCurrentFingerPosCP(uint8 finger = 0) const;
 		vec2 GetOldFingerPosCP(uint8 finger = 0) const;
 		void EndUpdate();
-		void SetGestureManager(GestureManager* gestureManager);
-		const GestureManager* GetGestureManager() const;
+		void SetGestureManager(std::shared_ptr<GestureManager> gestureManager);
+		std::shared_ptr<GestureManager> GetGestureManager() const;
 #ifdef DESKTOP
 		
 		//[TODO] add InputActions for android
@@ -178,11 +181,11 @@ namespace star
 		std::vector<FingerPointerANDR> m_PointerVec;
 		std::vector<FingerPointerANDR> m_OldPointerVec;
 #endif
-		GestureManager* m_GestureManager;
+		std::shared_ptr<GestureManager> m_GestureManager;
 
 		InputManager(const InputManager& t);
 		InputManager(InputManager&& t);
 		InputManager& operator=(const InputManager& t);
+		InputManager& operator=(InputManager&& t);
 	};
 }
-

@@ -15,7 +15,7 @@ namespace star
 		, m_Name(name)
 	{
 		m_pStopwatch = std::make_shared<Stopwatch>();
-		//m_GestureManagerPtr = new GestureManager();
+		m_GestureManagerPtr = std::make_shared<GestureManager>();
 	}
 	
 	BaseScene::~BaseScene()
@@ -25,7 +25,7 @@ namespace star
 			delete m_Objects[i];
 		}
 		m_Objects.clear();
-		delete m_GestureManagerPtr;
+		m_GestureManagerPtr = nullptr;
 	}
 
 	status BaseScene::BaseInitialize(const Context & context)
@@ -47,11 +47,8 @@ namespace star
 	}
 
 	status BaseScene::BaseOnActivate()
-	{/*
-		if(m_GestureManagerPtr)
-		{
-			InputManager::GetInstance()->SetGestureManager(m_GestureManagerPtr);
-		}*/
+	{
+		InputManager::GetInstance()->SetGestureManager(m_GestureManagerPtr);
 		return OnActivate();
 	}
 
@@ -61,25 +58,14 @@ namespace star
 	}
 
 	status BaseScene::BaseUpdate(const Context& context)
-	{
-		if((m_GestureManagerPtr && 
-			InputManager::GetInstance()->GetGestureManager() == nullptr) || 
-			m_GestureManagerPtr != InputManager::GetInstance()->GetGestureManager())
-		{
-			InputManager::GetInstance()->SetGestureManager(m_GestureManagerPtr);
-		}
-		if(m_GestureManagerPtr && m_GestureManagerPtr == 
-			InputManager::GetInstance()->GetGestureManager())
-		{
-			m_GestureManagerPtr->Update(context);
-		}
-		
+	{	
 		m_pStopwatch->Update(context);
 
 		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
 		{
 			m_Objects[i]->Update(context);
 		}
+
 		return Update(context);
 	}
 
@@ -96,31 +82,6 @@ namespace star
 		return Draw(); 
 	}
 
-	void BaseScene::OnStart()
-	{
-
-	}
-
-	void BaseScene::OnResume()
-	{
-
-	}
-
-	void BaseScene::OnPause()
-	{
-
-	}
-
-	void BaseScene::OnStop()
-	{
-
-	}
-
-	void BaseScene::OnDestroy()
-	{
-
-	}
-
 	void BaseScene::OnSaveState(void** pData, size_t* pSize)
 	{
 
@@ -132,26 +93,6 @@ namespace star
 	}
 
 	void BaseScene::OnLowMemory()
-	{
-
-	}
-
-	void BaseScene::OnCreateWindow()
-	{
-
-	}
-
-	void BaseScene::OnDestroyWindow()
-	{
-
-	}
-
-	void BaseScene::OnGainFocus()
-	{
-
-	}
-
-	void BaseScene::OnLostFocus()
 	{
 
 	}
@@ -223,8 +164,9 @@ namespace star
 		return STATUS_OK;
 	}
 
-	void BaseScene::OnDeactivate()
+	status BaseScene::OnDeactivate()
 	{
+		return STATUS_OK;
 	}
 
 	status BaseScene::Update(const Context& context)

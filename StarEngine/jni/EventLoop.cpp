@@ -103,6 +103,7 @@ namespace star
 	{
 		Logger::GetInstance()->Log(LogLevel::Info,_T("Ending App"));
 		mMainGame->End();
+		delete InputManager::GetInstance();
 		delete this;
 		ANativeActivity_finish(mApplicationPtr->activity);
 	}

@@ -31,8 +31,6 @@ namespace star
 #ifdef ANDROID
 		void processActivityEvent(int32 pCommand, android_app* pApplication);
 		int32 processInputEvent(AInputEvent* pEvent);
-		void Activate();
-		void DeActivate();
 
 	private:
 		android_app* mApplicationPtr;

@@ -65,15 +65,16 @@ namespace star
 	{
 		if(m_CurrentSceneName == name)
 		{
+			Logger::GetInstance()->Log(LogLevel::Warning, _T("SceneManager::SetActiveScene: Scene is already active!"));
 			return (true);
 		}
 		if(m_SceneList.find(name) != m_SceneList.end())
 		{
-			Logger::GetInstance()->Log(LogLevel::Info, _T("Scene ") + name + _T(" is now Active"));
 			m_NewActiveScene = m_SceneList[name];
 			m_bSwitchingScene = true;
 			m_bInitialized = m_NewActiveScene->IsInitialized();
 			m_CurrentSceneName = name;
+			Logger::GetInstance()->Log(LogLevel::Info, _T("Scene ") + name + _T(" is now Active"));
 			return (true);
 		}
 		else
@@ -140,7 +141,12 @@ namespace star
 			{
 				InitializeCurScene(context);
 			}
+			if(m_ActiveScene != nullptr)
+			{
+				m_ActiveScene->BaseOnDeactivate();
+			}
 			m_ActiveScene = m_NewActiveScene;
+			m_ActiveScene->BaseOnActivate();
 			m_NewActiveScene = nullptr;
 			m_bSwitchingScene = false;
 			return (STATUS_OK);
@@ -148,6 +154,7 @@ namespace star
 
 		if(m_ActiveScene != nullptr)
 		{
+			InputManager::GetInstance()->UpdateGestures(context);
 			return (m_ActiveScene->BaseUpdate(context));
 		}
 		return (STATUS_OK);
@@ -184,13 +191,10 @@ namespace star
 
 		case APP_CMD_STOP:
 			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_STOP"));
-			//DeActivate();
 			break;
 
-			//only activate here because this is after the graphics manager was initialized and has a window ptr
 		case APP_CMD_GAINED_FOCUS:
 			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_START"));
-			Activate();
 			break;
 
 
@@ -227,31 +231,6 @@ namespace star
 			return (false);
 		}
 		return (false);
-	}
-
-	void SceneManager::Activate()
-	{
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Going trough activate"));
-		if(mApplicationPtr->window != nullptr)
-		{
-			if(m_ActiveScene->BaseOnActivate() != STATUS_OK)
-			{
-				ANativeActivity_finish(mApplicationPtr->activity);
-			}
-		}
-	}
-
-	void SceneManager::DeActivate()
-	{
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Going trough DeActivate"));
-		/*auto iter = m_SceneList.begin();
-		for(iter; iter != m_SceneList.end(); ++iter)
-		{
-			iter->second->BaseOnDeactivate();
-			//delete iter->second;
-		}*/
-		m_SceneList.clear();
-		m_CurrentSceneName = EMPTY_STRING;
 	}
 #endif
 }

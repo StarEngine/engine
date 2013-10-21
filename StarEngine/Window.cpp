@@ -618,6 +618,8 @@ namespace star
 		WaitForSingleObject( m_hKeybThread, INFINITE );
 		CloseHandle( m_hKeybThread );
 
+		delete InputManager::GetInstance();
+
 		delete (mGamePtr);
 		mGamePtr = nullptr;
 

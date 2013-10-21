@@ -85,7 +85,6 @@ namespace star
 
 	InputManager::~InputManager(void)
 	{
-		delete m_GestureManager;
 		m_GestureManager = nullptr;
 	}
 
@@ -96,6 +95,11 @@ namespace star
 			m_InputManagerPtr = new InputManager();
 		}
 		return (m_InputManagerPtr);
+	}
+
+	void InputManager::UpdateGestures(const Context & context)
+	{
+		m_GestureManager->Update(context);
 	}
 
 #ifdef DESKTOP
@@ -455,7 +459,10 @@ namespace star
 			m_MouseMovement.x = m_CurrMousePosition.x - m_OldMousePosition.x;
 			m_MouseMovement.y = m_CurrMousePosition.y - m_OldMousePosition.y;
 
-			//m_GestureManager->OnUpdateWinInputState();
+			if(m_GestureManager != nullptr)
+			{
+				m_GestureManager->OnUpdateWinInputState();
+			}
 
 			Sleep(1000/60);
 		}
@@ -700,7 +707,10 @@ namespace star
 					{
 						return (a.ID < b.ID);
 					});
-		//m_GestureManager->OnTouchEvent(pEvent);
+		if(m_GestureManager != nullptr)
+		{
+			m_GestureManager->OnTouchEvent(pEvent);
+		}
 	}
 
 	bool InputManager::OnKeyboardEvent(AInputEvent* pEvent)
@@ -806,12 +816,12 @@ namespace star
 #endif
 	}
 
-	void InputManager::SetGestureManager(GestureManager* gestureManager)
+	void InputManager::SetGestureManager(std::shared_ptr<GestureManager> gestureManager)
 	{
 		m_GestureManager = gestureManager;
 	}
 
-	const GestureManager* InputManager::GetGestureManager() const
+	std::shared_ptr<GestureManager> InputManager::GetGestureManager() const
 	{
 		return m_GestureManager;
 	}

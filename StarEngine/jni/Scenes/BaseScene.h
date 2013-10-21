@@ -25,20 +25,9 @@ namespace star
 		status BaseUpdate(const Context& context);
 		status BaseDraw();
 
-		virtual void OnStart();
-		virtual void OnResume();
-		virtual void OnPause();
-		virtual void OnStop();
-		virtual void OnDestroy();
-
 		virtual void OnSaveState(void** pData,size_t* pSize);
 		virtual void OnConfigurationChanged();
 		virtual void OnLowMemory();
-
-		virtual void OnCreateWindow();
-		virtual void OnDestroyWindow();
-		virtual void OnGainFocus();
-		virtual void OnLostFocus();
 
 		const tstring & GetName() const;
 		bool IsInitialized() const;
@@ -55,10 +44,10 @@ namespace star
 		virtual status CreateObjects();
 		virtual status AfterInitializedObjects(const Context& context);
 		virtual status OnActivate();
-		virtual void OnDeactivate();
+		virtual status OnDeactivate();
 		virtual status Update(const Context& context);
 		virtual status Draw();
-		GestureManager* m_GestureManagerPtr;
+		std::shared_ptr<GestureManager> m_GestureManagerPtr;
 
 		std::vector<Object*> m_Objects;
 		FreeCamera* m_pDefaultCamera;

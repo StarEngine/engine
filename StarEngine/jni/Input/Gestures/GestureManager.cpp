@@ -21,18 +21,23 @@ namespace star
 
 	void GestureManager::OnUpdateWinInputState()
 	{
-		for(auto gesture : m_GestureMap)
+		if(!m_GestureMap.empty())
 		{
-			gesture.second->OnUpdateWinInputStateBase();
+			for(auto gesture : m_GestureMap)
+			{
+				gesture.second->OnUpdateWinInputStateBase();
+			}
 		}
 	}
 #else
 	void GestureManager::OnTouchEvent(AInputEvent* pEvent)
 	{
-		
-		for(auto gesture : m_GestureMap)
+		if(!m_GestureMap.empty())
 		{
-			gesture.second->OnTouchEventBase(pEvent);
+			for(auto gesture : m_GestureMap)
+			{
+				gesture.second->OnTouchEventBase(pEvent);
+			}
 		}
 	}
 #endif
@@ -80,9 +85,12 @@ namespace star
 
 	void GestureManager::Update(const Context& context)
 	{
-		for(auto gesture : m_GestureMap)
+		if(!m_GestureMap.empty())
 		{
-			gesture.second->Update(context);
+			for(auto gesture : m_GestureMap)
+			{
+				gesture.second->Update(context);
+			}
 		}
 	}
 }
