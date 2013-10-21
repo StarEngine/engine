@@ -7,7 +7,6 @@
 #include "Graphics/GraphicsManager.h"
 #include "Scenes/SceneManager.h"
 #include "Sound/SoundService.h"
-#include "Helpers/Stopwatch.h"
 
 #include "Assets/FontManager.h"
 
@@ -63,7 +62,7 @@ status TestScene::CreateObjects()
 	m_pObjectOne->AddComponent(m_pRectCompOne);
 	m_pObjectOne->AddComponent(m_pSpriteComp1);
 
-	star::Stopwatch::GetInstance()->CreateTimer(_T("O1FT"), 2.0f, false, false,
+	GetStopwatch()->CreateTimer(_T("O1FT"), 2.0f, false, false,
 		[&]() { m_pObjectOne->Freeze(true);}, false);
 
 	m_pObjectTwo = new star::Object();

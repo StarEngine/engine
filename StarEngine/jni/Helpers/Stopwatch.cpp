@@ -9,20 +9,14 @@
 
 namespace star
 {
-	Stopwatch * Stopwatch::m_pStopwatch = nullptr;
-
-	Stopwatch::~Stopwatch()
+	Stopwatch::Stopwatch()
 	{
 
 	}
 
-	Stopwatch * Stopwatch::GetInstance()
+	Stopwatch::~Stopwatch()
 	{
-		if(m_pStopwatch == nullptr)
-		{
-			m_pStopwatch = new Stopwatch();
-		}
-		return m_pStopwatch;
+
 	}
 
 	void Stopwatch::Update(const Context& context)
@@ -227,10 +221,5 @@ namespace star
 			_T("GetTimerAccurateTime: Couldn't find the timer '") + name + _T("'."));
 #endif
 		return 0;
-	}
-
-	Stopwatch::Stopwatch()
-	{
-
 	}
 }

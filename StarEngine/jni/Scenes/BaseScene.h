@@ -2,7 +2,9 @@
 
 #include "../defines.h"
 #include "../Input/Gestures/GestureManager.h"
+#include "../Helpers/Stopwatch.h"
 #include <vector>
+#include <memory>
 
 namespace star 
 {
@@ -47,6 +49,8 @@ namespace star
 		void SetActiveCamera(CameraComponent* pCameraComp);
 		FreeCamera* GetActiveCamera() const;
 
+		std::shared_ptr<Stopwatch> GetStopwatch() const;
+
 	protected:
 		virtual status CreateObjects();
 		virtual status AfterInitializedObjects(const Context& context);
@@ -58,6 +62,7 @@ namespace star
 
 		std::vector<Object*> m_Objects;
 		FreeCamera* m_pDefaultCamera;
+		std::shared_ptr<Stopwatch> m_pStopwatch;
 
 	private:
 		bool m_Initialized;

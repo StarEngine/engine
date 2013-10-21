@@ -13,9 +13,8 @@ namespace star
 	class Stopwatch final
 	{
 	public:
+		Stopwatch();
 		~Stopwatch();
-
-		static Stopwatch * GetInstance();
 
 		void Update(const Context& context);
 
@@ -35,15 +34,13 @@ namespace star
 		double GetTimerAccurateTime(const tstring & name) const;
 
 	private:
-		static Stopwatch *m_pStopwatch;
 		std::map<const tstring, Timer> m_TimerContainer;
 		std::map<const tstring, Timer> m_GarbageContainer;
 		std::map<const tstring, Timer> m_TempContainer;
 
-		Stopwatch();
-
 		Stopwatch(const Stopwatch& yRef);
 		Stopwatch(Stopwatch&& yRef);
 		Stopwatch& operator=(const Stopwatch& yRef);
+		Stopwatch& operator=(Stopwatch&& yRef);
 	};
 }

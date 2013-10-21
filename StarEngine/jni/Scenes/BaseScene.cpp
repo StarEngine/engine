@@ -14,6 +14,7 @@ namespace star
 		, m_Initialized(false) 
 		, m_Name(name)
 	{
+		m_pStopwatch = std::make_shared<Stopwatch>();
 		//m_GestureManagerPtr = new GestureManager();
 	}
 	
@@ -72,6 +73,9 @@ namespace star
 		{
 			m_GestureManagerPtr->Update(context);
 		}
+		
+		m_pStopwatch->Update(context);
+
 		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
 		{
 			m_Objects[i]->Update(context);
@@ -197,6 +201,11 @@ namespace star
 	FreeCamera* BaseScene::GetActiveCamera() const
 	{
 		return m_pDefaultCamera;
+	}
+	
+	std::shared_ptr<Stopwatch> BaseScene::GetStopwatch() const
+	{
+		return m_pStopwatch;
 	}
 
 	status BaseScene::CreateObjects()
