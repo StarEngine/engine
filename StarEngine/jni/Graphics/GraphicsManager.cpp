@@ -9,7 +9,7 @@
 
 namespace star
 {
-	std::shared_ptr<GraphicsManager> GraphicsManager::mGraphicsManager = nullptr;
+	GraphicsManager * GraphicsManager::mGraphicsManager = nullptr;
 	
 	GraphicsManager::~GraphicsManager()
 	{
@@ -22,11 +22,11 @@ namespace star
 	{
 	}
 
-	std::shared_ptr<GraphicsManager> GraphicsManager::GetInstance()
+	GraphicsManager * GraphicsManager::GetInstance()
 	{
 		if(mGraphicsManager == nullptr)
 		{
-			mGraphicsManager = std::shared_ptr<GraphicsManager>(new GraphicsManager());
+			mGraphicsManager = new GraphicsManager();
 		}			
 		return mGraphicsManager;	
 	}

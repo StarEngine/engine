@@ -9,7 +9,7 @@
 
 namespace star 
 {
-	std::shared_ptr<TextureManager> TextureManager::mTextureManager = nullptr;
+	TextureManager * TextureManager::mTextureManager = nullptr;
 	TextureManager::~TextureManager()
 	{
 		mTextureMap.clear();
@@ -23,11 +23,11 @@ namespace star
 
 	}
 
-	std::shared_ptr<TextureManager> TextureManager::GetInstance()
+	TextureManager * TextureManager::GetInstance()
 	{
 		if(mTextureManager == nullptr)
 		{
-			mTextureManager = std::shared_ptr<TextureManager>(new TextureManager());
+			mTextureManager = new TextureManager();
 		}
 		return (mTextureManager);
 	}
@@ -61,9 +61,9 @@ namespace star
 
 
 #ifdef DESKTOP
-		mTextureMap[name] = std::shared_ptr<Texture2D>(new Texture2D(path));
+		mTextureMap[name] = std::make_shared<Texture2D>(path);
 #else
-		mTextureMap[name] = std::shared_ptr<Texture2D>(new Texture2D(path, star::StarEngine::GetInstance()->GetAndroidApp()));
+		mTextureMap[name] = std::make_shared<Texture2D>(path, star::StarEngine::GetInstance()->GetAndroidApp());
 #endif
 		
 		mPathList[path]=name;
@@ -120,9 +120,9 @@ namespace star
 		for(it; it != mPathList.end(); ++it)
 		{
 #ifdef DESKTOP
-			mTextureMap[it->second] = std::shared_ptr<Texture2D>(new Texture2D(it->first));
+			mTextureMap[it->second] = std::make_shared<Texture2D>(it->first);
 #else
-			mTextureMap[it->second] = std::shared_ptr<Texture2D>(new Texture2D(it->first, star::StarEngine::GetInstance()->GetAndroidApp()));
+			mTextureMap[it->second] = std::make_shared<Texture2D>(it->first, star::StarEngine::GetInstance()->GetAndroidApp());
 #endif
 		}
 		return (true);

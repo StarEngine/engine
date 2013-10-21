@@ -1,11 +1,15 @@
 #include "StarEngine.h"
 #include "Graphics/GraphicsManager.h"
+#include "Graphics/SpriteAnimationManager.h"
 #include "Scenes/SceneManager.h"
 #include "Input/InputManager.h"
 #include "Context.h"
 #include "Logger.h"
 #include "Sound/SoundService.h"
 #include "Helpers/Stopwatch.h"
+#include "AI/Pathfinding/PathFindManager.h"
+#include "Assets/FontManager.h"
+#include "Physics/Collision/CollisionManager.h"
 
 namespace star
 {
@@ -73,6 +77,17 @@ namespace star
 
 	status StarEngine::End()
 	{
+		// [NOTE] Find a proper way to delete this...
+		//delete InputManager::GetInstance();
+		delete SpriteAnimationManager::GetInstance();
+		delete TextureManager::GetInstance();
+		delete FontManager::GetInstance();
+		delete GraphicsManager::GetInstance();
+		delete SoundService::GetInstance();
+		delete CollisionManager::GetInstance();
+		delete PathFindManager::GetInstance();
+		delete SceneManager::GetInstance();
+
 		return STATUS_OK;
 	}
 	

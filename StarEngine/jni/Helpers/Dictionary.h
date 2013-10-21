@@ -35,6 +35,8 @@ namespace star
 
 		Dictionary<TKey, TValue> &
 			operator=(const Dictionary<TKey, TValue>& yRef);
+		Dictionary<TKey, TValue> &
+			operator=(Dictionary<TKey, TValue>&& yRef);
 		TValue & operator[](const TKey & key);
 		TValue & operator[](dki_pair & ki_pair);
 
@@ -105,7 +107,6 @@ namespace star
 	Dictionary<TKey, TValue>::Dictionary(Dictionary && yRef)
 		: m_MultiMap(yRef.m_MultiMap)
 	{
-
 	}
 
 	template < typename TKey, typename TValue >
@@ -126,6 +127,14 @@ namespace star
 	template < typename TKey, typename TValue >
 	Dictionary<TKey, TValue> &
 		Dictionary<TKey, TValue>::operator=(const Dictionary<TKey, TValue>& yRef)
+	{
+		m_MultiMap = yRef.m_MultiMap;
+		return (*this);
+	}
+	
+	template < typename TKey, typename TValue >
+	Dictionary<TKey, TValue> &
+		Dictionary<TKey, TValue>::operator=(Dictionary<TKey, TValue>&& yRef)
 	{
 		m_MultiMap = yRef.m_MultiMap;
 		return (*this);

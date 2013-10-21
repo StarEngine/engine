@@ -9,14 +9,14 @@
 
 namespace star
 {
-	 std::shared_ptr<SoundService> SoundService::mSoundService = nullptr;
+	SoundService * SoundService::mSoundService = nullptr;
 	bool SoundService::mbIsInitialized = false;
 
-	 std::shared_ptr<SoundService> SoundService::GetInstance()
+	SoundService * SoundService::GetInstance()
 	{
 		if(mSoundService == nullptr)
 		{
-			mSoundService = std::shared_ptr<SoundService>(new SoundService());
+			mSoundService = new SoundService();
 		}
 		return mSoundService;
 	}

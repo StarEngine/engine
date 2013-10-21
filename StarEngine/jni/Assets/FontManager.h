@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include <map>
 #include <vector>
 #include "../defines.h"
@@ -30,7 +29,7 @@ namespace star
 	public:
 		~FontManager(void) {}
 
-		static std::shared_ptr<FontManager> GetInstance();
+		static FontManager * GetInstance();
 
 		bool LoadFont(const tstring& path, const tstring& name, int32 size);
 		bool DeleteFont(const tstring& name);
@@ -39,7 +38,7 @@ namespace star
 
 	private:
 		//Data Members
-		static std::shared_ptr<FontManager> mFontManager;
+		static FontManager * mFontManager;
 
 		FT_Library mLibrary;
 

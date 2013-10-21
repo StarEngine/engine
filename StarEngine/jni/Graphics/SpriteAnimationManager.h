@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../defines.h"
-#include <memory>
 #include <map>
 #include "../Helpers/Spritesheet.h"
 
@@ -14,11 +13,11 @@ namespace star
 
 		void AddSpritesheet(const tstring & file);
 		const Spritesheet & GetSpritesheet(const tstring & name) const;
-		static std::shared_ptr<SpriteAnimationManager> GetInstance();
+		static SpriteAnimationManager * GetInstance();
 		void Clear();
 
 	private:
-		static std::shared_ptr<SpriteAnimationManager> m_pManager;
+		static SpriteAnimationManager * m_pManager;
 		std::map<tstring, Spritesheet> m_Spritesheets;
 
 		SpriteAnimationManager();

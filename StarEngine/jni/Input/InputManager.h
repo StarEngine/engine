@@ -13,7 +13,6 @@
 #endif
 
 #include "../defines.h"
-#include <memory>
 #include "Gestures/GestureManager.h"
 
 namespace star
@@ -71,7 +70,7 @@ namespace star
 	public:
 		virtual ~InputManager(void);
 
-		static std::shared_ptr<InputManager> GetInstance();
+		static InputManager * GetInstance();
 
 		bool IsFingerTapCP(uint8 finger = 0) const;
 		bool IsFingerDownCP(uint8 finger = 0) const;
@@ -133,16 +132,9 @@ namespace star
 	private:
 
 		InputManager();
-		static std::shared_ptr<InputManager>  m_InputManagerPtr;
+		static InputManager*  m_InputManagerPtr;
 
 #ifdef DESKTOP
-		std::map<int,InputAction> m_InputActions;
-		BYTE *m_pCurrKeyboardState, *m_pOldKeyboardState, *m_pKeyboardState0, *m_pKeyboardState1;
-		bool m_KeyboardState0Active;
-		vec2 m_CurrMousePosition, m_OldMousePosition, m_MouseMovement;
-		XINPUT_STATE m_OldGamepadState[XUSER_MAX_COUNT], m_CurrGamepadState[XUSER_MAX_COUNT];
-		bool m_ConnectedGamepads[XUSER_MAX_COUNT];
-		bool m_ThreadAvailable;
 		static const int NUMBER_OF_KEYBOARDKEYS = 256;
 		static const int MIN_KEYBOARD_VALUE = 0x07;
 		static const int MAX_KEYBOARD_VALUE = 0xFE;
@@ -153,6 +145,17 @@ namespace star
 		static const int MAX_VALUE_OF_SHORT = 32768;
 		static const int MAX_VALUE_OF_WORD = 65535;
 		static const float BYTE_TO_DOUBLE_VALUE;
+
+		std::map<int,InputAction> m_InputActions;
+		BYTE	m_pCurrKeyboardState[NUMBER_OF_KEYBOARDKEYS],
+				m_pOldKeyboardState[NUMBER_OF_KEYBOARDKEYS],
+				m_pKeyboardState0[NUMBER_OF_KEYBOARDKEYS],
+				m_pKeyboardState1[NUMBER_OF_KEYBOARDKEYS];
+		bool m_KeyboardState0Active;
+		vec2 m_CurrMousePosition, m_OldMousePosition, m_MouseMovement;
+		XINPUT_STATE m_OldGamepadState[XUSER_MAX_COUNT], m_CurrGamepadState[XUSER_MAX_COUNT];
+		bool m_ConnectedGamepads[XUSER_MAX_COUNT];
+		bool m_ThreadAvailable;
 		HWND mWindowsHandle;
 
 		void UpdateGamepadStates();

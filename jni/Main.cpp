@@ -14,7 +14,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, 
 	// Enable run-time memory leak check for debug builds.
 	#if defined(DEBUG) | defined(_DEBUG)
 		_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
-		//_CrtSetBreakAlloc(295);
+		//_CrtSetBreakAlloc(1475);
 	#endif
 
 	Game * pGame = new Game();

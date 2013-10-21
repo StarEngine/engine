@@ -10,7 +10,7 @@ namespace star
 #else
 	const vec3 PathFindManager::NO_PATH_AVAILBLE = vec3(-123456.0f, -123456.0f, -123456.0f);
 #endif
-	std::shared_ptr<PathFindManager> PathFindManager::m_pPathFindManager = nullptr;
+	PathFindManager * PathFindManager::m_pPathFindManager = nullptr;
 
 	bool idCheckerCompare(int leftId, int rightId) 
 	{
@@ -50,11 +50,11 @@ namespace star
 		m_ObjectList.clear();
 	}
 
-	std::shared_ptr<PathFindManager> PathFindManager::GetInstance()
+	PathFindManager * PathFindManager::GetInstance()
 	{
 		if(m_pPathFindManager == nullptr)
 		{
-			m_pPathFindManager = std::shared_ptr<PathFindManager>(new PathFindManager());
+			m_pPathFindManager = new PathFindManager();
 		}
 		return m_pPathFindManager;
 	}

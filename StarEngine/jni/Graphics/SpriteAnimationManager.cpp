@@ -4,7 +4,7 @@
 
 namespace star
 {
-	std::shared_ptr<SpriteAnimationManager> SpriteAnimationManager::m_pManager = nullptr;
+	SpriteAnimationManager * SpriteAnimationManager::m_pManager = nullptr;
 	
 	SpriteAnimationManager::~SpriteAnimationManager()
 	{
@@ -37,11 +37,11 @@ namespace star
 		return m_Spritesheets.at(name);
 	}
 
-	std::shared_ptr<SpriteAnimationManager> SpriteAnimationManager::GetInstance()
+	SpriteAnimationManager * SpriteAnimationManager::GetInstance()
 	{
 		if(m_pManager == nullptr)
 		{
-			m_pManager = std::shared_ptr<SpriteAnimationManager>(new SpriteAnimationManager());
+			m_pManager = new SpriteAnimationManager();
 		}
 		return m_pManager;
 	}

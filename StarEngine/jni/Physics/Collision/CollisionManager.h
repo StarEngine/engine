@@ -2,7 +2,6 @@
 
 #include "../../defines.h"
 #include <vector>
-#include <memory>
 
 namespace star
 {
@@ -15,7 +14,7 @@ namespace star
 	{
 	public:
 		~CollisionManager(void);
-		static std::shared_ptr<CollisionManager> GetInstance();
+		static CollisionManager * GetInstance();
 
 		void CheckCollision(const tstring& tag);
 		void AddObject(Object* object);
@@ -24,7 +23,7 @@ namespace star
 	private:
 		CollisionManager(void);
 
-		static std::shared_ptr<CollisionManager> m_pCollisionManager;
+		static CollisionManager * m_pCollisionManager;
 		std::vector<Object*> m_ObjectList, m_ActiveCollisionList;
 
 		//disabling default copy constructor

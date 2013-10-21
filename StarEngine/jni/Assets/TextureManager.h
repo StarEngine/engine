@@ -4,8 +4,8 @@
 // [COMMENT] if you fix the comment on line 38, don't forget
 // to delete this include as well then.
 #include <vector>
-#include "../defines.h"
 #include <memory>
+#include "../defines.h"
 
 #ifdef DESKTOP
 #include <glew.h>
@@ -22,7 +22,7 @@ namespace star
 	public:
 		~TextureManager(void);
 
-		static std::shared_ptr<TextureManager> GetInstance();
+		static TextureManager * GetInstance();
 
 		bool LoadTexture(const tstring& path, const tstring& name);
 		bool DeleteTexture(const tstring& name);
@@ -33,8 +33,8 @@ namespace star
 
 	private:
 		//Data Members
-		static std::shared_ptr<TextureManager> mTextureManager;
-		std::map<tstring, std::shared_ptr<Texture2D> > mTextureMap;
+		static TextureManager * mTextureManager;
+		std::map<tstring, std::shared_ptr<Texture2D>> mTextureMap;
 		std::map<tstring,tstring> mPathList;
 
 		TextureManager(void);

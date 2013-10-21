@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../defines.h"
-#include <memory>
 
 #ifdef DESKTOP
 #include <glew.h>
@@ -19,7 +18,7 @@ namespace star
 	public:
 		~GraphicsManager();
 
-		static std::shared_ptr<GraphicsManager> GetInstance();
+		static GraphicsManager * GetInstance();
 
 #ifdef DESKTOP
 		void Initialize(int32 screenWidth, int32 screenHeight);
@@ -47,7 +46,7 @@ namespace star
 		bool InitializeOpenGLFunctors();
 #endif
 
-		static std::shared_ptr<GraphicsManager> mGraphicsManager;
+		static GraphicsManager * mGraphicsManager;
 
 		int32 mScreenWidth;
 		int32 mScreenHeight;

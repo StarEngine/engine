@@ -9,12 +9,12 @@ namespace star
 {
 	BaseScene::BaseScene(const tstring & name)
 		: m_GestureManagerPtr(nullptr)
-		, m_Name(name)
-		, m_Initialized(false) 
 		, m_Objects()
 		, m_pDefaultCamera(nullptr)
+		, m_Initialized(false) 
+		, m_Name(name)
 	{
-		m_GestureManagerPtr = new GestureManager();
+		//m_GestureManagerPtr = new GestureManager();
 	}
 	
 	BaseScene::~BaseScene()
@@ -24,6 +24,7 @@ namespace star
 			delete m_Objects[i];
 		}
 		m_Objects.clear();
+		//delete m_GestureManagerPtr;
 	}
 
 	status BaseScene::BaseInitialize(const Context & context)

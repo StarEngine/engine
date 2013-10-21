@@ -12,16 +12,13 @@
 
 namespace star
 {
-	//Initialize all static variables
-
 #ifdef DESKTOP
 	const float InputManager::BYTE_TO_DOUBLE_VALUE = 255.0f;
 #else
 	const float InputManager::UNDEFINED_POINTER_POSITION = -123456.0f;
 #endif
 
-	//Make this a static object
-	std::shared_ptr<InputManager> InputManager::m_InputManagerPtr = nullptr;
+	InputManager * InputManager::m_InputManagerPtr = nullptr;
 
 #ifdef DESKTOP
 	InputAction::InputAction():
@@ -62,10 +59,6 @@ namespace star
 	InputManager::InputManager(void)
 	#ifdef DESKTOP
 		: m_ThreadAvailable(false)
-		, m_pCurrKeyboardState(nullptr)
-		, m_pOldKeyboardState(nullptr)
-		, m_pKeyboardState0(nullptr)
-		, m_pKeyboardState1(nullptr)
 		, m_KeyboardState0Active(true)
 		, m_OldMousePosition()
 		, m_CurrMousePosition()
@@ -85,43 +78,22 @@ namespace star
 	{
 #ifdef DESKTOP
 		//Init new keyboard states
-		if(m_pKeyboardState0 == nullptr)
-		{
-			m_pKeyboardState0 = new BYTE[256];
-			m_pKeyboardState1 = new BYTE[256];
-
-			GetKeyboardState(m_pKeyboardState0);
-			GetKeyboardState(m_pKeyboardState1);
-		}
+		GetKeyboardState(m_pKeyboardState0);
+		GetKeyboardState(m_pKeyboardState1);
 #endif
-		m_GestureManager = new GestureManager();
 	}
-
 
 	InputManager::~InputManager(void)
 	{
-#ifdef DESKTOP
-		//Make sure to delete the used memory
-		if(m_pKeyboardState0 != nullptr)
-		{
-			delete [] m_pKeyboardState0;
-			delete [] m_pKeyboardState1;
-
-			m_pKeyboardState0 = nullptr;
-			m_pKeyboardState1 = nullptr;
-			m_pCurrKeyboardState = nullptr;
-			m_pOldKeyboardState = nullptr;
-		}
-#endif
 		delete m_GestureManager;
 		m_GestureManager = nullptr;
 	}
 
-	std::shared_ptr<InputManager> InputManager::GetInstance()
+	InputManager * InputManager::GetInstance()
 	{
 		if (m_InputManagerPtr == nullptr)
 		{
-			m_InputManagerPtr = std::shared_ptr<InputManager>(new InputManager());
+			m_InputManagerPtr = new InputManager();
 		}
 		return (m_InputManagerPtr);
 	}
@@ -186,14 +158,20 @@ namespace star
 		{
 			//GetKeyboardState is thread dependant! use AttachThreadInput to link them!
 			getKeyboardResult = GetKeyboardState(m_pKeyboardState1);
-			m_pOldKeyboardState = m_pKeyboardState0;
-			m_pCurrKeyboardState = m_pKeyboardState1;
+			for(int i = 0 ; i < NUMBER_OF_KEYBOARDKEYS ; ++i)
+			{
+				m_pOldKeyboardState[i] = m_pKeyboardState0[i];
+				m_pCurrKeyboardState[i] = m_pKeyboardState1[i];
+			}
 		}
 		else
 		{
 			getKeyboardResult = GetKeyboardState(m_pKeyboardState0);
-			m_pOldKeyboardState = m_pKeyboardState1;
-			m_pCurrKeyboardState = m_pKeyboardState0;
+			for(int i = 0 ; i < NUMBER_OF_KEYBOARDKEYS ; ++i)
+			{
+				m_pOldKeyboardState[i] = m_pKeyboardState1[i];
+				m_pCurrKeyboardState[i] = m_pKeyboardState0[i];
+			}
 		}
 
 		m_KeyboardState0Active = !m_KeyboardState0Active;
@@ -342,9 +320,9 @@ namespace star
 			UpdateGamepadStates();
 
 			//Reset previous InputAction States
-			for(auto elem : m_InputActions)
+			for(auto it = m_InputActions.begin() ; it != m_InputActions.end() ; ++it)
 			{
-				auto currAction = &(elem.second);
+				auto currAction = &(it->second);
 				//Reset the previous state before updating/checking the new state
 				currAction->IsTriggered = false;
 

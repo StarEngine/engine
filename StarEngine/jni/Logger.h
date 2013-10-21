@@ -1,7 +1,6 @@
 #pragma once
 
 #include "defines.h"
-#include <memory>
 
 namespace star 
 {
@@ -16,8 +15,7 @@ namespace star
     class Logger {
     public:
 		~Logger();
-		// Static methods
-		static std::shared_ptr<Logger> GetInstance();
+		static Logger * GetInstance();
 		static void ResetSingleton();
 
 		void Initialize();
@@ -26,7 +24,7 @@ namespace star
 		#define CheckGlError() _CheckGlError(__FILE__,__LINE__);
 	private:
 		Logger(void);
-		static std::shared_ptr<Logger> m_LoggerPtr;
+		static Logger * m_LoggerPtr;
 
 		#ifdef _WIN32
 		HANDLE m_ConsoleHandle;

@@ -58,13 +58,13 @@ namespace star
 			psip(_T("WS_SYSMENU"), WS_SYSMENU)
 		};
 
-	std::shared_ptr<Window> Window::m_pInstance = nullptr;
+	Window * Window::m_pInstance = nullptr;
 
-	std::shared_ptr<Window> Window::GetInstance()
+	Window * Window::GetInstance()
 	{
 		if(m_pInstance == nullptr)
 		{
-			m_pInstance = std::shared_ptr<Window>(new Window());
+			m_pInstance = new Window();
 		}
 		return m_pInstance;
 	}

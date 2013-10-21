@@ -3,13 +3,13 @@
 namespace star
 {
 	XMLContainer::XMLContainer()
-		: Dictionary<tstring, std::shared_ptr<XMLContainer> >()
+		: Dictionary<tstring, std::shared_ptr<XMLContainer>>()
 	{
 
 	}
 
 	XMLContainer::XMLContainer(const XMLContainer & yRef)
-		: Dictionary<tstring, std::shared_ptr<XMLContainer> >(yRef)
+		: Dictionary<tstring, std::shared_ptr<XMLContainer>>(yRef)
 		, m_Value(yRef.m_Value)
 		, m_Name(yRef.m_Name)
 		, m_Attributes(yRef.m_Attributes)
@@ -58,14 +58,14 @@ namespace star
 
 	void XMLContainer::clear()
 	{
-		Dictionary<tstring, std::shared_ptr<XMLContainer> >::clear();
+		Dictionary<tstring, std::shared_ptr<XMLContainer>>::clear();
 		m_Value = _T("");
 		m_Attributes.clear();
 	}
 
 	void XMLContainer::swap(XMLContainer & yRef)
 	{
-		Dictionary<tstring, std::shared_ptr<XMLContainer> >::swap(yRef);
+		Dictionary<tstring, std::shared_ptr<XMLContainer>>::swap(yRef);
 		m_Value = yRef.m_Value;
 		m_Attributes.swap(yRef.m_Attributes);
 	}

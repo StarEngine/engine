@@ -2,7 +2,6 @@
 #include <vector>
 #include "SearchCell.h"
 #include "../../defines.h"
-#include <memory>
 
 namespace star
 {
@@ -25,7 +24,7 @@ namespace star
 	{
 	public:
 		~PathFindManager(void);
-		static std::shared_ptr<PathFindManager> GetInstance();
+		static PathFindManager * GetInstance();
 
 		void AddObject(Object* object);
 		void RemoveObject(const Object* object);
@@ -55,7 +54,7 @@ namespace star
 		SearchCell *GetNextCell();
 		void ContinuePath();
 
-		static std::shared_ptr<PathFindManager> m_pPathFindManager;
+		static PathFindManager * m_pPathFindManager;
 		
 		//Contains the object* and positions where you can walk on
 		std::vector<Object*> m_ObjectList;

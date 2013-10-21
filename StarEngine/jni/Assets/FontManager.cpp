@@ -13,14 +13,14 @@
 
 namespace star 
 {
-	std::shared_ptr<FontManager> FontManager::mFontManager = nullptr;
+	FontManager * FontManager::mFontManager = nullptr;
 
 
-	std::shared_ptr<FontManager> FontManager::GetInstance()
+	FontManager * FontManager::GetInstance()
 	{
 		if(mFontManager == nullptr)
 		{
-			mFontManager = std::shared_ptr<FontManager>(new FontManager());
+			mFontManager = new FontManager();
 		}
 		return (mFontManager);
 	}

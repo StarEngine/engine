@@ -7,7 +7,7 @@
 namespace star
 {
 	class XMLContainer :
-			public Dictionary<tstring, std::shared_ptr<XMLContainer> >
+			public Dictionary<tstring, std::shared_ptr<XMLContainer>>
 	{
 	public:
 		XMLContainer();
