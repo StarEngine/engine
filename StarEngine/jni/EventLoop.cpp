@@ -75,7 +75,7 @@ namespace star
 				{
 					Logger::GetInstance()->Log(LogLevel::Info,_T("Exiting Event"));
 					mQuit = true;
-					mEnabled=false;
+					mEnabled = false;
 					return;
 				}
 			}
@@ -103,6 +103,7 @@ namespace star
 	{
 		Logger::GetInstance()->Log(LogLevel::Info,_T("Ending App"));
 		mMainGame->End();
+		delete this;
 		ANativeActivity_finish(mApplicationPtr->activity);
 	}
 

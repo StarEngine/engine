@@ -84,6 +84,7 @@ namespace star
 		delete CollisionManager::GetInstance();
 		delete PathFindManager::GetInstance();
 		delete SceneManager::GetInstance();
+		delete Logger::GetInstance();
 
 		return STATUS_OK;
 	}

@@ -302,6 +302,8 @@ namespace star
 			}
 
 			mGamePtr->End();
+
+			delete this;
 		}
 	}
 
