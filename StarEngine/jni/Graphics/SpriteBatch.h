@@ -20,11 +20,13 @@ namespace star
 	{
 	public:
 		~SpriteBatch(void);
-		static std::shared_ptr<SpriteBatch> GetInstance();
+		static SpriteBatch * GetInstance();
 
 		void Initialize();
 		void Flush();
 		void AddSpriteToQueue(SpriteComponent* sprite);
+
+		void CleanUp();
 
 	private:
 		SpriteBatch(void);
@@ -34,7 +36,7 @@ namespace star
 		void FlushSprites();
 		mat4x4 InverseMatrix(const mat4x4& matrix);
 
-		static std::shared_ptr<SpriteBatch> m_pSpriteBatch;
+		static SpriteBatch * m_pSpriteBatch;
 		static const int BATCHSIZE = 50;
 
 		std::vector<SpriteInfo> m_SpriteQueue;
@@ -47,5 +49,6 @@ namespace star
 		SpriteBatch(const SpriteBatch& yRef);
 		SpriteBatch(SpriteBatch&& yRef);
 		SpriteBatch& operator=(const SpriteBatch& yRef);
+		SpriteBatch& operator=(SpriteBatch&& yRef);
 	};
 }

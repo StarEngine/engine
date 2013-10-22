@@ -51,6 +51,7 @@ namespace star
 		int32 mScreenWidth;
 		int32 mScreenHeight;
 		bool m_bHasWindowChanged;
+		bool mIsInitialized;
 
 #ifdef ANDROID
         EGLDisplay mDisplay;

@@ -1,6 +1,7 @@
 #include "GraphicsManager.h"
 #include "../Logger.h"
 #include "ScaleSystem.h"
+#include "SpriteBatch.h"
 
 #ifdef DESKTOP
 #include <Windows.h>
@@ -13,13 +14,16 @@ namespace star
 	
 	GraphicsManager::~GraphicsManager()
 	{
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Destructor"));
 	}
 
 	GraphicsManager::GraphicsManager() :
 			mScreenHeight(0),
 			mScreenWidth(0),
-			m_bHasWindowChanged(false)
+			m_bHasWindowChanged(false),
+			mIsInitialized(false)
 	{
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Constructor"));
 	}
 
 	GraphicsManager * GraphicsManager::GetInstance()
@@ -34,89 +38,100 @@ namespace star
 #ifdef DESKTOP
 	void GraphicsManager::Initialize(int32 screenWidth, int32 screenHeight)
 	{
-		mScreenWidth = screenWidth;
-		mScreenHeight = screenHeight;
-		glewInit();
-
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initializing OpenGL Functors"));
-		if(!InitializeOpenGLFunctors())
+		if(!mIsInitialized)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Graphics card doesn't support VSync option!!"));
-		}
+			mScreenWidth = screenWidth;
+			mScreenHeight = screenHeight;
+			glewInit();
 
-		//Initializes base GL state.
-		// In a simple 2D game, we have control over the third
-		// dimension. So we do not really need a Z-buffer.
-		glDisable(GL_DEPTH_TEST);
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initializing OpenGL Functors"));
+			if(!InitializeOpenGLFunctors())
+			{
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Graphics card doesn't support VSync option!!"));
+			}
+
+			//Initializes base GL state.
+			// In a simple 2D game, we have control over the third
+			// dimension. So we do not really need a Z-buffer.
+			glDisable(GL_DEPTH_TEST);
+			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			mIsInitialized = true;
+		}
 	}
 #else
 	void GraphicsManager::Initialize(const android_app* pApplication)
 	{
-		EGLint lFormat, lNumConfigs, lErrorResult;
-		EGLConfig lConfig;
-		// Defines display requirements. 16bits mode here.
-		const EGLint lAttributes[] = {
-		            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-		            EGL_BLUE_SIZE, 5, EGL_GREEN_SIZE, 6, EGL_RED_SIZE, 5,
-		            EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-		            EGL_NONE
-		};
-		mDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
-		if (mDisplay == EGL_NO_DISPLAY)
+		if(!mIsInitialized)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : No display found"));
-			return;
-		}
-		if (!eglInitialize(mDisplay, NULL, NULL))
-		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Could not initialize display"));
-			return;
-		}
-		if(!eglChooseConfig(mDisplay, lAttributes, &lConfig, 1,&lNumConfigs) || (lNumConfigs <= 0))
-		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : No display config"));
-			return;
-		}
-		if (!eglGetConfigAttrib(mDisplay, lConfig,EGL_NATIVE_VISUAL_ID, &lFormat))
-		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : No config attributes"));
-			return;
-		}
-		ANativeWindow_setBuffersGeometry(pApplication->window, 0, 0,lFormat);
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialize"));
+			EGLint lFormat, lNumConfigs, lErrorResult;
+			EGLConfig lConfig;
+			// Defines display requirements. 16bits mode here.
+			const EGLint lAttributes[] = {
+						EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+						EGL_BLUE_SIZE, 5, EGL_GREEN_SIZE, 6, EGL_RED_SIZE, 5,
+						EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+						EGL_NONE
+			};
+			mDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+			if (mDisplay == EGL_NO_DISPLAY)
+			{
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : No display found"));
+				return;
+			}
+			if (!eglInitialize(mDisplay, NULL, NULL))
+			{
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Could not initialize display"));
+				return;
+			}
+			if(!eglChooseConfig(mDisplay, lAttributes, &lConfig, 1,&lNumConfigs) || (lNumConfigs <= 0))
+			{
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : No display config"));
+				return;
+			}
+			if (!eglGetConfigAttrib(mDisplay, lConfig,EGL_NATIVE_VISUAL_ID, &lFormat))
+			{
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : No config attributes"));
+				return;
+			}
+			ANativeWindow_setBuffersGeometry(pApplication->window, 0, 0,lFormat);
 
-		mSurface = eglCreateWindowSurface(mDisplay, lConfig, pApplication->window, NULL );
-		if (mSurface == EGL_NO_SURFACE)
-		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Could not create surface"));
-			return;
-		}
-		EGLint contextAttrs[] = {
-		     EGL_CONTEXT_CLIENT_VERSION, 2,
-		     EGL_NONE
-		};
-		mContext = eglCreateContext(mDisplay, lConfig, EGL_NO_CONTEXT, contextAttrs);
-		if (mContext == EGL_NO_CONTEXT)
-		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Could not create context"));
-			return;
-		}
-		if (!eglMakeCurrent(mDisplay, mSurface, mSurface, mContext)
-		 || !eglQuerySurface(mDisplay, mSurface, EGL_WIDTH, &mScreenWidth)
-		 || !eglQuerySurface(mDisplay, mSurface, EGL_HEIGHT, &mScreenHeight)
-		 || (mScreenWidth <= 0) || (mScreenHeight <= 0))
-		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Could not activate display"));
-			return;
-		}
-		glViewport(0,0,mScreenWidth,mScreenHeight);
+			mSurface = eglCreateWindowSurface(mDisplay, lConfig, pApplication->window, NULL );
+			if (mSurface == EGL_NO_SURFACE)
+			{
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Could not create surface"));
+				return;
+			}
+			EGLint contextAttrs[] = {
+				 EGL_CONTEXT_CLIENT_VERSION, 2,
+				 EGL_NONE
+			};
+			mContext = eglCreateContext(mDisplay, lConfig, EGL_NO_CONTEXT, contextAttrs);
+			if (mContext == EGL_NO_CONTEXT)
+			{
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Could not create context"));
+				return;
+			}
+			if (!eglMakeCurrent(mDisplay, mSurface, mSurface, mContext)
+			 || !eglQuerySurface(mDisplay, mSurface, EGL_WIDTH, &mScreenWidth)
+			 || !eglQuerySurface(mDisplay, mSurface, EGL_HEIGHT, &mScreenHeight)
+			 || (mScreenWidth <= 0) || (mScreenHeight <= 0))
+			{
+				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Could not activate display"));
+				return;
+			}
+			glViewport(0,0,mScreenWidth,mScreenHeight);
 
 
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialized"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialized"));
+
+			mIsInitialized = true;
+		}
 	}
 
 	void GraphicsManager::Destroy()
 	{
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Destroy"));
         // Destroys OpenGL context.
         if (mDisplay != EGL_NO_DISPLAY)
         {
@@ -134,12 +149,17 @@ namespace star
             eglTerminate(mDisplay);
             mDisplay = EGL_NO_DISPLAY;
             star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Destroyed"));
+
+            SpriteBatch::GetInstance()->CleanUp();
+
+            mIsInitialized = false;
         }
 	}
 #endif
 
 	void GraphicsManager::StartDraw()
 	{
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : StartDraw"));
 		glClearColor(1.0f, 0.0f, 0.0f, 1.0f); // Clear the background of our window to red
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
 
@@ -149,6 +169,7 @@ namespace star
 
 	void GraphicsManager::StopDraw()
 	{
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : StopDraw"));
 		 glDisable(GL_BLEND);
 #ifdef ANDROID
 		 if (eglSwapBuffers(mDisplay, mSurface) != EGL_TRUE)
@@ -175,6 +196,7 @@ namespace star
 
 	void GraphicsManager::SetWindowDimensions(int32 width, int32 height)
 	{
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : SetWindowDimensions"));
 		mScreenWidth = width;
 		mScreenHeight = height;
 		glViewport(0,0,width, height);
@@ -183,6 +205,7 @@ namespace star
 
 	void GraphicsManager::SetHasWindowChanged(bool isTrue)
 	{
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : SetWindowChanged"));
 		m_bHasWindowChanged = isTrue;
 	}
 

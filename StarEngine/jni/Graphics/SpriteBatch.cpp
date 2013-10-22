@@ -10,7 +10,7 @@
 
 namespace star
 {
-	std::shared_ptr<SpriteBatch> SpriteBatch::m_pSpriteBatch = nullptr;
+	SpriteBatch * SpriteBatch::m_pSpriteBatch = nullptr;
 
 	SpriteBatch::SpriteBatch(void):
 		m_SpriteQueue(),
@@ -35,11 +35,11 @@ namespace star
 	{
 	}
 
-	std::shared_ptr<SpriteBatch> SpriteBatch::GetInstance()
+	SpriteBatch * SpriteBatch::GetInstance()
 	{
 		if(m_pSpriteBatch == nullptr)
 		{
-			m_pSpriteBatch = std::shared_ptr<SpriteBatch>(new SpriteBatch());
+			m_pSpriteBatch = new SpriteBatch();
 			m_pSpriteBatch->Initialize();
 		}
 		return m_pSpriteBatch;
@@ -187,6 +187,23 @@ namespace star
 		spriteInfo.uvCoords = sprite->GetUVCoords();
 
 		m_SpriteQueue.push_back(spriteInfo);
+	}
+
+	void SpriteBatch::CleanUp()
+	{
+		m_Shader.Unbind();
+
+		m_WorldMatBuffer.clear();
+		m_VertexBuffer.clear();
+		m_UvCoordBuffer.clear();
+		m_SpriteQueue.clear();
+
+		//Unbind attributes and buffers
+		glDisableVertexAttribArray(ATTRIB_VERTEX);
+		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+
+		delete m_pSpriteBatch;
+		m_pSpriteBatch = nullptr;
 	}
 
 	mat4x4 SpriteBatch::InverseMatrix(const mat4x4& matrix)

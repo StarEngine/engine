@@ -116,7 +116,7 @@ namespace star
 	bool TextureManager::ReloadAllTextures()
 	{
 		mTextureMap.clear();
-		auto it=mPathList.begin();
+		auto it = mPathList.begin();
 		for(it; it != mPathList.end(); ++it)
 		{
 #ifdef DESKTOP
