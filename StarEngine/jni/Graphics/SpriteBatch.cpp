@@ -127,7 +127,8 @@ namespace star
 			//mat4x4 worldInverse = InverseMatrix(world);
 			for(auto sprite : m_SpriteQueue)
 			{
-				m_WorldMatBuffer.push_back(InverseMatrix(sprite.transform) * projection);
+				auto inverse = InverseMatrix(sprite.transform);
+				m_WorldMatBuffer.push_back(inverse * projection);
 			}
 
 			for(int j = 0; j < ((batchSize/4)); ++j)

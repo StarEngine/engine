@@ -39,11 +39,12 @@ namespace star
 
 		if(mTextureMap.find(name) != mTextureMap.end())
 		{
+			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Texture Already Exists"));
 			return (false);
 		}
 
 		auto pathit = mPathList.find(path);
-		if(pathit!=mPathList.end())
+		if(pathit != mPathList.end())
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Texture Path Already Exists"));
 			tstring nameold = pathit->second;

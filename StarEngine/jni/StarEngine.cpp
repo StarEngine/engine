@@ -1,6 +1,7 @@
 #include "StarEngine.h"
 #include "Graphics/GraphicsManager.h"
 #include "Graphics/SpriteAnimationManager.h"
+#include "Graphics/SpriteBatch.h"
 #include "Scenes/SceneManager.h"
 #include "Input/InputManager.h"
 #include "Context.h"
@@ -80,6 +81,7 @@ namespace star
 		delete TextureManager::GetInstance();
 		delete FontManager::GetInstance();
 		delete GraphicsManager::GetInstance();
+		delete SpriteBatch::GetInstance();
 		delete SoundService::GetInstance();
 		delete CollisionManager::GetInstance();
 		delete PathFindManager::GetInstance();
