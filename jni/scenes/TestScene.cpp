@@ -177,23 +177,23 @@ status TestScene::Draw()
 	// Blue text
 	auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
 	star::TextDesc desc;
-	desc.Text = _T("The quick brown fox jumps \nover the lazy dog");
+	desc.Text = _T("The quick brown fox jumps over the lazy dog");
 	desc.Fontname = _T("Arial");
-	desc.Position = ivec2(50,0);
+	desc.Position = ivec2(0,100);
 	desc.TextColor = star::Color::Aquamarine;
-	desc.MaxWidth = 300;
+	desc.MaxWidth = 400;
 	star::FontManager::GetInstance()->DrawText(desc);
 
 	desc.Fontname = _T("Professor");
-	desc.Position = ivec2(0,300);
+	desc.Position = ivec2(0,400);
 	desc.TextColor = star::Color::Cyan;
 	desc.MaxWidth = 400;
 	star::FontManager::GetInstance()->DrawText(desc);
 
 	desc.Fontname = _T("Coalition");
-	desc.Position = ivec2(0,600);
+	desc.Position = ivec2(0,700);
 	desc.TextColor =  star::Color(0.0f,1.0f,0.0f,0.5f);
-	desc.MaxWidth = 500;
+	desc.MaxWidth = 400;
 	star::FontManager::GetInstance()->DrawText(desc);
 
 	return STATUS_OK;

@@ -139,9 +139,18 @@ namespace star
 		float h = curfont.GetSize()/0.63f;
 		ivec2 origposition = position;
 
-		std::string conv_text = star::string_cast<std::string>(text);
-		std::vector<std::string> lines;
+		std::string conv_text = "";
+		if(maxWidth!=-1)
+		{
+			tstring wrappedtext = CheckWrapping(curfont,text,maxWidth);
+			conv_text = star::string_cast<std::string>(wrappedtext);
+		}
+		else
+		{
+			conv_text = star::string_cast<std::string>(text);
+		}
 
+		std::vector<std::string> lines;
 		SplitIntoLines(lines,conv_text);
 
 
@@ -181,11 +190,6 @@ namespace star
 					int offset = curfont.GetMaxLetterHeight()-tempsizes[start_line[i] ].y;
 					world = glm::translate(glm::vec3(position.x,position.y+curfont.GetMaxLetterHeight()-offset,0));
 					position.x+=tempsizes[start_line[i] ].x;
-					if( position.x >= origposition.x + maxWidth && maxWidth != -1)
-					{
-						position.y-= curfont.GetMaxLetterHeight();
-						position.x=origposition.x;
-					}
 				}
 				else
 				{
@@ -254,6 +258,41 @@ namespace star
 		while (std::getline(stream,line)){
 			list.push_back(line);
 		}
+	}
+
+	tstring FontManager::CheckWrapping(Font& font, const tstring& stringIn,const int32& wrapWidth )
+	{
+		tstring line = EMPTY_STRING;
+		tstring returnString = EMPTY_STRING;
+		std::vector<tstring>wordArray;
+		SplitString(wordArray,stringIn,_T(" "));
+		for(int i=0; i<wordArray.size();++i)
+		{
+			if(font.GetStringLength(line+wordArray[i])>wrapWidth)
+			{
+				returnString += line + _T("\n");
+				line = EMPTY_STRING;
+			}
+			line += wordArray[i] + _T(" ");
+		}
+		return returnString + line;
+	}
+
+	void FontManager::SplitString( std::vector<tstring>& wordArrayIn,const tstring& stringIn , const tstring& delimiter)
+	{
+		std::string newstring = star::string_cast<std::string>(stringIn);
+		std::string newdelemiter= star::string_cast<std::string>(delimiter);
+		size_t pos = 0;
+		std::string token;
+		//Split Everything
+		while((pos = newstring.find(newdelemiter))!= std::string::npos)
+		{
+			token = newstring.substr(0,pos);
+			wordArrayIn.push_back(star::string_cast<tstring>(token));
+			newstring.erase(0,pos+newdelemiter.length());
+		}
+		//Push back last remaining piece of string
+		wordArrayIn.push_back(star::string_cast<tstring>(newstring));
 	}
 
 }

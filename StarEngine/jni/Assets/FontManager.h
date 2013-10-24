@@ -67,6 +67,8 @@ namespace star
 		FontManager(void);
 		mat4x4 InverseMatrix(const mat4x4& matrix);
 		void SplitIntoLines(std::vector<std::string> &list, const std::string &string);
+		tstring CheckWrapping(Font& font, const tstring& stringIn,const int32& wrapWidth);
+		void SplitString(std::vector<tstring>& wordArrayIn,const tstring& stringIn, const tstring& delimiter);
 
 		FontManager(const FontManager& yRef);
 		FontManager(FontManager&& yRef);

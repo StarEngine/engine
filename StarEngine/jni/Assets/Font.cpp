@@ -162,4 +162,17 @@ namespace star
 		while(rval<a)rval<<=1;
 		return rval;
 	}
+
+	const int32 Font::GetStringLength( const tstring& string )
+	{
+		int32 length=0;
+		std::string conv_text = star::string_cast<std::string>(string);
+		const char *line=conv_text.c_str();
+		for(int i=0;line[i]!=0;i++) 
+		{
+			length+=mLetterSizeList[ line[i]].x;
+		}
+		return length;
+	}
+
 }
