@@ -110,7 +110,14 @@ namespace star
 		return (false);
 	}
 
-	bool FontManager::DrawText( const tstring& text, const tstring& fontname, ivec2 position, Color color)
+	bool FontManager::DrawText( TextDesc textDesc )
+	{
+		return this->DrawText(textDesc.Text,textDesc.Fontname,textDesc.Position
+								,textDesc.TextColor,textDesc.MaxWidth);
+	}
+
+
+	bool FontManager::DrawText( const tstring& text, const tstring& fontname, ivec2 position, Color color, int32 maxWidth)
 	{
 		if(text == EMPTY_STRING)
 		{
@@ -120,7 +127,6 @@ namespace star
 		}
 		
 		auto it = mFontList.find(fontname);
-
 		if(it == mFontList.end())
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
@@ -131,29 +137,12 @@ namespace star
 		auto curfont = it->second;
 
 		float h = curfont.GetSize()/0.63f;
+		ivec2 origposition = position;
 
 		std::string conv_text = star::string_cast<std::string>(text);
-		const char *start_line=conv_text.c_str();
-		
-		//[INFO] Needed for later text rendering (line breaks)
-		/*std::vector<std::string> lines;
-		for(const char *c=ctext; *c ; c++ ) 
-		{
-			if(*c=='\n') 
-			{
-				std::string line;
-				for(const char *n=start_line;n<c;n++) line.append(1,*n);
-				lines.push_back(line);
-				start_line=c+1;
-			}
-			else if(start_line) 
-			{
-				std::string line;
-				for(const char *n=start_line;n<c;n++) line.append(1,*n);
-				lines.push_back(line);
-			}
-		
-		}*/
+		std::vector<std::string> lines;
+
+		SplitIntoLines(lines,conv_text);
 
 
 		GLuint* textures = curfont.GetTextures();
@@ -161,51 +150,64 @@ namespace star
 		std::vector<fontVertices> tempverts = curfont.getVetrices();
 		std::vector<ivec2> tempsizes = curfont.GetLetterDimensions();
 		m_Shader.Bind();
-		for(int i=0;start_line[i]!=0;i++) 
+
+		glActiveTexture(GL_TEXTURE0);
+		GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
+		glUniform1i(s_textureId, 0);
+		GLint s_colorId = glGetUniformLocation(m_Shader.GetId(), "colorMultiplier");
+		glUniform4f(s_colorId,color.r,color.g,color.b,color.a);
+		glEnableVertexAttribArray(ATTRIB_VERTEX);
+		glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+
+		for(auto it=lines.begin(); it!=lines.end();++it)
 		{
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D,textures[ start_line[i] ]);
-			GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
-			glUniform1i(s_textureId, 0);
-
-			GLint s_colorId = glGetUniformLocation(m_Shader.GetId(), "colorMultiplier");
-			glUniform4f(s_colorId,color.r,color.g,color.b,color.a);
-			//Set attributes and buffers
-			glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0,tempverts[start_line[i]].ver);
-			glEnableVertexAttribArray(ATTRIB_VERTEX);
-			glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, tempuvs[start_line[i]].uv);
-			glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
-
-			uint32 width = GraphicsManager::GetInstance()->GetWindowWidth();
-			uint32 height = GraphicsManager::GetInstance()->GetWindowHeight();
-			auto projectionObject = star::SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
-			mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
-
-			glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Projection"),1,GL_FALSE,glm::value_ptr(projection));
-			mat4x4 world;
-			if(start_line[i] != 0)
+			const char *start_line=it->c_str();
+			for(int i=0;start_line[i]!=0;i++) 
 			{
-				int offset = curfont.GetMaxLetterHeight()-tempsizes[start_line[i] ].y;
-				world = glm::translate(glm::vec3(position.x,position.y+curfont.GetMaxLetterHeight()-offset,0));
-				position.x+=tempsizes[start_line[i] ].x;
-			}
-			else
-			{
-				world = glm::translate(glm::vec3(position.x,position.y,0));
-			}
-			mat4x4 worldInverse = InverseMatrix(world);
-			glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Translation"),1,GL_FALSE,glm::value_ptr(worldInverse));
 
-			glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+				glBindTexture(GL_TEXTURE_2D,textures[ start_line[i] ]);
 
-			//Unbind attributes and buffers
-			glDisableVertexAttribArray(ATTRIB_VERTEX);
-			glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
-		}
+				//Set attributes and buffers
+				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0,tempverts[start_line[i]].ver);
+				glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, tempuvs[start_line[i]].uv);
+
+				auto projectionObject = star::SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
+				mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
+
+				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Projection"),1,GL_FALSE,glm::value_ptr(projection));
+				mat4x4 world;
+				if(start_line[i] != 0)
+				{
+					int offset = curfont.GetMaxLetterHeight()-tempsizes[start_line[i] ].y;
+					world = glm::translate(glm::vec3(position.x,position.y+curfont.GetMaxLetterHeight()-offset,0));
+					position.x+=tempsizes[start_line[i] ].x;
+					if( position.x >= origposition.x + maxWidth && maxWidth != -1)
+					{
+						position.y-= curfont.GetMaxLetterHeight();
+						position.x=origposition.x;
+					}
+				}
+				else
+				{
+					world = glm::translate(glm::vec3(position.x,position.y,0));
+				}
+				mat4x4 worldInverse = InverseMatrix(world);
+				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Translation"),1,GL_FALSE,glm::value_ptr(worldInverse));
+
+				glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+			}
+			position.y-= curfont.GetMaxLetterHeight();
+			position.x=origposition.x;
+		}	
+
+		//Unbind attributes and buffers
+		glDisableVertexAttribArray(ATTRIB_VERTEX);
+		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
 		m_Shader.Unbind();
 
 		return true;   
 	}
+
 
 	mat4x4 FontManager::InverseMatrix(const mat4x4& matrix)
 	{
@@ -244,4 +246,14 @@ namespace star
 
 		return inverseMatrix;
 	}
+
+	void FontManager::SplitIntoLines(std::vector<std::string> & list, const std::string &string )
+	{
+		std::stringstream stream(string);
+		std::string line;
+		while (std::getline(stream,line)){
+			list.push_back(line);
+		}
+	}
+
 }

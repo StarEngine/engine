@@ -159,7 +159,7 @@ namespace star
 
 	void GraphicsManager::StartDraw()
 	{
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : StartDraw"));
+		//star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : StartDraw"));
 		glClearColor(1.0f, 0.0f, 0.0f, 1.0f); // Clear the background of our window to red
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
 
@@ -169,7 +169,7 @@ namespace star
 
 	void GraphicsManager::StopDraw()
 	{
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : StopDraw"));
+		//star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : StopDraw"));
 		 glDisable(GL_BLEND);
 #ifdef ANDROID
 		 if (eglSwapBuffers(mDisplay, mSurface) != EGL_TRUE)
@@ -196,7 +196,7 @@ namespace star
 
 	void GraphicsManager::SetWindowDimensions(int32 width, int32 height)
 	{
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : SetWindowDimensions"));
+		//star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : SetWindowDimensions"));
 		mScreenWidth = width;
 		mScreenHeight = height;
 		glViewport(0,0,width, height);
@@ -205,7 +205,7 @@ namespace star
 
 	void GraphicsManager::SetHasWindowChanged(bool isTrue)
 	{
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : SetWindowChanged"));
+		//star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : SetWindowChanged"));
 		m_bHasWindowChanged = isTrue;
 	}
 

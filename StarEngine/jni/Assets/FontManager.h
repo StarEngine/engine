@@ -22,6 +22,22 @@
 
 namespace star
 {
+	struct TextDesc
+	{
+		TextDesc()
+			:Text(EMPTY_STRING)
+			,Fontname(EMPTY_STRING)
+			,Position(ivec2(0,0))
+			,MaxWidth(-1)
+			,TextColor(Color::Black)
+		{}
+		tstring Text;
+		tstring Fontname;
+		ivec2 Position;
+		int32 MaxWidth;
+		Color TextColor;
+	};
+
 	class Texture2D;
 
 	class FontManager
@@ -34,8 +50,9 @@ namespace star
 		bool LoadFont(const tstring& path, const tstring& name, int32 size);
 		bool DeleteFont(const tstring& name);
 		void EraseFonts();
-		bool DrawText(const tstring& text, const tstring& fontname, ivec2 position, Color color = Color::Black);
-
+		//If maxWidth is -1, wrapping will not be applied
+		bool DrawText(const tstring& text, const tstring& fontname, ivec2 position, Color color = Color::Black, int32 maxWidth =-1);
+		bool DrawText(TextDesc textDesc);
 	private:
 		//Data Members
 		static FontManager * mFontManager;
@@ -49,6 +66,7 @@ namespace star
 
 		FontManager(void);
 		mat4x4 InverseMatrix(const mat4x4& matrix);
+		void SplitIntoLines(std::vector<std::string> &list, const std::string &string);
 
 		FontManager(const FontManager& yRef);
 		FontManager(FontManager&& yRef);
