@@ -88,6 +88,7 @@ const double PI = 3.14159265358979323846264338327950288;
 
 #define EMPTY_STRING _T("")
 #define ANDROID_LOG_TAG _T("STAR_ENGINE")
+#define NO_WRAPPING -1
 
 #ifdef STAR2D
 #include "defines2D.h" 

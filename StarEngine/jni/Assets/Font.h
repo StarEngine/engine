@@ -43,8 +43,8 @@ namespace star
 		const std::vector<fontUvCoords>& getUvCoords()const {return mUVcoordsList;}
 		const std::vector<fontVertices>& getVetrices()const {return mVecticesList;}
 		const std::vector<ivec2>& GetLetterDimensions() const {return mLetterSizeList;}
-		const int32& GetMaxLetterHeight() const {return mMaxLetterHeight;}
-		const int32 GetStringLength(const tstring& string);
+		int32 GetMaxLetterHeight() const {return mMaxLetterHeight;}
+		int32 GetStringLength(const tstring& string) const;
 
 	private:
 		void Make_D_List(FT_Face face, char ch,GLuint * tex_base);

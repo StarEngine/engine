@@ -3,12 +3,11 @@
 #include <map>
 #include <vector>
 #include "../defines.h"
-#include "../Helpers/Filepath.h"
 #include "../Helpers/Helpers.h"
 #include "Font.h"
-#include "../Graphics/Shader.h"
-
+#include "../Components/TransformComponent.h"
 #include "../Graphics/Color.h"
+#include "../Graphics/Shader.h"
 
 #include "ft2build.h"
 #include "freetype/freetype.h"
@@ -22,23 +21,22 @@
 
 namespace star
 {
+	class Texture2D;
+	class Filepath;
+
 	struct TextDesc
 	{
 		TextDesc()
 			:Text(EMPTY_STRING)
 			,Fontname(EMPTY_STRING)
-			,Position(vec2(0,0))
-			,MaxWidth(-1)
+			,TransformComp(nullptr)
 			,TextColor(Color::Black)
 		{}
 		tstring Text;
 		tstring Fontname;
-		vec2 Position;
-		int32 MaxWidth;
 		Color TextColor;
+		TransformComponent* TransformComp; 
 	};
-
-	class Texture2D;
 
 	class FontManager
 	{
@@ -48,10 +46,10 @@ namespace star
 		static FontManager * GetInstance();
 
 		bool LoadFont(const tstring& path, const tstring& name, int32 size);
+		const Font& GetFont(const tstring& name);
 		bool DeleteFont(const tstring& name);
 		void EraseFonts();
-		//If maxWidth is -1, wrapping will not be applied
-		bool DrawText(const tstring& text, const tstring& fontname, vec2 position, Color color = Color::Black, int32 maxWidth =-1);
+		bool DrawText(const tstring& text, const tstring& fontname,TransformComponent* transform, Color color = Color::Black);
 		bool DrawText(TextDesc textDesc);
 	private:
 		//Data Members

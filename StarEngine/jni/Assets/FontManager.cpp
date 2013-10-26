@@ -1,4 +1,5 @@
 #include "FontManager.h"
+#include "../Helpers/Filepath.h"
 #include "../Logger.h"
 #include "../Context.h"
 #include "../Graphics/GraphicsManager.h"
@@ -6,6 +7,7 @@
 #include "../Scenes/BaseScene.h"
 #include "../Components/CameraComponent.h"
 #include "../Objects/FreeCamera.h"
+#include "../Graphics/ScaleSystem.h"
 
 #ifdef ANDROID
 #include "../StarEngine.h"
@@ -112,12 +114,12 @@ namespace star
 
 	bool FontManager::DrawText( TextDesc textDesc )
 	{
-		return this->DrawText(textDesc.Text,textDesc.Fontname,textDesc.Position
-								,textDesc.TextColor,textDesc.MaxWidth);
+		return this->DrawText(textDesc.Text,textDesc.Fontname
+								,textDesc.TransformComp,textDesc.TextColor);
 	}
 
 
-	bool FontManager::DrawText( const tstring& text, const tstring& fontname, vec2 position, Color color, int32 maxWidth)
+	bool FontManager::DrawText( const tstring& text, const tstring& fontname,TransformComponent* transform, Color color)
 	{
 		if(text == EMPTY_STRING)
 		{
@@ -137,19 +139,13 @@ namespace star
 		auto curfont = it->second;
 
 		float h = curfont.GetSize()/0.63f;
+		vec2 position = transform->GetWorldPosition().pos2D();
+		vec2 scale = transform->GetWorldScale();
+		float rotation = transform->GetWorldRotation();
 		vec2 origposition = position;
 
 		std::string conv_text = "";
-		if(maxWidth!=-1)
-		{
-			tstring wrappedtext = CheckWrapping(curfont,text,maxWidth);
-			conv_text = star::string_cast<std::string>(wrappedtext);
-		}
-		else
-		{
-			conv_text = star::string_cast<std::string>(text);
-		}
-
+		conv_text = star::string_cast<std::string>(text);
 		std::vector<std::string> lines;
 		SplitIntoLines(lines,conv_text);
 
@@ -184,17 +180,20 @@ namespace star
 				mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
 
 				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Projection"),1,GL_FALSE,glm::value_ptr(projection));
-				mat4x4 world;
+				mat4x4 world,worldtrans, worldscale, worldrot;
+				worldrot   = glm::toMat4(quat(vec3(0,0,rotation)));
+				worldscale = glm::scale(vec3(scale.x,scale.y,1));
 				if(start_line[i] != 0)
 				{
 					int offset = curfont.GetMaxLetterHeight()-tempsizes[start_line[i] ].y;
-					world = glm::translate(glm::vec3(position.x,position.y+curfont.GetMaxLetterHeight()-offset,0));
+					worldtrans = glm::translate(glm::vec3(position.x,position.y+curfont.GetMaxLetterHeight()-offset,0));
 					position.x+=tempsizes[start_line[i] ].x;
 				}
 				else
 				{
-					world = glm::translate(glm::vec3(position.x,position.y,0));
+					worldtrans = glm::translate(glm::vec3(position.x,position.y,0));
 				}
+				world = worldtrans * worldrot * worldscale;
 				mat4x4 worldInverse = InverseMatrix(world);
 				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"Translation"),1,GL_FALSE,glm::value_ptr(worldInverse));
 
@@ -260,39 +259,11 @@ namespace star
 		}
 	}
 
-	tstring FontManager::CheckWrapping(Font& font, const tstring& stringIn,const int32& wrapWidth )
+	const Font& FontManager::GetFont( const tstring& name )
 	{
-		tstring line = EMPTY_STRING;
-		tstring returnString = EMPTY_STRING;
-		std::vector<tstring>wordArray;
-		SplitString(wordArray,stringIn,_T(" "));
-		for(uint32 i=0; i<wordArray.size();++i)
-		{
-			if(font.GetStringLength(line+wordArray[i])>wrapWidth)
-			{
-				returnString += line + _T("\n");
-				line = EMPTY_STRING;
-			}
-			line += wordArray[i] + _T(" ");
-		}
-		return returnString + line;
-	}
-
-	void FontManager::SplitString( std::vector<tstring>& wordArrayIn,const tstring& stringIn , const tstring& delimiter)
-	{
-		std::string newstring = star::string_cast<std::string>(stringIn);
-		std::string newdelemiter= star::string_cast<std::string>(delimiter);
-		size_t pos = 0;
-		std::string token;
-		//Split Everything
-		while((pos = newstring.find(newdelemiter))!= std::string::npos)
-		{
-			token = newstring.substr(0,pos);
-			wordArrayIn.push_back(star::string_cast<tstring>(token));
-			newstring.erase(0,pos+newdelemiter.length());
-		}
-		//Push back last remaining piece of string
-		wordArrayIn.push_back(star::string_cast<tstring>(newstring));
+		//ASSERT(mFontList.find(name) == mFontList.end(),_T("No such font"));
+		if(mFontList.find(name) != mFontList.end())
+			return mFontList[name];
 	}
 
 }

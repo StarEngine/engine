@@ -100,25 +100,29 @@ status TestScene::CreateObjects()
 
 	star::Object* arialObject =  new star::Object();
 	star::TextComponent* arialTextComp = new star::TextComponent(_T("Arial.ttf"),_T("Arial"), 30);
-	arialTextComp->SetText(_T("The Quick Brown Fox Jumps Over The Lazy Dog"));
+	arialTextComp->SetText(_T("This has a\nline break"));
 	arialTextComp->SetColor(star::Color::Aquamarine);
 	arialObject->AddComponent(arialTextComp);
 	AddObject(arialObject);
 
 	star::Object* professorObject =  new star::Object();
 	star::TextComponent* professorTextComp = new star::TextComponent(_T("tf2professor.ttf"),_T("Professor"),60);
-	professorTextComp->SetText(_T("The Quick Brown Fox Jumps Over The Lazy Dog"));
+	professorTextComp->SetText(_T("This very long sentence should totaly be word wrapped to 500 pixels"));
 	professorTextComp->SetColor(star::Color::Cyan);
+	professorTextComp->SetWrapWidth(500);
 	professorObject->AddComponent(professorTextComp);
 	professorObject->GetTransform()->Translate(200,300);
+	professorObject->GetTransform()->Rotate(PI/2);
 	AddObject(professorObject);
 
 	star::Object* coalitionObject =  new star::Object();
 	star::TextComponent* coalitionTextComp = new star::TextComponent(_T("Coalition_v2.ttf"),_T("Coalition"),30);
-	coalitionTextComp->SetText(_T("The Quick Brown Fox Jumps Over The Lazy Dog"));
-	professorTextComp->SetColor(star::Color(0.0f,1.0f,0.0f,0.5f));
+	coalitionTextComp->SetText(_T("This very long sentence should totaly be word\nwrapped to 500 pixels and also\nhas a line breaks"));
+	coalitionTextComp->SetColor(star::Color(0.0f,1.0f,0.0f,0.5f));
+	coalitionTextComp->SetWrapWidth(500);
 	coalitionObject->AddComponent(coalitionTextComp);
 	coalitionObject->GetTransform()->Translate(200,900);
+	coalitionObject->GetTransform()->Rotate(-PI/6);
 	AddObject(coalitionObject);
 
 	return STATUS_OK;

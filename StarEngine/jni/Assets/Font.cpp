@@ -163,7 +163,7 @@ namespace star
 		return rval;
 	}
 
-	const int32 Font::GetStringLength( const tstring& string )
+	int32 Font::GetStringLength( const tstring& string ) const
 	{
 		int32 length=0;
 		std::string conv_text = star::string_cast<std::string>(string);
