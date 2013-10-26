@@ -99,7 +99,7 @@ status TestScene::CreateObjects()
 	AddObject(m_pObjectThree);
 
 	star::Object* arialObject =  new star::Object();
-	star::TextComponent* arialTextComp = new star::TextComponent(_T("arial.ttf"),_T("Arial"), 30);
+	star::TextComponent* arialTextComp = new star::TextComponent(_T("Arial.ttf"),_T("Arial"), 30);
 	arialTextComp->SetText(_T("The Quick Brown Fox Jumps Over The Lazy Dog"));
 	arialTextComp->SetColor(star::Color::Aquamarine);
 	arialObject->AddComponent(arialTextComp);

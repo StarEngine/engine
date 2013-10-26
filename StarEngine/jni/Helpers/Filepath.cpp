@@ -1,5 +1,9 @@
 #include "Filepath.h"
 
+//[TODO]
+//Add case sensitivity on windows. 
+// Probably using the SHGetFileInfo - SHGetFileInfoW functions. 
+//Where should i check this though...? 
 namespace star
 {
 #ifdef DESKTOP
