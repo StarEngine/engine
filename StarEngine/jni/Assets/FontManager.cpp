@@ -266,7 +266,7 @@ namespace star
 		tstring returnString = EMPTY_STRING;
 		std::vector<tstring>wordArray;
 		SplitString(wordArray,stringIn,_T(" "));
-		for(int i=0; i<wordArray.size();++i)
+		for(uint32 i=0; i<wordArray.size();++i)
 		{
 			if(font.GetStringLength(line+wordArray[i])>wrapWidth)
 			{

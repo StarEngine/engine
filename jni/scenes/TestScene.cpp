@@ -52,10 +52,10 @@ TestScene::~TestScene()
 }
 
 status TestScene::CreateObjects()
-{/*
+{
 	m_TapGesture = new star::DoubleTapGesture();
 	m_GestureManagerPtr->AddGesture(m_TapGesture, _T("DoubleTapGesture"));
-	*/
+	
 	m_pObjectOne = new star::Object();
 	m_pRectCompOne = new star::RectangleColliderComponent(200,215);
 	m_pSpriteComp1 = new star::SpriteComponent(_T("pikachu.png"),_T("Pikachu"));
@@ -117,22 +117,20 @@ status TestScene::Update(const star::Context& context)
 		m_pActiveCamera->GetComponent<star::CameraComponent>()->SetActive();
 	}
 
-	/*
+	
 	if(m_TapGesture->CompletedGesture())
 	{
-		LOGGER->Log(star::LogLevel::Info, _T("Tapped!"));
+		LOGGER->Log(star::LogLevel::Info, _T("Double-Tapped!"));
 		star::SoundService::GetInstance()->PlayBackgroundQueue();
-	}*/
+	}
 
 	if(INPUT_MANAGER->IsFingerTapCP(0))
 	{
 		star::SoundService::GetInstance()->PlaySoundEffect(_T("Explosion"));
-		LOGGER->Log(star::LogLevel::Info, _T("Explosion!"));
 	}
 	if(INPUT_MANAGER->IsFingerTapCP(1))
 	{
 		star::SoundService::GetInstance()->PlaySoundEffect(_T("Electric"));
-		LOGGER->Log(star::LogLevel::Info, _T("Electric!"));
 	}
 
 	++m_TotalFrames;

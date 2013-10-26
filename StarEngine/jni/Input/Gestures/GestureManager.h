@@ -11,20 +11,6 @@ namespace star
 {
 	struct WinInputState;
 
-	// [COMMENT] Gesture-Tags
-	// Gestures should also be given a user-defined tag 
-	// when added to the the manager.
-
-	// this way the user can look them up by tag, rather then
-	// on pointer ( for adding one, or removing one, or getting one )
-	// Part of the beauty of this kind of managing concept is
-	// that the user doesn't have to bother about the pointers
-	// as that's all managed inside the manager.
-
-	// On a side note... It's probably a good practice that the user defines
-	// these gestures in the Game class, as scenes get created
-	// and deleted everytime the screen rotates on android.
-
 	class GestureManager {
 	public:
 		GestureManager();
