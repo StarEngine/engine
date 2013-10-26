@@ -261,9 +261,7 @@ namespace star
 
 	const Font& FontManager::GetFont( const tstring& name )
 	{
-		//ASSERT(mFontList.find(name) == mFontList.end(),_T("No such font"));
-		if(mFontList.find(name) != mFontList.end())
-			return mFontList[name];
+		ASSERT(mFontList.find(name) != mFontList.end(),_T("No such font"));
+		return mFontList[name];
 	}
-
 }

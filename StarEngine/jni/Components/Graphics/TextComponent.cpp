@@ -88,7 +88,7 @@ namespace star
 		return m_TextColor;
 	}
 
-	void TextComponent::SetWrapWidth( const float& width )
+	void TextComponent::SetWrapWidth(float width )
 	{
 		m_MaxWidth = width;
 		if(m_MaxWidth!= NO_WRAPPING)
@@ -101,20 +101,20 @@ namespace star
 		}
 	}
 
-	const float& TextComponent::GetWrapWidth() const
+	float TextComponent::GetWrapWidth() const
 	{
 		return m_MaxWidth;
 	}
 
-	tstring TextComponent::CheckWrapping(const Font& font, const tstring& stringIn,const int32& wrapWidth )
+	tstring TextComponent::CheckWrapping(const Font& font, const tstring& stringIn,float wrapWidth )
 	{
 		tstring line = EMPTY_STRING;
 		tstring returnString = EMPTY_STRING;
 		std::vector<tstring>wordArray;
 		SplitString(wordArray,stringIn,_T(" "));
-		for(uint32 i=0; i<wordArray.size();++i)
+		for(uint32 i=0; i < wordArray.size(); ++i)
 		{
-			if(font.GetStringLength(line+wordArray[i])>wrapWidth)
+			if(font.GetStringLength(line + wordArray[i]) > (int)wrapWidth)
 			{
 				returnString += line + _T("\n");
 				line = EMPTY_STRING;

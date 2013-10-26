@@ -100,6 +100,7 @@ tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 		full_path = m_AssetsRoot;
 #endif
 		full_path += m_Path + m_File;
+
 		return full_path;
 	}
 

@@ -112,7 +112,7 @@ status TestScene::CreateObjects()
 	professorTextComp->SetWrapWidth(500);
 	professorObject->AddComponent(professorTextComp);
 	professorObject->GetTransform()->Translate(200,300);
-	professorObject->GetTransform()->Rotate(PI/2);
+	professorObject->GetTransform()->Rotate((float)PI/2.0f);
 	AddObject(professorObject);
 
 	star::Object* coalitionObject =  new star::Object();
@@ -122,7 +122,7 @@ status TestScene::CreateObjects()
 	coalitionTextComp->SetWrapWidth(500);
 	coalitionObject->AddComponent(coalitionTextComp);
 	coalitionObject->GetTransform()->Translate(200,900);
-	coalitionObject->GetTransform()->Rotate(-PI/6);
+	coalitionObject->GetTransform()->Rotate((float)-PI/6.0f);
 	AddObject(coalitionObject);
 
 	return STATUS_OK;
