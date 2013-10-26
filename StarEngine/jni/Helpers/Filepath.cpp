@@ -3,7 +3,8 @@
 //[TODO]
 //Add case sensitivity on windows. 
 // Probably using the SHGetFileInfo - SHGetFileInfoW functions. 
-//Where should i check this though...? 
+// Where should i check this though...? 
+// http://stackoverflow.com/questions/74451/getting-actual-file-name-with-proper-casing-on-windows
 namespace star
 {
 #ifdef DESKTOP
