@@ -8,3 +8,4 @@
 #include "Components/AI/PathFindNodeComponent.h"
 #include "Components/Graphics/SpriteComponent.h"
 #include "Components/Graphics/SpritesheetComponent.h"
+#include "Components/Graphics/TextComponent.h"

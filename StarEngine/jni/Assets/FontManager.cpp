@@ -117,7 +117,7 @@ namespace star
 	}
 
 
-	bool FontManager::DrawText( const tstring& text, const tstring& fontname, ivec2 position, Color color, int32 maxWidth)
+	bool FontManager::DrawText( const tstring& text, const tstring& fontname, vec2 position, Color color, int32 maxWidth)
 	{
 		if(text == EMPTY_STRING)
 		{
@@ -137,7 +137,7 @@ namespace star
 		auto curfont = it->second;
 
 		float h = curfont.GetSize()/0.63f;
-		ivec2 origposition = position;
+		vec2 origposition = position;
 
 		std::string conv_text = "";
 		if(maxWidth!=-1)

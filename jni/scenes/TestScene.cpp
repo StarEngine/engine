@@ -98,9 +98,28 @@ status TestScene::CreateObjects()
 	AddObject(m_pObjectTwo); 
 	AddObject(m_pObjectThree);
 
-	star::FontManager::GetInstance()->LoadFont(_T("arial.ttf"),_T("Arial"),30);
-	star::FontManager::GetInstance()->LoadFont(_T("tf2professor.ttf"),_T("Professor"),60);
-	star::FontManager::GetInstance()->LoadFont(_T("Coalition_v2.ttf"),_T("Coalition"),30);
+	star::Object* arialObject =  new star::Object();
+	star::TextComponent* arialTextComp = new star::TextComponent(_T("arial.ttf"),_T("Arial"), 30);
+	arialTextComp->SetText(_T("The Quick Brown Fox Jumps Over The Lazy Dog"));
+	arialTextComp->SetColor(star::Color::Aquamarine);
+	arialObject->AddComponent(arialTextComp);
+	AddObject(arialObject);
+
+	star::Object* professorObject =  new star::Object();
+	star::TextComponent* professorTextComp = new star::TextComponent(_T("tf2professor.ttf"),_T("Professor"),60);
+	professorTextComp->SetText(_T("The Quick Brown Fox Jumps Over The Lazy Dog"));
+	professorTextComp->SetColor(star::Color::Cyan);
+	professorObject->AddComponent(professorTextComp);
+	professorObject->GetTransform()->Translate(200,300);
+	AddObject(professorObject);
+
+	star::Object* coalitionObject =  new star::Object();
+	star::TextComponent* coalitionTextComp = new star::TextComponent(_T("Coalition_v2.ttf"),_T("Coalition"),30);
+	coalitionTextComp->SetText(_T("The Quick Brown Fox Jumps Over The Lazy Dog"));
+	professorTextComp->SetColor(star::Color(0.0f,1.0f,0.0f,0.5f));
+	coalitionObject->AddComponent(coalitionTextComp);
+	coalitionObject->GetTransform()->Translate(200,900);
+	AddObject(coalitionObject);
 
 	return STATUS_OK;
 }
@@ -172,27 +191,5 @@ status TestScene::Update(const star::Context& context)
 
 status TestScene::Draw()
 {
-	// Blue text
-	auto pos = INPUT_MANAGER->GetCurrentFingerPosCP();
-	star::TextDesc desc;
-	desc.Text = _T("The quick brown fox jumps over the lazy dog");
-	desc.Fontname = _T("Arial");
-	desc.Position = ivec2(0,100);
-	desc.TextColor = star::Color::Aquamarine;
-	desc.MaxWidth = 400;
-	star::FontManager::GetInstance()->DrawText(desc);
-
-	desc.Fontname = _T("Professor");
-	desc.Position = ivec2(0,400);
-	desc.TextColor = star::Color::Cyan;
-	desc.MaxWidth = 400;
-	star::FontManager::GetInstance()->DrawText(desc);
-
-	desc.Fontname = _T("Coalition");
-	desc.Position = ivec2(0,700);
-	desc.TextColor =  star::Color(0.0f,1.0f,0.0f,0.5f);
-	desc.MaxWidth = 400;
-	star::FontManager::GetInstance()->DrawText(desc);
-
 	return STATUS_OK;
 }

@@ -27,13 +27,13 @@ namespace star
 		TextDesc()
 			:Text(EMPTY_STRING)
 			,Fontname(EMPTY_STRING)
-			,Position(ivec2(0,0))
+			,Position(vec2(0,0))
 			,MaxWidth(-1)
 			,TextColor(Color::Black)
 		{}
 		tstring Text;
 		tstring Fontname;
-		ivec2 Position;
+		vec2 Position;
 		int32 MaxWidth;
 		Color TextColor;
 	};
@@ -51,7 +51,7 @@ namespace star
 		bool DeleteFont(const tstring& name);
 		void EraseFonts();
 		//If maxWidth is -1, wrapping will not be applied
-		bool DrawText(const tstring& text, const tstring& fontname, ivec2 position, Color color = Color::Black, int32 maxWidth =-1);
+		bool DrawText(const tstring& text, const tstring& fontname, vec2 position, Color color = Color::Black, int32 maxWidth =-1);
 		bool DrawText(TextDesc textDesc);
 	private:
 		//Data Members

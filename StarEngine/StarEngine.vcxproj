@@ -92,6 +92,7 @@
     <ClInclude Include="jni\Components\AI\PathFindNodeComponent.h" />
     <ClInclude Include="jni\Components\Physics\RectangleColliderComponent.h" />
     <ClInclude Include="jni\Components\Graphics\SpritesheetComponent.h" />
+    <ClInclude Include="jni\Components\Graphics\TextComponent.h" />
     <ClInclude Include="jni\Components\TransformComponent.h" />
     <ClInclude Include="jni\Context.h" />
     <ClInclude Include="jni\defines.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="jni\Components\AI\PathFindNodeComponent.cpp" />
     <ClCompile Include="jni\Components\Physics\RectangleColliderComponent.cpp" />
     <ClCompile Include="jni\Components\Graphics\SpritesheetComponent.cpp" />
+    <ClCompile Include="jni\Components\Graphics\TextComponent.cpp" />
     <ClCompile Include="jni\Components\TransformComponent.cpp" />
     <ClCompile Include="jni\EventLoop.cpp" />
     <ClCompile Include="jni\Graphics\Color.cpp" />
