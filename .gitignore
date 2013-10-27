@@ -16,7 +16,6 @@
 *.sdf
 *.opensdf
 *.v11.suo
-*.v11.suo
 StarEngine.v11.suo
 
 # Generated Directories
@@ -29,3 +28,22 @@ Obj/
 
 # ignore unwanted files
 *.lnk
+
+# ignore game files
+.cproject
+.classpath
+.project
+AndroidManifest.xml
+AutomatedDeploy.bat
+build.xml
+Game.sln
+Game.vcxproj
+Game.vcxproj.filters
+Game.vcxproj.user
+ic_launcher-web.png
+lint.xml
+proguard-project.txt
+project.properties
+stargame.rc
+us.stackdump
+Win32Manifest.xml

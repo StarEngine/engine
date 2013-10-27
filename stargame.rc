@@ -1,3 +1,0 @@
-#include "StarEngine/resource.h"
-
-IDI_STARGAMEICON ICON "assets/StarEngine/game.ico"
