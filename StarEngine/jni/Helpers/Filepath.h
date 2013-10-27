@@ -30,6 +30,8 @@ namespace star
 				m_File;
 #ifdef DESKTOP
 		static tstring m_AssetsRoot;
+#endif
+#ifdef _WIN32
 		tstring GetActualPathName(const TCHAR* path);
 #endif
 	};

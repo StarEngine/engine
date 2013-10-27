@@ -145,6 +145,7 @@ tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 	}
 #endif
 
+#ifdef _WIN32
 	tstring Filepath::GetActualPathName(const TCHAR* path )
 	{
 		// This is quite involved, but the meat is SHGetFileInfo
@@ -205,4 +206,5 @@ tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 		}
 		return result;
 	}
+#endif
 }
