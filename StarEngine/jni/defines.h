@@ -50,6 +50,7 @@ const status STATUS_EXIT 	= -2;
 	#define tprintf std::wprintf
 	#define ttof _wtof
 	#define ttoi _wtoi
+	#define tstrlen wcslen
 #else
 	#define tstring std::string
 	#define tcin std::cin
@@ -64,6 +65,7 @@ const status STATUS_EXIT 	= -2;
 	#define tprintf std::printf
 	#define ttof atof
 	#define ttoi atoi
+	#define tstrlen strlen
 #endif
 
 #include <algorithm>
