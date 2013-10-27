@@ -120,19 +120,17 @@ namespace star
 			GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
 			glUniform1i(s_textureId, 0);
 
-			//Set attributes and buffers
-			glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, reinterpret_cast<GLvoid*>(&m_VertexBuffer.front()));
-			glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, reinterpret_cast<GLvoid*>(&m_UvCoordBuffer.front()));
-			
 			batchSize += 4;
 	
 			auto projectionObject = SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
 			mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
-				auto inverse = InverseMatrix(sprite.transform);
-				m_WorldMatBuffer.push_back(inverse * projection);
 
 			for(int j = 0; j < ((batchSize/4)); ++j)
 			{
+				//Set attributes and buffers
+				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, reinterpret_cast<GLvoid*>(&m_VertexBuffer[12*j]));
+				glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, reinterpret_cast<GLvoid*>(&m_UvCoordBuffer[8*j]));
+			
 				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"), 1, GL_FALSE, glm::value_ptr(InverseMatrix(m_SpriteQueue[m_CurrentSprite + j].transform) * projection));
 				glDrawArrays(GL_TRIANGLE_STRIP,batchStart,4);
 			}			

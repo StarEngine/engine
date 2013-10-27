@@ -194,13 +194,13 @@ namespace star
 		
 		if(width > height)
 		{
-			height = static_cast<int>(screenRes.y);
-			width = static_cast<int>(height * aspectRatio);
+			height = screenRes.y;
+			width = height * aspectRatio;
 		}
 		else
 		{
-			width = static_cast<int>(screenRes.x);
-			height = static_cast<int>(width / aspectRatio);
+			width = screenRes.x;
+			height = width / aspectRatio;
 		}
 
 #ifdef DESKTOP
@@ -211,6 +211,6 @@ namespace star
 		int xOffset = static_cast<int>((screenRes.x - width)/2);
 		int yOffset = static_cast<int>((screenRes.y - height)/2);
 #endif
-		glViewport(xOffset, yOffset, width, height);
+		glViewport(xOffset, yOffset, static_cast<int>(width), static_cast<int>(height));
 	}
 }

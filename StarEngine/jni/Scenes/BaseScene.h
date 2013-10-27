@@ -47,6 +47,8 @@ namespace star
 		virtual status OnDeactivate();
 		virtual status Update(const Context& context);
 		virtual status Draw();
+		void CalculateViewPort();
+
 		std::shared_ptr<GestureManager> m_GestureManagerPtr;
 
 		std::vector<Object*> m_Objects;
