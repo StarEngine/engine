@@ -71,7 +71,6 @@ namespace star
 		return Update(context);
 	}
 
-	
 	status BaseScene::BaseDraw()
 	{
 		glClearColor(0.0f,0.0f,0.0f, 1.0f); // Clear the background of our window to red
