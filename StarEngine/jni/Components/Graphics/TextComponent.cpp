@@ -23,6 +23,7 @@ namespace star
 		, m_EditedText(EMPTY_STRING)
 		, m_bCheckedWrapping(true)
 	{
+
 	}
 
 	void TextComponent::InitializeComponent()
@@ -37,7 +38,6 @@ namespace star
 	{
 
 	}
-
 
 	void TextComponent::Draw()
 	{
@@ -70,7 +70,6 @@ namespace star
 		{
 			m_bCheckedWrapping=false;
 		}
-		
 	}
 
 	const tstring& TextComponent::GetText() const
@@ -114,7 +113,7 @@ namespace star
 		SplitString(wordArray,stringIn,_T(" "));
 		for(uint32 i=0; i < wordArray.size(); ++i)
 		{
-			if(font.GetStringLength(line + wordArray[i]) > (int)wrapWidth)
+			if(font.GetStringLength(line + wordArray[i]) > int(wrapWidth))
 			{
 				returnString += line + _T("\n");
 				line = EMPTY_STRING;
@@ -140,6 +139,4 @@ namespace star
 		//Push back last remaining piece of string
 		wordArrayIn.push_back(star::string_cast<tstring>(newstring));
 	}
-
-
 }

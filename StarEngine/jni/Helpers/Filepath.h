@@ -20,7 +20,7 @@ namespace star
 		const tstring & GetFile() const;
 		tstring GetName() const;
 		tstring GetExtension() const;
-		tstring GetFullPath();
+		tstring GetFullPath() const;
 #ifdef DESKTOP
 		static void SetAssetsRoot(const tstring & root);
 #endif
@@ -32,7 +32,7 @@ namespace star
 		static tstring m_AssetsRoot;
 #endif
 #ifdef _WIN32
-		tstring GetActualPathName(const TCHAR* path);
+		tstring GetActualPathName(const tstring& path) const;
 #endif
 	};
 }

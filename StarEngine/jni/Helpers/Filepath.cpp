@@ -98,7 +98,7 @@ tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 		return extension.substr(index, extension.size() - index);
 	}
 
-	tstring Filepath::GetFullPath()
+	tstring Filepath::GetFullPath() const
 	{
 		tstring full_path(EMPTY_STRING);
 #ifdef DESKTOP
@@ -146,26 +146,23 @@ tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 #endif
 
 #ifdef _WIN32
-	tstring Filepath::GetActualPathName(const TCHAR* path )
+	tstring Filepath::GetActualPathName(const tstring& path ) const
 	{
 		// This is quite involved, but the meat is SHGetFileInfo
 
 		const TCHAR kSeparator = _T('\\');
 
-		// copy input string because we'll be temporary modifying it in place
-		size_t length = tstrlen(path);
-		TCHAR buffer[MAX_PATH];
-		memcpy(buffer, path, (length + 1) * sizeof(path[0]));
+		tstring buffer(path);
 
 		size_t i = 0;
 
 		tstring result;
 		bool addSeparator = false;
 
-		while(i < length)
+		while(i < buffer.size())
 		{
 			// skip until path separator
-			while(i < length && buffer[i] != kSeparator)
+			while(i < buffer.size() && buffer[i] != kSeparator)
 			{
 				++i;
 			}
@@ -177,13 +174,13 @@ tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 
 			// if we found path separator, get real filename of this
 			// last path name component
-			bool foundSeparator = (i < length);
+			bool foundSeparator = (i < buffer.size());
 			buffer[i] = 0;
 			SHFILEINFOW info;
 
 			// nuke the path separator so that we get real name of current path component
 			info.szDisplayName[0] = 0;
-			if(SHGetFileInfoW( buffer, 0, &info, sizeof(info), SHGFI_DISPLAYNAME ))
+			if(SHGetFileInfo(buffer.c_str(), 0, &info, sizeof(info), SHGFI_DISPLAYNAME ))
 			{
 				result += info.szDisplayName;
 			}

@@ -5,17 +5,6 @@
 #include "../../Graphics/Color.h"
 #include <vector>
 
-//[TODO]
-/*
-Provide more Get/Set functions, so that you can fully manage the fonts from this component
-e.g. GetLength , GetWordWrap, SetWordWrap(bool) , ...
-
-FontManager uses positions etc in a strange way. Not like the rest of the engine. 
-This causes the scale system not to work in this (yet). This may be fixed when implementing 
-the spritebatch system.
-
-Take scaling in to account when drawing (in font manager i suppose)
-*/
 namespace star
 {
 	class Font;
@@ -39,7 +28,6 @@ namespace star
 		virtual void InitializeComponent();
 	
 	private:
-
 		int32 m_FontSize;
 		tstring m_FileName;
 		tstring m_Tag;
@@ -53,7 +41,6 @@ namespace star
 
 		tstring CheckWrapping(const Font& font, const tstring& stringIn, float wrapWidth);
 		void SplitString(std::vector<tstring>& wordArrayIn,const tstring& stringIn, const tstring& delimiter);
-
 
 		TextComponent(const TextComponent &);
 		TextComponent(TextComponent &&);
