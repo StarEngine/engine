@@ -7,7 +7,7 @@
 	-->
 	<position x="-1" y="-1"/>
 	<resolution width="1280" height="720"/>
-	<allow_fullscreen manipulate_window_resolution="False">True</allow_fullscreen>
+	<allow_fullscreen manipulate_window_resolution="True">True</allow_fullscreen>
 	<update_game_when_inactive>False</update_game_when_inactive>
 	<console x="0" y="25" width="720" height="350"/>
 	<!-- class_styles options:
