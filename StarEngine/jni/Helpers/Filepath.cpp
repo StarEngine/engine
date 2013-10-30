@@ -26,6 +26,20 @@ tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 		: m_Path(EMPTY_STRING)
 		, m_File(EMPTY_STRING)
 	{
+		int dotCounter(0);
+		for(uint32 i = 0; i < full_path.size(); ++i)
+		{
+			if(full_path[i] == _T('.'))
+			{
+				++dotCounter;
+			}
+		}
+		if(dotCounter > 1)
+		{
+			Logger::GetInstance()->Log(LogLevel::Error, 
+				_T("Please don't use . in your filename (except for the file extension)"));
+		}
+
 		auto index = full_path.find_last_of('/');
 		if(index == tstring::npos)
 		{
@@ -126,11 +140,23 @@ tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 				shellFullPath = shellFullPath.substr(index + 1,shellFullPath.size() - (index+1));
 			}
 			
-			if(m_File != shellFullPath)
+			auto index2 = m_File.find_last_of(_T("."));
+			auto fileWithoutExtension = m_File;
+			if(index2 != tstring::npos)
+			{
+				fileWithoutExtension = m_File.substr(0,index2);
+			}
+			auto index3 = shellFullPath.find_last_of(_T("."));
+			auto shellNameWithoutExtension(shellFullPath);
+			if(index != tstring::npos)
+			{
+				shellNameWithoutExtension = shellFullPath.substr(0,index3);
+			}
+			if(fileWithoutExtension != shellNameWithoutExtension)
 			{
 				tstringstream buffer; 
 				buffer << _T("The file name \" ") << m_File << 
-					_T(" \" is invalid. Please change it to \" ") << shellFullPath << 
+					_T(" \" is invalid. Please change the name in code to \" ") << shellFullPath << 
 					_T(" \" or your game will not run on Android and Linux");
 				Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
 			}
