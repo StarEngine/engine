@@ -1,2 +1,0 @@
-set solib-search-path ./obj/local/armeabi
-directory E:/AndroidNDKr9/platforms/android-18/arch-arm/usr/include E:/AndroidNDKr9/sources/android/native_app_glue libs/freetype E:/AndroidNDKr9/sources/cxx-stl/gnu-libstdc++ E:/AndroidNDKr9/sources/libpng libs/freetype/jni/include libs/freetype/jni/include/freetype E:/AndroidNDKr9/sources/cxx-stl/gnu-libstdc++/4.8/include E:/AndroidNDKr9/sources/cxx-stl/gnu-libstdc++/4.8/libs/armeabi/include E:/AndroidNDKr9/sources/cxx-stl/gnu-libstdc++/4.8/include/backward

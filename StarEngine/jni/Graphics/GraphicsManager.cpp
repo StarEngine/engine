@@ -194,7 +194,7 @@ namespace star
 	{
 #ifdef _WIN32
 		return mScreenWidth -
-			( Window::GetInstance()->IsFullScreen() ? 0 : Window::EXTRA_WIDTH );
+			( Window::GetInstance()->IsFullScreen() ? 0 : Window::GetInstance()->GetTotalBorderWidth() );
 #else
 		return mScreenWidth;
 #endif
@@ -204,7 +204,7 @@ namespace star
 	{
 #ifdef _WIN32
 		return mScreenHeight -
-			( Window::GetInstance()->IsFullScreen() ? 0 : Window::EXTRA_HEIGHT );
+			( Window::GetInstance()->IsFullScreen() ? 0 : Window::GetInstance()->GetTotalBorderHeight() );
 #else
 		return mScreenHeight;
 #endif;
@@ -228,8 +228,8 @@ namespace star
 #ifdef _WIN32
 		if(!Window::GetInstance()->IsFullScreen())
 		{
-			width -= Window::EXTRA_WIDTH;
-			height -= Window::EXTRA_HEIGHT;
+			width -= Window::GetInstance()->GetTotalBorderWidth();
+			height -= Window::GetInstance()->GetTotalBorderHeight();
 		}
 #endif
 		glViewport(0,0,width, height);

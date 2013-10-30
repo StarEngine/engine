@@ -150,27 +150,19 @@ namespace star
 
 			int position_x = string_cast<int>(position[_T("x")]);
 			int position_y = string_cast<int>(position[_T("y")]);
-			int position_width = string_cast<int>(resolution[_T("width")]) + EXTRA_WIDTH;
-			int position_height = string_cast<int>(resolution[_T("height")]) + EXTRA_HEIGHT;
+			int position_width = string_cast<int>(resolution[_T("width")]);
+			int position_height = string_cast<int>(resolution[_T("height")]);
 
 			if(position_x == -1)
 			{
 				position_x = int(GetSystemMetrics(SM_CXSCREEN)) / 2;
 				position_x -= position_width / 2;
 			}
-			else
-			{
-				position_x -= EXTRA_WIDTH / 2;
-			}
 
 			if(position_y == -1)
 			{
 				position_y = int(GetSystemMetrics(SM_CYSCREEN)) / 2;
 				position_y -= position_height / 2;
-			}
-			else
-			{
-				position_y -= EXTRA_HEIGHT / 2;
 			}
 
 			tstring windowsTitle = winManifest[_T("title")]->GetValue();
@@ -186,6 +178,25 @@ namespace star
 									NULL, NULL, instance, NULL);
 
 			ASSERT(mHandle != NULL, _T("Couldn't create the window."));
+
+			m_BorderSizeX = GetSystemMetrics(SM_CXSIZEFRAME);
+			m_BorderSizeY = GetSystemMetrics(SM_CYSIZEFRAME);
+			m_CaptionHeight = GetSystemMetrics(SM_CYCAPTION);
+			m_CappedBorderX = GetSystemMetrics(SM_CXPADDEDBORDER);
+
+			int bw = GetTotalBorderWidth();
+			int bh = GetTotalBorderHeight();
+			position_width += bw;
+			position_height += bh;
+			position_x -= bw/2;
+			position_y -= bh/2;
+			SetWindowPos(	mHandle,
+							NULL,
+							position_x,
+							position_y,
+							position_width,
+							position_height,
+							SWP_SHOWWINDOW);
 
 			ShowWindow(mHandle, SW_SHOWNORMAL);
 			UpdateWindow(mHandle);
@@ -332,6 +343,10 @@ namespace star
 		, mClipRect()
 		, m_hKeybThread()
 		, m_dKeybThreadID()
+		, m_BorderSizeX(0)
+		, m_BorderSizeY(0)
+		, m_CaptionHeight(0)
+		, m_CappedBorderX(0)
 	{
 		InputManager::GetInstance()->StartKeyboardThread();
 		m_hKeybThread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE) :: KeybThreadProc, this, NULL, &m_dKeybThreadID);
@@ -339,10 +354,10 @@ namespace star
 
 	void Window::CalculateRect(RECT & rect)
 	{
-		rect.top += EXTRA_TOP;
-		rect.left += EXTRA_LEFT;
-		rect.right -= EXTRA_RIGHT;
-		rect.bottom -= EXTRA_BOTTOM;
+		rect.top += GetCaptionHeight();
+		rect.left += GetBorderSizeX();
+		rect.right -= GetBorderSizeX();
+		rect.bottom -= GetBorderSizeY();
 	}
 
 	void Window::SetClipRect(const RECT & rect)
@@ -382,6 +397,36 @@ namespace star
 	bool Window::ChangeResolutionWhenGoingFullScreen() const
 	{
 		return m_ManipulateWindowResolution;
+	}
+
+	int Window::GetBorderSizeX() const
+	{
+		return m_BorderSizeX;
+	}
+
+	int Window::GetBorderSizeY() const
+	{
+		return m_BorderSizeY;
+	}
+
+	int Window::GetCaptionHeight() const
+	{
+		return m_CaptionHeight;
+	}
+
+	int Window::GetTotalBorderWidth() const
+	{
+		return GetBorderSizeX() * 2;
+	}
+
+	int Window::GetTotalBorderHeight() const
+	{
+		return GetBorderSizeY() + GetCaptionHeight();
+	}
+	
+	int Window::GetCappedBorderX() const
+	{
+		return m_CappedBorderX;
 	}
 
 	void Window::ToggleFullScreen(HWND hWnd)
@@ -481,8 +526,10 @@ namespace star
 	
 	void Window::SetResolution(int width, int height)
 	{
-		width += EXTRA_WIDTH;
-		height += EXTRA_HEIGHT;
+		int w = GetTotalBorderWidth();
+		int h = GetTotalBorderHeight();
+		width += w;
+		height += h;
 
 		m_SavedWindowState.Maximized = IsZoomed(mHandle);
 		m_SavedWindowState.Style = GetWindowLong(mHandle, GWL_STYLE);
@@ -496,8 +543,8 @@ namespace star
 		bool isChangeSuccessful = ChangeDisplaySettings(NULL, CDS_RESET) == DISP_CHANGE_SUCCESSFUL;
 		//ASSERT(isChangeSuccessful, _T("Couldn't put the screen into windowed mode..."));
 		SetWindowPos(mHandle, HWND_NOTOPMOST, 
-			m_SavedWindowState.WinRect.left - EXTRA_WIDTH / 2,
-			m_SavedWindowState.WinRect.top - EXTRA_HEIGHT / 2,
+			m_SavedWindowState.WinRect.left - w / 2,
+			m_SavedWindowState.WinRect.top - h / 2,
 			width,
 			height,
 			SWP_SHOWWINDOW);
@@ -708,7 +755,4 @@ DWORD WINAPI KeybThreadProc()
 {
 	return star::InputManager::GetInstance()->UpdateWin();
 }
-
-
-
 #endif

@@ -452,7 +452,7 @@ namespace star
 				ScreenToClient(mWindowsHandle,&mousePos);
 			}
 			//[TODO] Change to %
-			m_CurrMousePosition = vec2(mousePos.x , /*(float)GraphicsManager::GetInstance()->GetWindowHeight() -*/ mousePos.y);
+			m_CurrMousePosition = vec2(mousePos.x , (float)GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y);
 			tstringstream buffer;
 			buffer << _T("Current Mouse Pos: ") << _T("( ") << m_CurrMousePosition.x << _T(" , ") << m_CurrMousePosition.y << _T(" )");
 			//buffer << _T("WindowHeight: ") <<  (float)GraphicsManager::GetInstance()->GetWindowHeight();

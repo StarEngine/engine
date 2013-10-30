@@ -33,6 +33,13 @@ namespace star
 		bool UpdateGameWhenInactive() const;
 		bool ChangeResolutionWhenGoingFullScreen() const;
 
+		int GetBorderSizeX() const;
+		int GetBorderSizeY() const;
+		int GetCaptionHeight() const;
+		int GetTotalBorderWidth() const;
+		int GetTotalBorderHeight() const;
+		int GetCappedBorderX() const;
+
 		void ToggleFullScreen(HWND hWnd);
 		void SetFullScreen(HWND hWnd, bool fullscreen);
 		void UpdateClippingIfNeeded();
@@ -42,13 +49,6 @@ namespace star
 		void SetResolution(int width, int height);
 
 		void ForceTimerCalculation();
-
-		static const int EXTRA_TOP = 25;
-		static const int EXTRA_BOTTOM = 5;
-		static const int EXTRA_LEFT = 5;
-		static const int EXTRA_RIGHT = 5;
-		static const int EXTRA_WIDTH = EXTRA_LEFT + EXTRA_RIGHT;
-		static const int EXTRA_HEIGHT = EXTRA_BOTTOM + EXTRA_TOP;
 
 	private:
 		Window();
@@ -95,6 +95,11 @@ namespace star
 		typedef std::pair<tstring, uint32> psip;
 		static const psip CLASS_STYLES[];
 		static const psip WINDOW_STYLES[];
+
+		int m_BorderSizeX,
+			m_BorderSizeY,
+			m_CaptionHeight,
+			m_CappedBorderX;
 
 		int CastStringToClassStyle(const tstring & style);
 		int CastStringToWinStyle(const tstring & style);
