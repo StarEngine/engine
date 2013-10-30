@@ -65,7 +65,7 @@ namespace star
 
 		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
 		{
-			m_Objects[i]->Update(context);
+			m_Objects[i]->BaseUpdate(context);
 		}
 
 		return Update(context);
@@ -78,7 +78,7 @@ namespace star
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
 		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
 		{
-			m_Objects[i]->Draw();
+			m_Objects[i]->BaseDraw();
 		}
 		return Draw(); 
 	}
