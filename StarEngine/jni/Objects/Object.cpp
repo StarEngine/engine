@@ -69,58 +69,60 @@ namespace star
 
 	void Object::Update(const Context& context)
 	{
+		//DO nothing, unless a derived class overrides this
+	}
+	
+	void Object::BaseUpdate(const Context & context)
+	{
 		if(!m_IsFrozen)
 		{
-			BaseUpdate(context);
+			Update(context);
+			for(auto *component : m_pComponents)
+			{
+				if(component)
+				{
+					component->Update(context);
+				}
+			}
+
+			for(auto *child : m_pChildren)
+			{
+				if(child)
+				{
+					child->BaseUpdate(context);
+				}
+			}
 		}
 		else if(GraphicsManager::GetInstance()->GetHasWindowChanged())
 		{
 			GetTransform()->UpdateFrozenObjects(context);
 		}
 	}
-	
-	void Object::BaseUpdate(const Context & context)
-	{
-		for(auto *component : m_pComponents)
-		{
-			if(component)
-			{
-				component->Update(context);
-			}
-		}
-
-		for(auto *child : m_pChildren)
-		{
-			if(child)
-			{
-				child->Update(context);
-			}
-		}
-	}
 
 	void Object::Draw()
 	{
-		if(m_IsVisible)
-		{
-			BaseDraw();
-		}
+		//DO nothing, unless a derived class overrides this
 	}
 
 	void Object::BaseDraw()
 	{
-		for(auto *component : m_pComponents)
+		if(m_IsVisible)
 		{
-			if(component)
+			Draw();
+			for(auto *component : m_pComponents)
 			{
-				component->Draw();
-			} 
-		}
+				if(component)
+				{
+					component->Draw();
+				} 
+			}
 
-		for(auto *child : m_pChildren)
-		{
-			if(child)
+			for(auto *child : m_pChildren)
 			{
-				child->Draw();
+				if(child)
+				{
+					child->BaseDraw();
+				}
 			}
 		}
 	}

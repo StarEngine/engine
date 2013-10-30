@@ -2,12 +2,13 @@
 #include "../defines.h"
 #include "../Context.h"
 #include "../Objects/Object.h"
+#include "BaseCamera.h"
 
 namespace star
 {
 	class CameraComponent;
 
-	class FreeCamera : public Object
+	class FreeCamera : public BaseCamera
 	{
 	public:
 		FreeCamera(void);

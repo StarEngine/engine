@@ -11,7 +11,7 @@ namespace star
 	class TextComponent : public BaseComponent
 	{
 	public:
-		TextComponent(const tstring& fileName,const tstring& tag, int fontSize);
+		TextComponent(const tstring& fileName,const tstring& tag, int fontSize, bool bInFront = true);
 		virtual ~TextComponent();
 
 		void Draw();
@@ -30,14 +30,15 @@ namespace star
 	private:
 		int32 m_FontSize;
 		tstring m_FileName;
-		tstring m_Tag;
+		tstring m_FontName;
 
 		Color m_TextColor;
 		float m_MaxWidth;
 		tstring m_OrigText;
 		tstring m_EditedText;
 
-		bool m_bCheckedWrapping;
+		bool m_bCheckedWrapping, 
+			 m_bInFront;
 
 		tstring CheckWrapping(const Font& font, const tstring& stringIn, float wrapWidth);
 		void SplitString(std::vector<tstring>& wordArrayIn,const tstring& stringIn, const tstring& delimiter);

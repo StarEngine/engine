@@ -8,7 +8,7 @@
 namespace star
 {
 	FreeCamera::FreeCamera():
-		Object()
+		BaseCamera()
 		,m_TotalPitch(0)
 		,m_TotalYaw(0)
 		,m_MoveSpeed(1.0f)
@@ -30,7 +30,7 @@ namespace star
 	void FreeCamera::Initialize()
 	{
 		//Camera Component
-		m_pCamera = new CameraComponent();
+		m_pCamera = new CameraComponent(true);
 		AddComponent(m_pCamera);
 	
 		Object::Initialize();

@@ -7,12 +7,12 @@ namespace star
 	class CameraComponent : public BaseComponent
 	{
 	public:
-		CameraComponent(void);
+		CameraComponent(bool bCanZoom = false);
 		virtual ~CameraComponent(void);
 
 		virtual void Update(const Context& context);
 		virtual void Draw();
-
+		
 		void SetFieldOfView(float fov);
 		void SetOrthoSize(float size);
 		void SetNearClippingPlane(float nearPlane);
@@ -24,8 +24,9 @@ namespace star
 		void Deactivate();
 
 		const mat4x4 & GetView() const;
-		mat4x4 GetProjection() const;
+		const mat4x4 & GetProjection() const;
 		const mat4x4 & GetViewInverse() const;
+		mat4x4 GetProjectionViewInvesre() const;
 
 	protected:
 		virtual void InitializeComponent();
@@ -48,7 +49,9 @@ namespace star
 				m_ZoomSpeed,
 				m_AspectRatio;
 
-		bool m_bIsActive, m_bPerspectiveProjection;
+		bool m_bIsActive, 
+			 m_bPerspectiveProjection, 
+			 m_bCanZoom;
 
 		CameraComponent(const CameraComponent& t);
 		CameraComponent(CameraComponent&& t);

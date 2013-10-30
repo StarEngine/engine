@@ -191,7 +191,7 @@ namespace star
 		return false;
 	}
 
-	bool InputManager::IsMouseButtonTapWIN(uint8 button) const
+	bool InputManager::IsMouseButtonPressedWIN(uint8 button) const
 	{
 		if(IsMouseButtonDownWIN(button) && !IsMouseButtonDownWIN(button, true))
 		{
@@ -209,7 +209,7 @@ namespace star
 		return false;
 	}
 
-	bool InputManager::IsMouseButtonUpWIN(uint8 button) const
+	bool InputManager::IsMouseButtonReleasedWIN(uint8 button) const
 	{
 		if(!IsMouseButtonDownWIN(button) && IsMouseButtonDownWIN(button, true))
 		{
@@ -584,7 +584,7 @@ namespace star
 	}
 #else
 
-	bool InputManager::IsTouchTapANDR(uint8 fingerIndex) const
+	bool InputManager::IsTouchPressedANDR(uint8 fingerIndex) const
 	{
 		if(m_NumberOfPointers == fingerIndex && (m_bMainIsDown || m_bPointerIsDown))
 		{
@@ -602,7 +602,7 @@ namespace star
 		return (false);
 	}
 
-	bool InputManager::IsTouchUpANDR(uint8 fingerIndex) const
+	bool InputManager::IsTouchReleasedANDR(uint8 fingerIndex) const
 	{
 		if(m_NumberOfPointers == fingerIndex -1 && (m_bMainIsUp || m_bPointerIsUp))
 		{
@@ -756,11 +756,11 @@ namespace star
 	}
 #endif
 
-	bool InputManager::IsFingerTapCP(uint8 fingerIndex) const
+	bool InputManager::IsFingerPressedCP(uint8 fingerIndex) const
 	{
 		++fingerIndex;
 #ifdef _WIN32
-		return IsMouseButtonTapWIN(ConvertIndexToVK(fingerIndex));
+		return IsMouseButtonPressedWIN(ConvertIndexToVK(fingerIndex));
 #else
 		return (IsTouchTapANDR(fingerIndex));
 #endif
@@ -776,11 +776,11 @@ namespace star
 #endif
 	}
 
-	bool InputManager::IsFingerUpCP(uint8 fingerIndex) const
+	bool InputManager::IsFingerReleasedCP(uint8 fingerIndex) const
 	{
 		++fingerIndex;
 #ifdef _WIN32
-		return IsMouseButtonUpWIN(ConvertIndexToVK(fingerIndex));
+		return IsMouseButtonReleasedWIN(ConvertIndexToVK(fingerIndex));
 #else
 		return (IsTouchUpANDR(fingerIndex));
 #endif

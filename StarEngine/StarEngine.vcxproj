@@ -128,6 +128,7 @@
     <ClInclude Include="jni\Input\XMLFileSerializer.h" />
     <ClInclude Include="jni\Logger.h" />
     <ClInclude Include="jni\Components\Graphics\SpriteComponent.h" />
+    <ClInclude Include="jni\Objects\BaseCamera.h" />
     <ClInclude Include="jni\Objects\FreeCamera.h" />
     <ClInclude Include="jni\Objects\Object.h" />
     <ClInclude Include="jni\Graphics\SpriteAnimationManager.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="jni\Input\XMLFileSerializer.cpp" />
     <ClCompile Include="jni\Logger.cpp" />
     <ClCompile Include="jni\Components\Graphics\SpriteComponent.cpp" />
+    <ClCompile Include="jni\Objects\BaseCamera.cpp" />
     <ClCompile Include="jni\Objects\FreeCamera.cpp" />
     <ClCompile Include="jni\Objects\Object.cpp" />
     <ClCompile Include="jni\Graphics\SpriteAnimationManager.cpp" />

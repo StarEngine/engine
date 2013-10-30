@@ -10,13 +10,14 @@
 
 namespace star
 {
-	SpriteComponent::SpriteComponent(const tstring& filepath,const tstring& spriteName)
+	SpriteComponent::SpriteComponent(const tstring& filepath,const tstring& spriteName, bool bIsHUDElement)
 		: BaseComponent()
 		, m_Width(0)
 		, m_Heigth(0)
 		, m_Shader()
 		, m_FilePath(filepath)
 		, m_SpriteName(spriteName)
+		, m_bIsHudElement(bIsHUDElement)
 	{
 	}
 
@@ -84,7 +85,7 @@ namespace star
 
 	void SpriteComponent::Draw()
 	{
-		SpriteBatch::GetInstance()->AddSpriteToQueue(this);
+		SpriteBatch::GetInstance()->AddSpriteToQueue(this, m_bIsHudElement);
 	}
 
 	mat4x4 SpriteComponent::InverseMatrix(const mat4x4& matrix)

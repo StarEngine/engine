@@ -3,7 +3,7 @@
 #include "../Input/InputManager.h"
 #include "../Objects/Object.h"
 #include "../StarComponents.h"
-#include "../Objects/FreeCamera.h"
+#include "../Objects/BaseCamera.h"
 #include "../Graphics/ScaleSystem.h"
 #include "../Graphics/GraphicsManager.h"
 
@@ -35,7 +35,7 @@ namespace star
 		status isInitialized(CreateObjects());
 		if(isInitialized == STATUS_OK)
 		{
-			m_pDefaultCamera = new FreeCamera();
+			m_pDefaultCamera = new BaseCamera();
 			AddObject(m_pDefaultCamera);
 
 			m_Initialized = true;
@@ -65,7 +65,7 @@ namespace star
 
 		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
 		{
-			m_Objects[i]->Update(context);
+			m_Objects[i]->BaseUpdate(context);
 		}
 
 		return Update(context);
@@ -73,12 +73,12 @@ namespace star
 
 	status BaseScene::BaseDraw()
 	{
-		glClearColor(0.0f,0.0f,0.0f, 1.0f); // Clear the background of our window to red
+		glClearColor(0.0f,0.0f,0.0f,1.0f); // Clear the background of our window to red
 
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
 		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
 		{
-			m_Objects[i]->Draw();
+			m_Objects[i]->BaseDraw();
 		}
 		return Draw(); 
 	}
@@ -140,7 +140,7 @@ namespace star
 		camComp->Activate();
 	}
 	
-	FreeCamera* BaseScene::GetActiveCamera() const
+	BaseCamera* BaseScene::GetActiveCamera() const
 	{
 		return m_pDefaultCamera;
 	}
