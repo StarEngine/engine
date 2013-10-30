@@ -43,6 +43,13 @@ namespace star
 
 		void ForceTimerCalculation();
 
+		static const int EXTRA_TOP = 25;
+		static const int EXTRA_BOTTOM = 5;
+		static const int EXTRA_LEFT = 5;
+		static const int EXTRA_RIGHT = 5;
+		static const int EXTRA_WIDTH = EXTRA_LEFT + EXTRA_RIGHT;
+		static const int EXTRA_HEIGHT = EXTRA_BOTTOM + EXTRA_TOP;
+
 	private:
 		Window();
 

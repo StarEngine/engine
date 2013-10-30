@@ -150,19 +150,27 @@ namespace star
 
 			int position_x = string_cast<int>(position[_T("x")]);
 			int position_y = string_cast<int>(position[_T("y")]);
-			int position_width = string_cast<int>(resolution[_T("width")]);
-			int position_height = string_cast<int>(resolution[_T("height")]);
+			int position_width = string_cast<int>(resolution[_T("width")]) + EXTRA_WIDTH;
+			int position_height = string_cast<int>(resolution[_T("height")]) + EXTRA_HEIGHT;
 
 			if(position_x == -1)
 			{
 				position_x = int(GetSystemMetrics(SM_CXSCREEN)) / 2;
 				position_x -= position_width / 2;
 			}
+			else
+			{
+				position_x -= EXTRA_WIDTH / 2;
+			}
 
 			if(position_y == -1)
 			{
 				position_y = int(GetSystemMetrics(SM_CYSCREEN)) / 2;
 				position_y -= position_height / 2;
+			}
+			else
+			{
+				position_y -= EXTRA_HEIGHT / 2;
 			}
 
 			tstring windowsTitle = winManifest[_T("title")]->GetValue();
@@ -331,10 +339,10 @@ namespace star
 
 	void Window::CalculateRect(RECT & rect)
 	{
-		rect.top += 25;
-		rect.left += 5;
-		rect.right -= 5;
-		rect.bottom -= 5;
+		rect.top += EXTRA_TOP;
+		rect.left += EXTRA_LEFT;
+		rect.right -= EXTRA_RIGHT;
+		rect.bottom -= EXTRA_BOTTOM;
 	}
 
 	void Window::SetClipRect(const RECT & rect)
@@ -473,8 +481,8 @@ namespace star
 	
 	void Window::SetResolution(int width, int height)
 	{
-		width += 5;
-		height += 25;
+		width += EXTRA_WIDTH;
+		height += EXTRA_HEIGHT;
 
 		m_SavedWindowState.Maximized = IsZoomed(mHandle);
 		m_SavedWindowState.Style = GetWindowLong(mHandle, GWL_STYLE);
@@ -488,8 +496,8 @@ namespace star
 		bool isChangeSuccessful = ChangeDisplaySettings(NULL, CDS_RESET) == DISP_CHANGE_SUCCESSFUL;
 		//ASSERT(isChangeSuccessful, _T("Couldn't put the screen into windowed mode..."));
 		SetWindowPos(mHandle, HWND_NOTOPMOST, 
-			m_SavedWindowState.WinRect.left,
-			m_SavedWindowState.WinRect.top,
+			m_SavedWindowState.WinRect.left - EXTRA_WIDTH / 2,
+			m_SavedWindowState.WinRect.top - EXTRA_HEIGHT / 2,
 			width,
 			height,
 			SWP_SHOWWINDOW);

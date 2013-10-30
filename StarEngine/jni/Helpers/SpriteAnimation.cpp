@@ -98,6 +98,26 @@ namespace star
 		vec4 uv;
 		int currentFrame = (int)m_CurrentFrame;
 		
+		auto size = int(m_Frames.size());
+		if(currentFrame > size)
+		{
+			if(currentFrame-size > size)
+			{
+				currentFrame -= currentFrame - size;
+			}
+			currentFrame -= size;
+				
+		}
+		else if(currentFrame < 0)
+		{
+			int absr = int(abs(float(currentFrame-size)));
+			if(absr > size)
+			{
+				currentFrame += absr;
+			}
+			currentFrame += size;
+		}
+
 		// UV Scale
 		uv.z = m_UVScale.x;
 		uv.w = m_UVScale.y;

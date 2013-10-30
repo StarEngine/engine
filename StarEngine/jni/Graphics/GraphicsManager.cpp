@@ -3,8 +3,12 @@
 #include "ScaleSystem.h"
 #include "SpriteBatch.h"
 
-#ifdef DESKTOP
+#ifdef _WIN32
+#include "Window.h"
 #include <Windows.h>
+#endif
+
+#ifdef DESKTOP
 #include <wglext.h>
 #endif
 
@@ -168,6 +172,7 @@ namespace star
 
 		GLint temp[4];
 		glGetIntegerv(GL_VIEWPORT, temp);
+
 		tstringstream buffer;
 		buffer << _T("Viewport Width: ") << temp[2] << _T(" Viewport Height: ") << temp[3];
 		Logger::GetInstance()->Log(LogLevel::Info, buffer.str());
@@ -187,12 +192,22 @@ namespace star
 
 	int32 GraphicsManager::GetWindowWidth() const
 	{
+#ifdef _WIN32
+		return mScreenWidth -
+			( Window::GetInstance()->IsFullScreen() ? 0 : Window::EXTRA_WIDTH );
+#else
 		return mScreenWidth;
+#endif
 	}
 
 	int32 GraphicsManager::GetWindowHeight() const
 	{
+#ifdef _WIN32
+		return mScreenHeight -
+			( Window::GetInstance()->IsFullScreen() ? 0 : Window::EXTRA_HEIGHT );
+#else
 		return mScreenHeight;
+#endif;
 	}
 
 	float GraphicsManager::GetWindowAspectRatio() const
@@ -210,6 +225,13 @@ namespace star
 		//star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : SetWindowDimensions"));
 		mScreenWidth = width;
 		mScreenHeight = height;
+#ifdef _WIN32
+		if(!Window::GetInstance()->IsFullScreen())
+		{
+			width -= Window::EXTRA_WIDTH;
+			height -= Window::EXTRA_HEIGHT;
+		}
+#endif
 		glViewport(0,0,width, height);
 		ScaleSystem::GetInstance()->UpdateWorkingResolution();
 	}
