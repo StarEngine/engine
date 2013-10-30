@@ -99,7 +99,7 @@ namespace star
 		int currentFrame = (int)m_CurrentFrame;
 		
 		auto size = int(m_Frames.size());
-		if(currentFrame > size)
+		if(currentFrame >= size)
 		{
 			if(currentFrame-size > size)
 			{

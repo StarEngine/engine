@@ -4,7 +4,6 @@
 #include "SpriteBatch.h"
 
 #ifdef _WIN32
-#include "Window.h"
 #include <Windows.h>
 #endif
 
@@ -192,22 +191,12 @@ namespace star
 
 	int32 GraphicsManager::GetWindowWidth() const
 	{
-#ifdef _WIN32
-		return mScreenWidth -
-			( Window::GetInstance()->IsFullScreen() ? 0 : Window::GetInstance()->GetTotalBorderWidth() );
-#else
 		return mScreenWidth;
-#endif
 	}
 
 	int32 GraphicsManager::GetWindowHeight() const
 	{
-#ifdef _WIN32
-		return mScreenHeight -
-			( Window::GetInstance()->IsFullScreen() ? 0 : Window::GetInstance()->GetTotalBorderHeight() );
-#else
 		return mScreenHeight;
-#endif;
 	}
 
 	float GraphicsManager::GetWindowAspectRatio() const
@@ -225,13 +214,6 @@ namespace star
 		//star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : SetWindowDimensions"));
 		mScreenWidth = width;
 		mScreenHeight = height;
-#ifdef _WIN32
-		if(!Window::GetInstance()->IsFullScreen())
-		{
-			width -= Window::GetInstance()->GetTotalBorderWidth();
-			height -= Window::GetInstance()->GetTotalBorderHeight();
-		}
-#endif
 		glViewport(0,0,width, height);
 		ScaleSystem::GetInstance()->UpdateWorkingResolution();
 	}

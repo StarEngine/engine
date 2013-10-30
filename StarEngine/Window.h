@@ -22,7 +22,6 @@ namespace star
 		void WindowInactiveUpdate(bool inactive);
 		const HDC & GetHDC() const;
 		const HWND & GetHandle() const;
-		void CalculateRect(RECT & rect);
 		void SetClipRect(const RECT & rect);
 
 		bool IsInitialized() const;
@@ -33,18 +32,13 @@ namespace star
 		bool UpdateGameWhenInactive() const;
 		bool ChangeResolutionWhenGoingFullScreen() const;
 
-		int GetBorderSizeX() const;
-		int GetBorderSizeY() const;
-		int GetCaptionHeight() const;
-		int GetTotalBorderWidth() const;
-		int GetTotalBorderHeight() const;
-		int GetCappedBorderX() const;
-
 		void ToggleFullScreen(HWND hWnd);
 		void SetFullScreen(HWND hWnd, bool fullscreen);
 		void UpdateClippingIfNeeded();
 		void SetWindowMoved();
 		void SetWindowActive(bool active);
+
+		int GetCaptionHeight() const;
 
 		void SetResolution(int width, int height);
 
@@ -96,10 +90,7 @@ namespace star
 		static const psip CLASS_STYLES[];
 		static const psip WINDOW_STYLES[];
 
-		int m_BorderSizeX,
-			m_BorderSizeY,
-			m_CaptionHeight,
-			m_CappedBorderX;
+		int m_CaptionHeight;
 
 		int CastStringToClassStyle(const tstring & style);
 		int CastStringToWinStyle(const tstring & style);

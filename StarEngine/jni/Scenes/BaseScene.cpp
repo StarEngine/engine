@@ -157,7 +157,7 @@ namespace star
 
 	status BaseScene::AfterInitializedObjects(const Context& context)
 	{
-		//CalculateViewPort();
+		CalculateViewPort();
 		return STATUS_OK;
 	}
 

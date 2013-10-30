@@ -2,8 +2,8 @@
 #ifdef _WIN32
 #include <shellapi.h>
 #include "../StarEngine.h"
-#include "../Logger.h"
 #endif
+#include "../Logger.h"
 //[TODO]
 //Add case sensitivity on windows. 
 // Probably using the SHGetFileInfo - SHGetFileInfoW functions. 

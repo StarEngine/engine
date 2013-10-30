@@ -179,31 +179,30 @@ namespace star
 
 			ASSERT(mHandle != NULL, _T("Couldn't create the window."));
 
-			m_BorderSizeX = GetSystemMetrics(SM_CXSIZEFRAME);
-			m_BorderSizeY = GetSystemMetrics(SM_CYSIZEFRAME);
-			m_CaptionHeight = GetSystemMetrics(SM_CYCAPTION);
-			m_CappedBorderX = GetSystemMetrics(SM_CXPADDEDBORDER);
-
-			int bw = GetTotalBorderWidth();
-			int bh = GetTotalBorderHeight();
-			position_width += bw;
-			position_height += bh;
-			position_x -= bw/2;
-			position_y -= bh/2;
-			SetWindowPos(	mHandle,
-							NULL,
-							position_x,
-							position_y,
-							position_width,
-							position_height,
-							SWP_SHOWWINDOW);
-
 			ShowWindow(mHandle, SW_SHOWNORMAL);
 			UpdateWindow(mHandle);
 
+			m_CaptionHeight = GetSystemMetrics(SM_CYCAPTION);
+
+			RECT winRec;
+			winRec.left = position_x;
+			winRec.right = winRec.left + position_width;
+			winRec.top = position_y;
+			winRec.bottom = winRec.top + position_height;
+
+			AdjustWindowRect(&winRec, windowStyles, false); 
+			
+			SetWindowPos(	mHandle,
+							NULL,
+							winRec.left,
+							winRec.top,
+							winRec.right - winRec.left,
+							winRec.bottom - winRec.top + m_CaptionHeight,
+							SWP_SHOWWINDOW);
+
 			InputManager::GetInstance()->SetWindowsHandle(mHandle);
 
-					PIXELFORMATDESCRIPTOR pixelFormatDesc = {
+			PIXELFORMATDESCRIPTOR pixelFormatDesc = {
 				sizeof(PIXELFORMATDESCRIPTOR),
 				1,
 				PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
@@ -245,7 +244,7 @@ namespace star
 			if(mClipRect.left != -1)
 			{
 				RECT windowRect;
-				GetWindowRect(mHandle, &windowRect);
+				GetClientRect(mHandle, &windowRect);
 
 				mClipRect.left += windowRect.left;
 				long width = string_cast<long>(clip_settings[_T("width")]);
@@ -268,8 +267,6 @@ namespace star
 				{
 					mClipRect.bottom = mClipRect.top + height;
 				}
-
-				CalculateRect(mClipRect);
 
 				ClipCursor(&mClipRect);
 			}
@@ -343,21 +340,10 @@ namespace star
 		, mClipRect()
 		, m_hKeybThread()
 		, m_dKeybThreadID()
-		, m_BorderSizeX(0)
-		, m_BorderSizeY(0)
-		, m_CaptionHeight(0)
-		, m_CappedBorderX(0)
+		, m_CaptionHeight()
 	{
 		InputManager::GetInstance()->StartKeyboardThread();
 		m_hKeybThread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE) :: KeybThreadProc, this, NULL, &m_dKeybThreadID);
-	}
-
-	void Window::CalculateRect(RECT & rect)
-	{
-		rect.top += GetCaptionHeight();
-		rect.left += GetBorderSizeX();
-		rect.right -= GetBorderSizeX();
-		rect.bottom -= GetBorderSizeY();
 	}
 
 	void Window::SetClipRect(const RECT & rect)
@@ -397,36 +383,6 @@ namespace star
 	bool Window::ChangeResolutionWhenGoingFullScreen() const
 	{
 		return m_ManipulateWindowResolution;
-	}
-
-	int Window::GetBorderSizeX() const
-	{
-		return m_BorderSizeX;
-	}
-
-	int Window::GetBorderSizeY() const
-	{
-		return m_BorderSizeY;
-	}
-
-	int Window::GetCaptionHeight() const
-	{
-		return m_CaptionHeight;
-	}
-
-	int Window::GetTotalBorderWidth() const
-	{
-		return GetBorderSizeX() * 2;
-	}
-
-	int Window::GetTotalBorderHeight() const
-	{
-		return GetBorderSizeY() + GetCaptionHeight();
-	}
-	
-	int Window::GetCappedBorderX() const
-	{
-		return m_CappedBorderX;
 	}
 
 	void Window::ToggleFullScreen(HWND hWnd)
@@ -523,13 +479,23 @@ namespace star
 	{
 		m_IsActive = active;
 	}
+
+	int Window::GetCaptionHeight() const
+	{
+		return m_CaptionHeight;
+	}
 	
 	void Window::SetResolution(int width, int height)
 	{
-		int w = GetTotalBorderWidth();
-		int h = GetTotalBorderHeight();
-		width += w;
-		height += h;
+		RECT winRec;
+		winRec.left = m_SavedWindowState.WinRect.left;
+		winRec.right = winRec.left + width;
+		winRec.top = m_SavedWindowState.WinRect.top;
+		winRec.bottom = winRec.top + height + m_CaptionHeight;
+
+		AdjustWindowRect(&winRec, m_SavedWindowState.Style, false); 
+		width = winRec.right - winRec.left;
+		height = winRec.bottom - winRec.top;
 
 		m_SavedWindowState.Maximized = IsZoomed(mHandle);
 		m_SavedWindowState.Style = GetWindowLong(mHandle, GWL_STYLE);
@@ -543,8 +509,8 @@ namespace star
 		bool isChangeSuccessful = ChangeDisplaySettings(NULL, CDS_RESET) == DISP_CHANGE_SUCCESSFUL;
 		//ASSERT(isChangeSuccessful, _T("Couldn't put the screen into windowed mode..."));
 		SetWindowPos(mHandle, HWND_NOTOPMOST, 
-			m_SavedWindowState.WinRect.left - w / 2,
-			m_SavedWindowState.WinRect.top - h / 2,
+			m_SavedWindowState.WinRect.left,
+			m_SavedWindowState.WinRect.top,
 			width,
 			height,
 			SWP_SHOWWINDOW);
@@ -737,16 +703,15 @@ namespace star
 
 	void UpdateWindowClipping(HWND hWnd)
 	{
-		RECT winRect;
-		GetWindowRect(hWnd, &winRect);
+		RECT clientRect;
+		GetClientRect(hWnd, &clientRect);
 		GraphicsManager::GetInstance()->SetWindowDimensions(
-			winRect.right - winRect.left, 
-			winRect.bottom - winRect.top);
+			clientRect.right - clientRect.left, 
+			clientRect.bottom - clientRect.top + Window::GetInstance()->GetCaptionHeight());
 		if(Window::GetInstance()->IsCursorClipped()
 					&& Window::GetInstance()->IsInitialized())
 		{
-			Window::GetInstance()->CalculateRect(winRect);
-			Window::GetInstance()->SetClipRect(winRect);
+			Window::GetInstance()->SetClipRect(clientRect);
 		}
 	}
 }
