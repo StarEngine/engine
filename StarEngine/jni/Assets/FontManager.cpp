@@ -211,7 +211,6 @@ namespace star
 		return true;   
 	}
 
-
 	mat4x4 FontManager::InverseMatrix(const mat4x4& matrix)
 	{
 		float x1, y1, z1, w1,

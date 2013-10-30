@@ -117,8 +117,7 @@ namespace star
 	bool TextureManager::ReloadAllTextures()
 	{
 		mTextureMap.clear();
-		auto it = mPathList.begin();
-		for(it; it != mPathList.end(); ++it)
+		for(auto it = mPathList.begin(); it != mPathList.end(); ++it)
 		{
 #ifdef DESKTOP
 			mTextureMap[it->second] = std::make_shared<Texture2D>(it->first);
