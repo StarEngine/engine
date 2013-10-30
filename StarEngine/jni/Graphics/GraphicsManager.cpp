@@ -165,6 +165,12 @@ namespace star
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		GLint temp[4];
+		glGetIntegerv(GL_VIEWPORT, temp);
+		tstringstream buffer;
+		buffer << _T("Viewport Width: ") << temp[2] << _T(" Viewport Height: ") << temp[3];
+		Logger::GetInstance()->Log(LogLevel::Info, buffer.str());
 	}
 
 	void GraphicsManager::StopDraw()

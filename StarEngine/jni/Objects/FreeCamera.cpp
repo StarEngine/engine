@@ -64,23 +64,26 @@ namespace star
 				}
 #endif
 			}
-			//CALCULATE TRANSFORMS
-			auto transform = GetComponent<TransformComponent>();
-			auto currPos = transform->GetWorldPosition();
-			auto currRot = transform->GetWorldRotation();
+			if(move != vec3() || look != vec2())
+			{
+				//CALCULATE TRANSFORMS
+				auto transform = GetComponent<TransformComponent>();
+				auto currPos = transform->GetWorldPosition();
+				auto currRot = transform->GetWorldRotation();
 	
-			currPos.y += static_cast<float>(move.y * m_MoveSpeed * context.mTimeManager->GetSeconds());
-			currPos.x += static_cast<float>(move.x * m_MoveSpeed * context.mTimeManager->GetSeconds());
+				currPos.y += static_cast<float>(move.y * m_MoveSpeed * context.mTimeManager->GetSeconds());
+				currPos.x += static_cast<float>(move.x * m_MoveSpeed * context.mTimeManager->GetSeconds());
 			
 	
-		//ROTATION
-		//m_TotalYaw += look.x * m_RotationSpeed * context.mTimeManager->GetSeconds();
-		//m_TotalPitch += look.y * m_RotationSpeed * context.mTimeManager->GetSeconds();
-		//
-		//quat finalOrientation(vec3(m_TotalYaw,m_TotalPitch,0));
-		//
-		transform->Translate(currPos);
-		//transform->Rotate(finalOrientation);
+				//ROTATION
+				//m_TotalYaw += look.x * m_RotationSpeed * context.mTimeManager->GetSeconds();
+				//m_TotalPitch += look.y * m_RotationSpeed * context.mTimeManager->GetSeconds();
+				//
+				//quat finalOrientation(vec3(m_TotalYaw,m_TotalPitch,0));
+				//
+				transform->Translate(currPos);
+				//transform->Rotate(finalOrientation);
+			}
 		}
 		Object::BaseUpdate(context);
 	}

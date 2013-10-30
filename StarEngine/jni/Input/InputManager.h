@@ -6,7 +6,7 @@
 #include <XInput.h>
 #include <map>
 
-#pragma comment(lib, "XInput.lib")
+#pragma comment(lib, "XInput9_1_0.lib")
 #else
 #include <vector>
 #include <android/input.h>
