@@ -148,7 +148,7 @@ tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 			}
 			auto index3 = shellFullPath.find_last_of(_T("."));
 			auto shellNameWithoutExtension(shellFullPath);
-			if(index != tstring::npos)
+			if(index3 != tstring::npos)
 			{
 				shellNameWithoutExtension = shellFullPath.substr(0,index3);
 			}

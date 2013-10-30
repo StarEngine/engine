@@ -36,7 +36,7 @@ namespace star
 	void BaseCamera::Translate(const pos& position)
 	{
 		float xPos = (position.pos2D().x) / ((ScaleSystem::GetInstance()->GetWorkingResolution().x)/2.0f);
-		float yPos = (position.pos2D().y) / ((ScaleSystem::GetInstance()->GetWorkingResolution().y - 78)/2.0f); 
+		float yPos = (position.pos2D().y) / ((ScaleSystem::GetInstance()->GetWorkingResolution().y)/2.0f); 
 		GetTransform()->Translate(xPos, yPos);
 	}
 }
