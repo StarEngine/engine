@@ -30,7 +30,7 @@ namespace star
 	private:
 		int32 m_FontSize;
 		tstring m_FileName;
-		tstring m_Tag;
+		tstring m_FontName;
 
 		Color m_TextColor;
 		float m_MaxWidth;

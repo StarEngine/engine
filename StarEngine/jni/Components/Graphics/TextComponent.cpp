@@ -12,11 +12,11 @@
 
 namespace star
 {
-	TextComponent::TextComponent(const tstring& fileName,const tstring& tag, int fontSize, bool bInFront)
+	TextComponent::TextComponent(const tstring& fileName,const tstring& name, int fontSize, bool bInFront)
 		: BaseComponent()
 		, m_FontSize(fontSize)
 		, m_FileName(fileName)
-		, m_Tag(tag)
+		, m_FontName(name)
 		, m_TextColor(Color::Black)
 		, m_MaxWidth(NO_WRAPPING)
 		, m_OrigText(EMPTY_STRING)
@@ -29,7 +29,7 @@ namespace star
 
 	void TextComponent::InitializeComponent()
 	{
-		if(!FontManager::GetInstance()->LoadFont(m_FileName,m_Tag,m_FontSize))
+		if(!FontManager::GetInstance()->LoadFont(m_FileName,m_FontName,m_FontSize))
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,_T("TextComponent : Could not load Font ")+m_FileName);
 		}
@@ -43,13 +43,13 @@ namespace star
 	{	
 		if(m_MaxWidth != NO_WRAPPING && !m_bCheckedWrapping)
 		{
-			m_EditedText = CheckWrapping(FontManager::GetInstance()->GetFont(m_Tag),m_OrigText,m_MaxWidth);
+			m_EditedText = CheckWrapping(FontManager::GetInstance()->GetFont(m_FontName),m_OrigText,m_MaxWidth);
 			m_bCheckedWrapping=true;
 		}
 
 		TextDesc desc;
 		desc.Text = m_EditedText;
-		desc.Fontname = m_Tag;
+		desc.Fontname = m_FontName;
 		desc.TransformComp = m_pParentObject->GetTransform();
 		desc.TextColor = m_TextColor;
 
