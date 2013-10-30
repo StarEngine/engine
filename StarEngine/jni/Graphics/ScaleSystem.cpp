@@ -36,6 +36,14 @@ namespace star
 		return m_WorkingRes;
 	}
 
+	vec2 ScaleSystem::GetActualResolution() const
+	{
+		return vec2(GraphicsManager::GetInstance()
+					->GetWindowWidth(), 
+					GraphicsManager::GetInstance()
+					->GetWindowHeight());
+	}
+
 	void ScaleSystem::SetWorkingResolution(const vec2& pixels)
 	{
 		m_bIninitialized = true;

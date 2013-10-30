@@ -11,7 +11,7 @@ namespace star
 	struct Context;
 	class Object;
 	class CameraComponent;
-	class FreeCamera;
+	class BaseCamera;
 
 	class BaseScene
 	{
@@ -36,7 +36,7 @@ namespace star
 		void RemoveObject(Object * object);
 
 		void SetActiveCamera(CameraComponent* pCameraComp);
-		FreeCamera* GetActiveCamera() const;
+		BaseCamera* GetActiveCamera() const;
 
 		std::shared_ptr<Stopwatch> GetStopwatch() const;
 
@@ -52,7 +52,7 @@ namespace star
 		std::shared_ptr<GestureManager> m_GestureManagerPtr;
 
 		std::vector<Object*> m_Objects;
-		FreeCamera* m_pDefaultCamera;
+		BaseCamera* m_pDefaultCamera;
 		std::shared_ptr<Stopwatch> m_pStopwatch;
 
 	private:

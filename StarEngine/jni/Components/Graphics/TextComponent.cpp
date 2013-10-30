@@ -12,7 +12,7 @@
 
 namespace star
 {
-	TextComponent::TextComponent(const tstring& fileName,const tstring& tag, int fontSize)
+	TextComponent::TextComponent(const tstring& fileName,const tstring& tag, int fontSize, bool bInFront)
 		: BaseComponent()
 		, m_FontSize(fontSize)
 		, m_FileName(fileName)
@@ -22,6 +22,7 @@ namespace star
 		, m_OrigText(EMPTY_STRING)
 		, m_EditedText(EMPTY_STRING)
 		, m_bCheckedWrapping(true)
+		, m_bInFront(bInFront)
 	{
 
 	}
@@ -36,12 +37,10 @@ namespace star
 
 	TextComponent::~TextComponent()
 	{
-
 	}
 
 	void TextComponent::Draw()
-	{
-		
+	{	
 		if(m_MaxWidth != NO_WRAPPING && !m_bCheckedWrapping)
 		{
 			m_EditedText = CheckWrapping(FontManager::GetInstance()->GetFont(m_Tag),m_OrigText,m_MaxWidth);
@@ -53,7 +52,8 @@ namespace star
 		desc.Fontname = m_Tag;
 		desc.TransformComp = m_pParentObject->GetTransform();
 		desc.TextColor = m_TextColor;
-		FontManager::GetInstance()->DrawText(desc);
+
+		SpriteBatch::GetInstance()->AddTextToQueue(desc, m_bInFront);
 	}
 
 	void TextComponent::Update(const Context& context)

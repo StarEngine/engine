@@ -3,7 +3,7 @@
 #include "../Input/InputManager.h"
 #include "../Objects/Object.h"
 #include "../StarComponents.h"
-#include "../Objects/FreeCamera.h"
+#include "../Objects/BaseCamera.h"
 #include "../Graphics/ScaleSystem.h"
 #include "../Graphics/GraphicsManager.h"
 
@@ -35,7 +35,7 @@ namespace star
 		status isInitialized(CreateObjects());
 		if(isInitialized == STATUS_OK)
 		{
-			m_pDefaultCamera = new FreeCamera();
+			m_pDefaultCamera = new BaseCamera();
 			AddObject(m_pDefaultCamera);
 
 			m_Initialized = true;
@@ -140,7 +140,7 @@ namespace star
 		camComp->Activate();
 	}
 	
-	FreeCamera* BaseScene::GetActiveCamera() const
+	BaseCamera* BaseScene::GetActiveCamera() const
 	{
 		return m_pDefaultCamera;
 	}

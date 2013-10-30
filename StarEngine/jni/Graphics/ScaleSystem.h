@@ -14,6 +14,7 @@ namespace star
 		void SetWorkingResolution(int xPixels, int yPixels);
 		void SetWorkingResolution(const vec2& pixels);
 		const vec2& GetWorkingResolution() const;
+		vec2 GetActualResolution() const;
 		float GetScale();
 		float GetAspectRatio();
 		void UpdateWorkingResolution();

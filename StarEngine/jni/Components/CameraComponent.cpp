@@ -5,6 +5,7 @@
 #include "../Context.h"
 #include "../Logger.h"
 #include "../Helpers/HelpersMath.h"
+#include "../Graphics/ScaleSystem.h"
 
 //General info
 //
@@ -13,7 +14,7 @@
 
 namespace star
 {
-	CameraComponent::CameraComponent():
+	CameraComponent::CameraComponent(bool bCanZoom):
 		BaseComponent(),
 		m_Projection(),
 		m_View(),
@@ -24,6 +25,7 @@ namespace star
 		m_Size(0.0f),
 		m_bIsActive(false),
 		m_bPerspectiveProjection(false),
+		m_bCanZoom(bCanZoom),
 		m_Zoom(1.0f),
 		m_ZoomSpeed(0.5f),
 		m_AspectRatio(1.0f)
@@ -71,15 +73,18 @@ namespace star
 			}
 		}
 
-		if(InputManager::GetInstance()->IsKeyboardKeyDown('O'))
+		if(m_bCanZoom)
 		{
-			m_Zoom += m_ZoomSpeed * static_cast<float>(context.mTimeManager->GetSeconds());			
-			m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
-		}
-		else if(InputManager::GetInstance()->IsKeyboardKeyDown('P'))
-		{
-			m_Zoom -= m_ZoomSpeed * static_cast<float>(context.mTimeManager->GetSeconds());
-			m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
+			if(InputManager::GetInstance()->IsKeyboardKeyDown('O'))
+			{
+				m_Zoom += m_ZoomSpeed * static_cast<float>(context.mTimeManager->GetSeconds());			
+				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
+			}
+			else if(InputManager::GetInstance()->IsKeyboardKeyDown('P'))
+			{
+				m_Zoom -= m_ZoomSpeed * static_cast<float>(context.mTimeManager->GetSeconds());
+				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
+			}
 		}
 #endif
 #ifdef STAR2D
@@ -175,14 +180,19 @@ namespace star
 		return m_View;
 	}
 
-	mat4x4 CameraComponent::GetProjection() const
+	const mat4x4 & CameraComponent::GetProjection() const
 	{
-		return m_Projection * m_ViewInverse;
+		return m_Projection;
 	}
 
 	const mat4x4 & CameraComponent::GetViewInverse() const
 	{
 		return m_ViewInverse;
+	}
+
+	mat4x4 CameraComponent::GetProjectionViewInvesre() const
+	{
+		return m_Projection * m_ViewInverse;
 	}
 
 	mat4x4 CameraComponent::MatrixPerspectiveFOV(float FovY, float ratio, float nearPlane, float farPlane)
