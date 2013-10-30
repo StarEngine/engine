@@ -28,7 +28,7 @@ namespace star
 	#ifdef _WIN32
 	void DoubleTapGesture::OnUpdateWinInputState()
 	{
-		if(INPUT_MANAGER->IsMouseButtonTapWIN(VK_LBUTTON))
+		if(INPUT_MANAGER->IsMouseButtonPressedWIN(VK_LBUTTON))
 		{
 			m_StartTime = m_TimeSinceBeginning;
 			if(m_Count < 1)
@@ -45,7 +45,7 @@ namespace star
 				}
 			}
 		}
-		if(INPUT_MANAGER->IsMouseButtonUpWIN(VK_LBUTTON))
+		if(INPUT_MANAGER->IsMouseButtonReleasedWIN(VK_LBUTTON))
 		{
 			if(m_bIsGestureOk)
 			{

@@ -75,9 +75,9 @@ namespace star
 
 		void UpdateGestures(const Context & context);
 
-		bool IsFingerTapCP(uint8 finger = 0) const;
+		bool IsFingerPressedCP(uint8 finger = 0) const;
 		bool IsFingerDownCP(uint8 finger = 0) const;
-		bool IsFingerUpCP(uint8 finger = 0) const;
+		bool IsFingerReleasedCP(uint8 finger = 0) const;
 		vec2 GetCurrentFingerPosCP(uint8 finger = 0) const;
 		vec2 GetOldFingerPosCP(uint8 finger = 0) const;
 		void EndUpdate();
@@ -111,8 +111,8 @@ namespace star
 		bool IsAnyKeyDown() const;
 
 		bool IsMouseButtonDownWIN(uint8 button , bool previousFrame = false) const;
-		bool IsMouseButtonTapWIN(uint8 button) const;
-		bool IsMouseButtonUpWIN(uint8 button) const;
+		bool IsMouseButtonPressedWIN(uint8 button) const;
+		bool IsMouseButtonReleasedWIN(uint8 button) const;
 
 		void SetWindowsHandle(const HWND hWnd);
 		DWORD UpdateWin();
@@ -121,9 +121,9 @@ namespace star
 
 		uint8 ConvertIndexToVK(uint8 fingerIndex) const;
 #else
-		bool IsTouchTapANDR(uint8 fingerIndex = 0) const;
+		bool IsTouchPressedANDR(uint8 fingerIndex = 0) const;
 		bool IsTouchDownANDR(uint8 fingerIndex = 0) const;
-		bool IsTouchUpANDR(uint8 fingerIndex = 0) const;
+		bool IsTouchReleasedANDR(uint8 fingerIndex = 0) const;
 		vec2 GetCurrentTouchPosANDR(uint8 fingerIndex = 0) const;
 		vec2 GetOldTouchPosANDR(uint8 fingerIndex = 0) const;
 		FingerPointerANDR GetTouchPropertiesANDR(uint8 fingerIndex = 0) const;

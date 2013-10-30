@@ -24,11 +24,11 @@ namespace star
 	#ifdef _WIN32
 	void TapGesture::OnUpdateWinInputState()
 	{
-		if(INPUT_MANAGER->IsMouseButtonTapWIN(VK_LBUTTON))
+		if(INPUT_MANAGER->IsMouseButtonPressedWIN(VK_LBUTTON))
 		{
 			m_StartTime = m_TimeSinceBeginning;
 		}
-		if(INPUT_MANAGER->IsMouseButtonUpWIN(VK_LBUTTON))
+		if(INPUT_MANAGER->IsMouseButtonReleasedWIN(VK_LBUTTON))
 		{
 			double timeSinceDown = m_TimeSinceBeginning - m_StartTime;
 			if(timeSinceDown > MINIMUM_TAP_TIME && timeSinceDown < MAXIMUM_TAP_TIME)

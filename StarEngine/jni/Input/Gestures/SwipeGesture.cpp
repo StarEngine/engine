@@ -29,7 +29,7 @@ namespace star
 	#ifdef _WIN32
 	void SwipeGesture::OnUpdateWinInputState()
 	{
-		if(INPUT_MANAGER->IsMouseButtonTapWIN(VK_LBUTTON))
+		if(INPUT_MANAGER->IsMouseButtonPressedWIN(VK_LBUTTON))
 		{
 			InitializeAllVars();
 		}
@@ -69,7 +69,7 @@ namespace star
 			}			
 
 		}
-		if(INPUT_MANAGER->IsMouseButtonUpWIN(VK_LBUTTON))
+		if(INPUT_MANAGER->IsMouseButtonReleasedWIN(VK_LBUTTON))
 		{
 			//Check if it really was a swipe: speed & distance
 			//div average dir by amount of times it was down, calc speed, dir and length :)
