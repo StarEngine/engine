@@ -15,21 +15,22 @@ namespace star
 	public:
 		~CollisionManager(void);
 		static CollisionManager * GetInstance();
-
-		void CheckCollision(const tstring& tag);
-		void AddObject(Object* object);
-		void RemoveObject(const Object* object);
+		bool CheckCollision(const Object* object1, const Object* object2) const;
 
 	private:
 		CollisionManager(void);
 
 		static CollisionManager * m_pCollisionManager;
-		std::vector<Object*> m_ObjectList, m_ActiveCollisionList;
+
+		bool RectangleCollision(const Object* object1, const Object* object2) const;
+		bool CircleCollision(const Object* object1, const Object* object2) const;
+		bool RectangleCircleCollision(const Object* object1, const Object* object2) const;
 
 		//disabling default copy constructor
 		CollisionManager(const CollisionManager& yRef);
 		CollisionManager(CollisionManager&& yRef);
 		CollisionManager& operator=(const CollisionManager& yRef);
+		CollisionManager& operator=(CollisionManager&& yRef);
 	};
 }
 
