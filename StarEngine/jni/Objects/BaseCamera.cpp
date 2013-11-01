@@ -22,15 +22,13 @@ namespace star
 		//Camera Component
 		m_pCamera = new CameraComponent();
 		AddComponent(m_pCamera);
-	
-		Object::Initialize();
-	
+
 		m_pCamera->SetActive();
 	}
 
-	void BaseCamera::BaseUpdate(const Context& context)
+	void BaseCamera::Update(const Context& context)
 	{
-		Object::BaseUpdate(context);
+
 	}
 
 	void BaseCamera::Translate(const pos& position)

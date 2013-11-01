@@ -41,7 +41,7 @@ namespace star
 			m_Initialized = true;
 			for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
 			{
-				m_Objects[i]->Initialize();
+				m_Objects[i]->BaseInitialize();
 			}
 			return AfterInitializedObjects(context);
 		}

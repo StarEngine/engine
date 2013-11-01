@@ -234,6 +234,9 @@
     <ClInclude Include="jni\Helpers\AARect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Objects\Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -432,6 +435,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Helpers\AARect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Objects\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

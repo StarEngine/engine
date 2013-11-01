@@ -21,7 +21,7 @@ namespace star
 
 		Object* GetParent() const;
 
-		virtual void Initialize();
+		void BaseInitialize();
 		void BaseUpdate(const Context& context);
 		void BaseDraw();
 
@@ -68,6 +68,7 @@ namespace star
 		T* GetChild(const tstring & name) const;
 
 	protected:
+		virtual void Initialize();
 		virtual void Update(const Context & context);
 		virtual void Draw();
 

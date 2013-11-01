@@ -1,7 +1,7 @@
 #pragma once
 #include "../defines.h"
 #include "../Context.h"
-#include "../Objects/Object.h"
+#include "Object.h"
 
 namespace star
 {
@@ -17,14 +17,14 @@ namespace star
 
 	protected:
 		virtual void Initialize();
-		virtual void BaseUpdate(const Context& context);
+		virtual void Update(const Context& context);
 		
-
-	private:
 		CameraComponent *m_pCamera;
-
+	private:
+		
 		BaseCamera(const BaseCamera &);
 		BaseCamera(BaseCamera &&);
 		BaseCamera & operator=(const BaseCamera &);
+		BaseCamera & operator=(BaseCamera&&);
 	};
 }

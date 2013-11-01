@@ -41,13 +41,14 @@ namespace star
 		return (m_pParentGameObject);
 	}
 
-	void Object::Initialize()
+	void Object::BaseInitialize()
 	{
 		if (m_bIsInitialized)
 		{
 			return;
 		}
 
+		Initialize();
 		for(auto *comp : m_pComponents)
 		{
 			if(comp && !comp->IsInitialized())
@@ -60,11 +61,16 @@ namespace star
 		{
 			if(child && !child->m_bIsInitialized)
 			{
-				child->Initialize();
+				child->BaseInitialize();
 			}
 		}
 
 		m_bIsInitialized = true;
+	}
+
+	void Object::Initialize()
+	{
+		//DO nothing, unless a derived class overrides this
 	}
 
 	void Object::Update(const Context& context)

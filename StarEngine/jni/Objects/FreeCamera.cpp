@@ -13,7 +13,6 @@ namespace star
 		,m_TotalYaw(0)
 		,m_MoveSpeed(1.0f)
 		,m_RotationSpeed(static_cast<float>(PI)/2)
-		,m_pCamera(nullptr)
 		,m_bisStatic(false)
 	{
 	}
@@ -27,18 +26,7 @@ namespace star
 		m_bisStatic = isStatic;
 	}
 
-	void FreeCamera::Initialize()
-	{
-		//Camera Component
-		m_pCamera = new CameraComponent(true);
-		AddComponent(m_pCamera);
-	
-		Object::Initialize();
-	
-		m_pCamera->SetActive();
-	}
-
-	void FreeCamera::BaseUpdate(const Context& context)
+	void FreeCamera::Update(const Context& context)
 	{
 		if(m_pCamera->IsActive())
 		{
@@ -74,7 +62,6 @@ namespace star
 				currPos.y += static_cast<float>(move.y * m_MoveSpeed * context.mTimeManager->GetSeconds());
 				currPos.x += static_cast<float>(move.x * m_MoveSpeed * context.mTimeManager->GetSeconds());
 			
-	
 				//ROTATION
 				//m_TotalYaw += look.x * m_RotationSpeed * context.mTimeManager->GetSeconds();
 				//m_TotalPitch += look.y * m_RotationSpeed * context.mTimeManager->GetSeconds();
@@ -85,6 +72,5 @@ namespace star
 				//transform->Rotate(finalOrientation);
 			}
 		}
-		Object::BaseUpdate(context);
 	}
 }
