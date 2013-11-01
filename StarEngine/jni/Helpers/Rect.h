@@ -10,26 +10,23 @@ namespace star
 	{
 	public:
 		Rect();
-		Rect(int x, int y, int width, int height);
-		Rect(const vec2& location,const vec2& size);
+		Rect(const vec2& leftTop, const vec2& rightTop, const vec2& leftBottom, const vec2& rightBottom);
+		//[TODO] write operators and copy constructors
 
-		int GetLeft() const;
-		int GetTop() const;
-		int GetRight() const;
-		int GetBottom() const;
+		const vec2& GetLeftTop() const;
+		const vec2& GetRightTop() const;
+		const vec2& GetLeftBottom() const;
+		const vec2& GetRightBottom() const;
 
-		bool Equals(const Rect& rect) const;
-		bool Contains(int x, int y) const;
-		bool Contains(const vec2& pt) const;
-		bool Contains(Rect& rect) const;
-		bool Intersect(const Rect& rect);
-
-		static bool Intersect(const Rect& a, const Rect& b);
+		int GetRealLeft() const;
+		int GetRealRight() const;
+		int GetRealTop() const;
+		int GetRealBottom() const;
 
 	private:
-		int m_X;
-		int m_Y;
-		int m_Width;
-		int m_Height;
+		vec2 m_LeftTop;
+		vec2 m_RightTop;
+		vec2 m_LeftBottom;
+		vec2 m_RightBottom;
 	};
 }

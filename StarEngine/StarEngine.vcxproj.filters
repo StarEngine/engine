@@ -228,6 +228,12 @@
     <ClInclude Include="jni\Objects\BaseCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Components\Physics\BaseColliderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Helpers\AARect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -420,6 +426,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Objects\BaseCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Components\Physics\BaseColliderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Helpers\AARect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

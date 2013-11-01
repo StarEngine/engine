@@ -453,10 +453,10 @@ namespace star
 			}
 			//[TODO] Change to %
 			m_CurrMousePosition = vec2(mousePos.x , /*(float)GraphicsManager::GetInstance()->GetWindowHeight()*/ - mousePos.y);
-			tstringstream buffer;
+			/*tstringstream buffer;
 			buffer << _T("Current Mouse Pos: ") << _T("( ") << m_CurrMousePosition.x << _T(" , ") << m_CurrMousePosition.y << _T(" )");
 			//buffer << _T("WindowHeight: ") <<  (float)GraphicsManager::GetInstance()->GetWindowHeight();
-			Logger::GetInstance()->Log(LogLevel::Info, buffer.str());
+			Logger::GetInstance()->Log(LogLevel::Info, buffer.str());*/
 			m_MouseMovement.x = m_CurrMousePosition.x - m_OldMousePosition.x;
 			m_MouseMovement.y = m_CurrMousePosition.y - m_OldMousePosition.y;
 
@@ -762,7 +762,7 @@ namespace star
 #ifdef _WIN32
 		return IsMouseButtonPressedWIN(ConvertIndexToVK(fingerIndex));
 #else
-		return (IsTouchTapANDR(fingerIndex));
+		return (IsTouchPressedANDR(fingerIndex));
 #endif
 	}
 
@@ -782,7 +782,7 @@ namespace star
 #ifdef _WIN32
 		return IsMouseButtonReleasedWIN(ConvertIndexToVK(fingerIndex));
 #else
-		return (IsTouchUpANDR(fingerIndex));
+		return (IsTouchReleasedANDR(fingerIndex));
 #endif
 	}
 

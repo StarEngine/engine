@@ -2,100 +2,117 @@
 
 namespace star
 {
-	Rect::Rect():
-		m_X(0),
-		m_Y(0),
-		m_Width(0),
-		m_Height(0)
+	Rect::Rect()
+		: m_LeftTop()
+		, m_RightTop()
+		, m_LeftBottom()
+		, m_RightBottom()
 	{
 	}
 
-	Rect::Rect(int x, int y, int width, int height):
-		m_X(x),
-		m_Y(y),
-		m_Width(width),
-		m_Height(height)
+	Rect::Rect(const vec2& leftTop, const vec2& rightTop, 
+		const vec2& leftBottom, const vec2& rightBottom):
+		m_LeftTop(leftTop),
+		m_RightTop(rightTop),
+		m_LeftBottom(leftBottom),
+		m_RightBottom(rightBottom)
 	{
-		ASSERT(m_Width >= 0, _T("Width can't be negative!"));
-		ASSERT(m_Height >= 0, _T("Height can't be negative!"));
-
-		tstringstream str;
-		str << _T("Rect Created \t");
-		str << _T("(") << x << _T(", ") << y << _T(", ") << width << _T(", ") << height << _T(")");
-		Logger::GetInstance()->Log(LogLevel::Info,str.str());
+	//Check if the rect is a  rect! (all angles 90°)	
+		ASSERT(glm::dot(rightTop - leftTop , leftBottom - leftTop) == 0 
+			|| glm::dot(leftTop - rightTop , rightBottom - rightTop) == 0 
+			|| glm::dot(rightTop - rightBottom, leftBottom - rightBottom) == 0
+			, _T("The Rect is not a rectangle!!"));
 	}
 
-	Rect::Rect(const vec2& location,const vec2& size)
+	const vec2& Rect::GetLeftTop() const
 	{
-		m_X = static_cast<int>(location.x);
-		m_Y = static_cast<int>(location.y);
-		m_Width = static_cast<int>(size.x);
-		m_Height = static_cast<int>(size.y);
+		return m_LeftTop;
 	}
 
-	int Rect::GetLeft() const
+	const vec2& Rect::GetRightTop() const
 	{
-		return m_X;
+		return m_RightTop;
 	}
 
-	int Rect::GetTop() const
+	const vec2& Rect::GetRightBottom() const
 	{
-		return m_Y;
+		return m_RightBottom;
 	}
 
-	int Rect::GetRight() const
+	const vec2& Rect::GetLeftBottom() const
 	{
-		return m_X + m_Width;
+		return m_LeftBottom;
 	}
 
-	int Rect::GetBottom() const
+	int Rect::GetRealLeft() const
 	{
-		return m_Y + m_Height;
+		int realLeft(int(m_LeftTop.x));
+		if(realLeft > m_LeftBottom.x)
+		{
+			realLeft = int(m_LeftBottom.x);
+		}
+		if(realLeft > m_RightBottom.x)
+		{
+			realLeft = int(m_RightBottom.x);
+		}
+		if(realLeft > m_RightTop.x)
+		{
+			realLeft = int(m_RightTop.x);
+		}
+		return realLeft;
 	}
 
-	bool Rect::Equals(const Rect& rect) const
+	int Rect::GetRealRight() const
 	{
-		return m_X == rect.m_X &&
-			m_Y == rect.m_Y &&
-			m_Width == rect.m_Width &&
-			m_Height == rect.m_Height;
+		int realRight(int(m_RightTop.x));
+		if(realRight < m_LeftBottom.x)
+		{
+			realRight = int(m_LeftBottom.x);
+		}
+		if(realRight < m_RightBottom.x)
+		{
+			realRight = int(m_RightBottom.x);
+		}
+		if(realRight < m_LeftTop.x)
+		{
+			realRight = int(m_LeftTop.x);
+		}
+		return realRight;
 	}
 
-	bool Rect::Contains(int x, int y) const
+	int Rect::GetRealTop() const
 	{
-		return x >= m_X && x < m_X + m_Width &&
-			y >= m_Y && y < m_Y + m_Height;
+		int realTop(int(m_RightTop.y));
+		if(realTop < m_LeftBottom.y)
+		{
+			realTop = int(m_LeftBottom.y);
+		}
+		if(realTop < m_RightBottom.y)
+		{
+			realTop = int(m_RightBottom.y);
+		}
+		if(realTop < m_LeftTop.y)
+		{
+			realTop = int(m_LeftTop.y);
+		}
+		return realTop;
 	}
 
-	bool Rect::Contains(const glm::vec2& pt) const
+	int Rect::GetRealBottom() const
 	{
-		return Contains(static_cast<int>(pt.x), static_cast<int>(pt.y));
-	}
-
-	bool Rect::Contains(Rect& rect) const
-	{
-		return (m_X <= rect.m_X) && (rect.GetRight() <= GetRight()) &&
-				(m_Y <= rect.m_Y) && (rect.GetBottom() <= GetBottom());
-	}
-
-	bool Rect::Intersect(const Rect& rect)
-	{
-		return Intersect(*this, rect);
-	}
-
-	bool Rect::Intersect(const Rect& a, const Rect& b)
-	{
-		int right = min(a.GetRight(), b.GetRight());
-		int bottom = min(a.GetBottom(), b.GetBottom());
-		int left = max(a.GetLeft(), b.GetLeft());
-		int top = max(a.GetTop(), b.GetTop());
-
-		Rect c;
-		c.m_X = left;
-		c.m_Y = top;
-		c.m_Width = right - left;
-		c.m_Height = bottom - top;
-
-		return !(c.m_Width <= 0 || c.m_Height <= 0);
+		int realBottom(int(m_LeftBottom.y));
+		if(realBottom > m_LeftTop.y)
+		{
+			realBottom = int(m_LeftTop.y);
+		}
+		if(realBottom > m_RightBottom.y)
+		{
+			realBottom = int(m_RightBottom.y);
+		}
+		if(realBottom > m_RightTop.y)
+		{
+			realBottom = int(m_RightTop.y);
+		}
+		return realBottom;
 	}
 }
