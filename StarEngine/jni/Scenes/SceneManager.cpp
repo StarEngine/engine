@@ -25,6 +25,7 @@ namespace star
 		, mApplicationPtr(nullptr)
 #endif
 	{
+
 	}
 
 	SceneManager::~SceneManager(void)
@@ -203,8 +204,6 @@ namespace star
 			m_ActiveScene->OnSaveState(&mApplicationPtr->savedState,&mApplicationPtr->savedStateSize);
 			break;
 
-
-
 		}
 	}
 
@@ -232,5 +231,6 @@ namespace star
 		}
 		return (false);
 	}
+
 #endif
 }

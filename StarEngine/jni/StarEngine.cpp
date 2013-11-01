@@ -37,8 +37,9 @@ namespace star
 		//for android these will be fetched when setting up the OpenGL context
 		//within the Graphics Manager
 #ifdef DESKTOP
-		GraphicsManager::GetInstance()->Initialize(window_width, window_height);
+		GraphicsManager::GetInstance()->Initialize(window_width,window_height);
 #endif
+
 		SoundService::GetInstance()->Start();
 
 		return STATUS_OK;
@@ -52,24 +53,30 @@ namespace star
 		{
 			return STATUS_KO;
 		}
-		
 		InputManager::GetInstance()->EndUpdate();
 		Logger::GetInstance()->CheckGlError();
-
+		m_bInitialized=true;
 		return STATUS_OK;
 	}
 
 	status StarEngine::Draw()
 	{
 		GraphicsManager::GetInstance()->StartDraw();
-
-		if(SceneManager::GetInstance()->Draw() != STATUS_OK)
+		if(m_bInitialized)
 		{
-			return STATUS_KO;
+			if(SceneManager::GetInstance()->Draw() != STATUS_OK)
+			{
+				return STATUS_KO;
+			}
 		}
+		else
+		{
+			glClearColor(1.0f, 1.0f, 0.0f, 1.0f); // Clear the background of our window to red
+			glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); 
 
+		}
 		GraphicsManager::GetInstance()->StopDraw();
-		
+
 		return STATUS_OK;
 	}
 
@@ -149,7 +156,10 @@ namespace star
 		: m_FPS()
 		, m_Title(EMPTY_STRING)
 		, m_SubTitle(EMPTY_STRING)
-		, m_TitleHasUpdated(false)
+		, m_TitleHasUpdated(false) 
+		, m_bInitialized (false)
 	{
+
 	}
+
 }

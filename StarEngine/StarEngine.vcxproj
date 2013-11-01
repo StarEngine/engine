@@ -137,6 +137,7 @@
     <ClInclude Include="jni\Scenes\BaseScene.h" />
     <ClInclude Include="jni\Physics\Collision\CollisionManager.h" />
     <ClInclude Include="jni\AI\Pathfinding\PathFindManager.h" />
+    <ClInclude Include="jni\Scenes\LoadScreen.h" />
     <ClInclude Include="jni\Scenes\SceneManager.h" />
     <ClInclude Include="jni\AI\Pathfinding\SearchCell.h" />
     <ClInclude Include="jni\Scenes\TiledScene.h" />
@@ -205,6 +206,7 @@
     <ClCompile Include="jni\Scenes\BaseScene.cpp" />
     <ClCompile Include="jni\Physics\Collision\CollisionManager.cpp" />
     <ClCompile Include="jni\AI\Pathfinding\PathFindManager.cpp" />
+    <ClCompile Include="jni\Scenes\LoadScreen.cpp" />
     <ClCompile Include="jni\Scenes\SceneManager.cpp" />
     <ClCompile Include="jni\AI\Pathfinding\SearchCell.cpp" />
     <ClCompile Include="jni\Scenes\TiledScene.cpp" />

@@ -28,6 +28,7 @@ namespace star
 		status Update(const Context& context);
 		status Draw();
 
+
 #ifdef ANDROID
 		void processActivityEvent(int32 pCommand, android_app* pApplication);
 		int32 processInputEvent(AInputEvent* pEvent);
@@ -37,6 +38,7 @@ namespace star
 #endif
 	private:
 		static SceneManager * m_pSceneManager;
+
 
 		BaseScene	*m_ActiveScene, 
 					*m_NewActiveScene;

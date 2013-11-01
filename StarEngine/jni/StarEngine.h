@@ -4,6 +4,8 @@
 #include "Helpers/FPS.h"
 #include <memory>
 
+#include "Scenes/LoadScreen.h"
+
 #ifdef ANDROID
 #include "android_native_app_glue.h"
 #include  <SLES/OpenSLES.h>
@@ -23,12 +25,10 @@ namespace star
 		~StarEngine();
 
 		static std::shared_ptr<StarEngine> GetInstance();
-
 		status Initialize(int32 window_width, int32 window_height);
 
 		status Update(const Context & context);
 		status Draw();
-
 		status End();
 
 		void SetActive();
@@ -57,7 +57,7 @@ namespace star
 #ifdef ANDROID
 		android_app *m_pAndroidApp;
 #endif
-
+		bool m_bInitialized;
 		StarEngine();
 
 #ifdef _WIN32
