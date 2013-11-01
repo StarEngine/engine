@@ -16,7 +16,7 @@ namespace star
 	class SpriteComponent : public BaseComponent
 	{
 	public:
-		SpriteComponent(const tstring& filepath, const tstring& spriteName, bool bIsHUDElement = false);
+		SpriteComponent(const tstring& filepath, const tstring& spriteName, bool bIsHUDElement = false, int widthSegments = 1, int heightSegments = 1);
 		virtual ~SpriteComponent();
 
 		void Draw();
@@ -28,6 +28,8 @@ namespace star
 		int32 GetHeight() const;
 		std::vector<GLfloat> GetVertices() const;
 		std::vector<GLfloat> GetUVCoords() const;
+		
+		void SetCurrentSegment(int widthSegment, int heightSegment);
 
 	protected:
 		virtual void InitializeComponent();
@@ -36,8 +38,8 @@ namespace star
 
 		GLfloat m_Vertices[12];
 		GLfloat m_UvCoords[8];
-		int32 m_Width;
-		int32 m_Heigth;
+		int32 m_Width, m_WidthSegments, m_CurrentWidthSegment;
+		int32 m_Heigth, m_HeightSegments, m_CurrentHeightSegment;
 	private:
 		
 		mat4x4 InverseMatrix(const mat4x4& matrix);

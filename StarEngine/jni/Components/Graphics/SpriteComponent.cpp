@@ -10,10 +10,14 @@
 
 namespace star
 {
-	SpriteComponent::SpriteComponent(const tstring& filepath,const tstring& spriteName, bool bIsHUDElement)
+	SpriteComponent::SpriteComponent(const tstring& filepath,const tstring& spriteName, bool bIsHUDElement, int widthSegments, int heightSegments)
 		: BaseComponent()
 		, m_Width(0)
+		, m_WidthSegments(widthSegments)
+		, m_CurrentWidthSegment(0)
 		, m_Heigth(0)
+		, m_HeightSegments(heightSegments)
+		, m_CurrentHeightSegment(0)
 		, m_Shader()
 		, m_FilePath(filepath)
 		, m_SpriteName(spriteName)
@@ -37,8 +41,8 @@ namespace star
 				}
 		
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetFullPath(),m_SpriteName);
-		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x;
-		m_Heigth =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y;
+		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x / m_WidthSegments;
+		m_Heigth =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y / m_HeightSegments;
 
 		CreateVertices();
 		CreateIndices();
@@ -73,14 +77,19 @@ namespace star
 
 	void SpriteComponent::CreateIndices()
 	{
-		m_UvCoords[0] = 1.0f;
-		m_UvCoords[1] = 1.0f;
-		m_UvCoords[2] = 1.0f;
-		m_UvCoords[3] = 0.0f;
-		m_UvCoords[4] = 0.0f;
-		m_UvCoords[5] = 1.0f;
-		m_UvCoords[6] = 0.0f;
-		m_UvCoords[7] = 0.0f;
+		float startX = static_cast<float>(m_CurrentWidthSegment) / static_cast<float>(m_WidthSegments);
+		float endX = 1.0f / m_WidthSegments;
+		float startY = static_cast<float>(m_CurrentHeightSegment) / static_cast<float>(m_HeightSegments);
+		float endY = 1.0f / m_HeightSegments;
+
+		m_UvCoords[0] = startX + endX;
+		m_UvCoords[1] = startY + endY;
+		m_UvCoords[2] = startX + endX;
+		m_UvCoords[3] = startY;
+		m_UvCoords[4] = startX;
+		m_UvCoords[5] = startY + endY;
+		m_UvCoords[6] = startX;
+		m_UvCoords[7] = startY;
 	}
 
 	void SpriteComponent::Draw()
@@ -168,5 +177,13 @@ namespace star
 			uvCoords.push_back(m_UvCoords[i]);
 		}
 		return uvCoords;
+	}
+
+	void SpriteComponent::SetCurrentSegment(int widthSegment, int heightSegment)
+	{
+		m_CurrentWidthSegment = widthSegment;
+		m_CurrentHeightSegment = heightSegment;
+
+		CreateIndices();
 	}
 }
