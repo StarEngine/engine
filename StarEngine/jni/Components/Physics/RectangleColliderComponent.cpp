@@ -4,33 +4,51 @@
 #include "../../Logger.h"
 namespace star
 {
-	RectangleColliderComponent::RectangleColliderComponent(const vec2& leftTop, 
-			const vec2& rightTop, const vec2& leftBottom, const vec2& rightBottom)
+
+	RectangleColliderComponent::RectangleColliderComponent()
 		: BaseColliderComponent()
-		, m_CollisionRect(leftTop,rightTop, leftBottom, rightBottom)
+		, m_CollisionRect()
+		, m_bDefaultInitialized(true)
 	{
-
 	}
-
-	RectangleColliderComponent::RectangleColliderComponent(const Rect& rect)
+	
+	RectangleColliderComponent::RectangleColliderComponent(const vec2& size)
 		: BaseColliderComponent()
-		, m_CollisionRect(rect)
+		, m_CollisionRect(vec2(),vec2(size.x, 0),vec2(0, size.y), vec2(size.x, size.y))
+		, m_bDefaultInitialized(false)
 	{
 
 	}
 
-	RectangleColliderComponent::RectangleColliderComponent(const vec2& leftTop, const vec2& rightTop,
-			const vec2& leftBottom, const vec2& rightBottom, const tstring* layers, uint8 n)
-		: BaseColliderComponent(layers, n)
-		, m_CollisionRect(leftTop,rightTop, leftBottom, rightBottom)
+	RectangleColliderComponent::RectangleColliderComponent(float width, float height)
+		: BaseColliderComponent()
+		, m_CollisionRect(vec2(),vec2(width, 0),vec2(0, height), vec2(width, height))
+		, m_bDefaultInitialized(false)
 	{
 
 	}
 
-	RectangleColliderComponent::RectangleColliderComponent(const Rect& rect, 
-			const tstring* layers, uint8 n)
+	RectangleColliderComponent::RectangleColliderComponent(const tstring* layers, uint8 n)
 		: BaseColliderComponent(layers, n)
-		, m_CollisionRect(rect)
+		, m_CollisionRect()
+		, m_bDefaultInitialized(true)
+	{
+
+	}
+
+	RectangleColliderComponent::RectangleColliderComponent(const vec2& size, 
+		const tstring* layers, uint8 n)
+		: BaseColliderComponent(layers, n)
+		, m_CollisionRect(vec2(),vec2(size.x, 0),vec2(0, size.y), vec2(size.x, size.y))
+		, m_bDefaultInitialized(false)
+	{
+
+	}
+	RectangleColliderComponent::RectangleColliderComponent(float width, float height, 
+		const tstring* layers, uint8 n)
+		: BaseColliderComponent(layers, n)
+		, m_CollisionRect(vec2(),vec2(width, 0),vec2(0, height), vec2(width, height))
+		, m_bDefaultInitialized(false)
 	{
 
 	}
@@ -41,7 +59,11 @@ namespace star
 
 	void RectangleColliderComponent::InitializeColliderComponent()
 	{
-		
+		if(m_bDefaultInitialized)
+		{
+			//Initialize the rectangle with the values of the visible part of the sprite
+
+		}
 	}
 
 	bool RectangleColliderComponent::CollidesWithPoint(const pos& point) const
@@ -191,15 +213,33 @@ namespace star
 		return minimum;
 	}
 
+	float RectangleColliderComponent::GetCollisionRectWidth() const
+	{
+		return m_CollisionRect.GetWidth();
+	}
+
+	float RectangleColliderComponent::GetCollisionRectHeight() const
+	{
+		return m_CollisionRect.GetHeight();
+	}
+
+	vec2 RectangleColliderComponent::GetColliisonRectSize() const
+	{
+		return vec2(m_CollisionRect.GetWidth(), m_CollisionRect.GetHeight());
+	}
+
+	void RectangleColliderComponent::SetCollisionRectSize(float width, float height)
+	{
+		m_CollisionRect.SetPoints(vec2(0, 0), vec2(width, 0), vec2(0, height), vec2(width, height));
+	}
+
+	void RectangleColliderComponent::SetCollisionRectSize(const vec2& size)
+	{
+		m_CollisionRect.SetPoints(vec2(0, 0), vec2(size.x, 0), vec2(0, size.y), vec2(size.x, size.y));
+	}
+
 	const Rect& RectangleColliderComponent::GetCollisionRect() const
 	{
-		return m_CollisionRect;
+		return m_CollisionRect /** GetTransform()->GetWorldMatrix()*/;
 	}
-
-	void RectangleColliderComponent::SetCollisionRect(const Rect& rect)
-	{
-		m_CollisionRect = rect;
-	}
-
-
 }

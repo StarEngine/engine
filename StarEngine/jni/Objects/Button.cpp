@@ -1,4 +1,5 @@
 #include "Button.h"
+#include "../StarComponents.h"
 
 enum ButtonInput
 {
@@ -8,12 +9,18 @@ enum ButtonInput
 
 namespace star
 {
-	Button::Button(tstring assetFile, bool isSpriteSheet = false)
+	Button::Button(const tstring& assetFile, const tstring& spriteName, 
+		bool isSpriteSheet, int heightSegments,  bool isHudElement)
 		: Object()
 		, m_OnClick(nullptr)
 		, m_OnHover(nullptr)
 		, m_OnLeave(nullptr)
-		, m_IsSpriteSheet(isSpriteSheet)
+		, m_bIsSpriteSheet(isSpriteSheet)
+		, m_bIsHudElement(isHudElement)
+		, m_bIsHovered(false)
+		, m_FilePath(assetFile)
+		, m_SpriteName(spriteName)
+		, m_HeightSegments(heightSegments)
 	{
 		
 	}
@@ -25,6 +32,20 @@ namespace star
 
 	void Button::Initialize()
 	{
+		SpriteComponent* spriteSheetComp = nullptr;
+		if(m_bIsSpriteSheet)
+		{
+			spriteSheetComp = new SpriteComponent(m_FilePath, 
+				m_SpriteName,m_bIsHudElement,1,m_HeightSegments);
+		}
+		else
+		{
+			spriteSheetComp = new SpriteComponent(m_FilePath, 
+				m_SpriteName,m_bIsHudElement);
+		}
+		AddComponent(spriteSheetComp);
+		RectangleColliderComponent* rectColliderComp = 
+			new RectangleColliderComponent();
 		/*
 		SpriteComponent::InitializeComponent();
 

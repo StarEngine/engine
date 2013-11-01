@@ -11,13 +11,14 @@ namespace star
 	class RectangleColliderComponent final : public BaseColliderComponent
 	{
 	public:
-		RectangleColliderComponent(const vec2& leftTop, const vec2& rightTop,
-			const vec2& leftBottom, const vec2& rightBottom);
-		RectangleColliderComponent(const Rect& rect);
-		RectangleColliderComponent(const vec2& leftTop, const vec2& rightTop,
-			const vec2& leftBottom, const vec2& rightBottom, 
-			const tstring* layers, uint8 n = 1);
-		RectangleColliderComponent(const Rect& rect, const tstring* layers, uint8 n = 1);
+		RectangleColliderComponent();
+		RectangleColliderComponent(const vec2& size);
+		RectangleColliderComponent(float width, float height);
+
+		RectangleColliderComponent(const tstring* layers, uint8 n = 1);
+		RectangleColliderComponent(const vec2& size, const tstring* layers, uint8 = 1);
+		RectangleColliderComponent(float width, float height, const tstring* layers, uint8 = 1);
+
 		~RectangleColliderComponent();
 
 		bool CollidesWithPoint(const pos& point) const;
@@ -25,7 +26,13 @@ namespace star
 		void CollidesWith(const BaseColliderComponent* other) const;
 
 		const Rect& GetCollisionRect() const;
-		void SetCollisionRect(const Rect& rect);
+
+		float GetCollisionRectWidth() const;
+		float GetCollisionRectHeight() const;
+		vec2 GetColliisonRectSize() const;
+
+		void SetCollisionRectSize(float width, float height);
+		void SetCollisionRectSize(const vec2& size);
 
 	protected:
 		void InitializeColliderComponent();
@@ -35,6 +42,7 @@ namespace star
 		Rect m_CollisionRect;
 
 	private:
+		bool m_bDefaultInitialized;
 
 		float CalculateMinimum(std::vector<float> vec) const;
 		float CalculateMaximum(std::vector<float> vec) const;
