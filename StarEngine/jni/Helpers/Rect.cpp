@@ -35,6 +35,33 @@ namespace star
 		m_Diagonal = glm::length(m_RightBottom - m_LeftTop);
 	}
 
+	Rect Rect::operator*(glm::mat4x4 matrix) const
+	{
+		vec4 returnVec1 = glm::mul(vec4(m_LeftBottom.x, m_LeftBottom.y, 0, 0), matrix);
+		vec4 returnVec2 = glm::mul(vec4(m_RightBottom.x, m_RightBottom.y, 0, 0), matrix);
+		vec4 returnVec3 = glm::mul(vec4(m_LeftTop.x, m_LeftTop.y, 0, 0), matrix);
+		vec4 returnVec4 = glm::mul(vec4(m_RightTop.x, m_RightTop.y, 0, 0), matrix);
+
+		return Rect(vec2(returnVec1.x , returnVec1.y),
+					vec2(returnVec2.x , returnVec2.y),
+					vec2(returnVec3.x , returnVec3.y),
+					vec2(returnVec4.x , returnVec4.y));
+	}
+
+	Rect& Rect::operator*=(const glm::mat4x4 matrix)
+	{
+		vec4 returnVec1 = glm::mul(vec4(m_LeftBottom.x, m_LeftBottom.y, 0, 0), matrix);
+		vec4 returnVec2 = glm::mul(vec4(m_RightBottom.x, m_RightBottom.y, 0, 0), matrix);
+		vec4 returnVec3 = glm::mul(vec4(m_LeftTop.x, m_LeftTop.y, 0, 0), matrix);
+		vec4 returnVec4 = glm::mul(vec4(m_RightTop.x, m_RightTop.y, 0, 0), matrix);
+
+		m_LeftBottom = vec2(returnVec1.x, returnVec1.y);
+		m_RightBottom = vec2(returnVec2.x , returnVec2.y);
+		m_LeftTop = vec2(returnVec3.x , returnVec3.y);
+		m_RightTop = vec2(returnVec4.x , returnVec4.y);
+		return *this;
+	}
+
 	float Rect::GetWidth() const
 	{
 		return m_Width;
@@ -170,5 +197,4 @@ namespace star
 	{
 		m_RightBottom = pos;
 	}
-
 }

@@ -237,6 +237,9 @@
     <ClInclude Include="jni\Objects\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Helpers\glm\gtx\verbose_operator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">

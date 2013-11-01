@@ -1,8 +1,8 @@
 #pragma once
 
-#include "glm\glm.h"
 #include <algorithm>
 #include "..\Logger.h"
+#include "../defines.h"
 
 namespace star
 {
@@ -14,6 +14,8 @@ namespace star
 		const vec2& leftTop, const vec2& rightTop);
 		//[TODO] write operators and copy constructors
 
+		Rect operator*(glm::mat4x4 matrix) const;
+		Rect& operator*=(const glm::mat4x4 matrix);
 
 		float GetWidth() const;
 		float GetHeight() const;

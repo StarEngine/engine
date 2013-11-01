@@ -110,6 +110,7 @@
     <ClInclude Include="jni\Helpers\Dictionary.h" />
     <ClInclude Include="jni\Helpers\Filepath.h" />
     <ClInclude Include="jni\Helpers\FPS.h" />
+    <ClInclude Include="jni\Helpers\glm\gtx\verbose_operator.hpp" />
     <ClInclude Include="jni\Helpers\Helpers.h" />
     <ClInclude Include="jni\Helpers\HelpersMath.h" />
     <ClInclude Include="jni\Helpers\Rect.h" />

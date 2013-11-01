@@ -240,6 +240,7 @@ namespace star
 
 	const Rect& RectangleColliderComponent::GetCollisionRect() const
 	{
-		return m_CollisionRect /** GetTransform()->GetWorldMatrix()*/;
+		//[TODO] test if this works
+		return m_CollisionRect * GetTransform()->GetWorldMatrix();
 	}
 }
