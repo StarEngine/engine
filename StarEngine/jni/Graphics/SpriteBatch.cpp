@@ -235,6 +235,7 @@ namespace star
 	
 		auto projectionObject = star::SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
 		mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
+		mat4x4 viewInverse = projectionObject->GetComponent<CameraComponent>()->GetViewInverse();
 		int offsetX = 0;
 		int offsetY = 0;
 		for(auto it=lines.begin(); it!=lines.end();++it)
@@ -263,7 +264,7 @@ namespace star
 				}
 				world = transform->GetWorldMatrix() * offsetTrans;
 
-				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),1,GL_FALSE,glm::value_ptr(InverseMatrix(world) * projection));
+				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),1,GL_FALSE,glm::value_ptr(InverseMatrix(world) * projection * viewInverse));
 				glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 			}
 			offsetY -= curfont.GetMaxLetterHeight();

@@ -26,11 +26,6 @@ namespace star
 		m_pCamera->SetActive();
 	}
 
-	void BaseCamera::Update(const Context& context)
-	{
-
-	}
-
 	void BaseCamera::Translate(const pos& position)
 	{
 		float xPos = (position.pos2D().x) / ((ScaleSystem::GetInstance()->GetWorkingResolution().x)/2.0f);

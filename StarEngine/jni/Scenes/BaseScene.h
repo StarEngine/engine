@@ -35,7 +35,7 @@ namespace star
 		void AddObject(Object * object); 
 		void RemoveObject(Object * object);
 
-		void SetActiveCamera(CameraComponent* pCameraComp);
+		void SetActiveCamera(BaseCamera* pCamera);
 		BaseCamera* GetActiveCamera() const;
 
 		std::shared_ptr<Stopwatch> GetStopwatch() const;

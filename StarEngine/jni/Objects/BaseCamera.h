@@ -12,16 +12,14 @@ namespace star
 	public:
 		BaseCamera(void);
 		virtual ~BaseCamera(void);
-
 		void Translate(const pos& position);
 
 	protected:
 		virtual void Initialize();
-		virtual void Update(const Context& context);
-		
 		CameraComponent *m_pCamera;
 	private:
 		
+	private:
 		BaseCamera(const BaseCamera &);
 		BaseCamera(BaseCamera &&);
 		BaseCamera & operator=(const BaseCamera &);

@@ -36,7 +36,6 @@ namespace star
 		if(isInitialized == STATUS_OK)
 		{
 			m_pDefaultCamera = new BaseCamera();
-			AddObject(m_pDefaultCamera);
 
 			m_Initialized = true;
 			for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
@@ -128,16 +127,21 @@ namespace star
 		}
 	}
 
-	void BaseScene::SetActiveCamera(CameraComponent* pCameraComponent)
+	void BaseScene::SetActiveCamera(BaseCamera* pCamera)
 	{
-		auto camComp = m_pDefaultCamera->GetComponent<CameraComponent>();
-		if(camComp != nullptr)
+		if(m_pDefaultCamera == pCamera)
 		{
-			camComp->Deactivate();
+			return;
 		}
 
-		camComp = pCameraComponent;
-		camComp->Activate();
+		if(m_pDefaultCamera != nullptr)
+		{
+			delete m_pDefaultCamera;
+			m_pDefaultCamera = nullptr;
+		}
+
+		m_pDefaultCamera = pCamera;
+		m_pDefaultCamera->GetComponent<CameraComponent>()->Activate();
 	}
 	
 	BaseCamera* BaseScene::GetActiveCamera() const

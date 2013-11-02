@@ -11,9 +11,8 @@ namespace star
 	public:
 		FreeCamera(void);
 		virtual ~FreeCamera(void);
-
 		void SetStatic(bool isStatic);
-
+		
 	protected:
 		virtual void Update(const Context& context);
 		

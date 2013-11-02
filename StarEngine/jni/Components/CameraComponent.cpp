@@ -156,7 +156,7 @@ namespace star
 		}
 		else
 		{
-			scene->SetActiveCamera(this);
+			scene->SetActiveCamera(reinterpret_cast<BaseCamera*>(m_pParentObject));
 		}
 	}
 
