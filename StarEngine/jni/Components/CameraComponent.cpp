@@ -106,8 +106,8 @@ namespace star
 		rotTransform = glm::toMat4(rotation);
 
 		//Only vec4 * mat4x4  possible
-		vec4 vLookTemp = vec4(0,0,1,0) * InverseMatrix(rotTransform);
-		vec4 vUpVecTemp = vec4(0,1,0,0) * InverseMatrix(rotTransform);
+		vec4 vLookTemp = vec4(0,0,1,0) * TransposeMatrix(rotTransform);
+		vec4 vUpVecTemp = vec4(0,1,0,0) * TransposeMatrix(rotTransform);
 
 		//put them into a vec3
 		vLookat = vec3(vLookTemp.x, vLookTemp.y, vLookTemp.z);
@@ -115,7 +115,7 @@ namespace star
 
 		//Calculate the viewmatrix and inverse
 		m_View = MatrixLookAt(vEyePt, (vEyePt + vLookat), vUpVec);
-		m_ViewInverse = InverseMatrix(m_View);
+		m_ViewInverse = TransposeMatrix(m_View);
 	}
 
 	void CameraComponent::Draw()
@@ -244,42 +244,5 @@ namespace star
 		);
 
 		return matLookAt;
-	}
-
-	mat4x4 CameraComponent::InverseMatrix(const mat4x4& matrix)
-	{
-		float x1, y1, z1, w1,
-			  x2, y2, z2, w2,
-			  x3, y3, z3, w3,
-			  x4, y4, z4, w4;
-
-		x1 = matrix[0][0];
-		x2 = matrix[1][0];
-		x3 = matrix[2][0];
-		x4 = matrix[3][0];
-
-		y1 = matrix[0][1];
-		y2 = matrix[1][1];
-		y3 = matrix[2][1];
-		y4 = matrix[3][1];
-
-		z1 = matrix[0][2];
-		z2 = matrix[1][2];
-		z3 = matrix[2][2];
-		z4 = matrix[3][2];
-
-		w1 = matrix[0][3];
-		w2 = matrix[1][3];
-		w3 = matrix[2][3];
-		w4 = matrix[3][3];
-
-		mat4x4 inverseMatrix
-		(
-		x1, y1, z1, x4,
-		x2, y2, z2, y4,
-		x3, y3, z3, z4,
-		w1, w2, w3, w4
-		);
-		return inverseMatrix;
 	}
 }

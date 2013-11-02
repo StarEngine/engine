@@ -7,6 +7,7 @@
 #include "../Objects/FreeCamera.h"
 #include "../Scenes/BaseScene.h"
 #include <algorithm>
+#include "../Helpers/HelpersMath.h"
 
 namespace star
 {
@@ -172,11 +173,12 @@ namespace star
 			
 				if(spriteQueue[m_CurrentSprite + j].bIsHUD)
 				{
-					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"), 1, GL_FALSE, glm::value_ptr(InverseMatrix(spriteQueue[m_CurrentSprite + j].transform) * projection));
+					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"), 1, GL_FALSE, glm::value_ptr(
+						(spriteQueue[m_CurrentSprite + j].transform) * projection));
 				}
 				else
 				{
-					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"), 1, GL_FALSE, glm::value_ptr(InverseMatrix(spriteQueue[m_CurrentSprite + j].transform) * projection * viewInverse));
+					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"), 1, GL_FALSE, glm::value_ptr(TransposeMatrix(spriteQueue[m_CurrentSprite + j].transform) * projection * viewInverse));
 				}
 				glDrawArrays(GL_TRIANGLE_STRIP,batchStart,4);
 			}			
@@ -264,7 +266,7 @@ namespace star
 				}
 				world = transform->GetWorldMatrix() * offsetTrans;
 
-				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),1,GL_FALSE,glm::value_ptr(InverseMatrix(world) * projection * viewInverse));
+				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),1,GL_FALSE,glm::value_ptr(TransposeMatrix(world) * projection));
 				glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 			}
 			offsetY -= curfont.GetMaxLetterHeight();
@@ -349,43 +351,5 @@ namespace star
 
 		delete m_pSpriteBatch;
 		m_pSpriteBatch = nullptr;
-	}
-
-	mat4x4 SpriteBatch::InverseMatrix(const mat4x4& matrix)
-	{
-		float x1, y1, z1, w1,
-			  x2, y2, z2, w2,
-			  x3, y3, z3, w3,
-			  x4, y4, z4, w4;
-
-		x1 = matrix[0][0];
-		x2 = matrix[1][0];
-		x3 = matrix[2][0];
-		x4 = matrix[3][0];
-
-		y1 = matrix[0][1];
-		y2 = matrix[1][1];
-		y3 = matrix[2][1];
-		y4 = matrix[3][1];
-
-		z1 = matrix[0][2];
-		z2 = matrix[1][2];
-		z3 = matrix[2][2];
-		z4 = matrix[3][2];
-
-		w1 = matrix[0][3];
-		w2 = matrix[1][3];
-		w3 = matrix[2][3];
-		w4 = matrix[3][3];
-
-		mat4x4 inverseMatrix
-		(
-		x1, y1, z1, x4,
-		x2, y2, z2, y4,
-		x3, y3, z3, z4,
-		w1, w2, w3, w4
-		);
-
-		return inverseMatrix;
 	}
 }

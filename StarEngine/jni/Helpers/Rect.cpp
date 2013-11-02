@@ -1,4 +1,5 @@
 #include "Rect.h"
+#include "HelpersMath.h"
 
 namespace star
 {
@@ -24,23 +25,40 @@ namespace star
 		, m_Height()
 		, m_Diagonal()
 	{
-	//Check if the rect is a  rect! (all angles 90°)	
-		ASSERT(glm::dot(rightTop - leftTop , leftBottom - leftTop) == 0 
-			|| glm::dot(leftTop - rightTop , rightBottom - rightTop) == 0 
-			|| glm::dot(rightTop - rightBottom, leftBottom - rightBottom) == 0
+	//Check if the rect is a  rect! (all angles ~90°)	
+		float dot1 = glm::dot(rightTop - leftTop , leftBottom - leftTop);
+		float dot2 = glm::dot(leftTop - rightTop , rightBottom - rightTop);
+		float dot3 = glm::dot(rightTop - rightBottom, leftBottom - rightBottom);
+		float tolerance = 0.01f;
+		ASSERT((abs(dot1) < 0 + tolerance
+			|| abs(dot2) < 0 + tolerance
+			|| abs(dot3) < 0 + tolerance)
 			, _T("The Rect is not a rectangle!!"));
-
+			
 		m_Width = m_RightTop.x - m_LeftTop.x;
 		m_Height = m_RightTop.y - m_LeftTop.y;
 		m_Diagonal = glm::length(m_RightBottom - m_LeftTop);
 	}
 
+	Rect Rect::operator=(const Rect& yRef)
+	{
+		m_Diagonal = yRef.m_Diagonal;
+		m_Height = yRef.m_Height;
+		m_LeftBottom = yRef.m_LeftBottom;
+		m_LeftTop = yRef.m_LeftTop;
+		m_RightBottom = yRef.m_RightBottom;
+		m_RightTop = yRef.m_RightTop;
+		m_Width = yRef.m_Width;
+		return *this;
+	}
+
 	Rect Rect::operator*(glm::mat4x4 matrix) const
 	{
-		vec4 returnVec1 = glm::mul(vec4(m_LeftBottom.x, m_LeftBottom.y, 0, 0), matrix);
-		vec4 returnVec2 = glm::mul(vec4(m_RightBottom.x, m_RightBottom.y, 0, 0), matrix);
-		vec4 returnVec3 = glm::mul(vec4(m_LeftTop.x, m_LeftTop.y, 0, 0), matrix);
-		vec4 returnVec4 = glm::mul(vec4(m_RightTop.x, m_RightTop.y, 0, 0), matrix);
+		matrix = TransposeMatrix(matrix);
+		vec4 returnVec1 = glm::mul(vec4(m_LeftBottom.x, m_LeftBottom.y, 0, 1), matrix);
+		vec4 returnVec2 = glm::mul(vec4(m_RightBottom.x, m_RightBottom.y, 0, 1), matrix);
+		vec4 returnVec3 = glm::mul(vec4(m_LeftTop.x, m_LeftTop.y, 0, 1), matrix);
+		vec4 returnVec4 = glm::mul(vec4(m_RightTop.x, m_RightTop.y, 0, 1), matrix);
 
 		return Rect(vec2(returnVec1.x , returnVec1.y),
 					vec2(returnVec2.x , returnVec2.y),

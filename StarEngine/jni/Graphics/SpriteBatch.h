@@ -38,7 +38,6 @@ namespace star
 		void FlushSprites(std::vector<SpriteInfo> spriteQueue);
 		void FlushText(const TextDesc& textDesc);
 		void FlushText(const tstring& text, const tstring& fontname,TransformComponent* transform, Color color);
-		mat4x4 InverseMatrix(const mat4x4& matrix);
 
 		static SpriteBatch * m_pSpriteBatch;
 		static const int BATCHSIZE = 50;

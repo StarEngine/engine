@@ -97,44 +97,6 @@ namespace star
 		SpriteBatch::GetInstance()->AddSpriteToQueue(this, m_bIsHudElement);
 	}
 
-	mat4x4 SpriteComponent::InverseMatrix(const mat4x4& matrix)
-	{
-		float x1, y1, z1, w1,
-			  x2, y2, z2, w2,
-			  x3, y3, z3, w3,
-			  x4, y4, z4, w4;
-
-		x1 = matrix[0][0];
-		x2 = matrix[1][0];
-		x3 = matrix[2][0];
-		x4 = matrix[3][0];
-
-		y1 = matrix[0][1];
-		y2 = matrix[1][1];
-		y3 = matrix[2][1];
-		y4 = matrix[3][1];
-
-		z1 = matrix[0][2];
-		z2 = matrix[1][2];
-		z3 = matrix[2][2];
-		z4 = matrix[3][2];
-
-		w1 = matrix[0][3];
-		w2 = matrix[1][3];
-		w3 = matrix[2][3];
-		w4 = matrix[3][3];
-
-		mat4x4 inverseMatrix
-		(
-		x1, y1, z1, x4,
-		x2, y2, z2, y4,
-		x3, y3, z3, z4,
-		w1, w2, w3, w4
-		);
-		
-		return inverseMatrix;
-	}
-
 	const tstring& SpriteComponent::GetFilePath() const
 	{
 		return m_FilePath.GetPath();
@@ -147,12 +109,12 @@ namespace star
 
 	int32 SpriteComponent::GetWidth() const
 	{
-		return m_Width;
+		return (m_Width/m_WidthSegments);
 	}
 
 	int32 SpriteComponent::GetHeight() const
 	{
-		return m_Heigth;
+		return (m_Heigth/m_HeightSegments);
 	}
 
 	std::vector<GLfloat> SpriteComponent::GetVertices() const

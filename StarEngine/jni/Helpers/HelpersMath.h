@@ -18,6 +18,5 @@ namespace star
 
 	bool RectangleCircleCollision(const Rect& rect, float radius);
 
-	bool CalculateAxisSpecificCollision(const Rect& rect1, const Rect& rect2, const vec2& axis);
-
+	mat4x4 TransposeMatrix(const mat4x4& matrix);
 }

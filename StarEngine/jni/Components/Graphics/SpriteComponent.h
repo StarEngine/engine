@@ -40,10 +40,8 @@ namespace star
 		GLfloat m_UvCoords[8];
 		int32 m_Width, m_WidthSegments, m_CurrentWidthSegment;
 		int32 m_Heigth, m_HeightSegments, m_CurrentHeightSegment;
-	private:
-		
-		mat4x4 InverseMatrix(const mat4x4& matrix);
 
+	private:
 		Shader m_Shader;
 		Filepath m_FilePath;
 		tstring m_SpriteName;

@@ -2,6 +2,11 @@
 #include "CircleColliderComponent.h"
 #include "../../Objects/Object.h"
 #include "../../Logger.h"
+#include "../../Scenes/SceneManager.h"
+#include "../../Objects/BaseCamera.h"
+#include "../CameraComponent.h"
+#include "../Graphics/SpriteComponent.h"
+
 namespace star
 {
 
@@ -62,7 +67,13 @@ namespace star
 		if(m_bDefaultInitialized)
 		{
 			//Initialize the rectangle with the values of the visible part of the sprite
-
+			SpriteComponent* spriteComp = GetParent()->GetComponent<SpriteComponent>();
+			if(spriteComp)
+			{
+				ASSERT(spriteComp->IsInitialized(),_T("First add the spriteComponent and then the rectColliderComp"));
+				m_CollisionRect.SetPoints(vec2(0,0),vec2(spriteComp->GetWidth(), 0), 
+					vec2(0, spriteComp->GetHeight() ), vec2(spriteComp->GetWidth(), spriteComp->GetHeight()));
+			}
 		}
 	}
 
@@ -89,10 +100,24 @@ namespace star
 
 		if(otherRectComp != nullptr)
 		{
-			if(RectangleRectangleCollision(GetCollisionRect(), otherRectComp->GetCollisionRect()))
+			Rect thisRect = GetCollisionRect();
+			Rect otherRect = otherRectComp->GetCollisionRect();
+			//Check to perform AABB or OOBB CollisionCheck!
+			if(GetTransform()->GetWorldRotation() == 0.0f && otherRectComp->GetTransform()->GetWorldRotation() == 0.0f)
 			{
-				Logger::GetInstance()->Log(LogLevel::Info, _T("Collision Detected"));
+				if(AABBRectangleRectangleCollision(thisRect, otherRect))
+				{
+					Logger::GetInstance()->Log(LogLevel::Info, _T("AABB - Collision Detected"));
+				}
 			}
+			else
+			{
+				if(OOBBRectangleRectangleCollision(thisRect, otherRect))
+				{
+					Logger::GetInstance()->Log(LogLevel::Info, _T("OOBB - Collision Detected"));
+				}
+			}
+			
 		}
 		else if(otherRectComp != nullptr)
 		{
@@ -104,12 +129,22 @@ namespace star
 		}
 	}
 
-	bool RectangleColliderComponent::RectangleRectangleCollision(const Rect& rect1, 
+	bool RectangleColliderComponent::AABBRectangleRectangleCollision(const Rect& rect1,
+		const Rect& rect2) const
+	{
+		if(rect1.GetRealLeft() > rect2.GetRealRight() || rect1.GetRealRight() < rect2.GetRealLeft() 
+			|| rect1.GetRealTop() < rect2.GetRealBottom() || rect1.GetRealBottom() > rect2.GetRealTop())
+		{
+			return false;
+		}
+		return true;
+	}
+
+	bool RectangleColliderComponent::OOBBRectangleRectangleCollision(const Rect& rect1, 
 		const Rect& rect2) const
 	{
 		//First check if the rects are colliding as aabb
-		if(rect1.GetRealLeft() > rect2.GetRealRight() || rect1.GetRealRight() < rect2.GetRealLeft() 
-			|| rect1.GetRealTop() < rect2.GetRealBottom() || rect1.GetRealBottom() > rect2.GetRealTop())
+		if(!AABBRectangleRectangleCollision(rect1, rect2))
 		{
 			return false;
 		}
@@ -238,9 +273,12 @@ namespace star
 		m_CollisionRect.SetPoints(vec2(0, 0), vec2(size.x, 0), vec2(0, size.y), vec2(size.x, size.y));
 	}
 
-	const Rect& RectangleColliderComponent::GetCollisionRect() const
+	Rect RectangleColliderComponent::GetCollisionRect() const
 	{
-		//[TODO] test if this works
-		return m_CollisionRect * GetTransform()->GetWorldMatrix();
+		auto projectionObject = SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
+		//mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
+		mat4x4 viewInverse = projectionObject->GetComponent<CameraComponent>()->GetViewInverse();
+		Rect temp = m_CollisionRect * ( viewInverse * GetTransform()->GetWorldMatrix());
+		return temp;
 	}
 }
