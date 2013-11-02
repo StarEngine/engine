@@ -66,8 +66,9 @@ namespace star
 					vec2(returnVec4.x , returnVec4.y));
 	}
 
-	Rect& Rect::operator*=(const glm::mat4x4 matrix)
+	Rect& Rect::operator*=(glm::mat4x4 matrix)
 	{
+		matrix = TransposeMatrix(matrix);
 		vec4 returnVec1 = glm::mul(vec4(m_LeftBottom.x, m_LeftBottom.y, 0, 0), matrix);
 		vec4 returnVec2 = glm::mul(vec4(m_RightBottom.x, m_RightBottom.y, 0, 0), matrix);
 		vec4 returnVec3 = glm::mul(vec4(m_LeftTop.x, m_LeftTop.y, 0, 0), matrix);
@@ -118,72 +119,36 @@ namespace star
 	float Rect::GetRealLeft() const
 	{
 		float realLeft(m_LeftTop.x);
-		if(realLeft > m_LeftBottom.x)
-		{
-			realLeft = m_LeftBottom.x;
-		}
-		if(realLeft > m_RightBottom.x)
-		{
-			realLeft = m_RightBottom.x;
-		}
-		if(realLeft > m_RightTop.x)
-		{
-			realLeft = m_RightTop.x;
-		}
+		realLeft = realLeft > m_LeftBottom.x ? m_LeftBottom.x : realLeft;
+		realLeft = realLeft > m_RightBottom.x ? m_RightBottom.x : realLeft;
+		realLeft = realLeft > m_RightTop.x ? m_RightTop.x : realLeft;
 		return realLeft;
 	}
 
 	float Rect::GetRealRight() const
 	{
 		float realRight(m_RightTop.x);
-		if(realRight < m_LeftBottom.x)
-		{
-			realRight = m_LeftBottom.x;
-		}
-		if(realRight < m_RightBottom.x)
-		{
-			realRight = m_RightBottom.x;
-		}
-		if(realRight < m_LeftTop.x)
-		{
-			realRight = m_LeftTop.x;
-		}
+		realRight = realRight < m_LeftBottom.x ? m_LeftBottom.x : realRight;
+		realRight = realRight < m_RightBottom.x ? m_RightBottom.x : realRight;
+		realRight = realRight < m_LeftTop.x ? m_LeftTop.x : realRight;
 		return realRight;
 	}
 
 	float Rect::GetRealTop() const
 	{
 		float realTop(m_RightTop.y);
-		if(realTop < m_LeftBottom.y)
-		{
-			realTop = m_LeftBottom.y;
-		}
-		if(realTop < m_RightBottom.y)
-		{
-			realTop = m_RightBottom.y;
-		}
-		if(realTop < m_LeftTop.y)
-		{
-			realTop = m_LeftTop.y;
-		}
+		realTop = realTop < m_LeftBottom.y ? m_LeftBottom.y : realTop;
+		realTop = realTop < m_RightBottom.y ? m_RightBottom.y : realTop;
+		realTop = realTop < m_LeftTop.y ? m_LeftTop.y : realTop;
 		return realTop;
 	}
 
 	float Rect::GetRealBottom() const
 	{
 		float realBottom(m_LeftBottom.y);
-		if(realBottom > m_LeftTop.y)
-		{
-			realBottom = m_LeftTop.y;
-		}
-		if(realBottom > m_RightBottom.y)
-		{
-			realBottom = m_RightBottom.y;
-		}
-		if(realBottom > m_RightTop.y)
-		{
-			realBottom = m_RightTop.y;
-		}
+		realBottom = realBottom > m_LeftTop.x ? m_LeftTop.x : realBottom;
+		realBottom = realBottom > m_RightBottom.x ? m_RightBottom.x : realBottom;
+		realBottom = realBottom > m_RightTop.x ? m_RightTop.x : realBottom;
 		return realBottom;
 	}
 

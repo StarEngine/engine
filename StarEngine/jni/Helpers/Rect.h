@@ -13,10 +13,10 @@ namespace star
 		Rect(const vec2& leftBottom, const vec2& rightBottom, 
 		const vec2& leftTop, const vec2& rightTop);
 		Rect operator=(const Rect& yRef);
-		//[TODO] write operators and copy constructors
+		//[TODO] write operators and copy + move constructors (and non member operators)
 
 		Rect operator*(glm::mat4x4 matrix) const;
-		Rect& operator*=(const glm::mat4x4 matrix);
+		Rect& operator*=(glm::mat4x4 matrix);
 
 		float GetWidth() const;
 		float GetHeight() const;

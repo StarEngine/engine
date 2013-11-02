@@ -19,10 +19,12 @@ namespace star
 		ASSERT(m_Width >= 0, _T("Width can't be negative!"));
 		ASSERT(m_Height >= 0, _T("Height can't be negative!"));
 
+#if LOGGER_MIN_LEVEL < 2
 		tstringstream str;
 		str << _T("AARect Created \t");
 		str << _T("(") << x << _T(", ") << y << _T(", ") << width << _T(", ") << height << _T(")");
 		Logger::GetInstance()->Log(LogLevel::Info,str.str());
+#endif
 	}
 
 	AARect::AARect(const vec2& location,const vec2& size)
@@ -67,7 +69,7 @@ namespace star
 			y >= m_Y && y < m_Y + m_Height;
 	}
 
-	bool AARect::Contains(const glm::vec2& pt) const
+	bool AARect::Contains(const vec2& pt) const
 	{
 		return Contains(static_cast<int>(pt.x), static_cast<int>(pt.y));
 	}
@@ -90,11 +92,11 @@ namespace star
 		int left = max(a.GetLeft(), b.GetLeft());
 		int top = max(a.GetTop(), b.GetTop());
 
-		AARect c;
-		c.m_X = left;
-		c.m_Y = top;
-		c.m_Width = right - left;
-		c.m_Height = bottom - top;
+		AARect c(
+		left,
+		top,
+		right - left,
+		bottom - top);
 
 		return !(c.m_Width <= 0 || c.m_Height <= 0);
 	}

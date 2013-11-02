@@ -24,19 +24,14 @@ namespace star
 
 	void CircleColliderComponent::InitializeColliderComponent()
 	{
-		ASSERT(m_Radius > 0, _T("Negative Radius"));
+		ASSERT(m_Radius > 0, _T("Invalid Radius: Radius has to be > 0"));
 	}
 
 	bool CircleColliderComponent::CollidesWithPoint(const pos& point) const
 	{
 		float realRadius = GetRealRadius();
 		pos localPos = m_pParentObject->GetTransform()->GetLocalPosition();
-		if(glm::length(point.pos2D() - localPos.pos2D()) <= realRadius)
-		{
-			return true;
-		}
-		return false;
-
+		return (glm::length(point.pos2D() - localPos.pos2D()) <= realRadius);
 	}
 
 	bool CircleColliderComponent::CollidesWithLine(const pos& point1, const pos& point2) const
@@ -47,25 +42,20 @@ namespace star
 
 		float realRadius = GetRealRadius();
 
-		float cx, cy, dx, dy, A, B, C, det;
+		float A, B, C, det;
+		vec2 c, d;
 
-		cx = m_pParentObject->GetTransform()->GetLocalPosition().x;
-		cy = m_pParentObject->GetTransform()->GetLocalPosition().y;
+		c = m_pParentObject->GetTransform()->GetLocalPosition().pos2D();
 
-		dx = point2.x - point1.x;
-		dy = point2.y - point1.y;
+		d = point2.pos2D() - point1.pos2D();
 
-		A = dx * dx + dy * dy;
-		B = 2 * (dx * (point1.x - cx) + dy * (point1.y - cy));
-		C = (point1.x - cx) * (point1.x - cx) + (point1.y - cy) * (point1.y - cy) - realRadius * realRadius;
+		A = d.x * d.x + d.y * d.y;
+		B = 2 * (d.x * (point1.x - c.x) + d.y * (point1.y - c.y));
+		C = (point1.x - c.x) * (point1.x - c.x) + (point1.y - c.y) * (point1.y - c.y) - realRadius * realRadius;
 
 		det = B * B - 4 * A * C;
 
-		if ((A <= EPSILON) || (det < 0))
-		{
-			return false;
-		}
-		return true;
+		return !((A <= EPSILON) || (det < 0));
 	}
 
 	void CircleColliderComponent::CollidesWith(const BaseColliderComponent* other) const
@@ -99,11 +89,7 @@ namespace star
 		glm::vec2 object1Pos = collider1->GetParent()->GetTransform()->GetWorldPosition().pos2D();
 		glm::vec2 object2Pos = collider2->GetParent()->GetTransform()->GetWorldPosition().pos2D();
 
-		if((object1Pos - object2Pos).length() > radius1 + radius2)
-		{
-			return false;
-		}
-		return true;
+		return !((object1Pos - object2Pos).length() > radius1 + radius2);
 	}
 
 	float CircleColliderComponent::GetRadius() const

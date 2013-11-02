@@ -60,7 +60,7 @@ namespace star
 		return m_bIsTrigger;
 	}
 
-	void BaseColliderComponent::SetStatic(bool isStatic)
+	void BaseColliderComponent::SetAsStatic(bool isStatic)
 	{
 		m_bIsStatic = isStatic;
 	}

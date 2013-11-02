@@ -134,12 +134,8 @@ namespace star
 	bool RectangleColliderComponent::AABBRectangleRectangleCollision(const Rect& rect1,
 		const Rect& rect2) const
 	{
-		if(rect1.GetRealLeft() > rect2.GetRealRight() || rect1.GetRealRight() < rect2.GetRealLeft() 
-			|| rect1.GetRealTop() < rect2.GetRealBottom() || rect1.GetRealBottom() > rect2.GetRealTop())
-		{
-			return false;
-		}
-		return true;
+		return !(rect1.GetRealLeft() > rect2.GetRealRight() || rect1.GetRealRight() < rect2.GetRealLeft() 
+			|| rect1.GetRealTop() < rect2.GetRealBottom() || rect1.GetRealBottom() > rect2.GetRealTop());
 	}
 
 	bool RectangleColliderComponent::OOBBRectangleRectangleCollision(const Rect& rect1, 
@@ -161,15 +157,10 @@ namespace star
 			axis3 = rect2.GetLeftTop() - rect2.GetLeftBottom();
 			axis4 = rect2.GetLeftTop() - rect2.GetRightTop();
 
-			if(CalculateAxisSpecificCollision(rect1, rect2, axis1) ||
+			return (CalculateAxisSpecificCollision(rect1, rect2, axis1) ||
 			CalculateAxisSpecificCollision(rect1, rect2, axis2) ||
 			CalculateAxisSpecificCollision(rect1, rect2, axis3) ||
-			CalculateAxisSpecificCollision(rect1, rect2, axis4))
-			{
-				return true;
-			}
-			return false;
-			
+			CalculateAxisSpecificCollision(rect1, rect2, axis4));			
 		}									  
 	}					
 
@@ -197,57 +188,52 @@ namespace star
 		float BvecPosOnAxis4 = glm::dot(Bproj4,axis);
 
 		//Find Min and Max
-		std::vector<float> vec1;
-		vec1.push_back(AvecPosOnAxis1);
-		vec1.push_back(AvecPosOnAxis2);
-		vec1.push_back(AvecPosOnAxis3);
-		vec1.push_back(AvecPosOnAxis4);
-		std::vector<float> vec2; 
-		vec2.push_back(BvecPosOnAxis1);
-		vec2.push_back(BvecPosOnAxis2);
-		vec2.push_back(BvecPosOnAxis3);
-		vec2.push_back(BvecPosOnAxis4);
+		float vec1[4];
+		vec1[0] = AvecPosOnAxis1;
+		vec1[1] = AvecPosOnAxis2;
+		vec1[2] = AvecPosOnAxis3;
+		vec1[3] = AvecPosOnAxis4;
 
-		float AMinimmum = CalculateMinimum(vec1);
-		float BMinimmum = CalculateMinimum(vec2);
-		float AMaximmum = CalculateMaximum(vec1);
-		float BMaximmum = CalculateMaximum(vec2);
+		float vec2[4]; 
+		vec2[0] = BvecPosOnAxis1;
+		vec2[1] = BvecPosOnAxis2;
+		vec2[2] = BvecPosOnAxis3;
+		vec2[3] = BvecPosOnAxis4;
 
-		if(BMinimmum <= AMinimmum || BMaximmum >= AMaximmum)
-		{
-			return true;
-		}
-		return false;
+		float AMinimmum = CalculateMinimum(vec1, 4);
+		float BMinimmum = CalculateMinimum(vec2, 4);
+		float AMaximmum = CalculateMaximum(vec1, 4);
+		float BMaximmum = CalculateMaximum(vec2, 4);
+
+		return BMinimmum <= AMinimmum || BMaximmum >= AMaximmum;
 	}
 
-	float RectangleColliderComponent::CalculateMinimum(std::vector<float> vec) const
+	float RectangleColliderComponent::CalculateMinimum(const float* vec, uint8 size) const
 	{
-		ASSERT(vec.size() != 0,_T("Passed vector is empty"));
-
+		ASSERT(size != 0, _T("You can't calculate the minimum of 0 elements!"));
 		float minimum = vec[0];
-		for(auto elem : vec)
+		for(int i = 1; i < size; ++i)
 		{
-			if(elem < minimum)
+			if(vec[i] < minimum)
 			{
-				minimum = elem;
+				minimum = vec[i];
 			}
 		}
 		return minimum;
 	}
 
-	float RectangleColliderComponent::CalculateMaximum(std::vector<float> vec) const
+	float RectangleColliderComponent::CalculateMaximum(const float* vec, uint8 size) const
 	{
-		ASSERT(vec.size() != 0,_T("Passed vector is empty"));
-
-		float minimum = vec[0];
-		for(auto elem : vec)
+		ASSERT(size != 0, _T("You can't calculate the maximum of 0 elements!"));
+		float maximum = vec[0];
+		for(int i = 1; i < size; ++i)
 		{
-			if(elem > minimum)
+			if(vec[i] > maximum)
 			{
-				minimum = elem;
+				maximum = vec[i];
 			}
 		}
-		return minimum;
+		return maximum;
 	}
 
 	bool RectangleColliderComponent::RectangleCircleCollision(const RectangleColliderComponent* collider1, 
@@ -286,9 +272,10 @@ namespace star
 		return m_CollisionRect.GetHeight();
 	}
 
-	vec2 RectangleColliderComponent::GetColliisonRectSize() const
+	void RectangleColliderComponent::GetColliisonRectSize(vec2& outputVec) const
 	{
-		return vec2(m_CollisionRect.GetWidth(), m_CollisionRect.GetHeight());
+		outputVec.x = m_CollisionRect.GetWidth();
+		outputVec.y = m_CollisionRect.GetHeight();
 	}
 
 	void RectangleColliderComponent::SetCollisionRectSize(float width, float height)

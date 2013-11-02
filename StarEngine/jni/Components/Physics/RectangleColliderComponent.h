@@ -30,7 +30,7 @@ namespace star
 
 		float GetCollisionRectWidth() const;
 		float GetCollisionRectHeight() const;
-		vec2 GetColliisonRectSize() const;
+		void GetColliisonRectSize(vec2& outVec) const;
 
 		void SetCollisionRectSize(float width, float height);
 		void SetCollisionRectSize(const vec2& size);
@@ -47,8 +47,8 @@ namespace star
 	private:
 		bool m_bDefaultInitialized;
 
-		float CalculateMinimum(std::vector<float> vec) const;
-		float CalculateMaximum(std::vector<float> vec) const;
+		float CalculateMinimum(const float* vec, uint8 size) const;
+		float CalculateMaximum(const float* vec, uint8 size) const;
 
 		RectangleColliderComponent(const RectangleColliderComponent& t);
 		RectangleColliderComponent(RectangleColliderComponent&& t);

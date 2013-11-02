@@ -12,6 +12,7 @@ namespace star
 		AARect();
 		AARect(int x, int y, int width, int height);
 		AARect(const vec2& location,const vec2& size);
+		~AARect();
 
 		int GetLeft() const;
 		int GetTop() const;
@@ -31,5 +32,12 @@ namespace star
 		int m_Y;
 		int m_Width;
 		int m_Height;
+
+		int m_Left;
+		int m_Right;
+		int m_Top;
+		int m_Bottom;
+
+		AARect* m_IntersectRect;
 	};
 }

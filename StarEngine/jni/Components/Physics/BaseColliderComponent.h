@@ -20,7 +20,7 @@ namespace star
 		void SetAsTrigger(bool isTrigger);
 		bool IsTrigger() const;
 
-		void SetStatic(bool isStatic);
+		void SetAsStatic(bool isStatic);
 		bool IsStatic() const;
 
 		virtual bool CollidesWithPoint(const pos& point) const = 0;
