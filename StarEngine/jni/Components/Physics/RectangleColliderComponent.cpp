@@ -119,13 +119,15 @@ namespace star
 			}
 			
 		}
-		else if(otherRectComp != nullptr)
+		else if(otherCircleComp != nullptr)
 		{
-			/*
-			if(RectangleCircleCollision(otherRectComp->GetRealCollisionRect(), realRadius))
+			if(GetTransform()->GetWorldRotation() == 0.0f && otherRectComp->GetTransform()->GetWorldRotation() == 0.0f)
 			{
+				if(RectangleCircleCollision(this, otherCircleComp))
+				{
 
-			}*/
+				}
+			}
 		}
 	}
 
@@ -246,6 +248,32 @@ namespace star
 			}
 		}
 		return minimum;
+	}
+
+	bool RectangleColliderComponent::RectangleCircleCollision(const RectangleColliderComponent* collider1, 
+		const CircleColliderComponent* collider2) const
+	{
+		Rect rect = collider1->GetCollisionRect();
+		float radius = collider2->GetRadius();
+
+		glm::vec2 rectObjectPos = collider1->GetTransform()->GetWorldPosition().pos2D();
+		glm::vec2 circleObjectPos = collider2->GetTransform()->GetWorldPosition().pos2D();
+
+		// Find the closest point to the circle within the rectangle
+		float closestX = glm::clamp(circleObjectPos.x, rect.GetRealLeft(), rect.GetRealRight());
+		float closestY = glm::clamp(circleObjectPos.y, rect.GetRealBottom(), rect.GetRealTop());
+
+		// Calculate the distance between the circle's center and this closest point
+		float distanceX = circleObjectPos.x - closestX;
+		float distanceY = circleObjectPos.y - closestY;
+
+		// If the distance is less than the circle's radius, an intersection occurs
+		float doubleDistanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+		if( doubleDistanceSquared < (radius * radius))
+		{
+			return true;
+		}
+		return false;
 	}
 
 	float RectangleColliderComponent::GetCollisionRectWidth() const

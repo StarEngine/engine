@@ -7,6 +7,7 @@
 namespace star
 {
 	struct Context;
+	class CircleColliderComponent;
 
 	class RectangleColliderComponent final : public BaseColliderComponent
 	{
@@ -39,6 +40,7 @@ namespace star
 		bool OOBBRectangleRectangleCollision(const Rect& rect1, const Rect& rect2) const;
 		bool AABBRectangleRectangleCollision(const Rect& rect1, const Rect& rect2) const;
 		bool CalculateAxisSpecificCollision(const Rect& rect1, const Rect& rect2, const vec2& axis) const;
+		bool RectangleCircleCollision(const RectangleColliderComponent* collider1, const CircleColliderComponent* collider2) const;
 
 		Rect m_CollisionRect;
 

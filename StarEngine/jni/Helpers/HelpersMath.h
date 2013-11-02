@@ -16,7 +16,5 @@ namespace star
 	vec3 RadiansToDegrees(const vec3 & degrees);
 	vec4 RadiansToDegrees(const vec4 & degrees);
 
-	bool RectangleCircleCollision(const Rect& rect, float radius);
-
 	mat4x4 TransposeMatrix(const mat4x4& matrix);
 }
