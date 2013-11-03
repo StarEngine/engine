@@ -639,8 +639,16 @@ namespace star
 				}
 				break;
 			case WM_SIZE:
+				{
 					GraphicsManager::GetInstance()->SetHasWindowChanged(true);
+					RECT clienRect;
+					GetClientRect(hWnd, &clienRect);
+					GraphicsManager::GetInstance()->SetWindowDimensions(
+						clienRect.right - clienRect.left,
+						clienRect.bottom - clienRect.top
+						);
 					UpdateWindowClipping(hWnd);
+				}
 				break;
 		}
 		return DefWindowProc(hWnd, message, wParam, lParam);
