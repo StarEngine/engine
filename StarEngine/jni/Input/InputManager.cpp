@@ -9,6 +9,11 @@
 #include "../Logger.h"
 #include "../StarEngine.h"
 #include "../Graphics/GraphicsManager.h"
+#include "../Graphics/ScaleSystem.h"
+#include "../Scenes/SceneManager.h"
+#include "../Components/CameraComponent.h"
+#include "../Scenes/BaseScene.h"
+#include "../Objects/BaseCamera.h"
 
 namespace star
 {
@@ -453,6 +458,19 @@ namespace star
 			}
 			//[TODO] Change to %
 			m_CurrMousePosition = vec2(mousePos.x , (float)GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y);
+			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetWindowResolution();
+			m_CurrMousePosition *= ScaleSystem::GetInstance()->GetWorkingResolution();
+			if(SceneManager::GetInstance()->GetActiveScene())
+			{
+				BaseCamera* projectionObject = SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
+				if(projectionObject)
+				{
+					mat4x4 viewInverse = projectionObject->GetComponent<CameraComponent>()->GetViewInverse();
+					vec4 temp(m_CurrMousePosition.x , m_CurrMousePosition.y , 0, 1);
+					temp = glm::mul(temp, viewInverse);
+					m_CurrMousePosition = vec2(temp.x, temp.y);
+				}
+			}
 			/*tstringstream buffer;
 			buffer << _T("Current Mouse Pos: ") << _T("( ") << m_CurrMousePosition.x << _T(" , ") << m_CurrMousePosition.y << _T(" )");
 			buffer << _T("WindowHeight: ") <<  (float)GraphicsManager::GetInstance()->GetWindowHeight();

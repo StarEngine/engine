@@ -331,7 +331,6 @@ namespace star
 	Rect RectangleColliderComponent::GetCollisionRect() const
 	{
 		auto projectionObject = SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
-		//mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
 		mat4x4 viewInverse = projectionObject->GetComponent<CameraComponent>()->GetViewInverse();
 		Rect temp = m_CollisionRect * ( viewInverse * GetTransform()->GetWorldMatrix());
 		return temp;
