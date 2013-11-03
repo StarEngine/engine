@@ -204,7 +204,7 @@ namespace star
 	{
 		if(text.size() == 0)
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,	_T("FontManager::DrawText: Drawing an empty string..."));
+			//Logger::GetInstance()->Log(LogLevel::Warning,	_T("FontManager::DrawText: Drawing an empty string..."));
 			return;
 		}
 		

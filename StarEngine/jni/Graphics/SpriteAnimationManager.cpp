@@ -20,7 +20,7 @@ namespace star
 		tstring name = container.GetAttributes()[_T("name")];
 		auto it = m_Spritesheets.find(name);
 		bool isValid = it == m_Spritesheets.end();
-		ASSERT(isValid, _T("This spritesheet already exists!"));
+		//ASSERT(isValid, _T("This spritesheet already exists!"));
 		if(isValid)
 		{
 			Spritesheet spritesheet(container);
