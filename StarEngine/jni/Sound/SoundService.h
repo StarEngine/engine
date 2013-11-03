@@ -68,6 +68,8 @@ namespace star
 		std::vector<SoundFile*> mBackgroundQueue;
 		std::vector<SoundFile*>::iterator mQueueIterator;
 
+		SoundFile* m_CurrentSoundFile;
+		SoundEffect* m_CurrentSoundEffect;
 #ifdef ANDROID
 		SLObjectItf mEngineObj;
 		SLEngineItf mEngine;

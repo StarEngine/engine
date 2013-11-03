@@ -25,7 +25,9 @@ namespace star
 #ifdef ANDROID
 		:mEngine(NULL),
 		mEngineObj(NULL),
-		mOutputMixObj(NULL)
+		mOutputMixObj(NULL),
+		m_CurrentSoundEffect(nullptr),
+		m_CurrentSoundFile(nullptr)
 #endif
 	{
 		mQueueIterator = mBackgroundQueue.begin();
@@ -242,9 +244,12 @@ namespace star
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
-			mMusicList[name]->Play(0);
+			if(m_CurrentSoundFile!=nullptr)m_CurrentSoundFile->Stop();
+			m_CurrentSoundFile = mMusicList[name];
+			m_CurrentSoundFile->Play(0);
 			return (STATUS_OK);
 		}
+		m_CurrentSoundFile=nullptr;
 		return (STATUS_KO);
 	}
 
@@ -266,6 +271,7 @@ namespace star
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
+			m_CurrentSoundEffect = mEffectsList[name];
 			mEffectsList[name]->Play();
 			return (STATUS_OK);
 		}
