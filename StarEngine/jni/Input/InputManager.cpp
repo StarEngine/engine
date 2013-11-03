@@ -317,7 +317,7 @@ namespace star
 	
 	DWORD InputManager::UpdateWin()
 	{
-		while(m_ThreadAvailable)
+		//while(m_ThreadAvailable)
 		{
 
 			UpdateKeyboardStates();
@@ -465,7 +465,7 @@ namespace star
 				m_GestureManager->OnUpdateWinInputState();
 			}
 
-			Sleep(1000/60);
+			//Sleep(1000/60);
 		}
 		return 0;
 	}
@@ -615,7 +615,9 @@ namespace star
 	{
 		if((fingerIndex <= m_PointerVec.size() && fingerIndex > 0) && !m_bMainIsUp)
 		{
-			return (m_PointerVec.at(fingerIndex-1).Position);
+			vec2 temp(m_PointerVec.at(fingerIndex-1).Position);
+			temp.y = GraphicsManager::GetInstance()->GetWindowHeight()-temp.y;
+			return (temp);
 		}
 		return (vec2(UNDEFINED_POINTER_POSITION, UNDEFINED_POINTER_POSITION));
 	}

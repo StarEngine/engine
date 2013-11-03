@@ -266,7 +266,7 @@ namespace star
 			
 			m_IsInitialized = true;
 
-			AttachThreadInput(m_dKeybThreadID, GetCurrentThreadId(), true);
+			//AttachThreadInput(m_dKeybThreadID, GetCurrentThreadId(), true);
 
 			// Main message loop:
 			while(msg.message != WM_QUIT)
@@ -282,6 +282,10 @@ namespace star
 				{
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
+				}
+				if(m_IsActive) // We've processed all pending Win32 messages, and can now do a rendering update.
+				{
+					star::InputManager::GetInstance()->UpdateWin();
 				}
 				if(m_IsActive) // We've processed all pending Win32 messages, and can now do a rendering update.
 				{
@@ -326,8 +330,8 @@ namespace star
 		, m_hKeybThread()
 		, m_dKeybThreadID()
 	{
-		InputManager::GetInstance()->StartKeyboardThread();
-		m_hKeybThread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE) :: KeybThreadProc, this, NULL, &m_dKeybThreadID);
+		//InputManager::GetInstance()->StartKeyboardThread();
+		//m_hKeybThread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE) :: KeybThreadProc, this, NULL, &m_dKeybThreadID);
 	}
 
 	void Window::SetClipRect(const RECT & rect)
@@ -656,9 +660,9 @@ namespace star
 
 	Window::~Window(void)
 	{
-		InputManager::GetInstance()->StopKeyboardThread();
-		WaitForSingleObject( m_hKeybThread, INFINITE );
-		CloseHandle( m_hKeybThread );
+		//InputManager::GetInstance()->StopKeyboardThread();
+		//WaitForSingleObject( m_hKeybThread, INFINITE );
+		//CloseHandle( m_hKeybThread );
 
 		delete InputManager::GetInstance();
 
@@ -735,8 +739,8 @@ namespace star
 	}
 }
 
-DWORD WINAPI KeybThreadProc()
+/*DWORD WINAPI KeybThreadProc()
 {
 	return star::InputManager::GetInstance()->UpdateWin();
-}
+}*/
 #endif
