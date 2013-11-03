@@ -79,12 +79,12 @@ namespace star
 
 	bool RectangleColliderComponent::CollidesWithPoint(const pos& point) const
 	{
-		/*
-		if(rect1.GetLeft() > rect2.GetRight() || rect1.GetRight() < rect2.GetLeft() 
-			|| rect1.GetTop() > rect2.GetBottom() || rect1.GetBottom() < rect2.GetTop())
+		if(GetTransform()->GetWorldRotation() == 0.0f)
 		{
-			return false;
-		}*/
+			Rect rect = GetCollisionRect();
+			return !(rect.GetLeftTop().x > point.x || rect.GetRightTop().x < point.x
+					|| rect.GetLeftTop().y < point.y || rect.GetLeftBottom().y > point.y);
+		}
 		return false;
 	}
 
@@ -107,14 +107,14 @@ namespace star
 			{
 				if(AABBRectangleRectangleCollision(thisRect, otherRect))
 				{
-					Logger::GetInstance()->Log(LogLevel::Info, _T("AABB - Collision Detected"));
+					//Logger::GetInstance()->Log(LogLevel::Info, _T("AABB - Collision Detected"));
 				}
 			}
 			else
 			{
 				if(OOBBRectangleRectangleCollision(thisRect, otherRect))
 				{
-					Logger::GetInstance()->Log(LogLevel::Info, _T("OOBB - Collision Detected"));
+					//	Logger::GetInstance()->Log(LogLevel::Info, _T("OOBB - Collision Detected"));
 				}
 			}
 			
