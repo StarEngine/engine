@@ -173,8 +173,7 @@ namespace star
 			
 				if(spriteQueue[m_CurrentSprite + j].bIsHUD)
 				{
-					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"), 1, GL_FALSE, glm::value_ptr(
-						(spriteQueue[m_CurrentSprite + j].transform) * projection));
+					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"), 1, GL_FALSE, glm::value_ptr(TransposeMatrix(spriteQueue[m_CurrentSprite + j].transform) * projection));
 				}
 				else
 				{
@@ -266,7 +265,7 @@ namespace star
 				}
 				world = transform->GetWorldMatrix() * offsetTrans;
 
-				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),1,GL_FALSE,glm::value_ptr(TransposeMatrix(world) * projection));
+				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),1,GL_FALSE,glm::value_ptr(TransposeMatrix(world) * projection * viewInverse));
 				glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 			}
 			offsetY -= curfont.GetMaxLetterHeight();

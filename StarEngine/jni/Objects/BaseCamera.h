@@ -13,12 +13,14 @@ namespace star
 		BaseCamera(void);
 		virtual ~BaseCamera(void);
 		void Translate(const pos& position);
+		pos GetUnscaledPos(){return m_UnScaledPos;}
 
 	protected:
 		virtual void Initialize();
 		CameraComponent *m_pCamera;
 	private:
-		
+		pos m_UnScaledPos;
+
 	private:
 		BaseCamera(const BaseCamera &);
 		BaseCamera(BaseCamera &&);
