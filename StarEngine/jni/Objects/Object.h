@@ -33,6 +33,7 @@ namespace star
 
 		void AddChild(Object* pObject);
 		void RemoveChild(const Object* pObject);
+		std::vector<Object*>& GetChildren();
 
 		void SetCollisionTag(const tstring& tag);
 		const tstring& GetCollisionTag() const;
@@ -139,4 +140,6 @@ namespace star
 		}
 		return (nullptr);
 	}
+
+	
 }

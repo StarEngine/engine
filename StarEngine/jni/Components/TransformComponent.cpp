@@ -427,11 +427,24 @@ namespace star
 			{
 					return;
 			}
+			
+			for(auto child : GetParent()->GetChildren())
+			{
+				child->GetTransform()->IsChanged(true);
+			}
 
 			ASSERT(m_pParentObject != nullptr , _T("Parent object is nullptr! Shouldn't be!"));
 
-			m_LocalPosition = m_UnScaledLocalPos * ScaleSystem::GetInstance()->GetScale();
-			m_LocalScale = m_UnScaledLocalScale  * ScaleSystem::GetInstance()->GetScale();
+			m_LocalPosition = m_UnScaledLocalPos;
+			m_LocalScale = m_UnScaledLocalScale;
+
+			auto parentGameObj = m_pParentObject->GetParent();
+
+			if(parentGameObj == nullptr)
+			{
+				m_LocalPosition *= ScaleSystem::GetInstance()->GetScale();
+				m_LocalScale *= ScaleSystem::GetInstance()->GetScale();
+			}
 
 			m_LastUnScaledLocalPos = m_UnScaledLocalPos;
 			m_LastUnScaledLocalScale = m_UnScaledLocalScale;
@@ -450,8 +463,6 @@ namespace star
 #endif
 
             m_World = matTrans * matRot * matScale;
-
-            auto parentGameObj = m_pParentObject->GetParent();
 
             if(parentGameObj == nullptr)
             {
@@ -479,9 +490,12 @@ namespace star
 
 		void TransformComponent::UpdateFrozenObjects(const Context& context)
 		{
-			m_LocalPosition = m_LastUnScaledLocalPos * ScaleSystem::GetInstance()->GetScale();
-			m_LocalScale = m_LastUnScaledLocalScale  * ScaleSystem::GetInstance()->GetScale();
-
+			auto parentGameObj = m_pParentObject->GetParent();
+			if(parentGameObj == nullptr)
+			{
+				m_LocalPosition = m_LastUnScaledLocalPos * ScaleSystem::GetInstance()->GetScale();
+				m_LocalScale = m_LastUnScaledLocalScale  * ScaleSystem::GetInstance()->GetScale();
+			}
 			mat4x4 matRot, matTrans, matScale;
 
 #ifdef STAR2D
@@ -496,8 +510,6 @@ namespace star
 #endif
 
             m_World = matTrans * matRot * matScale;
-
-            auto parentGameObj = m_pParentObject->GetParent();
 
             if(parentGameObj == nullptr)
             {
@@ -517,6 +529,11 @@ namespace star
 		void TransformComponent::Draw()
 		{
 
+		}
+
+		void TransformComponent::IsChanged(bool isChanged)
+		{
+			m_IsChanged = isChanged;
 		}
 
         void TransformComponent::InitializeComponent()

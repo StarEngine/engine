@@ -26,7 +26,7 @@ namespace star
                 void Update(const Context& context);
 				void UpdateFrozenObjects(const Context& context);
                 void Draw();
-
+				void IsChanged(bool isChanged);
 #ifdef STAR2D
                 void Translate(const vec2& translation);
                 void Translate(float x, float y);

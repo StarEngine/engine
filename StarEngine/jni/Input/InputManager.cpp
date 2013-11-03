@@ -468,10 +468,10 @@ namespace star
 					m_CurrMousePosition += projectionObject->GetUnscaledPos().pos2D();
 				}
 			}
-			tstringstream buffer;
-			buffer << _T("Current Mouse Pos: ") << _T("( ") << m_CurrMousePosition.x << _T(" , ") << m_CurrMousePosition.y << _T(" )");
-			buffer << _T("WindowHeight: ") <<  (float)GraphicsManager::GetInstance()->GetWindowHeight();
-			Logger::GetInstance()->Log(LogLevel::Info, buffer.str());
+			//tstringstream buffer;
+			//buffer << _T("Current Mouse Pos: ") << _T("( ") << m_CurrMousePosition.x << _T(" , ") << m_CurrMousePosition.y << _T(" )");
+			//buffer << _T("WindowHeight: ") <<  (float)GraphicsManager::GetInstance()->GetWindowHeight();
+			//Logger::GetInstance()->Log(LogLevel::Info, buffer.str());
 			m_MouseMovement.x = m_CurrMousePosition.x - m_OldMousePosition.x;
 			m_MouseMovement.y = m_CurrMousePosition.y - m_OldMousePosition.y;
 

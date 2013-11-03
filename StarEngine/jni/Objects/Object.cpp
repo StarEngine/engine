@@ -194,6 +194,11 @@ namespace star
 		Logger::GetInstance()->Log(LogLevel::Info, _T("Child Removed"));
 	}
 
+	std::vector<Object*>& Object::GetChildren()
+	{
+		return m_pChildren;
+	}
+
 	void Object::SetCollisionTag(const tstring& tag)
 	{
 		m_CollisionTag = tag;
