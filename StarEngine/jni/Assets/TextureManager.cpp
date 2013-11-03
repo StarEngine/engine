@@ -39,19 +39,19 @@ namespace star
 
 		if(mTextureMap.find(name) != mTextureMap.end())
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Texture Already Exists"));
+			//star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Texture Already Exists"));
 			return (false);
 		}
 
 		auto pathit = mPathList.find(path);
 		if(pathit != mPathList.end())
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Texture Path Already Exists"));
+			//star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Texture Path Already Exists"));
 			tstring nameold = pathit->second;
 			auto nameit = mTextureMap.find(nameold);
 			if(nameit!= mTextureMap.end())
 			{
-				star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Found texture old path, making copy for new name"));
+				//star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Found texture old path, making copy for new name"));
 				mTextureMap[name]=nameit->second;
 				return (true);
 			}

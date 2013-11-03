@@ -31,7 +31,7 @@ namespace star
 	{
 		if(!FontManager::GetInstance()->LoadFont(m_FileName,m_FontName,m_FontSize))
 		{
-			Logger::GetInstance()->Log(LogLevel::Error,_T("TextComponent : Could not load Font ")+m_FileName);
+			//Logger::GetInstance()->Log(LogLevel::Error,_T("TextComponent : Could not load Font ")+m_FileName);
 		}
 	}
 

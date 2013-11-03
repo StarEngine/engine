@@ -161,7 +161,7 @@ namespace star
 			PathFindManager::GetInstance()->AddObject(this);
 		}
 
-		Logger::GetInstance()->Log(LogLevel::Info, _T("Component Added"));
+		//Logger::GetInstance()->Log(LogLevel::Info, _T("Component Added"));
 	}
 
 	void Object::RemoveComponent(const BaseComponent* pComponent)
@@ -183,7 +183,7 @@ namespace star
 
 		m_pChildren.push_back(pChild);
 
-		Logger::GetInstance()->Log(LogLevel::Info, _T("Child Added"));
+		//Logger::GetInstance()->Log(LogLevel::Info, _T("Child Added"));
 	}
 
 	void Object::RemoveChild(const Object* pObject)

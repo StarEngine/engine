@@ -72,7 +72,7 @@ namespace star
 		}
 	
 		int32 length = resource.GetLength();
-		star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : File size :")+star::string_cast<tstring>(length));
+		//star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : File size :")+star::string_cast<tstring>(length));
 		char* doc = reinterpret_cast<char*>( malloc (length+1));
 
 		if(resource.Read(doc,length) == STATUS_KO)
