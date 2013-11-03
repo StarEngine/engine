@@ -465,16 +465,13 @@ namespace star
 				BaseCamera* projectionObject = SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
 				if(projectionObject)
 				{
-					mat4x4 viewInverse = projectionObject->GetComponent<CameraComponent>()->GetViewInverse();
-					vec4 temp(m_CurrMousePosition.x , m_CurrMousePosition.y , 0, 1);
-					temp = glm::mul(temp, viewInverse);
-					m_CurrMousePosition = vec2(temp.x, temp.y);
+					m_CurrMousePosition += projectionObject->GetUnscaledPos().pos2D();
 				}
 			}
-			/*tstringstream buffer;
+			tstringstream buffer;
 			buffer << _T("Current Mouse Pos: ") << _T("( ") << m_CurrMousePosition.x << _T(" , ") << m_CurrMousePosition.y << _T(" )");
 			buffer << _T("WindowHeight: ") <<  (float)GraphicsManager::GetInstance()->GetWindowHeight();
-			Logger::GetInstance()->Log(LogLevel::Info, buffer.str());*/
+			Logger::GetInstance()->Log(LogLevel::Info, buffer.str());
 			m_MouseMovement.x = m_CurrMousePosition.x - m_OldMousePosition.x;
 			m_MouseMovement.y = m_CurrMousePosition.y - m_OldMousePosition.y;
 
