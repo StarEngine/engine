@@ -38,11 +38,11 @@ namespace star
 		void SetWindowMoved();
 		void SetWindowActive(bool active);
 
-		int GetCaptionHeight() const;
-
-		void SetResolution(int width, int height);
+		void SetResolution(int width, int height, bool reset = true);
 
 		void ForceTimerCalculation();
+
+		void GetWindowClipSize(RECT & rect);
 
 	private:
 		Window();
@@ -51,6 +51,9 @@ namespace star
 		void SetWindowsTitle() const;
 
 		static Window * m_pInstance;
+
+		void ClientResize(int & width, int & height);
+		void GetWindowDifferenceSize(int & difX, int & difY);
 
 		bool m_IsInitialized;
 		bool m_IsFullScreen;
@@ -90,12 +93,11 @@ namespace star
 		static const psip CLASS_STYLES[];
 		static const psip WINDOW_STYLES[];
 
-		int m_CaptionHeight;
-
 		int CastStringToClassStyle(const tstring & style);
 		int CastStringToWinStyle(const tstring & style);
 
 		Window & operator=(const Window&);
+		Window & operator=(Window&&);
 		Window(const Window&);
 		Window(Window&&);
 	};

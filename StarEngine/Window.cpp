@@ -179,26 +179,10 @@ namespace star
 
 			ASSERT(mHandle != NULL, _T("Couldn't create the window."));
 
+			SetResolution(position_width, position_height, false);
+
 			ShowWindow(mHandle, SW_SHOWNORMAL);
 			UpdateWindow(mHandle);
-
-			m_CaptionHeight = GetSystemMetrics(SM_CYCAPTION);
-
-			RECT winRec;
-			winRec.left = position_x;
-			winRec.right = winRec.left + position_width;
-			winRec.top = position_y;
-			winRec.bottom = winRec.top + position_height;
-
-			AdjustWindowRect(&winRec, windowStyles, false); 
-			
-			SetWindowPos(	mHandle,
-							NULL,
-							winRec.left,
-							winRec.top,
-							winRec.right - winRec.left,
-							winRec.bottom - winRec.top + m_CaptionHeight,
-							SWP_SHOWWINDOW);
 
 			InputManager::GetInstance()->SetWindowsHandle(mHandle);
 
@@ -244,7 +228,8 @@ namespace star
 			if(mClipRect.left != -1)
 			{
 				RECT windowRect;
-				GetClientRect(mHandle, &windowRect);
+				GetWindowRect(mHandle, &windowRect);
+				GetWindowClipSize(windowRect);
 
 				mClipRect.left += windowRect.left;
 				long width = string_cast<long>(clip_settings[_T("width")]);
@@ -340,7 +325,6 @@ namespace star
 		, mClipRect()
 		, m_hKeybThread()
 		, m_dKeybThreadID()
-		, m_CaptionHeight()
 	{
 		InputManager::GetInstance()->StartKeyboardThread();
 		m_hKeybThread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE) :: KeybThreadProc, this, NULL, &m_dKeybThreadID);
@@ -479,23 +463,14 @@ namespace star
 	{
 		m_IsActive = active;
 	}
-
-	int Window::GetCaptionHeight() const
-	{
-		return m_CaptionHeight;
-	}
 	
-	void Window::SetResolution(int width, int height)
+	void Window::SetResolution(int width, int height, bool reset)
 	{
-		RECT winRec;
-		winRec.left = m_SavedWindowState.WinRect.left;
-		winRec.right = winRec.left + width;
-		winRec.top = m_SavedWindowState.WinRect.top;
-		winRec.bottom = winRec.top + height + m_CaptionHeight;
+		GraphicsManager::GetInstance()->SetWindowDimensions(
+			width, 
+			height);
 
-		AdjustWindowRect(&winRec, m_SavedWindowState.Style, false); 
-		width = winRec.right - winRec.left;
-		height = winRec.bottom - winRec.top;
+		ClientResize(width, height);
 
 		m_SavedWindowState.Maximized = IsZoomed(mHandle);
 		m_SavedWindowState.Style = GetWindowLong(mHandle, GWL_STYLE);
@@ -504,10 +479,13 @@ namespace star
 
 		WindowInactiveUpdate(false);
 
-		SetWindowLongPtr(mHandle, GWL_EXSTYLE, m_SavedWindowState.ExStyle);
-		SetWindowLongPtr(mHandle, GWL_STYLE, m_SavedWindowState.Style);
-		bool isChangeSuccessful = ChangeDisplaySettings(NULL, CDS_RESET) == DISP_CHANGE_SUCCESSFUL;
-		//ASSERT(isChangeSuccessful, _T("Couldn't put the screen into windowed mode..."));
+		if(reset)
+		{
+			SetWindowLongPtr(mHandle, GWL_EXSTYLE, m_SavedWindowState.ExStyle);
+			SetWindowLongPtr(mHandle, GWL_STYLE, m_SavedWindowState.Style);
+			bool isChangeSuccessful = ChangeDisplaySettings(NULL, CDS_RESET) == DISP_CHANGE_SUCCESSFUL;
+			//ASSERT(isChangeSuccessful, _T("Couldn't put the screen into windowed mode..."));
+		}
 		SetWindowPos(mHandle, HWND_NOTOPMOST, 
 			m_SavedWindowState.WinRect.left,
 			m_SavedWindowState.WinRect.top,
@@ -515,6 +493,41 @@ namespace star
 			height,
 			SWP_SHOWWINDOW);
 		ShowWindow(mHandle, SW_RESTORE);
+		UpdateWindow(mHandle);
+	}
+
+	void Window::ClientResize(int & width, int & height)
+	{
+		int difX, difY;
+		GetWindowDifferenceSize(difX, difY);
+
+		width += difX;
+		height += difY;
+	}
+
+	void Window::GetWindowDifferenceSize(int & difX, int & difY)
+	{
+		RECT rcClient, rcWindow;
+
+		GetClientRect(mHandle, &rcClient);
+		GetWindowRect(mHandle, &rcWindow);
+
+		difX = (rcWindow.right - rcWindow.left) - rcClient.right;
+		difY = (rcWindow.bottom - rcWindow.top) - rcClient.bottom;
+	}
+
+	void Window::GetWindowClipSize(RECT & rect)
+	{
+		int difX, difY;
+		GetWindowDifferenceSize(difX, difY);
+
+		int border = difX / 2;
+		int top = difY - border;
+
+		rect.top += top;
+		rect.left += border;
+		rect.right -= border - 1;
+		rect.bottom -= border - 1;
 	}
 
 	void Window::ForceTimerCalculation()
@@ -703,15 +716,13 @@ namespace star
 
 	void UpdateWindowClipping(HWND hWnd)
 	{
-		RECT clientRect;
-		GetClientRect(hWnd, &clientRect);
-		GraphicsManager::GetInstance()->SetWindowDimensions(
-			clientRect.right - clientRect.left, 
-			clientRect.bottom - clientRect.top + Window::GetInstance()->GetCaptionHeight());
+		RECT winRect;
+		GetWindowRect(hWnd, &winRect);
+		Window::GetInstance()->GetWindowClipSize(winRect);
 		if(Window::GetInstance()->IsCursorClipped()
 					&& Window::GetInstance()->IsInitialized())
 		{
-			Window::GetInstance()->SetClipRect(clientRect);
+			Window::GetInstance()->SetClipRect(winRect);
 		}
 	}
 }
