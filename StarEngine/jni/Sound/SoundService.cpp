@@ -301,10 +301,16 @@ namespace star
 	void SoundService::PlayNextSongInQueue()
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		if(mBackgroundQueue.size()==0)return;
 
 		++mQueueIterator;
 		if(mQueueIterator!=mBackgroundQueue.end())
 		{
+			(*mQueueIterator)->PlayQueued(0);
+		}
+		else
+		{
+			mQueueIterator==mBackgroundQueue.begin();
 			(*mQueueIterator)->PlayQueued(0);
 		}
 	}

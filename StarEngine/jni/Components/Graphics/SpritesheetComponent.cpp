@@ -209,4 +209,9 @@ namespace star
 		}
 	}
 
+	bool SpritesheetComponent::IsPlaying()
+	{
+		return m_Animations.front().IsPlaying();
+	}
+
 }

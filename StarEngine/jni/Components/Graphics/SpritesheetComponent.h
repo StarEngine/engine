@@ -37,6 +37,8 @@ namespace star
 
 		void SetCallbackAnimations(const std::function<void()> & callback);
 
+		bool IsPlaying();
+
 	protected:
 		void InitializeComponent();
 		void CreateVertices();
