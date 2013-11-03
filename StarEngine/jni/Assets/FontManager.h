@@ -27,12 +27,12 @@ namespace star
 	struct TextDesc
 	{
 		TextDesc()
-			:Text(EMPTY_STRING)
+			:Text()
 			,Fontname(EMPTY_STRING)
 			,TransformComp(nullptr)
 			,TextColor(Color::Black)
 		{}
-		tstring Text;
+		std::vector<std::string> Text;
 		tstring Fontname;
 		Color TextColor;
 		TransformComponent* TransformComp; 

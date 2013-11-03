@@ -84,6 +84,9 @@ namespace star
 				++m_CurrentRepeats;
 				if(m_CurrentRepeats > m_Repeat)
 				{
+					m_CurrentFrame=0;
+					m_CurrentRepeats=0;
+					m_IsPlaying=false;
 					if(m_Callback != nullptr)
 					{
 						m_Callback();
@@ -101,21 +104,11 @@ namespace star
 		auto size = int(m_Frames.size());
 		if(currentFrame >= size)
 		{
-			if(currentFrame-size > size)
-			{
-				currentFrame -= currentFrame - size;
-			}
-			currentFrame -= size;
-				
+			currentFrame=size-1;
 		}
 		else if(currentFrame < 0)
 		{
-			int absr = int(abs(float(currentFrame-size)));
-			if(absr > size)
-			{
-				currentFrame += absr;
-			}
-			currentFrame += size;
+			currentFrame=0;
 		}
 
 		// UV Scale

@@ -43,12 +43,23 @@ namespace star
 	{	
 		if(m_MaxWidth != NO_WRAPPING && !m_bCheckedWrapping)
 		{
-			m_EditedText = CheckWrapping(FontManager::GetInstance()->GetFont(m_FontName),m_OrigText,m_MaxWidth);
+			m_SplittedText.clear();
+			std::string text = string_cast<std::string>(m_OrigText);
+			star::FontManager::GetInstance()->SplitIntoLines(m_SplittedText,text);
+			tstring totalline = EMPTY_STRING;
+			for(auto line : m_SplittedText)
+			{
+				tstring checkedline = CheckWrapping(FontManager::GetInstance()->GetFont(m_FontName),string_cast<tstring>(line),m_MaxWidth);
+				totalline += checkedline + _T("\n");
+			}
+			m_SplittedText.clear();
+			star::FontManager::GetInstance()->SplitIntoLines(m_SplittedText,string_cast<std::string>(totalline));
+			//m_EditedText = CheckWrapping(FontManager::GetInstance()->GetFont(m_FontName),m_OrigText,m_MaxWidth);
 			m_bCheckedWrapping=true;
 		}
 
 		TextDesc desc;
-		desc.Text = m_EditedText;
+		desc.Text = m_SplittedText;
 		desc.Fontname = m_FontName;
 		desc.TransformComp = m_pParentObject->GetTransform();
 		desc.TextColor = m_TextColor;

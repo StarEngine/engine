@@ -200,4 +200,13 @@ namespace star
 		m_Vertices[10] = 0;
 		m_Vertices[11] = 0;
 	}
+
+	void SpritesheetComponent::SetCallbackAnimations( const std::function<void()> & callback )
+	{
+		for(auto it : m_Animations)
+		{
+			it.SetCallback(callback);
+		}
+	}
+
 }

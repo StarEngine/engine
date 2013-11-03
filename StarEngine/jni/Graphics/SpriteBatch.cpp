@@ -200,9 +200,9 @@ namespace star
 		FlushText(textDesc.Text, textDesc.Fontname, textDesc.TransformComp, textDesc.TextColor);
 	}
 
-	void SpriteBatch::FlushText(const tstring& text, const tstring& fontname,TransformComponent* transform, Color color)
+	void SpriteBatch::FlushText(const std::vector<std::string>& text, const tstring& fontname,TransformComponent* transform, Color color)
 	{
-		if(text == EMPTY_STRING)
+		if(text.size() == 0)
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,	_T("FontManager::DrawText: Drawing an empty string..."));
 			return;
@@ -213,10 +213,10 @@ namespace star
 		vec2 position = transform->GetWorldPosition().pos2D();
 		vec2 origposition = position;
 
-		std::string conv_text = "";
-		conv_text = star::string_cast<std::string>(text);
-		std::vector<std::string> lines;
-		FontManager::GetInstance()->SplitIntoLines(lines,conv_text);
+		//std::string conv_text = "";
+		//conv_text = star::string_cast<std::string>(text);
+		//std::vector<std::string> lines;
+		//FontManager::GetInstance()->SplitIntoLines(lines,conv_text);
 
 		GLuint* textures = curfont.GetTextures();
 		std::vector<fontUvCoords> tempuvs = curfont.getUvCoords();
@@ -240,7 +240,7 @@ namespace star
 		mat4x4 viewInverse = projectionObject->GetComponent<CameraComponent>()->GetViewInverse();
 		int offsetX = 0;
 		int offsetY = 0;
-		for(auto it=lines.begin(); it!=lines.end();++it)
+		for(auto it=text.begin(); it!=text.end();++it)
 		{
 			const char *start_line=it->c_str();
 			for(int i=0;start_line[i]!=0;i++) 

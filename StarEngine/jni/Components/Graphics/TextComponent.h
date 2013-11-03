@@ -36,12 +36,14 @@ namespace star
 		float m_MaxWidth;
 		tstring m_OrigText;
 		tstring m_EditedText;
+		std::vector<std::string> m_SplittedText;
 
 		bool m_bCheckedWrapping, 
 			 m_bInFront;
 
 		tstring CheckWrapping(const Font& font, const tstring& stringIn, float wrapWidth);
 		void SplitString(std::vector<tstring>& wordArrayIn,const tstring& stringIn, const tstring& delimiter);
+		void SplitIntoLines(std::vector<std::string> &list, const std::string &string);
 
 		TextComponent(const TextComponent &);
 		TextComponent(TextComponent &&);

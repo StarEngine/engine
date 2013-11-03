@@ -35,6 +35,8 @@ namespace star
 		int GetFramesHorizontal() const;
 		int GetFramesVertical() const;
 
+		void SetCallbackAnimations(const std::function<void()> & callback);
+
 	protected:
 		void InitializeComponent();
 		void CreateVertices();
