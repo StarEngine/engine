@@ -27,14 +27,14 @@ namespace star
 		ASSERT(m_Radius > 0, _T("Invalid Radius: Radius has to be > 0"));
 	}
 
-	bool CircleColliderComponent::CollidesWithPoint(const pos& point) const
+	bool CircleColliderComponent::CollidesWithPoint(const vec2& point) const
 	{
 		float realRadius = GetRealRadius();
 		pos localPos = m_pParentObject->GetTransform()->GetLocalPosition();
-		return (glm::length(point.pos2D() - localPos.pos2D()) <= realRadius);
+		return (glm::length(point - localPos.pos2D()) <= realRadius);
 	}
 
-	bool CircleColliderComponent::CollidesWithLine(const pos& point1, const pos& point2) const
+	bool CircleColliderComponent::CollidesWithLine(const vec2& point1, const vec2& point2) const
 	{
 		/*/Ref page for more details:
 		http://blog.csharphelper.com/2010/03/28/determine-where-a-line-intersects-a-circle-in-c.aspx
@@ -47,7 +47,7 @@ namespace star
 
 		c = m_pParentObject->GetTransform()->GetLocalPosition().pos2D();
 
-		d = point2.pos2D() - point1.pos2D();
+		d = point2 - point1;
 
 		A = d.x * d.x + d.y * d.y;
 		B = 2 * (d.x * (point1.x - c.x) + d.y * (point1.y - c.y));

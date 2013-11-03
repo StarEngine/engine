@@ -23,8 +23,8 @@ namespace star
 		void SetAsStatic(bool isStatic);
 		bool IsStatic() const;
 
-		virtual bool CollidesWithPoint(const pos& point) const = 0;
-		virtual bool CollidesWithLine(const pos& point1, const pos& point2) const = 0;
+		virtual bool CollidesWithPoint(const vec2& point) const = 0;
+		virtual bool CollidesWithLine(const vec2& point1, const vec2& point2) const = 0;
 		virtual void CollidesWith(const BaseColliderComponent* other) const = 0;
 
 	protected:

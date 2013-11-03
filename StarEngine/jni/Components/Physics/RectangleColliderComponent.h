@@ -22,8 +22,8 @@ namespace star
 
 		~RectangleColliderComponent();
 
-		bool CollidesWithPoint(const pos& point) const;
-		bool CollidesWithLine(const pos& point1, const pos& point2) const;
+		bool CollidesWithPoint(const vec2& point) const;
+		bool CollidesWithLine(const vec2& point1, const vec2& point2) const;
 		void CollidesWith(const BaseColliderComponent* other) const;
 
 		Rect GetCollisionRect() const;
@@ -39,9 +39,10 @@ namespace star
 		void InitializeColliderComponent();
 		bool OOBBRectangleRectangleCollision(const Rect& rect1, const Rect& rect2) const;
 		bool AABBRectangleRectangleCollision(const Rect& rect1, const Rect& rect2) const;
-		bool CalculateAxisSpecificCollision(const Rect& rect1, const Rect& rect2, const vec2& axis) const;
 		bool RectangleCircleCollision(const RectangleColliderComponent* collider1, const CircleColliderComponent* collider2) const;
 
+		bool CalculateAxisSpecificCollision(const Rect& rect1, const Rect& rect2, const vec2& axis) const;
+		bool CalculateAxisSpecificCollision(const Rect& rect1, const vec2& point1, const vec2& point2, const vec2& axis) const;
 		Rect m_CollisionRect;
 
 	private:

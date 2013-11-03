@@ -77,7 +77,7 @@ namespace star
 		}
 	}
 
-	bool RectangleColliderComponent::CollidesWithPoint(const pos& point) const
+	bool RectangleColliderComponent::CollidesWithPoint(const vec2& point) const
 	{
 		if(GetTransform()->GetWorldRotation() == 0.0f)
 		{
@@ -85,12 +85,21 @@ namespace star
 			return !(rect.GetLeftTop().x > point.x || rect.GetRightTop().x < point.x
 					|| rect.GetLeftTop().y < point.y || rect.GetLeftBottom().y > point.y);
 		}
-		return false;
+		else
+		{
+			//[TODO] implement OOBB - Point collision
+			return false;
+		}
+		
 	}
 
-	bool RectangleColliderComponent::CollidesWithLine(const pos& point1, const pos& point2) const
+	bool RectangleColliderComponent::CollidesWithLine(const vec2& point1, const vec2& point2) const
 	{
-		return false;
+		Rect rect = GetCollisionRect();
+		//perpendicular of a vec =  (-y , x) or (y, -x)
+		vec2 axis(-(point2 - point1).y , (point2 - point1).x);
+
+		return (CalculateAxisSpecificCollision(rect, point1, point2, axis));
 	}
 
 	void RectangleColliderComponent::CollidesWith(const BaseColliderComponent* other) const
@@ -114,7 +123,7 @@ namespace star
 			{
 				if(OOBBRectangleRectangleCollision(thisRect, otherRect))
 				{
-					//	Logger::GetInstance()->Log(LogLevel::Info, _T("OOBB - Collision Detected"));
+					//Logger::GetInstance()->Log(LogLevel::Info, _T("OOBB - Collision Detected"));
 				}
 			}
 			
@@ -134,15 +143,16 @@ namespace star
 	bool RectangleColliderComponent::AABBRectangleRectangleCollision(const Rect& rect1,
 		const Rect& rect2) const
 	{
-		return !(rect1.GetRealLeft() > rect2.GetRealRight() || rect1.GetRealRight() < rect2.GetRealLeft() 
-			|| rect1.GetRealTop() < rect2.GetRealBottom() || rect1.GetRealBottom() > rect2.GetRealTop());
+		return !(rect1.GetLeftTop().x > rect2.GetRightTop().x || rect1.GetRightTop().x < rect2.GetLeftTop().x 
+			|| rect1.GetLeftTop().y < rect2.GetLeftBottom().y || rect1.GetLeftBottom().y > rect2.GetLeftTop().y);
 	}
 
 	bool RectangleColliderComponent::OOBBRectangleRectangleCollision(const Rect& rect1, 
 		const Rect& rect2) const
 	{
 		//First check if the rects are colliding as aabb
-		if(!AABBRectangleRectangleCollision(rect1, rect2))
+		if(rect1.GetRealLeft() > rect2.GetRealRight() || rect1.GetRealRight() < rect2.GetRealLeft() 
+			|| rect1.GetRealTop() < rect2.GetRealBottom() || rect1.GetRealBottom() > rect2.GetRealTop())
 		{
 			return false;
 		}
@@ -162,7 +172,37 @@ namespace star
 			CalculateAxisSpecificCollision(rect1, rect2, axis3) ||
 			CalculateAxisSpecificCollision(rect1, rect2, axis4));			
 		}									  
-	}					
+	}		
+
+	bool RectangleColliderComponent::CalculateAxisSpecificCollision(const Rect& rect1, 
+		const vec2& point1, const vec2& point2, const vec2& axis) const
+	{
+		vec2 Aproj1 = ((rect1.GetLeftTop() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
+		vec2 Aproj2 = ((rect1.GetLeftBottom() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
+		vec2 Aproj3 = ((rect1.GetRightBottom() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
+		vec2 Aproj4 = ((rect1.GetRightTop() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
+
+		vec2 Bproj1 = ((point1 * axis)/(glm::length(axis)*glm::length(axis)))*axis;
+
+		float AvecPosOnAxis1 = glm::dot(Aproj1,axis);
+		float AvecPosOnAxis2 = glm::dot(Aproj2,axis);
+		float AvecPosOnAxis3 = glm::dot(Aproj3,axis);
+		float AvecPosOnAxis4 = glm::dot(Aproj4,axis);
+
+		float BvecPosOnAxis1 = glm::dot(Bproj1,axis);
+
+		//Find Min and Max
+		float vec1[4];
+		vec1[0] = AvecPosOnAxis1;
+		vec1[1] = AvecPosOnAxis2;
+		vec1[2] = AvecPosOnAxis3;
+		vec1[3] = AvecPosOnAxis4;
+
+		float AMinimum = CalculateMinimum(vec1, 4);
+		float AMaximum = CalculateMaximum(vec1, 4);
+
+		return (BvecPosOnAxis1 <= AMaximum && BvecPosOnAxis1 >= AMinimum);
+	}
 
 	bool RectangleColliderComponent::CalculateAxisSpecificCollision(const Rect& rect1, 
 		const Rect& rect2, const vec2& axis) const
@@ -200,12 +240,12 @@ namespace star
 		vec2[2] = BvecPosOnAxis3;
 		vec2[3] = BvecPosOnAxis4;
 
-		float AMinimmum = CalculateMinimum(vec1, 4);
-		float BMinimmum = CalculateMinimum(vec2, 4);
-		float AMaximmum = CalculateMaximum(vec1, 4);
-		float BMaximmum = CalculateMaximum(vec2, 4);
+		float AMinimum = CalculateMinimum(vec1, 4);
+		float BMinimum = CalculateMinimum(vec2, 4);
+		float AMaximum = CalculateMaximum(vec1, 4);
+		float BMaximum = CalculateMaximum(vec2, 4);
 
-		return BMinimmum <= AMinimmum || BMaximmum >= AMaximmum;
+		return BMinimum <= AMaximum || BMaximum >= AMinimum;
 	}
 
 	float RectangleColliderComponent::CalculateMinimum(const float* vec, uint8 size) const

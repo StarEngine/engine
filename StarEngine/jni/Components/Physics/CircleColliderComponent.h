@@ -14,8 +14,8 @@ namespace star
 		CircleColliderComponent(float radius, const tstring* layers, uint8 n = 1);
 		~CircleColliderComponent(void);
 
-		bool CollidesWithPoint(const pos& point) const;
-		bool CollidesWithLine(const pos& point1, const pos& point2) const;
+		bool CollidesWithPoint(const vec2& point) const;
+		bool CollidesWithLine(const vec2& point1, const vec2& point2) const;
 		void CollidesWith(const BaseColliderComponent* other) const;
 
 		float GetRadius() const;
