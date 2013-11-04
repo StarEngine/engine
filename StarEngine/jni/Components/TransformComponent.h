@@ -19,7 +19,6 @@ namespace star
                         SCALE
                 };
 
-                TransformComponent(void);
                 TransformComponent(Object* parent);
                 ~TransformComponent(void);
 

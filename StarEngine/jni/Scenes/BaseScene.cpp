@@ -30,7 +30,7 @@ namespace star
 		m_GestureManagerPtr = nullptr;
 	}
 
-	status BaseScene::BaseInitialize(const Context & context)
+	status BaseScene::BaseInitialize()
 	{
 		status isInitialized(CreateObjects());
 		if(isInitialized == STATUS_OK)
@@ -42,7 +42,7 @@ namespace star
 			{
 				m_Objects[i]->BaseInitialize();
 			}
-			return AfterInitializedObjects(context);
+			return AfterInitializedObjects();
 		}
 		return STATUS_KO;
 	}
@@ -159,7 +159,7 @@ namespace star
 		return STATUS_OK;
 	}
 
-	status BaseScene::AfterInitializedObjects(const Context& context)
+	status BaseScene::AfterInitializedObjects()
 	{
 		CalculateViewPort();
 		return STATUS_OK;

@@ -19,7 +19,7 @@ namespace star
 		BaseScene(const tstring & name);
 		virtual ~BaseScene();
 		
-		status BaseInitialize(const Context& contex);
+		status BaseInitialize();
 		status BaseOnActivate();
 		void BaseOnDeactivate();
 		status BaseUpdate(const Context& context);
@@ -42,7 +42,7 @@ namespace star
 
 	protected:
 		virtual status CreateObjects();
-		virtual status AfterInitializedObjects(const Context& context);
+		virtual status AfterInitializedObjects();
 		virtual status OnActivate();
 		virtual status OnDeactivate();
 		virtual status Update(const Context& context);

@@ -176,9 +176,9 @@ namespace star
 	{
 		pChild->m_pParentGameObject = this;
 
-		if(m_bIsInitialized && ! pChild->m_bIsInitialized)
+		if(m_bIsInitialized && !pChild->m_bIsInitialized)
 		{
-			pChild->Initialize();
+			pChild->BaseInitialize();
 		}
 
 		m_pChildren.push_back(pChild);

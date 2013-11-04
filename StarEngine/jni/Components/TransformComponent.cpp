@@ -8,45 +8,10 @@
 
 namespace star
 {
-        TransformComponent::TransformComponent(void):
-                m_IsChanged(TransformChanged::NONE),
-                m_Invalidate(false),
-#ifdef STAR2D
-                m_WorldPosition(0,0),
-                m_LocalPosition(0,0),
-				m_UnScaledLocalPos(0,0),
-				m_UnScaledWorldPos(0,0),
-				m_LastUnScaledLocalPos(0,0),
-#else
-                m_WorldPosition(0,0,0),
-                m_LocalPosition(0,0,0),
-				m_UnScaledLocalPos(0,0,0),
-				m_UnScaledWorldPos(0,0,0),
-				m_LastUnScaledLocalPos(0,0,0),
-#endif
-                m_WorldRotation(),
-                m_LocalRotation(),
-#ifdef STAR2D
-                m_WorldScale(1,1),
-                m_LocalScale(1,1),
-				m_UnScaledLocalScale(1,1),
-				m_UnScaledWorldScale(1,1),
-				m_LastUnScaledLocalScale(1,1),
-#else
-                m_WorldScale(1,1,1),
-                m_LocalScale(1,1,1),
-				m_UnScaledLocalScale(1,1,1),
-				m_UnScaledWorldScale(1,1,1),
-				m_LastUnScaledLocalScale(1,1,1),
-#endif
-                m_World(),
-                BaseComponent()
-        {
-
-        }
-
         TransformComponent::TransformComponent(star::Object* parent):
-                m_IsChanged(TransformChanged::NONE),
+				m_IsChanged(TransformChanged::ROTATION |
+					TransformChanged::SCALE |
+					TransformChanged::TRANSLATION),
                 m_Invalidate(false),
 #ifdef STAR2D
                 m_WorldPosition(0,0),
