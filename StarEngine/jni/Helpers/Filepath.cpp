@@ -119,7 +119,7 @@ tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 		full_path = m_AssetsRoot;
 #endif
 		full_path += m_Path + m_File;
-
+		/*
 #if defined(_WIN32) && defined (_DEBUG)
 
 			tstring shellFullPath;
@@ -160,7 +160,7 @@ tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 					_T(" \" or your game will not run on Android and Linux");
 				Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
 			}
-#endif
+#endif*/
 		return full_path;
 	}
 

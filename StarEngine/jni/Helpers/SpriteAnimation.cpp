@@ -128,7 +128,7 @@ namespace star
 	void SpriteAnimation::PlayAtFrame(int startFrame)
 	{
 		m_IsPlaying = true;
-		m_CurrentFrame = startFrame;
+		m_CurrentFrame = float(startFrame);
 	}
 
 	void SpriteAnimation::Replay()
