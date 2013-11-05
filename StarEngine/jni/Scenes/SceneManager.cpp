@@ -153,7 +153,7 @@ namespace star
 			return (STATUS_OK);
 		}
 
-		if(m_ActiveScene != nullptr)
+		else if(m_ActiveScene != nullptr)
 		{
 			InputManager::GetInstance()->UpdateGestures(context);
 			return (m_ActiveScene->BaseUpdate(context));

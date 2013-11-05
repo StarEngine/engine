@@ -31,6 +31,8 @@ namespace star
 		
 		void SetCurrentSegment(int widthSegment, int heightSegment);
 
+		void SetTexture(const tstring& filepath, const tstring& spriteName, bool bIsHUDElement = false, int widthSegments = 1, int heightSegments = 1);
+
 	protected:
 		virtual void InitializeComponent();
 		virtual void CreateVertices();

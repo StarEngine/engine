@@ -240,6 +240,9 @@
     <ClInclude Include="jni\Helpers\glm\gtx\verbose_operator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Scenes\LoadScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -441,6 +444,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Objects\Button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Scenes\LoadScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

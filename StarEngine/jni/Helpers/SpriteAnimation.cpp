@@ -127,6 +127,12 @@ namespace star
 		m_IsPlaying = true;
 	}
 
+	void SpriteAnimation::PlayAtFrame(int startFrame)
+	{
+		m_IsPlaying = true;
+		m_CurrentFrame = startFrame;
+	}
+
 	void SpriteAnimation::Replay()
 	{
 		m_IsPlaying = true;

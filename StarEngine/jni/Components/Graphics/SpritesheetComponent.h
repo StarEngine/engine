@@ -22,9 +22,9 @@ namespace star
 
 		void PushAnimation(const tstring & animation);
 		void PlayAnimation(const tstring & animation);
-
+		void PlayAnimation(const tstring & animation, int startFrame);
 		void PlayNextAnimation();
-
+		void PlayNextAnimation(int startFrame);
 		void Reset();
 
 		void SetSpritesheet(const tstring & spritesheet);

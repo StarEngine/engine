@@ -115,12 +115,40 @@ namespace star
 		m_Animations.push_front(ani);
 	}
 
+	void SpritesheetComponent::PlayAnimation(const tstring & animation, int startFrame)
+	{
+		if(m_Animations.size() > 0)
+		{
+			m_Animations.pop_front();
+		}
+		auto ani = m_Spritesheet[animation];
+		ani.SetCallback([&]() { PlayNextAnimation(); });
+		m_Animations.push_front(ani);
+		m_Animations.front().PlayAtFrame(startFrame);
+
+	}
+
 	void SpritesheetComponent::PlayNextAnimation()
 	{
 		if(m_Animations.size() > 1)
 		{
 			m_Animations.pop_front();
 			m_Animations.front().Replay();
+		}
+#ifdef _DEBUG
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning, _T("Tried to go to next sprite animation while there is only one or none."));
+		}
+#endif
+	}
+
+	void SpritesheetComponent::PlayNextAnimation(int startFrame)
+	{
+		if(m_Animations.size() > 1)
+		{
+			m_Animations.pop_front();
+			m_Animations.front().PlayAtFrame(startFrame);
 		}
 #ifdef _DEBUG
 		else

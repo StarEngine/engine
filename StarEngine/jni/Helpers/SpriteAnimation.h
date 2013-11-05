@@ -24,6 +24,7 @@ namespace star
 		vec4 GetCurrentUV() const;
 
 		void Play();
+		void PlayAtFrame(int startFrame);
 		void Replay();
 		void Pause();
 		void Stop();
