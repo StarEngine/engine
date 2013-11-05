@@ -68,23 +68,21 @@ namespace star
 			m_CurrentFrame += (float)context.mTimeManager->GetSeconds() * m_Speed;
 			float size = (float)m_Frames.size();
 			bool readyToGo(false);
-			if(m_CurrentFrame > size)
+			if(m_CurrentFrame >= size)
 			{
-				m_CurrentFrame -= size;
-				readyToGo = true;
-				
+				m_CurrentFrame=size-1;
+				readyToGo=true;
 			}
 			else if(m_CurrentFrame < 0)
 			{
-				m_CurrentFrame += size;
-				readyToGo = true;
+				m_CurrentFrame=0;
+				readyToGo=true;
 			}
 			if(readyToGo && m_Repeat != -1)
 			{
 				++m_CurrentRepeats;
 				if(m_CurrentRepeats > m_Repeat)
 				{
-					m_CurrentFrame=0;
 					m_CurrentRepeats=0;
 					m_IsPlaying=false;
 					if(m_Callback != nullptr)
