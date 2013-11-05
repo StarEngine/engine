@@ -395,7 +395,7 @@ namespace star
 			
 			for(auto child : GetParent()->GetChildren())
 			{
-				child->GetTransform()->IsChanged(true);
+				//child->GetTransform()->IsChanged(true);
 			}
 
 			ASSERT(m_pParentObject != nullptr , _T("Parent object is nullptr! Shouldn't be!"));
@@ -405,9 +405,13 @@ namespace star
 
 			auto parentGameObj = m_pParentObject->GetParent();
 
-			if(parentGameObj == nullptr)
+			if(m_WorldPosition != m_LocalPosition)
 			{
 				m_LocalPosition *= ScaleSystem::GetInstance()->GetScale();
+					
+			}
+			if(parentGameObj == nullptr)
+			{
 				m_LocalScale *= ScaleSystem::GetInstance()->GetScale();
 			}
 
@@ -456,11 +460,15 @@ namespace star
 		void TransformComponent::UpdateFrozenObjects(const Context& context)
 		{
 			auto parentGameObj = m_pParentObject->GetParent();
-			if(parentGameObj == nullptr)
+			if(m_WorldPosition != m_LocalPosition)
 			{
 				m_LocalPosition = m_LastUnScaledLocalPos * ScaleSystem::GetInstance()->GetScale();
+			}
+			if(parentGameObj == nullptr)
+			{
 				m_LocalScale = m_LastUnScaledLocalScale  * ScaleSystem::GetInstance()->GetScale();
 			}
+
 			mat4x4 matRot, matTrans, matScale;
 
 #ifdef STAR2D
