@@ -70,12 +70,12 @@ namespace star
 			bool readyToGo(false);
 			if(m_CurrentFrame >= size)
 			{
-				m_CurrentFrame=size-1;
+				m_CurrentFrame = 0;
 				readyToGo=true;
 			}
 			else if(m_CurrentFrame < 0)
 			{
-				m_CurrentFrame=0;
+				m_CurrentFrame = size - 1;
 				readyToGo=true;
 			}
 			if(readyToGo && m_Repeat != -1)
@@ -84,6 +84,7 @@ namespace star
 				if(m_CurrentRepeats > m_Repeat)
 				{
 					m_CurrentRepeats=0;
+					m_CurrentFrame = size - 1;
 					m_IsPlaying=false;
 					if(m_Callback != nullptr)
 					{
@@ -97,16 +98,16 @@ namespace star
 	vec4 SpriteAnimation::GetCurrentUV() const
 	{
 		vec4 uv;
-		int currentFrame = (int)m_CurrentFrame;
+		int currentFrame = int(m_CurrentFrame);
 		
 		auto size = int(m_Frames.size());
 		if(currentFrame >= size)
 		{
-			currentFrame=size-1;
+			currentFrame = size - 1;
 		}
 		else if(currentFrame < 0)
 		{
-			currentFrame=0;
+			currentFrame = 0;
 		}
 
 		// UV Scale

@@ -51,7 +51,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\libs\freetype-2.5.0.1\include\freetype;..\libs\freetype-2.5.0.1\include;..\libs\SDL2_mixer-2.0.0\include;..\libs\SDL2-2.0.0\include;..\libs\libpng;$(ProjectDir);..\libs\OpenGL\GL;..\libs\OpenGL\GLEW\include\GL;..\libs\OpenGL\GLUT\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>STAR2D;LOGGER_MIN_LEVEL=3;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>STAR2D;LOGGER_MIN_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
