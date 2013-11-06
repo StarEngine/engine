@@ -199,14 +199,34 @@ namespace star
 		return mScreenHeight;
 	}
 
+	int32 GraphicsManager::GetTargetWindowWidth() const
+	{
+		return ScaleSystem::GetInstance()->GetWorkingResolution().x;
+	}
+
+	int32 GraphicsManager::GetTargetWindowHeight() const
+	{
+		return ScaleSystem::GetInstance()->GetWorkingResolution().y;
+	}
+
 	float GraphicsManager::GetWindowAspectRatio() const
 	{
 		return float(mScreenWidth) / float(mScreenHeight);
 	}
 
+	float GraphicsManager::GetTargetWindowAspectRatio() const
+	{
+		return ScaleSystem::GetInstance()->GetAspectRatio();
+	}
+
 	vec2 GraphicsManager::GetWindowResolution() const
 	{
 		return vec2(mScreenWidth, mScreenHeight);
+	}
+
+	const vec2& GraphicsManager::GetTargetWindowResolution() const
+	{
+		return ScaleSystem::GetInstance()->GetActualResolution();
 	}
 
 	void GraphicsManager::SetWindowDimensions(int32 width, int32 height)

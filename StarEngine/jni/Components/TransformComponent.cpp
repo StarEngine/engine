@@ -167,6 +167,11 @@ namespace star
                 return m_UnScaledLocalPos;
         }
 
+		const pos & TransformComponent::GetScaledWorldPosition()
+		{
+			return m_WorldPosition;
+		}
+
         float TransformComponent::GetWorldRotation()
         {
                 return m_WorldRotation;
@@ -187,6 +192,11 @@ namespace star
         {
                 return m_UnScaledLocalScale;
         }
+
+		const vec2 & TransformComponent::GetScaledWorldScale()
+		{
+			return m_WorldScale;
+		}
 #else
         void TransformComponent::Translate(const vec3 & translation)
         {
@@ -392,10 +402,10 @@ namespace star
 			{
 					return;
 			}
-			
+
 			for(auto child : GetParent()->GetChildren())
 			{
-				//child->GetTransform()->IsChanged(true);
+				child->GetTransform()->IsChanged(true);
 			}
 
 			ASSERT(m_pParentObject != nullptr , _T("Parent object is nullptr! Shouldn't be!"));
@@ -405,15 +415,8 @@ namespace star
 
 			auto parentGameObj = m_pParentObject->GetParent();
 
-			if(m_WorldPosition != m_LocalPosition)
-			{
-				m_LocalPosition *= ScaleSystem::GetInstance()->GetScale();
-					
-			}
-			if(parentGameObj == nullptr)
-			{
-				m_LocalScale *= ScaleSystem::GetInstance()->GetScale();
-			}
+			m_LocalScale *= ScaleSystem::GetInstance()->GetScale();
+			m_LocalPosition *= ScaleSystem::GetInstance()->GetScale();
 
 			m_LastUnScaledLocalPos = m_UnScaledLocalPos;
 			m_LastUnScaledLocalScale = m_UnScaledLocalScale;
@@ -421,31 +424,36 @@ namespace star
             mat4x4 matRot, matTrans, matScale;
 
 #ifdef STAR2D
-            matTrans = glm::translate(m_LocalPosition.pos3D());
-            float rotDegrees = RadiansToDegrees(m_LocalRotation);
-            matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
-            matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
+			if(parentGameObj == nullptr)
+            {
+				matTrans = glm::translate(m_LocalPosition.pos3D());
+				matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
+				matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
+
+                m_WorldPosition = m_LocalPosition;
+                m_WorldScale = m_LocalScale;
+                m_WorldRotation = m_LocalRotation;
+
+				m_UnScaledWorldPos = m_UnScaledLocalPos;
+                m_UnScaledWorldScale = m_UnScaledLocalScale;
+            }
+            else
+            {
+				matTrans = glm::translate(
+					parentGameObj->GetTransform()->GetScaledWorldPosition().pos3D() + m_LocalPosition.pos3D());
+				vec2 worldScale = (parentGameObj->GetTransform()->GetWorldScale() * m_UnScaledLocalScale) *
+					ScaleSystem::GetInstance()->GetScale();
+				matScale = glm::scale(vec3(worldScale.x, worldScale.y, 1));
+            }
 #else
+			//[TODO] UPDATE IMPLEMENTATION OF 3D TRANSFORMCOMP
+
             matTrans = glm::translate(m_LocalPosition);
             matRot   = glm::toMat4(m_LocalRotation);
             matScale = glm::scale(m_LocalScale);
 #endif
 
             m_World = matTrans * matRot * matScale;
-
-            if(parentGameObj == nullptr)
-            {
-                    m_WorldPosition = m_LocalPosition;
-                    m_WorldScale = m_LocalScale;
-                    m_WorldRotation = m_LocalRotation;
-
-					m_UnScaledWorldPos = m_UnScaledLocalPos;
-                    m_UnScaledWorldScale = m_UnScaledLocalScale;
-            }
-            else
-            {
-                    m_World *= parentGameObj->GetTransform()->GetWorldMatrix();
-            }
 
             m_IsChanged = TransformChanged::NONE;
 
@@ -459,24 +467,36 @@ namespace star
 
 		void TransformComponent::UpdateFrozenObjects(const Context& context)
 		{
-			auto parentGameObj = m_pParentObject->GetParent();
-			if(m_WorldPosition != m_LocalPosition)
-			{
-				m_LocalPosition = m_LastUnScaledLocalPos * ScaleSystem::GetInstance()->GetScale();
-			}
-			if(parentGameObj == nullptr)
-			{
-				m_LocalScale = m_LastUnScaledLocalScale  * ScaleSystem::GetInstance()->GetScale();
-			}
+			m_LocalScale *= ScaleSystem::GetInstance()->GetScale();
+			m_LocalPosition *= ScaleSystem::GetInstance()->GetScale();
 
 			mat4x4 matRot, matTrans, matScale;
 
 #ifdef STAR2D
-            matTrans = glm::translate(m_LocalPosition.pos3D());
-            float rotDegrees = RadiansToDegrees(m_LocalRotation);
-            matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
-            matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
+			auto parentGameObj = m_pParentObject->GetParent();
+			if(parentGameObj == nullptr)
+            {
+				matTrans = glm::translate(m_LocalPosition.pos3D());
+				matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
+				matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
+
+                m_WorldPosition = m_LocalPosition;
+                m_WorldScale = m_LocalScale;
+                m_WorldRotation = m_LocalRotation;
+
+				m_UnScaledWorldPos = m_UnScaledLocalPos;
+                m_UnScaledWorldScale = m_UnScaledLocalScale;
+            }
+            else
+            {
+				matTrans = glm::translate(
+					parentGameObj->GetTransform()->GetScaledWorldPosition().pos3D() + m_LocalPosition.pos3D());
+				vec2 worldScale = (parentGameObj->GetTransform()->GetWorldScale() * m_UnScaledLocalScale) *
+					ScaleSystem::GetInstance()->GetScale();
+				matScale = glm::scale(vec3(worldScale.x, worldScale.y, 1));
+            }
 #else
+			//[TODO] UPDATE IMPLEMENTATION OF 3D TRANSFORMCOMP
             matTrans = glm::translate(m_LocalPosition);
             matRot   = glm::toMat4(m_LocalRotation);
             matScale = glm::scale(m_LocalScale);
@@ -484,19 +504,6 @@ namespace star
 
             m_World = matTrans * matRot * matScale;
 
-            if(parentGameObj == nullptr)
-            {
-                    m_WorldPosition = m_LocalPosition;
-                    m_WorldScale = m_LocalScale;
-                    m_WorldRotation = m_LocalRotation;
-
-					m_UnScaledWorldPos = m_UnScaledLocalPos;
-                    m_UnScaledWorldScale = m_UnScaledLocalScale;
-            }
-            else
-            {
-                    m_World *= parentGameObj->GetTransform()->GetWorldMatrix();
-            }
 		}
         
 		void TransformComponent::Draw()

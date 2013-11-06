@@ -32,8 +32,14 @@ namespace star
 
 		int32 GetWindowWidth() const;
 		int32 GetWindowHeight() const;
+		int32 GetTargetWindowWidth() const;
+		int32 GetTargetWindowHeight() const;
+
 		float GetWindowAspectRatio() const;
+		float GetTargetWindowAspectRatio() const;
+
 		vec2 GetWindowResolution() const;
+		const vec2& GetTargetWindowResolution() const;
 
 		void SetWindowDimensions(int32 width, int32 height);
 		void SetHasWindowChanged(bool isTrue);

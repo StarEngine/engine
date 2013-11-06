@@ -100,6 +100,9 @@ namespace star
                 void InitializeComponent();
                 void CheckForUpdate(const bool force = false);
 
+				const pos& GetScaledWorldPosition();
+				const vec2& GetScaledWorldScale();
+
                 unsigned char m_IsChanged;
                 bool m_Invalidate;
 
