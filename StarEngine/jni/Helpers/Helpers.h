@@ -2,6 +2,7 @@
 
 #include "../defines.h"
 #include <algorithm>
+#include <string>
 
 namespace star
 {
@@ -53,6 +54,10 @@ namespace star
 		(const glm::vec2 & value);
 
 	template <>
+	tstring string_cast<tstring, pos>
+		(const pos & value);
+
+	template <>
 	tstring string_cast<tstring, glm::vec3>
 		(const glm::vec3 & value);
 
@@ -93,6 +98,10 @@ namespace star
 		(const tstring & value);
 
 	template <>
+	pos string_cast<pos, tstring>
+		(const tstring & value);
+
+	template <>
 	glm::vec3 string_cast<glm::vec3, tstring>
 		(const tstring & value);
 
@@ -103,4 +112,82 @@ namespace star
 	template <>
 	glm::quat string_cast<glm::quat, tstring>
 		(const tstring & value);
+
+	void ReadTextFile(const tstring & file, tstring & text);
+	tstring ReadTextFile(const tstring & file);
+
+	void WriteTextFile(const tstring & file, const tstring & text);
+	void AppendTextFile(const tstring & file, const tstring & text);
+
+	char * ReadBinaryFile(const tstring & file, uint32 & size);
+	void WriteBinaryFile(const tstring & file, char * buffer, uint32 size);
+	void AppendBinaryFile(const tstring & file, char * buffer, uint32 size);
+
+	template<class To, class From>
+	To cast(From v)
+	{
+		return static_cast<To>(static_cast<void*>(v));
+	}
+
+	template <typename T>
+	void WriteData(const tstring & file, T * buffer)
+	{
+		auto dataSize = sizeof(T);
+		char * dataBuffer = new char[dataSize];
+		memcpy(dataBuffer, buffer, dataSize);
+		WriteBinaryFile(file, dataBuffer, dataSize);
+		delete [] dataBuffer;
+	}
+
+	template <typename T>
+	void ReadData(const tstring & file, T * buffer)
+	{
+		uint32 dataSize = sizeof(T);
+		char * dataBuffer = ReadBinaryFile(file, dataSize);
+		memcpy(buffer, dataBuffer, dataSize);
+		delete [] dataBuffer;
+	}
+
+	template <typename T>
+	void WriteDataArray(const tstring & file, T * buffer, uint32 size)
+	{
+		auto dataSize = sizeof(T);
+		char * dataBuffer = new char[size * dataSize];
+		for(uint32 i = 0 ; i < size ; ++i)
+		{
+			char * data = new char[dataSize];
+			memcpy(data, buffer[i], dataSize);
+			for(uint32 u = 0 ; u < dataSize ; ++u)
+			{
+				dataBuffer[(i * dataSize) + u] = data[u];
+			}
+			delete [] data;
+		}
+		uint32 totalSize = sizeof(T) * size;
+		WriteBinaryFile(file, dataBuffer, totalSize);
+		delete [] dataBuffer;
+	}
+
+	template <typename T>
+	T * ReadDataArray(const tstring & file, uint32 size)
+	{
+		uint32 dataSize = sizeof(T);
+		uint32 totalSize = dataSize * size;
+		char * dataBuffer = ReadBinaryFile(file, totalSize);
+		T * buffer = new T[size];
+		for(uint32 i = 0 ; i < size ; ++i)
+		{
+			char * data = new char[dataSize];
+			for(uint32 u = 0 ; u < dataSize ; ++u)
+			{
+				data[u] = dataBuffer[(i * dataSize) + u];
+			}
+			T temp;
+			memcpy(&temp, data, dataSize);
+			buffer[i] = temp;
+			delete [] data;
+		}
+		delete [] dataBuffer;
+		return buffer;
+	}
 }

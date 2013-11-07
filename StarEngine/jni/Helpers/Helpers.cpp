@@ -1,5 +1,9 @@
 #include "Helpers.h"
 #include "..\Logger.h"
+#include "Filepath.h"
+#include <iostream>
+#include <fstream>
+#include <string>
 
 namespace star
 {
@@ -74,6 +78,17 @@ namespace star
 		tstringstream strstr;
 		strstr << value.x << _T(";");
 		strstr << value.y;
+		return strstr.str();
+	}
+
+	template <>
+	tstring string_cast<tstring, pos>
+		(const pos & value)
+	{
+		tstringstream strstr;
+		strstr << value.x << _T(";");
+		strstr << value.y << _T(";");
+		strstr << value.l;
 		return strstr.str();
 	}
 
@@ -168,6 +183,19 @@ namespace star
 	}
 
 	template <>
+	pos string_cast<pos, tstring>
+		(const tstring & value)
+	{
+		pos pos;
+		int index = value.find(';', 0);
+		pos.x = string_cast<float>(value.substr(0, index));
+		int index2 = value.find(';', ++index);
+		pos.y = string_cast<float>(value.substr(index, index2 - index));
+		pos.l = lay(string_cast<int32>(value.substr(++index2, value.size() - index2)));
+		return pos;
+	}
+
+	template <>
 	glm::vec3 string_cast<glm::vec3, tstring>
 		(const tstring & value)
 	{
@@ -208,5 +236,121 @@ namespace star
 		quat.z = string_cast<float>(value.substr(index2, index - index2));
 		quat.w = string_cast<float>(value.substr(++index, value.size() - index));
 		return quat;
+	}
+
+	void ReadTextFile(const tstring & file, tstring & text)
+	{
+		Filepath filep(file);
+		tfstream myfile;
+		myfile.open(filep.GetFullPath(), std::ios::in);
+		bool succes = myfile.is_open();
+		ASSERT(succes, (_T("Couldn't open the text file '") + file + _T("'.")).c_str());
+		if(succes)
+		{
+			tstring str;
+			while (std::getline(myfile,str))
+			{
+				text += str;
+			}
+			myfile.close();
+		}
+	}
+
+	tstring ReadTextFile(const tstring & file)
+	{
+		Filepath filep(file);
+		tfstream myfile;
+		myfile.open(filep.GetFullPath(), std::ios::in);
+		bool succes = myfile.is_open();
+		ASSERT(succes, (_T("Couldn't open the text file '") + file + _T("'.")).c_str());
+		tstring text;
+		if(succes)
+		{
+			tstring str;
+			while (std::getline(myfile,str))
+			{
+				text += str;
+			}
+			myfile.close();
+		}
+		return text;
+	}
+
+	void WriteTextFile(const tstring & file, const tstring & text)
+	{
+		Filepath filep(file);
+		tfstream myfile(filep.GetFullPath(), std::ios::out);
+		bool succes = myfile.is_open();
+		ASSERT(succes, (_T("Couldn't open the text file '") + file + _T("'.")).c_str());
+		if(succes)
+		{
+			myfile << text;
+			myfile.close();
+		}
+	}
+
+	void AppendTextFile(const tstring & file, const tstring & text)
+	{
+		Filepath filep(file);
+		tfstream myfile(filep.GetFullPath(), std::ios::out | std::ios::app);
+		bool succes = myfile.is_open();
+		ASSERT(succes, (_T("Couldn't open the text file '") + file + _T("'.")).c_str());
+		if(succes)
+		{
+			myfile << text;
+			myfile.close();
+		}
+	}
+
+	char * ReadBinaryFile(const tstring & file, uint32 & size)
+	{
+		Filepath filep(file);
+		std::fstream binary_file;
+		binary_file.open(filep.GetFullPath(), std::ios::in | std::ios::binary | std::ios::ate);
+		bool succes = binary_file.is_open();
+		char * buffer(nullptr);
+		ASSERT(succes, (_T("Couldn't open the binary file '") + file + _T("'.")).c_str());
+		if (succes)
+		{
+			size = uint32(binary_file.tellg());
+			buffer = new char[size];
+			binary_file.seekg(0, std::ios::beg);
+			binary_file.read(buffer, sizeof(char) * size);
+			binary_file.close();
+		}
+		return buffer;
+	}
+
+	void WriteBinaryFile(const tstring & file, char * buffer, uint32 size)
+	{
+		Filepath filep(file);
+		std::ofstream binary_file;
+		binary_file.open(filep.GetFullPath(), std::ios::binary | std::ios::trunc);
+		bool succes = binary_file.is_open();
+		ASSERT(succes, (_T("Couldn't open the binary file '") + file + _T("'.")).c_str());
+		if (succes)
+		{
+			for(uint32 i = 0 ; i < size ; ++i)
+			{
+				binary_file << buffer[i];
+			}
+			binary_file.close();
+		}
+	}
+
+	void AppendBinaryFile(const tstring & file, char * buffer, uint32 size)
+	{
+		Filepath filep(file);
+		std::ofstream binary_file(filep.GetFullPath(), std::ios::out | std::ios::binary | std::ios::app);
+		bool succes = binary_file.is_open();
+		ASSERT(succes, (_T("Couldn't open the binary file '") + file + _T("'.")).c_str());
+		if (succes)
+		{
+			for(uint32 i = 0 ; i < size ; ++i)
+			{
+				binary_file << buffer[i];
+			}
+			binary_file.close();
+		}
 	}
 }
