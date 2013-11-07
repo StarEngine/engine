@@ -64,11 +64,21 @@ namespace star
 				child->BaseInitialize();
 			}
 		}
-
+		BaseAfterInitialized();
 		m_bIsInitialized = true;
 	}
 
 	void Object::Initialize()
+	{
+		//DO nothing, unless a derived class overrides this
+	}
+
+	void Object::BaseAfterInitialized()
+	{
+		AfterInitialzed();
+	}
+
+	void Object::AfterInitialzed()
 	{
 		//DO nothing, unless a derived class overrides this
 	}
