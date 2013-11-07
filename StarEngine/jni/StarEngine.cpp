@@ -31,6 +31,9 @@ namespace star
 
 	status StarEngine::Initialize(int32 window_width, int32 window_height)
 	{
+		//Generate random seed.
+		srand((unsigned)time(0));
+
 		Logger::GetInstance()->Initialize();
 
 		//Only for windows we need to pas the window paramaters
