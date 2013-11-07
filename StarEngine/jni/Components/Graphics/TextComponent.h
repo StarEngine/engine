@@ -4,6 +4,7 @@
 #include "../BaseComponent.h"
 #include "../../Graphics/Color.h"
 #include <vector>
+#include "../../Assets/FontManager.h"
 
 namespace star
 {
@@ -33,6 +34,7 @@ namespace star
 		tstring m_FontName;
 
 		Color m_TextColor;
+		TextDesc m_TextDesc;
 		float m_MaxWidth;
 		tstring m_OrigText;
 		tstring m_EditedText;
