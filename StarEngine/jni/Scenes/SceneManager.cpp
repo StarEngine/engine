@@ -17,6 +17,7 @@ namespace star
 	SceneManager::SceneManager( void )
 		: m_ActiveScene(nullptr)
 		, m_NewActiveScene(nullptr)
+		, m_Stopwatch(nullptr)
 		, m_bSwitchingScene(false)
 		, m_bInitialized(false)
 		, m_bDestroyRequested(false)
@@ -25,7 +26,7 @@ namespace star
 		, mApplicationPtr(nullptr)
 #endif
 	{
-
+		m_Stopwatch = std::make_shared<Stopwatch>();
 	}
 
 	SceneManager::~SceneManager(void)
@@ -136,6 +137,8 @@ namespace star
 			return (STATUS_OK);
 		}
 
+		m_Stopwatch->Update(context);
+
 		if(m_bSwitchingScene)
 		{
 			if(!m_bInitialized)
@@ -174,6 +177,11 @@ namespace star
 			SpriteBatch::GetInstance()->Flush();
 		}
 		return (STATUS_OK);
+	}
+
+	std::shared_ptr<Stopwatch> SceneManager::GetStopwatch() const
+	{
+		return m_Stopwatch;
 	}
 
 #ifdef ANDROID

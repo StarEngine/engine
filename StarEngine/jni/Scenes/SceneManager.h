@@ -1,7 +1,9 @@
 #pragma once
 
-#include <map>
 #include "../defines.h"
+#include "../Helpers/Stopwatch.h"
+#include <memory>
+#include <map>
 
 #ifdef ANDROID
 #include <android_native_app_glue.h>
@@ -28,6 +30,8 @@ namespace star
 		status Update(const Context& context);
 		status Draw();
 
+		std::shared_ptr<Stopwatch> GetStopwatch() const;
+
 
 #ifdef ANDROID
 		void processActivityEvent(int32 pCommand, android_app* pApplication);
@@ -39,9 +43,10 @@ namespace star
 	private:
 		static SceneManager * m_pSceneManager;
 
-
 		BaseScene	*m_ActiveScene, 
 					*m_NewActiveScene;
+
+		std::shared_ptr<Stopwatch> m_Stopwatch;
 
 		std::map<tstring, BaseScene*> m_SceneList;
 		bool m_bSwitchingScene,
