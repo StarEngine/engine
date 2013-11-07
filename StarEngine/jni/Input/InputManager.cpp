@@ -14,6 +14,7 @@
 #include "../Components/CameraComponent.h"
 #include "../Scenes/BaseScene.h"
 #include "../Objects/BaseCamera.h"
+#include "../Helpers/Helpers.h"
 
 namespace star
 {
@@ -65,9 +66,6 @@ namespace star
 	#ifdef DESKTOP
 		: m_ThreadAvailable(false)
 		, m_KeyboardState0Active(true)
-		, m_OldMousePosition()
-		, m_CurrMousePosition()
-		, m_MouseMovement()
 		, mWindowsHandle()
 	#else
 		: m_bMainIsDown(false)
@@ -80,6 +78,9 @@ namespace star
 		, m_OldPointerVec()
 	#endif
 		, m_GestureManager(nullptr)
+		, m_OldMousePosition()
+		, m_CurrMousePosition()
+		, m_MouseMovement()
 	{
 #ifdef DESKTOP
 		//Init new keyboard states
@@ -239,6 +240,7 @@ namespace star
 
 	const vec2 & InputManager::GetCurrentMousePosition() const
 	{
+		Logger::GetInstance()->Log(LogLevel::Info, string_cast<tstring>(m_CurrMousePosition));
 		return m_CurrMousePosition;
 	}
 
@@ -456,10 +458,11 @@ namespace star
 			{
 				ScreenToClient(mWindowsHandle,&mousePos);
 			}
-			//[TODO] Change to %
 			m_CurrMousePosition = vec2(mousePos.x , (float)GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y);
 			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetWindowResolution();
 			m_CurrMousePosition *= ScaleSystem::GetInstance()->GetWorkingResolution();
+			
+			
 			if(SceneManager::GetInstance()->GetActiveScene())
 			{
 				BaseCamera* projectionObject = SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
@@ -468,10 +471,7 @@ namespace star
 					m_CurrMousePosition += projectionObject->GetUnscaledPos().pos2D();
 				}
 			}
-			//tstringstream buffer;
-			//buffer << _T("Current Mouse Pos: ") << _T("( ") << m_CurrMousePosition.x << _T(" , ") << m_CurrMousePosition.y << _T(" )");
-			//buffer << _T("WindowHeight: ") <<  (float)GraphicsManager::GetInstance()->GetWindowHeight();
-			//Logger::GetInstance()->Log(LogLevel::Info, buffer.str());
+
 			m_MouseMovement.x = m_CurrMousePosition.x - m_OldMousePosition.x;
 			m_MouseMovement.y = m_CurrMousePosition.y - m_OldMousePosition.y;
 
@@ -626,29 +626,34 @@ namespace star
 		return (false);
 	}
 
-	vec2 InputManager::GetCurrentTouchPosANDR(uint8 fingerIndex) const
+	vec2 InputManager::GetCurrentTouchPosANDR(uint8 fingerIndex)
 	{
-		if((fingerIndex <= m_PointerVec.size() && fingerIndex > 0) && !m_bMainIsUp)
+		if((fingerIndex <= m_PointerVec.size() && fingerIndex > 0))
 		{
-			vec2 temp(m_PointerVec.at(fingerIndex-1).Position);
-			temp.y = GraphicsManager::GetInstance()->GetWindowHeight()-temp.y;
-			return (temp);
+			Logger::GetInstance()->Log(LogLevel::Info, string_cast<tstring>(m_PointerVec.at(fingerIndex-1).Position));
+			m_CurrMousePosition = m_PointerVec.at(fingerIndex-1).Position;
+			m_CurrMousePosition.y =  GraphicsManager::GetInstance()->GetWindowHeight()- m_CurrMousePosition.y;
+			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetWindowResolution();
+			m_CurrMousePosition *= ScaleSystem::GetInstance()->GetWorkingResolution();
 		}
-		return (vec2(UNDEFINED_POINTER_POSITION, UNDEFINED_POINTER_POSITION));
+		return m_CurrMousePosition;
 	}
 
-	vec2 InputManager::GetOldTouchPosANDR(uint8 fingerIndex) const
+	vec2 InputManager::GetOldTouchPosANDR(uint8 fingerIndex)
 	{
-		if(((fingerIndex <= m_OldPointerVec.size() && fingerIndex > 0) && 
-			(fingerIndex <= m_PointerVec.size() && fingerIndex > 0)) && 
-			!m_bMainIsUp)
+		if(((fingerIndex <= m_OldPointerVec.size() && fingerIndex > 0) &&
+			(fingerIndex <= m_PointerVec.size() && fingerIndex > 0)))
 		{
 			if(m_OldPointerVec.at(fingerIndex-1).ID == m_PointerVec.at(fingerIndex-1).ID)
 			{
-				return (m_OldPointerVec.at(fingerIndex-1).Position);
+				m_OldMousePosition = m_OldPointerVec.at(fingerIndex-1).Position;
+				m_OldMousePosition.y = GraphicsManager::GetInstance()->GetWindowHeight() - m_OldMousePosition.y;
+				m_OldMousePosition /= GraphicsManager::GetInstance()->GetWindowResolution();
+				m_OldMousePosition *= ScaleSystem::GetInstance()->GetWorkingResolution();
+
 			}
 		}
-		return (vec2(UNDEFINED_POINTER_POSITION, UNDEFINED_POINTER_POSITION));
+		return m_OldMousePosition;
 	}
 
 	void InputManager::OnTouchEvent(AInputEvent* pEvent)
@@ -803,7 +808,7 @@ namespace star
 #endif
 	}
 
-	vec2 InputManager::GetCurrentFingerPosCP(uint8 fingerIndex) const
+	vec2 InputManager::GetCurrentFingerPosCP(uint8 fingerIndex)
 	{
 		++fingerIndex;
 #ifdef DESKTOP
@@ -813,7 +818,7 @@ namespace star
 #endif
 	}
 
-	vec2 InputManager::GetOldFingerPosCP(uint8 fingerIndex) const
+	vec2 InputManager::GetOldFingerPosCP(uint8 fingerIndex)
 	{
 		++fingerIndex;
 #ifdef DESKTOP

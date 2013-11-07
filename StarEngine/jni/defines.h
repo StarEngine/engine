@@ -20,11 +20,7 @@ typedef uint8_t 	uint8;
 
 typedef int8_t status;
 
-const status STATUS_OK 		= 0;
-const status STATUS_KO 		= -1;
-const status STATUS_EXIT 	= -2;
-
-#include <string.h>		
+#include <string>
 #include <sstream>
 #include <iostream>
 #include <fstream>
@@ -44,7 +40,6 @@ const status STATUS_EXIT 	= -2;
 	#define tofstream std::wofstream
 	#define tifstream std::wifstream
 	#define tfstream std::wfstream
-	#define to_tstring std::to_wstring
 	#define tchar wchar_t
 	#define tuchar unsigned std::char
 	#define tprintf std::wprintf
@@ -59,7 +54,6 @@ const status STATUS_EXIT 	= -2;
 	#define tofstream std::ofstream
 	#define tifstream std::ifstream
 	#define tfstream std::fstream
-	#define to_tstring std::to_string
 	#define tchar char
 	#define tuchar unsigned char
 	#define tprintf std::printf
@@ -92,6 +86,10 @@ const double PI = 3.14159265358979323846264338327950288;
 #define ANDROID_LOG_TAG _T("STAR_ENGINE")
 #define NO_WRAPPING -1
 const float EPSILON = 0.0000001f;
+
+const status STATUS_OK 		= 0;
+const status STATUS_KO 		= -1;
+const status STATUS_EXIT 	= -2;
 
 #ifdef STAR2D
 #include "defines2D.h" 
