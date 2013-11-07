@@ -17,4 +17,11 @@ namespace star
 	vec4 RadiansToDegrees(const vec4 & degrees);
 
 	mat4x4 TransposeMatrix(const mat4x4& matrix);
+
+	int32 GenerateRandomNumber(int32 min, int32 max);
+	uint32 GenerateRandomNumber(uint32 min, uint32 max);
+	int32 GenerateRandomNumber(int32 min, uint32 max);
+	int32 GenerateRandomNumber(uint32 min, int32 max);
+	float GenerateRandomNumber(float min, float max);
+	double GenerateRandomNumber(double min, double max);
 }

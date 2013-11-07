@@ -77,7 +77,7 @@ namespace star
 
 	status BaseScene::BaseDraw()
 	{
-		glClearColor(0.0f,0.0f,0.0f,1.0f);
+		glClearColor(1.0f,0.0f,0.0f,1.0f); // Clear the background of our window to red
 
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
 		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)

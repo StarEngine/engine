@@ -92,6 +92,8 @@ namespace star
 	
 	void SpriteBatch::Flush()
 	{
+		//Game drawn in negative
+		//Game hUD drawn in positive
 		Begin();
 		//First background text
 		for(auto textDesc : m_TextBackQueue)
@@ -100,25 +102,22 @@ namespace star
 		}
 		//Sprites
 		FlushSprites(m_SpriteQueue);
-		//Front text
-		for(auto textDesc : m_TextFrontQueue)
-		{
-			FlushText(textDesc);
-		}
-		for(auto textDesc : m_HUDTextQueue)
-		{
-			FlushText(textDesc);
-		}
-		
+
 		//Clean all variables again
 		m_WorldMatBuffer.clear();
 		m_VertexBuffer.clear();
 		m_UvCoordBuffer.clear();
 		m_CurrentSprite = 0;
 		m_CurrentHudSprite = 0;
-
+		
 		//HUD
 		FlushSprites(m_HudSpriteQueue);
+
+		//Front text
+		for(auto textDesc : m_TextFrontQueue)
+		{
+			FlushText(textDesc);
+		}
 
 		End();
 	}
@@ -126,14 +125,14 @@ namespace star
 	void SpriteBatch::FlushSprites(std::vector<SpriteInfo> spriteQueue)
 	{
 		m_Shader.Bind();
-
+		
 		//enable vertexAttribs
 		glEnableVertexAttribArray(ATTRIB_VERTEX);
 		glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
-
+		
 		//Create Vertexbuffer
 		CreateSpriteQuad(spriteQueue);
-
+		
 		//DRAW
 		int batchStart = 0;
 		int batchSize = 0;
@@ -141,7 +140,7 @@ namespace star
 		{
 			GLuint currTexture = star::TextureManager::GetInstance()->GetTextureID(spriteQueue[i].spriteName);
 			GLuint nextTexture;
-
+		
 			//Are the following sprites from the same texture?
 			if(i + 1 < spriteQueue.size() && i != spriteQueue.size())
 			{
@@ -155,16 +154,16 @@ namespace star
 			//if No
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, currTexture);
-
+		
 			GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
 			glUniform1i(s_textureId, 0);
-
+		
 			batchSize += 4;
-	
+		
 			auto projectionObject = SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
 			mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
 			mat4x4 viewInverse = projectionObject->GetComponent<CameraComponent>()->GetViewInverse();
-
+		
 			for(int j = 0; j < ((batchSize/4)); ++j)
 			{
 				//Set attributes and buffers
@@ -181,14 +180,14 @@ namespace star
 				}
 				glDrawArrays(GL_TRIANGLE_STRIP,batchStart,4);
 			}			
-	
+		
 			batchStart += batchSize;
 			m_CurrentSprite += batchSize/4;
 			batchSize = 0;
 		}
-
+		
 		m_Shader.Unbind();
-
+		
 		//Unbind attributes and buffers
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
 		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
@@ -301,18 +300,8 @@ namespace star
 		}
 	}
 
-	void SpriteBatch::AddSpriteToQueue(SpriteComponent* sprite, bool bIsHud)
+	void SpriteBatch::AddSpriteToQueue(const SpriteInfo& spriteInfo, bool bIsHud)
 	{
-		SpriteInfo spriteInfo;
-		spriteInfo.filePath = sprite->GetFilePath();
-		spriteInfo.spriteName = sprite->GetName();
-		spriteInfo.height = sprite->GetHeight();
-		spriteInfo.width = sprite->GetWidth();
-		spriteInfo.transform = sprite->GetTransform()->GetWorldMatrix();
-		spriteInfo.vertices = sprite->GetVertices();
-		spriteInfo.uvCoords = sprite->GetUVCoords();
-		spriteInfo.bIsHUD = bIsHud;
-		
 		if(bIsHud)
 		{
 			m_HudSpriteQueue.push_back(spriteInfo);

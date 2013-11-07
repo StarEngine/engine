@@ -106,4 +106,127 @@ namespace star
 
 		return TransposeMatrix;
 	}
+
+int GenerateRandomNumber(int min, int max)
+{
+	if (min >= 0 && max > min)
+	{
+		return (rand() % (max-min + 1)) + min;
+	}
+	else if (min == max)
+	{
+		return min;
+	}
+	else if (min < 0 && max > min)
+	{
+		return (rand() % (abs(min)+max + 1)) + min;
+	}
+
+	else if (min > max)
+	{
+		if (max >= 0)
+		{
+			return (rand() % (min - max + 1) + max);
+		}
+		else
+		{
+			return (rand() % (abs(max) + min + 1)) + min;
+		}
+	}
+	ASSERT(false, _T("Unknown case of random number generation."));
+	return 0;
+}
+
+uint32 GenerateRandomNumber(uint32 min, uint32 max)
+{
+	if(max > min)
+	{
+		return (rand() % (max-min + 1)) + min;
+	}
+	else if(max == min)
+	{
+		return min;
+	}
+	else if(min > max)
+	{
+		return (rand() % (min - max + 1) + max);
+	}
+	ASSERT(false, _T("Unknown case of random number generation."));
+	return 0;
+}
+
+int32 GenerateRandomNumber(int32 min, uint32 max)
+{
+	if (min >= 0 && max > uint32(min))
+	{
+		return (rand() % (max-min + 1)) + min;
+	}
+	else if (min == max)
+	{
+		return min;
+	}
+	else if (min < 0)
+	{
+		return (rand() % (abs(min)+max + 1)) + min;
+	}
+
+	else if (min > int32(max))
+	{
+
+		return (rand() % (min - max + 1) + max);
+
+
+	}
+	ASSERT(false, _T("Unknown case of random number generation."));
+	return 0;
+	}
+}
+
+int32 GenerateRandomNumber(uint32 min, int32 max)
+{
+	if (max > int(min))
+	{
+		return (rand() % (max-min + 1)) + min;
+	}
+	else if (min == max)
+	{
+		return min;
+	}
+	else if (int(min) > max)
+	{
+		if (max >= 0)
+		{
+			return (rand() % (min - max + 1) + max);
+		}
+		else
+		{
+			return (rand() % (abs(max) + min + 1)) + min;
+		}
+	}
+	ASSERT(false, _T("Unknown case of random number generation."));
+	return 0;
+}
+
+float GenerateRandomNumber(float min, float max)
+{
+	if (min == max)
+	{
+		return min;
+	}
+	else
+	{
+		return (min + (float)rand() / ((float)RAND_MAX / (max - min)));
+	}
+}
+
+double GenerateRandomNumber(double min, double max)
+{
+	if (min == max)
+	{
+		return min;
+	}
+	else
+	{
+		return (min + (double)rand() / ((double)RAND_MAX / (max - min)));
+	}
 }

@@ -8,7 +8,6 @@
 #include "../CameraComponent.h"
 #include "../../Objects/Object.h"
 #include "../../Graphics/SpriteBatch.h"
-#include "../../Assets/FontManager.h"
 
 namespace star
 {
@@ -33,6 +32,8 @@ namespace star
 		{
 			//Logger::GetInstance()->Log(LogLevel::Error,_T("TextComponent : Could not load Font ")+m_FileName);
 		}
+		m_TextDesc.Fontname = m_FontName;
+		m_TextDesc.TextColor = m_TextColor;
 	}
 
 	TextComponent::~TextComponent()
@@ -58,13 +59,10 @@ namespace star
 			m_bCheckedWrapping=true;
 		}
 
-		TextDesc desc;
-		desc.Text = m_SplittedText;
-		desc.Fontname = m_FontName;
-		desc.TransformComp = m_pParentObject->GetTransform();
-		desc.TextColor = m_TextColor;
+		m_TextDesc.Text = m_SplittedText;
+		m_TextDesc.TransformComp = m_pParentObject->GetTransform();
 
-		SpriteBatch::GetInstance()->AddTextToQueue(desc, m_bInFront);
+		SpriteBatch::GetInstance()->AddTextToQueue(m_TextDesc, m_bInFront);
 	}
 
 	void TextComponent::Update(const Context& context)
@@ -80,6 +78,12 @@ namespace star
 		if(m_MaxWidth != NO_WRAPPING)
 		{
 			m_bCheckedWrapping=false;
+		}
+		else
+		{
+			m_SplittedText.clear();
+			std::string text = string_cast<std::string>(m_OrigText);
+			m_SplittedText.push_back(text);
 		}
 	}
 

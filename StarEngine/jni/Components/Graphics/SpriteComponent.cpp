@@ -22,6 +22,7 @@ namespace star
 		, m_FilePath(filepath)
 		, m_SpriteName(spriteName)
 		, m_bIsHudElement(bIsHUDElement)
+		, m_SpriteInfo()
 	{
 	}
 
@@ -46,6 +47,11 @@ namespace star
 
 		CreateVertices();
 		CreateIndices();
+
+		m_SpriteInfo.spriteName = m_SpriteName;
+		m_SpriteInfo.vertices = GetVertices();
+		m_SpriteInfo.uvCoords = GetUVCoords();
+		m_SpriteInfo.bIsHUD = m_bIsHudElement;
 	}
 
 	SpriteComponent::~SpriteComponent()
@@ -94,7 +100,9 @@ namespace star
 
 	void SpriteComponent::Draw()
 	{
-		SpriteBatch::GetInstance()->AddSpriteToQueue(this, m_bIsHudElement);
+		m_SpriteInfo.transform = GetTransform()->GetWorldMatrix();
+		m_SpriteInfo.uvCoords = GetUVCoords();
+		SpriteBatch::GetInstance()->AddSpriteToQueue(m_SpriteInfo, m_bIsHudElement);
 	}
 
 	const tstring& SpriteComponent::GetFilePath() const

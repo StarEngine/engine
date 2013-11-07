@@ -13,6 +13,15 @@
 
 namespace star
 {
+	struct SpriteInfo
+	{
+		std::vector<GLfloat> vertices;
+		std::vector<GLfloat> uvCoords;
+		tstring spriteName;
+		mat4x4 transform;
+		bool bIsHUD;
+	};
+
 	class SpriteComponent : public BaseComponent
 	{
 	public:
@@ -49,9 +58,7 @@ namespace star
 		tstring m_SpriteName;
 		bool m_bIsHudElement;
 		
-		
-
-		
+		SpriteInfo m_SpriteInfo;
 
 		SpriteComponent(const SpriteComponent &);
 		SpriteComponent(SpriteComponent &&);

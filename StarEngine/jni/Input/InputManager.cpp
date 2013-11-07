@@ -240,7 +240,6 @@ namespace star
 
 	const vec2 & InputManager::GetCurrentMousePosition() const
 	{
-		Logger::GetInstance()->Log(LogLevel::Info, string_cast<tstring>(m_CurrMousePosition));
 		return m_CurrMousePosition;
 	}
 
@@ -630,7 +629,6 @@ namespace star
 	{
 		if((fingerIndex <= m_PointerVec.size() && fingerIndex > 0))
 		{
-			Logger::GetInstance()->Log(LogLevel::Info, string_cast<tstring>(m_PointerVec.at(fingerIndex-1).Position));
 			m_CurrMousePosition = m_PointerVec.at(fingerIndex-1).Position;
 			m_CurrMousePosition.y =  GraphicsManager::GetInstance()->GetWindowHeight()- m_CurrMousePosition.y;
 			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetWindowResolution();

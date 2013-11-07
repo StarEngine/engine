@@ -8,16 +8,6 @@
 
 namespace star
 {
-	struct SpriteInfo
-	{
-		std::vector<GLfloat> vertices;
-		std::vector<GLfloat> uvCoords;
-		tstring filePath, spriteName;
-		int32 width, height;
-		mat4x4 transform;
-		bool bIsHUD;
-	};
-
 	class SpriteBatch
 	{
 	public:
@@ -26,7 +16,7 @@ namespace star
 
 		void Initialize();
 		void Flush();
-		void AddSpriteToQueue(SpriteComponent* sprite, bool bIsHud = false);
+		void AddSpriteToQueue(const SpriteInfo& spriteInfo, bool bIsHud = false);
 		void AddTextToQueue(const TextDesc& text, bool bInFrontOfSprites);
 		void CleanUp();
 
