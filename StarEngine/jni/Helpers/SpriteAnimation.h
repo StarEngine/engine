@@ -14,7 +14,7 @@ namespace star
 		SpriteAnimation();
 		SpriteAnimation(const tstring & name, const vec2 & uv_scale, 
 			float speed, int repeat, const tstring & frames, 
-			int frames_x, int amount);
+			int frames_x, int frames_y, int amount);
 		SpriteAnimation(const SpriteAnimation &);
 		~SpriteAnimation();
 
@@ -35,9 +35,9 @@ namespace star
 		void SetCallback(const std::function<void()> & callback);
 
 	private:
-		void ParseFrameString(tstring frames, int frames_x, int amount);
-		void ParseFrames(const tstring & frame, int frames_x, int amount);
-		void ParseFrame(int frame, int frames_x, int frames_y);
+		void ParseFrameString(tstring frames, int frames_x, int frames_y, int amount);
+		void ParseFrames(const tstring & frame, int frames_x, int frames_y, int amount);
+		void ParseFrame(int frame, int frames_x, int frames_y, int amount);
 
 		tstring m_Name;
 		float m_Speed, m_CurrentFrame;

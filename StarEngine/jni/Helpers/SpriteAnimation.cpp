@@ -18,7 +18,7 @@ namespace star
 
 	SpriteAnimation::SpriteAnimation(
 		const tstring & name, const vec2 & uv_scale, float speed,
-		int repeat, const tstring & frames, int frames_x, int amount)
+		int repeat, const tstring & frames, int frames_x, int frames_y, int amount)
 		: m_Name(name)
 		, m_Speed(speed)
 		, m_CurrentFrame(0)
@@ -28,7 +28,7 @@ namespace star
 		, m_Frames()
 		, m_IsPlaying(true)
 	{
-		ParseFrameString(frames, frames_x, amount);
+		ParseFrameString(frames, frames_x, frames_y, amount);
 	}
 	
 	SpriteAnimation::SpriteAnimation(const SpriteAnimation & yRef)
@@ -71,21 +71,21 @@ namespace star
 			if(m_CurrentFrame >= size)
 			{
 				m_CurrentFrame = 0;
-				readyToGo=true;
+				readyToGo = true;
 			}
 			else if(m_CurrentFrame < 0)
 			{
 				m_CurrentFrame = size - 1;
-				readyToGo=true;
+				readyToGo = true;
 			}
 			if(readyToGo && m_Repeat != -1)
 			{
 				++m_CurrentRepeats;
 				if(m_CurrentRepeats > m_Repeat)
 				{
-					m_CurrentRepeats=0;
+					m_CurrentRepeats = 0;
 					m_CurrentFrame = size - 1;
-					m_IsPlaying=false;
+					m_IsPlaying = false;
 					if(m_Callback != nullptr)
 					{
 						m_Callback();
@@ -165,7 +165,7 @@ namespace star
 	}
 	
 	void SpriteAnimation::ParseFrameString(
-		tstring frames, int frames_x, int amount)
+		tstring frames, int frames_x, int frames_y, int amount)
 	{
 		tstring::size_type index(tstring::npos);
 		tstring frame(EMPTY_STRING);
@@ -175,26 +175,26 @@ namespace star
 			if(index == tstring::npos)
 			{
 				frame = frames;
-				ParseFrames(frame, frames_x, amount);
+				ParseFrames(frame, frames_x, frames_y, amount);
 				return;
 			}
 			else
 			{
 				frame = frames.substr(0,index);
 				frames = frames.substr(index + 1, frames.length() - index - 1);
-				ParseFrames(frame, frames_x, amount);
+				ParseFrames(frame, frames_x, frames_y, amount);
 			}
 		} while ( 1 );
 	}
 	
 	void SpriteAnimation::ParseFrames(const tstring & frame, 
-		int frames_x, int amount)
+		int frames_x, int frames_y, int amount)
 	{
 		auto index = frame.find(_T('-'));
 		if(index == tstring::npos)
 		{
 			int f = string_cast<int>(frame);
-			ParseFrame(f, frames_x, amount);
+			ParseFrame(f, frames_x, frames_y, amount);
 		}
 		else
 		{
@@ -206,28 +206,28 @@ namespace star
 			{
 				for ( ; nX <= nY ; ++nX )
 				{
-					ParseFrame(nX, frames_x, amount);
+					ParseFrame(nX, frames_x, frames_y, amount);
 				}
 			}
 			else
 			{
 				for ( ; nX >= nY ; --nX )
 				{
-					ParseFrame(nX, frames_x, amount);
+					ParseFrame(nX, frames_x, frames_y, amount);
 				}
 			}
 		}
 	}
 	
-	void SpriteAnimation::ParseFrame(int frame, int frames_x, int amount)
+	void SpriteAnimation::ParseFrame(int frame, int frames_x, int frames_y, int amount)
 	{
 		ASSERT(frame < amount && frame > -1, _T("Invalid frame index."));
 		int x = frame % frames_x;
 		int y = frame / frames_x;
 		
 		vec2 uv;
-		uv.x = (float)x * m_UVScale.x;
-		uv.y = (float)y * m_UVScale.y;
+		uv.x = float(x) * m_UVScale.x;
+		uv.y = float(frames_y - y - 1) * m_UVScale.y;
 
 		m_Frames.push_back(uv);
 	}

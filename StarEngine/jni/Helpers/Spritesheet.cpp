@@ -46,7 +46,7 @@ namespace star
 			uv.y = 1.0f / (float)m_FramesVertical;
 
 			SpriteAnimation spriteAnimation(aName, uv, aSpeed * speed, aRepeat,
-				frames, m_FramesHorizontal, amount);
+				frames, m_FramesHorizontal, m_FramesVertical, amount);
 
 			//[COMMENT] A memory leak starts below
 			insert(std::pair<tstring, SpriteAnimation>(aName, spriteAnimation));
