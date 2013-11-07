@@ -5,6 +5,11 @@
 
 #ifdef _WIN32
 #include <Windows.h>
+#include <glew.h>
+#endif
+
+#ifdef MOBILE
+#include <GLES/gl.h>
 #endif
 
 #ifdef DESKTOP
@@ -21,12 +26,47 @@ namespace star
 	}
 
 	GraphicsManager::GraphicsManager() :
-			mScreenHeight(0),
-			mScreenWidth(0),
+			mScreenResolution(0,0),
+			mViewportResolution(0,0),
 			m_bHasWindowChanged(false),
 			mIsInitialized(false)
 	{
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Constructor"));
+	}
+
+	void GraphicsManager::CalculateViewPort()
+	{
+		//Calculate the correct viewport
+		vec2 screenRes = GetWindowResolution();
+		vec2 workingRes = ScaleSystem::GetInstance()->GetWorkingResolution();
+		
+		float width = screenRes.x / workingRes.x;
+		float height = screenRes.y / workingRes.y;
+
+		int xOffset(0), yOffset(0);
+		float aspectRatio(0);
+
+		if(width > height)
+		{
+			height = screenRes.y;
+			aspectRatio = (workingRes.x / workingRes.y);
+			width = height * aspectRatio;
+			xOffset = static_cast<int>((screenRes.x - width)/2);
+		}
+		else
+		{
+			width = screenRes.x;
+			aspectRatio = (workingRes.y / workingRes.x);
+			height = width * aspectRatio;
+			yOffset = static_cast<int>((screenRes.y - height)/2);
+		}
+
+		glViewport(xOffset, yOffset, static_cast<int>(width), static_cast<int>(height));
+
+		mViewportResolution.x = width;
+		mViewportResolution.y = height;
+
+		ScaleSystem::GetInstance()->CalculateScale();
 	}
 
 	GraphicsManager * GraphicsManager::GetInstance()
@@ -43,8 +83,8 @@ namespace star
 	{
 		if(!mIsInitialized)
 		{
-			mScreenWidth = screenWidth;
-			mScreenHeight = screenHeight;
+			mScreenResolution.x = float(screenWidth);
+			mScreenResolution.y = float(screenHeight);
 			glewInit();
 
 			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initializing OpenGL Functors"));
@@ -59,6 +99,8 @@ namespace star
 			glDisable(GL_DEPTH_TEST);
 			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 			mIsInitialized = true;
+
+			CalculateViewPort();
 		}
 	}
 #else
@@ -191,27 +233,27 @@ namespace star
 
 	int32 GraphicsManager::GetWindowWidth() const
 	{
-		return mScreenWidth;
+		return int32(mScreenResolution.x);
 	}
 
 	int32 GraphicsManager::GetWindowHeight() const
 	{
-		return mScreenHeight;
+		return int32(mScreenResolution.y);
 	}
 
 	int32 GraphicsManager::GetTargetWindowWidth() const
 	{
-		return ScaleSystem::GetInstance()->GetWorkingResolution().x;
+		return int32(ScaleSystem::GetInstance()->GetWorkingResolution().x);
 	}
 
 	int32 GraphicsManager::GetTargetWindowHeight() const
 	{
-		return ScaleSystem::GetInstance()->GetWorkingResolution().y;
+		return int32(ScaleSystem::GetInstance()->GetWorkingResolution().y);
 	}
 
 	float GraphicsManager::GetWindowAspectRatio() const
 	{
-		return float(mScreenWidth) / float(mScreenHeight);
+		return mScreenResolution.x / mScreenResolution.y;
 	}
 
 	float GraphicsManager::GetTargetWindowAspectRatio() const
@@ -219,9 +261,14 @@ namespace star
 		return ScaleSystem::GetInstance()->GetAspectRatio();
 	}
 
-	vec2 GraphicsManager::GetWindowResolution() const
+	const vec2 & GraphicsManager::GetWindowResolution() const
 	{
-		return vec2(mScreenWidth, mScreenHeight);
+		return mScreenResolution;
+	}
+
+	const vec2 & GraphicsManager::GetViewportResolution() const
+	{
+		return mViewportResolution;
 	}
 
 	const vec2& GraphicsManager::GetTargetWindowResolution() const
@@ -231,17 +278,18 @@ namespace star
 
 	void GraphicsManager::SetWindowDimensions(int32 width, int32 height)
 	{
-		//star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : SetWindowDimensions"));
-		mScreenWidth = width;
-		mScreenHeight = height;
-		glViewport(0,0,width, height);
-		ScaleSystem::GetInstance()->UpdateWorkingResolution();
+		mScreenResolution.x = float(width);
+		mScreenResolution.y = float(height);
+		CalculateViewPort();
 	}
 
 	void GraphicsManager::SetHasWindowChanged(bool isTrue)
 	{
-		//star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : SetWindowChanged"));
 		m_bHasWindowChanged = isTrue;
+		if(isTrue)
+		{
+			CalculateViewPort();
+		}
 	}
 
 	bool GraphicsManager::GetHasWindowChanged() const

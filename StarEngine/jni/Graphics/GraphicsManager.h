@@ -38,7 +38,8 @@ namespace star
 		float GetWindowAspectRatio() const;
 		float GetTargetWindowAspectRatio() const;
 
-		vec2 GetWindowResolution() const;
+		const vec2 & GetWindowResolution() const;
+		const vec2 & GetViewportResolution() const;
 		const vec2& GetTargetWindowResolution() const;
 
 		void SetWindowDimensions(int32 width, int32 height);
@@ -47,6 +48,7 @@ namespace star
 
 	private:
 		GraphicsManager();
+		void CalculateViewPort();
 
 #ifdef DESKTOP
 		bool WGLExtensionSupported(const char* extension_name);
@@ -55,8 +57,7 @@ namespace star
 
 		static GraphicsManager * mGraphicsManager;
 
-		int32 mScreenWidth;
-		int32 mScreenHeight;
+		vec2 mScreenResolution, mViewportResolution;
 		bool m_bHasWindowChanged;
 		bool mIsInitialized;
 

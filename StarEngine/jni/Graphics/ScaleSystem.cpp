@@ -1,5 +1,6 @@
 #include "ScaleSystem.h"
 #include "GraphicsManager.h"
+#include "../Logger.h"
 
 namespace star
 {
@@ -36,12 +37,9 @@ namespace star
 		return m_WorkingRes;
 	}
 
-	vec2 ScaleSystem::GetActualResolution() const
+	const vec2 & ScaleSystem::GetActualResolution() const
 	{
-		return vec2(GraphicsManager::GetInstance()
-					->GetWindowWidth(), 
-					GraphicsManager::GetInstance()
-					->GetWindowHeight());
+		return GraphicsManager::GetInstance()->GetWindowResolution();
 	}
 
 	void ScaleSystem::SetWorkingResolution(const vec2& pixels)
@@ -49,7 +47,7 @@ namespace star
 		m_bIninitialized = true;
 		m_WorkingRes = pixels;
 		m_AspectRatio = pixels.x / pixels.y;
-		UpdateWorkingResolution();
+		CalculateScale();
 	}
 
 	float ScaleSystem::GetScale()
@@ -62,14 +60,13 @@ namespace star
 		return m_AspectRatio;
 	}
 
-	void ScaleSystem::UpdateWorkingResolution()
+	void ScaleSystem::CalculateScale()
 	{
 		if(m_bIninitialized)
 		{
 			ASSERT(m_WorkingRes != vec2(), 
 				_T("Working resolution is 0! Please set correct working Resolution in the Game.cpp file!"));
-			m_Scale = (float)GraphicsManager::GetInstance()
-					->GetWindowWidth() / m_WorkingRes.x;
+			m_Scale = GraphicsManager::GetInstance()->GetViewportResolution().x / m_WorkingRes.x;
 		}
 	}
 }
