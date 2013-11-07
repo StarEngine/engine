@@ -49,8 +49,6 @@ namespace star
 
 	void BaseScene::BaseAfterInitializedObjects()
 	{
-		CalculateViewPort();
-
 		AfterInitializedObjects();
 	}
 
