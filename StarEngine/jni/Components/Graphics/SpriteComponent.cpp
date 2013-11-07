@@ -144,22 +144,22 @@ namespace star
 	void SpriteComponent::SetCurrentSegment(int widthSegment, int heightSegment)
 	{
 		m_CurrentWidthSegment = widthSegment;
-		m_CurrentHeightSegment = heightSegment;
+		m_CurrentHeightSegment = m_HeightSegments - heightSegment - 1;
 
 		CreateIndices();
 	}
 
 	void SpriteComponent::SetTexture( const tstring& filepath, const tstring& spriteName, bool bIsHUDElement /*= false*/, int widthSegments /*= 1*/, int heightSegments /*= 1*/ )
 	{
-		m_Width=(0);
-		m_WidthSegments=(widthSegments);
-		m_CurrentWidthSegment=(0);
-		m_Heigth=(0);
-		m_HeightSegments=(heightSegments);
-		m_CurrentHeightSegment=(0);
-		m_FilePath=(filepath);
-		m_SpriteName=(spriteName);
-		m_bIsHudElement=(bIsHUDElement);
+		m_Width = 0;
+		m_WidthSegments = widthSegments;
+		m_CurrentWidthSegment = 0;
+		m_Heigth = 0;
+		m_HeightSegments = heightSegments;
+		m_CurrentHeightSegment = 0;
+		m_FilePath = filepath;
+		m_SpriteName = spriteName;
+		m_bIsHudElement = bIsHUDElement;
 
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetFullPath(),m_SpriteName);
 		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x / m_WidthSegments;
