@@ -19,11 +19,13 @@ namespace star
 		BaseScene(const tstring & name);
 		virtual ~BaseScene();
 		
-		status BaseInitialize();
-		status BaseOnActivate();
-		void BaseOnDeactivate();
-		status BaseUpdate(const Context& context);
-		status BaseDraw();
+		status	BaseInitialize();
+		void	BaseAfterInitializedObjects();
+		status	BaseOnActivate();
+		void	BaseOnDeactivate();
+		status	BaseUpdate(const Context& context);
+		status	BaseDraw();
+
 
 		virtual void OnSaveState(void** pData,size_t* pSize);
 		virtual void OnConfigurationChanged();

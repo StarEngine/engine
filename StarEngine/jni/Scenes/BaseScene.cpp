@@ -42,9 +42,16 @@ namespace star
 			{
 				m_Objects[i]->BaseInitialize();
 			}
-			return AfterInitializedObjects();
+			BaseAfterInitializedObjects();
 		}
 		return STATUS_KO;
+	}
+
+	void BaseScene::BaseAfterInitializedObjects()
+	{
+		CalculateViewPort();
+
+		AfterInitializedObjects();
 	}
 
 	status BaseScene::BaseOnActivate()
