@@ -13,9 +13,11 @@ namespace star
 					TransformChanged::SCALE |
 					TransformChanged::TRANSLATION),
                 m_Invalidate(false),
+				m_bRotationCenterChanged(false),
 #ifdef STAR2D
                 m_WorldPosition(0,0),
                 m_LocalPosition(0,0),
+				m_CenterPosition(0,0),
 				m_UnScaledLocalPos(0,0),
 				m_UnScaledWorldPos(0,0),
 #else
@@ -125,9 +127,18 @@ namespace star
 
         void TransformComponent::Rotate(float rotation)
         {
-                m_LocalRotation = rotation;
-                m_IsChanged |= TransformChanged::ROTATION;
+			m_bRotationCenterChanged=false;
+            m_LocalRotation = rotation;
+            m_IsChanged |= TransformChanged::ROTATION;
         }
+
+		void TransformComponent::Rotate( float rotation, vec2& centerPoint )
+		{
+			m_bRotationCenterChanged=true;
+			m_LocalRotation = rotation;
+			m_CenterPosition = pos(centerPoint.x,centerPoint.y);
+			m_IsChanged |= TransformChanged::ROTATION;
+		}
 
         void TransformComponent::Scale(const vec2 & scale)
         {
@@ -300,8 +311,8 @@ namespace star
 
         void TransformComponent::Rotate(const quat & rotation)
         {
-                m_LocalRotation = rotation;
-                m_IsChanged |= TransformChanged::ROTATION;
+            m_LocalRotation = rotation;
+            m_IsChanged |= TransformChanged::ROTATION;
         }
 
         void TransformComponent::Scale(const vec3 & scale)
@@ -421,14 +432,26 @@ namespace star
 			m_LastUnScaledLocalPos = m_UnScaledLocalPos;
 			m_LastUnScaledLocalScale = m_UnScaledLocalScale;
 
-            mat4x4 matRot, matTrans, matScale;
+            mat4x4 matRot, matTrans, matScale, matCenter,matCenterTrans,matMinuxCenterTrans;
 
 #ifdef STAR2D
 			if(parentGameObj == nullptr)
             {
-				matTrans = glm::translate(m_LocalPosition.pos3D());
-				matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
-				matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
+				if(!m_bRotationCenterChanged)
+				{
+					matTrans = glm::translate(m_LocalPosition.pos3D());
+					matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
+					matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
+				}
+				else
+				{
+					matCenter = mat4x4(1.0);
+					matCenterTrans= glm::translate(m_CenterPosition.pos3D());
+					matMinuxCenterTrans = glm::translate(-m_CenterPosition.pos3D());
+					matTrans = glm::translate(m_LocalPosition.pos3D());
+					matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
+					matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
+				}
 
                 m_WorldPosition = m_LocalPosition;
                 m_WorldScale = m_LocalScale;
@@ -447,13 +470,23 @@ namespace star
             }
 #else
 			//[TODO] UPDATE IMPLEMENTATION OF 3D TRANSFORMCOMP
-
-            matTrans = glm::translate(m_LocalPosition);
-            matRot   = glm::toMat4(m_LocalRotation);
-            matScale = glm::scale(m_LocalScale);
+			if(!m_bRotationCenterChanged)
+			{
+				matTrans = glm::translate(m_LocalPosition);
+				matRot   = glm::toMat4(m_LocalRotation);
+				matScale = glm::scale(m_LocalScale);
+			}
 #endif
 
-            m_World = matTrans * matRot * matScale;
+			if(!m_bRotationCenterChanged)
+            {
+				m_World = matTrans * matRot * matScale;
+			}
+			else
+			{
+				matCenter = matCenterTrans* (matRot * matMinuxCenterTrans );
+				m_World =  matTrans * matCenter * matScale ;
+			}
 
             m_IsChanged = TransformChanged::NONE;
 
