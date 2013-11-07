@@ -78,8 +78,8 @@ namespace star
 		bool IsFingerPressedCP(uint8 finger = 0) const;
 		bool IsFingerDownCP(uint8 finger = 0) const;
 		bool IsFingerReleasedCP(uint8 finger = 0) const;
-		vec2 GetCurrentFingerPosCP(uint8 finger = 0) const;
-		vec2 GetOldFingerPosCP(uint8 finger = 0) const;
+		vec2 GetCurrentFingerPosCP(uint8 finger = 0);
+		vec2 GetOldFingerPosCP(uint8 finger = 0);
 		void EndUpdate();
 		void SetGestureManager(std::shared_ptr<GestureManager> gestureManager);
 		std::shared_ptr<GestureManager> GetGestureManager() const;
@@ -124,8 +124,8 @@ namespace star
 		bool IsTouchPressedANDR(uint8 fingerIndex = 0) const;
 		bool IsTouchDownANDR(uint8 fingerIndex = 0) const;
 		bool IsTouchReleasedANDR(uint8 fingerIndex = 0) const;
-		vec2 GetCurrentTouchPosANDR(uint8 fingerIndex = 0) const;
-		vec2 GetOldTouchPosANDR(uint8 fingerIndex = 0) const;
+		vec2 GetCurrentTouchPosANDR(uint8 fingerIndex = 0);
+		vec2 GetOldTouchPosANDR(uint8 fingerIndex = 0);
 		FingerPointerANDR GetTouchPropertiesANDR(uint8 fingerIndex = 0) const;
 
 		void OnTouchEvent(AInputEvent* pEvent);
@@ -155,7 +155,6 @@ namespace star
 				m_pKeyboardState0[NUMBER_OF_KEYBOARDKEYS],
 				m_pKeyboardState1[NUMBER_OF_KEYBOARDKEYS];
 		bool m_KeyboardState0Active;
-		vec2 m_CurrMousePosition, m_OldMousePosition, m_MouseMovement;
 		XINPUT_STATE m_OldGamepadState[XUSER_MAX_COUNT], m_CurrGamepadState[XUSER_MAX_COUNT];
 		bool m_ConnectedGamepads[XUSER_MAX_COUNT];
 		bool m_ThreadAvailable;
@@ -181,6 +180,7 @@ namespace star
 		std::vector<FingerPointerANDR> m_PointerVec;
 		std::vector<FingerPointerANDR> m_OldPointerVec;
 #endif
+		vec2 m_CurrMousePosition, m_OldMousePosition, m_MouseMovement;
 		std::shared_ptr<GestureManager> m_GestureManager;
 
 		InputManager(const InputManager& t);
