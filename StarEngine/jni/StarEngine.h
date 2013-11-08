@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "Scenes/LoadScreen.h"
+#include <random>
 
 #ifdef ANDROID
 #include "android_native_app_glue.h"
@@ -43,6 +44,8 @@ namespace star
 		bool HasTitleUpdated() const;
 		void ResetTitleUpdateMark();
 
+		std::mt19937& GetMt19937Engine();
+
 #ifdef ANDROID
 		void SetAndroidApp(android_app * app);
 		android_app * GetAndroidApp() const;
@@ -53,6 +56,7 @@ namespace star
 		FPS m_FPS;
 		tstring m_Title, m_SubTitle;
 		bool m_TitleHasUpdated;
+		std::mt19937 m_RandomEngine;
 
 #ifdef ANDROID
 		android_app *m_pAndroidApp;
