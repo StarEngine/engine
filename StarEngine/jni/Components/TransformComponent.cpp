@@ -127,16 +127,16 @@ namespace star
 
         void TransformComponent::Rotate(float rotation)
         {
-			m_bRotationCenterChanged=false;
+			m_bRotationCenterChanged = false;
             m_LocalRotation = rotation;
             m_IsChanged |= TransformChanged::ROTATION;
         }
 
-		void TransformComponent::Rotate( float rotation, vec2& centerPoint )
+		void TransformComponent::Rotate(float rotation, const pos& centerPoint)
 		{
-			m_bRotationCenterChanged=true;
+			m_bRotationCenterChanged = true;
 			m_LocalRotation = rotation;
-			m_CenterPosition = pos(centerPoint.x,centerPoint.y);
+			m_CenterPosition = centerPoint;
 			m_IsChanged |= TransformChanged::ROTATION;
 		}
 
@@ -425,33 +425,30 @@ namespace star
 			m_LocalScale = m_UnScaledLocalScale;
 
 			auto parentGameObj = m_pParentObject->GetParent();
-
-			m_LocalScale *= ScaleSystem::GetInstance()->GetScale();
-			m_LocalPosition *= ScaleSystem::GetInstance()->GetScale();
+			
+			//[TODO] once scale is fixed this should be enabled again.
+			//m_LocalScale *= ScaleSystem::GetInstance()->GetScale();
+			//m_LocalPosition *= ScaleSystem::GetInstance()->GetScale();
 
 			m_LastUnScaledLocalPos = m_UnScaledLocalPos;
 			m_LastUnScaledLocalScale = m_UnScaledLocalScale;
 
-            mat4x4 matRot, matTrans, matScale, matCenter,matCenterTrans,matMinuxCenterTrans;
+            mat4x4 matRot, matTrans, matScale, matCenterTrans,matReCenterTrans;
 
 #ifdef STAR2D
 			if(parentGameObj == nullptr)
             {
-				if(!m_bRotationCenterChanged)
+				if(m_bRotationCenterChanged)
 				{
-					matTrans = glm::translate(m_LocalPosition.pos3D());
-					matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
-					matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
+					vec3 centerPos(m_CenterPosition.x, m_CenterPosition.y, 0);
+					//[TODO] once scale is fixed this should be enabled again.
+					//centerPos *= ScaleSystem::GetInstance()->GetScale();
+					matCenterTrans = glm::translate(centerPos);
+					matReCenterTrans = glm::translate(-centerPos);
 				}
-				else
-				{
-					matCenter = mat4x4(1.0);
-					matCenterTrans= glm::translate(m_CenterPosition.pos3D());
-					matMinuxCenterTrans = glm::translate(-m_CenterPosition.pos3D());
-					matTrans = glm::translate(m_LocalPosition.pos3D());
-					matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
-					matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
-				}
+				matTrans = glm::translate(m_LocalPosition.pos3D());
+				matRot   = glm::rotate(m_LocalRotation,vec3(0,0,1));
+				matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
 
                 m_WorldPosition = m_LocalPosition;
                 m_WorldScale = m_LocalScale;
@@ -480,12 +477,13 @@ namespace star
 
 			if(!m_bRotationCenterChanged)
             {
-				m_World = matTrans * matRot * matScale;
+				m_World = matScale * matRot * matTrans;
 			}
 			else
 			{
-				matCenter = matCenterTrans* (matRot * matMinuxCenterTrans );
-				m_World =  matTrans * matCenter * matScale ;
+				mat4x4 temp = matScale * matReCenterTrans;
+				mat4x4 temp2 = matRot * temp;
+				m_World = matTrans * matCenterTrans * matRot * matScale * matReCenterTrans;
 			}
 
             m_IsChanged = TransformChanged::NONE;
