@@ -126,6 +126,7 @@ namespace star
 		Logger::GetInstance()->Log(LogLevel::Info, _T("Initializing Scene :") + m_CurrentSceneName);
 		m_NewActiveScene->BaseInitialize();
 		m_bInitialized = m_NewActiveScene->IsInitialized();
+		m_NewActiveScene->BaseAfterInitializedObjects();
 		return (m_bInitialized);
 
 	}
