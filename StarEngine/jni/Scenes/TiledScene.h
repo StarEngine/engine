@@ -17,8 +17,8 @@ namespace star
 		void DefineSpecialObject(uint32 object_id, const std::function<Object*()> & func);
 
 	protected:
-		virtual status CreateObjects();
-		virtual status AfterInitializedObjects(const star::Context& context);
+		virtual void CreateObjects();
+		virtual void AfterInitializedObjects(const star::Context& context);
 
 		tstring m_File;
 		uint32 m_Width, m_Height, m_TileWidth, m_TileHeight;

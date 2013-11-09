@@ -12,12 +12,12 @@ namespace star
 		BaseGame() {}
 		virtual ~BaseGame() {}
 
-		virtual status Initialize(int32, int32) = 0;
+		virtual void Initialize(int32, int32) = 0;
 
-		virtual status Draw() = 0;
-		virtual status Update(const Context &) = 0;
+		virtual void Draw() = 0;
+		virtual void Update(const Context &) = 0;
 
-		virtual status End() = 0;
+		virtual void End() = 0;
 
 	private:
 		BaseGame & operator=(const BaseGame&);

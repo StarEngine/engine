@@ -20,8 +20,6 @@ typedef uint32_t 	uint32;
 typedef uint16_t 	uint16;
 typedef uint8_t 	uint8;
 
-typedef int8_t status;
-
 #include <string>
 #include <sstream>
 #include <iostream>
@@ -88,10 +86,6 @@ const double PI = 3.14159265358979323846264338327950288;
 #define ANDROID_LOG_TAG _T("STAR_ENGINE")
 #define NO_WRAPPING -1
 const float EPSILON = 0.0000001f;
-
-const status STATUS_OK 		= 0;
-const status STATUS_KO 		= -1;
-const status STATUS_EXIT 	= -2;
 
 #ifdef STAR2D
 #include "defines2D.h" 

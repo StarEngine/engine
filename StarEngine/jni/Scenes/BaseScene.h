@@ -19,12 +19,12 @@ namespace star
 		BaseScene(const tstring & name);
 		virtual ~BaseScene();
 		
-		status	BaseInitialize();
+		void	BaseInitialize();
 		void	BaseAfterInitializedObjects();
-		status	BaseOnActivate();
+		void	BaseOnActivate();
 		void	BaseOnDeactivate();
-		status	BaseUpdate(const Context& context);
-		status	BaseDraw();
+		void	BaseUpdate(const Context& context);
+		void	BaseDraw();
 
 
 		virtual void OnSaveState(void** pData,size_t* pSize);
@@ -43,12 +43,12 @@ namespace star
 		std::shared_ptr<Stopwatch> GetStopwatch() const;
 
 	protected:
-		virtual status CreateObjects();
-		virtual status AfterInitializedObjects();
-		virtual status OnActivate();
-		virtual status OnDeactivate();
-		virtual status Update(const Context& context);
-		virtual status Draw();
+		virtual void CreateObjects();
+		virtual void AfterInitializedObjects();
+		virtual void OnActivate();
+		virtual void OnDeactivate();
+		virtual void Update(const Context& context);
+		virtual void Draw();
 
 		std::shared_ptr<GestureManager> m_GestureManagerPtr;
 

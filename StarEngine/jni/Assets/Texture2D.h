@@ -38,7 +38,7 @@ namespace star
 
 	private:
 		uint8* ReadPNG();
-		status Load();
+		bool Load();
 
 		tstring mPath;
 		GLuint	mTextureId;	

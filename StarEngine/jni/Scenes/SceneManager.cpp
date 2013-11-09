@@ -131,11 +131,11 @@ namespace star
 
 	}
 
-	status SceneManager::Update(const Context& context)
+	void SceneManager::Update(const Context& context)
 	{
 		if(m_bDestroyRequested)
 		{
-			return (STATUS_OK);
+			return;
 		}
 
 		m_Stopwatch->Update(context);
@@ -154,7 +154,7 @@ namespace star
 			m_ActiveScene->BaseOnActivate();
 			m_NewActiveScene = nullptr;
 			m_bSwitchingScene = false;
-			return (STATUS_OK);
+			return;
 		}
 
 		else if(m_ActiveScene != nullptr)
@@ -162,22 +162,20 @@ namespace star
 			InputManager::GetInstance()->UpdateGestures(context);
 			return (m_ActiveScene->BaseUpdate(context));
 		}
-		return (STATUS_OK);
 	}
 
 
-	status SceneManager::Draw()
+	void SceneManager::Draw()
 	{
 		if(m_bDestroyRequested)
 		{
-			return (STATUS_OK);
+			return;
 		}
 		if(m_ActiveScene != nullptr)
 		{
 			m_ActiveScene->BaseDraw();
 			SpriteBatch::GetInstance()->Flush();
 		}
-		return (STATUS_OK);
 	}
 
 	std::shared_ptr<Stopwatch> SceneManager::GetStopwatch() const

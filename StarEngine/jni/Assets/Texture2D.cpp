@@ -30,7 +30,7 @@ namespace star
 	void Texture2D::CallbackRead(png_structp png, png_bytep data, png_size_t size)
 	{
 		Resource& lReader = *((Resource*)png_get_io_ptr(png));
-		if(lReader.Read(data,size) != STATUS_OK)
+		if(!lReader.Read(data,size))
 		{
 			lReader.Close();
 			png_error(png, "Error while reading PNG file");
@@ -72,13 +72,13 @@ namespace star
 
 		fread(header, 8, 1, fp);
 #else
-		if(mResource.Open() == STATUS_KO)
+		if(!mResource.Open())
 		{
 			mResource.Close();
 			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : Could Not Open Resource"));
 			return NULL;
 		}
-		if(mResource.Read(header, sizeof(header)) == STATUS_KO)
+		if(!mResource.Read(header, sizeof(header)))
 		{
 			mResource.Close();
 			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : Could Not Read"));
@@ -233,13 +233,13 @@ namespace star
 
 	}
 
-	status Texture2D::Load()
+	bool Texture2D::Load()
 	{
 		uint8* lImageBuffer = this->ReadPNG();
 		if(lImageBuffer == NULL)
 		{
 			Logger::GetInstance()->Log(LogLevel::Error, _T("PNG : READING PNG FAILED - NO IMAGE BUFFER"));
-			return STATUS_KO;
+			return false;
 		}
 
 		glGenTextures(1, &mTextureId);
@@ -288,9 +288,9 @@ namespace star
 			mWidth = 0;
 			mHeight = 0;
 			mFormat = 0;
-			return STATUS_KO;
+			return false;
 		}
-		return STATUS_OK;
+		return true;
 	}
 
 	const tstring & Texture2D::GetPath() const

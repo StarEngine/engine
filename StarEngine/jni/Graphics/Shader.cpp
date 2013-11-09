@@ -65,7 +65,7 @@ namespace star
 
 #ifdef ANDROID
 		Resource resource(StarEngine::GetInstance()->GetAndroidApp(), file);
-		if(resource.Open() == STATUS_KO)
+		if(!resource.Open())
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Android Shader : Failed to open file"));
 			return false;
@@ -75,7 +75,7 @@ namespace star
 		//star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : File size :")+star::string_cast<tstring>(length));
 		char* doc = reinterpret_cast<char*>( malloc (length+1));
 
-		if(resource.Read(doc,length) == STATUS_KO)
+		if(!resource.Read(doc,length))
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Android Shader : Failed to read file"));
 			resource.Close();

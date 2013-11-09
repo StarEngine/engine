@@ -20,7 +20,7 @@ namespace star
 		auto error = FT_New_Face(library,font_path.c_str(),0,&mFace);
 #else
 		Resource resource(StarEngine::GetInstance()->GetAndroidApp(), path);
-		if(resource.Open() == STATUS_KO)
+		if(!resource.Open())
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Font : Failed to open file"));
 			return false;
@@ -30,7 +30,7 @@ namespace star
 		star::Logger::GetInstance()->Log(LogLevel::Info, _T("Font : File size :")+star::string_cast<tstring>(length));
 		mFontBuffer = new BYTE[length]();
 
-		if(resource.Read(mFontBuffer,length) == STATUS_KO)
+		if(!resource.Read(mFontBuffer,length))
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Font : Failed to read file"));
 			resource.Close();

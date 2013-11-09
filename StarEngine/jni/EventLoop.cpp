@@ -75,16 +75,8 @@ namespace star {
 			if ((mEnabled) && (!mQuit))
 			{
 				GraphicsManager::GetInstance()->SetHasWindowChanged(false);
-				if (mMainGame->Update(mContext) != STATUS_OK)
-				{
-					mQuit = true;
-					End();
-				}
-				else if (mMainGame->Draw() != STATUS_OK)
-				{
-					mQuit = true;
-					End();
-				}
+				mMainGame->Update(mContext);
+				mMainGame->Draw();
 			}
 			usleep(100);
 			mTimeManager->StopMonitoring();
@@ -126,23 +118,16 @@ namespace star {
 
 			//Gets called second after the window init
 		case APP_CMD_GAINED_FOCUS: {
-			status succes = STATUS_OK;
 			if (!lEventLoop.mMainGameInitialized) {
-				if (succes = lEventLoop.mMainGame->Initialize(0, 0) != STATUS_OK) {
-					lEventLoop.mEnabled = false;
-					lEventLoop.End();
-				}
+				lEventLoop.mMainGame->Initialize(0, 0);
 			}
-			if (succes == STATUS_OK)
-			{
-				lEventLoop.mMainGameInitialized = true;
-				lEventLoop.mEnabled = true;
-				Logger::GetInstance()->Log(LogLevel::Info,
-						_T("Eventloop : APP CMD GAINED FOXUS, Initited MainGame"));
-				TextureManager::GetInstance()->ReloadAllTextures();
-				SceneManager::GetInstance()->processActivityEvent(pCommand,
-						pApplication);
-			}
+			lEventLoop.mMainGameInitialized = true;
+			lEventLoop.mEnabled = true;
+			Logger::GetInstance()->Log(LogLevel::Info,
+					_T("Eventloop : APP CMD GAINED FOXUS, Initited MainGame"));
+			TextureManager::GetInstance()->ReloadAllTextures();
+			SceneManager::GetInstance()->processActivityEvent(pCommand,
+					pApplication);
 		}
 			break;
 

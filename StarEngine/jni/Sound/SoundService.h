@@ -25,24 +25,24 @@ namespace star
 	public:
 		static SoundService * GetInstance();
 		~SoundService();
-		status Start();
+		void Start();
 		void Stop();
 
-		status LoadMusic(const tstring& path, const tstring& name);
-		status LoadSoundEffect(const tstring& path, const tstring& name);
+		void LoadMusic(const tstring& path, const tstring& name);
+		void LoadSoundEffect(const tstring& path, const tstring& name);
 
 		//You can load sounds at runtime but for ensuring smooth play preload with LoadMusic
-		status PlaySoundFile(const tstring& path, const tstring& name);
-		status PlaySoundFile(const tstring& name);
+		void PlaySoundFile(const tstring& path, const tstring& name);
+		void PlaySoundFile(const tstring& name);
 
 		//You can load sounds at runtime but for ensuring smooth play preload with LoadMusic
-		status PlaySoundEffect(const tstring& path, const tstring& name);
-		status PlaySoundEffect(const tstring& name);
+		void PlaySoundEffect(const tstring& path, const tstring& name);
+		void PlaySoundEffect(const tstring& name);
 
-		status AddToBackgroundQueue(const tstring& name);
+		void AddToBackgroundQueue(const tstring& name);
 
 		//For looptimes : -1 repeat forever, 0 play once 
-		status PlayBackgroundQueue();
+		void PlayBackgroundQueue();
 
 		void PlayNextSongInQueue();
 

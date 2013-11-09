@@ -27,8 +27,8 @@ namespace star
 		bool AddScene(const tstring & name, BaseScene* scene);
 		bool RemoveScene(const tstring & name);
 
-		status Update(const Context& context);
-		status Draw();
+		void Update(const Context& context);
+		void Draw();
 
 		std::shared_ptr<Stopwatch> GetStopwatch() const;
 

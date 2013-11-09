@@ -48,11 +48,11 @@ namespace star
 		}
 	}
 
-	status SoundService::Start()
+	void SoundService::Start()
 	{
-		if(mbIsInitialized)return STATUS_OK;
+		if(mbIsInitialized) return;
 
-		mbIsInitialized=true;
+		mbIsInitialized = true;
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Started making Audio Engine"));
 
 #ifdef DESKTOP
@@ -73,7 +73,7 @@ namespace star
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Could Not open Audio Mix SDL"));
 			Stop();
-			return STATUS_KO;
+			return;
 		}
 
 		//check What we got
@@ -100,7 +100,7 @@ namespace star
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't make Audio Engine"));
 			Stop();
-			return STATUS_KO;
+			return;
 		}
 
 		lRes = (*mEngineObj)->Realize(mEngineObj, SL_BOOLEAN_FALSE);
@@ -108,7 +108,7 @@ namespace star
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't realize Engine"));
 			Stop();
-			return STATUS_KO;
+			return;
 		}
 
 		lRes = (*mEngineObj)->GetInterface(mEngineObj,SL_IID_ENGINE, &mEngine);
@@ -116,7 +116,7 @@ namespace star
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't fetch engine interface"));
 			Stop();
-			return STATUS_KO;
+			return;
 		}
 
 		lRes = (*mEngine)->CreateOutputMix(mEngine, &mOutputMixObj, lOutputMixIIDCount, lOutputMixIIDs,lOutputMixReqs);
@@ -124,7 +124,7 @@ namespace star
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't create outputmix"));
 			Stop();
-			return STATUS_KO;
+			return;
 		}
 
 		lRes = (*mOutputMixObj)->Realize(mOutputMixObj,SL_BOOLEAN_FALSE);
@@ -132,11 +132,10 @@ namespace star
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't realise output object"));
 			Stop();
-			return STATUS_KO;
+			return;
 		}
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Succesfull made Audio Engine"));
 #endif
-		return STATUS_OK;
 	}
 
 	void SoundService::Stop()
@@ -164,13 +163,13 @@ namespace star
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Stopped audio Engine"));
 	}
 
-	status SoundService::LoadMusic(const tstring& path, const tstring& name)
+	void SoundService::LoadMusic(const tstring& path, const tstring& name)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
 		if(mMusicList.find(name) != mMusicList.end())
 		{
-			return (STATUS_KO);
+			return;
 		}
 
 		auto pathit = mMusicPathList.find(path);
@@ -183,25 +182,25 @@ namespace star
 			{
 				star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Found sound file of old path, making copy for new name"));
 				mMusicList[name]=nameit->second;
-				return (STATUS_OK);
+				return;
 			}
 			mMusicPathList.erase(pathit);
-			return (STATUS_KO);
+			return;
 		}
 
 		SoundFile* music = new SoundFile(path);
 		mMusicList[name] = music;
 		mMusicPathList[path]=name;
-		return (STATUS_OK);
+		return;
 	}
 
-	status SoundService::LoadSoundEffect(const tstring& path, const tstring& name)
+	void SoundService::LoadSoundEffect(const tstring& path, const tstring& name)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
 		if(mEffectsList.find(name) != mEffectsList.end())
 		{
-			return (STATUS_KO);
+			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : That effect already excists."));
 		}
 
 		auto pathit = mSoundEffectPathList.find(path);
@@ -213,58 +212,56 @@ namespace star
 			if(nameit!= mMusicList.end())
 			{
 				star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Found Sound Effect of old path, making copy for new name"));
-				mMusicList[name]=nameit->second;
-				return (STATUS_OK);
+				mMusicList[name] = nameit->second;
 			}
 			mSoundEffectPathList.erase(pathit);
-			return (STATUS_KO);
 		}
 
 		SoundEffect* effect = new SoundEffect(path);
 		mEffectsList[name] = effect;
-		mSoundEffectPathList[path]=name;
-		return (STATUS_OK);
+		mSoundEffectPathList[path] = name;
 	}
 
-	status SoundService::PlaySoundFile(const tstring& path, const tstring& name)
+	void SoundService::PlaySoundFile(const tstring& path, const tstring& name)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
-		if(mMusicList.find(name)==mMusicList.end())
+		if(mMusicList.find(name) == mMusicList.end())
 		{
 			LoadMusic(path,name);
 		}
 		return PlaySoundFile(name);
 	}
 
-	status SoundService::PlaySoundFile(const tstring& name)
+	void SoundService::PlaySoundFile(const tstring& name)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
-			if(m_CurrentSoundFile!=nullptr)m_CurrentSoundFile->Stop();
+			if(m_CurrentSoundFile != nullptr) m_CurrentSoundFile->Stop();
 			m_CurrentSoundFile = mMusicList[name];
 			m_CurrentSoundFile->Play(0);
-			return (STATUS_OK);
+			return;
 		}
-		m_CurrentSoundFile=nullptr;
-		return (STATUS_KO);
+
+		m_CurrentSoundFile = nullptr;
+		star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Couldn't find song '") + name + _T("'."));
 	}
 
-	status SoundService::PlaySoundEffect(const tstring& path, const tstring& name)
+	void SoundService::PlaySoundEffect(const tstring& path, const tstring& name)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
-		if(mEffectsList.find(name)==mEffectsList.end())
+		if(mEffectsList.find(name) == mEffectsList.end())
 		{
 			LoadSoundEffect(path,name);
 		}
-		return PlaySoundFile(name);
+		PlaySoundFile(name);
 	}
 
-	status SoundService::PlaySoundEffect(const tstring& name)
+	void SoundService::PlaySoundEffect(const tstring& name)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
@@ -273,12 +270,11 @@ namespace star
 		{
 			m_CurrentSoundEffect = mEffectsList[name];
 			mEffectsList[name]->Play();
-			return (STATUS_OK);
 		}
-		return (STATUS_KO);
+		star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Couldn't find effect '") + name + _T("'."));
 	}
 
-	status SoundService::AddToBackgroundQueue(const tstring& name)
+	void SoundService::AddToBackgroundQueue(const tstring& name)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
@@ -286,28 +282,27 @@ namespace star
 		if(it != mMusicList.end())
 		{
 			mBackgroundQueue.push_back(mMusicList[name]);
-			return (STATUS_OK);
 		}
-		return (STATUS_KO);
+		star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Couldn't find background song '") + name + _T("'."));
 	}
 
-	status SoundService::PlayBackgroundQueue()
+	void SoundService::PlayBackgroundQueue()
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
 		mQueueIterator = mBackgroundQueue.begin();
-		if(mQueueIterator!=mBackgroundQueue.end())
+		if(mQueueIterator != mBackgroundQueue.end())
 		{
 			(*mQueueIterator)->PlayQueued(0);
-			return (STATUS_OK);
 		}
-		return STATUS_KO;
+
+		star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : No song in background queue."));
 	}
 
 	void SoundService::PlayNextSongInQueue()
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
-		if(mBackgroundQueue.size()==0)return;
+		if(mBackgroundQueue.size() == 0) return;
 
 		++mQueueIterator;
 		if(mQueueIterator!=mBackgroundQueue.end())

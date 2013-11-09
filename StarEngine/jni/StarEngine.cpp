@@ -29,7 +29,7 @@ namespace star
 		return m_pEngine;
 	}
 
-	status StarEngine::Initialize(int32 window_width, int32 window_height)
+	void StarEngine::Initialize(int32 window_width, int32 window_height)
 	{
 		std::random_device seeder;
 
@@ -46,33 +46,25 @@ namespace star
 #endif
 
 		SoundService::GetInstance()->Start();
-
-		return STATUS_OK;
 	}
 
-	status StarEngine::Update(const Context & context)
+	void StarEngine::Update(const Context & context)
 	{
 		m_FPS.Update(context);
 
-		if(SceneManager::GetInstance()->Update(context) != STATUS_OK)
-		{
-			return STATUS_KO;
-		}
+		SceneManager::GetInstance()->Update(context);
+
 		InputManager::GetInstance()->EndUpdate();
 		Logger::GetInstance()->CheckGlError();
-		m_bInitialized=true;
-		return STATUS_OK;
+		m_bInitialized = true;
 	}
 
-	status StarEngine::Draw()
+	void StarEngine::Draw()
 	{
 		GraphicsManager::GetInstance()->StartDraw();
 		if(m_bInitialized)
 		{
-			if(SceneManager::GetInstance()->Draw() != STATUS_OK)
-			{
-				return STATUS_KO;
-			}
+			SceneManager::GetInstance()->Draw();
 		}
 		else
 		{
@@ -81,11 +73,9 @@ namespace star
 
 		}
 		GraphicsManager::GetInstance()->StopDraw();
-
-		return STATUS_OK;
 	}
 
-	status StarEngine::End()
+	void StarEngine::End()
 	{
 		// [NOTE] Find a proper way to delete this...
 		//delete InputManager::GetInstance();
@@ -99,8 +89,6 @@ namespace star
 		delete PathFindManager::GetInstance();
 		delete SceneManager::GetInstance();
 		delete Logger::GetInstance();
-
-		return STATUS_OK;
 	}
 	
 	void StarEngine::SetActive()

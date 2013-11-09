@@ -30,11 +30,12 @@ namespace star
 		m_GestureManagerPtr = nullptr;
 	}
 
-	status BaseScene::BaseInitialize()
+	void BaseScene::BaseInitialize()
 	{
-		status isInitialized(CreateObjects());
-		if(isInitialized == STATUS_OK)
+		if(!m_Initialized)
 		{
+			CreateObjects();
+
 			m_pDefaultCamera = new BaseCamera();
 
 			m_Initialized = true;
@@ -44,7 +45,6 @@ namespace star
 			}
 			BaseAfterInitializedObjects();
 		}
-		return STATUS_KO;
 	}
 
 	void BaseScene::BaseAfterInitializedObjects()
@@ -52,7 +52,7 @@ namespace star
 		AfterInitializedObjects();
 	}
 
-	status BaseScene::BaseOnActivate()
+	void BaseScene::BaseOnActivate()
 	{
 		InputManager::GetInstance()->SetGestureManager(m_GestureManagerPtr);
 		return OnActivate();
@@ -63,7 +63,7 @@ namespace star
 		OnDeactivate();
 	}
 
-	status BaseScene::BaseUpdate(const Context& context)
+	void BaseScene::BaseUpdate(const Context& context)
 	{	
 		m_pStopwatch->Update(context);
 
@@ -72,10 +72,10 @@ namespace star
 			m_Objects[i]->BaseUpdate(context);
 		}
 
-		return Update(context);
+		Update(context);
 	}
 
-	status BaseScene::BaseDraw()
+	void BaseScene::BaseDraw()
 	{
 		glClearColor(1.0f,0.0f,0.0f,1.0f); // Clear the background of our window to red
 
@@ -84,7 +84,8 @@ namespace star
 		{
 			m_Objects[i]->BaseDraw();
 		}
-		return Draw(); 
+
+		Draw(); 
 	}
 
 	void BaseScene::OnSaveState(void** pData, size_t* pSize)
@@ -159,33 +160,27 @@ namespace star
 		return m_pStopwatch;
 	}
 
-	status BaseScene::CreateObjects()
+	void BaseScene::CreateObjects()
 	{
-		return STATUS_OK;
 	}
 
-	status BaseScene::AfterInitializedObjects()
+	void BaseScene::AfterInitializedObjects()
 	{
-		return STATUS_OK;
 	}
 
-	status BaseScene::OnActivate()
+	void BaseScene::OnActivate()
 	{
-		return STATUS_OK;
 	}
 
-	status BaseScene::OnDeactivate()
+	void BaseScene::OnDeactivate()
 	{
-		return STATUS_OK;
 	}
 
-	status BaseScene::Update(const Context& context)
+	void BaseScene::Update(const Context& context)
 	{
-		return STATUS_OK;
 	}
 
-	status BaseScene::Draw()
+	void BaseScene::Draw()
 	{
-		return STATUS_OK;
 	}
 }

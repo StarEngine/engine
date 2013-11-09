@@ -26,11 +26,11 @@ namespace star
 		~StarEngine();
 
 		static std::shared_ptr<StarEngine> GetInstance();
-		status Initialize(int32 window_width, int32 window_height);
+		void Initialize(int32 window_width, int32 window_height);
 
-		status Update(const Context & context);
-		status Draw();
-		status End();
+		void Update(const Context & context);
+		void Draw();
+		void End();
 
 		void SetActive();
 		void SetInactive();
