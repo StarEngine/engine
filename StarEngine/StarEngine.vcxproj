@@ -114,6 +114,7 @@
     <ClInclude Include="jni\Helpers\Helpers.h" />
     <ClInclude Include="jni\Helpers\HelpersMath.h" />
     <ClInclude Include="jni\Helpers\Rect.h" />
+    <ClInclude Include="jni\Helpers\SerializedData.h" />
     <ClInclude Include="jni\Helpers\SpriteAnimation.h" />
     <ClInclude Include="jni\Helpers\Spritesheet.h" />
     <ClInclude Include="jni\Helpers\State.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="jni\Helpers\Helpers.cpp" />
     <ClCompile Include="jni\Helpers\HelpersMath.cpp" />
     <ClCompile Include="jni\Helpers\Rect.cpp" />
+    <ClCompile Include="jni\Helpers\SerializedData.cpp" />
     <ClCompile Include="jni\Helpers\SpriteAnimation.cpp" />
     <ClCompile Include="jni\Helpers\Spritesheet.cpp" />
     <ClCompile Include="jni\Helpers\State.cpp" />

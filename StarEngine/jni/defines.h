@@ -6,6 +6,8 @@
 	#define MOBILE
 #endif
 
+#include "Helpers\SerializedData.h"
+
 #include <stdint.h>
 
 typedef int64_t 	int64;
