@@ -43,6 +43,8 @@ namespace star
 
                 void Rotate(float rotation);
 				void Rotate(float rotation, const pos& centerPoint);
+                void RotateLocal(float rotation);
+				void RotateLocal(float rotation, const pos& centerPoint);
 
                 void Scale(const vec2& scale);
                 void Scale(float x, float y);
@@ -94,19 +96,19 @@ namespace star
                 const vec3& GetWorldScale();
                 const vec3& GetLocalScale();
 #endif
-                // [COMMENT] Do we need this in 2D?
-                mat4x4 GetWorldMatrix();
+                const mat4x4 & GetWorldMatrix() const;
 
         private:
                 void InitializeComponent();
                 void CheckForUpdate(const bool force = false);
+				void CommonUpdate();
 
 				const pos& GetScaledWorldPosition();
 				const vec2& GetScaledWorldScale();
 
                 unsigned char m_IsChanged;
                 bool m_Invalidate;
-				bool m_bRotationCenterChanged;
+				bool m_bRotationCenterChanged, m_bRotationIsLocal;
 
 #ifdef STAR2D
                 pos m_WorldPosition, m_LocalPosition,m_CenterPosition,
