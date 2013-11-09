@@ -443,151 +443,41 @@ namespace star
 				child->GetTransform()->IsChanged(true);
 			}
 
+			SingleUpdate(m_World);
+
+			auto parent = m_pParentObject->GetParent();
+			if(parent != nullptr)
+			{
+				m_World = parent->GetTransform()->GetWorldMatrix() * m_World;
+			}
+
+			DecomposeMatrix(m_World, m_WorldPosition, m_WorldScale, m_WorldRotation);
+		}
+		
+		void TransformComponent::SingleUpdate(mat4x4 & world)
+		{
 			m_LocalScale = m_UnScaledLocalScale * ScaleSystem::GetInstance()->GetScale();
 			m_LocalPosition = m_UnScaledLocalPos *  ScaleSystem::GetInstance()->GetScale();
 
-			mat4x4 matRot, matTrans, matScale, matCenterTrans,matReCenterTrans,
-				matRotChild, matChildCenterTrans, matChildReCenterTrans;
+			mat4x4 matRot, matTrans, matScale, matC, matCI;
 
-			bool centerChanged(false);
-			auto parentGameObj = m_pParentObject->GetParent();
-
-			m_WorldPosition = m_LocalPosition;
-			m_WorldScale = m_LocalScale;
-			m_WorldRotation = m_LocalRotation;
-
-			m_UnScaledWorldPos = m_UnScaledLocalPos;
-			m_UnScaledWorldScale = m_UnScaledLocalScale;
-
-		#ifdef STAR2D
-			if(parentGameObj == nullptr)
+			matTrans = glm::translate(m_LocalPosition.pos3D());
+			matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
+			matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
+			
+			if(m_bRotationCenterChanged)
 			{
-				if(m_bRotationCenterChanged)
-				{
-					centerChanged = true;
-					vec3 centerPos(m_CenterPosition.x, m_CenterPosition.y, 0);
-					centerPos *= ScaleSystem::GetInstance()->GetScale();
-					matCenterTrans = glm::translate(centerPos);
-					matReCenterTrans = glm::translate(-centerPos);
-				}
-				matTrans = glm::translate(m_LocalPosition.pos3D());
-				matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
-				matScale = glm::scale(vec3(m_LocalScale.x,m_LocalScale.y,1));
+				m_bRotationCenterChanged = true;
+				vec3 centerPos(m_CenterPosition.x, m_CenterPosition.y, 0);
+				centerPos *= ScaleSystem::GetInstance()->GetScale();
+				matC = glm::translate(-centerPos);
+				matCI = glm::translate(centerPos);
+
+				world = matTrans * matCI * matRot * matScale * matC;
 			}
 			else
 			{
-				vec3 cScale(
-					m_LocalScale.x * parentGameObj->GetTransform()->m_LocalScale.x * ScaleSystem::GetInstance()->GetScale(),
-					m_LocalScale.y * parentGameObj->GetTransform()->m_LocalScale.y * ScaleSystem::GetInstance()->GetScale(),
-					1);
-				if(parentGameObj->GetTransform()->m_bRotationCenterChanged)
-				{
-					centerChanged = true;
-					vec3 centerPos(parentGameObj->GetTransform()->m_CenterPosition.x,
-						parentGameObj->GetTransform()->m_CenterPosition.y, 0);
-					centerPos *= ScaleSystem::GetInstance()->GetScale();
-					matCenterTrans = glm::translate(centerPos);
-					matReCenterTrans = glm::translate(-centerPos + m_LocalPosition.pos3D() / cScale);
-				}
-				if(m_bRotationIsLocal)
-				{
-					if(m_bRotationCenterChanged)
-					{
-						centerChanged = true;
-						vec3 centerPos(m_CenterPosition.x, m_CenterPosition.y, 0);
-						centerPos *= ScaleSystem::GetInstance()->GetScale();
-						matChildCenterTrans = glm::translate(centerPos);
-						matChildReCenterTrans = glm::translate(-centerPos - m_LocalPosition.pos3D() / cScale);
-					}
-					else
-					{
-						matChildCenterTrans = glm::translate(vec3(0,0,0));
-						matChildReCenterTrans = glm::translate(-m_LocalPosition.pos3D() / cScale);
-					}
-					matRotChild = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));
-					matRot = glm::toMat4(quat(vec3(0,0,
-						parentGameObj->GetTransform()->GetLocalRotation()
-						)));
-				}
-				else
-				{
-					centerChanged = true;
-					if(m_bRotationCenterChanged)
-					{
-						vec3 centerPos(m_CenterPosition.x, m_CenterPosition.y, 0);
-						centerPos *= ScaleSystem::GetInstance()->GetScale();
-						matChildCenterTrans = glm::translate(centerPos);
-						matChildReCenterTrans = glm::translate(-centerPos);
-					}
-					else
-					{
-						matChildReCenterTrans = glm::translate(m_LocalPosition.pos3D() / cScale);
-						matChildCenterTrans = glm::translate(-m_LocalPosition.pos3D() / cScale);
-					}
-
-					matRot = glm::toMat4(quat(vec3(0,0,
-						m_LocalRotation + parentGameObj->GetTransform()->GetLocalRotation()
-						)));
-				}
-				matTrans = glm::translate(
-					(parentGameObj->GetTransform()->m_LocalPosition.pos3D()
-					+ m_LocalPosition.pos3D())
-					* ScaleSystem::GetInstance()->GetScale());
-				matScale = glm::scale<float>(cScale.x, cScale.y, 1.0f);
-
-				m_WorldPosition += parentGameObj->GetTransform()->m_WorldPosition;
-				m_WorldScale *= parentGameObj->GetTransform()->m_LocalScale;
-				m_WorldRotation += parentGameObj->GetTransform()->m_WorldRotation;
-
-				m_UnScaledWorldPos += parentGameObj->GetTransform()->m_UnScaledWorldPos;
-				m_UnScaledWorldScale *= parentGameObj->GetTransform()->m_UnScaledWorldScale;
-			}
-		#else
-			//[TODO] UPDATE IMPLEMENTATION OF 3D TRANSFORMCOMP
-			matTrans = glm::translate(m_LocalPosition);
-			matRot   = glm::toMat4(m_LocalRotation);
-			matScale = glm::scale(m_LocalScale);
-		#endif
-
-			if(m_bRotationIsLocal)
-			{
-				if(!centerChanged)
-				{
-					if(m_bRotationCenterChanged)
-					{
-						m_World = matTrans * matRot * matScale * matChildCenterTrans
-							* matRotChild * matChildReCenterTrans;
-					}
-					else
-					{
-						m_World = matTrans * matRot * matScale * matRotChild;
-					}
-				}
-				else
-				{
-					if(m_bRotationCenterChanged)
-					{
-						m_World = matTrans * matCenterTrans * matRot
-							* matScale * matReCenterTrans * matChildCenterTrans
-							* matRotChild * matChildReCenterTrans;
-					}
-					else
-					{
-						m_World = matTrans * matCenterTrans * matRot * matRotChild
-							* matScale * matReCenterTrans;
-					}
-				}
-			}
-			else
-			{
-				if(!centerChanged)
-				{
-					m_World = matTrans * matRot * matScale;
-				}
-				else
-				{
-					m_World = matTrans * matChildCenterTrans * matRot * matScale * matChildReCenterTrans;
-				}
+				world = matTrans * matRot * matScale;
 			}
 		}
 

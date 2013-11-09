@@ -102,6 +102,7 @@ namespace star
                 void InitializeComponent();
                 void CheckForUpdate(const bool force = false);
 				void CommonUpdate();
+				void SingleUpdate(mat4x4 & world);
 
 				const pos& GetScaledWorldPosition();
 				const vec2& GetScaledWorldScale();

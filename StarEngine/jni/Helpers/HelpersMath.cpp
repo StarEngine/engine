@@ -69,11 +69,91 @@ namespace star
 		return vec;
 	}
 
-	
-
 	mat4x4 TransposeMatrix(const mat4x4& matrix)
 	{
 		return glm::transpose(matrix);
+	}
+
+	float GetPitch(const glm::quat & quaternion)
+    {
+		return (float)atan2f(2 * (quaternion.y * quaternion.z + quaternion.w * quaternion.x),
+            quaternion.w * quaternion.w - quaternion.x * quaternion.x - quaternion.y * quaternion.y + quaternion.z * quaternion.z);
+    }
+
+    float GetYaw(const glm::quat & quaternion)
+    {
+		return (float)asinf(-2 * (quaternion.x * quaternion.z - quaternion.w * quaternion.y));
+    }
+
+    float GetRoll(const glm::quat & quaternion)
+    {
+		return (float)atan2f(2 * (quaternion.x * quaternion.y + quaternion.w * quaternion.z),
+            quaternion.w * quaternion.w + quaternion.x * quaternion.x - quaternion.y * quaternion.y - quaternion.z * quaternion.z);
+    }
+
+	void GetTranslation(const mat4x4& matrix, pos & translation)
+	{
+		translation.x = matrix[3][0];
+		translation.y = matrix[3][1];
+		translation.l = lay(matrix[3][2] / LAYER_HEIGHT);
+	}
+
+	void GetScaling(const mat4x4& matrix, vec2 & scaling)
+	{
+		scaling.x = sqrt(
+			pow(matrix[0][0], 2) +
+			pow(matrix[1][0], 2) +
+			pow(matrix[2][0], 2)
+			);
+		scaling.y = sqrt(
+			pow(matrix[0][1], 2) +
+			pow(matrix[1][1], 2) +
+			pow(matrix[2][1], 2)
+			);
+	}
+
+	void GetRotation(const mat4x4& matrix, float & rotation)
+	{
+		vec2 scaling;
+		GetRotationAndScaling(matrix, rotation, scaling);
+	}
+	
+	void GetRotationAndScaling(const mat4x4& matrix, float & rotation, vec2 & scaling)
+	{
+		GetScaling(matrix, scaling);
+
+		mat4x4 rot;
+
+		rot[0][0] = matrix[0][0] / scaling.x;
+		rot[0][1] = matrix[0][1] / scaling.x;
+		rot[0][2] = matrix[0][2] / scaling.x;
+		rot[0][3] = 0;
+
+		rot[1][0] = matrix[1][0] / scaling.x;
+		rot[1][1] = matrix[1][1] / scaling.y;
+		rot[1][2] = matrix[1][2] / scaling.y;
+		rot[1][3] = 0;
+
+		rot[2][0] = matrix[2][0];
+		rot[2][1] = matrix[2][1];
+		rot[2][2] = matrix[2][2];
+		rot[2][3] = 0;
+
+		rot[3][0] = 0;
+		rot[3][1] = 0;
+		rot[3][2] = 0;
+		rot[3][3] = 1;
+
+		glm::quat rotQuat(rot);
+
+		rotation = GetRoll(rotQuat);
+	}
+
+	void DecomposeMatrix(const mat4x4& matrix, pos & position,
+		vec2 & scaling, float & rotation)
+	{
+		GetTranslation(matrix, position);
+		GetRotationAndScaling(matrix, rotation, scaling);
 	}
 
 	int32 GenerateRandomNumber(int32 min, int32 max)
