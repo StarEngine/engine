@@ -222,7 +222,7 @@ namespace star
 		mSoundEffectPathList[path] = name;
 	}
 
-	void SoundService::PlaySoundFile(const tstring& path, const tstring& name)
+	void SoundService::PlaySoundFile(const tstring& path, const tstring& name, int loopTimes)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
@@ -230,10 +230,10 @@ namespace star
 		{
 			LoadMusic(path,name);
 		}
-		return PlaySoundFile(name);
+		return PlaySoundFile(name,loopTimes);
 	}
 
-	void SoundService::PlaySoundFile(const tstring& name)
+	void SoundService::PlaySoundFile(const tstring& name, int loopTimes)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
@@ -242,7 +242,7 @@ namespace star
 		{
 			if(m_CurrentSoundFile != nullptr) m_CurrentSoundFile->Stop();
 			m_CurrentSoundFile = mMusicList[name];
-			m_CurrentSoundFile->Play(0);
+			m_CurrentSoundFile->Play(loopTimes);
 			return;
 		}
 

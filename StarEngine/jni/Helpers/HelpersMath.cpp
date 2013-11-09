@@ -202,7 +202,7 @@ namespace star
 		{
 			return min;
 		}
-		std::normal_distribution<float> dist(min, max);
+		std::uniform_real_distribution<float> dist(min, max);
 		return dist(StarEngine::GetInstance()->GetMt19937Engine());
 	}
 
@@ -212,7 +212,7 @@ namespace star
 		{
 			return min;
 		}
-		std::normal_distribution<double> dist(min, max);
+		std::uniform_real_distribution<double> dist(min, max);
 		return dist(StarEngine::GetInstance()->GetMt19937Engine());
 	}
 }
