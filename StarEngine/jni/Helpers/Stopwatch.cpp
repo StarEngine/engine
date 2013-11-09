@@ -141,7 +141,7 @@ namespace star
 		{
 			if(it.first == name)
 			{
-				it.second.SetTargetTime(paused);
+				it.second.SetTargetTime(targetTime, reset, paused);
 				return;
 			}
 		}
