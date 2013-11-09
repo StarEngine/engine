@@ -241,7 +241,7 @@ namespace star
 	void ReadTextFile(const tstring & file, tstring & text)
 	{
 		Filepath filep(file);
-		tfstream myfile;
+		tifstream myfile;
 		myfile.open(filep.GetFullPath(), std::ios::in);
 		bool succes = myfile.is_open();
 		ASSERT(succes, (_T("Couldn't open the text file '") + file + _T("'.")).c_str());
@@ -259,7 +259,7 @@ namespace star
 	tstring ReadTextFile(const tstring & file)
 	{
 		Filepath filep(file);
-		tfstream myfile;
+		tifstream myfile;
 		myfile.open(filep.GetFullPath(), std::ios::in);
 		bool succes = myfile.is_open();
 		ASSERT(succes, (_T("Couldn't open the text file '") + file + _T("'.")).c_str());
@@ -279,7 +279,7 @@ namespace star
 	void WriteTextFile(const tstring & file, const tstring & text)
 	{
 		Filepath filep(file);
-		tfstream myfile(filep.GetFullPath(), std::ios::out);
+		tofstream myfile(filep.GetFullPath(), std::ios::out);
 		bool succes = myfile.is_open();
 		ASSERT(succes, (_T("Couldn't open the text file '") + file + _T("'.")).c_str());
 		if(succes)
@@ -292,9 +292,9 @@ namespace star
 	void AppendTextFile(const tstring & file, const tstring & text)
 	{
 		Filepath filep(file);
-		tfstream myfile(filep.GetFullPath(), std::ios::out | std::ios::app);
+		tofstream myfile(filep.GetFullPath(), std::ios::out | std::ios::app);
 		bool succes = myfile.is_open();
-		ASSERT(succes, (_T("Couldn't open the text file '") + file + _T("'.")).c_str());
+		ASSERT(succes, (_T("Couldn't open the text file '") + filep.GetFullPath() + _T("'.")).c_str());
 		if(succes)
 		{
 			myfile << text;
@@ -305,11 +305,11 @@ namespace star
 	char * ReadBinaryFile(const tstring & file, uint32 & size)
 	{
 		Filepath filep(file);
-		std::fstream binary_file;
+		std::ifstream binary_file;
 		binary_file.open(filep.GetFullPath(), std::ios::in | std::ios::binary | std::ios::ate);
 		bool succes = binary_file.is_open();
 		char * buffer(nullptr);
-		ASSERT(succes, (_T("Couldn't open the binary file '") + file + _T("'.")).c_str());
+		//ASSERT(succes, (_T("Couldn't open the binary file '") + filep.GetFullPath() + _T("'.")).c_str());
 		if (succes)
 		{
 			size = uint32(binary_file.tellg());
