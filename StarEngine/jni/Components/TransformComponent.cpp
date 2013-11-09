@@ -456,8 +456,14 @@ namespace star
 		
 		void TransformComponent::SingleUpdate(mat4x4 & world)
 		{
-			m_LocalScale = m_UnScaledLocalScale * ScaleSystem::GetInstance()->GetScale();
-			m_LocalPosition = m_UnScaledLocalPos *  ScaleSystem::GetInstance()->GetScale();
+			m_LocalScale = m_UnScaledLocalScale;
+			m_LocalPosition = m_UnScaledLocalPos;
+
+			if(m_pParentObject->GetParent() == nullptr)
+			{
+				m_LocalScale *= ScaleSystem::GetInstance()->GetScale();
+				m_LocalPosition *= ScaleSystem::GetInstance()->GetScale();
+			}
 
 			mat4x4 matRot, matTrans, matScale, matC, matCI;
 
