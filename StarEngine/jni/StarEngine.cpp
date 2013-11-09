@@ -31,8 +31,10 @@ namespace star
 
 	status StarEngine::Initialize(int32 window_width, int32 window_height)
 	{
-		//Generate random seed.
-		srand((unsigned)time(0));
+		std::random_device seeder;
+
+		m_RandomEngine.seed(seeder());
+		
 
 		Logger::GetInstance()->Initialize();
 
@@ -143,6 +145,11 @@ namespace star
 		m_TitleHasUpdated = false;
 	}
 
+	std::mt19937& StarEngine::GetMt19937Engine()
+	{
+		return m_RandomEngine;
+	}
+
 #ifdef ANDROID
 	void StarEngine::SetAndroidApp(android_app * app)
 	{
@@ -161,6 +168,7 @@ namespace star
 		, m_SubTitle(EMPTY_STRING)
 		, m_TitleHasUpdated(false) 
 		, m_bInitialized (false)
+		, m_RandomEngine()
 	{
 
 	}
