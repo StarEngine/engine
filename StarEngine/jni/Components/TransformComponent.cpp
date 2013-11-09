@@ -427,8 +427,8 @@ namespace star
 			auto parentGameObj = m_pParentObject->GetParent();
 			
 			//[TODO] once scale is fixed this should be enabled again.
-			//m_LocalScale *= ScaleSystem::GetInstance()->GetScale();
-			//m_LocalPosition *= ScaleSystem::GetInstance()->GetScale();
+			m_LocalScale *= ScaleSystem::GetInstance()->GetScale();
+			m_LocalPosition *= ScaleSystem::GetInstance()->GetScale();
 
 			m_LastUnScaledLocalPos = m_UnScaledLocalPos;
 			m_LastUnScaledLocalScale = m_UnScaledLocalScale;
@@ -442,7 +442,7 @@ namespace star
 				{
 					vec3 centerPos(m_CenterPosition.x, m_CenterPosition.y, 0);
 					//[TODO] once scale is fixed this should be enabled again.
-					//centerPos *= ScaleSystem::GetInstance()->GetScale();
+					centerPos *= ScaleSystem::GetInstance()->GetScale();
 					matCenterTrans = glm::translate(centerPos);
 					matReCenterTrans = glm::translate(-centerPos);
 				}
