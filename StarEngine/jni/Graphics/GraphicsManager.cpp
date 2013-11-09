@@ -209,7 +209,7 @@ namespace star
 	void GraphicsManager::StartDraw()
 	{
 		//star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : StartDraw"));
-		glClearColor(1.0f, 0.0f, 0.0f, 1.0f); // Clear the background of our window to red
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Clear the background of our window to red
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
 
 		glEnable(GL_BLEND);
