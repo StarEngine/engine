@@ -477,7 +477,7 @@ namespace star
 
 			if(!m_bRotationCenterChanged)
             {
-				m_World = matScale * matRot * matTrans;
+				m_World =matTrans*  matRot *matScale ;
 			}
 			else
 			{

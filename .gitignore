@@ -25,6 +25,7 @@ Debug/
 Release/
 src/
 Obj/
+.svn/
 
 # ignore unwanted files
 *.lnk
