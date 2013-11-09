@@ -157,15 +157,19 @@ namespace star
 				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Could not create context"));
 				return;
 			}
+			EGLint sX(0), sY(0);
 			if (!eglMakeCurrent(mDisplay, mSurface, mSurface, mContext)
-			 || !eglQuerySurface(mDisplay, mSurface, EGL_WIDTH, &mScreenWidth)
-			 || !eglQuerySurface(mDisplay, mSurface, EGL_HEIGHT, &mScreenHeight)
-			 || (mScreenWidth <= 0) || (mScreenHeight <= 0))
+			 || !eglQuerySurface(mDisplay, mSurface, EGL_WIDTH, &sX)
+			 || !eglQuerySurface(mDisplay, mSurface, EGL_HEIGHT, &sY)
+			 || (sX <= 0) || (sY <= 0))
 			{
 				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Could not activate display"));
 				return;
 			}
-			glViewport(0,0,mScreenWidth,mScreenHeight);
+			mViewportResolution.x = sX;
+			mViewportResolution.y = sY;
+			mScreenResolution = mViewportResolution;
+			glViewport(0, 0, mViewportResolution.x, mViewportResolution.y);
 
 
 			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialized"));
