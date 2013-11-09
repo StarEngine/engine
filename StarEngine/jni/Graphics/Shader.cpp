@@ -6,6 +6,7 @@
 namespace star
 {
 	Shader::Shader()
+		: mShaderID(0)
 		// [COMMENT] Initialize all your datamembers!
 	{
 

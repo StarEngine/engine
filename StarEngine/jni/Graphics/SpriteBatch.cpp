@@ -28,11 +28,11 @@ namespace star
 	{
 		m_SpriteQueue.clear();
 		
-		for(auto vertex : m_VertexBuffer)
+		for(auto& vertex : m_VertexBuffer)
 		{
 			vertex = 0;
 		}
-		for(auto uv : m_UvCoordBuffer)
+		for(auto& uv : m_UvCoordBuffer)
 		{
 			uv = 0;
 		}
@@ -95,14 +95,14 @@ namespace star
 		//Game drawn in negative
 		//Game hUD drawn in positive
 		Begin();
+		//Sprites
+		FlushSprites(m_SpriteQueue);
 		//First background text
-		for(auto textDesc : m_TextBackQueue)
+		for(auto& textDesc : m_TextBackQueue)
 		{
 			FlushText(textDesc);
 		}
-		//Sprites
-		FlushSprites(m_SpriteQueue);
-
+		
 		//Clean all variables again
 		m_WorldMatBuffer.clear();
 		m_VertexBuffer.clear();
@@ -114,7 +114,7 @@ namespace star
 		FlushSprites(m_HudSpriteQueue);
 
 		//Front text
-		for(auto textDesc : m_TextFrontQueue)
+		for(auto& textDesc : m_TextFrontQueue)
 		{
 			FlushText(textDesc);
 		}
@@ -122,7 +122,7 @@ namespace star
 		End();
 	}
 	
-	void SpriteBatch::FlushSprites(std::vector<SpriteInfo> spriteQueue)
+	void SpriteBatch::FlushSprites(const std::vector<SpriteInfo>& spriteQueue)
 	{
 		m_Shader.Bind();
 		
@@ -138,13 +138,15 @@ namespace star
 		int batchSize = 0;
 		for(unsigned int i = 0; i < spriteQueue.size(); ++i)
 		{
-			GLuint currTexture = star::TextureManager::GetInstance()->GetTextureID(spriteQueue[i].spriteName);
+			GLuint currTexture = star::TextureManager::GetInstance()
+				->GetTextureID(spriteQueue[i].spriteName);
 			GLuint nextTexture;
 		
 			//Are the following sprites from the same texture?
 			if(i + 1 < spriteQueue.size() && i != spriteQueue.size())
 			{
-				nextTexture = star::TextureManager::GetInstance()->GetTextureID(spriteQueue[i+1].spriteName);
+				nextTexture = star::TextureManager::GetInstance()
+					->GetTextureID(spriteQueue[i+1].spriteName);
 				if(currTexture == nextTexture)
 				{
 					batchSize+=4;
@@ -167,16 +169,22 @@ namespace star
 			for(int j = 0; j < ((batchSize/4)); ++j)
 			{
 				//Set attributes and buffers
-				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, reinterpret_cast<GLvoid*>(&m_VertexBuffer[12*j]));
-				glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, reinterpret_cast<GLvoid*>(&m_UvCoordBuffer[8*j]));
+				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, 
+					reinterpret_cast<GLvoid*>(&m_VertexBuffer[12*j]));
+				glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, 
+					reinterpret_cast<GLvoid*>(&m_UvCoordBuffer[8*j]));
 			
 				if(spriteQueue[m_CurrentSprite + j].bIsHUD)
 				{
-					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"), 1, GL_FALSE, glm::value_ptr(TransposeMatrix(spriteQueue[m_CurrentSprite + j].transform) * projection));
+					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),
+						1, GL_FALSE, glm::value_ptr(TransposeMatrix(
+						spriteQueue[m_CurrentSprite + j].transform) * projection));
 				}
 				else
 				{
-					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"), 1, GL_FALSE, glm::value_ptr(TransposeMatrix(spriteQueue[m_CurrentSprite + j].transform) * projection * viewInverse));
+					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),
+						1, GL_FALSE, glm::value_ptr(TransposeMatrix(spriteQueue
+						[m_CurrentSprite + j].transform) * projection * viewInverse));
 				}
 				glDrawArrays(GL_TRIANGLE_STRIP,batchStart,4);
 			}			
@@ -198,7 +206,8 @@ namespace star
 		FlushText(textDesc.Text, textDesc.Fontname, textDesc.TransformComp, textDesc.TextColor);
 	}
 
-	void SpriteBatch::FlushText(const std::vector<std::string>& text, const tstring& fontname,TransformComponent* transform, Color color)
+	void SpriteBatch::FlushText(const std::vector<std::string>& text, 
+		const tstring& fontname,TransformComponent* transform,const Color& color)
 	{
 		if(text.size() == 0)
 		{
@@ -208,8 +217,8 @@ namespace star
 		
 		auto curfont = FontManager::GetInstance()->GetFont(fontname);
 		float h = curfont.GetSize()/0.63f;
-		vec2 position = transform->GetWorldPosition().pos2D();
-		vec2 origposition = position;
+		const vec2& position = transform->GetWorldPosition().pos2D();
+		const vec2& origposition = position;
 
 		//std::string conv_text = "";
 		//conv_text = star::string_cast<std::string>(text);
@@ -217,9 +226,9 @@ namespace star
 		//FontManager::GetInstance()->SplitIntoLines(lines,conv_text);
 
 		GLuint* textures = curfont.GetTextures();
-		std::vector<fontUvCoords> tempuvs = curfont.getUvCoords();
-		std::vector<fontVertices> tempverts = curfont.getVetrices();
-		std::vector<ivec2> tempsizes = curfont.GetLetterDimensions();
+		const std::vector<fontUvCoords>& tempuvs = curfont.getUvCoords();
+		const std::vector<fontVertices>& tempverts = curfont.getVetrices();
+		const std::vector<ivec2>& tempsizes = curfont.GetLetterDimensions();
 
 		m_Shader.Bind();
 		
@@ -233,11 +242,14 @@ namespace star
 		GLint s_colorId = glGetUniformLocation(m_Shader.GetId(), "colorMultiplier");
 		glUniform4f(s_colorId,color.r,color.g,color.b,color.a);
 	
-		auto projectionObject = star::SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
-		mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
-		mat4x4 viewInverse = projectionObject->GetComponent<CameraComponent>()->GetViewInverse();
-		int offsetX = 0;
-		int offsetY = 0;
+		auto projectionObject(star::SceneManager::GetInstance()->GetActiveScene()
+			->GetActiveCamera());
+		const mat4x4& projection = projectionObject->GetComponent<CameraComponent>()
+			->GetProjection();
+		const mat4x4& viewInverse = projectionObject->GetComponent<CameraComponent>()
+			->GetViewInverse();
+		int offsetX(0);
+		int offsetY(0);
 		for(auto it=text.begin(); it!=text.end();++it)
 		{
 			const char *start_line=it->c_str();
@@ -247,24 +259,28 @@ namespace star
 				glBindTexture(GL_TEXTURE_2D,textures[ start_line[i] ]);
 
 				//Set attributes and buffers
-				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0,tempverts[start_line[i]].ver);
-				glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, tempuvs[start_line[i]].uv);
+				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0,
+					tempverts[start_line[i]].ver);
+				glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, 
+					tempuvs[start_line[i]].uv);
 
-				mat4x4 world, offsetTrans;
+				mat4x4 offsetTrans;
 				
 				if(start_line[i] != 0)
 				{
 					int offset = curfont.GetMaxLetterHeight() - tempsizes[start_line[i]].y;
-					offsetTrans = glm::translate(glm::vec3(offsetX, offsetY - curfont.GetMaxLetterHeight() - offset, 0));
+					offsetTrans = glm::translate(
+						glm::vec3(offsetX, offsetY - curfont.GetMaxLetterHeight() - offset, 0));
 					offsetX +=tempsizes[start_line[i]].x;
 				}
 				else
 				{
 					offsetTrans = glm::translate(glm::vec3(0, 0, 0));			
 				}
-				world = transform->GetWorldMatrix() * offsetTrans;
+				const mat4x4& world = transform->GetWorldMatrix() * offsetTrans;
 
-				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),1,GL_FALSE,glm::value_ptr(TransposeMatrix(world) * projection * viewInverse));
+				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),
+					1,GL_FALSE,glm::value_ptr(TransposeMatrix(world) * projection * viewInverse));
 				glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 			}
 			offsetY -= curfont.GetMaxLetterHeight();
@@ -277,23 +293,23 @@ namespace star
 		m_Shader.Unbind();
 	}
 
-	void SpriteBatch::CreateSpriteQuad(std::vector<SpriteInfo> spriteQueue)
+	void SpriteBatch::CreateSpriteQuad(const std::vector<SpriteInfo>& spriteQueue)
 	{	
 		//for every sprite that has to be drawn, push back all vertices 
 		//(12 per sprite) into the vertexbuffer and all uvcoords (8 per
 		//sprite) into the uvbuffer
 
-		int32 vertexIndex = 0;
-		int32 uvIndex = 0;
+		int32 vertexIndex(0);
+		int32 uvIndex(0);
 
-		for(auto sprite : spriteQueue)
+		for(auto& sprite : spriteQueue)
 		{
-			for(auto vertex : sprite.vertices)
+			for(auto& vertex : sprite.vertices)
 			{
 				m_VertexBuffer.push_back(vertex);
 			}
 
-			for(auto uvCoord : sprite.uvCoords)
+			for(auto& uvCoord : sprite.uvCoords)
 			{
 				m_UvCoordBuffer.push_back(uvCoord);
 			}
