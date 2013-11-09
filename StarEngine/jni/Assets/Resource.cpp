@@ -16,10 +16,10 @@ namespace star
 		return mPath;
 	}
 
-	status Resource::Open()
+	bool Resource::Open()
 	{
 		mAsset = AAssetManager_open(mAssetManager, mPath.c_str(), AASSET_MODE_UNKNOWN);
-		return (mAsset != NULL) ? STATUS_OK : STATUS_KO;
+		return mAsset != NULL;
 	}
 
 	void Resource::Close()
@@ -31,10 +31,10 @@ namespace star
 		}
 	}
 
-	status Resource::Read(void* pBuffer, size_t pCount)
+	bool Resource::Read(void* pBuffer, size_t pCount)
 	{
 		int32_t lReadCount = AAsset_read(mAsset,pBuffer, pCount);
-		return (lReadCount == pCount) ? STATUS_OK : STATUS_KO;
+		return lReadCount == pCount;
 	}
 
 	off_t Resource::GetLength() const

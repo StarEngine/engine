@@ -23,9 +23,9 @@ namespace star
 
 		const tstring  & GetPath() const;
 
-		status Open();
+		bool Open();
 		void Close();
-		status Read(void* pBuffer, size_t pCount);
+		bool Read(void* pBuffer, size_t pCount);
 
 		off_t GetLength() const;
 		const void* GetBufferize() const;
