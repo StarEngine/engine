@@ -27,8 +27,8 @@ namespace star
 				m_UnScaledLocalPos(0,0,0),
 				m_UnScaledWorldPos(0,0,0),
 #endif
-                m_WorldRotation(),
-                m_LocalRotation(),
+                m_WorldRotation(0),
+                m_LocalRotation(0),
 #ifdef STAR2D
                 m_WorldScale(1,1),
                 m_LocalScale(1,1),

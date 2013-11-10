@@ -2,6 +2,7 @@
 #include "Rect.h"
 #include <random>
 #include "../StarEngine.h"
+#include <math.h>
 
 namespace star
 {
@@ -124,15 +125,21 @@ namespace star
 
 		mat4x4 rot;
 
-		rot[0][0] = matrix[0][0] / scaling.x;
-		rot[0][1] = matrix[0][1] / scaling.x;
-		rot[0][2] = matrix[0][2] / scaling.x;
-		rot[0][3] = 0;
+		if(scaling.x != 0)
+		{
+			rot[0][0] = matrix[0][0] / scaling.x;
+			rot[0][1] = matrix[0][1] / scaling.x;
+			rot[0][2] = matrix[0][2] / scaling.x;
+			rot[0][3] = 0;
+		}
 
-		rot[1][0] = matrix[1][0] / scaling.x;
-		rot[1][1] = matrix[1][1] / scaling.y;
-		rot[1][2] = matrix[1][2] / scaling.y;
-		rot[1][3] = 0;
+		if(scaling.y != 0)
+		{
+			rot[1][0] = matrix[1][0] / scaling.y;
+			rot[1][1] = matrix[1][1] / scaling.y;
+			rot[1][2] = matrix[1][2] / scaling.y;
+			rot[1][3] = 0;
+		}
 
 		rot[2][0] = matrix[2][0];
 		rot[2][1] = matrix[2][1];
@@ -147,6 +154,7 @@ namespace star
 		glm::quat rotQuat(rot);
 
 		rotation = GetRoll(rotQuat);
+		ASSERT(_isnan(rotation) == 0, _T("undef. value"));
 	}
 
 	void DecomposeMatrix(const mat4x4& matrix, pos & position,
