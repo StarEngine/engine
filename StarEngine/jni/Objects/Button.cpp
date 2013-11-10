@@ -44,8 +44,6 @@ namespace star
 				m_SpriteName,m_bIsHudElement);
 		}
 		AddComponent(spriteSheetComp);
-		RectangleColliderComponent* rectColliderComp = 
-			new RectangleColliderComponent();
 		/*
 		SpriteComponent::InitializeComponent();
 

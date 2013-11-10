@@ -51,3 +51,6 @@ Win32Manifest.xml
 
 # eclipse build
 armeabi/
+
+# starengine files
+*.star

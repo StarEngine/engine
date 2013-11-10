@@ -9,7 +9,9 @@
 #include "jni/Helpers/Helpers.h"
 #include "jni/Helpers/Filepath.h"
 #include "jni/Input/XMLContainer.h"
-#include "jni/Input/XMLFileParser.h"
+#ifdef _DEBUG
+	#include "jni/Input/XMLFileParser.h"
+#endif
 #include "jni/Graphics/GraphicsManager.h"
 #include "jni/StarEngine.h"
 #include "jni/Input/InputManager.h"
@@ -78,8 +80,13 @@ namespace star
 			Logger::GetInstance()->Initialize(useConsole);
 
 			XMLContainer winManifest;
+#ifdef _DEBUG
 			XMLFileParser manifestParser(_T("Win32Manifest.xml"));
 			manifestParser.Read(winManifest);
+			winManifest.Serialize(_T("Win32Manifest.star"));
+#else
+			winManifest.Deserialize(_T("Win32Manifest.star"));
+#endif
 
 			//set console position
 			if(useConsole)
