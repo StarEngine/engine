@@ -12,6 +12,7 @@ namespace star
 		~SpriteAnimationManager();
 
 		void AddSpritesheet(const tstring & file);
+		void AddSpritesheet(const tstring & file, const tstring & binary_file);
 		const Spritesheet & GetSpritesheet(const tstring & name) const;
 		static SpriteAnimationManager * GetInstance();
 		void Clear();

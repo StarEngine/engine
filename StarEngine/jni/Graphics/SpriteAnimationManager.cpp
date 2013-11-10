@@ -27,6 +27,23 @@ namespace star
 			m_Spritesheets.insert(std::pair<tstring, Spritesheet>(name, spritesheet));
 		}
 	}
+	
+	void SpriteAnimationManager::AddSpritesheet(const tstring & file, const tstring & binary_file)
+	{
+		XMLFileParser parser(file);
+		XMLContainer container;
+		parser.Read(container, binary_file);
+		
+		tstring name = container.GetAttributes()[_T("name")];
+		auto it = m_Spritesheets.find(name);
+		bool isValid = it == m_Spritesheets.end();
+		//ASSERT(isValid, _T("This spritesheet already exists!"));
+		if(isValid)
+		{
+			Spritesheet spritesheet(container);
+			m_Spritesheets.insert(std::pair<tstring, Spritesheet>(name, spritesheet));
+		}
+	}
 
 	const Spritesheet & 
 		SpriteAnimationManager::GetSpritesheet(const tstring & name) const
