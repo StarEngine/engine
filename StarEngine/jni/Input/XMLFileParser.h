@@ -19,6 +19,7 @@ namespace star
 		~XMLFileParser();
 
 		bool Read(XMLContainer & container);
+		bool Read(XMLContainer & container, const tstring & binary_path);
 
 	private:
 		Filepath m_File;

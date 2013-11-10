@@ -68,6 +68,21 @@ namespace star
 		}
 		return result;
 	}
+	
+	bool XMLFileParser::Read(XMLContainer & container, const tstring & binary_path)
+	{
+#ifdef _DEBUG
+		bool result = Read(container);
+		if(result)
+		{
+			container.Serialize(binary_path);
+		}
+		return result;
+#else
+		container.Deserialize(binary_path);
+		return true;
+#endif
+	}
 
 	void XMLFileParser::AddAttributes(XMLContainer & element, const pugi::xml_node & node)
 	{
