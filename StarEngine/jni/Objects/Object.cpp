@@ -3,6 +3,7 @@
 #include "../Components/TransformComponent.h"
 #include "../Graphics/GraphicsManager.h"
 #include <algorithm>
+#include <typeinfo>
 
 namespace star
 {
@@ -155,23 +156,37 @@ namespace star
 
 	void Object::AddComponent(BaseComponent *pComponent)
 	{
-		pComponent->SetParent(this);
-
-		if(m_bIsInitialized && ! pComponent->IsInitialized())
+		bool isValid(true);
+		for(auto comp : m_pComponents)
 		{
-			pComponent->Initialize();
+			if(typeid(*comp) == typeid(*pComponent))
+			{
+				isValid = false;
+				break;
+			}
 		}
 
-		m_pComponents.push_back(pComponent);
+		ASSERT(isValid, _T("Adding 2 components of the same type to the same object is illegal."));
 
-		//add pathfindnode component to the list
-		m_pPathFindComp = dynamic_cast<PathFindNodeComponent*> (pComponent);
-		if(m_pPathFindComp != nullptr)
+		if(isValid)
 		{
-			PathFindManager::GetInstance()->AddObject(this);
-		}
+			pComponent->SetParent(this);
 
-		//Logger::GetInstance()->Log(LogLevel::Info, _T("Component Added"));
+			if(m_bIsInitialized && ! pComponent->IsInitialized())
+			{
+				pComponent->Initialize();
+			}
+
+			m_pComponents.push_back(pComponent);
+
+			//add pathfindnode component to the list
+			m_pPathFindComp = dynamic_cast<PathFindNodeComponent*> (pComponent);
+			if(m_pPathFindComp != nullptr)
+			{
+				PathFindManager::GetInstance()->AddObject(this);
+			}
+			//Logger::GetInstance()->Log(LogLevel::Info, _T("Component Added"));
+		}
 	}
 
 	void Object::RemoveComponent(const BaseComponent* pComponent)
