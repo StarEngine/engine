@@ -16,7 +16,7 @@ namespace star
 
 		void Initialize();
 		void Flush();
-		void AddSpriteToQueue(const SpriteInfo& spriteInfo, bool bIsHud = false);
+		void AddSpriteToQueue(const SpriteInfo& spriteInfo, bool bIsHud = false,  bool m_bIsUberHUD = false);
 		void AddTextToQueue(const TextDesc& text, bool bInFrontOfSprites);
 		void CleanUp();
 
@@ -33,7 +33,8 @@ namespace star
 		static const int BATCHSIZE = 50;
 
 		std::vector<SpriteInfo> m_SpriteQueue,
-								m_HudSpriteQueue;
+								m_HudSpriteQueue,
+								m_UberHudSpriteQueue;
 		std::vector<TextDesc> m_TextBackQueue,
 							  m_TextFrontQueue,
 							  m_HUDTextQueue;

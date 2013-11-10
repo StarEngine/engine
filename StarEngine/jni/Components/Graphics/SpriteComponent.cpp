@@ -11,7 +11,7 @@
 
 namespace star
 {
-	SpriteComponent::SpriteComponent(const tstring& filepath,const tstring& spriteName, bool bIsHUDElement, int widthSegments, int heightSegments)
+	SpriteComponent::SpriteComponent(const tstring& filepath,const tstring& spriteName, bool bIsHUDElement, bool bIsUberHUD, int widthSegments, int heightSegments)
 		: BaseComponent()
 		, m_Width(0)
 		, m_WidthSegments(widthSegments)
@@ -23,6 +23,7 @@ namespace star
 		, m_FilePath(filepath)
 		, m_SpriteName(spriteName)
 		, m_bIsHudElement(bIsHUDElement)
+		, m_bIsUberHUD(bIsUberHUD)
 		, m_SpriteInfo()
 	{
 	}
@@ -103,7 +104,7 @@ namespace star
 	{
 		m_SpriteInfo.transform = GetTransform()->GetWorldMatrix();
 		m_SpriteInfo.uvCoords = GetUVCoords();
-		SpriteBatch::GetInstance()->AddSpriteToQueue(m_SpriteInfo, m_bIsHudElement);
+		SpriteBatch::GetInstance()->AddSpriteToQueue(m_SpriteInfo, m_bIsHudElement, m_bIsUberHUD);
 	}
 
 	const tstring& SpriteComponent::GetFilePath() const

@@ -25,7 +25,7 @@ namespace star
 	class SpriteComponent : public BaseComponent
 	{
 	public:
-		SpriteComponent(const tstring& filepath, const tstring& spriteName, bool bIsHUDElement = false, int widthSegments = 1, int heightSegments = 1);
+		SpriteComponent(const tstring& filepath, const tstring& spriteName, bool bIsHUDElement = false, bool bIsUberHUD = false, int widthSegments = 1, int heightSegments = 1);
 		virtual ~SpriteComponent();
 
 		void Draw();
@@ -56,7 +56,7 @@ namespace star
 		Shader m_Shader;
 		Filepath m_FilePath;
 		tstring m_SpriteName;
-		bool m_bIsHudElement;
+		bool m_bIsHudElement, m_bIsUberHUD;
 		
 		SpriteInfo m_SpriteInfo;
 
