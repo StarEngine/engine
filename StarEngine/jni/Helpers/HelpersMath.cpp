@@ -154,7 +154,6 @@ namespace star
 		glm::quat rotQuat(rot);
 
 		rotation = GetRoll(rotQuat);
-		ASSERT(_isnan(rotation) == 0, _T("undef. value"));
 	}
 
 	void DecomposeMatrix(const mat4x4& matrix, pos & position,
