@@ -17,7 +17,7 @@ namespace star
 		~Window(void);
 
 		static Window * GetInstance();
-		void Initialize(HINSTANCE instance, BaseGame * pBaseGame, bool useConsole);
+		void Initialize(HINSTANCE instance, BaseGame * pBaseGame, bool useConsole = false);
 
 		void WindowInactiveUpdate(bool inactive);
 		const HDC & GetHDC() const;
