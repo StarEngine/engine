@@ -18,6 +18,7 @@ namespace star {
 	Logger::Logger()
 #ifdef _WIN32
 		:m_ConsoleHandle(nullptr)
+		,m_UseConsole(false)
 #endif
 	{
 	}
@@ -43,13 +44,21 @@ namespace star {
 		//Delete resources.
 	}
 
+#ifdef _WIN32
+	void Logger::Initialize(bool useConsole)
+	{
+		m_UseConsole = useConsole;
+		if(useConsole)
+		{
+			WindowsConsole::RedirectIOToConsole();
+			m_ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+		}
+	}
+#else
 	void Logger::Initialize()
 	{
-		#ifdef _WIN32
-		WindowsConsole::RedirectIOToConsole();
-		m_ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-		#endif
 	}
+#endif
 
 	void Logger::Log(LogLevel level, const tstring& pMessage, const tstring& tag) const
 	{
@@ -75,63 +84,67 @@ namespace star {
 		tstringstream messageBuffer;
 		messageBuffer << _T("[") << tag << _T("] ") << _T("[") << levelName <<  _T("] ") << pMessage << std::endl;
 		tstring combinedMessage = messageBuffer.str();
-
+		
+		if(m_UseConsole)
+		{
 			switch(level)
 			{
 			case LogLevel::Info :
-#if LOGGER_MIN_LEVEL < 2
+				#if LOGGER_MIN_LEVEL < 2
 				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-				tprintf(combinedMessage.c_str());
-#endif
+				#endif
 				break;
 			case LogLevel::Warning :
-#if LOGGER_MIN_LEVEL < 3
+				#if LOGGER_MIN_LEVEL < 3
 				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
-				tprintf(combinedMessage.c_str());
-#endif
+				#endif
 				break;
 			case LogLevel::Error :
-#if LOGGER_MIN_LEVEL < 4
+				#if LOGGER_MIN_LEVEL < 4
 				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED);
-				tprintf(combinedMessage.c_str());
+				#endif
 				break;
-#endif
 			case LogLevel::Debug :
-#if LOGGER_MIN_LEVEL < 5
+				#if LOGGER_MIN_LEVEL < 5
 				#ifdef DEBUG
 				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
-				tprintf(combinedMessage.c_str());
 				#endif
-#endif
+				#endif
 				break;
 			}
+			tprintf(combinedMessage.c_str());
+		}
+		else
+		{
+			OutputDebugString(combinedMessage.c_str());
+		}
 		#else
-			switch(level)
-			{
-			case LogLevel::Info:
-#if LOGGER_MIN_LEVEL < 2
-				__android_log_print(ANDROID_LOG_INFO, tag.c_str(), "%s", pMessage.c_str());
-#endif
-				break;
-			case LogLevel::Warning:
-#if LOGGER_MIN_LEVEL < 3
-				__android_log_print(ANDROID_LOG_WARN, tag.c_str(), "%s", pMessage.c_str());
-#endif
-				break;
-			case LogLevel::Error:
-#if LOGGER_MIN_LEVEL < 4
-				__android_log_print(ANDROID_LOG_ERROR, tag.c_str(), "%s", pMessage.c_str());
-#endif
-				break;
-			case LogLevel::Debug:
-#if LOGGER_MIN_LEVEL < 5
-			#ifdef DEBUG
-				__android_log_print(ANDROID_LOG_DEBUG, tag.c_str(), pMessage.c_str());
+		switch(level)
+		{
+		case LogLevel::Info:
+			#if LOGGER_MIN_LEVEL < 2
+			__android_log_print(ANDROID_LOG_INFO, tag.c_str(), "%s", pMessage.c_str());
 			#endif
-#endif
-				break;
-			}
-		#endif
+			break;
+		case LogLevel::Warning:
+			#if LOGGER_MIN_LEVEL < 3
+			__android_log_print(ANDROID_LOG_WARN, tag.c_str(), "%s", pMessage.c_str());
+			#endif
+			break;
+		case LogLevel::Error:
+			#if LOGGER_MIN_LEVEL < 4
+			__android_log_print(ANDROID_LOG_ERROR, tag.c_str(), "%s", pMessage.c_str());
+			#endif
+			break;
+		case LogLevel::Debug:
+			#if LOGGER_MIN_LEVEL < 5
+			#ifdef DEBUG
+			__android_log_print(ANDROID_LOG_DEBUG, tag.c_str(), pMessage.c_str());
+			#endif
+			#endif
+			break;
+		}
+	#endif
 #endif
 	}
 

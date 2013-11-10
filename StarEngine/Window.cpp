@@ -69,28 +69,31 @@ namespace star
 		return m_pInstance;
 	}
 
-	void Window::Initialize(HINSTANCE instance, BaseGame * pBaseGame)
+	void Window::Initialize(HINSTANCE instance, BaseGame * pBaseGame, bool useConsole)
 	{
 		ASSERT(!m_IsInitialized, _T("Engine is already initialized!"));
 		if(!m_IsInitialized)
 		{
 			mGamePtr = pBaseGame;
-			Logger::GetInstance()->Initialize();
+			Logger::GetInstance()->Initialize(useConsole);
 
 			XMLContainer winManifest;
 			XMLFileParser manifestParser(_T("Win32Manifest.xml"));
 			manifestParser.Read(winManifest);
 
 			//set console position
-			HWND consoleHandle = GetConsoleHWND();
-			if(consoleHandle != NULL)
+			if(useConsole)
 			{
-				auto consoleAttributes = winManifest[_T("console")]->GetAttributes();
-				int x = string_cast<int>(consoleAttributes[_T("x")]);
-				int y = string_cast<int>(consoleAttributes[_T("y")]);
-				int width = string_cast<int>(consoleAttributes[_T("width")]);
-				int height = string_cast<int>(consoleAttributes[_T("height")]);
-				MoveWindow(consoleHandle, x, y, width, height, true);
+				HWND consoleHandle = GetConsoleHWND();
+				if(consoleHandle != NULL)
+				{
+					auto consoleAttributes = winManifest[_T("console")]->GetAttributes();
+					int x = string_cast<int>(consoleAttributes[_T("x")]);
+					int y = string_cast<int>(consoleAttributes[_T("y")]);
+					int width = string_cast<int>(consoleAttributes[_T("width")]);
+					int height = string_cast<int>(consoleAttributes[_T("height")]);
+					MoveWindow(consoleHandle, x, y, width, height, true);
+				}
 			}
 
 			mContext.mTimeManager = mTimeManager;

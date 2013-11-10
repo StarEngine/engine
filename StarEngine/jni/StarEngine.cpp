@@ -34,9 +34,6 @@ namespace star
 		std::random_device seeder;
 
 		m_RandomEngine.seed(seeder());
-		
-
-		Logger::GetInstance()->Initialize();
 
 		//Only for windows we need to pas the window paramaters
 		//for android these will be fetched when setting up the OpenGL context

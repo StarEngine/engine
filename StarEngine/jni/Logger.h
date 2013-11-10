@@ -18,7 +18,11 @@ namespace star
 		static Logger * GetInstance();
 		static void ResetSingleton();
 
+#ifdef _WIN32
+		void Initialize(bool useConsole);
+#else
 		void Initialize();
+#endif
 		void Log(LogLevel level, const tstring& pMessage, const tstring& tag = ANDROID_LOG_TAG) const;
 		void _CheckGlError(const char* file, int line);
 		#define CheckGlError() _CheckGlError(__FILE__,__LINE__);
@@ -27,6 +31,7 @@ namespace star
 		static Logger * m_LoggerPtr;
 
 		#ifdef _WIN32
+		bool m_UseConsole;
 		HANDLE m_ConsoleHandle;
 		#endif
 
