@@ -52,6 +52,7 @@ namespace star
 		SceneManager::GetInstance()->Update(context);
 
 		InputManager::GetInstance()->EndUpdate();
+		Logger::GetInstance()->Update(context);
 		Logger::GetInstance()->CheckGlError();
 		m_bInitialized = true;
 	}
@@ -118,6 +119,11 @@ namespace star
 	{
 		m_SubTitle = title;
 		m_TitleHasUpdated = true;
+	}
+	
+	const tstring & StarEngine::GetGameTitle()
+	{
+		return m_Title;
 	}
 
 	bool StarEngine::HasTitleUpdated() const

@@ -62,6 +62,8 @@ typedef uint8_t 	uint8;
 	#define tstrlen strlen
 #endif
 
+const tstring STARENGINE_VERSION = _T("0.0.1");
+
 #include <algorithm>
 
 using std::min;

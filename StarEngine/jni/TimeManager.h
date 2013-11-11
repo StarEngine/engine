@@ -29,6 +29,8 @@ namespace star
 		double GetSecondsSinceStart() const;
 		double GetMilliSecondsSinceStart() const;
 
+		tstring GetTimeStamp();
+
 	private:
 		//[COMMENT] For windows this is needed otherwise there are quite big rounding errors !
 		//			I tested it with one variable but it really messed things up.
@@ -55,5 +57,6 @@ namespace star
 		TimeManager(const TimeManager& t);
 		TimeManager(TimeManager&& t);
 		TimeManager& operator=(const TimeManager& t);
+		TimeManager& operator=(TimeManager&& t);
 	};
 }

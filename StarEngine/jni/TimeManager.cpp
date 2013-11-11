@@ -73,6 +73,33 @@ namespace star
 		return mTotalMS;
 	}
 
+	tstring TimeManager::GetTimeStamp()
+	{
+		int totalSeconds = int(mTotalMS / 1000);
+		int seconds = totalSeconds % 60;
+		int minutes = totalSeconds / 60;
+		int hours = totalSeconds / 3600;
+
+		tstringstream strstr;
+		if(hours < 10)
+		{
+			strstr << _T("0");
+		}
+		strstr << hours << _T(":");
+		if(minutes < 10)
+		{
+			strstr << _T("0");
+		}
+		strstr << minutes << _T(":");
+		if(seconds < 10)
+		{
+			strstr << _T("0");
+		}
+		strstr << seconds;
+
+		return strstr.str();
+	}
+
 	double TimeManager::GetSecondsSinceStart() const
 	{
 		return mTotalMS/MILLIMULTIPLIER;

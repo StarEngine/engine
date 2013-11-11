@@ -41,6 +41,8 @@ namespace star
 		void SetGameTitle(const tstring & title);
 		void SetGameSubTitle(const tstring & title);
 
+		const tstring & GetGameTitle();
+
 		bool HasTitleUpdated() const;
 		void ResetTitleUpdateMark();
 

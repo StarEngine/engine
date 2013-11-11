@@ -12,6 +12,13 @@
 #include <GLES2/gl2.h>
 #endif
 
+#include "Scenes/SceneManager.h"
+#include "Helpers/Helpers.h"
+
+#include "Context.h"
+#include "TimeManager.h"
+#include "StarEngine.h"
+
 namespace star {
 	Logger * Logger::m_LoggerPtr = nullptr;
 
@@ -20,11 +27,14 @@ namespace star {
 		:m_ConsoleHandle(nullptr)
 		,m_UseConsole(false)
 #endif
+		,m_LogStream()
+		,m_TimeStamp(_T("00:00:00"))
 	{
 	}
 	
 	Logger::~Logger()
 	{
+		SaveLogFile();
 #ifdef _WIN32
 		CloseHandle(m_ConsoleHandle);
 #endif
@@ -53,17 +63,28 @@ namespace star {
 			WindowsConsole::RedirectIOToConsole();
 			m_ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 		}
+#ifndef NO_LOG_FILE
+		InitializeLogStream();
+#endif
 	}
 #else
 	void Logger::Initialize()
 	{
+#ifndef NO_LOG_FILE
+		InitializeLogStream();
+#endif
 	}
 #endif
+	
+	void Logger::Update(const Context & context)
+	{
+		m_TimeStamp = context.mTimeManager->GetTimeStamp();
+	}
 
-	void Logger::Log(LogLevel level, const tstring& pMessage, const tstring& tag) const
+	void Logger::Log(LogLevel level, const tstring& pMessage, const tstring& tag)
 	{
 #if LOGGER_MIN_LEVEL > 0
-		#ifdef DESKTOP
+		
 		tstring levelName;
 		switch(level)
 		{
@@ -81,6 +102,7 @@ namespace star {
 			break;
 		}
 
+		#ifdef DESKTOP
 		tstringstream messageBuffer;
 		messageBuffer << _T("[") << tag << _T("] ") << _T("[") << levelName <<  _T("] ") << pMessage << std::endl;
 		tstring combinedMessage = messageBuffer.str();
@@ -118,6 +140,9 @@ namespace star {
 		{
 			OutputDebugString(combinedMessage.c_str());
 		}
+#ifndef NO_LOG_FILE
+		LogMessage(combinedMessage);
+#endif
 		#else
 		switch(level)
 		{
@@ -144,7 +169,14 @@ namespace star {
 			#endif
 			break;
 		}
-	#endif
+		
+#ifndef NO_LOG_FILE
+		tstringstream messageBuffer;
+		messageBuffer << _T("[") << tag << _T("] ") << _T("[") << levelName <<  _T("] ") << pMessage << std::endl;
+		LogMessage(messageBuffer.str());
+#endif
+
+		#endif
 #endif
 	}
 
@@ -178,9 +210,62 @@ namespace star {
             }
 			tstringstream buffer;
             buffer << "GL_" << error << " - " << file << ":" << line << std::endl;
-			Logger::GetInstance()->Log(LogLevel::Error,buffer.str(),_T("OPENGL"));
+#ifndef NO_LOG_FILE
+			LogMessage(buffer.str());
+#endif
+			Logger::GetInstance()->Log(LogLevel::Error, buffer.str(), _T("OPENGL"));
 			err = glGetError();
         }
 #endif
+	}
+
+	void Logger::SetLogSaveDelayTime(float seconds)
+	{
+#ifndef NO_LOG_FILE
+		SceneManager::GetInstance()->GetStopwatch()->SetTargetTimeTimer(
+			_T("STAR_LogSaveFileTimer"), seconds, true, false);
+		SaveLogFile();
+#endif
+	}
+
+	void Logger::InitializeLogStream()
+	{
+		SceneManager::GetInstance()->GetStopwatch()->CreateTimer(_T("STAR_LogSaveFileTimer"), 60.0f,
+			false, true, [&] () { SaveLogFile(); }, false);
+
+		m_LogStream << _T("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
+		m_LogStream << _T("	Star Engine version ") << STARENGINE_VERSION << std::endl << std::endl;
+		m_LogStream << _T("	Game is build in");
+
+	#ifdef _DEBUG
+		m_LogStream << _T(" debug mode.\n");
+	#else
+		m_LogStream << _T(" release mode.\n");
+#endif
+	#if LOGGER_MIN_LEVEL < 2
+		m_LogStream << _T("	All Star::Logging levels are enabled.\n");
+	#elif LOGGER_MIN_LEVEL < 3
+		m_LogStream << _T("	Star::Logging level info is disabled.\n");
+	#elif LOGGER_MIN_LEVEL < 4
+		m_LogStream << _T("	Star::Logging levels info and warning is disabled.\n");
+	#elif LOGGER_MIN_LEVEL < 5
+		m_LogStream << _T("	Star::Logging levels info, warning and error is disabled.\n");
+	#elif LOGGER_MIN_LEVEL < 6
+		m_LogStream << _T("	All Star::Logging levels are disabled.\n");
+	#endif
+		m_LogStream << std::endl;
+		m_LogStream << _T("	The Star Engine is licensed under the MIT License. \n");
+		m_LogStream << _T("	For more information you can go to http://www.starengine.com/ \n\n");
+		m_LogStream << _T("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
+	}
+	
+	void Logger::LogMessage(const tstring & message)
+	{
+		m_LogStream << _T("[") << m_TimeStamp << _T("] ") << message;
+	}
+
+	void Logger::SaveLogFile()
+	{
+		WriteTextFile(_T("StarLog.txt"), m_LogStream.str());
 	}
 }
