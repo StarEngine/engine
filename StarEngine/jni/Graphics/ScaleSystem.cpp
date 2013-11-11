@@ -4,10 +4,11 @@
 
 namespace star
 {
-	std::shared_ptr<ScaleSystem> ScaleSystem::m_ScaleSystemPtr = nullptr;
+	ScaleSystem * ScaleSystem::m_ScaleSystemPtr = nullptr;
 
 	ScaleSystem::ScaleSystem()
-		:m_Scale(0)
+		:m_WorkingRes(0,0)
+		,m_Scale(0)
 		,m_AspectRatio(0)
 		,m_bIninitialized(false)
 	{
@@ -18,18 +19,19 @@ namespace star
 	{
 	}
 
-	std::shared_ptr<ScaleSystem> ScaleSystem::GetInstance()
+	ScaleSystem * ScaleSystem::GetInstance()
 	{
 		if(m_ScaleSystemPtr == nullptr)
 		{
-			m_ScaleSystemPtr = std::shared_ptr<ScaleSystem>(new ScaleSystem());
+			m_ScaleSystemPtr = new ScaleSystem();
 		}			
 		return m_ScaleSystemPtr;	
 	}
 
 	void ScaleSystem::SetWorkingResolution(int xPixels, int yPixels)
 	{
-		SetWorkingResolution(vec2(xPixels, yPixels));
+		vec2 workingRes(xPixels, yPixels);
+		SetWorkingResolution(workingRes);
 	}
 	
 	const vec2& ScaleSystem::GetWorkingResolution() const

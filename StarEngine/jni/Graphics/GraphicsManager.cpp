@@ -51,6 +51,7 @@ namespace star
 			height = screenRes.y;
 			aspectRatio = (workingRes.x / workingRes.y);
 			width = height * aspectRatio;
+
 			xOffset = static_cast<int>((screenRes.x - width)/2);
 		}
 		else
@@ -58,6 +59,7 @@ namespace star
 			width = screenRes.x;
 			aspectRatio = (workingRes.y / workingRes.x);
 			height = width * aspectRatio;
+
 			yOffset = static_cast<int>((screenRes.y - height)/2);
 		}
 
@@ -99,8 +101,6 @@ namespace star
 			glDisable(GL_DEPTH_TEST);
 			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 			mIsInitialized = true;
-
-			CalculateViewPort();
 		}
 	}
 #else

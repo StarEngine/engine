@@ -5,12 +5,12 @@
 
 namespace star
 {
-	class ScaleSystem
+	class ScaleSystem final
 	{
 	public:
 		~ScaleSystem();
 
-		static std::shared_ptr<ScaleSystem> GetInstance();
+		static ScaleSystem * GetInstance();
 		void SetWorkingResolution(int xPixels, int yPixels);
 		void SetWorkingResolution(const vec2& pixels);
 		const vec2& GetWorkingResolution() const;
@@ -27,6 +27,6 @@ namespace star
 		float m_AspectRatio;
 		bool m_bIninitialized;
 
-		static std::shared_ptr<ScaleSystem> m_ScaleSystemPtr;
+		static ScaleSystem * m_ScaleSystemPtr;
 	};
 }

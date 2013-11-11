@@ -32,7 +32,6 @@ namespace star
 	void StarEngine::Initialize(int32 window_width, int32 window_height)
 	{
 		std::random_device seeder;
-
 		m_RandomEngine.seed(seeder());
 
 		//Only for windows we need to pas the window paramaters
@@ -43,6 +42,7 @@ namespace star
 #endif
 
 		SoundService::GetInstance()->Start();
+		GraphicsManager::GetInstance()->CalculateViewPort();
 	}
 
 	void StarEngine::Update(const Context & context)

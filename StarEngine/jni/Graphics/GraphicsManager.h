@@ -45,10 +45,10 @@ namespace star
 		void SetWindowDimensions(int32 width, int32 height);
 		void SetHasWindowChanged(bool isTrue);
 		bool GetHasWindowChanged() const;
+		void CalculateViewPort();
 
 	private:
 		GraphicsManager();
-		void CalculateViewPort();
 
 #ifdef DESKTOP
 		bool WGLExtensionSupported(const char* extension_name);
