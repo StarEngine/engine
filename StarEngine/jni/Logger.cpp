@@ -19,15 +19,18 @@
 #include "TimeManager.h"
 #include "StarEngine.h"
 
-namespace star {
+namespace star
+{
 	Logger * Logger::m_LoggerPtr = nullptr;
 
-	Logger::Logger()
+	Logger::Logger(void)
 #ifdef _WIN32
 		:m_ConsoleHandle(nullptr)
 		,m_UseConsole(false)
-#endif
 		,m_LogStream()
+#else
+		:m_LogStream()
+#endif
 		,m_TimeStamp(_T("00:00:00"))
 	{
 	}
