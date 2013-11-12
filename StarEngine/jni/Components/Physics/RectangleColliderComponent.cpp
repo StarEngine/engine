@@ -104,8 +104,8 @@ namespace star
 
 	void RectangleColliderComponent::CollidesWith(const BaseColliderComponent* other) const
 	{
-		const CircleColliderComponent* otherCircleComp = reinterpret_cast<const CircleColliderComponent*>(other);
-		const RectangleColliderComponent* otherRectComp = reinterpret_cast<const RectangleColliderComponent*>(other);
+		const CircleColliderComponent* otherCircleComp = dynamic_cast<const CircleColliderComponent*>(other);
+		const RectangleColliderComponent* otherRectComp = dynamic_cast<const RectangleColliderComponent*>(other);
 
 		if(otherRectComp != nullptr)
 		{

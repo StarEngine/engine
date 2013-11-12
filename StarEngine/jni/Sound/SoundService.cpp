@@ -66,7 +66,8 @@ namespace star
 		int innited = Mix_Init(flags);
 		if((innited & flags) != flags)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio :Could not init Ogg and Mp3, reason : ")+ string_cast<tstring>(Mix_GetError()));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, 
+				_T("Audio :Could not init Ogg and Mp3, reason : ") + string_cast<tstring>(Mix_GetError()));
 		}
 
 		if(Mix_OpenAudio(audio_rate, audio_format,audio_channels,audio_buffers))
@@ -82,7 +83,8 @@ namespace star
 
 		Mix_QuerySpec(&actual_rate,&actual_format,&actual_channels);
 		tstringstream buffer;
-		buffer << "Actual Rate : " << actual_rate << ", Actual Format : " << actual_format << ", Actual Channels : " << actual_channels << std::endl;
+		buffer << "Actual Rate : " << actual_rate << ", Actual Format : " << actual_format 
+			<< ", Actual Channels : " << actual_channels << std::endl;
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : SDL specs : ")+buffer.str());
 		Mix_Volume(-1,100);
 #else
@@ -180,7 +182,8 @@ namespace star
 			auto nameit = mMusicList.find(nameold);
 			if(nameit!= mMusicList.end())
 			{
-				star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Found sound file of old path, making copy for new name"));
+				star::Logger::GetInstance()->
+					Log(LogLevel::Warning,_T("Sound Service : Found sound file of old path, making copy for new name"));
 				mMusicList[name]=nameit->second;
 				return;
 			}
@@ -211,7 +214,8 @@ namespace star
 			auto nameit = mMusicList.find(nameold);
 			if(nameit!= mMusicList.end())
 			{
-				star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Found Sound Effect of old path, making copy for new name"));
+				star::Logger::GetInstance()->
+					Log(LogLevel::Warning,_T("Sound Service : Found Sound Effect of old path, making copy for new name"));
 				mMusicList[name] = nameit->second;
 			}
 			mSoundEffectPathList.erase(pathit);
@@ -245,9 +249,13 @@ namespace star
 			m_CurrentSoundFile->Play(loopTimes);
 			return;
 		}
-
-		m_CurrentSoundFile = nullptr;
-		star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Couldn't find song '") + name + _T("'."));
+		else
+		{
+			m_CurrentSoundFile = nullptr;
+			star::Logger::GetInstance()->
+				Log(LogLevel::Warning,_T("Sound Service : Couldn't find song '") + name + _T("'."));
+		}
+		
 	}
 
 	void SoundService::PlaySoundEffect(const tstring& path, const tstring& name)
@@ -271,8 +279,12 @@ namespace star
 			m_CurrentSoundEffect = mEffectsList[name];
 			mEffectsList[name]->Play();
 		}
-		star::Logger::GetInstance()->
-			Log(LogLevel::Warning,_T("Sound Service : Couldn't find effect '") + name + _T("'."));
+		else
+		{
+			star::Logger::GetInstance()->
+				Log(LogLevel::Warning,_T("Sound Service : Couldn't find effect '") + name + _T("'."));
+		}
+		
 	}
 
 	void SoundService::AddToBackgroundQueue(const tstring& name)
@@ -300,8 +312,10 @@ namespace star
 		{
 			(*mQueueIterator)->PlayQueued(0);
 		}
-
-		star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : No song in background queue."));
+		else
+		{
+			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : No song in background queue."));	
+		}
 	}
 
 	void SoundService::PlayNextSongInQueue()

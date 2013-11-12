@@ -61,8 +61,8 @@ namespace star
 	void CircleColliderComponent::CollidesWith(const BaseColliderComponent* other) const
 	{
 		float realRadius = GetRealRadius();
-		auto otherCircleComp = reinterpret_cast<const CircleColliderComponent*>(other);
-		auto otherRectComp = reinterpret_cast<const RectangleColliderComponent*>(other);
+		auto otherCircleComp = dynamic_cast<const CircleColliderComponent*>(other);
+		auto otherRectComp = dynamic_cast<const RectangleColliderComponent*>(other);
 
 		if(otherCircleComp != nullptr)
 		{

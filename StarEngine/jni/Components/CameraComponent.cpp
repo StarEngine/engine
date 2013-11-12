@@ -6,6 +6,7 @@
 #include "../Logger.h"
 #include "../Helpers/HelpersMath.h"
 #include "../Graphics/ScaleSystem.h"
+#include "../Objects/BaseCamera.h"
 
 //General info
 //
@@ -156,7 +157,7 @@ namespace star
 		}
 		else
 		{
-			scene->SetActiveCamera(reinterpret_cast<BaseCamera*>(m_pParentObject));
+			scene->SetActiveCamera(dynamic_cast<BaseCamera*>(m_pParentObject));
 		}
 	}
 
