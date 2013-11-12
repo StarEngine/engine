@@ -334,7 +334,7 @@ namespace star
 			// this is another function from WGL_EXT_swap_control extension
 			wglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC) wglGetProcAddress("wglGetSwapIntervalEXT");
 
-			wglSwapIntervalEXT(1);
+			wglSwapIntervalEXT(0);
 			return true;
 		}
 		return false;

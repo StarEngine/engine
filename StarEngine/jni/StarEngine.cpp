@@ -11,6 +11,7 @@
 #include "AI/Pathfinding/PathFindManager.h"
 #include "Assets/FontManager.h"
 #include "Physics/Collision/CollisionManager.h"
+#include "Graphics\ScaleSystem.h"
 
 namespace star
 {
@@ -75,9 +76,8 @@ namespace star
 
 	void StarEngine::End()
 	{
-		// [NOTE] Find a proper way to delete this...
-		//delete InputManager::GetInstance();
-		//FontManager::GetInstance()->EraseFonts();
+		FontManager::GetInstance()->EraseFonts();
+		delete ScaleSystem::GetInstance();
 		delete FontManager::GetInstance();
 		delete SpriteAnimationManager::GetInstance();
 		delete TextureManager::GetInstance();
