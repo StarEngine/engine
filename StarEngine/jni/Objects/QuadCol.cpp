@@ -37,13 +37,13 @@ namespace star
 	{
 		mShader->Bind();
 		modelMatrix = translateMatrix*rotMatrix*scaleMatrix;
-		GLint mvpID = glGetUniformLocation(mShader->GetId(), "MVP");
+		GLint mvpID = glGetUniformLocation(mShader->GetID(), "MVP");
 		glUniformMatrix4fv(mvpID,1,GL_FALSE,&modelMatrix[0][0]);
 
-		GLint colorID = glGetUniformLocation(mShader->GetId(), "inputColor");
+		GLint colorID = glGetUniformLocation(mShader->GetID(), "inputColor");
 		glUniform4f(mvpID,1.0,1.0,0.0,1.0);
 
-		GLint posID =glGetAttribLocation(mShader->GetId(),"position");
+		GLint posID =glGetAttribLocation(mShader->GetID(),"position");
 		glVertexAttribPointer(posID, 2, GL_FLOAT,0,0, squareVertices);
 		glEnableVertexAttribArray(posID);
 
