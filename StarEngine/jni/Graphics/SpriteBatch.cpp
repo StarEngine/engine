@@ -62,7 +62,6 @@ namespace star
 #else
 		Filepath texshaderVertex(_T("AndroidShaders/"), _T("BatchTexShader.vert"));
 		Filepath texshaderFrag(_T("AndroidShaders/"), _T("BatchTexShader.frag"));
-
 #endif
 		if(!m_Shader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
 		{

@@ -16,11 +16,12 @@ namespace star
 		void Update(const Context& context);
 		void Draw();
 
-	private:
+	protected:
 		void InitializeComponent();
 
 		PathFindNodeComponent(const PathFindNodeComponent& t);
 		PathFindNodeComponent(PathFindNodeComponent&& t);
 		PathFindNodeComponent& operator=(const PathFindNodeComponent& t);
+		PathFindNodeComponent& operator=(PathFindNodeComponent&& t);
 	};
 }

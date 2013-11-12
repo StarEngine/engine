@@ -1,5 +1,6 @@
 #include "PathFindNodeComponent.h"
 #include "../../Logger.h"
+#include "../../AI/Pathfinding/PathFindManager.h"
 
 namespace star
 {
@@ -15,15 +16,12 @@ namespace star
 
 	void PathFindNodeComponent::InitializeComponent()
 	{
-		m_bInitialized = true;
+		PathFindManager::GetInstance()->AddObject(m_pParentObject);
 	}
 
 	void PathFindNodeComponent::Update(const Context& context)
 	{
-		if(!m_bInitialized)
-		{
-			return;
-		}
+
 	}
 
 	void PathFindNodeComponent::Draw()
