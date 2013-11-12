@@ -77,9 +77,10 @@ namespace star
 	{
 		// [NOTE] Find a proper way to delete this...
 		//delete InputManager::GetInstance();
+		FontManager::GetInstance()->EraseFonts();
+		delete FontManager::GetInstance();
 		delete SpriteAnimationManager::GetInstance();
 		delete TextureManager::GetInstance();
-		delete FontManager::GetInstance();
 		delete GraphicsManager::GetInstance();
 		delete SpriteBatch::GetInstance();
 		delete SoundService::GetInstance();
