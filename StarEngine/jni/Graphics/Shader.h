@@ -38,7 +38,7 @@ namespace star
 		void Bind();
 		void Unbind();
 
-		const GLuint GetId() const;
+		const GLuint GetID() const;
 		GLuint GetUniformLocation(const GLchar* nameInShader) const;
 		GLuint GetAttribLocation(const GLchar* nameInShader) const;
 		void PrintActiveAttribs() const;

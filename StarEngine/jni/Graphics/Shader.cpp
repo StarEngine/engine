@@ -164,14 +164,15 @@ namespace star
 			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Shader: Invalid Source"));
 			return false;
 		}
-		return CompileShader(shader, type, source);
+		bool returnValue(CompileShader(shader, type, source));
+		delete[] source;
+		return returnValue;
 	}
 
 	bool Shader::CompileShader(GLuint* shader, GLenum type, const GLchar* inLineFile)
 	{		
 		*shader = glCreateShader(type);
 		glShaderSource(*shader, 1, &inLineFile, NULL);
-		delete[] inLineFile;
 		glCompileShader(*shader);
 		GLint status;
 		glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
@@ -226,7 +227,7 @@ namespace star
 		glUseProgram(0);
 	}
 
-	const GLuint Shader::GetId() const
+	const GLuint Shader::GetID() const
 	{
 		return mShaderID;
 	}

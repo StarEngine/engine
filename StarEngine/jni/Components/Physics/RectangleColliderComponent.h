@@ -37,6 +37,7 @@ namespace star
 
 	protected:
 		void InitializeColliderComponent();
+		void Draw();
 		bool OOBBRectangleRectangleCollision(const Rect& rect1, const Rect& rect2) const;
 		bool AABBRectangleRectangleCollision(const Rect& rect1, const Rect& rect2) const;
 		bool RectangleCircleCollision(const RectangleColliderComponent* collider1, const CircleColliderComponent* collider2) const;

@@ -15,7 +15,7 @@ namespace star
 		virtual ~BaseColliderComponent();
 
 		void Update(const Context& context);
-		void Draw();
+		
 
 		void SetAsTrigger(bool isTrigger);
 		bool IsTrigger() const;
@@ -29,7 +29,7 @@ namespace star
 
 	protected:
 		virtual void InitializeColliderComponent() = 0;
-
+		virtual void Draw();
 		bool m_bIsTrigger;
 		bool m_bIsStatic;
 

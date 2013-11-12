@@ -71,7 +71,7 @@ namespace star
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(m_SpriteName));
-		GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
+		GLint s_textureId = glGetUniformLocation(m_Shader.GetID(), "textureSampler");
 		glUniform1i(s_textureId, 0);
 
 		//Set attributes and buffers

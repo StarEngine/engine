@@ -11,7 +11,8 @@
 #include "AI/Pathfinding/PathFindManager.h"
 #include "Assets/FontManager.h"
 #include "Physics/Collision/CollisionManager.h"
-#include "Graphics\ScaleSystem.h"
+#include "Graphics/ScaleSystem.h"
+#include "Helpers/Debug/DebugDraw.h"
 
 namespace star
 {
@@ -44,6 +45,10 @@ namespace star
 
 		SoundService::GetInstance()->Start();
 		GraphicsManager::GetInstance()->CalculateViewPort();
+		//[COMMENT] Quite unsafe to do this now, because nothing is disabled in release so far
+#if defined(DEBUG) | defined(_DEBUG)
+		DebugDraw::GetInstance()->Initialize();
+#endif
 	}
 
 	void StarEngine::Update(const Context & context)
@@ -51,6 +56,7 @@ namespace star
 		m_FPS.Update(context);
 
 		SceneManager::GetInstance()->Update(context);
+		GraphicsManager::GetInstance()->Update();
 
 		InputManager::GetInstance()->EndUpdate();
 		Logger::GetInstance()->Update(context);
@@ -77,6 +83,7 @@ namespace star
 	void StarEngine::End()
 	{
 		FontManager::GetInstance()->EraseFonts();
+		delete DebugDraw::GetInstance();
 		delete ScaleSystem::GetInstance();
 		delete FontManager::GetInstance();
 		delete SpriteAnimationManager::GetInstance();

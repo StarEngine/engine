@@ -2,10 +2,9 @@
 #include "CircleColliderComponent.h"
 #include "../../Objects/Object.h"
 #include "../../Logger.h"
-#include "../../Scenes/SceneManager.h"
-#include "../../Objects/BaseCamera.h"
-#include "../CameraComponent.h"
+#include "../../Graphics/GraphicsManager.h"
 #include "../Graphics/SpriteComponent.h"
+#include "../../Helpers/Debug/DebugDraw.h"
 
 namespace star
 {
@@ -348,10 +347,13 @@ namespace star
 
 	Rect RectangleColliderComponent::GetCollisionRect() const
 	{
-		auto projectionObject = SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
-		mat4x4 viewInverse = projectionObject->GetComponent<CameraComponent>()->GetViewInverse();
-		//[COMMENT] Help? :)
-		Rect temp = m_CollisionRect * ( viewInverse * GetTransform()->GetWorldMatrix());
+		Rect temp = m_CollisionRect * 
+			(GraphicsManager::GetInstance()->GetViewInverseMatrix() * GetTransform()->GetWorldMatrix());
 		return temp;
+	}
+
+	void RectangleColliderComponent::Draw()
+	{
+
 	}
 }

@@ -167,14 +167,10 @@ namespace star
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, currTexture);
 		
-			GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
+			GLint s_textureId = glGetUniformLocation(m_Shader.GetID(), "textureSampler");
 			glUniform1i(s_textureId, 0);
 		
 			batchSize += 4;
-		
-			auto projectionObject = SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
-			mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
-			mat4x4 viewInverse = projectionObject->GetComponent<CameraComponent>()->GetViewInverse();
 		
 			for(int j = 0; j < ((batchSize/4)); ++j)
 			{
@@ -186,15 +182,16 @@ namespace star
 			
 				if(spriteQueue[m_CurrentSprite + j].bIsHUD)
 				{
-					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),
+					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
 						1, GL_FALSE, glm::value_ptr(TransposeMatrix(
-						spriteQueue[m_CurrentSprite + j].transform) * projection));
+						spriteQueue[m_CurrentSprite + j].transform) * 
+						GraphicsManager::GetInstance()->GetProjectionMatrix()));
 				}
 				else
 				{
-					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),
+					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
 						1, GL_FALSE, glm::value_ptr(TransposeMatrix(spriteQueue
-						[m_CurrentSprite + j].transform) * projection * viewInverse));
+						[m_CurrentSprite + j].transform) * GraphicsManager::GetInstance()->GetViewProjectionMatrix()));
 				}
 				glDrawArrays(GL_TRIANGLE_STRIP,batchStart,4);
 			}			
@@ -247,17 +244,11 @@ namespace star
 		glEnableVertexAttribArray(ATTRIB_UV);
 
 		glActiveTexture(GL_TEXTURE0);
-		GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
+		GLint s_textureId = glGetUniformLocation(m_Shader.GetID(), "textureSampler");
 		glUniform1i(s_textureId, 0);
-		GLint s_colorId = glGetUniformLocation(m_Shader.GetId(), "colorMultiplier");
+		GLint s_colorId = glGetUniformLocation(m_Shader.GetID(), "colorMultiplier");
 		glUniform4f(s_colorId,color.r,color.g,color.b,color.a);
 	
-		auto projectionObject(star::SceneManager::GetInstance()->GetActiveScene()
-			->GetActiveCamera());
-		const mat4x4& projection = projectionObject->GetComponent<CameraComponent>()
-			->GetProjection();
-		const mat4x4& viewInverse = projectionObject->GetComponent<CameraComponent>()
-			->GetViewInverse();
 		int offsetX(0);
 		int offsetY(0);
 		for(auto it=text.begin(); it!=text.end();++it)
@@ -289,8 +280,9 @@ namespace star
 				}
 				const mat4x4& world = transform->GetWorldMatrix() * offsetTrans;
 
-				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),
-					1,GL_FALSE,glm::value_ptr(TransposeMatrix(world) * projection * viewInverse));
+				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
+					1,GL_FALSE,glm::value_ptr(TransposeMatrix(world) * 
+					GraphicsManager::GetInstance()->GetViewProjectionMatrix()));
 				glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 			}
 			offsetY -= curfont.GetMaxLetterHeight();
