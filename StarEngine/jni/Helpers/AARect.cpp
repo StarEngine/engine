@@ -1,4 +1,5 @@
 #include "AARect.h"
+#include "../Graphics/ScaleSystem.h"
 
 namespace star
 {
@@ -18,13 +19,6 @@ namespace star
 	{
 		ASSERT(m_Width >= 0, _T("Width can't be negative!"));
 		ASSERT(m_Height >= 0, _T("Height can't be negative!"));
-
-#if LOGGER_MIN_LEVEL < 2
-		tstringstream str;
-		str << _T("AARect Created \t");
-		str << _T("(") << x << _T(", ") << y << _T(", ") << width << _T(", ") << height << _T(")");
-		Logger::GetInstance()->Log(LogLevel::Info,str.str());
-#endif
 	}
 
 	AARect::AARect(const vec2& location,const vec2& size)
@@ -35,24 +29,29 @@ namespace star
 		m_Height = static_cast<int>(size.y);
 	}
 
+	AARect::~AARect()
+	{
+
+	}
+
 	int AARect::GetLeft() const
 	{
-		return m_X;
+		return int(m_X * ScaleSystem::GetInstance()->GetScale());
 	}
 
 	int AARect::GetTop() const
 	{
-		return m_Y;
+		return int(m_Y * ScaleSystem::GetInstance()->GetScale());
 	}
 
 	int AARect::GetRight() const
 	{
-		return m_X + m_Width;
+		return int((m_X + m_Width) * ScaleSystem::GetInstance()->GetScale());
 	}
 
 	int AARect::GetBottom() const
 	{
-		return m_Y + m_Height;
+		return int((m_Y + m_Height) * ScaleSystem::GetInstance()->GetScale());
 	}
 
 	bool AARect::Equals(const AARect& rect) const
@@ -65,17 +64,19 @@ namespace star
 
 	bool AARect::Contains(int x, int y) const
 	{
-		return x >= m_X && x < m_X + m_Width &&
-			y >= m_Y && y < m_Y + m_Height;
+		float scale = ScaleSystem::GetInstance()->GetScale();
+		return x >= m_X * scale && x < (m_X + m_Width) * scale &&
+			y >= m_Y * scale && y < (m_Y + m_Height) * scale;
 	}
 
 	bool AARect::Contains(const vec2& pt) const
 	{
-		return Contains(static_cast<int>(pt.x), static_cast<int>(pt.y));
+		return Contains(int(pt.x), int(pt.y));
 	}
 
 	bool AARect::Contains(AARect& rect) const
 	{
+		//No need to apply scaling here, will be true in every resolution
 		return (m_X <= rect.m_X) && (rect.GetRight() <= GetRight()) &&
 				(m_Y <= rect.m_Y) && (rect.GetBottom() <= GetBottom());
 	}

@@ -62,7 +62,6 @@ namespace star
 #else
 		Filepath texshaderVertex(_T("AndroidShaders/"), _T("BatchTexShader.vert"));
 		Filepath texshaderFrag(_T("AndroidShaders/"), _T("BatchTexShader.frag"));
-
 #endif
 		if(!m_Shader.Init(texshaderVertex.GetAssetsPath(),texshaderFrag.GetAssetsPath()))
 		{
@@ -139,7 +138,7 @@ namespace star
 		
 		//enable vertexAttribs
 		glEnableVertexAttribArray(ATTRIB_VERTEX);
-		glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glEnableVertexAttribArray(ATTRIB_UV);
 		
 		//Create Vertexbuffer
 		CreateSpriteQuad(spriteQueue);
@@ -168,34 +167,31 @@ namespace star
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, currTexture);
 		
-			GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
+			GLint s_textureId = glGetUniformLocation(m_Shader.GetID(), "textureSampler");
 			glUniform1i(s_textureId, 0);
 		
 			batchSize += 4;
-		
-			auto projectionObject = SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
-			mat4x4 projection = projectionObject->GetComponent<CameraComponent>()->GetProjection();
-			mat4x4 viewInverse = projectionObject->GetComponent<CameraComponent>()->GetViewInverse();
 		
 			for(int j = 0; j < ((batchSize/4)); ++j)
 			{
 				//Set attributes and buffers
 				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, 
 					reinterpret_cast<GLvoid*>(&m_VertexBuffer[12*j]));
-				glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, 
+				glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, 
 					reinterpret_cast<GLvoid*>(&m_UvCoordBuffer[8*j]));
 			
 				if(spriteQueue[m_CurrentSprite + j].bIsHUD)
 				{
-					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),
+					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
 						1, GL_FALSE, glm::value_ptr(TransposeMatrix(
-						spriteQueue[m_CurrentSprite + j].transform) * projection));
+						spriteQueue[m_CurrentSprite + j].transform) * 
+						GraphicsManager::GetInstance()->GetProjectionMatrix()));
 				}
 				else
 				{
-					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),
+					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
 						1, GL_FALSE, glm::value_ptr(TransposeMatrix(spriteQueue
-						[m_CurrentSprite + j].transform) * projection * viewInverse));
+						[m_CurrentSprite + j].transform) * GraphicsManager::GetInstance()->GetViewProjectionMatrix()));
 				}
 				glDrawArrays(GL_TRIANGLE_STRIP,batchStart,4);
 			}			
@@ -209,7 +205,7 @@ namespace star
 		
 		//Unbind attributes and buffers
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
-		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glDisableVertexAttribArray(ATTRIB_UV);
 	}
 	
 	void SpriteBatch::FlushText(const TextDesc& textDesc)
@@ -245,20 +241,14 @@ namespace star
 		
 		//Enable the attributes
 		glEnableVertexAttribArray(ATTRIB_VERTEX);
-		glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glEnableVertexAttribArray(ATTRIB_UV);
 
 		glActiveTexture(GL_TEXTURE0);
-		GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
+		GLint s_textureId = glGetUniformLocation(m_Shader.GetID(), "textureSampler");
 		glUniform1i(s_textureId, 0);
-		GLint s_colorId = glGetUniformLocation(m_Shader.GetId(), "colorMultiplier");
+		GLint s_colorId = glGetUniformLocation(m_Shader.GetID(), "colorMultiplier");
 		glUniform4f(s_colorId,color.r,color.g,color.b,color.a);
 	
-		auto projectionObject(star::SceneManager::GetInstance()->GetActiveScene()
-			->GetActiveCamera());
-		const mat4x4& projection = projectionObject->GetComponent<CameraComponent>()
-			->GetProjection();
-		const mat4x4& viewInverse = projectionObject->GetComponent<CameraComponent>()
-			->GetViewInverse();
 		int offsetX(0);
 		int offsetY(0);
 		for(auto it=text.begin(); it!=text.end();++it)
@@ -272,7 +262,7 @@ namespace star
 				//Set attributes and buffers
 				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0,
 					tempverts[start_line[i]].ver);
-				glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, 
+				glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, 
 					tempuvs[start_line[i]].uv);
 
 				mat4x4 offsetTrans;
@@ -290,8 +280,9 @@ namespace star
 				}
 				const mat4x4& world = transform->GetWorldMatrix() * offsetTrans;
 
-				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetId(),"MVP"),
-					1,GL_FALSE,glm::value_ptr(TransposeMatrix(world) * projection * viewInverse));
+				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
+					1,GL_FALSE,glm::value_ptr(TransposeMatrix(world) * 
+					GraphicsManager::GetInstance()->GetViewProjectionMatrix()));
 				glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 			}
 			offsetY -= curfont.GetMaxLetterHeight();
@@ -300,7 +291,7 @@ namespace star
 
 		//Unbind attributes and buffers
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
-		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glDisableVertexAttribArray(ATTRIB_UV);
 		m_Shader.Unbind();
 	}
 
@@ -367,7 +358,7 @@ namespace star
 
 		//Unbind attributes and buffers
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
-		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glDisableVertexAttribArray(ATTRIB_UV);
 
 		delete m_pSpriteBatch;
 		m_pSpriteBatch = nullptr;

@@ -2,10 +2,9 @@
 #include "CircleColliderComponent.h"
 #include "../../Objects/Object.h"
 #include "../../Logger.h"
-#include "../../Scenes/SceneManager.h"
-#include "../../Objects/BaseCamera.h"
-#include "../CameraComponent.h"
+#include "../../Graphics/GraphicsManager.h"
 #include "../Graphics/SpriteComponent.h"
+#include "../../Helpers/Debug/DebugDraw.h"
 
 namespace star
 {
@@ -95,17 +94,35 @@ namespace star
 
 	bool RectangleColliderComponent::CollidesWithLine(const vec2& point1, const vec2& point2) const
 	{
-		Rect rect = GetCollisionRect();
-		//perpendicular of a vec =  (-y , x) or (y, -x)
-		vec2 axis(-(point2 - point1).y , (point2 - point1).x);
+		if(GetTransform()->GetWorldRotation() == 0.0f && (point1.x == point2.x || point1.y == point2.y))
+		{
+			//If rect is AABB and line also AA
+			Rect rect = GetCollisionRect();
+			if(point1.x == point2.x)
+			{
+				//Line is vertical
+				return !(rect.GetLeftTop().x > point1.x || rect.GetRightTop().x < point1.x);
+			}
+			else
+			{
+				//Line is horizontal
+				return !(rect.GetLeftTop().y < point1.y || rect.GetLeftBottom().y > point1.y);
+			}
+		}
+		else
+		{
+			Rect rect = GetCollisionRect();
+			//perpendicular of a vec =  (-y , x) or (y, -x)
+			vec2 axis(-(point2 - point1).y , (point2 - point1).x);
 
-		return (CalculateAxisSpecificCollision(rect, point1, point2, axis));
+			return (CalculateAxisSpecificCollision(rect, point1, point2, axis));
+		}
 	}
 
 	void RectangleColliderComponent::CollidesWith(const BaseColliderComponent* other) const
 	{
-		const CircleColliderComponent* otherCircleComp = reinterpret_cast<const CircleColliderComponent*>(other);
-		const RectangleColliderComponent* otherRectComp = reinterpret_cast<const RectangleColliderComponent*>(other);
+		const CircleColliderComponent* otherCircleComp = dynamic_cast<const CircleColliderComponent*>(other);
+		const RectangleColliderComponent* otherRectComp = dynamic_cast<const RectangleColliderComponent*>(other);
 
 		if(otherRectComp != nullptr)
 		{
@@ -330,9 +347,13 @@ namespace star
 
 	Rect RectangleColliderComponent::GetCollisionRect() const
 	{
-		auto projectionObject = SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
-		mat4x4 viewInverse = projectionObject->GetComponent<CameraComponent>()->GetViewInverse();
-		Rect temp = m_CollisionRect * ( viewInverse * GetTransform()->GetWorldMatrix());
+		Rect temp = m_CollisionRect * 
+			(GraphicsManager::GetInstance()->GetViewInverseMatrix() * GetTransform()->GetWorldMatrix());
 		return temp;
+	}
+
+	void RectangleColliderComponent::Draw()
+	{
+
 	}
 }

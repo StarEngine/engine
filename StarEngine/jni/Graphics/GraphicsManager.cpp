@@ -2,6 +2,9 @@
 #include "../Logger.h"
 #include "ScaleSystem.h"
 #include "SpriteBatch.h"
+#include "../Scenes/SceneManager.h"
+#include "../Objects/BaseCamera.h"
+#include "../Components/CameraComponent.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -26,6 +29,9 @@ namespace star
 	}
 
 	GraphicsManager::GraphicsManager() :
+			mViewProjectionMatrix(),
+			mViewInverseMatrix(),
+			mProjectionMatrix(),
 			mScreenResolution(0,0),
 			mViewportResolution(0,0),
 			m_bHasWindowChanged(false),
@@ -235,6 +241,24 @@ namespace star
 #endif
 	}
 
+	void GraphicsManager::Update()
+	{
+		if(SceneManager::GetInstance()->GetActiveScene())
+		{
+			auto projectionObject(SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera());
+			if(projectionObject)
+			{
+				const mat4x4& projection = projectionObject->GetComponent<CameraComponent>()
+					->GetProjection();
+				const mat4x4& viewInverse = projectionObject->GetComponent<CameraComponent>()
+					->GetViewInverse();
+				mProjectionMatrix = projection;
+				mViewInverseMatrix = viewInverse;
+				mViewProjectionMatrix = projection * viewInverse;
+			}		
+		}
+	}
+
 	int32 GraphicsManager::GetWindowWidth() const
 	{
 		return int32(mScreenResolution.x);
@@ -253,6 +277,21 @@ namespace star
 	int32 GraphicsManager::GetTargetWindowHeight() const
 	{
 		return int32(ScaleSystem::GetInstance()->GetWorkingResolution().y);
+	}
+
+	const mat4x4& GraphicsManager::GetViewProjectionMatrix() const
+	{
+		return mViewProjectionMatrix;
+	}
+
+	const mat4x4& GraphicsManager::GetProjectionMatrix() const
+	{
+		return mProjectionMatrix;
+	}
+
+	const mat4x4& GraphicsManager::GetViewInverseMatrix() const
+	{
+		return mViewInverseMatrix;
 	}
 
 	float GraphicsManager::GetWindowAspectRatio() const
@@ -334,7 +373,7 @@ namespace star
 			// this is another function from WGL_EXT_swap_control extension
 			wglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC) wglGetProcAddress("wglGetSwapIntervalEXT");
 
-			wglSwapIntervalEXT(1);
+			wglSwapIntervalEXT(0);
 			return true;
 		}
 		return false;

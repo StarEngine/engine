@@ -29,11 +29,16 @@ namespace star
 
 		void StartDraw();
 		void StopDraw();
+		void Update();
 
 		int32 GetWindowWidth() const;
 		int32 GetWindowHeight() const;
 		int32 GetTargetWindowWidth() const;
 		int32 GetTargetWindowHeight() const;
+
+		const mat4x4& GetViewProjectionMatrix() const;
+		const mat4x4& GetViewInverseMatrix() const;
+		const mat4x4& GetProjectionMatrix() const;
 
 		float GetWindowAspectRatio() const;
 		float GetTargetWindowAspectRatio() const;
@@ -57,6 +62,9 @@ namespace star
 
 		static GraphicsManager * mGraphicsManager;
 
+		mat4x4 mViewProjectionMatrix;
+		mat4x4 mViewInverseMatrix;
+		mat4x4 mProjectionMatrix;
 		vec2 mScreenResolution, mViewportResolution;
 		bool m_bHasWindowChanged;
 		bool mIsInitialized;

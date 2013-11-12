@@ -34,7 +34,7 @@ namespace star
 	private:
 		mat4x4 MatrixPerspectiveFOV(float FovY, float ratio, float nearPlane, float farPlane);
 		mat4x4 MatrixOrtho(float width, float height, float nearPlane, float farPlane);
-		mat4x4 MatrixLookAt(const vec3 & eye, const vec3& at, const vec3& up);
+		mat4x4 MatrixLookAt(const vec3& eye, const vec3& at, const vec3& up);
 
 		mat4x4	m_Projection,
 				m_View,

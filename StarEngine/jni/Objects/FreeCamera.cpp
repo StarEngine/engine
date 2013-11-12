@@ -38,13 +38,28 @@ namespace star
 			{
 #ifdef DESKTOP
 				move.y = InputManager::GetInstance()->IsKeyboardKeyDown('Z')?1.0f:0.0f;
-				if(move.y == 0) move.y = -(InputManager::GetInstance()->IsKeyboardKeyDown('S')?1.0f:0.0f);
-				if(move.y == 0) move.y = InputManager::GetInstance()->GetThumbstickPosition().y;
-	
-				move.x = InputManager::GetInstance()->IsKeyboardKeyDown('D')?1.0f:0.0f;
-				if(move.x == 0) move.x = -(InputManager::GetInstance()->IsKeyboardKeyDown('Q')?1.0f:0.0f);
-				if(move.x == 0) move.x = InputManager::GetInstance()->GetThumbstickPosition().x;
+				if(move.y == 0) 
+				{
+					move.y = -(InputManager::GetInstance()->IsKeyboardKeyDown('S')?1.0f:0.0f);
+				}
+				//if it's still 0, that's why second check
+				if(move.y == 0) 
+				{
+					move.y = InputManager::GetInstance()->GetThumbstickPosition().y;
+				}
 
+				move.x = InputManager::GetInstance()->IsKeyboardKeyDown('D')?1.0f:0.0f;
+				if(move.x == 0) 
+				{
+					move.x = -(InputManager::GetInstance()->IsKeyboardKeyDown('Q')?1.0f:0.0f);
+				}
+				//if it's still 0, that's why second check
+				if(move.x == 0) 
+				{
+					move.x = InputManager::GetInstance()->GetThumbstickPosition().x;
+				}
+
+				//if no keyboard input, check controller input
 				if(look.x == 0 && look.y == 0)
 				{
 					look = InputManager::GetInstance()->GetThumbstickPosition(false);
@@ -59,17 +74,11 @@ namespace star
 				auto currPos = transform->GetWorldPosition();
 				auto currRot = transform->GetWorldRotation();
 	
-				currPos.y += static_cast<float>(move.y * m_MoveSpeed * context.mTimeManager->GetSeconds());
-				currPos.x += static_cast<float>(move.x * m_MoveSpeed * context.mTimeManager->GetSeconds());
-			
-				//ROTATION
-				//m_TotalYaw += look.x * m_RotationSpeed * context.mTimeManager->GetSeconds();
-				//m_TotalPitch += look.y * m_RotationSpeed * context.mTimeManager->GetSeconds();
-				//
-				//quat finalOrientation(vec3(m_TotalYaw,m_TotalPitch,0));
-				//
+				double deltaTime = context.mTimeManager->GetSeconds();
+				currPos.y += static_cast<float>(move.y * m_MoveSpeed * deltaTime);
+				currPos.x += static_cast<float>(move.x * m_MoveSpeed * deltaTime);
+
 				transform->Translate(currPos);
-				//transform->Rotate(finalOrientation);
 			}
 		}
 	}

@@ -21,7 +21,7 @@ namespace star
 	enum
 	{
 		ATTRIB_VERTEX,
-		ATTRIB_TEXTUREPOSITON, //[COMMENT] Change to UV - or TexCoord
+		ATTRIB_UV,
 		NUM_ATTRIBUTES
 	};
 
@@ -29,30 +29,39 @@ namespace star
 	public:
 		Shader();
 		Shader(const tstring& vsFile, const tstring& fsFile);
+		Shader(const GLchar* inLineVert, const GLchar* inLineFrag);
 		~Shader();
 
-		bool Init(const tstring& vsFile,const tstring& fsFile);
+		bool Init(const tstring& vsFile, const tstring& fsFile);
+		bool Init(const GLchar* inLineVert, const GLchar* inLineFrag);
 
 		void Bind();
 		void Unbind();
 
-		const GLuint GetId() const;
-		const GLfloat* GetProjection() const;
-		const GLfloat* GetTranslation() const;
-
+		const GLuint GetID() const;
+		GLuint GetUniformLocation(const GLchar* nameInShader) const;
+		GLuint GetAttribLocation(const GLchar* nameInShader) const;
+		void PrintActiveAttribs() const;
+		void PrintActiveUniforms() const;
 	private:
 		const char* TextFileReading(const tstring& fileName);
 		bool CompileShader(GLuint* shader, GLenum type, const tstring& file);
+		bool CompileShader(GLuint* shader, GLenum type, const GLchar* inLineFile);
+
+		bool GLInit();
+		bool GLCompileShader();
 
 		GLuint mShaderID;
 		GLuint mVertexShader;
 		GLuint mFragmentShader;
 
-		GLfloat* GlProjection;
-		GLfloat* GlTranslation;
+#ifdef ANDROID
+		static const int ANDROID_ERROR_SIZE = 4096;
+#endif
 
 		Shader(const Shader& t);
 		Shader(Shader&& t);
 		Shader& operator=(const Shader& t);
+		Shader& operator=(Shader&&);
 	};
 }

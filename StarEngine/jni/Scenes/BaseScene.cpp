@@ -6,6 +6,7 @@
 #include "../Objects/BaseCamera.h"
 #include "../Graphics/ScaleSystem.h"
 #include "../Graphics/GraphicsManager.h"
+#include "../Helpers/Debug/DebugDraw.h"
 
 namespace star 
 {
@@ -77,9 +78,9 @@ namespace star
 
 	void BaseScene::BaseDraw()
 	{
-		glClearColor(0.0f,0.0f,0.0f,1.0f); // Clear the background of our window to red
+		glClearColor(0.0f,0.0f,0.0f,1.0f);
 
-		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
 		{
 			m_Objects[i]->BaseDraw();

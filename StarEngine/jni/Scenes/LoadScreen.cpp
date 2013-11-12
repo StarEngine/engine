@@ -71,20 +71,20 @@ namespace star
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(m_SpriteName));
-		GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
+		GLint s_textureId = glGetUniformLocation(m_Shader.GetID(), "textureSampler");
 		glUniform1i(s_textureId, 0);
 
 		//Set attributes and buffers
 		glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT,0,0, m_Vertices);
 		glEnableVertexAttribArray(ATTRIB_VERTEX);
-		glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, m_UvCoords);
-		glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, m_UvCoords);
+		glEnableVertexAttribArray(ATTRIB_UV);
 
 		glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
 		//Unbind attributes and buffers
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
-		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glDisableVertexAttribArray(ATTRIB_UV);
 
 		m_Shader.Unbind();
 	}
