@@ -7,11 +7,11 @@
 #include "../StarEngine.h"
 #include "Helpers.h"
 
-namespace star
+namespace star_a
 {
-	void ReadFileAsset(const tstring & path, SerializedData & data)
+	void ReadFileAsset(const tstring & path, star::SerializedData & data)
 	{
-		auto app = StarEngine::GetInstance()->GetAndroidApp();
+		auto app = star::StarEngine::GetInstance()->GetAndroidApp();
 		auto manager = app->activity->assetManager;
 		AAsset* asset = AAssetManager_open(
 				manager,
@@ -23,6 +23,24 @@ namespace star
 		data.data = new char[sizeof(char) * data.size];
 		AAsset_read(asset, data.data, data.size);
 		AAsset_close(asset);
+	}
+
+	void WriteFileAsset(const tstring & path, const star::SerializedData & data)
+	{
+		auto app = star::StarEngine::GetInstance()->GetAndroidApp();
+		std::stringstream strstr;
+		strstr << app->activity->internalDataPath
+			   << "/" << star::string_cast<std::string>(path);
+		std::string fPath = strstr.str();
+		FILE* pFile = std::fopen(fPath.c_str(), "w+");
+		bool succesfull = pFile != nullptr;
+		ASSERT(succesfull, (_T("FILE: Couldn't find '") + fPath + _T("'.")).c_str());
+		if(succesfull)
+		{
+			int32 res = std::fwrite(data.data, sizeof(char), data.size, pFile);
+			ASSERT(res == data.size, _T("FILE: WriteFile has not been completed."));
+		}
+		std::fclose(pFile);
 	}
 }
 

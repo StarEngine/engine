@@ -76,6 +76,46 @@ namespace star
 	}
 
 	template <>
+	char* string_cast<char*, std::wstring>
+		(const std::wstring & value)
+	{
+		char * result = 
+			const_cast<char*>(
+				string_cast<std::string, std::wstring>(value).c_str()
+				);
+		return result;
+	}
+
+	template <>
+	char* string_cast<char*, std::string>
+		(const std::string & value)
+	{
+		char * result = 
+			const_cast<char*>(value.c_str());
+		return result;
+	}
+
+	template <>
+	wchar_t* string_cast<wchar_t*, std::wstring>
+		(const std::wstring & value)
+	{
+		wchar_t * result = 
+			const_cast<wchar_t*>(value.c_str());
+		return result;
+	}
+
+	template <>
+	wchar_t* string_cast<wchar_t*, std::string>
+		(const std::string & value)
+	{
+		wchar_t * result = 
+			const_cast<wchar_t*>(
+				string_cast<std::wstring, std::string>(value).c_str()
+				);
+		return result;
+	}
+
+	template <>
 	tstring string_cast<tstring, glm::vec2>
 		(const glm::vec2 & value)
 	{
@@ -246,7 +286,7 @@ namespace star
 	{
 #ifdef ANDROID
 		SerializedData data;
-		ReadFileAsset(file, data);
+		star_a::ReadFileAsset(file, data);
 		text = string_cast<tstring>(data.data);
 		delete [] data.data;
 #else
@@ -271,7 +311,7 @@ namespace star
 	{
 #ifdef ANDROID
 		SerializedData data;
-		ReadFileAsset(file, data);
+		star_a::ReadFileAsset(file, data);
 		tstring txt(string_cast<tstring>(data.data));
 		delete [] data.data;
 		return txt;
@@ -298,7 +338,11 @@ namespace star
 	void WriteTextFile(const tstring & file, const tstring & text)
 	{
 #ifdef ANDROID
-		Logger::GetInstance()->Log(LogLevel::Error, _T("Writing to text files is unsupported at Android."));
+		SerializedData data;
+		data.data = string_cast<char*>(file);
+		data.size = file.length();
+		star_a::WriteFileAsset(file, data);
+		delete [] data.data;
 #else
 		Filepath filep(file);
 		tofstream myfile(filep.GetFullPath(), std::ios::out);
@@ -315,7 +359,7 @@ namespace star
 	void AppendTextFile(const tstring & file, const tstring & text)
 	{
 #ifdef ANDROID
-		Logger::GetInstance()->Log(LogLevel::Error, _T("Writing to text files is unsupported at Android."));
+		Logger::GetInstance()->Log(LogLevel::Error, _T("Writing to text files is unsupported on Android."));
 #else
 		Filepath filep(file);
 		tofstream myfile(filep.GetFullPath(), std::ios::out | std::ios::app);
@@ -333,7 +377,7 @@ namespace star
 	{
 #ifdef ANDROID
 		SerializedData data;
-		ReadFileAsset(file, data);
+		star_a::ReadFileAsset(file, data);
 		size = data.size;
 		return data.data;
 #else
@@ -379,7 +423,7 @@ namespace star
 	void AppendBinaryFile(const tstring & file, char * buffer, uint32 size)
 	{
 #ifdef ANDROID
-		Logger::GetInstance()->Log(LogLevel::Error, _T("Writing to binary files is unsupported at Android."));
+		Logger::GetInstance()->Log(LogLevel::Error, _T("Writing to binary files is unsupported on Android."));
 #else
 		Filepath filep(file);
 		std::ofstream binary_file(filep.GetFullPath(), std::ios::out | std::ios::binary | std::ios::app);
@@ -393,6 +437,88 @@ namespace star
 			}
 			binary_file.close();
 		}
+#endif
+	}
+
+	void ReadStorageTextFile(const tstring & file, tstring & text)
+	{
+#ifdef ANDROID
+		Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Reading text files in the storage directory is unsupported on Android."));
+#else
+		Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Reading text files in the storage directory is unsupported on Windows."));
+#endif
+	}
+
+	tstring ReadStorageTextFile(const tstring & file)
+	{
+#ifdef ANDROID
+		// http://developer.android.com/guide/topics/data/data-storage.html
+		Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Reading text files in the storage directory is unsupported on Android."));
+		return EMPTY_STRING;
+#else
+		Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Reading text files in the storage directory is unsupported on Windows."));
+		return EMPTY_STRING;
+#endif
+	}
+
+	void WriteStorageTextFile(const tstring & file, const tstring & text)
+	{
+#ifdef ANDROID
+		Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Writing to text files in the storage directory is unsupported on Android."));
+#else
+		Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Writing to text files in the storage directory is unsupported on Windows."));
+#endif
+	}
+
+	void AppendStorageTextFile(const tstring & file, const tstring & text)
+	{
+#ifdef ANDROID
+		Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Writing to text files in the storage directory is unsupported on Android."));
+#else
+		Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Writing to text files in the storage directory is unsupported on Windows."));
+#endif
+	}
+
+	char * ReadStorageBinaryFile(const tstring & file, uint32 & size)
+	{
+#ifdef ANDROID
+		Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Reading binary files in the storage directory is unsupported on Android."));
+		return nullptr;
+#else
+		Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Reading binary files in the storage directory is unsupported on Windows."));
+		return nullptr;
+#endif
+	}
+
+	void WriteStorageBinaryFile(const tstring & file, char * buffer, uint32 size)
+	{
+#ifdef ANDROID
+		Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Writing to binary files in the storage directory is unsupported on Android."));
+#else
+		Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Writing to binary files in the storage directory is unsupported on Windows."));
+#endif
+	}
+
+	void AppendStorageBinaryFile(const tstring & file, char * buffer, uint32 size)
+	{
+#ifdef ANDROID
+		Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Writing to binary files in the storage directory is unsupported on Android."));
+#else
+		Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Writing to binary files in the storage directory is unsupported on Windows."));
 #endif
 	}
 }

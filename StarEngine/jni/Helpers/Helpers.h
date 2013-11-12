@@ -48,6 +48,19 @@ namespace star
 	template <>
 	std::wstring string_cast<std::wstring, char>
 		(const char * value);
+
+	template <>
+	char* string_cast<char*, std::wstring>
+		(const std::wstring & value);
+	template <>
+	char* string_cast<char*, std::string>
+		(const std::string & value);
+	template <>
+	wchar_t* string_cast<wchar_t*, std::wstring>
+		(const std::wstring & value);
+	template <>
+	wchar_t* string_cast<wchar_t*, std::string>
+		(const std::string & value);
 	
 	template <>
 	tstring string_cast<tstring, glm::vec2>
@@ -122,6 +135,16 @@ namespace star
 	char * ReadBinaryFile(const tstring & file, uint32 & size);
 	void WriteBinaryFile(const tstring & file, char * buffer, uint32 size);
 	void AppendBinaryFile(const tstring & file, char * buffer, uint32 size);
+
+	void ReadStorageTextFile(const tstring & file, tstring & text);
+	tstring ReadStorageTextFile(const tstring & file);
+
+	void WriteStorageTextFile(const tstring & file, const tstring & text);
+	void AppendStorageTextFile(const tstring & file, const tstring & text);
+
+	char * ReadStorageBinaryFile(const tstring & file, uint32 & size);
+	void WriteStorageBinaryFile(const tstring & file, char * buffer, uint32 size);
+	void AppendStorageBinaryFile(const tstring & file, char * buffer, uint32 size);
 
 	template<class To, class From>
 	To cast(From v)
