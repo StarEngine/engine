@@ -246,7 +246,7 @@
     <ClInclude Include="jni\Helpers\SerializedData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Helpers\Debug\DebugDraw.h">
+    <ClInclude Include="jni\Helpers\DebugHelp\DebugDraw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -458,7 +458,7 @@
     <ClCompile Include="jni\Helpers\SerializedData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\Helpers\Debug\DebugDraw.cpp">
+    <ClCompile Include="jni\Helpers\DebugHelp\DebugDraw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

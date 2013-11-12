@@ -12,7 +12,7 @@
 #include "Assets/FontManager.h"
 #include "Physics/Collision/CollisionManager.h"
 #include "Graphics/ScaleSystem.h"
-#include "Helpers/Debug/DebugDraw.h"
+#include "Helpers/DebugHelp/DebugDraw.h"
 
 namespace star
 {
