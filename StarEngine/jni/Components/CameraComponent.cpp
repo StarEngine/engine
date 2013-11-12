@@ -8,11 +8,6 @@
 #include "../Graphics/ScaleSystem.h"
 #include "../Objects/BaseCamera.h"
 
-//General info
-//
-//Using custom matrix4x4 calculation functions
-//since OpenGl uses matrices in a different way
-
 namespace star
 {
 	CameraComponent::CameraComponent(bool bCanZoom):
@@ -41,36 +36,50 @@ namespace star
 	{
 		m_AspectRatio = GraphicsManager::GetInstance()->GetWindowAspectRatio();
 	
+		//Calc perspective matrix
 		if(m_bPerspectiveProjection)
 		{
-			m_Projection = MatrixPerspectiveFOV(m_FOV, m_AspectRatio, m_NearPlane, m_FarPlane);
-		}
+			m_Projection = MatrixPerspectiveFOV(m_FOV, 
+												m_AspectRatio, 
+												m_NearPlane, 
+												m_FarPlane);
+		}	
+		//Calc ortho matrix
 		else
-		{
-			//calc ortho matrix
+		{	
 			if(m_Size <= 0)
 			{
 				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetWindowHeight());
 			}
 
-			m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
+			m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom,
+										m_Size * m_Zoom, 
+										m_NearPlane, 
+										m_FarPlane);
 		}
 	}
 
 	void CameraComponent::Update(const Context& context)
 	{
 #ifdef DESKTOP
-		if(m_Size != GraphicsManager::GetInstance()->GetWindowHeight() || m_Size * m_AspectRatio != GraphicsManager::GetInstance()->GetWindowWidth())
+		if(m_Size != GraphicsManager::GetInstance()->GetWindowHeight() || 
+			m_Size * m_AspectRatio != GraphicsManager::GetInstance()->GetWindowWidth())
 		{
 			m_AspectRatio = GraphicsManager::GetInstance()->GetWindowAspectRatio();
 			if(m_bPerspectiveProjection)
 			{
-				m_Projection = MatrixPerspectiveFOV(m_FOV, m_AspectRatio, m_NearPlane, m_FarPlane);
+				m_Projection = MatrixPerspectiveFOV(m_FOV, 
+													m_AspectRatio, 
+													m_NearPlane, 
+													m_FarPlane);
 			}
 			else
 			{
 				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetWindowHeight());
-				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
+				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, 
+										   m_Size * m_Zoom, 
+										   m_NearPlane, 
+										   m_FarPlane);
 			}
 		}
 
@@ -79,12 +88,18 @@ namespace star
 			if(InputManager::GetInstance()->IsKeyboardKeyDown('O'))
 			{
 				m_Zoom += m_ZoomSpeed * static_cast<float>(context.mTimeManager->GetSeconds());			
-				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
+				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, 
+										   m_Size * m_Zoom, 
+										   m_NearPlane, 
+										   m_FarPlane);
 			}
 			else if(InputManager::GetInstance()->IsKeyboardKeyDown('P'))
 			{
 				m_Zoom -= m_ZoomSpeed * static_cast<float>(context.mTimeManager->GetSeconds());
-				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, m_NearPlane, m_FarPlane);
+				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, 
+										   m_Size * m_Zoom, 
+										   m_NearPlane, 
+										   m_FarPlane);
 			}
 		}
 #endif

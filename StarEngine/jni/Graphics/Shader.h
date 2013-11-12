@@ -21,7 +21,7 @@ namespace star
 	enum
 	{
 		ATTRIB_VERTEX,
-		ATTRIB_TEXTUREPOSITON, //[COMMENT] Change to UV - or TexCoord
+		ATTRIB_UV,
 		NUM_ATTRIBUTES
 	};
 
@@ -37,8 +37,6 @@ namespace star
 		void Unbind();
 
 		const GLuint GetId() const;
-		const GLfloat* GetProjection() const;
-		const GLfloat* GetTranslation() const;
 
 	private:
 		const char* TextFileReading(const tstring& fileName);
@@ -47,9 +45,6 @@ namespace star
 		GLuint mShaderID;
 		GLuint mVertexShader;
 		GLuint mFragmentShader;
-
-		GLfloat* GlProjection;
-		GLfloat* GlTranslation;
 
 		Shader(const Shader& t);
 		Shader(Shader&& t);

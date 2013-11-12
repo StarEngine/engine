@@ -6,14 +6,17 @@
 namespace star
 {
 	Shader::Shader()
-		: mShaderID(0)
-		// [COMMENT] Initialize all your datamembers!
+		: mShaderID(0),
+		mVertexShader(0),
+		mFragmentShader(0)
 	{
 
 	}
 
 	Shader::Shader( const tstring& vsFile, const tstring& fsFile )
-		// [COMMENT] Initialize all your datamembers!
+		: mShaderID(0),
+		mVertexShader(0),
+		mFragmentShader(0)
 	{
 		Init(vsFile,fsFile);
 	}
@@ -31,13 +34,15 @@ namespace star
 		
 		if(!CompileShader(&mVertexShader, GL_VERTEX_SHADER, vsFile ))
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Failed To load Vertex Shader"));
+			star::Logger::GetInstance()->Log(LogLevel::Error, 
+											 _T("Failed To load Vertex Shader"));
 			return false;
 		}
 		
 		if(!CompileShader(&mFragmentShader, GL_FRAGMENT_SHADER, fsFile))
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Failed To load Fragment Shader"));
+			star::Logger::GetInstance()->Log(LogLevel::Error, 
+											 _T("Failed To load Fragment Shader"));
 			return false;
 		}
 		
@@ -45,7 +50,7 @@ namespace star
 		glAttachShader(mShaderID,mFragmentShader);
 
 		glBindAttribLocation(mShaderID,ATTRIB_VERTEX,"Position");
-		glBindAttribLocation(mShaderID,ATTRIB_TEXTUREPOSITON,"TexCoord");
+		glBindAttribLocation(mShaderID,ATTRIB_UV,"TexCoord");
 
 		glLinkProgram(mShaderID);
 		GLint status;
@@ -68,25 +73,22 @@ namespace star
 		Resource resource(StarEngine::GetInstance()->GetAndroidApp(), file);
 		if(!resource.Open())
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Android Shader : Failed to open file"));
+			star::Logger::GetInstance()->Log(LogLevel::Error, 
+											 _T("Android Shader : Failed to open file"));
 			return false;
 		}
 	
 		int32 length = resource.GetLength();
-		//star::Logger::GetInstance()->Log(LogLevel::Info, _T("Android Shader : File size :")+star::string_cast<tstring>(length));
 		char* doc = reinterpret_cast<char*>( malloc (length+1));
 
 		if(!resource.Read(doc,length))
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Android Shader : Failed to read file"));
+			star::Logger::GetInstance()->Log(LogLevel::Error, 
+											 _T("Android Shader : Failed to read file"));
 			resource.Close();
 			return false;
 		}
 		doc[length]=0;
-
-		/*tstring filecontent= tstring(doc);
-
-		star::Logger::GetInstance()->Log(LogLevel::Info,filecontent);*/
 
 		source = const_cast<GLchar*>(&doc[0]);
 		resource.Close();
@@ -116,7 +118,8 @@ namespace star
 				{
                     glGetShaderInfoLog(*shader, infolength, NULL, buf);
 					tstringstream buffer;
-					buffer << _T("Could not compile shader") << (int)type << _T(" : ") << std::endl << buf;
+					buffer << _T("Could not compile shader") << (int)type << _T(" : "); 
+					buffer << std::endl << buf;
                     Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
                     free(buf);
                 }
@@ -130,7 +133,8 @@ namespace star
 				{
 					glGetShaderInfoLog(*shader, 4096, NULL, buf);
 					tstringstream buffer;
-					buffer << _T("Could not compile shader") << (int)type << _T(" : ") << std::endl << buf;
+					buffer << _T("Could not compile shader");
+					buffer << (int)type << _T(" : ") << std::endl << buf;
 					Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
 					free(buf);
 				}
@@ -158,25 +162,9 @@ namespace star
 		return mShaderID;
 	}
 
-	const GLfloat* Shader::GetProjection() const
-	{
-		return GlProjection;
-	}
-
-	const GLfloat* Shader::GetTranslation() const
-	{
-		return GlTranslation;
-	}
-
 	const char* Shader::TextFileReading(const tstring& fileName)
 	{
 		char* text(NULL);
-		// [COMMENT] playing a dangerous game here
-		// 1) Don't use C style memory allocations => Use C++ way (new / delete)
-		// 2) Prevent using C-style strings ( char arrays )
-		// 3) If you do use c-Arrays => don't forget them to delete them
-		//	  In this case you return it, so you have to delete it outside
-		//	  this function ( even more dangerous )
 		if (fileName != EMPTY_STRING)
 		{
 			FILE *file;
@@ -191,7 +179,6 @@ namespace star
 
 				if (count > 0)
 				{
-					//[COMMENT] A memory leak starts below
 					text = (char*)malloc(sizeof(char) * (count + 1));
 					count = fread(text, sizeof(char), count, file);
 					text[count] = '\0';
