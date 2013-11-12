@@ -31,13 +31,14 @@ namespace star
 #ifdef DESKTOP
 		static void SetAssetsRoot(const tstring & root);
 		static void SetInternalRoot(const tstring & root);
+		static void SetExternalRoot(const tstring & root);
 #endif
 
 	private:
 		tstring m_Path,
 				m_File;
 #ifdef DESKTOP
-		static tstring m_AssetsRoot, m_InternalRoot;
+		static tstring m_AssetsRoot, m_InternalRoot, m_ExternalRoot;
 #endif
 #ifdef _WIN32
 		tstring GetActualPathName(const tstring& path) const;

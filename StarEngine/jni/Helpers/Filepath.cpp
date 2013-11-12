@@ -19,6 +19,7 @@ namespace star
 #ifdef DESKTOP
 tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 tstring Filepath::m_InternalRoot = EMPTY_STRING;
+tstring Filepath::m_ExternalRoot = EMPTY_STRING;
 #endif
 
 	Filepath::Filepath()
@@ -151,7 +152,7 @@ tstring Filepath::m_InternalRoot = EMPTY_STRING;
 	{
 		tstring external_path(EMPTY_STRING);
 	#ifdef DESKTOP
-		external_path = _T("./temp/");
+		external_path = m_ExternalRoot;
 	#else
 		auto app = StarEngine::GetInstance()->GetAndroidApp();
 		external_path = string_cast<tstring>(app->activity->externalDataPath);
@@ -190,6 +191,11 @@ tstring Filepath::m_InternalRoot = EMPTY_STRING;
 	void Filepath::SetInternalRoot(const tstring & root)
 	{
 		m_InternalRoot = root;
+	}
+	
+	void Filepath::SetExternalRoot(const tstring & root)
+	{
+		m_ExternalRoot = root;
 	}
 #endif
 

@@ -1,6 +1,7 @@
 #ifdef _WIN32
 
 #include "Window.h"
+#include <Shlobj.h>
 #include <string>
 #include "jni/Scenes/SceneManager.h"
 #include "jni/Assets/TextureManager.h"
@@ -108,9 +109,11 @@ namespace star
 			WNDCLASSEX wndClass;
 			wndClass.cbSize = sizeof(WNDCLASSEX);
 
+			//Set the assets root that will be used for DirectoryMode::assets
 			auto assets_settings = winManifest[_T("assets")]->GetAttributes();
 			Filepath::SetAssetsRoot(assets_settings[_T("root")]);
-
+			
+			//Set the internal root that will be used for DirectoryMode::internal
 			auto internal_settings = winManifest[_T("internal")]->GetAttributes();
 			tstring iPath(internal_settings[_T("root")]);
 			Filepath::SetInternalRoot(iPath);
@@ -120,6 +123,29 @@ namespace star
 				Logger::GetInstance()->Log(LogLevel::Warning, _T("Internal directory '") + iPath + _T("' already exists."));
 			}
 			ASSERT(cdReturn != ERROR_PATH_NOT_FOUND, _T("Couldn't create the internal directory!"));
+
+			//Set the external root that will be used for DirectoryMode::external
+			LPWSTR wszPath = NULL;
+			auto mdReturn = SHGetKnownFolderPath(
+				FOLDERID_Documents,
+				NULL,
+				NULL,
+				&wszPath
+			);
+			ASSERT(SUCCEEDED(mdReturn), _T("An error has occured, while trying to open 'my documents'!"));
+			tstring ePath = string_cast<tstring>(wszPath);
+			ePath += _T("/");
+			ePath += winManifest[_T("title")]->GetValue();
+			ePath += _T("/");
+			Filepath::SetExternalRoot(ePath);
+			
+			cdReturn = CreateDirectory(ePath.c_str(), NULL);
+			if(cdReturn == ERROR_ALREADY_EXISTS)
+			{
+				Logger::GetInstance()->Log(LogLevel::Warning, _T("External directory '") + ePath + _T("' already exists."));
+			}
+			ASSERT(cdReturn != ERROR_PATH_NOT_FOUND, _T("Couldn't create the external directory!"));
+
 
 			wndClass.style = 0;
 			auto class_map = winManifest[_T("class_styles")];
