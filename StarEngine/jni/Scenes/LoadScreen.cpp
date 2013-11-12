@@ -77,14 +77,14 @@ namespace star
 		//Set attributes and buffers
 		glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT,0,0, m_Vertices);
 		glEnableVertexAttribArray(ATTRIB_VERTEX);
-		glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, m_UvCoords);
-		glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, m_UvCoords);
+		glEnableVertexAttribArray(ATTRIB_UV);
 
 		glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
 		//Unbind attributes and buffers
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
-		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glDisableVertexAttribArray(ATTRIB_UV);
 
 		m_Shader.Unbind();
 	}

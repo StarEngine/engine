@@ -139,7 +139,7 @@ namespace star
 		
 		//enable vertexAttribs
 		glEnableVertexAttribArray(ATTRIB_VERTEX);
-		glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glEnableVertexAttribArray(ATTRIB_UV);
 		
 		//Create Vertexbuffer
 		CreateSpriteQuad(spriteQueue);
@@ -182,7 +182,7 @@ namespace star
 				//Set attributes and buffers
 				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, 
 					reinterpret_cast<GLvoid*>(&m_VertexBuffer[12*j]));
-				glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, 
+				glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, 
 					reinterpret_cast<GLvoid*>(&m_UvCoordBuffer[8*j]));
 			
 				if(spriteQueue[m_CurrentSprite + j].bIsHUD)
@@ -209,7 +209,7 @@ namespace star
 		
 		//Unbind attributes and buffers
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
-		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glDisableVertexAttribArray(ATTRIB_UV);
 	}
 	
 	void SpriteBatch::FlushText(const TextDesc& textDesc)
@@ -245,7 +245,7 @@ namespace star
 		
 		//Enable the attributes
 		glEnableVertexAttribArray(ATTRIB_VERTEX);
-		glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glEnableVertexAttribArray(ATTRIB_UV);
 
 		glActiveTexture(GL_TEXTURE0);
 		GLint s_textureId = glGetUniformLocation(m_Shader.GetId(), "textureSampler");
@@ -272,7 +272,7 @@ namespace star
 				//Set attributes and buffers
 				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0,
 					tempverts[start_line[i]].ver);
-				glVertexAttribPointer(ATTRIB_TEXTUREPOSITON, 2, GL_FLOAT, 0, 0, 
+				glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, 
 					tempuvs[start_line[i]].uv);
 
 				mat4x4 offsetTrans;
@@ -300,7 +300,7 @@ namespace star
 
 		//Unbind attributes and buffers
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
-		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glDisableVertexAttribArray(ATTRIB_UV);
 		m_Shader.Unbind();
 	}
 
@@ -367,7 +367,7 @@ namespace star
 
 		//Unbind attributes and buffers
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
-		glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITON);
+		glDisableVertexAttribArray(ATTRIB_UV);
 
 		delete m_pSpriteBatch;
 		m_pSpriteBatch = nullptr;
