@@ -305,7 +305,8 @@ namespace star
 			}
 			else if(directory == DirectoryMode::external)
 			{
-				strstr << app->activity->externalDataPath << "/";
+				// [TODO] Fix this that it uses the real external path
+				strstr << app->activity->internalDataPath << "/external/";
 			}
 			strstr << string_cast<std::string>(file);
 
@@ -366,7 +367,7 @@ namespace star
 			}
 			else if(directory == DirectoryMode::external)
 			{
-				strstr << app->activity->externalDataPath << "/";
+				strstr << app->activity->internalDataPath << "/external/";
 			}
 			strstr << string_cast<std::string>(file);
 			std::ofstream myfile(strstr.str(), std::ios::out);
@@ -408,7 +409,7 @@ namespace star
 			}
 			else if(directory == DirectoryMode::external)
 			{
-				strstr << app->activity->externalDataPath << "/";
+				strstr << app->activity->internalDataPath << "/external/";
 			}
 			strstr << string_cast<std::string>(file);
 			std::ofstream myfile(strstr.str(), std::ios::out | std::ios::app);
@@ -455,7 +456,7 @@ namespace star
 			}
 			else if(directory == DirectoryMode::external)
 			{
-				strstr << app->activity->externalDataPath << "/";
+				strstr << app->activity->internalDataPath << "/external/";
 			}
 			strstr << string_cast<std::string>(file);
 
@@ -514,7 +515,7 @@ namespace star
 			}
 			else if(directory == DirectoryMode::external)
 			{
-				strstr << app->activity->externalDataPath << "/";
+				strstr << app->activity->internalDataPath << "/external/";
 			}
 			strstr << string_cast<std::string>(file);
 			std::ofstream binary_file;
@@ -566,7 +567,7 @@ namespace star
 			}
 			else if(directory == DirectoryMode::external)
 			{
-				strstr << app->activity->externalDataPath << "/";
+				strstr << app->activity->internalDataPath << "/external/";
 			}
 			strstr << string_cast<std::string>(file);
 			std::ofstream binary_file(strstr.str(),
