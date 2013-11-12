@@ -271,7 +271,8 @@ namespace star
 			m_CurrentSoundEffect = mEffectsList[name];
 			mEffectsList[name]->Play();
 		}
-		star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Couldn't find effect '") + name + _T("'."));
+		star::Logger::GetInstance()->
+			Log(LogLevel::Warning,_T("Sound Service : Couldn't find effect '") + name + _T("'."));
 	}
 
 	void SoundService::AddToBackgroundQueue(const tstring& name)
@@ -283,7 +284,11 @@ namespace star
 		{
 			mBackgroundQueue.push_back(mMusicList[name]);
 		}
-		star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Couldn't find background song '") + name + _T("'."));
+		else
+		{
+			star::Logger::GetInstance()->
+				Log(LogLevel::Warning,_T("Sound Service : Couldn't find background song '") + name + _T("'."));
+		}
 	}
 
 	void SoundService::PlayBackgroundQueue()

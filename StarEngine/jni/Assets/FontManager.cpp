@@ -47,7 +47,7 @@ namespace star
 #endif
 		if(!m_Shader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
 		{
-			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Font Manager : Making Shader Failed"));
+			Logger::GetInstance()->Log(star::LogLevel::Error, _T("Font Manager : Making Shader Failed"));
 		}
 
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Font Manager : Initialized FreeType library"));
@@ -70,18 +70,12 @@ namespace star
 	{
 		if(mFontManager == nullptr)
 		{
-			return (false);
+			return false;
 		}
-
-		
-		/*if(std::find(mPathList.begin(), mPathList.end(), path)!=mPathList.end())
-		{
-			return (false);
-		}*/
 
 		if(mFontList.find(name) != mFontList.end())
 		{
-			return (false);
+			return false;
 		}
 
 		star::Filepath filepath(_T("Fonts/"),path);
@@ -94,12 +88,9 @@ namespace star
 		}
 		else
 		{
-			return (false);
+			return false;
 		}
-		
-		//mPathList.push_back(path);
-
-		return (true);
+		return true;
 	}
 
 	bool FontManager::DeleteFont(const tstring& name)
