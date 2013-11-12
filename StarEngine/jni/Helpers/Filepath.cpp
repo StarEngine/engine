@@ -1,9 +1,14 @@
 #include "Filepath.h"
 #ifdef _WIN32
-#include <shellapi.h>
-#include "../StarEngine.h"
+	#include <shellapi.h>
+	#include "../StarEngine.h"
 #endif
 #include "../Logger.h"
+#ifdef ANDROID
+	#include <android_native_app_glue.h>
+	#include "../StarEngine.h"
+#endif
+#include "../Helpers/Helpers.h"
 //[TODO]
 //Add case sensitivity on windows. 
 // Probably using the SHGetFileInfo - SHGetFileInfoW functions. 
@@ -13,6 +18,7 @@ namespace star
 {
 #ifdef DESKTOP
 tstring Filepath::m_AssetsRoot = EMPTY_STRING;
+tstring Filepath::m_InternalRoot = EMPTY_STRING;
 #endif
 
 	Filepath::Filepath()
@@ -111,63 +117,79 @@ tstring Filepath::m_AssetsRoot = EMPTY_STRING;
 		auto index(extension.find_last_of(_T(".")));
 		return extension.substr(index, extension.size() - index);
 	}
-
-	tstring Filepath::GetFullPath() const
+	
+	tstring Filepath::GetLocalPath() const
 	{
-		tstring full_path(EMPTY_STRING);
-#ifdef DESKTOP
-		full_path = m_AssetsRoot;
-#endif
-		full_path += m_Path + m_File;
-		/*
-#if defined(_WIN32) && defined (_DEBUG)
+		return m_Path + m_File;
+	}
 
-			tstring shellFullPath;
-			for(uint32 i = 0; i < full_path.size(); ++i)
-			{
-				tstring temp;
-				temp = full_path[i];
-				if(temp == _T("/"))
-				{
-					temp = _T("\\");
-				}
-				shellFullPath += temp;
-			}
-			shellFullPath = GetActualPathName(shellFullPath.c_str());
-			auto index(shellFullPath.find_last_of(_T("\\")));
-			if(index != tstring::npos)
-			{
-				shellFullPath = shellFullPath.substr(index + 1,shellFullPath.size() - (index+1));
-			}
-			
-			auto index2 = m_File.find_last_of(_T("."));
-			auto fileWithoutExtension = m_File;
-			if(index2 != tstring::npos)
-			{
-				fileWithoutExtension = m_File.substr(0,index2);
-			}
-			auto index3 = shellFullPath.find_last_of(_T("."));
-			auto shellNameWithoutExtension(shellFullPath);
-			if(index3 != tstring::npos)
-			{
-				shellNameWithoutExtension = shellFullPath.substr(0,index3);
-			}
-			if(fileWithoutExtension != shellNameWithoutExtension)
-			{
-				tstringstream buffer; 
-				buffer << _T("The file name \" ") << m_File << 
-					_T(" \" is invalid. Please change the name in code to \" ") << shellFullPath << 
-					_T(" \" or your game will not run on Android and Linux");
-				Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
-			}
-#endif*/
-		return full_path;
+	tstring Filepath::GetAssetsPath() const
+	{
+		tstring assets_path(EMPTY_STRING);
+	#ifdef DESKTOP
+		assets_path = m_AssetsRoot;
+	#endif
+		assets_path += m_Path + m_File;
+		return assets_path;
+	}
+
+	tstring Filepath::GetInternalPath() const
+	{
+		tstring internal_path(EMPTY_STRING);
+	#ifdef DESKTOP
+		internal_path = m_InternalRoot;
+	#else
+		auto app = StarEngine::GetInstance()->GetAndroidApp();
+		internal_path = string_cast<tstring>(app->activity->internalDataPath);
+		internal_path += _T("/");
+	#endif
+		internal_path += m_Path + m_File;
+		return internal_path;
+	}
+
+	tstring Filepath::GetExternalPath() const
+	{
+		tstring external_path(EMPTY_STRING);
+	#ifdef DESKTOP
+		external_path = _T("./temp/");
+	#else
+		auto app = StarEngine::GetInstance()->GetAndroidApp();
+		external_path = string_cast<tstring>(app->activity->externalDataPath);
+		external_path += _T("/");
+	#endif
+		external_path += m_Path + m_File;
+		return external_path;
+	}
+	
+	void Filepath::GetCorrectPath(const tstring & path,
+		tstring & correct_path, DirectoryMode mode)
+	{
+		switch(mode)
+		{
+		case DirectoryMode::assets:
+			correct_path = Filepath(path).GetAssetsPath();
+			break;
+		case DirectoryMode::internal:
+			correct_path = Filepath(path).GetInternalPath();
+			break;
+		case DirectoryMode::external:
+			correct_path = Filepath(path).GetExternalPath();
+			break;
+		default:
+			correct_path = path;
+			break;
+		}
 	}
 
 #ifdef DESKTOP
 	void Filepath::SetAssetsRoot(const tstring & root)
 	{
 		m_AssetsRoot = root;
+	}
+	
+	void Filepath::SetInternalRoot(const tstring & root)
+	{
+		m_InternalRoot = root;
 	}
 #endif
 

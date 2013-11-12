@@ -82,10 +82,10 @@ namespace star
 			XMLContainer winManifest;
 #ifdef _DEBUG
 			XMLFileParser manifestParser(_T("Win32Manifest.xml"));
-			manifestParser.Read(winManifest);
-			winManifest.Serialize(_T("Win32Manifest.star"));
+			manifestParser.Read(winManifest, DirectoryMode::custom);
+			winManifest.Serialize(_T("Win32Manifest.star"), DirectoryMode::custom);
 #else
-			winManifest.Deserialize(_T("Win32Manifest.star"));
+			winManifest.Deserialize(_T("Win32Manifest.star"), DirectoryMode::custom);
 #endif
 
 			//set console position
@@ -110,6 +110,16 @@ namespace star
 
 			auto assets_settings = winManifest[_T("assets")]->GetAttributes();
 			Filepath::SetAssetsRoot(assets_settings[_T("root")]);
+
+			auto internal_settings = winManifest[_T("internal")]->GetAttributes();
+			tstring iPath(internal_settings[_T("root")]);
+			Filepath::SetInternalRoot(iPath);
+			auto cdReturn = CreateDirectory(iPath.c_str(), NULL);
+			if(cdReturn == ERROR_ALREADY_EXISTS)
+			{
+				Logger::GetInstance()->Log(LogLevel::Warning, _T("Internal directory '") + iPath + _T("' already exists."));
+			}
+			ASSERT(cdReturn != ERROR_PATH_NOT_FOUND, _T("Couldn't create the internal directory!"));
 
 			wndClass.style = 0;
 			auto class_map = winManifest[_T("class_styles")];

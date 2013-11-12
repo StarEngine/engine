@@ -38,12 +38,12 @@ namespace star
 				Filepath texshaderFrag(_T("AndroidShaders/"), _T("BaseTexShader.frag"));
 		#endif
 
-				if(!m_Shader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
+				if(!m_Shader.Init(texshaderVertex.GetAssetsPath(),texshaderFrag.GetAssetsPath()))
 				{
 					Logger::GetInstance()->Log(star::LogLevel::Info, _T("Making Shader Failed"));
 				}
 		
-		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetFullPath(),m_SpriteName);
+		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetAssetsPath(),m_SpriteName);
 		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x / m_WidthSegments;
 		m_Heigth =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y / m_HeightSegments;
 
@@ -171,7 +171,7 @@ namespace star
 		m_SpriteName = spriteName;
 		m_bIsHudElement = bIsHUDElement;
 
-		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetFullPath(),m_SpriteName);
+		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetAssetsPath(),m_SpriteName);
 		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x / m_WidthSegments;
 		m_Heigth =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y / m_HeightSegments;
 

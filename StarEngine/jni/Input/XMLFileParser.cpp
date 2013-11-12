@@ -21,18 +21,15 @@ namespace star
 
 	}
 
-	bool XMLFileParser::Read(XMLContainer & container)
+	bool XMLFileParser::Read(XMLContainer & container, DirectoryMode mode)
 	{
 		pugi::xml_document XMLDocument;
 		pugi::xml_parse_result result;
-#ifdef DESKTOP
-		result = XMLDocument.load_file(m_File.GetFullPath().c_str());
-#else
+		
 		SerializedData data;
-		star_a::ReadFileAsset(m_File.GetFullPath(), data);
+		data.data = ReadBinaryFile(m_File.GetLocalPath(), data.size, mode);
 		result = XMLDocument.load_buffer_inplace_own(data.data, data.size);
-		delete [] data.data;
-#endif
+
 		ASSERT (result,
 			star::string_cast<tstring>(result.description()).c_str());
 		if (result)
@@ -57,17 +54,18 @@ namespace star
 		return result;
 	}
 	
-	bool XMLFileParser::Read(XMLContainer & container, const tstring & binary_path)
+	bool XMLFileParser::Read(XMLContainer & container, const tstring & binary_path,
+		DirectoryMode mode)
 	{
 #ifdef _DEBUG
-		bool result = Read(container);
+		bool result = Read(container, mode);
 		if(result)
 		{
-			container.Serialize(binary_path);
+			container.Serialize(binary_path, mode);
 		}
 		return result;
 #else
-		container.Deserialize(binary_path);
+		container.Deserialize(binary_path, mode);
 		return true;
 #endif
 	}

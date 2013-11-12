@@ -73,6 +73,9 @@ namespace star
 #else
 	void Logger::Initialize()
 	{
+#ifndef NO_LOG_FILE
+		InitializeLogStream();
+#endif
 	}
 #endif
 	
@@ -102,7 +105,7 @@ namespace star
 			break;
 		}
 
-		#ifdef DESKTOP
+	#ifdef DESKTOP
 		tstringstream messageBuffer;
 		messageBuffer << _T("[") << tag << _T("] ") << _T("[") << levelName <<  _T("] ") << pMessage << std::endl;
 		tstring combinedMessage = messageBuffer.str();
@@ -140,10 +143,10 @@ namespace star
 		{
 			OutputDebugString(combinedMessage.c_str());
 		}
-#ifndef NO_LOG_FILE
+		#ifndef NO_LOG_FILE
 		LogMessage(combinedMessage);
-#endif
-		#else
+		#endif
+	#else
 		switch(level)
 		{
 		case LogLevel::Info:
@@ -169,7 +172,12 @@ namespace star
 			#endif
 			break;
 		}
+		#ifndef NO_LOG_FILE
+		tstringstream messageBuffer;
+		messageBuffer << _T("[") << tag << _T("] ") << _T("[") << levelName <<  _T("] ") << pMessage << std::endl;
+		LogMessage(messageBuffer.str());
 		#endif
+	#endif
 #endif
 	}
 
@@ -204,9 +212,7 @@ namespace star
 			tstringstream buffer;
             buffer << "GL_" << error << " - " << file << ":" << line << std::endl;
 #ifndef NO_LOG_FILE
-#ifndef ANDROID
 			LogMessage(buffer.str());
-#endif
 #endif
 			Logger::GetInstance()->Log(LogLevel::Error, buffer.str(), _T("OPENGL"));
 			err = glGetError();
@@ -217,11 +223,9 @@ namespace star
 	void Logger::SetLogSaveDelayTime(float seconds)
 	{
 #ifndef NO_LOG_FILE
-#ifndef ANDROID
 		SceneManager::GetInstance()->GetStopwatch()->SetTargetTimeTimer(
 			_T("STAR_LogSaveFileTimer"), seconds, true, false);
 		SaveLogFile();
-#endif
 #endif
 	}
 
@@ -263,6 +267,6 @@ namespace star
 
 	void Logger::SaveLogFile()
 	{
-		WriteTextFile(_T("StarLog.txt"), m_LogStream.str());
+		WriteTextFile(_T("StarLog.txt"), m_LogStream.str(), DirectoryMode::internal);
 	}
 }

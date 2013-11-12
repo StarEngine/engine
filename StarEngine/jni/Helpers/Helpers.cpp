@@ -7,6 +7,7 @@
 
 #ifdef ANDROID
 #include "HelpersAndroid.h"
+#include "../StarEngine.h"
 #endif
 
 namespace star
@@ -282,19 +283,54 @@ namespace star
 		return quat;
 	}
 
-	void ReadTextFile(const tstring & file, tstring & text)
+	void ReadTextFile(const tstring & file, tstring & text,
+			DirectoryMode directory)
 	{
 #ifdef ANDROID
-		SerializedData data;
-		star_a::ReadFileAsset(file, data);
-		text = string_cast<tstring>(data.data);
-		delete [] data.data;
+		if(directory == DirectoryMode::assets)
+		{
+			SerializedData data;
+			star_a::ReadFileAsset(file, data);
+			text = string_cast<tstring>(data.data);
+			delete [] data.data;
+		}
+		else
+		{
+			text = _T("");
+			auto app = StarEngine::GetInstance()->GetAndroidApp();
+			std::stringstream strstr;
+			if(directory == DirectoryMode::internal)
+			{
+				strstr << app->activity->internalDataPath << "/";
+			}
+			else if(directory == DirectoryMode::external)
+			{
+				strstr << app->activity->externalDataPath << "/";
+			}
+			strstr << string_cast<std::string>(file);
+
+			std::ifstream myfile;
+			myfile.open(strstr.str(), std::ios::in);
+			bool succes = myfile.is_open();
+			ASSERT(succes, (_T("Couldn't open the text file '") +
+					strstr.str() + _T("'.")).c_str());
+			if(succes)
+			{
+				std::string str;
+				while (std::getline(myfile,str))
+				{
+					text += str;
+				}
+				myfile.close();
+			}
+		}
 #else
-		Filepath filep(file);
 		tifstream myfile;
-		myfile.open(filep.GetFullPath(), std::ios::in);
+		tstring file_path(EMPTY_STRING);
+		Filepath::GetCorrectPath(file, file_path, directory);
+		myfile.open(file_path, std::ios::in);
 		bool succes = myfile.is_open();
-		ASSERT(succes, (_T("Couldn't open the text file '") + file + _T("'.")).c_str());
+		ASSERT(succes, (_T("Couldn't open the text file '") + file_path + _T("'.")).c_str());
 		if(succes)
 		{
 			tstring str;
@@ -307,47 +343,47 @@ namespace star
 #endif
 	}
 
-	tstring ReadTextFile(const tstring & file)
+	tstring ReadTextFile(const tstring & file, DirectoryMode directory)
 	{
-#ifdef ANDROID
-		SerializedData data;
-		star_a::ReadFileAsset(file, data);
-		tstring txt(string_cast<tstring>(data.data));
-		delete [] data.data;
-		return txt;
-#else
-		Filepath filep(file);
-		tifstream myfile;
-		myfile.open(filep.GetFullPath(), std::ios::in);
-		bool succes = myfile.is_open();
-		ASSERT(succes, (_T("Couldn't open the text file '") + file + _T("'.")).c_str());
 		tstring text;
-		if(succes)
-		{
-			tstring str;
-			while (std::getline(myfile,str))
-			{
-				text += str;
-			}
-			myfile.close();
-		}
+		ReadTextFile(file, text, directory);
 		return text;
-#endif
 	}
 
-	void WriteTextFile(const tstring & file, const tstring & text)
+	void WriteTextFile(const tstring & file, const tstring & text,
+			DirectoryMode directory)
 	{
 #ifdef ANDROID
-		SerializedData data;
-		data.data = string_cast<char*>(file);
-		data.size = file.length();
-		star_a::WriteFileAsset(file, data);
-		delete [] data.data;
+		bool succesfull = directory != DirectoryMode::assets;
+		ASSERT(succesfull, _T("Android doesn't support writing to a text file in the assets directory."));
+		if(succesfull)
+		{
+			auto app = StarEngine::GetInstance()->GetAndroidApp();
+			std::stringstream strstr;
+			if(directory == DirectoryMode::internal)
+			{
+				strstr << app->activity->internalDataPath << "/";
+			}
+			else if(directory == DirectoryMode::external)
+			{
+				strstr << app->activity->externalDataPath << "/";
+			}
+			strstr << string_cast<std::string>(file);
+			std::ofstream myfile(strstr.str(), std::ios::out);
+			succesfull = myfile.is_open();
+			ASSERT(succesfull, (_T("Couldn't open the text file '") + strstr.str() + _T("'.")).c_str());
+			if(succesfull)
+			{
+				myfile << text;
+				myfile.close();
+			}
+		}
 #else
-		Filepath filep(file);
-		tofstream myfile(filep.GetFullPath(), std::ios::out);
+		tstring file_path(EMPTY_STRING);
+		Filepath::GetCorrectPath(file, file_path, directory);
+		tofstream myfile(file_path, std::ios::out);
 		bool succes = myfile.is_open();
-		ASSERT(succes, (_T("Couldn't open the text file '") + file + _T("'.")).c_str());
+		ASSERT(succes, (_T("Couldn't open the text file '") + file_path + _T("'.")).c_str());
 		if(succes)
 		{
 			myfile << text;
@@ -356,15 +392,40 @@ namespace star
 #endif
 	}
 
-	void AppendTextFile(const tstring & file, const tstring & text)
+	void AppendTextFile(const tstring & file, const tstring & text,
+			DirectoryMode directory)
 	{
 #ifdef ANDROID
-		Logger::GetInstance()->Log(LogLevel::Error, _T("Writing to text files is unsupported on Android."));
+		bool succesfull = directory != DirectoryMode::assets;
+		ASSERT(succesfull, _T("Android doesn't support writing to a text file in the assets directory."));
+		if(succesfull)
+		{
+			auto app = StarEngine::GetInstance()->GetAndroidApp();
+			std::stringstream strstr;
+			if(directory == DirectoryMode::internal)
+			{
+				strstr << app->activity->internalDataPath << "/";
+			}
+			else if(directory == DirectoryMode::external)
+			{
+				strstr << app->activity->externalDataPath << "/";
+			}
+			strstr << string_cast<std::string>(file);
+			std::ofstream myfile(strstr.str(), std::ios::out | std::ios::app);
+			succesfull = myfile.is_open();
+			ASSERT(succesfull, (_T("Couldn't open the text file '") + strstr.str() + _T("'.")).c_str());
+			if(succesfull)
+			{
+				myfile << text;
+				myfile.close();
+			}
+		}
 #else
-		Filepath filep(file);
-		tofstream myfile(filep.GetFullPath(), std::ios::out | std::ios::app);
+		tstring file_path(EMPTY_STRING);
+		Filepath::GetCorrectPath(file, file_path, directory);
+		tofstream myfile(file_path, std::ios::out | std::ios::app);
 		bool succes = myfile.is_open();
-		ASSERT(succes, (_T("Couldn't open the text file '") + filep.GetFullPath() + _T("'.")).c_str());
+		ASSERT(succes, (_T("Couldn't open the text file '") + file_path + _T("'.")).c_str());
 		if(succes)
 		{
 			myfile << text;
@@ -373,20 +434,58 @@ namespace star
 #endif
 	}
 
-	char * ReadBinaryFile(const tstring & file, uint32 & size)
+	char * ReadBinaryFile(const tstring & file, uint32 & size,
+			DirectoryMode directory)
 	{
 #ifdef ANDROID
-		SerializedData data;
-		star_a::ReadFileAsset(file, data);
-		size = data.size;
-		return data.data;
+		if(directory == DirectoryMode::assets)
+		{
+			SerializedData data;
+			star_a::ReadFileAsset(file, data);
+			size = data.size;
+			return data.data;
+		}
+		else
+		{
+			auto app = StarEngine::GetInstance()->GetAndroidApp();
+			std::stringstream strstr;
+			if(directory == DirectoryMode::internal)
+			{
+				strstr << app->activity->internalDataPath << "/";
+			}
+			else if(directory == DirectoryMode::external)
+			{
+				strstr << app->activity->externalDataPath << "/";
+			}
+			strstr << string_cast<std::string>(file);
+
+			std::ifstream binary_file;
+			binary_file.open(strstr.str().c_str(),
+					std::ios::in | std::ios::binary | std::ios::ate);
+			bool succes = binary_file.is_open();
+			char * buffer(nullptr);
+			ASSERT(succes, (_T("Couldn't open the binary file '") +
+					strstr.str() + _T("'.")).c_str());
+			if (succes)
+			{
+				size = uint32(binary_file.tellg());
+				buffer = new char[size];
+				binary_file.seekg(0, std::ios::beg);
+				binary_file.read(buffer, sizeof(char) * size);
+				binary_file.close();
+			}
+			return buffer;
+		}
 #else
-		Filepath filep(file);
+		tstring file_path(EMPTY_STRING);
+		Filepath::GetCorrectPath(file, file_path, directory);
 		std::ifstream binary_file;
-		binary_file.open(filep.GetFullPath().c_str(), std::ios::in | std::ios::binary | std::ios::ate);
+		binary_file.open(file_path,
+				std::ios::in | std::ios::binary | std::ios::ate);
 		bool succes = binary_file.is_open();
 		char * buffer(nullptr);
-		//ASSERT(succes, (_T("Couldn't open the binary file '") + filep.GetFullPath() + _T("'.")).c_str());
+		ASSERT(succes, (_T("Couldn't open the binary file '") +
+				file_path + _T("'.")).c_str());
 		if (succes)
 		{
 			size = uint32(binary_file.tellg());
@@ -399,16 +498,47 @@ namespace star
 #endif
 	}
 
-	void WriteBinaryFile(const tstring & file, char * buffer, uint32 size)
+	void WriteBinaryFile(const tstring & file, char * buffer, uint32 size,
+			DirectoryMode directory)
 	{
 #ifdef ANDROID
-		Logger::GetInstance()->Log(LogLevel::Error, _T("Writing to binary files is unsupported at Android."));
+		bool succesfull = directory != DirectoryMode::assets;
+		ASSERT(succesfull, _T("Android doesn't support writing to a binary file in the assets directory."));
+		if(succesfull)
+		{
+			auto app = StarEngine::GetInstance()->GetAndroidApp();
+			std::stringstream strstr;
+			if(directory == DirectoryMode::internal)
+			{
+				strstr << app->activity->internalDataPath << "/";
+			}
+			else if(directory == DirectoryMode::external)
+			{
+				strstr << app->activity->externalDataPath << "/";
+			}
+			strstr << string_cast<std::string>(file);
+			std::ofstream binary_file;
+			binary_file.open(strstr.str(), std::ios::binary
+					| std::ios::trunc);
+			succesfull = binary_file.is_open();
+			ASSERT(succesfull, (_T("Couldn't open the binary file '") +
+					strstr.str() + _T("'.")).c_str());
+			if (succesfull)
+			{
+				for(uint32 i = 0 ; i < size ; ++i)
+				{
+					binary_file << buffer[i];
+				}
+				binary_file.close();
+			}
+		}
 #else
-		Filepath filep(file);
+		tstring file_path(EMPTY_STRING);
+		Filepath::GetCorrectPath(file, file_path, directory);
 		std::ofstream binary_file;
-		binary_file.open(filep.GetFullPath(), std::ios::binary | std::ios::trunc);
+		binary_file.open(file_path, std::ios::binary | std::ios::trunc);
 		bool succes = binary_file.is_open();
-		ASSERT(succes, (_T("Couldn't open the binary file '") + file + _T("'.")).c_str());
+		ASSERT(succes, (_T("Couldn't open the binary file '") + file_path + _T("'.")).c_str());
 		if (succes)
 		{
 			for(uint32 i = 0 ; i < size ; ++i)
@@ -420,15 +550,47 @@ namespace star
 #endif
 	}
 
-	void AppendBinaryFile(const tstring & file, char * buffer, uint32 size)
+	void AppendBinaryFile(const tstring & file, char * buffer, uint32 size,
+			DirectoryMode directory)
 	{
 #ifdef ANDROID
-		Logger::GetInstance()->Log(LogLevel::Error, _T("Writing to binary files is unsupported on Android."));
+		bool succesfull = directory != DirectoryMode::assets;
+		ASSERT(succesfull, _T("Android doesn't support writing to a binary file in the assets directory."));
+		if(succesfull)
+		{
+			auto app = StarEngine::GetInstance()->GetAndroidApp();
+			std::stringstream strstr;
+			if(directory == DirectoryMode::internal)
+			{
+				strstr << app->activity->internalDataPath << "/";
+			}
+			else if(directory == DirectoryMode::external)
+			{
+				strstr << app->activity->externalDataPath << "/";
+			}
+			strstr << string_cast<std::string>(file);
+			std::ofstream binary_file(strstr.str(),
+					std::ios::out | std::ios::binary | std::ios::app);
+			succesfull = binary_file.is_open();
+			ASSERT(succesfull, (_T("Couldn't open the binary file '") +
+					strstr.str() + _T("'.")).c_str());
+			if (succesfull)
+			{
+				for(uint32 i = 0 ; i < size ; ++i)
+				{
+					binary_file << buffer[i];
+				}
+				binary_file.close();
+			}
+		}
 #else
-		Filepath filep(file);
-		std::ofstream binary_file(filep.GetFullPath(), std::ios::out | std::ios::binary | std::ios::app);
+		tstring file_path(EMPTY_STRING);
+		Filepath::GetCorrectPath(file, file_path, directory);
+		std::ofstream binary_file(file_path,
+				std::ios::out | std::ios::binary | std::ios::app);
 		bool succes = binary_file.is_open();
-		ASSERT(succes, (_T("Couldn't open the binary file '") + file + _T("'.")).c_str());
+		ASSERT(succes, (_T("Couldn't open the binary file '") +
+				file_path + _T("'.")).c_str());
 		if (succes)
 		{
 			for(uint32 i = 0 ; i < size ; ++i)
@@ -437,88 +599,6 @@ namespace star
 			}
 			binary_file.close();
 		}
-#endif
-	}
-
-	void ReadStorageTextFile(const tstring & file, tstring & text)
-	{
-#ifdef ANDROID
-		Logger::GetInstance()->Log(LogLevel::Error,
-				_T("Reading text files in the storage directory is unsupported on Android."));
-#else
-		Logger::GetInstance()->Log(LogLevel::Error,
-				_T("Reading text files in the storage directory is unsupported on Windows."));
-#endif
-	}
-
-	tstring ReadStorageTextFile(const tstring & file)
-	{
-#ifdef ANDROID
-		// http://developer.android.com/guide/topics/data/data-storage.html
-		Logger::GetInstance()->Log(LogLevel::Error,
-				_T("Reading text files in the storage directory is unsupported on Android."));
-		return EMPTY_STRING;
-#else
-		Logger::GetInstance()->Log(LogLevel::Error,
-				_T("Reading text files in the storage directory is unsupported on Windows."));
-		return EMPTY_STRING;
-#endif
-	}
-
-	void WriteStorageTextFile(const tstring & file, const tstring & text)
-	{
-#ifdef ANDROID
-		Logger::GetInstance()->Log(LogLevel::Error,
-				_T("Writing to text files in the storage directory is unsupported on Android."));
-#else
-		Logger::GetInstance()->Log(LogLevel::Error,
-				_T("Writing to text files in the storage directory is unsupported on Windows."));
-#endif
-	}
-
-	void AppendStorageTextFile(const tstring & file, const tstring & text)
-	{
-#ifdef ANDROID
-		Logger::GetInstance()->Log(LogLevel::Error,
-				_T("Writing to text files in the storage directory is unsupported on Android."));
-#else
-		Logger::GetInstance()->Log(LogLevel::Error,
-				_T("Writing to text files in the storage directory is unsupported on Windows."));
-#endif
-	}
-
-	char * ReadStorageBinaryFile(const tstring & file, uint32 & size)
-	{
-#ifdef ANDROID
-		Logger::GetInstance()->Log(LogLevel::Error,
-				_T("Reading binary files in the storage directory is unsupported on Android."));
-		return nullptr;
-#else
-		Logger::GetInstance()->Log(LogLevel::Error,
-				_T("Reading binary files in the storage directory is unsupported on Windows."));
-		return nullptr;
-#endif
-	}
-
-	void WriteStorageBinaryFile(const tstring & file, char * buffer, uint32 size)
-	{
-#ifdef ANDROID
-		Logger::GetInstance()->Log(LogLevel::Error,
-				_T("Writing to binary files in the storage directory is unsupported on Android."));
-#else
-		Logger::GetInstance()->Log(LogLevel::Error,
-				_T("Writing to binary files in the storage directory is unsupported on Windows."));
-#endif
-	}
-
-	void AppendStorageBinaryFile(const tstring & file, char * buffer, uint32 size)
-	{
-#ifdef ANDROID
-		Logger::GetInstance()->Log(LogLevel::Error,
-				_T("Writing to binary files in the storage directory is unsupported on Android."));
-#else
-		Logger::GetInstance()->Log(LogLevel::Error,
-				_T("Writing to binary files in the storage directory is unsupported on Windows."));
 #endif
 	}
 }

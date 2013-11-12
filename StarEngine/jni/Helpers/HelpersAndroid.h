@@ -8,7 +8,6 @@
 namespace star_a
 {
 	void ReadFileAsset(const tstring & path, star::SerializedData & data);
-	void WriteFileAsset(const tstring & path, const star::SerializedData & data);
 }
 
 #endif

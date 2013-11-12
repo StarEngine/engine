@@ -45,7 +45,7 @@ namespace star
 		Filepath texshaderFrag(_T("AndroidShaders/"), _T("Font_Shader.frag"));
 
 #endif
-		if(!m_Shader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
+		if(!m_Shader.Init(texshaderVertex.GetAssetsPath(),texshaderFrag.GetAssetsPath()))
 		{
 			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Font Manager : Making Shader Failed"));
 		}
@@ -87,7 +87,7 @@ namespace star
 		star::Filepath filepath(_T("Fonts/"),path);
 
 		Font tempfont;
-		if(tempfont.Init(filepath.GetFullPath(),size,mLibrary))
+		if(tempfont.Init(filepath.GetAssetsPath(),size,mLibrary))
 		{
 			mFontList[name] = tempfont;
 

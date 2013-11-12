@@ -72,20 +72,20 @@ namespace star
 		m_Attributes.swap(yRef.m_Attributes);
 	}
 
-	void XMLContainer::Serialize(const tstring & file)
+	void XMLContainer::Serialize(const tstring & file, DirectoryMode mode)
 	{
 		SerializedData data;
 		SerializeXMLContainer(data, this);
-		WriteBinaryFile(file, data.data, data.size);
+		WriteBinaryFile(file, data.data, data.size, mode);
 		delete [] data.data;
 	}
 
-	void XMLContainer::Deserialize(const tstring & file)
+	void XMLContainer::Deserialize(const tstring & file, DirectoryMode mode)
 	{
 		clear();
 
 		SerializedData buffer;
-		buffer.data = ReadBinaryFile(file, buffer.size);
+		buffer.data = ReadBinaryFile(file, buffer.size, mode);
 		
 		uint32 counter(1); // first byte == SER_START_OF_CHILD
 

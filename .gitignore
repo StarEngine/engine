@@ -48,6 +48,7 @@ project.properties
 stargame.rc
 us.stackdump
 Win32Manifest.xml
+data/
 
 # eclipse build
 armeabi/

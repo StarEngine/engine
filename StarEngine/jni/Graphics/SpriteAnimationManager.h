@@ -11,8 +11,10 @@ namespace star
 	public:
 		~SpriteAnimationManager();
 
-		void AddSpritesheet(const tstring & file);
-		void AddSpritesheet(const tstring & file, const tstring & binary_file);
+		void AddSpritesheet(const tstring & file,
+			DirectoryMode mode = DirectoryMode::assets);
+		void AddSpritesheet(const tstring & file,
+			const tstring & binary_file, DirectoryMode mode = DirectoryMode::assets);
 		const Spritesheet & GetSpritesheet(const tstring & name) const;
 		static SpriteAnimationManager * GetInstance();
 		void Clear();

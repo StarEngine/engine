@@ -126,25 +126,22 @@ namespace star
 	glm::quat string_cast<glm::quat, tstring>
 		(const tstring & value);
 
-	void ReadTextFile(const tstring & file, tstring & text);
-	tstring ReadTextFile(const tstring & file);
+	void ReadTextFile(const tstring & file, tstring & text,
+			DirectoryMode directory = DirectoryMode::assets);
+	tstring ReadTextFile(const tstring & file,
+			DirectoryMode directory = DirectoryMode::assets);
 
-	void WriteTextFile(const tstring & file, const tstring & text);
-	void AppendTextFile(const tstring & file, const tstring & text);
+	void WriteTextFile(const tstring & file, const tstring & text,
+			DirectoryMode directory = DirectoryMode::assets);
+	void AppendTextFile(const tstring & file, const tstring & text,
+			DirectoryMode directory = DirectoryMode::assets);
 
-	char * ReadBinaryFile(const tstring & file, uint32 & size);
-	void WriteBinaryFile(const tstring & file, char * buffer, uint32 size);
-	void AppendBinaryFile(const tstring & file, char * buffer, uint32 size);
-
-	void ReadStorageTextFile(const tstring & file, tstring & text);
-	tstring ReadStorageTextFile(const tstring & file);
-
-	void WriteStorageTextFile(const tstring & file, const tstring & text);
-	void AppendStorageTextFile(const tstring & file, const tstring & text);
-
-	char * ReadStorageBinaryFile(const tstring & file, uint32 & size);
-	void WriteStorageBinaryFile(const tstring & file, char * buffer, uint32 size);
-	void AppendStorageBinaryFile(const tstring & file, char * buffer, uint32 size);
+	char * ReadBinaryFile(const tstring & file, uint32 & size,
+			DirectoryMode directory = DirectoryMode::assets);
+	void WriteBinaryFile(const tstring & file, char * buffer, uint32 size,
+			DirectoryMode directory = DirectoryMode::assets);
+	void AppendBinaryFile(const tstring & file, char * buffer, uint32 size,
+			DirectoryMode directory = DirectoryMode::assets);
 
 	template<class To, class From>
 	To cast(From v)
@@ -153,26 +150,29 @@ namespace star
 	}
 
 	template <typename T>
-	void WriteData(const tstring & file, T * buffer)
+	void WriteData(const tstring & file, T * buffer,
+			DirectoryMode directory = DirectoryMode::assets)
 	{
 		auto dataSize = sizeof(T);
 		char * dataBuffer = new char[dataSize];
 		memcpy(dataBuffer, buffer, dataSize);
-		WriteBinaryFile(file, dataBuffer, dataSize);
+		WriteBinaryFile(file, dataBuffer, dataSize, directory);
 		delete [] dataBuffer;
 	}
 
 	template <typename T>
-	void ReadData(const tstring & file, T * buffer)
+	void ReadData(const tstring & file, T * buffer,
+			DirectoryMode directory = DirectoryMode::assets)
 	{
 		uint32 dataSize = sizeof(T);
-		char * dataBuffer = ReadBinaryFile(file, dataSize);
+		char * dataBuffer = ReadBinaryFile(file, dataSize, directory);
 		memcpy(buffer, dataBuffer, dataSize);
 		delete [] dataBuffer;
 	}
 
 	template <typename T>
-	void WriteDataArray(const tstring & file, T * buffer, uint32 size)
+	void WriteDataArray(const tstring & file, T * buffer, uint32 size,
+			DirectoryMode directory = DirectoryMode::assets)
 	{
 		auto dataSize = sizeof(T);
 		char * dataBuffer = new char[size * dataSize];
@@ -187,16 +187,17 @@ namespace star
 			delete [] data;
 		}
 		uint32 totalSize = sizeof(T) * size;
-		WriteBinaryFile(file, dataBuffer, totalSize);
+		WriteBinaryFile(file, dataBuffer, totalSize, directory);
 		delete [] dataBuffer;
 	}
 
 	template <typename T>
-	T * ReadDataArray(const tstring & file, uint32 size)
+	T * ReadDataArray(const tstring & file, uint32 size,
+			DirectoryMode directory = DirectoryMode::assets)
 	{
 		uint32 dataSize = sizeof(T);
 		uint32 totalSize = dataSize * size;
-		char * dataBuffer = ReadBinaryFile(file, totalSize);
+		char * dataBuffer = ReadBinaryFile(file, totalSize, directory);
 		T * buffer = new T[size];
 		for(uint32 i = 0 ; i < size ; ++i)
 		{

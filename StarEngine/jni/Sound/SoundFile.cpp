@@ -28,7 +28,7 @@ namespace star
 		if(mMusic == NULL)
 		{
 			Filepath real_path(path);
-			std::string sound_path = string_cast<std::string>(real_path.GetFullPath());
+			std::string sound_path = string_cast<std::string>(real_path.GetAssetsPath());
 			mMusic = Mix_LoadMUS(sound_path.c_str());
 			if(!mMusic)
 			{

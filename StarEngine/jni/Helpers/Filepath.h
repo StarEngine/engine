@@ -20,16 +20,24 @@ namespace star
 		const tstring & GetFile() const;
 		tstring GetName() const;
 		tstring GetExtension() const;
-		tstring GetFullPath() const;
+		tstring GetLocalPath() const;
+		tstring GetAssetsPath() const;
+		tstring GetInternalPath() const;
+		tstring GetExternalPath() const;
+
+		static void GetCorrectPath(const tstring & path,
+			tstring & correct_path, DirectoryMode mode);
+
 #ifdef DESKTOP
 		static void SetAssetsRoot(const tstring & root);
+		static void SetInternalRoot(const tstring & root);
 #endif
 
 	private:
 		tstring m_Path,
 				m_File;
 #ifdef DESKTOP
-		static tstring m_AssetsRoot;
+		static tstring m_AssetsRoot, m_InternalRoot;
 #endif
 #ifdef _WIN32
 		tstring GetActualPathName(const tstring& path) const;

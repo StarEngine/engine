@@ -99,5 +99,12 @@ const float EPSILON = 0.0000001f;
 
 #ifdef _WIN32
 #include "definesWindows.h"
-const int BORDERWIDTH = 5;
 #endif
+
+enum class DirectoryMode : byte
+{
+	assets = 0,
+	internal,
+	external,
+	custom
+};

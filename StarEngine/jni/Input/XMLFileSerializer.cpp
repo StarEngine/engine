@@ -20,7 +20,7 @@ namespace star
 		WriteChild(strstrResult, container, tabs);
 
 		tofstream resultFile;
-		resultFile.open(m_File.GetFullPath());
+		resultFile.open(m_File.GetAssetsPath());
 		resultFile << strstrResult.str();
 		resultFile.close();
 	}

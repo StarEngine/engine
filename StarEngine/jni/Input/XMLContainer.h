@@ -27,8 +27,8 @@ namespace star
 		void clear();
 		void swap(XMLContainer & yRef);
 
-		void Serialize(const tstring & file);
-		void Deserialize(const tstring & file);
+		void Serialize(const tstring & file, DirectoryMode mode = DirectoryMode::assets);
+		void Deserialize(const tstring & file, DirectoryMode mode = DirectoryMode::assets);
 
 	protected:
 		tstring m_Value, m_Name;

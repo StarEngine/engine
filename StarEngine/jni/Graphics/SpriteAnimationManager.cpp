@@ -11,11 +11,11 @@ namespace star
 
 	}
 
-	void SpriteAnimationManager::AddSpritesheet(const tstring & file)
+	void SpriteAnimationManager::AddSpritesheet(const tstring & file, DirectoryMode mode)
 	{
 		XMLFileParser parser(file);
 		XMLContainer container;
-		parser.Read(container);
+		parser.Read(container, mode);
 		
 		tstring name = container.GetAttributes()[_T("name")];
 		auto it = m_Spritesheets.find(name);
@@ -28,11 +28,12 @@ namespace star
 		}
 	}
 	
-	void SpriteAnimationManager::AddSpritesheet(const tstring & file, const tstring & binary_file)
+	void SpriteAnimationManager::AddSpritesheet(const tstring & file, const tstring & binary_file,
+		DirectoryMode mode)
 	{
 		XMLFileParser parser(file);
 		XMLContainer container;
-		parser.Read(container, binary_file);
+		parser.Read(container, binary_file, mode);
 		
 		tstring name = container.GetAttributes()[_T("name")];
 		auto it = m_Spritesheets.find(name);

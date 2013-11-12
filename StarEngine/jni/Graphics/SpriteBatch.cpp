@@ -64,7 +64,7 @@ namespace star
 		Filepath texshaderFrag(_T("AndroidShaders/"), _T("BatchTexShader.frag"));
 
 #endif
-		if(!m_Shader.Init(texshaderVertex.GetFullPath(),texshaderFrag.GetFullPath()))
+		if(!m_Shader.Init(texshaderVertex.GetAssetsPath(),texshaderFrag.GetAssetsPath()))
 		{
 			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Making Shader Failed"));
 		}
