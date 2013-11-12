@@ -5,10 +5,7 @@
 #include "..\Helpers\Helpers.h"
 
 #ifdef ANDROID
-#include <memory>
-//#include "..\EventLoop.h"
-#include <android_native_app_glue.h>
-#include "../StarEngine.h"
+#include "../Helpers/HelpersAndroid.h"
 #endif
 
 namespace star
@@ -31,19 +28,10 @@ namespace star
 #ifdef DESKTOP
 		result = XMLDocument.load_file(m_File.GetFullPath().c_str());
 #else
-		auto app = StarEngine::GetInstance()->GetAndroidApp();
-		auto manager = app->activity->assetManager;
-		AAsset* asset = AAssetManager_open(
-				manager,
-				star::string_cast<std::string>(m_File.GetFullPath()).c_str(),
-				AASSET_MODE_UNKNOWN
-				);
-		ASSERT(asset != NULL, _T("Couldn't find this file!"));
-		long size = AAsset_getLength(asset);
-		char* buffer = new char[sizeof(char) * size];
-		AAsset_read(asset, buffer, size);
-		AAsset_close(asset);
-		result = XMLDocument.load_buffer_inplace_own(buffer, size);
+		SerializedData data;
+		ReadFileAsset(m_File.GetFullPath(), data);
+		result = XMLDocument.load_buffer_inplace_own(data.data, data.size);
+		delete [] data.data;
 #endif
 		ASSERT (result,
 			star::string_cast<tstring>(result.description()).c_str());

@@ -1,5 +1,6 @@
 #include "XMLContainer.h"
 #include "../Helpers/Helpers.h"
+#include "../Logger.h"
 
 namespace star
 {

@@ -5,6 +5,10 @@
 #include <fstream>
 #include <string>
 
+#ifdef ANDROID
+#include "HelpersAndroid.h"
+#endif
+
 namespace star
 {
 	const uint32 GenerateHash(const tstring & str) 
@@ -240,6 +244,12 @@ namespace star
 
 	void ReadTextFile(const tstring & file, tstring & text)
 	{
+#ifdef ANDROID
+		SerializedData data;
+		ReadFileAsset(file, data);
+		text = string_cast<tstring>(data.data);
+		delete [] data.data;
+#else
 		Filepath filep(file);
 		tifstream myfile;
 		myfile.open(filep.GetFullPath(), std::ios::in);
@@ -254,10 +264,18 @@ namespace star
 			}
 			myfile.close();
 		}
+#endif
 	}
 
 	tstring ReadTextFile(const tstring & file)
 	{
+#ifdef ANDROID
+		SerializedData data;
+		ReadFileAsset(file, data);
+		tstring txt(string_cast<tstring>(data.data));
+		delete [] data.data;
+		return txt;
+#else
 		Filepath filep(file);
 		tifstream myfile;
 		myfile.open(filep.GetFullPath(), std::ios::in);
@@ -274,10 +292,14 @@ namespace star
 			myfile.close();
 		}
 		return text;
+#endif
 	}
 
 	void WriteTextFile(const tstring & file, const tstring & text)
 	{
+#ifdef ANDROID
+		Logger::GetInstance()->Log(LogLevel::Error, _T("Writing to text files is unsupported at Android."));
+#else
 		Filepath filep(file);
 		tofstream myfile(filep.GetFullPath(), std::ios::out);
 		bool succes = myfile.is_open();
@@ -287,10 +309,14 @@ namespace star
 			myfile << text;
 			myfile.close();
 		}
+#endif
 	}
 
 	void AppendTextFile(const tstring & file, const tstring & text)
 	{
+#ifdef ANDROID
+		Logger::GetInstance()->Log(LogLevel::Error, _T("Writing to text files is unsupported at Android."));
+#else
 		Filepath filep(file);
 		tofstream myfile(filep.GetFullPath(), std::ios::out | std::ios::app);
 		bool succes = myfile.is_open();
@@ -300,13 +326,20 @@ namespace star
 			myfile << text;
 			myfile.close();
 		}
+#endif
 	}
 
 	char * ReadBinaryFile(const tstring & file, uint32 & size)
 	{
+#ifdef ANDROID
+		SerializedData data;
+		ReadFileAsset(file, data);
+		size = data.size;
+		return data.data;
+#else
 		Filepath filep(file);
 		std::ifstream binary_file;
-		binary_file.open(filep.GetFullPath(), std::ios::in | std::ios::binary | std::ios::ate);
+		binary_file.open(filep.GetFullPath().c_str(), std::ios::in | std::ios::binary | std::ios::ate);
 		bool succes = binary_file.is_open();
 		char * buffer(nullptr);
 		//ASSERT(succes, (_T("Couldn't open the binary file '") + filep.GetFullPath() + _T("'.")).c_str());
@@ -319,10 +352,14 @@ namespace star
 			binary_file.close();
 		}
 		return buffer;
+#endif
 	}
 
 	void WriteBinaryFile(const tstring & file, char * buffer, uint32 size)
 	{
+#ifdef ANDROID
+		Logger::GetInstance()->Log(LogLevel::Error, _T("Writing to binary files is unsupported at Android."));
+#else
 		Filepath filep(file);
 		std::ofstream binary_file;
 		binary_file.open(filep.GetFullPath(), std::ios::binary | std::ios::trunc);
@@ -336,10 +373,14 @@ namespace star
 			}
 			binary_file.close();
 		}
+#endif
 	}
 
 	void AppendBinaryFile(const tstring & file, char * buffer, uint32 size)
 	{
+#ifdef ANDROID
+		Logger::GetInstance()->Log(LogLevel::Error, _T("Writing to binary files is unsupported at Android."));
+#else
 		Filepath filep(file);
 		std::ofstream binary_file(filep.GetFullPath(), std::ios::out | std::ios::binary | std::ios::app);
 		bool succes = binary_file.is_open();
@@ -352,5 +393,6 @@ namespace star
 			}
 			binary_file.close();
 		}
+#endif
 	}
 }
