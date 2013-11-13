@@ -3,13 +3,11 @@
 #include "../../Logger.h"
 #include "../AARect.h"
 #include "../Rect.h"
+#include "../Helpers.h"
 
 namespace star
 {
 	DebugDraw * DebugDraw::m_InstancePtr = nullptr;
-	const float DebugDraw::DRAW_OPACITY_TRIANGLES = 0.5f;
-	const float DebugDraw::DRAW_OPACITY_LINES = 1.0f;
-	const float DebugDraw::DRAW_OPACITY_POINTS = 1.0f;
 
 	DebugDraw::DebugDraw()
 		: m_PointSize(1.0f)
@@ -17,6 +15,10 @@ namespace star
 		, m_ColorLocation(0)
 		, m_MVPLocation(0)
 		, m_PositionLocation(0)
+		, m_CircleSegments(16)
+		, m_DrawOpTriangles(0.5f)
+		, m_DrawOpLines(1.0f)
+		, m_DrawOpPoints(1.0f)
 	{
 		
 	}
@@ -35,16 +37,35 @@ namespace star
 		delete m_Shader;
 	}
 
-	//------------------------------------------------------------------------
+	void DebugDraw::SetDrawOpacityTriangles(float opacity)
+	{
+		m_DrawOpTriangles = opacity;
+	}
+
+	void DebugDraw::SetDrawOpacityLines(float opacity)
+	{
+		m_DrawOpLines = opacity;
+	}
+
+	void DebugDraw::SetDrawOpacityPoints(float opacity)
+	{
+		m_DrawOpPoints = opacity;
+	}
+
+	void DebugDraw::SetCircleSegements(uint32 segments)
+	{
+		m_CircleSegments = segments;
+	}
+
 	void DebugDraw::Initialize()
 	{
 		static const GLchar* vertexShader = "\
 			uniform mat4 MVP;\
 			attribute vec2 position;\
 			void main() {\
-			  vec4 position = vec4(position, 0.0, 1.0);\
-			  gl_PointSize = 10;\
-			  gl_Position = MVP * position;\
+			  vec4 NewPosition = vec4(position, 0.0, 1.0);\
+			  NewPosition *= MVP;\
+			  gl_Position = NewPosition;\
 			}\
 			";
 
@@ -80,14 +101,14 @@ namespace star
 	void DebugDraw::DrawCircle(const vec2& center, float radius, const Color& color)
 	{
 		CreateCircleVertices(center, radius);
-		DrawPrimitives(Lines, CIRCLE_SEGMENTS, color);
+		DrawPrimitives(Lines, m_CircleSegments, color);
 	}
 
 	void DebugDraw::DrawSolidCircle(const vec2& center, float radius, const vec2& axis,
 			const Color& color)
 	{
 		CreateCircleVertices(center, radius);
-		DrawPrimitives(Triangles + Lines, CIRCLE_SEGMENTS, color);
+		DrawPrimitives(Triangles + Lines, m_CircleSegments, color);
 		// Draw the axis line
 		DrawSegment(center, center + radius * axis, color);
 	}
@@ -150,6 +171,32 @@ namespace star
 		m_Vertices[3].y = rect.GetRealTop();
 		DrawPrimitives(Lines, 4, color);
 	}
+
+	void DebugDraw::DrawSolidRect(const AARect& rect, const Color& color)
+	{
+		m_Vertices[0].x = float(rect.GetLeft());
+		m_Vertices[0].y = float(rect.GetBottom());
+		m_Vertices[1].x = float(rect.GetRight());
+		m_Vertices[1].y = float(rect.GetBottom());
+		m_Vertices[2].x = float(rect.GetRight());
+		m_Vertices[2].y = float(rect.GetTop());
+		m_Vertices[3].x = float(rect.GetLeft());
+		m_Vertices[3].y = float(rect.GetTop());
+		DrawPrimitives(Triangles + Lines, 4, color);
+	}
+
+	void DebugDraw::DrawSolidRect(const Rect& rect, const Color& color)
+	{
+		m_Vertices[0].x = rect.GetRealLeft();
+		m_Vertices[0].y = rect.GetRealBottom();
+		m_Vertices[1].x = rect.GetRealRight();
+		m_Vertices[1].y = rect.GetRealBottom();
+		m_Vertices[2].x = rect.GetRealRight();
+		m_Vertices[2].y = rect.GetRealTop();
+		m_Vertices[3].x = rect.GetRealLeft();
+		m_Vertices[3].y = rect.GetRealTop();
+		DrawPrimitives(Triangles + Lines, 4, color);
+	}
 	
 	void DebugDraw::CreatePolygonVertices(const vec2* vertices, uint32 vertexCount)
 	{
@@ -164,11 +211,12 @@ namespace star
 
 	void DebugDraw::CreateCircleVertices(const vec2& center, float radius)
 	{
-		int vertexCount = CIRCLE_SEGMENTS;
-		const float increment = float(2.0 * PI / CIRCLE_SEGMENTS);
+		ASSERT(m_CircleSegments < MAX_VERTICES, tstring(_T("You can only draw ") 
+			+ string_cast<tstring>(MAX_VERTICES) + _T(" vertices per primitive")).c_str());
+		const float increment = float(2.0 * PI / m_CircleSegments);
 		float theta = 0.0f;
 
-		for (uint32 i = 0; i < CIRCLE_SEGMENTS; ++i)
+		for (uint32 i = 0; i < m_CircleSegments; ++i)
 		{
 			vec2 v = center + radius * vec2(glm::cos(theta), glm::sin(theta));
 			m_Vertices[i].x = v.x;
@@ -190,20 +238,23 @@ namespace star
 
 		if (primitiveTypes & Triangles)
 		{
-			glUniform4f(m_ColorLocation, color.r, color.g, color.b, DRAW_OPACITY_TRIANGLES);
+			glUniform4f(m_ColorLocation, color.r, color.g, color.b, m_DrawOpTriangles);
 			glDrawArrays(GL_TRIANGLE_FAN, 0, count);
 		}
 
 		if (primitiveTypes & Lines)
 		{
-			glUniform4f(m_ColorLocation, color.r, color.g, color.b, DRAW_OPACITY_LINES);
+			glUniform4f(m_ColorLocation, color.r, color.g, color.b, m_DrawOpLines);
 			glDrawArrays(GL_LINE_LOOP, 0, count);
 		}
 
 		if (primitiveTypes & Points)
 		{
-			glUniform4f(m_ColorLocation, color.r, color.g, color.b, DRAW_OPACITY_POINTS);
-			//glPointSize(m_PointSize);
+			glUniform4f(m_ColorLocation, color.r, color.g, color.b, m_DrawOpPoints);
+			//[TODO] only works for windows..
+#ifdef DESKTOP
+			glPointSize(m_PointSize);
+#endif
 			glDrawArrays(GL_POINTS, 0, count);
 		}
 

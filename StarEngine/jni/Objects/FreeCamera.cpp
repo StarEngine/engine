@@ -42,21 +42,20 @@ namespace star
 			if(!m_bisStatic)
 			{
 #ifdef DESKTOP
-				move.y = InputManager::GetInstance()->IsKeyboardKeyDown('Z')?1.0f:0.0f;
+				move.y = InputManager::GetInstance()->IsKeyboardKeyDown('Z') ? 1.0f : 0.0f;
 				if(move.y == 0) 
 				{
-					move.y = -(InputManager::GetInstance()->IsKeyboardKeyDown('S')?1.0f:0.0f);
+					move.y = -(InputManager::GetInstance()->IsKeyboardKeyDown('S') ? 1.0f : 0.0f);
 				}
-				//if it's still 0, that's why second check
 				if(move.y == 0) 
 				{
 					move.y = InputManager::GetInstance()->GetThumbstickPosition().y;
 				}
 
-				move.x = InputManager::GetInstance()->IsKeyboardKeyDown('D')?1.0f:0.0f;
+				move.x = InputManager::GetInstance()->IsKeyboardKeyDown('D') ? 1.0f : 0.0f;
 				if(move.x == 0) 
 				{
-					move.x = -(InputManager::GetInstance()->IsKeyboardKeyDown('Q')?1.0f:0.0f);
+					move.x = -(InputManager::GetInstance()->IsKeyboardKeyDown('Q') ? 1.0f : 0.0f);
 				}
 				//if it's still 0, that's why second check
 				if(move.x == 0) 

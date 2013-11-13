@@ -35,6 +35,13 @@ namespace star
 		void DrawString(int xPos, int yPos, const tstring& text);  
 		void DrawRect(const AARect& rect, const Color& color);  
 		void DrawRect(const Rect& rect, const Color& color); 
+		void DrawSolidRect(const AARect& rect, const Color& color);  
+		void DrawSolidRect(const Rect& rect, const Color& color); 
+
+		void SetDrawOpacityTriangles(float opacity);
+		void SetDrawOpacityLines(float opacity);
+		void SetDrawOpacityPoints(float opacity);
+		void SetCircleSegements(uint32 segments);
   
 	private:  
 		enum
@@ -45,10 +52,6 @@ namespace star
 		}; 
 
 		static const uint32 MAX_VERTICES = 64;  
-		static const uint32 CIRCLE_SEGMENTS = 16;  
-		static const float DRAW_OPACITY_TRIANGLES;
-		static const float DRAW_OPACITY_LINES;
-		static const float DRAW_OPACITY_POINTS;
 
 		DebugDraw();  
 		static DebugDraw* m_InstancePtr;
@@ -59,6 +62,11 @@ namespace star
 
 		vec2 m_Vertices[MAX_VERTICES];  
 		float m_PointSize;  
+
+		uint32 m_CircleSegments;
+		float m_DrawOpTriangles;
+		float m_DrawOpLines;
+		float m_DrawOpPoints;
 
 		Shader* m_Shader;
 		GLuint m_ColorLocation;  

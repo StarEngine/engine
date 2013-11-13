@@ -42,6 +42,8 @@ namespace star
 
 		std::shared_ptr<Stopwatch> GetStopwatch() const;
 
+		std::shared_ptr<GestureManager> GetGestureManager() const;
+
 	protected:
 		virtual void CreateObjects();
 		virtual void AfterInitializedObjects();

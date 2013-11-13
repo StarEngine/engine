@@ -161,6 +161,11 @@ namespace star
 		return m_pStopwatch;
 	}
 
+	std::shared_ptr<GestureManager> BaseScene::GetGestureManager() const
+	{
+		return m_GestureManagerPtr;
+	}
+
 	void BaseScene::CreateObjects()
 	{
 	}

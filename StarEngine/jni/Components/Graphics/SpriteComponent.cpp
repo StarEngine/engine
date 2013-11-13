@@ -177,6 +177,11 @@ namespace star
 
 		CreateVertices();
 		CreateIndices();
+
+		m_SpriteInfo.spriteName = m_SpriteName;
+		m_SpriteInfo.vertices = GetVertices();
+		m_SpriteInfo.uvCoords = GetUVCoords();
+		m_SpriteInfo.bIsHUD = m_bIsHudElement;
 	}
 
 }
