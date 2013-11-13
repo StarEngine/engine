@@ -11,7 +11,7 @@ namespace star
 		BaseCamera()
 		,m_TotalPitch(0)
 		,m_TotalYaw(0)
-		,m_MoveSpeed(100.0f)
+		,m_MoveSpeed(1.0f)
 		,m_RotationSpeed(static_cast<float>(PI)/2)
 		,m_bisStatic(false)
 	{
