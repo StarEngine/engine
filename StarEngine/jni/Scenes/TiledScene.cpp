@@ -33,6 +33,51 @@ namespace star
 	{
 		m_DefinedObject[object_id] = func;
 	}
+
+	void TiledScene::GetCorrectTileset(uint32 gid, TileSet & set) const
+	{
+		for(auto it = m_TileSets.begin() ;
+			it != m_TileSets.end() ;)
+		{
+			if(gid >= it->FirstGid)
+			{
+				auto pIt = it++;
+				if(it == m_TileSets.end() ||
+					gid < it->FirstGid)
+				{
+					set = *pIt;
+					return;
+				}
+			}
+			else
+			{
+				++it;
+			}
+		}
+	}
+	
+	star::SpriteComponent * TiledScene::CreateSpriteFromGid(uint32 gid, const TileSet & set)
+	{
+		gid -= set.FirstGid;
+
+		int tx(set.Width / set.TileWidth),
+			ty(set.Height / set.TileHeight);
+
+		auto texture = new SpriteComponent(
+			set.Texture, 
+			GetSpritesheetName(set), false, false, tx, ty);
+		texture->SetCurrentSegment(gid % tx, gid / tx);
+
+		return texture;
+	}
+	
+	tstring TiledScene::GetSpritesheetName(const TileSet & set) const
+	{
+		tstring name = GetName();
+		name += _T("_ts_");
+		name += set.Name;
+		return name;
+	}
 	
 	TiledScene::TileObject::TileObject()
 		: type(EMPTY_STRING)
@@ -106,6 +151,7 @@ namespace star
 			set.TileHeight = string_cast<uint32>(tileSetAttributes[_T("tileheight")]);
 
 			set.Texture = imageAttributes[_T("source")];
+			set.Name = tileSetAttributes[_T("name")];
 			set.Width = string_cast<uint32>(imageAttributes[_T("width")]);
 			set.Height = string_cast<uint32>(imageAttributes[_T("height")]);
 
@@ -156,27 +202,9 @@ namespace star
 				uint32 tID = string_cast<int>(TIT->second->GetAttributes().at(_T("gid")));
 				if(tID != 0)
 				{
-					int tempID(tID);
 					TileSet tileSet;
-					for(auto it = m_TileSets.begin() ;
-						it != m_TileSets.end() ;)
-					{
-						if(tID >= it->FirstGid)
-						{
-							auto pIt = it++;
-							if(it == m_TileSets.end() ||
-								tID < it->FirstGid)
-							{
-								tileSet = *pIt;
-							}
-						}
-						else
-						{
-							++it;
-						}
-					}
 
-					tID -= tileSet.FirstGid;
+					GetCorrectTileset(tID, tileSet);
 
 					Object * obj = new Object();
 					auto transform = obj->GetTransform();
@@ -196,14 +224,8 @@ namespace star
 						height * m_Scale );
 					transform->Scale(m_Scale, m_Scale, m_Scale);
 				#endif
-					int tx(tileSet.Width  / tileSet.TileWidth),
-						ty(tileSet.Height  / tileSet.TileHeight);
 
-					auto texture = new SpriteComponent(
-						tileSet.Texture, 
-						tsName, false, false, tx, ty);
-					texture->SetCurrentSegment(tID % tx, tID / tx);
-
+					auto texture = CreateSpriteFromGid(tID, tileSet);
 					obj->AddComponent(texture);
 					AddObject(obj);
 				}
@@ -263,7 +285,7 @@ namespace star
 				if(rY != objAttributes.end())
 				{
 					tObj.y = int32(string_cast<int32>(rY->second) * m_Scale);
-					tObj.y = (m_Height * m_TileHeight * m_Scale) - tObj.y;
+					tObj.y = int32((m_Height * m_TileHeight * m_Scale) - tObj.y);
 				}
 
 				const auto rWidth = objAttributes.lower_bound(_T("width"));
@@ -271,12 +293,22 @@ namespace star
 				{
 					tObj.width = int32(string_cast<uint32>(rWidth->second) * m_Scale);
 				}
+				else
+				{
+					tObj.width = int32(m_TileWidth * m_Scale);
+				}
 
 				const auto rHeight = objAttributes.lower_bound(_T("height"));
 				if(rHeight != objAttributes.end())
 				{
 					tObj.height = int32(string_cast<uint32>(rHeight->second) * m_Scale);
 				}
+				else
+				{
+					tObj.width = int32(m_TileHeight * m_Scale);
+				}
+
+				tObj.y -= tObj.height;
 
 				const auto rName = objAttributes.lower_bound(_T("name"));
 				if(rName != objAttributes.end())

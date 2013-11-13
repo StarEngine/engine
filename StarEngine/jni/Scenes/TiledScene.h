@@ -8,6 +8,7 @@
 namespace star
 {
 	class XMLContainer;
+	class SpriteComponent;
 
 	class TiledScene : public BaseScene
 	{
@@ -15,7 +16,7 @@ namespace star
 		struct TileSet
 		{
 			uint32 FirstGid, TileWidth, TileHeight, Width, Height;
-			tstring Texture;
+			tstring Texture, Name;
 		};
 
 		struct TileObject
@@ -43,6 +44,10 @@ namespace star
 
 		void DefineSpecialObject(const tstring & object_id,
 			std::function<Object*(const TileObject&)> func);
+
+		void GetCorrectTileset(uint32 gid, TileSet & set) const;
+		star::SpriteComponent * CreateSpriteFromGid(uint32 gid, const TileSet & set);
+		tstring GetSpritesheetName(const TileSet & set) const;
 
 		star::FreeCamera *m_pActiveCamera;
 
