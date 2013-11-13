@@ -14,14 +14,13 @@ namespace star
 		virtual void Initialize();
 
 	protected:
-		virtual void BaseUpdate(const Context& context);
-		virtual void BaseDraw();
-
-		vec2 m_ScreenScale;
+		virtual void Update(const Context& context);
+		virtual void Draw();
 
 	private:
 		UIDock(const UIDock &);
 		UIDock(UIDock &&);
 		UIDock & operator=(const UIDock &);
+		UIDock & operator=(UIDock &&);
 	};
 }

@@ -44,14 +44,14 @@ namespace star
 		void SetCircleSegements(uint32 segments);
   
 	private:  
+		static const uint32 MAX_VERTICES = 64;
+
 		enum
 		{
 			Triangles = 0x01,
 			Lines     = 0x02,
 			Points    = 0x04
 		}; 
-
-		static const uint32 MAX_VERTICES = 64;  
 
 		DebugDraw();  
 		static DebugDraw* m_InstancePtr;

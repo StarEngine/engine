@@ -4,7 +4,6 @@ namespace star
 {
 	UIDock::UIDock(void)
 		: Object()
-		, m_ScreenScale(1.0f, 1.0f)
 	{
 
 	}
@@ -19,13 +18,11 @@ namespace star
 		Object::Initialize();
 	}
 
-	void UIDock::BaseUpdate(const Context& context)
+	void UIDock::Update(const Context& context)
 	{
-		Object::BaseUpdate(context);
 	}
 
-	void UIDock::BaseDraw()
+	void UIDock::Draw()
 	{
-		Object::BaseDraw();
 	}
 }

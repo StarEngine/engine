@@ -57,9 +57,9 @@ namespace star
 			vec3 move = vec3(0,0,0);
 			vec2 look = vec2(0,0);
 
+#ifdef DESKTOP
 			if(!m_bisStatic)
 			{
-#ifdef DESKTOP
 				move.y = InputManager::GetInstance()->IsKeyboardKeyDown('Z') ? 1.0f : 0.0f;
 				if(move.y == 0) 
 				{
@@ -87,7 +87,6 @@ namespace star
 					look = InputManager::GetInstance()->GetThumbstickPosition(false);
 					look.y *= -1;
 				}
-#endif
 			}
 			if(m_bZoom)
 			{
@@ -102,6 +101,7 @@ namespace star
 					m_pCamera->SetZoom(m_Zoom);
 				}
 			}
+#endif
 			if(move != vec3() || look != vec2())
 			{
 				//CALCULATE TRANSFORMS

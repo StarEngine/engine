@@ -39,14 +39,14 @@ namespace star
 		if(!CompileShader(&mVertexShader, GL_VERTEX_SHADER, vsFile ))
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, 
-											 _T("Failed To load Vertex Shader"));
+				_T("Failed To load Vertex Shader"));
 			return false;
 		}
 		
 		if(!CompileShader(&mFragmentShader, GL_FRAGMENT_SHADER, fsFile))
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, 
-											 _T("Failed To load Fragment Shader"));
+				 _T("Failed To load Fragment Shader"));
 			return false;
 		}
 		
@@ -58,14 +58,14 @@ namespace star
 		if(!CompileShader(&mVertexShader, GL_VERTEX_SHADER, inLineVert ))
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, 
-											 _T("Failed To load Vertex Shader"));
+				_T("Failed To load Vertex Shader"));
 			return false;
 		}
 		
 		if(!CompileShader(&mFragmentShader, GL_FRAGMENT_SHADER, inLineFrag))
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, 
-											 _T("Failed To load Fragment Shader"));
+				 _T("Failed To load Fragment Shader"));
 			return false;
 		}
 		return GLInit();
@@ -112,7 +112,7 @@ namespace star
 				char* infoLog = new char[ANDROID_ERROR_SIZE];
 				glGetProgramInfoLog(mShaderID, ANDROID_ERROR_SIZE, NULL, infoLog);
 				tstringstream buffer;
-				buffer << _T("Failed to link program") << _T(" : "); 
+				buffer << _T("Failed to link program") << _T(": "); 
 				buffer << std::endl << infoLog;
                 Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
 				delete infoLog;
@@ -130,42 +130,21 @@ namespace star
 
 	bool Shader::CompileShader(GLuint* shader, GLenum type, const tstring& file)
 	{		
-		const GLchar* source;
+		char* source;
 
-#ifdef ANDROID
-		Resource resource(StarEngine::GetInstance()->GetAndroidApp(), file);
-		if(!resource.Open())
-		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, 
-											 _T("Android Shader : Failed to open file"));
-			return false;
-		}
-	
-		int32 length = resource.GetLength();
-		char* doc = reinterpret_cast<char*>( malloc (length+1));
+		uint32 size;
+		char * buffer = ReadBinaryFile(file, size, DirectoryMode::custom);
+		source = new char[size+1];
+		memcpy(source, buffer, size);
 
-		if(!resource.Read(doc,length))
-		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, 
-											 _T("Android Shader : Failed to read file"));
-			resource.Close();
-			return false;
-		}
-		doc[length] = 0;
+		delete [] buffer;
 
-		source = const_cast<GLchar*>(&doc[0]);
-		resource.Close();
-#else
-		source = const_cast<GLchar*>(TextFileReading(file));
-#endif
+		source[size] = '\0';
 
-		if(!source)
-		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Shader: Invalid Source"));
-			return false;
-		}
 		bool returnValue(CompileShader(shader, type, source));
+
 		delete[] source;
+
 		return returnValue;
 	}
 
@@ -178,7 +157,7 @@ namespace star
 		glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
 		if(status == 0)
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Shader : Failed Compile"));
+			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Shader: Failed Compile"));
 			GLint infolength;
 			glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &infolength);
 			if (infolength > 1) 
@@ -188,7 +167,7 @@ namespace star
 				{
                     glGetShaderInfoLog(*shader, infolength, NULL, buf);
 					tstringstream buffer;
-					buffer << _T("Could not compile shader") << (int)type << _T(" : "); 
+					buffer << _T("Could not compile shader") << (int)type << _T(": "); 
 					buffer << std::endl << buf;
                     Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
                     delete buf;
@@ -230,33 +209,6 @@ namespace star
 	const GLuint Shader::GetID() const
 	{
 		return mShaderID;
-	}
-
-	const char* Shader::TextFileReading(const tstring& fileName)
-	{
-		char* text(NULL);
-		if (fileName != EMPTY_STRING)
-		{
-			FILE *file;
-#ifdef DESKTOP
-			_wfopen_s(&file,fileName.c_str(), _T("rb"));
-#endif
-			if (file != NULL)
-			{
-				fseek(file, 0,2);
-				int count = ftell(file);
-				rewind(file);
-
-				if (count > 0)
-				{
-					text = (char*)malloc(sizeof(char) * (count + 1));
-					count = fread(text, sizeof(char), count, file);
-					text[count] = '\0';
-				}
-				fclose(file);
-			}
-		}
-		return text;
 	}
 
 	GLuint Shader::GetUniformLocation(const GLchar* nameInShader) const

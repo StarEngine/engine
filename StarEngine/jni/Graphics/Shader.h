@@ -44,7 +44,6 @@ namespace star
 		void PrintActiveAttribs() const;
 		void PrintActiveUniforms() const;
 	private:
-		const char* TextFileReading(const tstring& fileName);
 		bool CompileShader(GLuint* shader, GLenum type, const tstring& file);
 		bool CompileShader(GLuint* shader, GLenum type, const GLchar* inLineFile);
 

@@ -37,8 +37,8 @@ namespace star
 #endif
 
 	protected:
-		virtual void BaseUpdate(const Context& context);
-		virtual void BaseDraw();
+		virtual void Update(const Context& context);
+		virtual void Draw();
 
 		std::function<void()>
 			m_SelectCallback;
@@ -55,5 +55,6 @@ namespace star
 		UIUserElement(const UIUserElement &);
 		UIUserElement(UIUserElement &&);
 		UIUserElement & operator=(const UIUserElement &);
+		UIUserElement & operator=(UIUserElement &&);
 	};
 }
