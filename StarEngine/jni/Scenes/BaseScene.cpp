@@ -6,7 +6,7 @@
 #include "../Objects/BaseCamera.h"
 #include "../Graphics/ScaleSystem.h"
 #include "../Graphics/GraphicsManager.h"
-#include "../Helpers/Debug/DebugDraw.h"
+#include "../Helpers/DebugHelp/DebugDraw.h"
 
 namespace star 
 {

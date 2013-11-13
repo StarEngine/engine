@@ -4,7 +4,7 @@
 #include "../../Logger.h"
 #include "../../Graphics/GraphicsManager.h"
 #include "../Graphics/SpriteComponent.h"
-#include "../../Helpers/Debug/DebugDraw.h"
+#include "../../Helpers/DebugHelp/DebugDraw.h"
 
 namespace star
 {
