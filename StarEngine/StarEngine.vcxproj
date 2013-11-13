@@ -107,7 +107,7 @@
     <ClInclude Include="jni\Graphics\UI\UIUserElement.h" />
     <ClInclude Include="jni\Helpers\2D\pos.h" />
     <ClInclude Include="jni\Helpers\AARect.h" />
-    <ClInclude Include="jni\Helpers\DebugHelp\DebugDraw.h" />
+    <ClInclude Include="jni\Helpers\Debug\DebugDraw.h" />
     <ClInclude Include="jni\Helpers\Dictionary.h" />
     <ClInclude Include="jni\Helpers\Filepath.h" />
     <ClInclude Include="jni\Helpers\FPS.h" />
@@ -180,7 +180,7 @@
     <ClCompile Include="jni\Helpers\2D\pos.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="jni\Helpers\AARect.cpp" />
-    <ClCompile Include="jni\Helpers\DebugHelp\DebugDraw.cpp" />
+    <ClCompile Include="jni\Helpers\Debug\DebugDraw.cpp" />
     <ClCompile Include="jni\Helpers\Dictionary.cpp" />
     <ClCompile Include="jni\Helpers\Filepath.cpp" />
     <ClCompile Include="jni\Helpers\FPS.cpp" />
