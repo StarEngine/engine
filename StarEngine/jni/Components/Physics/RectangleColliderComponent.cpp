@@ -100,6 +100,8 @@ namespace star
 
 	bool RectangleColliderComponent::CollidesWithLine(const vec2& point1, const vec2& point2) const
 	{
+		ASSERT(point1 != point2, _T("Please provide 2 different points to make a line!"));
+
 		if(GetTransform()->GetWorldRotation() == 0.0f && (point1.x == point2.x || point1.y == point2.y))
 		{
 			//If rect is AABB and line also AA
@@ -107,12 +109,35 @@ namespace star
 			if(point1.x == point2.x)
 			{
 				//Line is vertical
-				return !(rect.GetLeftTop().x > point1.x || rect.GetRightTop().x < point1.x);
+				//if lowest point of line is bigger than highest point of rect or
+				//if highest point of line is smaller than lowest point of rect
+				bool returnValue = false;
+				if(point1.y < point2.y)
+				{
+					returnValue = !(rect.GetLeftTop().x > point1.x || rect.GetRightTop().x < point1.x 
+						|| rect.GetLeftTop().y < point1.y || rect.GetLeftBottom().y > point2.y);
+				}
+				else
+				{
+					returnValue = !(rect.GetLeftTop().x > point1.x || rect.GetRightTop().x < point1.x 
+						|| rect.GetLeftTop().y < point2.y || rect.GetLeftBottom().y > point1.y);
+				}
+				return returnValue;;
 			}
 			else
 			{
-				//Line is horizontal
-				return !(rect.GetLeftTop().y < point1.y || rect.GetLeftBottom().y > point1.y);
+				bool returnValue = false;
+				if(point1.x < point2.x)
+				{
+					returnValue = !(rect.GetLeftTop().y < point1.y || rect.GetLeftBottom().y > point1.y 
+						|| rect.GetRightBottom().x < point1.x || rect.GetLeftBottom().x > point2.x);
+				}
+				else
+				{
+					returnValue = !(rect.GetLeftTop().y < point1.y || rect.GetLeftBottom().y > point1.y 
+						|| rect.GetRightBottom().x < point2.x || rect.GetLeftBottom().x > point1.x);
+				}
+				return returnValue;;
 			}
 		}
 		else
