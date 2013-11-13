@@ -28,9 +28,20 @@ namespace star
 	}
 
 	void TiledScene::DefineSpecialObject(
-		uint32 object_id, const std::function<Object*()> & func)
+		const tstring & object_id,
+		std::function<Object*(const TileObject&)> func)
 	{
 		m_DefinedObject[object_id] = func;
+	}
+	
+	TiledScene::TileObject::TileObject()
+		: type(EMPTY_STRING)
+		, name(EMPTY_STRING)
+		, x(0)
+		, y(0)
+		, width(0)
+		, height(0)
+	{
 	}
 
 	void TiledScene::CreateObjects()
@@ -209,49 +220,104 @@ namespace star
 		auto groupEnd = container.upper_bound(_T("objectgroup"));
 
 		uint32 height(0);
-		float sX(m_Scale * m_TileWidth);
-		float sY(m_Scale * m_TileHeight);
 
 		while ( GIT != groupEnd )
 		{
 			auto OIT = GIT->second->lower_bound(_T("object"));
-			auto objectsEnd = GIT->second->lower_bound(_T("object"));
+			auto objectsEnd = GIT->second->upper_bound(_T("object"));
 
-			uint32 i = 0;
+			auto objectProperties = GIT->second->at(_T("properties"));
+			auto opIT = objectProperties->lower_bound(_T("property"));
+			auto opEnd = objectProperties->upper_bound(_T("property"));
+			ASSERT(opIT != opEnd, _T("[TILED] This Object Group has no properties. Make sure to define all necacary properties!"));
+			do
+			{
+				auto attributes = opIT->second->GetAttributes();
+				auto name = attributes.at(_T("name"));
+				if(name == _T("height"))
+				{
+					height = string_cast<int32>(attributes.at(_T("value")));
+				}
+				++opIT;
+			} while(opIT != opEnd);
+
 			while(OIT != objectsEnd)
 			{
 				auto objAttributes = OIT->second->GetAttributes();
 				Object * obj;
-				uint32 objID = string_cast<uint32>(objAttributes[_T("gid")]);
-				if(m_DefinedObject.find(objID) != m_DefinedObject.end())
+				TileObject tObj;
+
+				const auto rGID = objAttributes.lower_bound(_T("gid"));
+				if(rGID != objAttributes.end())
 				{
-					obj = m_DefinedObject[objID]();
-					
-					float x((i % m_Width) * sX);
-					float y((m_Height - (i / m_Width) - 1) * sY);
+					tObj.id = string_cast<int32>(rGID->second);
+				}
+
+				const auto rX = objAttributes.lower_bound(_T("x"));
+				if(rX != objAttributes.end())
+				{
+					tObj.x = int32(string_cast<int32>(rX->second) * m_Scale);
+				}
+
+				const auto rY = objAttributes.lower_bound(_T("y"));
+				if(rY != objAttributes.end())
+				{
+					tObj.y = int32(string_cast<int32>(rY->second) * m_Scale);
+					tObj.y = (m_Height * m_TileHeight * m_Scale) - tObj.y;
+				}
+
+				const auto rWidth = objAttributes.lower_bound(_T("width"));
+				if(rWidth != objAttributes.end())
+				{
+					tObj.width = int32(string_cast<uint32>(rWidth->second) * m_Scale);
+				}
+
+				const auto rHeight = objAttributes.lower_bound(_T("height"));
+				if(rHeight != objAttributes.end())
+				{
+					tObj.height = int32(string_cast<uint32>(rHeight->second) * m_Scale);
+				}
+
+				const auto rName = objAttributes.lower_bound(_T("name"));
+				if(rName != objAttributes.end())
+				{
+					tObj.name = rName->second;
+				}
+
+				const auto rType = objAttributes.lower_bound(_T("type"));
+				bool foundType = rType != objAttributes.end();
+				ASSERT(foundType, _T("[TILED] Couldn't find the type of the object. Please define this!"));
+				if(foundType)
+				{
+					tObj.type = rType->second;
+				}
+
+				if(m_DefinedObject.find(tObj.type) != m_DefinedObject.end())
+				{
+					obj = m_DefinedObject[tObj.type](tObj);
 
 					auto transform = obj->GetTransform();
 				#ifdef STAR2D
 					// [TODO] Use height from layer name instead of this hack
 					transform->Translate(
-						x,
-						y,
+						float(tObj.x),
+						float(tObj.y),
 						height);
 					transform->Scale(m_Scale, m_Scale);
 	#else
 					transform->Translate(
-						x,
-						y,
-						height * m_Scale );
+						tObj.x,
+						tObj.y,
+						height);
 					transform->Scale(m_Scale, m_Scale, m_Scale);
 	#endif
+					AddObject(obj);
 				}
 				else
 				{
 					Logger::GetInstance()->Log(LogLevel::Error, 
-						_T("Object with ID '") + objAttributes[_T("gid")] + _T("' wasn't defined!"));
+						_T("[TILED] Object with type '") + tObj.type + _T("' wasn't defined!"));
 				}
-				++i;
 				++OIT;
 			}
 			++height;

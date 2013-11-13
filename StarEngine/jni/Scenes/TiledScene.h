@@ -12,10 +12,26 @@ namespace star
 	class TiledScene : public BaseScene
 	{
 	public:
+		struct TileSet
+		{
+			uint32 FirstGid, TileWidth, TileHeight, Width, Height;
+			tstring Texture;
+		};
+
+		struct TileObject
+		{
+			tstring type, name;
+			int32 id, x, y;
+			uint32 width, height;
+
+			TileObject();
+		};
+
 		TiledScene(const tstring & name, float scale = 1.0f);
 		virtual ~TiledScene();
 
 	protected:
+
 		virtual void CreateObjects();
 		virtual void AfterInitializedObjects(const star::Context& context);
 
@@ -25,21 +41,15 @@ namespace star
 			DirectoryMode mode = DirectoryMode::assets);
 		void BaseCreateLevel(XMLContainer & container);
 
-		void DefineSpecialObject(uint32 object_id, const std::function<Object*()> & func);
+		void DefineSpecialObject(const tstring & object_id,
+			std::function<Object*(const TileObject&)> func);
 
 		star::FreeCamera *m_pActiveCamera;
 
 		uint32 m_Width, m_Height, m_TileWidth, m_TileHeight;
 		float m_Scale;
-
-		struct TileSet
-		{
-			uint32 FirstGid, TileWidth, TileHeight, Width, Height;
-			tstring Texture;
-		};
-
 		std::vector<TileSet> m_TileSets;
-		std::map<uint32, std::function<Object*()>> m_DefinedObject;
+		std::map<tstring, std::function<Object*(const TileObject&)>> m_DefinedObject;
 
 	private:
 		void CreateTiledObjects(XMLContainer & container);
