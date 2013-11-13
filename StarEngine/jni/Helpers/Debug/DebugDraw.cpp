@@ -42,9 +42,9 @@ namespace star
 			uniform mat4 MVP;\
 			attribute vec2 position;\
 			void main() {\
-			  vec4 position = vec4(position, 0.0, 1.0);\
-			  gl_PointSize = 10;\
-			  gl_Position = MVP * position;\
+			  vec4 NewPosition = vec4(position, 0.0, 1.0);\
+			  NewPosition *= MVP;\
+			  gl_Position = NewPosition;\
 			}\
 			";
 
@@ -150,6 +150,32 @@ namespace star
 		m_Vertices[3].y = rect.GetRealTop();
 		DrawPrimitives(Lines, 4, color);
 	}
+
+	void DebugDraw::DrawSolidRect(const AARect& rect, const Color& color)
+	{
+		m_Vertices[0].x = float(rect.GetLeft());
+		m_Vertices[0].y = float(rect.GetBottom());
+		m_Vertices[1].x = float(rect.GetRight());
+		m_Vertices[1].y = float(rect.GetBottom());
+		m_Vertices[2].x = float(rect.GetRight());
+		m_Vertices[2].y = float(rect.GetTop());
+		m_Vertices[3].x = float(rect.GetLeft());
+		m_Vertices[3].y = float(rect.GetTop());
+		DrawPrimitives(Triangles + Lines, 4, color);
+	}
+
+	void DebugDraw::DrawSolidRect(const Rect& rect, const Color& color)
+	{
+		m_Vertices[0].x = rect.GetRealLeft();
+		m_Vertices[0].y = rect.GetRealBottom();
+		m_Vertices[1].x = rect.GetRealRight();
+		m_Vertices[1].y = rect.GetRealBottom();
+		m_Vertices[2].x = rect.GetRealRight();
+		m_Vertices[2].y = rect.GetRealTop();
+		m_Vertices[3].x = rect.GetRealLeft();
+		m_Vertices[3].y = rect.GetRealTop();
+		DrawPrimitives(Triangles + Lines, 4, color);
+	}
 	
 	void DebugDraw::CreatePolygonVertices(const vec2* vertices, uint32 vertexCount)
 	{
@@ -203,7 +229,10 @@ namespace star
 		if (primitiveTypes & Points)
 		{
 			glUniform4f(m_ColorLocation, color.r, color.g, color.b, DRAW_OPACITY_POINTS);
-			//glPointSize(m_PointSize);
+			//[TODO] only works for windows..
+#ifdef DESKTOP
+			glPointSize(m_PointSize);
+#endif
 			glDrawArrays(GL_POINTS, 0, count);
 		}
 

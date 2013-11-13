@@ -35,6 +35,8 @@ namespace star
 		void DrawString(int xPos, int yPos, const tstring& text);  
 		void DrawRect(const AARect& rect, const Color& color);  
 		void DrawRect(const Rect& rect, const Color& color); 
+		void DrawSolidRect(const AARect& rect, const Color& color);  
+		void DrawSolidRect(const Rect& rect, const Color& color); 
   
 	private:  
 		enum
@@ -45,7 +47,8 @@ namespace star
 		}; 
 
 		static const uint32 MAX_VERTICES = 64;  
-		static const uint32 CIRCLE_SEGMENTS = 16;  
+		//[TODO]
+		static const uint32 CIRCLE_SEGMENTS = 16; 
 		static const float DRAW_OPACITY_TRIANGLES;
 		static const float DRAW_OPACITY_LINES;
 		static const float DRAW_OPACITY_POINTS;
