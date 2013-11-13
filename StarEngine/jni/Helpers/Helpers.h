@@ -3,6 +3,7 @@
 #include "../defines.h"
 #include <algorithm>
 #include <string>
+#include <functional>
 
 namespace star
 {
@@ -143,6 +144,13 @@ namespace star
 	void AppendBinaryFile(const tstring & file, char * buffer, uint32 size,
 			DirectoryMode directory = DirectoryMode::assets);
 
+	char * DecryptBinaryFile(const tstring & file, uint32 & size,
+		const std::function<char*(const char*, uint32&)> & decrypter, 
+		DirectoryMode directory = DirectoryMode::assets);
+	void EncryptBinaryFile(const tstring & file, char * buffer, uint32 size,
+		const std::function<char*(const char*, uint32&)> & encrypter, 
+		DirectoryMode directory = DirectoryMode::assets);
+
 	template<class To, class From>
 	To cast(From v)
 	{
@@ -198,6 +206,76 @@ namespace star
 		uint32 dataSize = sizeof(T);
 		uint32 totalSize = dataSize * size;
 		char * dataBuffer = ReadBinaryFile(file, totalSize, directory);
+		T * buffer = new T[size];
+		for(uint32 i = 0 ; i < size ; ++i)
+		{
+			char * data = new char[dataSize];
+			for(uint32 u = 0 ; u < dataSize ; ++u)
+			{
+				data[u] = dataBuffer[(i * dataSize) + u];
+			}
+			T temp;
+			memcpy(&temp, data, dataSize);
+			buffer[i] = temp;
+			delete [] data;
+		}
+		delete [] dataBuffer;
+		return buffer;
+	}
+
+	template <typename T>
+	void EncryptData(const tstring & file, T * buffer,
+		const std::function<char*(const char*, uint32&)> & encrypter, 
+		DirectoryMode directory = DirectoryMode::assets)
+	{
+		auto dataSize = sizeof(T);
+		char * dataBuffer = new char[dataSize];
+		memcpy(dataBuffer, buffer, dataSize);
+		EncryptBinaryFile(file, dataBuffer, dataSize, encrypter, directory);
+		delete [] dataBuffer;
+	}
+
+	template <typename T>
+	void DecryptData(const tstring & file, T * buffer,
+		const std::function<char*(const char*, uint32&)> & decrypter, 
+		DirectoryMode directory = DirectoryMode::assets)
+	{
+		uint32 dataSize = sizeof(T);
+		char * dataBuffer = DecryptBinaryFile(file, dataSize, decrypter, directory);
+		memcpy(buffer, dataBuffer, dataSize);
+		delete [] dataBuffer;
+	}
+
+	template <typename T>
+	void EncryptDataArray(const tstring & file, T * buffer, uint32 size,
+		const std::function<char*(const char*, uint32&)> & encrypter,
+		DirectoryMode directory = DirectoryMode::assets)
+	{
+		auto dataSize = sizeof(T);
+		char * dataBuffer = new char[size * dataSize];
+		for(uint32 i = 0 ; i < size ; ++i)
+		{
+			char * data = new char[dataSize];
+			memcpy(data, buffer[i], dataSize);
+			for(uint32 u = 0 ; u < dataSize ; ++u)
+			{
+				dataBuffer[(i * dataSize) + u] = data[u];
+			}
+			delete [] data;
+		}
+		uint32 totalSize = sizeof(T) * size;
+		EncryptBinaryFile(file, dataBuffer, totalSize, encrypter, directory);
+		delete [] dataBuffer;
+	}
+
+	template <typename T>
+	T * DecryptDataArray(const tstring & file, uint32 size,
+		const std::function<char*(const char*, uint32&)> & decrypter,
+		DirectoryMode directory = DirectoryMode::assets)
+	{
+		uint32 dataSize = sizeof(T);
+		uint32 totalSize = dataSize * size;
+		char * dataBuffer = DecryptBinaryFile(file, totalSize, decrypter, directory);
 		T * buffer = new T[size];
 		for(uint32 i = 0 ; i < size ; ++i)
 		{

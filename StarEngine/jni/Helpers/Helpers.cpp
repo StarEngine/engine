@@ -5,6 +5,8 @@
 #include <fstream>
 #include <string>
 
+#include "HelpersCrossplatform.h"
+
 #ifdef ANDROID
 #include "HelpersAndroid.h"
 #include "../StarEngine.h"
@@ -600,5 +602,24 @@ namespace star
 			binary_file.close();
 		}
 #endif
+	}
+
+	char * DecryptBinaryFile(const tstring & file, uint32 & size,
+		const std::function<char*(const char*, uint32&)> & decrypter, 
+		DirectoryMode directory)
+	{
+		char * buffer = ReadBinaryFile(file, size, directory);
+		char * decryptedBuffer = decrypter(buffer, size);
+		delete [] buffer;
+		return decryptedBuffer;
+	}
+
+	void EncryptBinaryFile(const tstring & file, char * buffer, uint32 size,
+		const std::function<char*(const char*, uint32&)> & encrypter, 
+		DirectoryMode directory)
+	{
+		char * encryptedBuffer = encrypter(buffer, size);
+		WriteBinaryFile(file, encryptedBuffer, size, directory);
+		delete [] encryptedBuffer;
 	}
 }

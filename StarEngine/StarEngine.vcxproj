@@ -113,6 +113,8 @@
     <ClInclude Include="jni\Helpers\FPS.h" />
     <ClInclude Include="jni\Helpers\glm\gtx\verbose_operator.hpp" />
     <ClInclude Include="jni\Helpers\Helpers.h" />
+    <ClInclude Include="jni\Helpers\HelpersAndroid.h" />
+    <ClInclude Include="jni\Helpers\HelpersCrossplatform.h" />
     <ClInclude Include="jni\Helpers\HelpersMath.h" />
     <ClInclude Include="jni\Helpers\Rect.h" />
     <ClInclude Include="jni\Helpers\SerializedData.h" />
@@ -185,6 +187,8 @@
     <ClCompile Include="jni\Helpers\Filepath.cpp" />
     <ClCompile Include="jni\Helpers\FPS.cpp" />
     <ClCompile Include="jni\Helpers\Helpers.cpp" />
+    <ClCompile Include="jni\Helpers\HelpersAndroid.cpp" />
+    <ClCompile Include="jni\Helpers\HelpersCrossplatform.cpp" />
     <ClCompile Include="jni\Helpers\HelpersMath.cpp" />
     <ClCompile Include="jni\Helpers\Rect.cpp" />
     <ClCompile Include="jni\Helpers\SerializedData.cpp" />
