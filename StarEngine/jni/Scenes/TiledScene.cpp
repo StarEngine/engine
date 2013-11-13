@@ -95,6 +95,7 @@ namespace star
 		{
 			m_pActiveCamera = new FreeCamera();
 			m_pActiveCamera->SetStatic(false);
+			m_pActiveCamera->SetZoomEnabled(true);
 			m_pActiveCamera->SetMoveSpeed(2.0f);
 			AddObject(m_pActiveCamera);
 		}

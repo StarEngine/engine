@@ -25,12 +25,4 @@ namespace star
 
 		m_pCamera->SetActive();
 	}
-
-	void BaseCamera::Translate(const pos& position)
-	{
-		m_UnScaledPos = position;
-		float xPos = (position.pos2D().x) / ((ScaleSystem::GetInstance()->GetWorkingResolution().x)/2.0f);
-		float yPos = (position.pos2D().y) / ((ScaleSystem::GetInstance()->GetWorkingResolution().y)/2.0f); 
-		GetTransform()->Translate(xPos, yPos);
-	}
 }

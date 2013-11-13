@@ -26,7 +26,6 @@ namespace star
 		void	BaseUpdate(const Context& context);
 		void	BaseDraw();
 
-
 		virtual void OnSaveState(void** pData,size_t* pSize);
 		virtual void OnConfigurationChanged();
 		virtual void OnLowMemory();

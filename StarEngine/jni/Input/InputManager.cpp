@@ -467,7 +467,7 @@ namespace star
 				BaseCamera* projectionObject = SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
 				if(projectionObject)
 				{
-					m_CurrMousePosition += projectionObject->GetUnscaledPos().pos2D();
+					m_CurrMousePosition += projectionObject->GetTransform()->GetWorldPosition().pos2D();
 				}
 			}
 

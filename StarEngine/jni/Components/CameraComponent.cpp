@@ -10,7 +10,7 @@
 
 namespace star
 {
-	CameraComponent::CameraComponent(bool bCanZoom):
+	CameraComponent::CameraComponent():
 		BaseComponent(),
 		m_Projection(),
 		m_View(),
@@ -19,11 +19,9 @@ namespace star
 		m_NearPlane(0.1f),
 		m_FOV(static_cast<float>(PI/4.0f)),
 		m_Size(0.0f),
+		m_Zoom(1.0f),
 		m_bIsActive(false),
 		m_bPerspectiveProjection(false),
-		m_bCanZoom(bCanZoom),
-		m_Zoom(1.0f),
-		m_ZoomSpeed(0.5f),
 		m_AspectRatio(1.0f)
 	{
 	}
@@ -43,10 +41,11 @@ namespace star
 												m_AspectRatio, 
 												m_NearPlane, 
 												m_FarPlane);
-		}	
+		}
+
 		//Calc ortho matrix
 		else
-		{	
+		{
 			if(m_Size <= 0)
 			{
 				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetWindowHeight());
@@ -76,26 +75,6 @@ namespace star
 			else
 			{
 				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetWindowHeight());
-				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, 
-										   m_Size * m_Zoom, 
-										   m_NearPlane, 
-										   m_FarPlane);
-			}
-		}
-
-		if(m_bCanZoom)
-		{
-			if(InputManager::GetInstance()->IsKeyboardKeyDown('O'))
-			{
-				m_Zoom += m_ZoomSpeed * static_cast<float>(context.mTimeManager->GetSeconds());			
-				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, 
-										   m_Size * m_Zoom, 
-										   m_NearPlane, 
-										   m_FarPlane);
-			}
-			else if(InputManager::GetInstance()->IsKeyboardKeyDown('P'))
-			{
-				m_Zoom -= m_ZoomSpeed * static_cast<float>(context.mTimeManager->GetSeconds());
 				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, 
 										   m_Size * m_Zoom, 
 										   m_NearPlane, 
@@ -189,6 +168,20 @@ namespace star
 	void CameraComponent::Deactivate()
 	{
 		m_bIsActive = false;
+	}
+
+	void CameraComponent::SetZoom(float zoom)
+	{
+		m_Zoom = zoom;
+		m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, 
+									m_Size * m_Zoom, 
+									m_NearPlane, 
+									m_FarPlane);
+	}
+
+	float CameraComponent::GetZoom() const
+	{
+		return m_Zoom;
 	}
 
 	const mat4x4 & CameraComponent::GetView() const

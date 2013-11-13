@@ -12,6 +12,9 @@ namespace star
 		FreeCamera(void);
 		virtual ~FreeCamera(void);
 		void SetStatic(bool isStatic);
+		void SetZoomEnabled(bool canZoom);
+		void SetZoomSpeed(float speed);
+		bool IsZoomEnabled() const;
 		void SetMoveSpeed(float speed);
 		
 	protected:
@@ -20,7 +23,8 @@ namespace star
 	private:
 		float m_TotalPitch, m_TotalYaw;
 		float m_MoveSpeed, m_RotationSpeed;
-		bool m_bisStatic;
+		float m_Zoom, m_ZoomSpeed;
+		bool m_bisStatic, m_bZoom;
 
 		FreeCamera(const FreeCamera &);
 		FreeCamera(FreeCamera &&);

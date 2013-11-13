@@ -12,8 +12,11 @@ namespace star
 		,m_TotalPitch(0)
 		,m_TotalYaw(0)
 		,m_MoveSpeed(1.0f)
+		,m_Zoom(1.0f)
+		,m_ZoomSpeed(0.5f)
 		,m_RotationSpeed(static_cast<float>(PI)/2)
 		,m_bisStatic(false)
+		,m_bZoom(false)
 	{
 	}
 
@@ -24,6 +27,21 @@ namespace star
 	void FreeCamera::SetStatic(bool isStatic)
 	{
 		m_bisStatic = isStatic;
+	}
+
+	void FreeCamera::SetZoomEnabled(bool canZoom)
+	{
+		m_bZoom = canZoom;
+	}
+
+	bool FreeCamera::IsZoomEnabled() const
+	{
+		return m_bZoom;
+	}
+	
+	void FreeCamera::SetZoomSpeed(float speed)
+	{
+		m_ZoomSpeed = speed;
 	}
 	
 	void FreeCamera::SetMoveSpeed(float speed)
@@ -70,6 +88,19 @@ namespace star
 					look.y *= -1;
 				}
 #endif
+			}
+			if(m_bZoom)
+			{
+				if(InputManager::GetInstance()->IsKeyboardKeyDown('O'))
+				{
+					m_Zoom += m_ZoomSpeed * static_cast<float>(context.mTimeManager->GetSeconds());
+					m_pCamera->SetZoom(m_Zoom);
+				}
+				else if(InputManager::GetInstance()->IsKeyboardKeyDown('P'))
+				{
+					m_Zoom -= m_ZoomSpeed * static_cast<float>(context.mTimeManager->GetSeconds());
+					m_pCamera->SetZoom(m_Zoom);
+				}
 			}
 			if(move != vec3() || look != vec2())
 			{
