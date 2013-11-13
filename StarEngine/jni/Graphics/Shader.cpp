@@ -133,7 +133,7 @@ namespace star
 		char* source;
 
 		uint32 size;
-		char * buffer = ReadBinaryFile(file, size, DirectoryMode::custom);
+		char * buffer = ReadBinaryFile(file, size);
 		source = new char[size+1];
 		memcpy(source, buffer, size);
 

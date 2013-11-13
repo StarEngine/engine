@@ -131,6 +131,7 @@ namespace star
 	void TiledScene::BaseCreateLevel(XMLContainer & container)
 	{
 		auto mapAttributes = container.GetAttributes();
+
 		m_Width = string_cast<uint32>(mapAttributes[_T("width")]);
 		m_Height = string_cast<uint32>(mapAttributes[_T("height")]);
 		m_TileWidth = string_cast<uint32>(mapAttributes[_T("tilewidth")]);
@@ -153,6 +154,7 @@ namespace star
 
 			set.Texture = imageAttributes[_T("source")];
 			set.Name = tileSetAttributes[_T("name")];
+
 			set.Width = string_cast<uint32>(imageAttributes[_T("width")]);
 			set.Height = string_cast<uint32>(imageAttributes[_T("height")]);
 

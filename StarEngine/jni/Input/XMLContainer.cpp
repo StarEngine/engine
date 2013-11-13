@@ -86,7 +86,7 @@ namespace star
 
 		SerializedData buffer;
 		buffer.data = ReadBinaryFile(file, buffer.size, mode);
-		
+
 		uint32 counter(1); // first byte == SER_START_OF_CHILD
 
 		DeserializeXMLContainer(buffer, counter, this);
