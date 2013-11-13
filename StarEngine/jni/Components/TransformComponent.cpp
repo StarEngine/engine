@@ -452,6 +452,9 @@ namespace star
 			}
 
 			DecomposeMatrix(m_World, m_WorldPosition, m_WorldScale, m_WorldRotation);
+
+			m_UnScaledWorldPos = m_WorldPosition / ScaleSystem::GetInstance()->GetScale();
+			m_UnScaledWorldScale = m_WorldScale / ScaleSystem::GetInstance()->GetScale();
 		}
 		
 		void TransformComponent::SingleUpdate(mat4x4 & world)

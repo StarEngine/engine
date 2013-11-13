@@ -25,6 +25,11 @@ namespace star
 	{
 		m_bisStatic = isStatic;
 	}
+	
+	void FreeCamera::SetMoveSpeed(float speed)
+	{
+		m_MoveSpeed = speed;
+	}
 
 	void FreeCamera::Update(const Context& context)
 	{
@@ -71,12 +76,14 @@ namespace star
 			{
 				//CALCULATE TRANSFORMS
 				auto transform = GetComponent<TransformComponent>();
-				auto currPos = transform->GetWorldPosition();
-				auto currRot = transform->GetWorldRotation();
-	
+				auto currPos = transform->GetLocalPosition();
+				auto currRot = transform->GetLocalRotation();
+				
 				double deltaTime = context.mTimeManager->GetSeconds();
-				currPos.y += static_cast<float>(move.y * m_MoveSpeed * deltaTime);
-				currPos.x += static_cast<float>(move.x * m_MoveSpeed * deltaTime);
+				move *= m_MoveSpeed * deltaTime;
+	
+				currPos.y += static_cast<float>(move.y);
+				currPos.x += static_cast<float>(move.x);
 
 				transform->Translate(currPos);
 			}

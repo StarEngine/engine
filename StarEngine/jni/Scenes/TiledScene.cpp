@@ -38,13 +38,15 @@ namespace star
 		if(m_pActiveCamera == nullptr)
 		{
 			m_pActiveCamera = new FreeCamera();
+			m_pActiveCamera->SetStatic(false);
+			m_pActiveCamera->SetMoveSpeed(2.0f);
 			AddObject(m_pActiveCamera);
 		}
 	}
 
 	void TiledScene::AfterInitializedObjects(const star::Context& context)
 	{
-	
+		SetActiveCamera(m_pActiveCamera);
 	}
 
 	void TiledScene::CreateLevel(const tstring & file,

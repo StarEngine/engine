@@ -12,6 +12,7 @@ namespace star
 		FreeCamera(void);
 		virtual ~FreeCamera(void);
 		void SetStatic(bool isStatic);
+		void SetMoveSpeed(float speed);
 		
 	protected:
 		virtual void Update(const Context& context);
