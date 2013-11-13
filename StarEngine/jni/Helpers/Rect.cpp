@@ -29,7 +29,7 @@ namespace star
 		float dot1 = glm::dot(rightTop - leftTop , leftBottom - leftTop);
 		float dot2 = glm::dot(leftTop - rightTop , rightBottom - rightTop);
 		float dot3 = glm::dot(rightTop - rightBottom, leftBottom - rightBottom);
-		float tolerance = 0.01f;
+		float tolerance = 0.02f;
 		ASSERT((abs(dot1) < 0 + tolerance
 			|| abs(dot2) < 0 + tolerance
 			|| abs(dot3) < 0 + tolerance)
@@ -66,6 +66,34 @@ namespace star
 					vec2(returnVec4.x , returnVec4.y));
 	}
 
+	Rect Rect::operator*(float constant) const
+	{
+		Rect temp;
+		temp.m_LeftBottom = m_LeftBottom * constant;
+		temp.m_LeftTop = m_LeftTop * constant;
+		temp.m_RightBottom = m_RightBottom * constant;
+		temp.m_RightTop = m_RightTop * constant;
+		temp.m_Width = temp.m_RightTop.x - temp.m_LeftTop.x;
+		temp.m_Height = temp.m_RightTop.y - temp.m_LeftTop.y;
+		temp.m_Diagonal = glm::length(temp.m_RightBottom - temp.m_LeftTop);
+
+		return temp;
+	}
+
+	Rect Rect::operator/(float constant) const
+	{
+		Rect temp;
+		temp.m_LeftBottom = m_LeftBottom / constant;
+		temp.m_LeftTop = m_LeftTop / constant;
+		temp.m_RightBottom = m_RightBottom / constant;
+		temp.m_RightTop = m_RightTop / constant;
+		temp.m_Width = temp.m_RightTop.x - temp.m_LeftTop.x;
+		temp.m_Height = temp.m_RightTop.y - temp.m_LeftTop.y;
+		temp.m_Diagonal = glm::length(temp.m_RightBottom - temp.m_LeftTop);
+
+		return temp;
+	}
+
 	Rect& Rect::operator*=(glm::mat4x4 matrix)
 	{
 		matrix = TransposeMatrix(matrix);
@@ -78,6 +106,25 @@ namespace star
 		m_RightBottom = vec2(returnVec2.x , returnVec2.y);
 		m_LeftTop = vec2(returnVec3.x , returnVec3.y);
 		m_RightTop = vec2(returnVec4.x , returnVec4.y);
+
+		m_Width = m_RightTop.x - m_LeftTop.x;
+		m_Height = m_RightTop.y - m_LeftTop.y;
+		m_Diagonal = glm::length(m_RightBottom - m_LeftTop);
+
+		return *this;
+	}
+
+	Rect& Rect::operator*=(float constant)
+	{
+		m_LeftBottom *= constant;
+		m_LeftTop *= constant;
+		m_RightTop *= constant;
+		m_RightBottom *= constant;
+
+		m_Width = m_RightTop.x - m_LeftTop.x;
+		m_Height = m_RightTop.y - m_LeftTop.y;
+		m_Diagonal = glm::length(m_RightBottom - m_LeftTop);
+
 		return *this;
 	}
 

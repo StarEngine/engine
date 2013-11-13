@@ -5,6 +5,8 @@
 #include "../../Graphics/GraphicsManager.h"
 #include "../Graphics/SpriteComponent.h"
 #include "../../Helpers/Debug/DebugDraw.h"
+#include "../../Graphics/ScaleSystem.h"
+#include "../../Helpers/Helpers.h"
 
 namespace star
 {
@@ -69,9 +71,13 @@ namespace star
 			SpriteComponent* spriteComp = GetParent()->GetComponent<SpriteComponent>();
 			if(spriteComp)
 			{
+				//Easier to work with if everything is unscaled
 				ASSERT(spriteComp->IsInitialized(),_T("First add the spriteComponent and then the rectColliderComp"));
-				m_CollisionRect.SetPoints(vec2(0,0),vec2(spriteComp->GetWidth(), 0), 
-					vec2(0, spriteComp->GetHeight() ), vec2(spriteComp->GetWidth(), spriteComp->GetHeight()));
+				m_CollisionRect.SetPoints(vec2(0,0),
+					vec2(spriteComp->GetWidth() / ScaleSystem::GetInstance()->GetScale(), 0), 
+					vec2(0, spriteComp->GetHeight() / ScaleSystem::GetInstance()->GetScale()), 
+					vec2(spriteComp->GetWidth() / ScaleSystem::GetInstance()->GetScale(), 
+						spriteComp->GetHeight() / ScaleSystem::GetInstance()->GetScale()));
 			}
 		}
 	}
@@ -114,7 +120,7 @@ namespace star
 			Rect rect = GetCollisionRect();
 			//perpendicular of a vec =  (-y , x) or (y, -x)
 			vec2 axis(-(point2 - point1).y , (point2 - point1).x);
-
+			
 			return (CalculateAxisSpecificCollision(rect, point1, point2, axis));
 		}
 	}
@@ -347,13 +353,13 @@ namespace star
 
 	Rect RectangleColliderComponent::GetCollisionRect() const
 	{
-		Rect temp = m_CollisionRect * 
-			(GraphicsManager::GetInstance()->GetViewInverseMatrix() * GetTransform()->GetWorldMatrix());
+		Rect temp = (m_CollisionRect * GetTransform()->GetWorldMatrix()) 
+			* GraphicsManager::GetInstance()->GetViewInverseMatrix();
 		return temp;
 	}
 
 	void RectangleColliderComponent::Draw()
 	{
-
+		DebugDraw::GetInstance()->DrawScaledSolidRect(GetCollisionRect(),Color::White);
 	}
 }

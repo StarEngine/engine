@@ -119,12 +119,12 @@ namespace star
 
 	int32 SpriteComponent::GetWidth() const
 	{
-		return int32((m_Width * ScaleSystem::GetInstance()->GetScale()) / m_WidthSegments);
+		return int32((m_Width / m_WidthSegments) * ScaleSystem::GetInstance()->GetScale());
 	}
 
 	int32 SpriteComponent::GetHeight() const
 	{
-		return int32((m_Heigth * ScaleSystem::GetInstance()->GetScale()) / m_HeightSegments); 
+		return int32((m_Heigth / m_HeightSegments) * ScaleSystem::GetInstance()->GetScale()); 
 	}
 
 	std::vector<GLfloat> SpriteComponent::GetVertices() const

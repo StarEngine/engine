@@ -16,7 +16,13 @@ namespace star
 		//[TODO] write operators and copy + move constructors (and non member operators)
 
 		Rect operator*(glm::mat4x4 matrix) const;
-		Rect& operator*=(glm::mat4x4 matrix);
+		Rect operator*(float constant) const;
+
+		Rect operator/(float constant) const;
+
+		Rect& operator*=(glm::mat4x4 matrix);		
+		Rect& operator*=(float constant);
+
 
 		float GetWidth() const;
 		float GetHeight() const;
