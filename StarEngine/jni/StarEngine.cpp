@@ -82,7 +82,6 @@ namespace star
 
 	void StarEngine::End()
 	{
-		FontManager::GetInstance()->EraseFonts();
 		delete DebugDraw::GetInstance();
 		delete ScaleSystem::GetInstance();
 		delete FontManager::GetInstance();
