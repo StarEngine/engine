@@ -180,6 +180,12 @@ namespace star
 		return EMPTY_STRING;
 	}
 
+	int SpritesheetComponent::GetCurrentFrame() const
+	{
+		return m_Animations.size() > 0 ? 
+					m_Animations.front().GetCurrentFrame() : 0;
+	}
+
 	const tstring & SpritesheetComponent::GetcurrentSpritesheet() const
 	{
 		return m_SpritesheetName;

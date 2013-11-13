@@ -1,6 +1,7 @@
 #include "SpriteAnimation.h"
 #include "../Context.h"
 #include "../Helpers/Helpers.h"
+#include "../Logger.h"
 
 namespace star
 {
@@ -162,6 +163,11 @@ namespace star
 	void SpriteAnimation::SetCallback(const std::function<void()> & callback)
 	{
 		m_Callback = callback;
+	}
+	
+	int SpriteAnimation::GetCurrentFrame() const
+	{
+		return int(m_CurrentFrame);
 	}
 	
 	void SpriteAnimation::ParseFrameString(

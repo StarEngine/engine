@@ -34,6 +34,8 @@ namespace star
 
 		void SetCallback(const std::function<void()> & callback);
 
+		int GetCurrentFrame() const;
+
 	private:
 		void ParseFrameString(tstring frames, int frames_x, int frames_y, int amount);
 		void ParseFrames(const tstring & frame, int frames_x, int frames_y, int amount);
