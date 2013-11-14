@@ -8,7 +8,7 @@ namespace star
 {
 	float DegreesToRadians(float degrees)
 	{
-		return degrees * 180.0f / (float)PI;
+		return degrees * (float)PI / 180.0f;
 	}
 
 	vec2 DegreesToRadians(const vec2 & degrees)
@@ -40,7 +40,7 @@ namespace star
 
 	float RadiansToDegrees(float radians)
 	{
-		return radians * (float)PI / 180.0f;
+		return radians * 180.0f / (float)PI;
 	}
 
 	vec2 RadiansToDegrees(const vec2 & radians)

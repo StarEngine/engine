@@ -35,6 +35,8 @@ namespace star
 		const tstring& GetName() const;
 		int32 GetWidth() const;
 		int32 GetHeight() const;
+		float GetScaledWidth() const;
+		float GetScaledHeight() const;
 		std::vector<GLfloat> GetVertices() const;
 		std::vector<GLfloat> GetUVCoords() const;
 		

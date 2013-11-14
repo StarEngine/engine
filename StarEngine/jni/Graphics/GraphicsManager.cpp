@@ -5,19 +5,19 @@
 #include "../Scenes/SceneManager.h"
 #include "../Objects/BaseCamera.h"
 #include "../Components/CameraComponent.h"
+#include "../defines.h"
 
-#ifdef _WIN32
-#include <Windows.h>
-#include <glew.h>
+#ifdef DESKTOP
+
+#include <wglext.h>
+#else
 #endif
 
 #ifdef MOBILE
 #include <GLES/gl.h>
 #endif
 
-#ifdef DESKTOP
-#include <wglext.h>
-#endif
+
 
 namespace star
 {
@@ -35,7 +35,9 @@ namespace star
 			mScreenResolution(0,0),
 			mViewportResolution(0,0),
 			m_bHasWindowChanged(false),
-			mIsInitialized(false)
+			mIsInitialized(false),
+			m_WglSwapIntervalEXT(NULL),
+			m_WglGetSwapIntervalEXT(NULL)
 	{
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Constructor"));
 	}
@@ -86,6 +88,37 @@ namespace star
 		return mGraphicsManager;	
 	}
 
+	void GraphicsManager::SetVSync(bool vSync)
+	{
+#ifdef DESKTOP
+		//Enables or disables VSync.
+		//0 = No Sync , 1+ = VSync
+		//Default value is 1.
+		if(!vSync)
+		{
+			m_WglSwapIntervalEXT(0);
+		}
+		else
+		{
+			m_WglSwapIntervalEXT(1);
+		}
+	#else
+		Logger::GetInstance()->Log(LogLevel::Warning, 
+			_T("Setting VSync on mobile is not supported. Default VSync is enabled"));
+#endif
+	}
+
+	bool GraphicsManager::GetVSync() const
+	{
+#ifdef DESKTOP
+		return !(m_WglGetSwapIntervalEXT() == 0);
+#else
+		Logger::GetInstance()->Log(LogLevel::Warning, 
+			_T("Toggeling VSync on mobile is not supported. Default VSync is enabled"));
+		return true;
+#endif
+	}
+
 #ifdef DESKTOP
 	void GraphicsManager::Initialize(int32 screenWidth, int32 screenHeight)
 	{
@@ -100,6 +133,8 @@ namespace star
 			{
 				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Graphics card doesn't support VSync option!!"));
 			}
+
+			SetVSync(true);
 
 			//Initializes base GL state.
 			// In a simple 2D game, we have control over the third
@@ -362,18 +397,13 @@ namespace star
 
 	bool GraphicsManager::InitializeOpenGLFunctors()
 	{
-		PFNWGLSWAPINTERVALEXTPROC       wglSwapIntervalEXT = NULL;
-		PFNWGLGETSWAPINTERVALEXTPROC    wglGetSwapIntervalEXT = NULL;
-
 		if (WGLExtensionSupported("WGL_EXT_swap_control"))
 		{
 			// Extension is supported, init pointers.
-			wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress("wglSwapIntervalEXT");
+			m_WglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress("wglSwapIntervalEXT");
 
 			// this is another function from WGL_EXT_swap_control extension
-			wglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC) wglGetProcAddress("wglGetSwapIntervalEXT");
-
-			wglSwapIntervalEXT(0);
+			m_WglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC) wglGetProcAddress("wglGetSwapIntervalEXT");
 			return true;
 		}
 		return false;

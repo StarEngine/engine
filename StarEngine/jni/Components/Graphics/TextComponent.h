@@ -24,6 +24,8 @@ namespace star
 		//Default set to -1, Set width to -1 to disable wrapping
 		void SetWrapWidth(float width);
 		float GetWrapWidth() const;
+		int32 GetMaxTextWidth();
+		int32 GetTotalTextHeight();
 		
 	protected:
 		virtual void InitializeComponent();
@@ -35,7 +37,9 @@ namespace star
 
 		Color m_TextColor;
 		TextDesc m_TextDesc;
-		float m_MaxWidth;
+		float m_WrapWidth;
+		int32 m_MaxWidth;
+		int32 m_MaxHeight;
 		tstring m_OrigText;
 		tstring m_EditedText;
 		std::vector<std::string> m_SplittedText;

@@ -22,20 +22,20 @@ namespace star
 	void Stopwatch::Update(const Context& context)
 	{
 		//clean up the trash
-		for(auto it : m_GarbageContainer)
+		for(auto& it : m_GarbageContainer)
 		{
 			m_TimerContainer.erase(it.first);
 		}
 		m_GarbageContainer.clear();
 
 		//add new timers
-		for(auto it : m_TempContainer)
+		for(auto& it : m_TempContainer)
 		{
 			m_TimerContainer[it.first] = it.second;
 		}
 		m_TempContainer.clear();
 
-		for(auto it = m_TimerContainer.begin() ; it != m_TimerContainer.end() ; ) 
+		for(auto& it = m_TimerContainer.begin() ; it != m_TimerContainer.end() ; ) 
 		{
 			if (it->second.Update(context)) 
 			{
@@ -52,7 +52,7 @@ namespace star
 									bool countingDown, bool loop,
 									std::function<void ()> func, bool paused)
 	{
-		for(auto it : m_TempContainer)
+		for(auto& it : m_TempContainer)
 		{
 			if(it.first == name)
 			{
@@ -60,7 +60,7 @@ namespace star
 			}
 		}
 
-		for (auto it = m_TimerContainer.begin(); it != m_TimerContainer.end() ; ++it)
+		for (auto& it = m_TimerContainer.begin(); it != m_TimerContainer.end() ; ++it)
 		{
 			if(it->first == name)
 			{
@@ -76,7 +76,7 @@ namespace star
 
 	bool Stopwatch::RemoveTimer(const tstring & name)
 	{
-		for (auto it = m_TimerContainer.begin(); it != m_TimerContainer.end() ; ++it)
+		for (auto& it = m_TimerContainer.begin(); it != m_TimerContainer.end() ; ++it)
 		{
 			if (it->first == name)
 			{
@@ -89,7 +89,7 @@ namespace star
 
 	void Stopwatch::PauseTimer(const tstring & name, bool paused)
 	{
-		for(auto it : m_TimerContainer)
+		for(auto& it : m_TimerContainer)
 		{
 			if(it.first == name)
 			{
@@ -101,7 +101,7 @@ namespace star
 
 	void Stopwatch::SetCountingDownTimer(const tstring & name, bool countingDown)
 	{
-		for(auto it : m_TimerContainer)
+		for(auto& it : m_TimerContainer)
 		{
 			if(it.first == name)
 			{
@@ -113,7 +113,7 @@ namespace star
 
 	void Stopwatch::SetLoopTimer(const tstring & name, bool looping)
 	{
-		for(auto it : m_TimerContainer)
+		for(auto& it : m_TimerContainer)
 		{
 			if(it.first == name)
 			{
@@ -125,7 +125,7 @@ namespace star
 
 	void Stopwatch::ResetTimer(const tstring & name, bool paused)
 	{
-		for(auto it : m_TimerContainer)
+		for(auto& it : m_TimerContainer)
 		{
 			if(it.first == name)
 			{
@@ -137,7 +137,7 @@ namespace star
 
 	void Stopwatch::SetTargetTimeTimer(const tstring & name, float targetTime, bool reset, bool paused)
 	{
-		for(auto it : m_TimerContainer)
+		for(auto& it : m_TimerContainer)
 		{
 			if(it.first == name)
 			{
@@ -149,7 +149,7 @@ namespace star
 
 	void Stopwatch::SetFunctionTimer(const tstring & name, std::function<void ()> func)
 	{
-		for(auto it : m_TimerContainer)
+		for(auto& it : m_TimerContainer)
 		{
 			if(it.first == name)
 			{
@@ -161,7 +161,7 @@ namespace star
 
 	int Stopwatch::GetTimerMinutes(const tstring & name) const
 	{
-		for(auto it : m_TimerContainer)
+		for(auto& it : m_TimerContainer)
 		{
 			if(it.first == name)
 			{
@@ -177,7 +177,7 @@ namespace star
 
 	int Stopwatch::GetTimerSeconds(const tstring & name) const
 	{
-		for(auto it : m_TimerContainer)
+		for(auto& it : m_TimerContainer)
 		{
 			if(it.first == name)
 			{
@@ -193,7 +193,7 @@ namespace star
 
 	int Stopwatch::GetTimerTotalSeconds(const tstring & name) const
 	{
-		for(auto it : m_TimerContainer)
+		for(auto& it : m_TimerContainer)
 		{
 			if(it.first == name)
 			{
@@ -209,7 +209,7 @@ namespace star
 
 	double Stopwatch::GetTimerAccurateTime(const tstring & name) const
 	{
-		for(auto it : m_TimerContainer)
+		for(auto& it : m_TimerContainer)
 		{
 			if(it.first == name)
 			{

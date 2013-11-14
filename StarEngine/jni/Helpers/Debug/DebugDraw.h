@@ -26,17 +26,25 @@ namespace star
 		void DrawPolygon(const vec2* vertices, int32 vertexCount, const Color& color);  
 		void DrawSolidPolygon(const vec2* vertices, int32 vertexCount, const Color& color);  
 		void DrawCircle(const vec2& center, float radius, const Color& color);  
-		void DrawSolidCircle(const vec2& center, float radius, const vec2& axis, const Color& color);  
+		void DrawScaledCircle(const vec2& center, float radius, const Color& color);
+		void DrawSolidCircle(const vec2& center, float radius, const Color& color); 
+		void DrawScaledSolidCircle(const vec2& center, float radius, const Color& color); 
 		void DrawSegment(const vec2& pos1, const vec2& pos2, const Color& aColor);  
 		//[TODO] DrawTransform: Draw the transformed Axises of the object/matrix
 		// void DrawTransform(const mat4x4& aXf);  
 		void DrawPoint(const vec2& pos, float size, const Color& color);  
+		void DrawScaledPoint(const vec2& pos, float size, const Color& color);
 		void DrawLine(const vec2& pos1, const vec2& pos2, const Color& color);
+		void DrawScaledLine(const vec2& pos1, const vec2& pos2, const Color& color);
 		void DrawString(int xPos, int yPos, const tstring& text);  
 		void DrawRect(const AARect& rect, const Color& color);  
 		void DrawRect(const Rect& rect, const Color& color); 
 		void DrawSolidRect(const AARect& rect, const Color& color);  
 		void DrawSolidRect(const Rect& rect, const Color& color); 
+		void DrawScaledRect(const AARect& rect, const Color& color);  
+		void DrawScaledRect(const Rect& rect, const Color& color); 
+		void DrawScaledSolidRect(const AARect& rect, const Color& color);  
+		void DrawScaledSolidRect(const Rect& rect, const Color& color); 
 
 		void SetDrawOpacityTriangles(float opacity);
 		void SetDrawOpacityLines(float opacity);
@@ -58,6 +66,7 @@ namespace star
 		
 		void CreatePolygonVertices(const vec2* vertices, uint32 vertexCount);  
 		void CreateCircleVertices(const vec2& center, float radius);  
+		void CreateScaledCircleVertices(const vec2& center, float radius);  
 		void DrawPrimitives(uint32 primitiveTypes, uint32 count, const Color& color);  
 
 		vec2 m_Vertices[MAX_VERTICES];  

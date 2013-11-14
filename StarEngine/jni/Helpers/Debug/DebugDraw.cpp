@@ -4,6 +4,7 @@
 #include "../AARect.h"
 #include "../Rect.h"
 #include "../Helpers.h"
+#include "../../Graphics/ScaleSystem.h"
 
 namespace star
 {
@@ -104,25 +105,45 @@ namespace star
 		DrawPrimitives(Lines, m_CircleSegments, color);
 	}
 
-	void DebugDraw::DrawSolidCircle(const vec2& center, float radius, const vec2& axis,
+	void DebugDraw::DrawScaledCircle(const vec2& center, float radius, const Color& color)
+	{
+		CreateScaledCircleVertices(center, radius);
+		DrawPrimitives(Lines, m_CircleSegments, color);
+	}
+
+	void DebugDraw::DrawSolidCircle(const vec2& center, float radius,
 			const Color& color)
 	{
 		CreateCircleVertices(center, radius);
 		DrawPrimitives(Triangles + Lines, m_CircleSegments, color);
-		// Draw the axis line
-		DrawSegment(center, center + radius * axis, color);
+	}
+
+	void DebugDraw::DrawScaledSolidCircle(const vec2& center, float radius,
+			const Color& color)
+	{
+		CreateScaledCircleVertices(center, radius);
+		DrawPrimitives(Triangles + Lines, m_CircleSegments, color);
 	}
 
 	void DebugDraw::DrawSegment(const vec2& pos1, const vec2& pos2, const Color& color)
 	{
-		m_Vertices[0].x = pos1.x;
-		m_Vertices[0].x = pos1.y;
-		m_Vertices[1].y = pos2.x;
-		m_Vertices[1].y = pos2.y;
+		m_Vertices[0].x = pos1.x * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[0].x = pos1.y * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[1].y = pos2.x * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[1].y = pos2.y * ScaleSystem::GetInstance()->GetScale();
 		DrawPrimitives(Lines, 2, color);
 	}
 
 	void DebugDraw::DrawPoint(const vec2& pos, float size, const Color& color)
+	{
+		m_PointSize = size;
+
+		m_Vertices[0].x = pos.x * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[0].y = pos.y * ScaleSystem::GetInstance()->GetScale();
+		DrawPrimitives(Points, 1, color);
+	}
+
+	void DebugDraw::DrawScaledPoint(const vec2& pos, float size, const Color& color)
 	{
 		m_PointSize = size;
 
@@ -132,6 +153,15 @@ namespace star
 	}
 
 	void DebugDraw::DrawLine(const vec2& pos1, const vec2& pos2, const Color& color)
+	{
+		m_Vertices[0].x = pos1.x * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[0].y = pos1.y * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[1].x = pos2.x * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[1].y = pos2.y * ScaleSystem::GetInstance()->GetScale();
+		DrawPrimitives(Lines,2,color);
+	}
+
+	void DebugDraw::DrawScaledLine(const vec2& pos1, const vec2& pos2, const Color& color)
 	{
 		m_Vertices[0].x = pos1.x;
 		m_Vertices[0].y = pos1.y;
@@ -143,36 +173,54 @@ namespace star
 	void DebugDraw::DrawString(int aX, int aY, const tstring& text)
 	{
 		//[TODO] Implement this through the font manager, draw text on screen on given pos.
-		Logger::GetInstance()->Log(LogLevel::Warning, _T("This is not yet implemented!"));
+		Logger::GetInstance()->Log(LogLevel::Warning, _T("DebugDraw::DrawString is not yet implemented!"));
 	}
 	
 	void DebugDraw::DrawRect(const AARect& rect, const Color& color)
 	{
-		m_Vertices[0].x = float(rect.GetLeft());
-		m_Vertices[0].y = float(rect.GetBottom());
-		m_Vertices[1].x = float(rect.GetRight());
-		m_Vertices[1].y = float(rect.GetBottom());
-		m_Vertices[2].x = float(rect.GetRight());
-		m_Vertices[2].y = float(rect.GetTop());
-		m_Vertices[3].x = float(rect.GetLeft());
-		m_Vertices[3].y = float(rect.GetTop());
+		m_Vertices[0].x = float(rect.GetLeft()) * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[0].y = float(rect.GetBottom()) * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[1].x = float(rect.GetRight()) * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[1].y = float(rect.GetBottom()) * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[2].x = float(rect.GetRight()) * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[2].y = float(rect.GetTop()) * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[3].x = float(rect.GetLeft()) * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[3].y = float(rect.GetTop()) * ScaleSystem::GetInstance()->GetScale();
 		DrawPrimitives(Lines, 4, color);
 	}
 
 	void DebugDraw::DrawRect(const Rect& rect, const Color& color)
 	{
-		m_Vertices[0].x = rect.GetRealLeft();
-		m_Vertices[0].y = rect.GetRealBottom();
-		m_Vertices[1].x = rect.GetRealRight();
-		m_Vertices[1].y = rect.GetRealBottom();
-		m_Vertices[2].x = rect.GetRealRight();
-		m_Vertices[2].y = rect.GetRealTop();
-		m_Vertices[3].x = rect.GetRealLeft();
-		m_Vertices[3].y = rect.GetRealTop();
+		m_Vertices[0] = rect.GetLeftBottom() * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[1] = rect.GetRightBottom() * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[2] = rect.GetRightTop() * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[3] = rect.GetLeftTop() * ScaleSystem::GetInstance()->GetScale();
 		DrawPrimitives(Lines, 4, color);
 	}
 
 	void DebugDraw::DrawSolidRect(const AARect& rect, const Color& color)
+	{
+		m_Vertices[0].x = float(rect.GetLeft()) * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[0].y = float(rect.GetBottom()) * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[1].x = float(rect.GetRight()) * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[1].y = float(rect.GetBottom()) * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[2].x = float(rect.GetRight()) * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[2].y = float(rect.GetTop()) * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[3].x = float(rect.GetLeft()) * ScaleSystem::GetInstance()->GetScale(); 
+		m_Vertices[3].y = float(rect.GetTop()) * ScaleSystem::GetInstance()->GetScale();
+		DrawPrimitives(Triangles + Lines, 4, color);
+	}
+
+	void DebugDraw::DrawSolidRect(const Rect& rect, const Color& color)
+	{
+		m_Vertices[0] = rect.GetLeftBottom() * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[1] = rect.GetRightBottom() * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[2] = rect.GetRightTop() * ScaleSystem::GetInstance()->GetScale();
+		m_Vertices[3] = rect.GetLeftTop() * ScaleSystem::GetInstance()->GetScale();
+		DrawPrimitives(Triangles + Lines, 4, color);
+	}
+	
+	void DebugDraw::DrawScaledRect(const AARect& rect, const Color& color)
 	{
 		m_Vertices[0].x = float(rect.GetLeft());
 		m_Vertices[0].y = float(rect.GetBottom());
@@ -182,35 +230,69 @@ namespace star
 		m_Vertices[2].y = float(rect.GetTop());
 		m_Vertices[3].x = float(rect.GetLeft());
 		m_Vertices[3].y = float(rect.GetTop());
+		DrawPrimitives(Lines, 4, color);
+	}
+
+	void DebugDraw::DrawScaledRect(const Rect& rect, const Color& color)
+	{
+		m_Vertices[0] = rect.GetLeftBottom();
+		m_Vertices[1] = rect.GetRightBottom();
+		m_Vertices[2] = rect.GetRightTop();
+		m_Vertices[3] = rect.GetLeftTop();
+		DrawPrimitives(Lines, 4, color);
+	}
+
+	void DebugDraw::DrawScaledSolidRect(const AARect& rect, const Color& color)
+	{
+		m_Vertices[0].x = float(rect.GetLeft());
+		m_Vertices[0].y = float(rect.GetBottom());
+		m_Vertices[1].x = float(rect.GetRight());
+		m_Vertices[1].y = float(rect.GetBottom());
+		m_Vertices[2].x = float(rect.GetRight());
+		m_Vertices[2].y = float(rect.GetTop());
+		m_Vertices[3].x = float(rect.GetLeft()); 
+		m_Vertices[3].y = float(rect.GetTop());
 		DrawPrimitives(Triangles + Lines, 4, color);
 	}
 
-	void DebugDraw::DrawSolidRect(const Rect& rect, const Color& color)
+	void DebugDraw::DrawScaledSolidRect(const Rect& rect, const Color& color)
 	{
-		m_Vertices[0].x = rect.GetRealLeft();
-		m_Vertices[0].y = rect.GetRealBottom();
-		m_Vertices[1].x = rect.GetRealRight();
-		m_Vertices[1].y = rect.GetRealBottom();
-		m_Vertices[2].x = rect.GetRealRight();
-		m_Vertices[2].y = rect.GetRealTop();
-		m_Vertices[3].x = rect.GetRealLeft();
-		m_Vertices[3].y = rect.GetRealTop();
+		m_Vertices[0] = rect.GetLeftBottom();
+		m_Vertices[1] = rect.GetRightBottom();
+		m_Vertices[2] = rect.GetRightTop();
+		m_Vertices[3] = rect.GetLeftTop();
 		DrawPrimitives(Triangles + Lines, 4, color);
 	}
-	
+
 	void DebugDraw::CreatePolygonVertices(const vec2* vertices, uint32 vertexCount)
 	{
-		// [TODO] Fix this bug in eclipse: (undefined reference to 'star::DebugDraw::MAX_VERTICES')
+		ASSERT(vertexCount <= MAX_VERTICES, _T("more vertices than allocated space"));
 		//ASSERT(vertexCount <= MAX_VERTICES, _T("more vertices then allocated space"));
 
 		for (uint32 i = 0; i < vertexCount; i++)
 		{
-			m_Vertices[i].x = vertices[i].x;
-			m_Vertices[i].y = vertices[i].y;
+			m_Vertices[i].x = vertices[i].x * ScaleSystem::GetInstance()->GetScale();
+			m_Vertices[i].y = vertices[i].y * ScaleSystem::GetInstance()->GetScale();
 		}
 	}
 
 	void DebugDraw::CreateCircleVertices(const vec2& center, float radius)
+	{
+		ASSERT(m_CircleSegments < MAX_VERTICES, tstring(_T("You can only draw ") 
+			+ string_cast<tstring>(MAX_VERTICES) + _T(" vertices per primitive")).c_str());
+		const float increment = float(2.0 * PI / m_CircleSegments);
+		float theta = 0.0f;
+
+		for (uint32 i = 0; i < m_CircleSegments; ++i)
+		{
+			vec2 v = center + radius * vec2(glm::cos(theta), glm::sin(theta));
+			m_Vertices[i].x = v.x * ScaleSystem::GetInstance()->GetScale();
+			m_Vertices[i].y = v.y * ScaleSystem::GetInstance()->GetScale();
+			theta += increment;
+		}
+	}
+
+	void DebugDraw::CreateScaledCircleVertices(const vec2& center, float radius)
 	{
 		// [TODO] Fix this bug in eclipse: (undefined reference to 'star::DebugDraw::MAX_VERTICES')
 		//ASSERT(m_CircleSegments < MAX_VERTICES, tstring(_T("You can only draw ")

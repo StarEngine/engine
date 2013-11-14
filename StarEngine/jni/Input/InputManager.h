@@ -79,7 +79,9 @@ namespace star
 		bool IsFingerDownCP(uint8 finger = 0) const;
 		bool IsFingerReleasedCP(uint8 finger = 0) const;
 		vec2 GetCurrentFingerPosCP(uint8 finger = 0);
+		vec2 GetCurrentUnScaledFingerPosCP(uint8 finger = 0);
 		vec2 GetOldFingerPosCP(uint8 finger = 0);
+		vec2 GetOldUnScaledFingerPosCP(uint8 finger = 0);
 		void EndUpdate();
 		void SetGestureManager(std::shared_ptr<GestureManager> gestureManager);
 		std::shared_ptr<GestureManager> GetGestureManager() const;
@@ -105,7 +107,9 @@ namespace star
 			GamepadIndex playerIndex = GamepadIndex::PlayerOne, bool previousFrame = false) const;
 
 		const vec2 & GetCurrentMousePosition() const;
+		const vec2 & GetCurrentUnScaledMousePosition() const;
 		const vec2 & GetOldMousePosition() const;
+		const vec2 & GetOldUnScaledMousePosition() const;
 		const vec2 & GetMouseMovement() const;
 		bool IsKeyboardKeyDown(uint8 key, bool previousFrame = false) const;
 		bool IsAnyKeyDown() const;
@@ -125,7 +129,9 @@ namespace star
 		bool IsTouchDownANDR(uint8 fingerIndex = 0) const;
 		bool IsTouchReleasedANDR(uint8 fingerIndex = 0) const;
 		vec2 GetCurrentTouchPosANDR(uint8 fingerIndex = 0);
+		vec2 GetCurrentUnScaledTouchPosANDR(uint8 fingerIndex = 0);
 		vec2 GetOldTouchPosANDR(uint8 fingerIndex = 0);
+		vec2 GetOldUnScaledTouchPosANDR(uint8 fingerIndex = 0);
 		FingerPointerANDR GetTouchPropertiesANDR(uint8 fingerIndex = 0) const;
 
 		void OnTouchEvent(AInputEvent* pEvent);
@@ -181,6 +187,7 @@ namespace star
 		std::vector<FingerPointerANDR> m_OldPointerVec;
 #endif
 		vec2 m_CurrMousePosition, m_OldMousePosition, m_MouseMovement;
+		vec2 m_CurrUnScaledMousePosition, m_OldUnScaledMousePosition;
 		std::shared_ptr<GestureManager> m_GestureManager;
 
 		InputManager(const InputManager& t);

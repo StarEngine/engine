@@ -5,6 +5,8 @@
 #include "../../Graphics/GraphicsManager.h"
 #include "../Graphics/SpriteComponent.h"
 #include "../../Helpers/Debug/DebugDraw.h"
+#include "../../Graphics/ScaleSystem.h"
+#include "../../Helpers/Helpers.h"
 
 namespace star
 {
@@ -70,8 +72,18 @@ namespace star
 			if(spriteComp)
 			{
 				ASSERT(spriteComp->IsInitialized(),_T("First add the spriteComponent and then the rectColliderComp"));
-				m_CollisionRect.SetPoints(vec2(0,0),vec2(spriteComp->GetWidth(), 0), 
-					vec2(0, spriteComp->GetHeight() ), vec2(spriteComp->GetWidth(), spriteComp->GetHeight()));
+				m_CollisionRect.SetPoints(vec2(0,0),
+					vec2(spriteComp->GetWidth(), 0), 
+					vec2(0, spriteComp->GetHeight()), 
+					vec2(spriteComp->GetWidth(), 
+						spriteComp->GetHeight()));
+			}
+			else
+			{
+				ASSERT(false, _T("If you use the default constructor of the RectangleColliderComponent()\n\
+								, make sure to also add a SpriteComponent or SpriteSheetComponent. \n\
+								If you don't need this, please specify a width and height in the constructor of \n\
+								the RectangleColliderComponent."));
 			}
 		}
 	}
@@ -80,42 +92,94 @@ namespace star
 	{
 		if(GetTransform()->GetWorldRotation() == 0.0f)
 		{
-			Rect rect = GetCollisionRect();
+			Rect rect(GetCollisionRect());
 			return !(rect.GetLeftTop().x > point.x || rect.GetRightTop().x < point.x
 					|| rect.GetLeftTop().y < point.y || rect.GetLeftBottom().y > point.y);
 		}
 		else
 		{
-			//[TODO] implement OOBB - Point collision
-			return false;
+			//SAT with only the 2 axises of the OOBB, and compare the point
+			Rect rect(GetCollisionRect());
+			//SAT works with the perpendicular axises of the shapes, 
+			//but for a rect, the perpendicular axises are the other axises (angles are 90°)
+			vec2 axis1(rect.GetRightTop() - rect.GetLeftTop());
+			vec2 axis2(rect.GetRightTop() - rect.GetRightBottom());
+
+			if(!CalculateAxisSpecificCollision(rect, point, axis1))
+			{
+				return false;		
+			}
+			if(!CalculateAxisSpecificCollision(rect, point, axis2))
+			{
+				return false;
+			}
+			return true;
 		}
 		
 	}
 
 	bool RectangleColliderComponent::CollidesWithLine(const vec2& point1, const vec2& point2) const
 	{
+		ASSERT(point1 != point2, _T("Please provide 2 different points to make a line!"));
+
 		if(GetTransform()->GetWorldRotation() == 0.0f && (point1.x == point2.x || point1.y == point2.y))
 		{
 			//If rect is AABB and line also AA
-			Rect rect = GetCollisionRect();
+			Rect rect(GetCollisionRect());
+			bool returnValue(false);
 			if(point1.x == point2.x)
 			{
 				//Line is vertical
-				return !(rect.GetLeftTop().x > point1.x || rect.GetRightTop().x < point1.x);
+				//if lowest point of line is bigger than highest point of rect or
+				//if highest point of line is smaller than lowest point of rect
+				if(point1.y < point2.y)
+				{
+					returnValue = !(rect.GetLeftTop().x > point1.x || rect.GetRightTop().x < point1.x 
+						|| rect.GetLeftTop().y < point1.y || rect.GetLeftBottom().y > point2.y);
+				}
+				else
+				{
+					returnValue = !(rect.GetLeftTop().x > point1.x || rect.GetRightTop().x < point1.x 
+						|| rect.GetLeftTop().y < point2.y || rect.GetLeftBottom().y > point1.y);
+				}
+				return returnValue;;
 			}
 			else
 			{
-				//Line is horizontal
-				return !(rect.GetLeftTop().y < point1.y || rect.GetLeftBottom().y > point1.y);
+				if(point1.x < point2.x)
+				{
+					returnValue = !(rect.GetLeftTop().y < point1.y || rect.GetLeftBottom().y > point1.y 
+						|| rect.GetRightBottom().x < point1.x || rect.GetLeftBottom().x > point2.x);
+				}
+				else
+				{
+					returnValue = !(rect.GetLeftTop().y < point1.y || rect.GetLeftBottom().y > point1.y 
+						|| rect.GetRightBottom().x < point2.x || rect.GetLeftBottom().x > point1.x);
+				}
+				return returnValue;;
 			}
 		}
 		else
 		{
-			Rect rect = GetCollisionRect();
+			Rect rect(GetCollisionRect());
 			//perpendicular of a vec =  (-y , x) or (y, -x)
-			vec2 axis(-(point2 - point1).y , (point2 - point1).x);
+			vec2 axis1(-(point2 - point1).y , (point2 - point1).x);
+			vec2 axis2(rect.GetRightTop() - rect.GetLeftTop());
+			vec2 axis3(rect.GetRightTop() - rect.GetRightBottom());
 
-			return (CalculateAxisSpecificCollision(rect, point1, point2, axis));
+			if(!CalculateAxisSpecificCollision(rect, point1, point2, axis1))
+			{
+				return false;
+			}
+			if(!CalculateAxisSpecificCollision(rect, point1, point2, axis2))
+			{
+				return false;
+			}
+			if(!CalculateAxisSpecificCollision(rect, point1, point2, axis3))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 
@@ -133,27 +197,32 @@ namespace star
 			{
 				if(AABBRectangleRectangleCollision(thisRect, otherRect))
 				{
-					//Logger::GetInstance()->Log(LogLevel::Info, _T("AABB - Collision Detected"));
+					Logger::GetInstance()->Log(LogLevel::Info, _T("AABB - Collision Detected"));
 				}
 			}
 			else
 			{
 				if(OOBBRectangleRectangleCollision(thisRect, otherRect))
 				{
-					//Logger::GetInstance()->Log(LogLevel::Info, _T("OOBB - Collision Detected"));
+					Logger::GetInstance()->Log(LogLevel::Info, _T("OOBB - Collision Detected"));
 				}
 			}
 			
 		}
 		else if(otherCircleComp != nullptr)
 		{
-			if(GetTransform()->GetWorldRotation() == 0.0f && otherRectComp->GetTransform()->GetWorldRotation() == 0.0f)
+			if(GetTransform()->GetWorldRotation() == 0.0f)
 			{
 				if(RectangleCircleCollision(this, otherCircleComp))
 				{
 
 				}
 			}
+			else
+			{
+				//[TODO] OOBB - Circle Collision!
+			}
+
 		}
 	}
 
@@ -175,40 +244,73 @@ namespace star
 		}
 		else
 		{
-			/*
-		Based on this: http://www.gamedev.net/page/resources/_/technical/game-programming/2d-rotated-rectangle-collision-r2604
-		*/
 			vec2 axis1, axis2, axis3, axis4;
 			axis1 = rect1.GetRightTop() - rect1.GetLeftTop();
 			axis2 = rect1.GetRightTop() - rect1.GetRightBottom();
 			axis3 = rect2.GetLeftTop() - rect2.GetLeftBottom();
 			axis4 = rect2.GetLeftTop() - rect2.GetRightTop();
 
-			return (CalculateAxisSpecificCollision(rect1, rect2, axis1) ||
-			CalculateAxisSpecificCollision(rect1, rect2, axis2) ||
-			CalculateAxisSpecificCollision(rect1, rect2, axis3) ||
-			CalculateAxisSpecificCollision(rect1, rect2, axis4));			
+			if(!CalculateAxisSpecificCollision(rect1, rect2, axis1))
+			{
+				return false;
+			}
+			if(!CalculateAxisSpecificCollision(rect1, rect2, axis2))
+			{
+				return false;
+			}
+			if(!CalculateAxisSpecificCollision(rect1, rect2, axis3))
+			{
+				return false;
+			}
+			if(!CalculateAxisSpecificCollision(rect1, rect2, axis4))
+			{
+				return false;
+			}
+			return true;
 		}									  
 	}		
 
-	bool RectangleColliderComponent::CalculateAxisSpecificCollision(const Rect& rect1, 
+	bool RectangleColliderComponent::CalculateAxisSpecificCollision(const Rect& rect, 
 		const vec2& point1, const vec2& point2, const vec2& axis) const
 	{
-		vec2 Aproj1 = ((rect1.GetLeftTop() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
-		vec2 Aproj2 = ((rect1.GetLeftBottom() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
-		vec2 Aproj3 = ((rect1.GetRightBottom() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
-		vec2 Aproj4 = ((rect1.GetRightTop() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
+		float AvecPosOnAxis1 = glm::dot(rect.GetLeftTop(),axis);
+		float AvecPosOnAxis2 = glm::dot(rect.GetLeftBottom(),axis);
+		float AvecPosOnAxis3 = glm::dot(rect.GetRightBottom(),axis);
+		float AvecPosOnAxis4 = glm::dot(rect.GetRightTop(),axis);
 
-		vec2 Bproj1 = ((point1 * axis)/(glm::length(axis)*glm::length(axis)))*axis;
-
-		float AvecPosOnAxis1 = glm::dot(Aproj1,axis);
-		float AvecPosOnAxis2 = glm::dot(Aproj2,axis);
-		float AvecPosOnAxis3 = glm::dot(Aproj3,axis);
-		float AvecPosOnAxis4 = glm::dot(Aproj4,axis);
-
-		float BvecPosOnAxis1 = glm::dot(Bproj1,axis);
+		float BvecPosOnAxis1 = glm::dot(point1,axis);
+		float BvecPosOnAxis2 = glm::dot(point2,axis);
 
 		//Find Min and Max
+		float vec1[4];
+		vec1[0] = AvecPosOnAxis1;
+		vec1[1] = AvecPosOnAxis2;
+		vec1[2] = AvecPosOnAxis3;
+		vec1[3] = AvecPosOnAxis4;
+
+		float vec2[2];
+		vec2[0] = BvecPosOnAxis1;
+		vec2[1] = BvecPosOnAxis2;
+
+		float AMinimum = CalculateMinimum(vec1, 4);
+		float AMaximum = CalculateMaximum(vec1, 4);
+
+		float BMinimum = CalculateMinimum(vec2, 2);
+		float BMaximum = CalculateMaximum(vec2, 2);
+
+		return (BMinimum <= AMaximum && BMaximum >= AMinimum);
+	}
+
+	bool RectangleColliderComponent::CalculateAxisSpecificCollision(const Rect& rect,
+		const vec2& point, const vec2& axis) const
+	{
+		float AvecPosOnAxis1 = glm::dot(rect.GetLeftTop(), axis);
+		float AvecPosOnAxis2 = glm::dot(rect.GetLeftBottom(), axis);
+		float AvecPosOnAxis3 = glm::dot(rect.GetRightBottom(), axis);
+		float AvecPosOnAxis4 = glm::dot(rect.GetRightTop(), axis);
+
+		float BvecPosOnAxis1 =  glm::dot(point, axis);
+
 		float vec1[4];
 		vec1[0] = AvecPosOnAxis1;
 		vec1[1] = AvecPosOnAxis2;
@@ -224,27 +326,16 @@ namespace star
 	bool RectangleColliderComponent::CalculateAxisSpecificCollision(const Rect& rect1, 
 		const Rect& rect2, const vec2& axis) const
 	{
-		vec2 Aproj1 = ((rect1.GetLeftTop() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
-		vec2 Aproj2 = ((rect1.GetLeftBottom() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
-		vec2 Aproj3 = ((rect1.GetRightBottom() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
-		vec2 Aproj4 = ((rect1.GetRightTop() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
+		float AvecPosOnAxis1 = glm::dot(rect1.GetLeftTop(),axis);
+		float AvecPosOnAxis2 = glm::dot(rect1.GetLeftBottom(),axis);
+		float AvecPosOnAxis3 = glm::dot(rect1.GetRightBottom(),axis);
+		float AvecPosOnAxis4 = glm::dot(rect1.GetRightTop(),axis);
 
-		vec2 Bproj1 = ((rect2.GetLeftTop() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
-		vec2 Bproj2 = ((rect2.GetLeftBottom() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
-		vec2 Bproj3 = ((rect2.GetRightBottom() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
-		vec2 Bproj4 = ((rect2.GetRightTop() * axis)/(glm::length(axis)*glm::length(axis)))*axis;
+		float BvecPosOnAxis1 = glm::dot(rect2.GetLeftTop(),axis);
+		float BvecPosOnAxis2 = glm::dot(rect2.GetLeftBottom(),axis);
+		float BvecPosOnAxis3 = glm::dot(rect2.GetRightBottom(),axis);
+		float BvecPosOnAxis4 = glm::dot(rect2.GetRightTop(),axis);
 
-		float AvecPosOnAxis1 = glm::dot(Aproj1,axis);
-		float AvecPosOnAxis2 = glm::dot(Aproj2,axis);
-		float AvecPosOnAxis3 = glm::dot(Aproj3,axis);
-		float AvecPosOnAxis4 = glm::dot(Aproj4,axis);
-
-		float BvecPosOnAxis1 = glm::dot(Bproj1,axis);
-		float BvecPosOnAxis2 = glm::dot(Bproj2,axis);
-		float BvecPosOnAxis3 = glm::dot(Bproj3,axis);
-		float BvecPosOnAxis4 = glm::dot(Bproj4,axis);
-
-		//Find Min and Max
 		float vec1[4];
 		vec1[0] = AvecPosOnAxis1;
 		vec1[1] = AvecPosOnAxis2;
@@ -262,7 +353,7 @@ namespace star
 		float AMaximum = CalculateMaximum(vec1, 4);
 		float BMaximum = CalculateMaximum(vec2, 4);
 
-		return BMinimum <= AMaximum || BMaximum >= AMinimum;
+		return BMinimum <= AMaximum && BMaximum >= AMinimum;
 	}
 
 	float RectangleColliderComponent::CalculateMinimum(const float* vec, uint8 size) const
@@ -347,13 +438,13 @@ namespace star
 
 	Rect RectangleColliderComponent::GetCollisionRect() const
 	{
-		Rect temp = m_CollisionRect * 
-			(GraphicsManager::GetInstance()->GetViewInverseMatrix() * GetTransform()->GetWorldMatrix());
+		Rect temp = (m_CollisionRect * GetTransform()->GetWorldMatrix()) 
+			* GraphicsManager::GetInstance()->GetViewInverseMatrix();
 		return temp;
 	}
 
 	void RectangleColliderComponent::Draw()
 	{
-
+		DebugDraw::GetInstance()->DrawScaledSolidRect(GetCollisionRect(),Color::White);
 	}
 }

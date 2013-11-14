@@ -41,7 +41,7 @@ namespace star
 		glUniformMatrix4fv(mvpID,1,GL_FALSE,&modelMatrix[0][0]);
 
 		GLint colorID = glGetUniformLocation(mShader->GetID(), "inputColor");
-		glUniform4f(mvpID,1.0,1.0,0.0,1.0);
+		glUniform4f(colorID,1.0,1.0,0.0,1.0);
 
 		GLint posID =glGetAttribLocation(mShader->GetID(),"position");
 		glVertexAttribPointer(posID, 2, GL_FLOAT,0,0, squareVertices);

@@ -71,7 +71,7 @@ namespace star
 
 	protected:
 		virtual void Initialize();
-		virtual void AfterInitialzed();
+		virtual void AfterInitialized();
 		virtual void Update(const Context & context);
 		virtual void Draw();
 
