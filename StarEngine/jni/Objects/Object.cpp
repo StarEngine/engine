@@ -76,10 +76,10 @@ namespace star
 
 	void Object::BaseAfterInitialized()
 	{
-		AfterInitialzed();
+		AfterInitialized();
 	}
 
-	void Object::AfterInitialzed()
+	void Object::AfterInitialized()
 	{
 		//DO nothing, unless a derived class overrides this
 	}
