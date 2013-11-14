@@ -77,5 +77,6 @@ namespace star
 		SoundService(const SoundService& yRef);
 		SoundService(SoundService&& yRef);
 		SoundService& operator=(const SoundService& yRef);
+		SoundService& operator=(SoundService&& yRef);
 	};
 }

@@ -29,5 +29,6 @@ namespace star
 		State(const State& yRef);
 		State(State&& yRef);
 		State& operator=(const State& yRef);
+		State& operator=(State&& yRef);
 	};
 }

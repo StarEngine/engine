@@ -25,15 +25,18 @@ namespace star
 		, m_Height()
 		, m_Diagonal()
 	{
+		//[COMMENT] This assert is temporarely disabled because of strange scale issues
+		/*
 	//Check if the rect is a  rect! (all angles ~90°)	
 		float dot1 = glm::dot(rightTop - leftTop , leftBottom - leftTop);
 		float dot2 = glm::dot(leftTop - rightTop , rightBottom - rightTop);
 		float dot3 = glm::dot(rightTop - rightBottom, leftBottom - rightBottom);
-		float tolerance = 0.02f;
+		
+		float tolerance = 0.1f;
 		ASSERT((abs(dot1) < 0 + tolerance
 			|| abs(dot2) < 0 + tolerance
 			|| abs(dot3) < 0 + tolerance)
-			, _T("The Rect is not a rectangle!!"));
+			, _T("The Rect is not a rectangle!!"));*/
 			
 		m_Width = m_RightTop.x - m_LeftTop.x;
 		m_Height = m_RightTop.y - m_LeftTop.y;

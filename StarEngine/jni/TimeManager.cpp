@@ -22,6 +22,11 @@ namespace star
 
 	}
 
+	TimeManager::~TimeManager()
+	{
+
+	}
+
 	void TimeManager::StartMonitoring()
 	{
 #ifdef _WIN32
@@ -102,6 +107,6 @@ namespace star
 
 	double TimeManager::GetSecondsSinceStart() const
 	{
-		return mTotalMS/MILLIMULTIPLIER;
+		return mTotalMS / MILLIMULTIPLIER;
 	}
 }

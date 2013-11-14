@@ -28,5 +28,6 @@ namespace star
 		TapGesture(const TapGesture& t);
 		TapGesture(TapGesture&& t);
 		TapGesture& operator=(const TapGesture& t);
+		TapGesture& operator=(TapGesture&& t);
 	};
 }

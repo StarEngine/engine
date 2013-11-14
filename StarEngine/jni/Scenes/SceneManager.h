@@ -14,7 +14,7 @@ namespace star
 	struct Context;
 	class BaseScene;
 
-	class SceneManager
+	class SceneManager final
 	{
 	public:
 		~SceneManager();
@@ -61,5 +61,6 @@ namespace star
 		SceneManager(const SceneManager& yRef);
 		SceneManager(SceneManager&& yRef);
 		SceneManager& operator=(const SceneManager& yRef);
+		SceneManager& operator=(SceneManager&& yRef);
 	};
 }

@@ -52,6 +52,7 @@ namespace star
 	private:
 		SpritesheetComponent(const SpritesheetComponent &);
 		SpritesheetComponent(SpritesheetComponent &&);
-		SpritesheetComponent & operator=(const SpritesheetComponent &);
+		SpritesheetComponent& operator=(const SpritesheetComponent &);
+		SpritesheetComponent& operator=(SpritesheetComponent &&);
 	};
 }

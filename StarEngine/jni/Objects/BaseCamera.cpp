@@ -3,7 +3,6 @@
 #include "../Input/InputManager.h"
 #include "../StarComponents.h"
 #include "../Graphics/GraphicsManager.h"
-#include "../Graphics/ScaleSystem.h"
 
 namespace star
 {

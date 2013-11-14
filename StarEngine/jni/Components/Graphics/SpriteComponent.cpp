@@ -7,7 +7,6 @@
 #include "../CameraComponent.h"
 #include "../../Objects/Object.h"
 #include "../../Graphics/SpriteBatch.h"
-#include "../../Graphics/ScaleSystem.h"
 
 namespace star
 {
@@ -125,16 +124,6 @@ namespace star
 	int32 SpriteComponent::GetHeight() const
 	{
 		return int32(m_Heigth / m_HeightSegments); 
-	}
-
-	float SpriteComponent::GetScaledWidth() const
-	{
-		return (m_Width / m_WidthSegments) * ScaleSystem::GetInstance()->GetScale();
-	}
-
-	float SpriteComponent::GetScaledHeight() const
-	{
-		return (m_Heigth / m_HeightSegments) * ScaleSystem::GetInstance()->GetScale(); 
 	}
 
 	std::vector<GLfloat> SpriteComponent::GetVertices() const

@@ -90,6 +90,7 @@ namespace star
 		Object(const Object& t);
 		Object(Object&& t);
 		Object& operator=(const Object& t);
+		Object& operator=(Object&& t);
 	};
 
 	template<class T>

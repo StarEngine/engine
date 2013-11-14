@@ -29,7 +29,7 @@ namespace star
 		const mat4x4 & GetView() const;
 		const mat4x4 & GetProjection() const;
 		const mat4x4 & GetViewInverse() const;
-		mat4x4 GetProjectionViewInvesre() const;
+		mat4x4 GetProjectionViewInverse() const;
 
 	protected:
 		virtual void InitializeComponent();

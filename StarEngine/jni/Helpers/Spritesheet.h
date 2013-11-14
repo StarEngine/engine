@@ -27,7 +27,6 @@ namespace star
 		int GetFramesHorizontal() const;
 		int GetFramesVertical() const;
 		
-
 	private:
 		tstring m_Name;
 		tstring m_DefaultAnimation;

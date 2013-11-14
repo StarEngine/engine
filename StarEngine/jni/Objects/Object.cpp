@@ -50,7 +50,7 @@ namespace star
 		}
 
 		Initialize();
-		for(auto *comp : m_pComponents)
+		for(auto comp : m_pComponents)
 		{
 			if(comp && !comp->IsInitialized())
 			{
@@ -58,7 +58,7 @@ namespace star
 			}
 		}
 
-		for(auto *child : m_pChildren)
+		for(auto child : m_pChildren)
 		{
 			if(child && !child->m_bIsInitialized)
 			{
@@ -94,7 +94,7 @@ namespace star
 		if(!m_IsFrozen)
 		{
 			Update(context);
-			for(auto *component : m_pComponents)
+			for(auto component : m_pComponents)
 			{
 				if(component)
 				{
@@ -102,7 +102,7 @@ namespace star
 				}
 			}
 
-			for(auto *child : m_pChildren)
+			for(auto child : m_pChildren)
 			{
 				if(child)
 				{
@@ -126,7 +126,7 @@ namespace star
 		if(m_IsVisible)
 		{
 			Draw();
-			for(auto *component : m_pComponents)
+			for(auto component : m_pComponents)
 			{
 				if(component)
 				{
@@ -134,7 +134,7 @@ namespace star
 				} 
 			}
 
-			for(auto *child : m_pChildren)
+			for(auto child : m_pChildren)
 			{
 				if(child)
 				{
@@ -146,7 +146,7 @@ namespace star
 
 	const tstring& Object::GetName() const
 	{
-		return (m_Name);
+		return m_Name;
 	}
 
 	void Object::SetName(const tstring& name)

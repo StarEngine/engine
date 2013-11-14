@@ -64,7 +64,7 @@ namespace star
 					}
 					//Check speed:
 					m_TotalDistance = glm::length(m_CurrentPos - m_StartPos);
-					m_Speed = m_TotalDistance / (float)m_ElapsedTime ;
+					m_Speed = m_TotalDistance / float(m_ElapsedTime);
 				}
 			}			
 
@@ -81,8 +81,6 @@ namespace star
 					m_bCompletedGesture = true;
 				}
 			}
-			
-
 		}
 	}
 	#else
@@ -183,7 +181,6 @@ namespace star
 
 	float SwipeGesture::GetSwipeLength() const
 	{
-		//[TODO] In % 
 		return m_TotalDistance;
 	}
 }

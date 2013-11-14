@@ -4,7 +4,6 @@
 #include "../Objects/Object.h"
 #include "../StarComponents.h"
 #include "../Objects/BaseCamera.h"
-#include "../Graphics/ScaleSystem.h"
 #include "../Graphics/GraphicsManager.h"
 #include "../Helpers/Debug/DebugDraw.h"
 
@@ -23,9 +22,9 @@ namespace star
 	
 	BaseScene::~BaseScene()
 	{
-		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
+		for(auto object : m_Objects)
 		{
-			delete m_Objects[i];
+			delete object;
 		}
 		m_Objects.clear();
 		m_GestureManagerPtr = nullptr;
@@ -40,9 +39,9 @@ namespace star
 			m_pDefaultCamera = new BaseCamera();
 
 			m_Initialized = true;
-			for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
+			for(auto object : m_Objects)
 			{
-				m_Objects[i]->BaseInitialize();
+				object->BaseInitialize();
 			}
 			BaseAfterInitializedObjects();
 		}
@@ -68,9 +67,9 @@ namespace star
 	{	
 		m_pStopwatch->Update(context);
 
-		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
+		for(auto object : m_Objects)
 		{
-			m_Objects[i]->BaseUpdate(context);
+			object->BaseUpdate(context);
 		}
 
 		Update(context);
@@ -78,12 +77,9 @@ namespace star
 
 	void BaseScene::BaseDraw()
 	{
-		glClearColor(0.0f,0.0f,0.0f,1.0f);
-
-		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-		for(uint32 i = 0 ; i < m_Objects.size() ; ++i)
+		for(auto object : m_Objects)
 		{
-			m_Objects[i]->BaseDraw();
+			object->BaseDraw();
 		}
 
 		Draw(); 

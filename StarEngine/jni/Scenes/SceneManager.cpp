@@ -2,11 +2,11 @@
 #include "../Logger.h"
 #include "../Context.h"
 #include "BaseScene.h"
-#include "../Input/InputManager.h"
 #include "../Graphics/GraphicsManager.h"
 #include "../Assets/TextureManager.h"
 #include "../Sound/SoundService.h"
 #include "../Graphics/SpriteBatch.h"
+#include "../Input/InputManager.h"
 
 #define INPUT_MANAGER (InputManager::GetInstance())
 
@@ -14,7 +14,7 @@ namespace star
 {
 	SceneManager * SceneManager::m_pSceneManager = nullptr;
 
-	SceneManager::SceneManager( void )
+	SceneManager::SceneManager()
 		: m_ActiveScene(nullptr)
 		, m_NewActiveScene(nullptr)
 		, m_Stopwatch(nullptr)
@@ -29,7 +29,7 @@ namespace star
 		m_Stopwatch = std::make_shared<Stopwatch>();
 	}
 
-	SceneManager::~SceneManager(void)
+	SceneManager::~SceneManager()
 	{
 		for(auto scene : m_SceneList)
 		{
@@ -51,16 +51,16 @@ namespace star
 
 	BaseScene* SceneManager::GetActiveScene()
 	{
-		return (m_ActiveScene);
+		return m_ActiveScene;
 	}
 
 	BaseScene* SceneManager::GetScene(const tstring & name)
 	{
 		if(m_SceneList.find(name) != m_SceneList.end())
 		{
-			return (m_SceneList[name]);
+			return m_SceneList[name];
 		}
-		return (nullptr);
+		return nullptr;
 	}
 
 	bool SceneManager::SetActiveScene(const tstring & name)
@@ -68,7 +68,7 @@ namespace star
 		if(m_CurrentSceneName == name)
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning, _T("SceneManager::SetActiveScene: Scene is already active!"));
-			return (true);
+			return true;
 		}
 		if(m_SceneList.find(name) != m_SceneList.end())
 		{
@@ -77,14 +77,14 @@ namespace star
 			m_bInitialized = m_NewActiveScene->IsInitialized();
 			m_CurrentSceneName = name;
 			Logger::GetInstance()->Log(LogLevel::Info, _T("Scene ") + name + _T(" is now Active"));
-			return (true);
+			return true;
 		}
 		else
 		{
 			m_bSwitchingScene = false;
-			return (false);
+			return false;
 		}
-		return (true);
+		return true;
 	}
 
 	bool SceneManager::AddScene(const tstring & name, BaseScene* scene)
@@ -97,9 +97,9 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Info, _T("Scene Already Exists"));
-			return (false);
+			return false;
 		}
-		return (true);
+		return true;
 	}
 
 	bool SceneManager::RemoveScene(const tstring & name)
@@ -108,26 +108,26 @@ namespace star
 		if(it != m_SceneList.end())
 		{
 			m_SceneList.erase(it);
-			return (true);
+			return true;
 		}
-		return (false);
+		return false;
 	}
 
 	bool SceneManager::InitializeCurScene(const Context& context)
 	{
 		if(m_bInitialized)
 		{
-			return (true);
+			return true;
 		}
 		if(m_NewActiveScene == nullptr)
 		{
-			return (false);
+			return false;
 		}
 		Logger::GetInstance()->Log(LogLevel::Info, _T("Initializing Scene :") + m_CurrentSceneName);
 		m_NewActiveScene->BaseInitialize();
 		m_bInitialized = m_NewActiveScene->IsInitialized();
 		m_NewActiveScene->BaseAfterInitializedObjects();
-		return (m_bInitialized);
+		return m_bInitialized;
 
 	}
 
@@ -159,8 +159,8 @@ namespace star
 
 		else if(m_ActiveScene != nullptr)
 		{
-			InputManager::GetInstance()->UpdateGestures(context);
-			return (m_ActiveScene->BaseUpdate(context));
+			INPUT_MANAGER->UpdateGestures(context);
+			return m_ActiveScene->BaseUpdate(context);
 		}
 	}
 
@@ -234,10 +234,9 @@ namespace star
 		case AINPUT_EVENT_TYPE_KEY:
 			return INPUT_MANAGER->OnKeyboardEvent(pEvent);
 		default:
-			return (false);
+			return false;
 		}
-		return (false);
+		return false;
 	}
-
 #endif
 }

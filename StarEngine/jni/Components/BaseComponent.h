@@ -39,5 +39,6 @@ namespace star
 		BaseComponent(const BaseComponent& t);
 		BaseComponent(BaseComponent&& t);
 		BaseComponent& operator=(const BaseComponent& t);
+		BaseComponent& operator=(BaseComponent&& t);
 	};
 }

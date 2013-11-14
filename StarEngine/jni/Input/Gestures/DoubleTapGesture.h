@@ -27,12 +27,12 @@ namespace star
 		static const int MINIMUM_TAP_TIME = 10;
 		static const int MAXIMUM_TAP_TIME = 500;
 		static const int MAXIMUM_TIME_BETWEEN_TAPS = 300;
-		//[TODO] make % dependant
 		static const int MAXIMUM_MOVEMENT_RANGE = 50;
 		int m_Count;
 
 		DoubleTapGesture(const DoubleTapGesture& t);
 		DoubleTapGesture(DoubleTapGesture&& t);
 		DoubleTapGesture& operator=(const DoubleTapGesture& t);
+		DoubleTapGesture& operator=(DoubleTapGesture&& t);
 	};
 }

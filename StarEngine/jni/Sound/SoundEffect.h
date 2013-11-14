@@ -17,7 +17,7 @@ namespace star
 {
 	const int MAX_SAMPLES = 10;
 
-	class SoundEffect
+	class SoundEffect final
 	{
 	public:
 		SoundEffect(const tstring& path);
@@ -44,5 +44,6 @@ namespace star
 		SoundEffect(const SoundEffect& yRef);
 		SoundEffect(SoundEffect&& yRef);
 		SoundEffect& operator=(const SoundEffect& yRef);
+		SoundEffect& operator=(SoundEffect&& yRef);
 	};
 }

@@ -37,13 +37,13 @@ namespace star
 	{
 		for(auto music : mMusicList)
 		{
-			delete (music.second);
+			delete music.second;
 			music.second = nullptr;
 		}
 
 		for(auto effect : mEffectsList)
 		{
-			delete (effect.second);
+			delete effect.second;
 			effect.second = nullptr;
 		}
 	}
@@ -175,12 +175,12 @@ namespace star
 		}
 
 		auto pathit = mMusicPathList.find(path);
-		if(pathit!=mMusicPathList.end())
+		if(pathit != mMusicPathList.end())
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Sound File Path Already Exists"));
 			tstring nameold = pathit->second;
 			auto nameit = mMusicList.find(nameold);
-			if(nameit!= mMusicList.end())
+			if(nameit != mMusicList.end())
 			{
 				star::Logger::GetInstance()->
 					Log(LogLevel::Warning,_T("Sound Service : Found sound file of old path, making copy for new name"));
@@ -207,7 +207,7 @@ namespace star
 		}
 
 		auto pathit = mSoundEffectPathList.find(path);
-		if(pathit!=mSoundEffectPathList.end())
+		if(pathit != mSoundEffectPathList.end())
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Sound Effect Path Already Exists"));
 			tstring nameold = pathit->second;
@@ -324,7 +324,7 @@ namespace star
 		if(mBackgroundQueue.size() == 0) return;
 
 		++mQueueIterator;
-		if(mQueueIterator!=mBackgroundQueue.end())
+		if(mQueueIterator != mBackgroundQueue.end())
 		{
 			(*mQueueIterator)->PlayQueued(0);
 		}
@@ -358,16 +358,14 @@ namespace star
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
-		auto it = mMusicList.begin();
-		for(it; it!= mMusicList.end();++it)
+		for(auto song : mMusicList)
 		{
-			it->second->Stop();
+			song.second->Stop();
 		}
 
-		auto it2 = mEffectsList.begin();
-		for(it2; it2!= mEffectsList.end();++it2)
+		for(auto effect : mEffectsList)
 		{
-			it2->second->Stop();
+			effect.second->Stop();
 		}
 	}
 
@@ -375,16 +373,14 @@ namespace star
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
-		auto it = mMusicList.begin();
-		for(it; it!= mMusicList.end();++it)
+		for(auto song : mMusicList)
 		{
-			it->second->Pause();
+			song.second->Pause();
 		}
 
-		auto it2 = mEffectsList.begin();
-		for(it2; it2!= mEffectsList.end();++it2)
+		for(auto effect : mEffectsList)
 		{
-			it2->second->Pause();
+			effect.second->Pause();
 		}
 	}
 
@@ -392,16 +388,14 @@ namespace star
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
-		auto it = mMusicList.begin();
-		for(it; it!= mMusicList.end();++it)
+		for(auto song : mMusicList)
 		{
-			it->second->Resume();
+			song.second->Resume();
 		}
 
-		auto it2 = mEffectsList.begin();
-		for(it2; it2!= mEffectsList.end();++it2)
+		for(auto effect : mEffectsList)
 		{
-			it2->second->Resume();
+			effect.second->Resume();
 		}
 	}
 
@@ -409,17 +403,18 @@ namespace star
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
-		auto it = mMusicList.begin();
-		for(it; it!= mMusicList.end();++it)
+		for(auto song : mMusicList)
 		{
-			mMusicList.erase(it);
+			delete song.second;
 		}
+		mMusicList.clear();
 
-		auto it2 = mEffectsList.begin();
-		for(it2; it2!= mEffectsList.end();++it2)
+		for(auto effect : mEffectsList)
 		{
-			mEffectsList.erase(it2);
-		}
+			delete effect.second;
+		}	
+		mEffectsList.clear();
+		
 	}
 
 #ifdef ANDROID

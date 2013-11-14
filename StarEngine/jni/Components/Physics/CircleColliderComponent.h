@@ -14,6 +14,9 @@ namespace star
 		CircleColliderComponent(const tstring* layers, uint8 n = 1);
 		CircleColliderComponent(float radius);
 		CircleColliderComponent(float radius, const tstring* layers, uint8 n = 1);
+		CircleColliderComponent(float radius, const vec2& offset);
+		CircleColliderComponent(float radius, const vec2& offset, 
+			const tstring* layers, uint8 n = 1);
 		~CircleColliderComponent(void);
 
 		bool CollidesWithPoint(const vec2& point) const;
@@ -31,6 +34,7 @@ namespace star
 		const CircleColliderComponent* collider2) const;
 
 		float m_Radius;
+		vec2 m_Offset;
 		bool m_bDefaultInitialized;
 
 	private:

@@ -39,5 +39,6 @@ namespace star
 		StateManager(const StateManager &);
 		StateManager(StateManager&&);
 		StateManager & operator=(const StateManager&);
+		StateManager & operator=(StateManager&&);
 	};
 }

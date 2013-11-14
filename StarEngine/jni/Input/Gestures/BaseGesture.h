@@ -35,5 +35,6 @@ namespace star
 		BaseGesture(const BaseGesture& t);
 		BaseGesture(BaseGesture&& t);
 		BaseGesture& operator=(const BaseGesture& t);
+		BaseGesture& operator=(BaseGesture&& t);
 	};
 }

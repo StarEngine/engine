@@ -31,5 +31,6 @@ namespace star
 		XMLFileParser(const XMLFileParser & yRef);
 		XMLFileParser(XMLFileParser && yRef);
 		const XMLFileParser & operator=(const XMLFileParser & yRef);
+		const XMLFileParser & operator=(XMLFileParser&& yRef);
 	};
 }

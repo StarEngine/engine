@@ -15,7 +15,7 @@
 
 namespace star
 {
-	class SoundFile
+	class SoundFile final
 	{
 	public:
 		SoundFile(const tstring& path);
@@ -46,5 +46,6 @@ namespace star
 		SoundFile(const SoundFile& yRef);
 		SoundFile(SoundFile&& yRef);
 		SoundFile& operator=(const SoundFile& yRef);
+		SoundFile& operator=(SoundFile&& yRef);
 	};
 }

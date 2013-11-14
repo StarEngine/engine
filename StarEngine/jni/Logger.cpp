@@ -21,7 +21,7 @@
 
 namespace star
 {
-	Logger * Logger::m_LoggerPtr = nullptr;
+	Logger* Logger::m_LoggerPtr = nullptr;
 
 	Logger::Logger(void)
 #ifdef _WIN32
@@ -50,11 +50,6 @@ namespace star
 			m_LoggerPtr = new Logger();
 		}
 		return m_LoggerPtr;
-	}
-
-	void Logger::ResetSingleton()
-	{
-		//Delete resources.
 	}
 
 #ifdef _WIN32

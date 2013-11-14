@@ -11,7 +11,8 @@ namespace star
 {
 	struct WinInputState;
 
-	class GestureManager {
+	class GestureManager 
+	{
 	public:
 		GestureManager();
 		~GestureManager();

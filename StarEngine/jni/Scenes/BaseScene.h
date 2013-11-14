@@ -64,5 +64,6 @@ namespace star
 		BaseScene(const BaseScene& t);
 		BaseScene(BaseScene&& t);
 		BaseScene& operator=(const BaseScene& t);
+		BaseScene& operator=(BaseScene&& t);
 	};
 }

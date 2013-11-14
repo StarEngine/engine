@@ -7,7 +7,7 @@ namespace star
 {
 	class XMLContainer;
 
-	class XMLFileSerializer
+	class XMLFileSerializer final
 	{
 	public:
 		XMLFileSerializer(const tstring & path);
@@ -27,5 +27,6 @@ namespace star
 		XMLFileSerializer(const XMLFileSerializer & yRef);
 		XMLFileSerializer(XMLFileSerializer && yRef);
 		const XMLFileSerializer & operator=(const XMLFileSerializer & yRef);
+		const XMLFileSerializer & operator=(XMLFileSerializer&& yRef);
 	};
 }

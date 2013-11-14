@@ -16,6 +16,7 @@ namespace star
 		vec2 GetSwipeDirection() const;
 		float GetSwipeSpeed() const;
 		float GetSwipeLength() const;
+
 	private:
 	#ifdef _WIN32
 		virtual void OnUpdateWinInputState();
@@ -39,5 +40,6 @@ namespace star
 		SwipeGesture(const SwipeGesture& t);
 		SwipeGesture(SwipeGesture&& t);
 		SwipeGesture& operator=(const SwipeGesture& t);
+		SwipeGesture& operator=(SwipeGesture&& t);
 	};
 }

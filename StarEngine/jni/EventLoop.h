@@ -12,7 +12,7 @@ namespace star
 {
 	class SceneManager;
 
-	class EventLoop
+	class EventLoop final
 	{
 	public:
 		~EventLoop();

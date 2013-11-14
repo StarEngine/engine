@@ -11,7 +11,7 @@
 
 namespace star
 {
-	class QuadCol
+	class QuadCol final
 	{
 	public:
 		QuadCol();

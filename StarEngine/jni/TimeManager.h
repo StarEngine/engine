@@ -13,11 +13,11 @@ namespace star
 	const double MILLIMULTIPLIER = 1000.0;
 	const double SECONDMULTIPLIER = 1.0;
 
-	class TimeManager
+	class TimeManager final
 	{
 	public:
 		TimeManager();
-		virtual ~TimeManager(){};
+		~TimeManager();
 
 		void StartMonitoring();
 		void StopMonitoring();
@@ -32,11 +32,6 @@ namespace star
 		tstring GetTimeStamp();
 
 	private:
-		//[COMMENT] For windows this is needed otherwise there are quite big rounding errors !
-		//			I tested it with one variable but it really messed things up.
-		//			Since the difference scale is 1000 or 1000 000
-		//			Also calculating the time in the get functions gives very wrong results since there is no way to be sure
-		//			that the 2 times are from 1 cycle. (Get can be called in a cycle which gives wrong results)
 #ifdef _WIN32
 
 		LARGE_INTEGER	mFrequency;

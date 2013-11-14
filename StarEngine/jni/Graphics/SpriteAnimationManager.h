@@ -28,5 +28,6 @@ namespace star
 		SpriteAnimationManager(const SpriteAnimationManager &);
 		SpriteAnimationManager(SpriteAnimationManager &&);
 		SpriteAnimationManager & operator=(const SpriteAnimationManager &);
+		SpriteAnimationManager & operator=(SpriteAnimationManager&&);
 	};
 }

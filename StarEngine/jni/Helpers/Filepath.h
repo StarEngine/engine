@@ -4,7 +4,7 @@
 
 namespace star
 {
-	class Filepath
+	class Filepath final
 	{
 	public:
 		Filepath();

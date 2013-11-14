@@ -1,5 +1,4 @@
 #include "AARect.h"
-#include "../Graphics/ScaleSystem.h"
 
 namespace star
 {
@@ -36,22 +35,22 @@ namespace star
 
 	int AARect::GetLeft() const
 	{
-		return int(m_X * ScaleSystem::GetInstance()->GetScale());
+		return m_X;
 	}
 
 	int AARect::GetTop() const
 	{
-		return int(m_Y * ScaleSystem::GetInstance()->GetScale());
+		return m_Y;
 	}
 
 	int AARect::GetRight() const
 	{
-		return int((m_X + m_Width) * ScaleSystem::GetInstance()->GetScale());
+		return m_X + m_Width;
 	}
 
 	int AARect::GetBottom() const
 	{
-		return int((m_Y + m_Height) * ScaleSystem::GetInstance()->GetScale());
+		return m_Y + m_Height;
 	}
 
 	bool AARect::Equals(const AARect& rect) const
@@ -64,9 +63,8 @@ namespace star
 
 	bool AARect::Contains(int x, int y) const
 	{
-		float scale = ScaleSystem::GetInstance()->GetScale();
-		return x >= m_X * scale && x < (m_X + m_Width) * scale &&
-			y >= m_Y * scale && y < (m_Y + m_Height) * scale;
+		return x >= m_X && x < (m_X + m_Width) &&
+			y >= m_Y && y < (m_Y + m_Height);
 	}
 
 	bool AARect::Contains(const vec2& pt) const
@@ -76,7 +74,6 @@ namespace star
 
 	bool AARect::Contains(AARect& rect) const
 	{
-		//No need to apply scaling here, will be true in every resolution
 		return (m_X <= rect.m_X) && (rect.GetRight() <= GetRight()) &&
 				(m_Y <= rect.m_Y) && (rect.GetBottom() <= GetBottom());
 	}

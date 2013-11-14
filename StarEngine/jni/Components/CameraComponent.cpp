@@ -5,7 +5,6 @@
 #include "../Context.h"
 #include "../Logger.h"
 #include "../Helpers/HelpersMath.h"
-#include "../Graphics/ScaleSystem.h"
 #include "../Objects/BaseCamera.h"
 
 namespace star
@@ -199,7 +198,7 @@ namespace star
 		return m_ViewInverse;
 	}
 
-	mat4x4 CameraComponent::GetProjectionViewInvesre() const
+	mat4x4 CameraComponent::GetProjectionViewInverse() const
 	{
 		return m_Projection * m_ViewInverse;
 	}

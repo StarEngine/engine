@@ -87,7 +87,7 @@ namespace star
 	{
 		if(!m_GestureMap.empty())
 		{
-			for(auto gesture : m_GestureMap)
+			for(auto& gesture : m_GestureMap)
 			{
 				gesture.second->Update(context);
 			}

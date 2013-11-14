@@ -69,6 +69,4 @@ namespace star
 	{
 		return m_bIsStatic;
 	}
-
-	
 }

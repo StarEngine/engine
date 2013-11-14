@@ -104,19 +104,14 @@ namespace star
 				void CommonUpdate();
 				void SingleUpdate(mat4x4 & world);
 
-				const pos& GetScaledWorldPosition();
-				const vec2& GetScaledWorldScale();
-
                 unsigned char m_IsChanged;
                 bool m_Invalidate;
 				bool m_bRotationCenterChanged, m_bRotationIsLocal;
 
 #ifdef STAR2D
-                pos m_WorldPosition, m_LocalPosition,m_CenterPosition,
-					m_UnScaledWorldPos, m_UnScaledLocalPos, m_LastUnScaledLocalPos;
+                pos m_WorldPosition, m_LocalPosition,m_CenterPosition;
                 float m_WorldRotation, m_LocalRotation;
-                vec2 m_WorldScale, m_LocalScale, m_UnScaledWorldScale,
-					m_UnScaledLocalScale, m_LastUnScaledLocalScale;
+                vec2 m_WorldScale, m_LocalScale;
 #else
                 vec3 m_WorldPosition, m_LocalPosition;
                 quat m_WorldRotation, m_LocalRotation;
@@ -125,7 +120,8 @@ namespace star
                 mat4x4 m_World;
 
                 TransformComponent(const TransformComponent& yRef);
-                TransformComponent(TransformComponent&& t);
+                TransformComponent(TransformComponent&& yRef);
                 TransformComponent& operator=(const TransformComponent& yRef);
+				TransformComponent& operator=(TransformComponent&& yRef);
         };
 }

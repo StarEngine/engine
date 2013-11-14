@@ -12,18 +12,24 @@
 namespace star {
 	EventLoop * EventLoop::mEventLoop = nullptr;
 
-	EventLoop::~EventLoop() {
+	EventLoop::~EventLoop() 
+	{
 		delete mTimeManager;
 	}
 
 	EventLoop::EventLoop() :
-			mMainGameInitialized(false), mQuit(false), mEnabled(false), mMainGame(
-					nullptr), mTimeManager(new TimeManager()), mApplicationPtr(
-					nullptr) {
+			mMainGameInitialized(false), 
+			mQuit(false), 
+			mEnabled(false), 
+			mMainGame(nullptr), 
+			mTimeManager(new TimeManager()),
+			mApplicationPtr(nullptr) 
+	{
 
 	}
 
-	void EventLoop::Initialize(android_app * pApplication, BaseGame * pBaseGame) {
+	void EventLoop::Initialize(android_app * pApplication, BaseGame * pBaseGame) 
+	{
 		mMainGame = pBaseGame;
 		mApplicationPtr = pApplication;
 		mApplicationPtr->onAppCmd = activityCallback;
@@ -34,8 +40,10 @@ namespace star {
 		StarEngine::GetInstance()->SetAndroidApp(mApplicationPtr);
 	}
 
-	EventLoop * EventLoop::GetInstance() {
-		if (mEventLoop == nullptr) {
+	EventLoop * EventLoop::GetInstance() 
+	{
+		if (mEventLoop == nullptr) 
+		{
 			mEventLoop = new EventLoop();
 		}
 		return mEventLoop;
@@ -72,7 +80,7 @@ namespace star {
 				}
 			}
 
-			if ((mEnabled) && (!mQuit))
+			if (mEnabled && !mQuit)
 			{
 				GraphicsManager::GetInstance()->SetHasWindowChanged(false);
 				mMainGame->Update(mContext);
@@ -85,6 +93,7 @@ namespace star {
 
 	void EventLoop::End()
 	{
+		//[COMMENT] This "delete this" looks very unsafe... 
 		Logger::GetInstance()->Log(LogLevel::Info, _T("Ending App"));
 		mMainGame->End();
 		delete InputManager::GetInstance();
@@ -117,8 +126,10 @@ namespace star {
 			break;
 
 			//Gets called second after the window init
-		case APP_CMD_GAINED_FOCUS: {
-			if (!lEventLoop.mMainGameInitialized) {
+		case APP_CMD_GAINED_FOCUS: 
+		{
+			if (!lEventLoop.mMainGameInitialized) 
+			{
 				lEventLoop.mMainGame->Initialize(0, 0);
 			}
 			lEventLoop.mMainGameInitialized = true;

@@ -12,7 +12,7 @@
 
 namespace star
 {
-	class LoadScreen
+	class LoadScreen final
 	{
 	public:
 		LoadScreen(const tstring& filePath, const tstring& spriteName);
@@ -37,5 +37,6 @@ namespace star
 		LoadScreen(const LoadScreen &);
 		LoadScreen(LoadScreen &&);
 		LoadScreen & operator=(const LoadScreen &);
+		LoadScreen & operator=(LoadScreen &&);
 	};
 }

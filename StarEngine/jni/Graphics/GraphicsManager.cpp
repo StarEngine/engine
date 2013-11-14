@@ -1,6 +1,5 @@
 #include "GraphicsManager.h"
 #include "../Logger.h"
-#include "ScaleSystem.h"
 #include "SpriteBatch.h"
 #include "../Scenes/SceneManager.h"
 #include "../Objects/BaseCamera.h"
@@ -34,10 +33,10 @@ namespace star
 			mProjectionMatrix(),
 			mScreenResolution(0,0),
 			mViewportResolution(0,0),
-			m_bHasWindowChanged(false),
+			mbHasWindowChanged(false),
 			mIsInitialized(false),
-			m_WglSwapIntervalEXT(NULL),
-			m_WglGetSwapIntervalEXT(NULL)
+			mWglSwapIntervalEXT(NULL),
+			mWglGetSwapIntervalEXT(NULL)
 	{
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Constructor"));
 	}
@@ -46,18 +45,15 @@ namespace star
 	{
 		//Calculate the correct viewport
 		vec2 screenRes = GetWindowResolution();
-		vec2 workingRes = ScaleSystem::GetInstance()->GetWorkingResolution();
-		
-		float width = screenRes.x / workingRes.x;
-		float height = screenRes.y / workingRes.y;
 
+		float width(0), height(0);
 		int xOffset(0), yOffset(0);
 		float aspectRatio(0);
 
-		if(width > height)
+		if(screenRes.x > screenRes.y)
 		{
 			height = screenRes.y;
-			aspectRatio = (workingRes.x / workingRes.y);
+			aspectRatio = (screenRes.x / screenRes.y);
 			width = height * aspectRatio;
 
 			xOffset = static_cast<int>((screenRes.x - width)/2);
@@ -65,7 +61,7 @@ namespace star
 		else
 		{
 			width = screenRes.x;
-			aspectRatio = (workingRes.y / workingRes.x);
+			aspectRatio = (screenRes.y / screenRes.x);
 			height = width * aspectRatio;
 
 			yOffset = static_cast<int>((screenRes.y - height)/2);
@@ -75,8 +71,6 @@ namespace star
 
 		mViewportResolution.x = width;
 		mViewportResolution.y = height;
-
-		ScaleSystem::GetInstance()->CalculateScale();
 	}
 
 	GraphicsManager * GraphicsManager::GetInstance()
@@ -96,11 +90,11 @@ namespace star
 		//Default value is 1.
 		if(!vSync)
 		{
-			m_WglSwapIntervalEXT(0);
+			mWglSwapIntervalEXT(0);
 		}
 		else
 		{
-			m_WglSwapIntervalEXT(1);
+			mWglSwapIntervalEXT(1);
 		}
 	#else
 		Logger::GetInstance()->Log(LogLevel::Warning, 
@@ -111,7 +105,7 @@ namespace star
 	bool GraphicsManager::GetVSync() const
 	{
 #ifdef DESKTOP
-		return !(m_WglGetSwapIntervalEXT() == 0);
+		return !(mWglGetSwapIntervalEXT() == 0);
 #else
 		Logger::GetInstance()->Log(LogLevel::Warning, 
 			_T("Toggeling VSync on mobile is not supported. Default VSync is enabled"));
@@ -140,6 +134,7 @@ namespace star
 			// In a simple 2D game, we have control over the third
 			// dimension. So we do not really need a Z-buffer.
 			glDisable(GL_DEPTH_TEST);
+			//[COMMENT] is this necessairy?
 			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 			mIsInitialized = true;
 		}
@@ -212,7 +207,6 @@ namespace star
 			mScreenResolution = mViewportResolution;
 			glViewport(0, 0, mViewportResolution.x, mViewportResolution.y);
 
-
 			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialized"));
 
 			mIsInitialized = true;
@@ -250,8 +244,8 @@ namespace star
 	void GraphicsManager::StartDraw()
 	{
 		//star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : StartDraw"));
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Clear the background of our window to red
-		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -304,16 +298,6 @@ namespace star
 		return int32(mScreenResolution.y);
 	}
 
-	int32 GraphicsManager::GetTargetWindowWidth() const
-	{
-		return int32(ScaleSystem::GetInstance()->GetWorkingResolution().x);
-	}
-
-	int32 GraphicsManager::GetTargetWindowHeight() const
-	{
-		return int32(ScaleSystem::GetInstance()->GetWorkingResolution().y);
-	}
-
 	const mat4x4& GraphicsManager::GetViewProjectionMatrix() const
 	{
 		return mViewProjectionMatrix;
@@ -334,11 +318,6 @@ namespace star
 		return mScreenResolution.x / mScreenResolution.y;
 	}
 
-	float GraphicsManager::GetTargetWindowAspectRatio() const
-	{
-		return ScaleSystem::GetInstance()->GetAspectRatio();
-	}
-
 	const vec2 & GraphicsManager::GetWindowResolution() const
 	{
 		return mScreenResolution;
@@ -347,11 +326,6 @@ namespace star
 	const vec2 & GraphicsManager::GetViewportResolution() const
 	{
 		return mViewportResolution;
-	}
-
-	const vec2& GraphicsManager::GetTargetWindowResolution() const
-	{
-		return ScaleSystem::GetInstance()->GetActualResolution();
 	}
 
 	void GraphicsManager::SetWindowDimensions(int32 width, int32 height)
@@ -363,7 +337,7 @@ namespace star
 
 	void GraphicsManager::SetHasWindowChanged(bool isTrue)
 	{
-		m_bHasWindowChanged = isTrue;
+		mbHasWindowChanged = isTrue;
 		if(isTrue)
 		{
 			CalculateViewPort();
@@ -372,7 +346,7 @@ namespace star
 
 	bool GraphicsManager::GetHasWindowChanged() const
 	{
-		return m_bHasWindowChanged;
+		return mbHasWindowChanged;
 	}
 
 #ifdef DESKTOP
@@ -400,15 +374,13 @@ namespace star
 		if (WGLExtensionSupported("WGL_EXT_swap_control"))
 		{
 			// Extension is supported, init pointers.
-			m_WglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress("wglSwapIntervalEXT");
+			mWglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress("wglSwapIntervalEXT");
 
 			// this is another function from WGL_EXT_swap_control extension
-			m_WglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC) wglGetProcAddress("wglGetSwapIntervalEXT");
+			mWglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC) wglGetProcAddress("wglGetSwapIntervalEXT");
 			return true;
 		}
 		return false;
 	}
-
 #endif
-
 }

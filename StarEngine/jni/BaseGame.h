@@ -21,6 +21,7 @@ namespace star
 
 	private:
 		BaseGame & operator=(const BaseGame&);
+		BaseGame & operator=(BaseGame&&);
 		BaseGame(const BaseGame &);
 		BaseGame(BaseGame &&);
 	};

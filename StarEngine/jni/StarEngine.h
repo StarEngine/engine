@@ -73,5 +73,6 @@ namespace star
 		StarEngine(const StarEngine &);
 		StarEngine(StarEngine &&);
 		StarEngine & operator=(const StarEngine &);
+		StarEngine & operator=(StarEngine &&);
 	};
 }

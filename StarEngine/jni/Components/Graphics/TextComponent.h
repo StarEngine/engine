@@ -53,6 +53,7 @@ namespace star
 
 		TextComponent(const TextComponent &);
 		TextComponent(TextComponent &&);
-		TextComponent & operator=(const TextComponent &);
+		TextComponent& operator=(const TextComponent &);
+		TextComponent& operator=(TextComponent &&);
 	};
 }

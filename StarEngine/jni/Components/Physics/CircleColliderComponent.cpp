@@ -9,6 +9,7 @@ namespace star
 	CircleColliderComponent::CircleColliderComponent()
 		: BaseColliderComponent()
 		, m_Radius(0)
+		, m_Offset()
 		, m_bDefaultInitialized(true)
 	{
 
@@ -17,6 +18,7 @@ namespace star
 	CircleColliderComponent::CircleColliderComponent(const tstring* layers, uint8 n)
 		: BaseColliderComponent(layers, n)
 		, m_Radius(0)
+		, m_Offset()
 		, m_bDefaultInitialized(true)
 	{
 
@@ -25,6 +27,7 @@ namespace star
 	CircleColliderComponent::CircleColliderComponent(float radius)
 		: BaseColliderComponent()
 		, m_Radius(radius)
+		, m_Offset()
 		, m_bDefaultInitialized(false)
 	{
 	}
@@ -32,7 +35,25 @@ namespace star
 	CircleColliderComponent::CircleColliderComponent(float radius, const tstring* layers, uint8 tag)
 		: BaseColliderComponent(layers, tag)
 		, m_Radius(radius)
+		, m_Offset()
 		, m_bDefaultInitialized(false)
+	{
+	}
+
+	CircleColliderComponent::CircleColliderComponent(float radius, const vec2& offset)
+		: BaseColliderComponent()
+		, m_Radius(radius)
+		, m_Offset(offset)
+		, m_bDefaultInitialized(false)
+	{
+	}
+
+	CircleColliderComponent::CircleColliderComponent(float radius, const vec2& offset,
+		const tstring* layers, uint8 tag)
+			: BaseColliderComponent(layers, tag)
+			, m_Radius(radius)
+			, m_Offset(offset)
+			, m_bDefaultInitialized(false)
 	{
 	}
 
@@ -58,6 +79,8 @@ namespace star
 				{
 					m_Radius = float(spriteComp->GetHeight() / 2.0f);
 				}
+				m_Offset.x = spriteComp->GetWidth() / 2.0f;
+				m_Offset.y = spriteComp->GetHeight() / 2.0f;
 			}
 			else
 			{
@@ -147,12 +170,12 @@ namespace star
 
 	float CircleColliderComponent::GetRealRadius() const
 	{
-		return m_Radius * m_pParentObject->GetTransform()->GetLocalScale().x;
+		return m_Radius * m_pParentObject->GetTransform()->GetWorldPosition().x;
 	}
 
 	void CircleColliderComponent::Draw()
 	{
 		DebugDraw::GetInstance()->DrawSolidCircle(
-			m_pParentObject->GetTransform()->GetWorldPosition().pos2D(),GetRealRadius(), Color::Red);
+			m_pParentObject->GetTransform()->GetWorldPosition().pos2D() + m_Offset,GetRealRadius(), Color::Red);
 	}
 }

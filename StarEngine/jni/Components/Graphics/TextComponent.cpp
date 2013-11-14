@@ -57,7 +57,6 @@ namespace star
 			}
 			m_SplittedText.clear();
 			star::FontManager::GetInstance()->SplitIntoLines(m_SplittedText,string_cast<std::string>(totalline));
-			//m_EditedText = CheckWrapping(FontManager::GetInstance()->GetFont(m_FontName),m_OrigText,m_MaxWidth);
 			m_bCheckedWrapping=true;
 		}
 

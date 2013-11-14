@@ -5,7 +5,6 @@
 #include "../../Graphics/GraphicsManager.h"
 #include "../Graphics/SpriteComponent.h"
 #include "../../Helpers/Debug/DebugDraw.h"
-#include "../../Graphics/ScaleSystem.h"
 #include "../../Helpers/Helpers.h"
 
 namespace star
@@ -185,15 +184,18 @@ namespace star
 
 	void RectangleColliderComponent::CollidesWith(const BaseColliderComponent* other) const
 	{
-		const CircleColliderComponent* otherCircleComp = dynamic_cast<const CircleColliderComponent*>(other);
-		const RectangleColliderComponent* otherRectComp = dynamic_cast<const RectangleColliderComponent*>(other);
+		const CircleColliderComponent* otherCircleComp = 
+			dynamic_cast<const CircleColliderComponent*>(other);
+		const RectangleColliderComponent* otherRectComp = 
+			dynamic_cast<const RectangleColliderComponent*>(other);
 
 		if(otherRectComp != nullptr)
 		{
 			Rect thisRect = GetCollisionRect();
 			Rect otherRect = otherRectComp->GetCollisionRect();
 			//Check to perform AABB or OOBB CollisionCheck!
-			if(GetTransform()->GetWorldRotation() == 0.0f && otherRectComp->GetTransform()->GetWorldRotation() == 0.0f)
+			if(GetTransform()->GetWorldRotation() == 0.0f && 
+				otherRectComp->GetTransform()->GetWorldRotation() == 0.0f)
 			{
 				if(AABBRectangleRectangleCollision(thisRect, otherRect))
 				{
@@ -445,6 +447,6 @@ namespace star
 
 	void RectangleColliderComponent::Draw()
 	{
-		DebugDraw::GetInstance()->DrawScaledSolidRect(GetCollisionRect(),Color::White);
+		DebugDraw::GetInstance()->DrawSolidRect(GetCollisionRect(),Color::White);
 	}
 }

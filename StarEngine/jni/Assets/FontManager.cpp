@@ -7,7 +7,6 @@
 #include "../Scenes/BaseScene.h"
 #include "../Components/CameraComponent.h"
 #include "../Objects/FreeCamera.h"
-#include "../Graphics/ScaleSystem.h"
 #include "../Helpers/HelpersMath.h"
 
 #ifdef ANDROID

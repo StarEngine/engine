@@ -81,8 +81,6 @@ namespace star
 		, m_OldMousePosition()
 		, m_CurrMousePosition()
 		, m_MouseMovement()
-		, m_CurrUnScaledMousePosition()
-		, m_OldUnScaledMousePosition()
 	{
 #ifdef DESKTOP
 		//Init new keyboard states
@@ -245,19 +243,9 @@ namespace star
 		return m_CurrMousePosition;
 	}
 
-	const vec2 & InputManager::GetCurrentUnScaledMousePosition() const
-	{
-		return m_CurrUnScaledMousePosition;
-	}
-
 	const vec2 & InputManager::GetOldMousePosition() const
 	{
 		return m_OldMousePosition;
-	}
-
-	const vec2 & InputManager::GetOldUnScaledMousePosition() const
-	{
-		return m_OldUnScaledMousePosition;
 	}
 
 	const vec2 & InputManager::GetMouseMovement() const
@@ -464,7 +452,6 @@ namespace star
 
 			//Mouse Position
 			m_OldMousePosition = m_CurrMousePosition;
-			m_OldUnScaledMousePosition = m_CurrUnScaledMousePosition;
 			POINT mousePos;
 			if(GetCursorPos(&mousePos))
 			{
@@ -472,7 +459,6 @@ namespace star
 			}
 			
 			m_CurrMousePosition = vec2(mousePos.x , (float)GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y);
-			m_CurrUnScaledMousePosition = m_CurrMousePosition;
 			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetWindowResolution();
 			m_CurrMousePosition *= ScaleSystem::GetInstance()->GetWorkingResolution();
 			
@@ -652,27 +638,6 @@ namespace star
 		return m_CurrMousePosition;
 	}
 
-	vec2 InputManager::GetCurrentTouchPosANDR(uint8 fingerIndex)
-	{
-		if((fingerIndex <= m_PointerVec.size() && fingerIndex > 0))
-		{
-			m_CurrMousePosition = m_PointerVec.at(fingerIndex-1).Position;
-			m_CurrMousePosition.y =  GraphicsManager::GetInstance()->GetWindowHeight()- m_CurrMousePosition.y;
-			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetWindowResolution();
-			m_CurrMousePosition *= ScaleSystem::GetInstance()->GetWorkingResolution();
-		}
-		return m_CurrMousePosition;
-	}
-
-	vec2 GetCurrentUnScaledTouchPosANDR(uint8 fingerIndex)
-	{
-		if((fingerIndex <= m_PointerVec.size() && fingerIndex > 0))
-		{
-			m_CurrUnScaledMousePosition = m_PointerVec.at(fingerIndex-1).Position;
-		}
-		return m_CurrUnScaledMousePosition;
-	}
-
 	vec2 InputManager::GetOldTouchPosANDR(uint8 fingerIndex)
 	{
 		if(((fingerIndex <= m_OldPointerVec.size() && fingerIndex > 0) &&
@@ -688,19 +653,6 @@ namespace star
 			}
 		}
 		return m_OldMousePosition;
-	}
-
-	vec2 GetOldUnScaledTouchPosANDR(uint8 fingerIndex)
-	{
-		if(((fingerIndex <= m_OldPointerVec.size() && fingerIndex > 0) &&
-			(fingerIndex <= m_PointerVec.size() && fingerIndex > 0)))
-		{
-			if(m_OldPointerVec.at(fingerIndex-1).ID == m_PointerVec.at(fingerIndex-1).ID)
-			{
-				m_OldUnScaledMousePosition = m_OldPointerVec.at(fingerIndex-1).Position;
-			}
-		}
-		return m_OldUnScaledMousePosition;
 	}
 
 	void InputManager::OnTouchEvent(AInputEvent* pEvent)
@@ -865,16 +817,6 @@ namespace star
 #endif
 	}
 
-	vec2 InputManager::GetCurrentUnScaledFingerPosCP(uint8 fingerIndex)
-	{
-		++fingerIndex;
-#ifdef DESKTOP
-		return GetCurrentUnScaledMousePosition();
-#else
-		return GetCurrentUnScaledTouchPosANDR(fingerIndex);
-#endif
-	}
-
 	vec2 InputManager::GetOldFingerPosCP(uint8 fingerIndex)
 	{
 		++fingerIndex;
@@ -884,17 +826,6 @@ namespace star
 		return (GetOldTouchPosANDR(fingerIndex));
 #endif
 	}
-
-	vec2 InputManager::GetOldUnScaledFingerPosCP(uint8 fingerIndex)
-	{
-		++fingerIndex;
-#ifdef DESKTOP
-		return GetOldUnScaledMousePosition();
-#else
-		return (GetOldUnScaledTouchPosANDR(fingerIndex));
-#endif
-	}
-
 
 	void InputManager::EndUpdate()
 	{

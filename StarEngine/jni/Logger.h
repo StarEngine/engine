@@ -14,11 +14,11 @@ namespace star
 
 	struct Context;
 
-    class Logger {
+    class Logger final 
+	{
     public:
 		~Logger();
-		static Logger * GetInstance();
-		static void ResetSingleton();
+		static Logger* GetInstance();
 
 #ifdef _WIN32
 		void Initialize(bool useConsole);
@@ -34,8 +34,8 @@ namespace star
 		void SetLogSaveDelayTime(float seconds);
 
 	private:
-		Logger(void);
-		static Logger * m_LoggerPtr;
+		Logger();
+		static Logger* m_LoggerPtr;
 
 		void InitializeLogStream();
 		void LogMessage(const tstring & message);
@@ -52,6 +52,6 @@ namespace star
 		Logger(const Logger& t);
 		Logger(Logger&& t);
 		Logger& operator=(const Logger& t);
-		Logger& operator=(Logger&&);
+		Logger& operator=(Logger&& t);
     };
 }

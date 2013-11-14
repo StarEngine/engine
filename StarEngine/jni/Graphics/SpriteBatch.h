@@ -8,7 +8,7 @@
 
 namespace star
 {
-	class SpriteBatch
+	class SpriteBatch final
 	{
 	public:
 		~SpriteBatch(void);
