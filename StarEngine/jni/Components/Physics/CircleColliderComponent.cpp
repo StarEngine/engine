@@ -2,18 +2,37 @@
 #include "../../Context.h"
 #include "../../Objects/Object.h"
 #include "../../Helpers/HelpersMath.h"
+#include "../../Helpers/Debug/DebugDraw.h"
 
 namespace star
 {
+	CircleColliderComponent::CircleColliderComponent()
+		: BaseColliderComponent()
+		, m_Radius(0)
+		, m_bDefaultInitialized(true)
+	{
+
+	}
+
+	CircleColliderComponent::CircleColliderComponent(const tstring* layers, uint8 n)
+		: BaseColliderComponent(layers, n)
+		, m_Radius(0)
+		, m_bDefaultInitialized(true)
+	{
+
+	}
+
 	CircleColliderComponent::CircleColliderComponent(float radius)
 		: BaseColliderComponent()
 		, m_Radius(radius)
+		, m_bDefaultInitialized(false)
 	{
 	}
 
-	CircleColliderComponent::CircleColliderComponent(float radius, const tstring* layer, uint8 tag)
-		: BaseColliderComponent(layer, tag)
+	CircleColliderComponent::CircleColliderComponent(float radius, const tstring* layers, uint8 tag)
+		: BaseColliderComponent(layers, tag)
 		, m_Radius(radius)
+		, m_bDefaultInitialized(false)
 	{
 	}
 
@@ -24,6 +43,30 @@ namespace star
 
 	void CircleColliderComponent::InitializeColliderComponent()
 	{
+		if(m_bDefaultInitialized)
+		{
+			//Initialize the rectangle with the values of the visible part of the sprite
+			SpriteComponent* spriteComp = GetParent()->GetComponent<SpriteComponent>();
+			if(spriteComp)
+			{
+				ASSERT(spriteComp->IsInitialized(),_T("First add the spriteComponent and then the rectColliderComp"));
+				if(spriteComp->GetWidth() > spriteComp->GetHeight())
+				{
+					m_Radius = float(spriteComp->GetWidth() / 2.0f);
+				}
+				else
+				{
+					m_Radius = float(spriteComp->GetHeight() / 2.0f);
+				}
+			}
+			else
+			{
+				ASSERT(false, _T("If you use the default constructor of the CircleColliderComponent()\n\
+								, make sure to also add a SpriteComponent or SpriteSheetComponent. \n\
+								If you don't need this, please specify a radius in the constructor of \n\
+								the CircleColliderComponent."));
+			}
+		}
 		ASSERT(m_Radius > 0, _T("Invalid Radius: Radius has to be > 0"));
 	}
 
@@ -105,5 +148,11 @@ namespace star
 	float CircleColliderComponent::GetRealRadius() const
 	{
 		return m_Radius * m_pParentObject->GetTransform()->GetLocalScale().x;
+	}
+
+	void CircleColliderComponent::Draw()
+	{
+		DebugDraw::GetInstance()->DrawSolidCircle(
+			m_pParentObject->GetTransform()->GetWorldPosition().pos2D(),GetRealRadius(), Color::Red);
 	}
 }

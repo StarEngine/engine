@@ -43,7 +43,8 @@ namespace star
 		bool RectangleCircleCollision(const RectangleColliderComponent* collider1, const CircleColliderComponent* collider2) const;
 
 		bool CalculateAxisSpecificCollision(const Rect& rect1, const Rect& rect2, const vec2& axis) const;
-		bool CalculateAxisSpecificCollision(const Rect& rect1, const vec2& point1, const vec2& point2, const vec2& axis) const;
+		bool CalculateAxisSpecificCollision(const Rect& rect, const vec2& point1, const vec2& point2, const vec2& axis) const;
+		bool CalculateAxisSpecificCollision(const Rect& rect1, const vec2& point1, const vec2& axis) const;
 		Rect m_CollisionRect;
 
 	private:

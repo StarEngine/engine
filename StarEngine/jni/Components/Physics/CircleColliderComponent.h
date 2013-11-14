@@ -10,6 +10,8 @@ namespace star
 	class CircleColliderComponent final : public BaseColliderComponent
 	{
 	public:
+		CircleColliderComponent();
+		CircleColliderComponent(const tstring* layers, uint8 n = 1);
 		CircleColliderComponent(float radius);
 		CircleColliderComponent(float radius, const tstring* layers, uint8 n = 1);
 		~CircleColliderComponent(void);
@@ -24,10 +26,12 @@ namespace star
 
 	protected:
 		void InitializeColliderComponent();
+		void Draw();
 		bool CircleCircleCollision(const CircleColliderComponent* collider1, 
 		const CircleColliderComponent* collider2) const;
 
 		float m_Radius;
+		bool m_bDefaultInitialized;
 
 	private:
 		CircleColliderComponent(CircleColliderComponent&& t);

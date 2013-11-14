@@ -105,13 +105,24 @@ namespace star
 		DrawPrimitives(Lines, m_CircleSegments, color);
 	}
 
-	void DebugDraw::DrawSolidCircle(const vec2& center, float radius, const vec2& axis,
+	void DebugDraw::DrawScaledCircle(const vec2& center, float radius, const Color& color)
+	{
+		CreateScaledCircleVertices(center, radius);
+		DrawPrimitives(Lines, m_CircleSegments, color);
+	}
+
+	void DebugDraw::DrawSolidCircle(const vec2& center, float radius,
 			const Color& color)
 	{
 		CreateCircleVertices(center, radius);
 		DrawPrimitives(Triangles + Lines, m_CircleSegments, color);
-		// Draw the axis line
-		DrawSegment(center, center + radius * axis, color);
+	}
+
+	void DebugDraw::DrawScaledSolidCircle(const vec2& center, float radius,
+			const Color& color)
+	{
+		CreateScaledCircleVertices(center, radius);
+		DrawPrimitives(Triangles + Lines, m_CircleSegments, color);
 	}
 
 	void DebugDraw::DrawSegment(const vec2& pos1, const vec2& pos2, const Color& color)
@@ -276,6 +287,22 @@ namespace star
 			vec2 v = center + radius * vec2(glm::cos(theta), glm::sin(theta));
 			m_Vertices[i].x = v.x * ScaleSystem::GetInstance()->GetScale();
 			m_Vertices[i].y = v.y * ScaleSystem::GetInstance()->GetScale();
+			theta += increment;
+		}
+	}
+
+	void DebugDraw::CreateScaledCircleVertices(const vec2& center, float radius)
+	{
+		ASSERT(m_CircleSegments < MAX_VERTICES, tstring(_T("You can only draw ") 
+			+ string_cast<tstring>(MAX_VERTICES) + _T(" vertices per primitive")).c_str());
+		const float increment = float(2.0 * PI / m_CircleSegments);
+		float theta = 0.0f;
+
+		for (uint32 i = 0; i < m_CircleSegments; ++i)
+		{
+			vec2 v = center + radius * vec2(glm::cos(theta), glm::sin(theta));
+			m_Vertices[i].x = v.x;
+			m_Vertices[i].y = v.y;
 			theta += increment;
 		}
 	}
