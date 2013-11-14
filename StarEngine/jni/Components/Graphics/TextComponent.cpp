@@ -17,7 +17,9 @@ namespace star
 		, m_FileName(fileName)
 		, m_FontName(name)
 		, m_TextColor(Color::Black)
-		, m_MaxWidth(NO_WRAPPING)
+		, m_WrapWidth(NO_WRAPPING)
+		, m_MaxWidth(0)
+		, m_MaxHeight(0)
 		, m_OrigText(EMPTY_STRING)
 		, m_EditedText(EMPTY_STRING)
 		, m_bCheckedWrapping(true)
@@ -42,7 +44,7 @@ namespace star
 
 	void TextComponent::Draw()
 	{	
-		if(m_MaxWidth != NO_WRAPPING && !m_bCheckedWrapping)
+		if(m_WrapWidth != NO_WRAPPING && !m_bCheckedWrapping)
 		{
 			m_SplittedText.clear();
 			std::string text = string_cast<std::string>(m_OrigText);
@@ -50,7 +52,7 @@ namespace star
 			tstring totalline = EMPTY_STRING;
 			for(auto line : m_SplittedText)
 			{
-				tstring checkedline = CheckWrapping(FontManager::GetInstance()->GetFont(m_FontName),string_cast<tstring>(line),m_MaxWidth);
+				tstring checkedline = CheckWrapping(FontManager::GetInstance()->GetFont(m_FontName),string_cast<tstring>(line),m_WrapWidth);
 				totalline += checkedline + _T("\n");
 			}
 			m_SplittedText.clear();
@@ -75,7 +77,7 @@ namespace star
 		m_OrigText = text;
 		m_EditedText = m_OrigText;
 		//This is in case the text is reset while there was already a set wrapping width
-		if(m_MaxWidth != NO_WRAPPING)
+		if(m_WrapWidth != NO_WRAPPING)
 		{
 			m_bCheckedWrapping=false;
 		}
@@ -104,8 +106,8 @@ namespace star
 
 	void TextComponent::SetWrapWidth(float width )
 	{
-		m_MaxWidth = width;
-		if(m_MaxWidth!= NO_WRAPPING)
+		m_WrapWidth = width;
+		if(m_WrapWidth!= NO_WRAPPING)
 		{
 			m_bCheckedWrapping = false;
 		}
@@ -117,7 +119,7 @@ namespace star
 
 	float TextComponent::GetWrapWidth() const
 	{
-		return m_MaxWidth;
+		return m_WrapWidth;
 	}
 
 	tstring TextComponent::CheckWrapping(const Font& font, const tstring& stringIn,float wrapWidth )
@@ -126,10 +128,14 @@ namespace star
 		tstring returnString = EMPTY_STRING;
 		std::vector<tstring>wordArray;
 		SplitString(wordArray,stringIn,_T(" "));
+		m_MaxHeight = font.GetMaxLetterHeight();
 		for(uint32 i=0; i < wordArray.size(); ++i)
 		{
-			if(font.GetStringLength(line + wordArray[i]) > int(wrapWidth))
+			int32 w = font.GetStringLength(line + wordArray[i]);
+			if(w>m_MaxWidth)m_MaxWidth=w;
+			if( w > int(wrapWidth))
 			{
+				m_MaxWidth+=font.GetMaxLetterHeight();
 				returnString += line + _T("\n");
 				line = EMPTY_STRING;
 			}
@@ -154,4 +160,25 @@ namespace star
 		//Push back last remaining piece of string
 		wordArrayIn.push_back(star::string_cast<tstring>(newstring));
 	}
+
+	int32 TextComponent::GetMaxTextWidth()
+	{
+		if(m_MaxWidth == 0)
+		{
+			auto font =FontManager::GetInstance()->GetFont(m_FontName);
+			m_MaxWidth = font.GetStringLength(m_OrigText);
+		}
+		return m_MaxWidth;
+	}
+
+	int32 TextComponent::GetTotalTextHeight()
+	{
+		if(m_MaxHeight == 0)
+		{
+			auto font =FontManager::GetInstance()->GetFont(m_FontName);
+			m_MaxHeight = font.GetMaxLetterHeight();
+		}
+		return m_MaxHeight;
+	}
+
 }
