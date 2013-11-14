@@ -31,17 +31,17 @@ namespace star
 	void SpriteComponent::InitializeComponent()
 	{
 		#ifdef DESKTOP
-				Filepath texshaderVertex(_T("WinShaders/"), _T("Texture_Shader.vert"));
-				Filepath texshaderFrag(_T("WinShaders/"), _T("Texture_Shader.frag"));
+			tstring vShader(_T("WinShaders/Texture_Shader.vert")),
+					fShader(_T("WinShaders/Texture_Shader.frag"));
 		#else
-				Filepath texshaderVertex(_T("AndroidShaders/"), _T("BaseTexShader.vert"));
-				Filepath texshaderFrag(_T("AndroidShaders/"), _T("BaseTexShader.frag"));
+			tstring vShader(_T("AndroidShaders/Texture_Shader.vert")),
+					fShader(_T("AndroidShaders/Texture_Shader.frag"));
 		#endif
 
-				if(!m_Shader.Init(texshaderVertex.GetAssetsPath(),texshaderFrag.GetAssetsPath()))
-				{
-					Logger::GetInstance()->Log(star::LogLevel::Info, _T("Making Shader Failed"));
-				}
+		if(!m_Shader.Init(vShader, fShader))
+		{
+			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Initialization of the texture shader used by the Sprite component failed."));
+		}
 		
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetAssetsPath(),m_SpriteName);
 		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x / m_WidthSegments;

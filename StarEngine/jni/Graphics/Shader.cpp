@@ -18,7 +18,7 @@ namespace star
 		mVertexShader(0),
 		mFragmentShader(0)
 	{
-		Init(vsFile,fsFile);
+		Init(vsFile, fsFile);
 	}
 
 	Shader::Shader(const GLchar* inLineVert, const GLchar* inLineFrag)

@@ -38,14 +38,13 @@ namespace star
 		}
 
 #ifdef _WIN32
-		Filepath texshaderVertex(_T("WinShaders/"), _T("Font_Shader.vert"));
-		Filepath texshaderFrag(_T("WinShaders/"), _T("Font_Shader.frag"));
+		tstring vShader(_T("WinShaders/Font_Shader.vert")),
+				fShader(_T("WinShaders/Font_Shader.frag"));
 #else
-		Filepath texshaderVertex(_T("AndroidShaders/"), _T("Font_Shader.vert"));
-		Filepath texshaderFrag(_T("AndroidShaders/"), _T("Font_Shader.frag"));
-
+		tstring vShader(_T("AndroidShaders/Font_Shader.vert")),
+				fShader(_T("AndroidShaders/Font_Shader.frag"));
 #endif
-		if(!m_Shader.Init(texshaderVertex.GetAssetsPath(),texshaderFrag.GetAssetsPath()))
+		if(!m_Shader.Init(vShader, fShader))
 		{
 			Logger::GetInstance()->Log(star::LogLevel::Error, _T("Font Manager : Making Shader Failed"));
 		}

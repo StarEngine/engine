@@ -19,16 +19,16 @@ namespace star
 	void LoadScreen::Initialize()
 	{
 #ifdef _WIN32
-		Filepath texshaderVertex(_T("WinShaders/"), _T("Texture_Shader.vert"));
-		Filepath texshaderFrag(_T("WinShaders/"), _T("Texture_Shader.frag"));
+		tstring vShader(_T("WinShaders/Texture_Shader.vert")),
+				fShader(_T("WinShaders/Texture_Shader.frag"));
 #else
-		Filepath texshaderVertex(_T("AndroidShaders/"), _T("BaseTexShader.vert"));
-		Filepath texshaderFrag(_T("AndroidShaders/"), _T("BaseTexShader.frag"));
+		tstring vShader(_T("AndroidShaders/BaseTexShader.vert")),
+				fShader(_T("AndroidShaders/BaseTexShader.frag"));
 
 #endif
-		if(!m_Shader.Init(texshaderVertex.GetAssetsPath(),texshaderFrag.GetAssetsPath()))
+		if(!m_Shader.Init(vShader, fShader))
 		{
-			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Making Shader Failed"));
+			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Initialization of the Loadscreen Shader has failed!"));
 		}
 
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetAssetsPath(),m_SpriteName);

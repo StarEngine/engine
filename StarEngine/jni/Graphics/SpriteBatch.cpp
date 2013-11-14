@@ -57,15 +57,15 @@ namespace star
 	{
 		//Set Shader and shader variables
 #ifdef DESKTOP
-		Filepath texshaderVertex(_T("WinShaders/"), _T("Texture_Batch_Shader.vert"));
-		Filepath texshaderFrag(_T("WinShaders/"), _T("Texture_Batch_Shader.frag"));
+		tstring vShader(_T("WinShaders/Texture_Batch_Shader.vert")),
+				fShader(_T("WinShaders/Texture_Batch_Shader.frag"));
 #else
-		Filepath texshaderVertex(_T("AndroidShaders/"), _T("BatchTexShader.vert"));
-		Filepath texshaderFrag(_T("AndroidShaders/"), _T("BatchTexShader.frag"));
+		tstring vShader(_T("AndroidShaders/BatchTexShader.vert")),
+				fShader(_T("AndroidShaders/BatchTexShader.frag"));
 #endif
-		if(!m_Shader.Init(texshaderVertex.GetAssetsPath(),texshaderFrag.GetAssetsPath()))
+		if(!m_Shader.Init(vShader, fShader))
 		{
-			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Making Shader Failed"));
+			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Initialization of Spritebatch Shader has Failed!"));
 		}
 	}
 
