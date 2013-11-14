@@ -50,6 +50,7 @@ namespace star
 		virtual void OnDeactivate();
 		virtual void Update(const Context& context);
 		virtual void Draw();
+		bool CheckCulling(Object* object);
 
 		std::shared_ptr<GestureManager> m_GestureManagerPtr;
 

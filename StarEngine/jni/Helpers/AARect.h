@@ -19,6 +19,11 @@ namespace star
 		int GetRight() const;
 		int GetBottom() const;
 
+		void SetLeft(int left);
+		void SetTop(int top);
+		void SetRight(int right);
+		void SetBottom(int bottom);
+
 		bool Equals(const AARect& rect) const;
 		bool Contains(int x, int y) const;
 		bool Contains(const vec2& pt) const;

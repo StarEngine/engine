@@ -70,6 +70,9 @@ namespace star
 		for(auto object : m_Objects)
 		{
 			object->BaseUpdate(context);
+			//{
+				object->BaseUpdate(context);
+			//}
 		}
 
 		Update(context);
@@ -80,8 +83,10 @@ namespace star
 		for(auto object : m_Objects)
 		{
 			object->BaseDraw();
+			{
+				object->BaseDraw();
+			}
 		}
-
 		Draw(); 
 	}
 
@@ -184,5 +189,46 @@ namespace star
 
 	void BaseScene::Draw()
 	{
+	}
+
+	bool BaseScene::CheckCulling(Object* object)
+	{
+		pos objectPos = object->GetTransform()->GetWorldPosition();
+		pos camPos = m_pDefaultCamera->GetTransform()->GetWorldPosition();
+		float xPos = (camPos.pos2D().x) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().x)/2.0f);
+		float yPos = (camPos.pos2D().y) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().y)/2.0f); 
+		int screenWidth = GraphicsManager::GetInstance()->GetTargetWindowWidth();
+		int screenHeight = GraphicsManager::GetInstance()->GetTargetWindowHeight();
+
+		SpriteComponent* sprite = object->GetComponent<SpriteComponent>();
+		SpritesheetComponent* spritesheet = object->GetComponent<SpritesheetComponent>();
+		if(sprite == nullptr && spritesheet == nullptr)
+		{
+			return false;
+		}
+
+		int spriteWidth;
+		int spriteHeight;
+
+		if(sprite != nullptr)
+		{
+			spriteWidth = sprite->GetWidth() * object->GetTransform()->GetWorldScale().x;
+			spriteHeight = sprite->GetHeight() * object->GetTransform()->GetWorldScale().y;
+		}
+		if(spritesheet != nullptr)
+		{
+			spriteWidth = spritesheet->GetWidth() * object->GetTransform()->GetWorldScale().x;
+			spriteHeight = spritesheet->GetHeight() * object->GetTransform()->GetWorldScale().y;
+		}
+
+		//[TODO] allow used to set the offset you want around the culling area.
+		if(objectPos.x > xPos + screenWidth + 64 ||
+			objectPos.x + spriteWidth < xPos - 64 ||
+			objectPos.y > yPos + screenHeight + 64 ||
+			objectPos.y + spriteHeight < yPos - 64)
+		{
+			return false;
+		}
+		return true;
 	}
 }
