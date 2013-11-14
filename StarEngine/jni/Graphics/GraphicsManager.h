@@ -3,7 +3,9 @@
 #include "../defines.h"
 
 #ifdef DESKTOP
+#include <Windows.h>
 #include <glew.h>
+#include <wglext.h>
 #else
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
@@ -52,12 +54,18 @@ namespace star
 		bool GetHasWindowChanged() const;
 		void CalculateViewPort();
 
+		void SetVSync(bool VSync);
+		bool GetVSync() const;
+
 	private:
 		GraphicsManager();
 
 #ifdef DESKTOP
 		bool WGLExtensionSupported(const char* extension_name);
 		bool InitializeOpenGLFunctors();
+
+		PFNWGLSWAPINTERVALEXTPROC       m_WglSwapIntervalEXT;
+		PFNWGLGETSWAPINTERVALEXTPROC    m_WglGetSwapIntervalEXT;
 #endif
 
 		static GraphicsManager * mGraphicsManager;
@@ -78,6 +86,7 @@ namespace star
 		GraphicsManager(const GraphicsManager& yRef);
 		GraphicsManager(GraphicsManager&& yRef);
 		GraphicsManager& operator=(const GraphicsManager& yRef);
+		GraphicsManager& operator=(GraphicsManager&& yRef);
 	};
 
 
