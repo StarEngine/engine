@@ -24,16 +24,18 @@ namespace star
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Destructor"));
 	}
 
-	GraphicsManager::GraphicsManager() :
-			mViewProjectionMatrix(),
-			mViewInverseMatrix(),
-			mProjectionMatrix(),
-			mScreenResolution(0,0),
-			mViewportResolution(0,0),
-			mbHasWindowChanged(false),
-			mIsInitialized(false),
-			mWglSwapIntervalEXT(NULL),
-			mWglGetSwapIntervalEXT(NULL)
+	GraphicsManager::GraphicsManager()
+			: mViewProjectionMatrix()
+			, mViewInverseMatrix()
+			, mProjectionMatrix()
+			, mScreenResolution(0,0)
+			, mViewportResolution(0,0)
+			, mbHasWindowChanged(false)
+			, mIsInitialized(false)
+#ifdef DESKTOP
+			, mWglSwapIntervalEXT(NULL)
+			, mWglGetSwapIntervalEXT(NULL)
+#endif
 	{
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Constructor"));
 	}

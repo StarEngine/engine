@@ -35,7 +35,7 @@ namespace star
 		}
 		m_TempContainer.clear();
 
-		for(auto& it = m_TimerContainer.begin() ; it != m_TimerContainer.end() ; ) 
+		for(auto it = m_TimerContainer.begin() ; it != m_TimerContainer.end() ; )
 		{
 			if (it->second.Update(context)) 
 			{
@@ -60,7 +60,7 @@ namespace star
 			}
 		}
 
-		for (auto& it = m_TimerContainer.begin(); it != m_TimerContainer.end() ; ++it)
+		for (auto it = m_TimerContainer.begin(); it != m_TimerContainer.end() ; ++it)
 		{
 			if(it->first == name)
 			{
@@ -76,7 +76,7 @@ namespace star
 
 	bool Stopwatch::RemoveTimer(const tstring & name)
 	{
-		for (auto& it = m_TimerContainer.begin(); it != m_TimerContainer.end() ; ++it)
+		for (auto it = m_TimerContainer.begin(); it != m_TimerContainer.end() ; ++it)
 		{
 			if (it->first == name)
 			{
