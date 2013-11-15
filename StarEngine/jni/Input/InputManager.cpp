@@ -73,6 +73,7 @@ namespace star
 		, m_bPointerIsDown(false)
 		, m_bPointerIsUp(false)
 		, m_NumberOfPointers(0)
+		, m_NumberOfPointersOLD(0)
 		, m_ActivePointerID(0)
 		, m_PointerVec()
 		, m_OldPointerVec()
@@ -618,7 +619,7 @@ namespace star
 
 	bool InputManager::IsTouchPressedANDR(uint8 fingerIndex) const
 	{
-		if(m_NumberOfPointers == fingerIndex && (m_bMainIsDown || m_bPointerIsDown))
+		if(m_NumberOfPointers >= fingerIndex && (m_bMainIsDown || m_bPointerIsDown))
 		{
 			return (true);
 		}
@@ -627,7 +628,7 @@ namespace star
 
 	bool InputManager::IsTouchDownANDR(uint8 fingerIndex) const
 	{
-		if(m_NumberOfPointers == fingerIndex)
+		if(m_NumberOfPointers >= fingerIndex)
 		{
 			return (true);
 		}
@@ -636,7 +637,7 @@ namespace star
 
 	bool InputManager::IsTouchReleasedANDR(uint8 fingerIndex) const
 	{
-		if(m_NumberOfPointers == fingerIndex -1 && (m_bMainIsUp || m_bPointerIsUp))
+		if(m_NumberOfPointers >= fingerIndex -1 && (m_bMainIsUp || m_bPointerIsUp))
 		{
 			return (true);
 		}
@@ -707,6 +708,7 @@ namespace star
 
 	void InputManager::OnTouchEvent(AInputEvent* pEvent)
 	{
+		m_NumberOfPointersOLD = m_NumberOfPointers;
 		int32 action = AMotionEvent_getAction(pEvent);
 		uint32 flags = action & AMOTION_EVENT_ACTION_MASK;
 		switch(flags)
