@@ -25,16 +25,18 @@ namespace star
 	}
 
 	GraphicsManager::GraphicsManager()
-			: mViewProjectionMatrix()
-			, mViewInverseMatrix()
-			, mProjectionMatrix()
-			, mScreenResolution(0,0)
-			, mViewportResolution(0,0)
-			, mbHasWindowChanged(false)
-			, mIsInitialized(false)
+		: mHorizontalViewportOffset(0)
+		, mVerticalViewportOffset(0)
+		, mViewProjectionMatrix()
+		, mViewInverseMatrix()
+		, mProjectionMatrix()
+		, mScreenResolution(0,0)
+		, mViewportResolution(0,0)
+		, mbHasWindowChanged(false)
+		, mIsInitialized(false)
 #ifdef DESKTOP
-			, mWglSwapIntervalEXT(NULL)
-			, mWglGetSwapIntervalEXT(NULL)
+		, mWglSwapIntervalEXT(NULL)
+		, mWglGetSwapIntervalEXT(NULL)
 #endif
 	{
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Constructor"));
@@ -48,7 +50,8 @@ namespace star
 		float width = screenRes.x / workingRes.x;
 		float height = screenRes.y / workingRes.y;
 
-		int xOffset(0), yOffset(0);
+		mHorizontalViewportOffset = 0;
+		mVerticalViewportOffset = 0;
 		float aspectRatio(0);
 
 		if(width > height)
@@ -57,7 +60,7 @@ namespace star
 				aspectRatio = (workingRes.x / workingRes.y);
 				width = height * aspectRatio;
 
-				xOffset = static_cast<int>((screenRes.x - width)/2);
+				mHorizontalViewportOffset = static_cast<int>((screenRes.x - width)/2);
 		}
 		else
 		{
@@ -65,10 +68,10 @@ namespace star
 				aspectRatio = (workingRes.y / workingRes.x);
 				height = width * aspectRatio;
 
-				yOffset = static_cast<int>((screenRes.y - height)/2);
+				mVerticalViewportOffset = static_cast<int>((screenRes.y - height)/2);
 		}
 
-		glViewport(xOffset, yOffset, static_cast<int>(width), static_cast<int>(height));
+		glViewport(mHorizontalViewportOffset, mVerticalViewportOffset, static_cast<int>(width), static_cast<int>(height));
 
 		mViewportResolution.x = width;
 		mViewportResolution.y = height;
@@ -344,6 +347,16 @@ namespace star
 	float GraphicsManager::GetViewportAspectRatio() const
 	{
 		return mViewportResolution.x / mViewportResolution.y;
+	}
+
+	int GraphicsManager::GetHorizontalViewportOffset() const
+	{
+		return mHorizontalViewportOffset;
+	}
+
+	int GraphicsManager::GetVerticalViewportOffset() const
+	{
+		return mVerticalViewportOffset;
 	}
 
 	void GraphicsManager::SetWindowDimensions(int32 width, int32 height)

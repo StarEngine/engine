@@ -50,6 +50,9 @@ namespace star
 
 		float GetViewportAspectRatio() const;
 
+		int GetHorizontalViewportOffset() const;
+		int GetVerticalViewportOffset() const;
+
 		void SetWindowDimensions(int32 width, int32 height);
 		void SetHasWindowChanged(bool isTrue);
 		bool GetHasWindowChanged() const;
@@ -70,6 +73,9 @@ namespace star
 #endif
 
 		static GraphicsManager * mGraphicsManager;
+
+		int mHorizontalViewportOffset,
+			mVerticalViewportOffset;
 
 		mat4x4 mViewProjectionMatrix;
 		mat4x4 mViewInverseMatrix;
