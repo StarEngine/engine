@@ -23,7 +23,6 @@ namespace star
                 ~TransformComponent(void);
 
                 void Update(const Context& context);
-				void UpdateFrozenObjects(const Context& context);
                 void Draw();
 				void IsChanged(bool isChanged);
 #ifdef STAR2D

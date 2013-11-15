@@ -463,11 +463,6 @@ namespace star
         {
              CheckForUpdate();
         }
-
-		void TransformComponent::UpdateFrozenObjects(const Context& context)
-		{
-			CommonUpdate();
-		}
         
 		void TransformComponent::Draw()
 		{
