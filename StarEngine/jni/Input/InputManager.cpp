@@ -689,19 +689,20 @@ namespace star
 				m_OldMousePosition /= GraphicsManager::GetInstance()->GetViewportResolution();
 				m_OldMousePosition *= GraphicsManager::GetInstance()->GetScreenResolution();
 			
-			//[BUG] if camera moves, this might be a bad idea..
-			if(SceneManager::GetInstance()->GetActiveScene())
-			{
-				BaseCamera* projectionObject = SceneManager::GetInstance()->
-					GetActiveScene()->GetActiveCamera();
-				if(projectionObject)
+				//[BUG] if camera moves, this might be a bad idea..
+				if(SceneManager::GetInstance()->GetActiveScene())
 				{
-					m_OldMousePosition += projectionObject->GetTransform()->
-						GetWorldPosition().pos2D();
+					BaseCamera* projectionObject = SceneManager::GetInstance()->
+						GetActiveScene()->GetActiveCamera();
+					if(projectionObject)
+					{
+						m_OldMousePosition += projectionObject->GetTransform()->
+							GetWorldPosition().pos2D();
+					}
 				}
 			}
+			return m_OldMousePosition;
 		}
-		return m_OldMousePosition;
 	}
 
 	void InputManager::OnTouchEvent(AInputEvent* pEvent)
