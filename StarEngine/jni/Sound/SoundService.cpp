@@ -258,7 +258,7 @@ namespace star
 		
 	}
 
-	void SoundService::PlaySoundEffect(const tstring& path, const tstring& name, int loopTimes=0)
+	void SoundService::PlaySoundEffect(const tstring& path, const tstring& name, int loopTimes)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
@@ -269,7 +269,7 @@ namespace star
 		PlaySoundEffect(name,loopTimes);
 	}
 
-	void SoundService::PlaySoundEffect(const tstring& name, int loopTimes=0)
+	void SoundService::PlaySoundEffect(const tstring& name, int loopTimes)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
