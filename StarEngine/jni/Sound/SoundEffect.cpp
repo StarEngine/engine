@@ -142,10 +142,10 @@ namespace star
 #endif
 	}
 
-	void SoundEffect::Play()
+	void SoundEffect::Play(int loopTime=0)
 	{
 #ifdef DESKTOP
-		Mix_PlayChannel(mPlayChannel,mSoundEffect,0);
+		Mix_PlayChannel(mPlayChannel,mSoundEffect,loopTime);
 #else
 		for(int i=0; i<MAX_SAMPLES;++i)
 		{
@@ -165,6 +165,7 @@ namespace star
 		}
 #endif
 	}
+
 	void SoundEffect::Stop()
 	{		
 #ifdef DESKTOP

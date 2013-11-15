@@ -23,7 +23,8 @@ namespace star
 		SoundEffect(const tstring& path);
 		~SoundEffect();
 
-		void Play();
+		//set looptime to -1 for l-inifinte loop
+		void Play(int loopTime=0);
 		void Stop();
 		void Pause();
 		void Resume();
