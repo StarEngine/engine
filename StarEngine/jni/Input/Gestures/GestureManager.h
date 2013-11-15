@@ -17,6 +17,7 @@ namespace star
 		GestureManager();
 		~GestureManager();
 		void Update(const Context& context);
+		void EndUpdate();
 		void AddGesture(BaseGesture* gesture, const tstring& tag);
 		void RemoveGesture(BaseGesture* gesture);
 		void RemoveGesture(const tstring& tag);

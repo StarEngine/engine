@@ -881,6 +881,7 @@ namespace star
 
 	void InputManager::EndUpdate()
 	{
+		m_GestureManager->EndUpdate();
 #ifndef DESKTOP
 		m_bMainIsDown = false;
 		m_bMainIsUp = false;
