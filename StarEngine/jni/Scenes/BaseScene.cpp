@@ -5,6 +5,7 @@
 #include "../StarComponents.h"
 #include "../Objects/BaseCamera.h"
 #include "../Graphics/GraphicsManager.h"
+#include "../Graphics/ScaleSystem.h"
 #include "../Helpers/Debug/DebugDraw.h"
 
 namespace star 
@@ -69,10 +70,10 @@ namespace star
 
 		for(auto object : m_Objects)
 		{
-			if(CheckCulling(object))
-			{
+			//if(CheckCulling(object))
+			//{
 				object->BaseUpdate(context);
-			}
+			//}
 		}
 
 		Update(context);
@@ -195,8 +196,8 @@ namespace star
 	{
 		pos objectPos = object->GetTransform()->GetWorldPosition();
 		pos camPos = m_pDefaultCamera->GetTransform()->GetWorldPosition();
-		float xPos = (camPos.pos2D().x) ;//* ((star::ScaleSystem::GetInstance()->GetWorkingResolution().x)/2.0f);
-		float yPos = (camPos.pos2D().y) ;//* ((star::ScaleSystem::GetInstance()->GetWorkingResolution().y)/2.0f); 
+		float xPos = (camPos.pos2D().x) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().x)/2.0f);
+		float yPos = (camPos.pos2D().y) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().y)/2.0f); 
 		int screenWidth = GraphicsManager::GetInstance()->GetWindowWidth();//GetTargetWindowWidth();
 		int screenHeight = GraphicsManager::GetInstance()->GetWindowHeight();//->GetTargetWindowHeight();
 
