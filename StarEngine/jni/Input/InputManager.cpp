@@ -460,7 +460,7 @@ namespace star
 			
 			m_CurrMousePosition = vec2(mousePos.x , (float)GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y);
 			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetWindowResolution();
-			m_CurrMousePosition *= ScaleSystem::GetInstance()->GetWorkingResolution();
+			m_CurrMousePosition *= GraphicsManager::GetInstance()->GetViewportResolution();
 			
 			
 			if(SceneManager::GetInstance()->GetActiveScene())
