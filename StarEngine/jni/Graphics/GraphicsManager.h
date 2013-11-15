@@ -54,8 +54,8 @@ namespace star
 
 		float GetViewportAspectRatio() const;
 
-		int GetHorizontalViewportOffset() const;
-		int GetVerticalViewportOffset() const;
+		int32 GetHorizontalViewportOffset() const;
+		int32 GetVerticalViewportOffset() const;
 
 		void SetWindowDimensions(int32 width, int32 height);
 		void SetHasWindowChanged(bool isTrue);

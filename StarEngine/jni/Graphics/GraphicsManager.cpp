@@ -364,12 +364,12 @@ namespace star
 		return mViewportResolution.x / mViewportResolution.y;
 	}
 
-	int GraphicsManager::GetHorizontalViewportOffset() const
+	int32 GraphicsManager::GetHorizontalViewportOffset() const
 	{
 		return mHorizontalViewportOffset;
 	}
 
-	int GraphicsManager::GetVerticalViewportOffset() const
+	int32 GraphicsManager::GetVerticalViewportOffset() const
 	{
 		return mVerticalViewportOffset;
 	}
