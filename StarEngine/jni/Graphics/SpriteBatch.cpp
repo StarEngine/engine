@@ -8,6 +8,7 @@
 #include "../Scenes/BaseScene.h"
 #include <algorithm>
 #include "../Helpers/HelpersMath.h"
+#include "ScaleSystem.h"
 
 namespace star
 {
@@ -171,6 +172,9 @@ namespace star
 			glUniform1i(s_textureId, 0);
 		
 			batchSize += 4;
+
+			float scaleValue = ScaleSystem::GetInstance()->GetScale();
+			mat4x4 scaleMat = glm::scale<float>(scaleValue, scaleValue, 1.0f);
 		
 			for(int j = 0; j < ((batchSize/4)); ++j)
 			{
@@ -183,15 +187,20 @@ namespace star
 				if(spriteQueue[m_CurrentSprite + j].bIsHUD)
 				{
 					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
-						1, GL_FALSE, glm::value_ptr(TransposeMatrix(
-						spriteQueue[m_CurrentSprite + j].transform) * 
-						GraphicsManager::GetInstance()->GetProjectionMatrix()));
+						1, GL_FALSE, glm::value_ptr(
+							TransposeMatrix(spriteQueue[m_CurrentSprite + j].transform) * 
+							scaleMat *
+							GraphicsManager::GetInstance()->GetProjectionMatrix()
+							)
+						);
 				}
 				else
 				{
 					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
-						1, GL_FALSE, glm::value_ptr(TransposeMatrix(spriteQueue
-						[m_CurrentSprite + j].transform) * GraphicsManager::GetInstance()->GetViewProjectionMatrix()));
+						1, GL_FALSE, glm::value_ptr(
+							TransposeMatrix(spriteQueue[m_CurrentSprite + j].transform) *
+							scaleMat *
+							GraphicsManager::GetInstance()->GetViewProjectionMatrix()));
 				}
 				glDrawArrays(GL_TRIANGLE_STRIP,batchStart,4);
 			}			
@@ -218,7 +227,7 @@ namespace star
 	{
 		if(text.size() == 0)
 		{
-			//Logger::GetInstance()->Log(LogLevel::Warning,	_T("FontManager::DrawText: Drawing an empty string..."));
+			Logger::GetInstance()->Log(LogLevel::Warning,	_T("FontManager::DrawText: Drawing an empty string..."));
 			return;
 		}
 		
@@ -226,11 +235,6 @@ namespace star
 		float h = curfont.GetSize()/0.63f;
 		const vec2& position = transform->GetWorldPosition().pos2D();
 		const vec2& origposition = position;
-
-		//std::string conv_text = "";
-		//conv_text = star::string_cast<std::string>(text);
-		//std::vector<std::string> lines;
-		//FontManager::GetInstance()->SplitIntoLines(lines,conv_text);
 
 		GLuint* textures = curfont.GetTextures();
 		const std::vector<fontUvCoords>& tempuvs = curfont.getUvCoords();
@@ -249,12 +253,15 @@ namespace star
 		GLint s_colorId = glGetUniformLocation(m_Shader.GetID(), "colorMultiplier");
 		glUniform4f(s_colorId,color.r,color.g,color.b,color.a);
 	
+		float scaleValue = ScaleSystem::GetInstance()->GetScale();
+		mat4x4 scaleMat = glm::scale<float>(scaleValue, scaleValue, 1.0f);
+
 		int offsetX(0);
 		int offsetY(0);
-		for(auto it=text.begin(); it!=text.end();++it)
+		for(auto it = text.begin(); it != text.end() ; ++it)
 		{
 			const char *start_line=it->c_str();
-			for(int i=0;start_line[i]!=0;i++) 
+			for(int i = 0 ; start_line[i] != 0 ; i++) 
 			{
 
 				glBindTexture(GL_TEXTURE_2D,textures[ start_line[i] ]);
@@ -272,17 +279,22 @@ namespace star
 					int offset = curfont.GetMaxLetterHeight() - tempsizes[start_line[i]].y;
 					offsetTrans = glm::translate(
 						glm::vec3(offsetX, offsetY - curfont.GetMaxLetterHeight() - offset, 0));
-					offsetX +=tempsizes[start_line[i]].x;
+					offsetX += tempsizes[start_line[i]].x;
 				}
 				else
 				{
-					offsetTrans = glm::translate(glm::vec3(0, 0, 0));			
+					offsetTrans = glm::translate(glm::vec3(0, 0, 0));
 				}
 				const mat4x4& world = transform->GetWorldMatrix() * offsetTrans;
 
 				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
-					1,GL_FALSE,glm::value_ptr(TransposeMatrix(world) * 
-					GraphicsManager::GetInstance()->GetViewProjectionMatrix()));
+					1,GL_FALSE,
+					glm::value_ptr(
+						TransposeMatrix(world) *
+						scaleMat *
+						GraphicsManager::GetInstance()->GetViewProjectionMatrix()
+						)
+					);
 				glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 			}
 			offsetY -= curfont.GetMaxLetterHeight();

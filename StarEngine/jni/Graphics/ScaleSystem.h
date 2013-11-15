@@ -15,8 +15,7 @@ namespace star
 		void SetWorkingResolution(const vec2& pixels);
 		const vec2& GetWorkingResolution() const;
 		const vec2& GetActualResolution() const;
-		float GetScale();
-		float GetAspectRatio();
+		float GetScale() const;
 		void CalculateScale();
 
 	private:
@@ -24,7 +23,6 @@ namespace star
 
 		vec2 m_WorkingRes;
 		float m_Scale;
-		float m_AspectRatio;
 		bool m_bIninitialized;
 
 		static ScaleSystem * m_ScaleSystemPtr;

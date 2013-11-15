@@ -75,16 +75,6 @@ namespace star
 
 	}
 
-	Spritesheet::Spritesheet(Spritesheet && yRef)
-		: Dictionary<tstring, SpriteAnimation>(yRef)
-		, m_Name(yRef.m_Name)
-		, m_DefaultAnimation(yRef.m_DefaultAnimation)
-		, m_FramesHorizontal(yRef.m_FramesHorizontal)
-		, m_FramesVertical(yRef.m_FramesVertical)
-	{
-
-	}
-
 	Spritesheet::Spritesheet(iterator begin, iterator end)
 		: Dictionary<tstring, SpriteAnimation>(begin, end)
 		, m_Name(EMPTY_STRING)
@@ -101,6 +91,17 @@ namespace star
 	}
 	
 	Spritesheet & Spritesheet::operator=(const Spritesheet& yRef)
+	{
+		Dictionary<tstring, SpriteAnimation>::operator=(yRef);
+		m_Name = yRef.m_Name;
+		m_DefaultAnimation = yRef.m_DefaultAnimation;
+		m_FramesHorizontal = yRef.m_FramesHorizontal;
+		m_FramesVertical = yRef.m_FramesVertical;
+
+		return *this;
+	}
+	
+	Spritesheet & Spritesheet::operator=(Spritesheet&& yRef)
 	{
 		Dictionary<tstring, SpriteAnimation>::operator=(yRef);
 		m_Name = yRef.m_Name;

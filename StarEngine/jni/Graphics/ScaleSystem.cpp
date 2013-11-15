@@ -9,7 +9,6 @@ namespace star
 	ScaleSystem::ScaleSystem()
 		:m_WorkingRes(0,0)
 		,m_Scale(0)
-		,m_AspectRatio(0)
 		,m_bIninitialized(false)
 	{
 	}
@@ -48,18 +47,12 @@ namespace star
 	{
 		m_bIninitialized = true;
 		m_WorkingRes = pixels;
-		m_AspectRatio = pixels.x / pixels.y;
 		CalculateScale();
 	}
 
-	float ScaleSystem::GetScale()
+	float ScaleSystem::GetScale() const
 	{
 		return m_Scale;
-	}
-
-	float ScaleSystem::GetAspectRatio()
-	{
-		return m_AspectRatio;
 	}
 
 	void ScaleSystem::CalculateScale()

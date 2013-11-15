@@ -12,16 +12,16 @@
 
 namespace star
 {
-	class LoadScreen final
+	class LoadScreen
 	{
 	public:
 		LoadScreen(const tstring& filePath, const tstring& spriteName);
-		~LoadScreen();
+		virtual ~LoadScreen();
 
-		void Draw();
-		void Initialize();
+		virtual void Draw();
+		virtual void Initialize();
 
-	private:
+	protected:
 		void CreateSquare();
 
 		Shader m_Shader;
@@ -34,6 +34,7 @@ namespace star
 		GLfloat m_Vertices[8];
 		GLfloat m_UvCoords[8];
 
+	private:
 		LoadScreen(const LoadScreen &);
 		LoadScreen(LoadScreen &&);
 		LoadScreen & operator=(const LoadScreen &);

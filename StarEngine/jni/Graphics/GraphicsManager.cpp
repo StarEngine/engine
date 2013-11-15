@@ -4,19 +4,16 @@
 #include "../Scenes/SceneManager.h"
 #include "../Objects/BaseCamera.h"
 #include "../Components/CameraComponent.h"
+#include "ScaleSystem.h"
 #include "../defines.h"
 
 #ifdef DESKTOP
-
 #include <wglext.h>
-#else
 #endif
 
 #ifdef MOBILE
 #include <GLES/gl.h>
 #endif
-
-
 
 namespace star
 {
@@ -43,34 +40,38 @@ namespace star
 
 	void GraphicsManager::CalculateViewPort()
 	{
-		//Calculate the correct viewport
 		vec2 screenRes = GetWindowResolution();
+		vec2 workingRes = ScaleSystem::GetInstance()->GetWorkingResolution();
+                
+		float width = screenRes.x / workingRes.x;
+		float height = screenRes.y / workingRes.y;
 
-		float width(0), height(0);
 		int xOffset(0), yOffset(0);
 		float aspectRatio(0);
 
-		if(screenRes.x > screenRes.y)
+		if(width > height)
 		{
-			height = screenRes.y;
-			aspectRatio = (screenRes.x / screenRes.y);
-			width = height * aspectRatio;
+				height = screenRes.y;
+				aspectRatio = (workingRes.x / workingRes.y);
+				width = height * aspectRatio;
 
-			xOffset = static_cast<int>((screenRes.x - width)/2);
+				xOffset = static_cast<int>((screenRes.x - width)/2);
 		}
 		else
 		{
-			width = screenRes.x;
-			aspectRatio = (screenRes.y / screenRes.x);
-			height = width * aspectRatio;
+				width = screenRes.x;
+				aspectRatio = (workingRes.y / workingRes.x);
+				height = width * aspectRatio;
 
-			yOffset = static_cast<int>((screenRes.y - height)/2);
+				yOffset = static_cast<int>((screenRes.y - height)/2);
 		}
 
 		glViewport(xOffset, yOffset, static_cast<int>(width), static_cast<int>(height));
 
 		mViewportResolution.x = width;
 		mViewportResolution.y = height;
+
+		ScaleSystem::GetInstance()->CalculateScale();
 	}
 
 	GraphicsManager * GraphicsManager::GetInstance()
@@ -298,6 +299,16 @@ namespace star
 		return int32(mScreenResolution.y);
 	}
 
+	int32 GraphicsManager::GetViewportWidth() const
+	{
+		return int32(mViewportResolution.x);
+	}
+
+	int32 GraphicsManager::GetViewportHeight() const
+	{
+		return int32(mViewportResolution.y);
+	}
+
 	const mat4x4& GraphicsManager::GetViewProjectionMatrix() const
 	{
 		return mViewProjectionMatrix;
@@ -326,6 +337,11 @@ namespace star
 	const vec2 & GraphicsManager::GetViewportResolution() const
 	{
 		return mViewportResolution;
+	}
+
+	float GraphicsManager::GetViewportAspectRatio() const
+	{
+		return mViewportResolution.x / mViewportResolution.y;
 	}
 
 	void GraphicsManager::SetWindowDimensions(int32 width, int32 height)

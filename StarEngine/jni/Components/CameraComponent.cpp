@@ -31,7 +31,7 @@ namespace star
 
 	void CameraComponent::InitializeComponent()
 	{
-		m_AspectRatio = GraphicsManager::GetInstance()->GetWindowAspectRatio();
+		m_AspectRatio = GraphicsManager::GetInstance()->GetViewportAspectRatio();
 	
 		//Calc perspective matrix
 		if(m_bPerspectiveProjection)
@@ -47,7 +47,7 @@ namespace star
 		{
 			if(m_Size <= 0)
 			{
-				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetWindowHeight());
+				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetViewportHeight());
 			}
 
 			m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom,
@@ -60,10 +60,10 @@ namespace star
 	void CameraComponent::Update(const Context& context)
 	{
 #ifdef DESKTOP
-		if(m_Size != GraphicsManager::GetInstance()->GetWindowHeight() || 
-			m_Size * m_AspectRatio != GraphicsManager::GetInstance()->GetWindowWidth())
+		if(m_Size != GraphicsManager::GetInstance()->GetViewportHeight() || 
+			m_Size * m_AspectRatio != GraphicsManager::GetInstance()->GetViewportWidth())
 		{
-			m_AspectRatio = GraphicsManager::GetInstance()->GetWindowAspectRatio();
+			m_AspectRatio = GraphicsManager::GetInstance()->GetViewportAspectRatio();
 			if(m_bPerspectiveProjection)
 			{
 				m_Projection = MatrixPerspectiveFOV(m_FOV, 
@@ -73,7 +73,7 @@ namespace star
 			}
 			else
 			{
-				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetWindowHeight());
+				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetViewportHeight());
 				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, 
 										   m_Size * m_Zoom, 
 										   m_NearPlane, 

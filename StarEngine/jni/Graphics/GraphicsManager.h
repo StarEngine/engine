@@ -36,6 +36,9 @@ namespace star
 		int32 GetWindowWidth() const;
 		int32 GetWindowHeight() const;
 
+		int32 GetViewportWidth() const;
+		int32 GetViewportHeight() const;
+
 		const mat4x4& GetViewProjectionMatrix() const;
 		const mat4x4& GetViewInverseMatrix() const;
 		const mat4x4& GetProjectionMatrix() const;
@@ -44,6 +47,8 @@ namespace star
 
 		const vec2 & GetWindowResolution() const;
 		const vec2 & GetViewportResolution() const;
+
+		float GetViewportAspectRatio() const;
 
 		void SetWindowDimensions(int32 width, int32 height);
 		void SetHasWindowChanged(bool isTrue);
