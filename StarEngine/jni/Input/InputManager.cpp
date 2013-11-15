@@ -658,7 +658,6 @@ namespace star
 			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetViewportResolution();
 			m_CurrMousePosition *= GraphicsManager::GetInstance()->GetScreenResolution();
 			
-			
 			if(SceneManager::GetInstance()->GetActiveScene())
 			{
 				BaseCamera* projectionObject = SceneManager::GetInstance()->
