@@ -701,8 +701,8 @@ namespace star
 					}
 				}
 			}
-			return m_OldMousePosition;
 		}
+		return m_OldMousePosition;
 	}
 
 	void InputManager::OnTouchEvent(AInputEvent* pEvent)
