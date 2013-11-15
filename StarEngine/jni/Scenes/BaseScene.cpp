@@ -69,10 +69,10 @@ namespace star
 
 		for(auto object : m_Objects)
 		{
-			object->BaseUpdate(context);
-			//{
+			if(CheckCulling(object))
+			{
 				object->BaseUpdate(context);
-			//}
+			}
 		}
 
 		Update(context);
@@ -82,7 +82,7 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			object->BaseDraw();
+			if(CheckCulling(object))
 			{
 				object->BaseDraw();
 			}
@@ -195,10 +195,10 @@ namespace star
 	{
 		pos objectPos = object->GetTransform()->GetWorldPosition();
 		pos camPos = m_pDefaultCamera->GetTransform()->GetWorldPosition();
-		float xPos = (camPos.pos2D().x) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().x)/2.0f);
-		float yPos = (camPos.pos2D().y) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().y)/2.0f); 
-		int screenWidth = GraphicsManager::GetInstance()->GetTargetWindowWidth();
-		int screenHeight = GraphicsManager::GetInstance()->GetTargetWindowHeight();
+		float xPos = (camPos.pos2D().x) ;//* ((star::ScaleSystem::GetInstance()->GetWorkingResolution().x)/2.0f);
+		float yPos = (camPos.pos2D().y) ;//* ((star::ScaleSystem::GetInstance()->GetWorkingResolution().y)/2.0f); 
+		int screenWidth = GraphicsManager::GetInstance()->GetWindowWidth();//GetTargetWindowWidth();
+		int screenHeight = GraphicsManager::GetInstance()->GetWindowHeight();//->GetTargetWindowHeight();
 
 		SpriteComponent* sprite = object->GetComponent<SpriteComponent>();
 		SpritesheetComponent* spritesheet = object->GetComponent<SpritesheetComponent>();
