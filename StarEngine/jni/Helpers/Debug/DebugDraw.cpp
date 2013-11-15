@@ -1,5 +1,6 @@
 #include "DebugDraw.h"
 #include "../../Graphics/GraphicsManager.h"
+#include "../../Graphics/ScaleSystem.h"
 #include "../../Logger.h"
 #include "../AARect.h"
 #include "../Rect.h"
@@ -222,9 +223,17 @@ namespace star
 	{
 #ifdef DESKTOP
 		glUseProgram(m_Shader->GetID());
+		
+		float scaleValue = ScaleSystem::GetInstance()->GetScale();
+		mat4x4 scaleMat = glm::scale<float>(scaleValue, scaleValue, 1.0f);
 
 		glUniformMatrix4fv(m_MVPLocation,
-				1, GL_FALSE, glm::value_ptr(GraphicsManager::GetInstance()->GetViewProjectionMatrix()));
+			1, GL_FALSE,
+			glm::value_ptr(
+				scaleMat *
+				GraphicsManager::GetInstance()->GetViewProjectionMatrix()
+			)
+		);
 
 		glEnableVertexAttribArray(m_PositionLocation);
 		glVertexAttribPointer(m_PositionLocation, 2, GL_FLOAT, GL_FALSE, 0, (GLfloat*) m_Vertices);
