@@ -13,9 +13,11 @@ namespace star
 	public:
 		XMLContainer();
 		XMLContainer(const XMLContainer & yRef);
+		XMLContainer(XMLContainer && yRef);
 		~XMLContainer();
 
 		XMLContainer & operator=(const XMLContainer & yRef);
+		XMLContainer & operator=(XMLContainer && yRef);
 
 		Dictionary<tstring, tstring> & GetAttributes();
 		const tstring & GetValue() const;

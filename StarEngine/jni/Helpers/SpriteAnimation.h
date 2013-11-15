@@ -16,9 +16,11 @@ namespace star
 			float speed, int repeat, const tstring & frames, 
 			int frames_x, int frames_y, int amount);
 		SpriteAnimation(const SpriteAnimation &);
+		SpriteAnimation(SpriteAnimation &&);
 		~SpriteAnimation();
 
 		SpriteAnimation & operator=(const SpriteAnimation &);
+		SpriteAnimation & operator=(SpriteAnimation &&);
 
 		void Update(const Context & context);
 		vec4 GetCurrentUV() const;

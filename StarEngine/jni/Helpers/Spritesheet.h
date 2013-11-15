@@ -18,6 +18,7 @@ namespace star
 		~Spritesheet();
 
 		Spritesheet & operator=(const Spritesheet& yRef);
+		Spritesheet & operator=(Spritesheet&& yRef);
 
 		void SetName(const tstring & name);
 		const tstring & GetName() const;

@@ -43,6 +43,18 @@ namespace star
 		, m_IsPlaying(yRef.m_IsPlaying)
 	{
 	}
+	
+	SpriteAnimation::SpriteAnimation(SpriteAnimation && yRef)
+		: m_Name(yRef.m_Name)
+		, m_Speed(yRef.m_Speed)
+		, m_CurrentFrame(yRef.m_CurrentFrame)
+		, m_Repeat(yRef.m_Repeat)
+		, m_CurrentRepeats(0)
+		, m_UVScale(yRef.m_UVScale)
+		, m_Frames(yRef.m_Frames)
+		, m_IsPlaying(yRef.m_IsPlaying)
+	{
+	}
 
 	SpriteAnimation::~SpriteAnimation()
 	{
@@ -50,6 +62,19 @@ namespace star
 	}
 
 	SpriteAnimation & SpriteAnimation::operator=(const SpriteAnimation & yRef)
+	{
+		m_Name = yRef.m_Name;
+		m_Speed = yRef.m_Speed;
+		m_CurrentFrame = yRef.m_CurrentFrame;
+		m_Repeat = yRef.m_Repeat;
+		m_UVScale = yRef.m_UVScale;
+		m_Frames = yRef.m_Frames;
+		m_IsPlaying = yRef.m_IsPlaying;
+
+		return *this;
+	}
+
+	SpriteAnimation & SpriteAnimation::operator=(SpriteAnimation && yRef)
 	{
 		m_Name = yRef.m_Name;
 		m_Speed = yRef.m_Speed;

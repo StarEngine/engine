@@ -15,8 +15,10 @@ namespace star
 				std::function<void ()> func, bool paused = false);
 		~Timer();
 		Timer(const Timer& yRef);
-		Timer& operator=(const Timer& yRef);
+		Timer(Timer&& yRef);
 
+		Timer& operator=(const Timer& yRef);
+		Timer& operator=(Timer&& yRef);
 
 		bool Update(const Context& context);
 		void SetPaused(bool paused);

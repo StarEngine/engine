@@ -19,12 +19,30 @@ namespace star
 
 	}
 
+	XMLContainer::XMLContainer(XMLContainer && yRef)
+		: Dictionary<tstring, std::shared_ptr<XMLContainer>>(yRef)
+		, m_Value(yRef.m_Value)
+		, m_Name(yRef.m_Name)
+		, m_Attributes(yRef.m_Attributes)
+	{
+
+	}
+
 	XMLContainer::~XMLContainer()
 	{
 		m_Attributes.clear();
 	}
 
 	XMLContainer & XMLContainer::operator=(const XMLContainer & yRef)
+	{
+		m_MultiMap = yRef.m_MultiMap;
+		m_Value = yRef.m_Value;
+		m_Name = yRef.m_Name;
+		m_Attributes = yRef.m_Attributes;
+		return *this;
+	}
+
+	XMLContainer & XMLContainer::operator=(XMLContainer && yRef)
 	{
 		m_MultiMap = yRef.m_MultiMap;
 		m_Value = yRef.m_Value;
