@@ -18,7 +18,6 @@ namespace star
 		, m_Heigth(0)
 		, m_HeightSegments(heightSegments)
 		, m_CurrentHeightSegment(0)
-		, m_Shader()
 		, m_FilePath(filepath)
 		, m_SpriteName(spriteName)
 		, m_bIsHudElement(bIsHUDElement)
@@ -28,20 +27,7 @@ namespace star
 	}
 
 	void SpriteComponent::InitializeComponent()
-	{
-		#ifdef DESKTOP
-			tstring vShader(_T("WinShaders/Texture_Shader.vert")),
-					fShader(_T("WinShaders/Texture_Shader.frag"));
-		#else
-			tstring vShader(_T("AndroidShaders/Texture_Shader.vert")),
-					fShader(_T("AndroidShaders/Texture_Shader.frag"));
-		#endif
-
-		if(!m_Shader.Init(vShader, fShader))
-		{
-			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Initialization of the texture shader used by the Sprite component failed."));
-		}
-		
+	{	
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetAssetsPath(),m_SpriteName);
 		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x / m_WidthSegments;
 		m_Heigth =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y / m_HeightSegments;

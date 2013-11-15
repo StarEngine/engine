@@ -53,7 +53,6 @@ namespace star
 		int32 m_Heigth, m_HeightSegments, m_CurrentHeightSegment;
 
 	private:
-		Shader m_Shader;
 		Filepath m_FilePath;
 		tstring m_SpriteName;
 		bool m_bIsHudElement, m_bIsUberHUD;
