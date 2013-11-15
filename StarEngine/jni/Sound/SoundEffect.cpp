@@ -78,9 +78,9 @@ namespace star
 			lDataSink.pFormat= NULL;
 
 
-			const SLuint32 lPlayerIIDCount = 2;
-			const SLInterfaceID lPlayerIIDs[] ={ SL_IID_PLAY, SL_IID_SEEK };
-			const SLboolean lPlayerReqs[] ={ SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE };
+			const SLuint32 lPlayerIIDCount = 3;
+			const SLInterfaceID lPlayerIIDs[] ={ SL_IID_PLAY, SL_IID_SEEK, SL_IID_VOLUME};
+			const SLboolean lPlayerReqs[] ={ SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE};
 			lRes = (*mEngine)->CreateAudioPlayer(mEngine,&mPlayerObjs[i], &lDataSource, &lDataSink,lPlayerIIDCount, lPlayerIIDs, lPlayerReqs);
 			if (lRes != SL_RESULT_SUCCESS)
 			{
@@ -104,7 +104,6 @@ namespace star
 				Stop();
 				return;
 			}
-
 
 			if((*mPlayers[i])->SetCallbackEventsMask(mPlayers[i],SL_PLAYSTATE_STOPPED)!=SL_RESULT_SUCCESS)
 			{
@@ -142,7 +141,7 @@ namespace star
 #endif
 	}
 
-	void SoundEffect::Play(int loopTime=0)
+	void SoundEffect::Play(int loopTime)
 	{
 #ifdef DESKTOP
 		Mix_PlayChannel(mPlayChannel,mSoundEffect,loopTime);
@@ -211,10 +210,41 @@ namespace star
 		return mbStopped;
 	}
 
+	float SoundEffect::Volume( float volume )
+	{
+#ifdef DESKTOP
+		return float(Mix_Volume(mPlayChannel,int(volume*MIX_MAX_VOLUME)))/float(MIX_MAX_VOLUME);
+#else
+		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
+		{
+			if(mPlayers[i] != NULL)
+			{
+				SLuint32 lPlayerState;
+				(*mPlayerObjs[i])->GetState(mPlayerObjs[i], &lPlayerState);
+				if(lPlayerState == SL_OBJECT_STATE_REALIZED)
+				{
+					SLmillibel maxMillibelLevel,actualMillibelLevel;
+					SLVolumeItf volumeItf;
+					SLresult result = (*mPlayerObjs[i])->GetInterface(mPlayerObjs[i],SL_IID_VOLUME,&volumeItf);
+					if(result != SL_RESULT_SUCCESS)return 0;
+					result = (*volumeItf)->GetMaxVolumeLevel(volumeItf,&maxMillibelLevel);
+					star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Sound Effect : maxmillibelLevel = ")+star::string_cast<tstring>(maxMillibelLevel));
+					actualMillibelLevel = (1.0f-volume)*SL_MILLIBEL_MIN;
+					star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Sound Effect : millibelLevel = ")+star::string_cast<tstring>(actualMillibelLevel));
+					result = (*volumeItf)->SetVolumeLevel(volumeItf,actualMillibelLevel);
+					return volume;
+				}
+			}
+		}
+		return 0;
+#endif
+	}
+
 #ifdef ANDROID
 	void SoundEffect::MusicStoppedCallback(SLPlayItf caller,void *pContext,SLuint32 event)
 	{
 		(*caller)->SetPlayState(caller, SL_PLAYSTATE_STOPPED);
 	}
+
 #endif
 }

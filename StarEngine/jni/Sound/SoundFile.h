@@ -29,6 +29,11 @@ namespace star
 		void Resume();
 		bool IsStopped() const;
 
+		//Set the volume and it will return the actual volume of the channel
+		//passing -1 as volume will just return the volume
+		//Max volume is 1, anything above will auto be clamped to 1
+		float Volume(float volume);
+
 	private:
 		int32 mLoopTimes;
 		bool mbStopped;

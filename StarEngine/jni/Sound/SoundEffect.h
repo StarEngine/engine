@@ -30,6 +30,11 @@ namespace star
 		void Resume();
 		bool IsStopped() const;
 
+		//Set the volume and it will return the actual volume of the channel
+		//passing -1 as volume will just return the volume
+		//Max volume is 128, anything above will auto be clamped to 128
+		float Volume(float volume);
+
 	private:
 		bool mbStopped;
 #ifdef DESKTOP
