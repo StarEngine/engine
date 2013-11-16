@@ -8,33 +8,30 @@
 namespace star
 {
     TransformComponent::TransformComponent(star::Object* parent):
-			m_IsChanged(TransformChanged::ROTATION |
-				TransformChanged::SCALE |
-				TransformChanged::TRANSLATION),
-            m_Invalidate(false),
-			m_bRotationCenterChanged(false),
-			m_bRotationIsLocal(false),
-#ifdef STAR2D
-            m_WorldPosition(0,0),
-            m_LocalPosition(0,0),
-			m_CenterPosition(0,0),
-#else
-            m_WorldPosition(0,0,0),
-            m_LocalPosition(0,0,0),
-#endif
-            m_WorldRotation(0),
-            m_LocalRotation(0),
-#ifdef STAR2D
-            m_WorldScale(1,1),
-            m_LocalScale(1,1),
-#else
-            m_WorldScale(1,1,1),
-            m_LocalScale(1,1,1),
-
-#endif
-            m_World()
+		m_IsChanged(TransformChanged::ALL),
+        m_Invalidate(false),
+		m_bRotationCenterChanged(false),
+		m_bRotationIsLocal(false),
+	#ifdef STAR2D
+        m_WorldPosition(0,0),
+        m_LocalPosition(0,0),
+		m_CenterPosition(0,0),
+	#else
+        m_WorldPosition(0,0,0),
+        m_LocalPosition(0,0,0),
+	#endif
+        m_WorldRotation(0),
+        m_LocalRotation(0),
+	#ifdef STAR2D
+        m_WorldScale(1,1),
+        m_LocalScale(1,1),
+	#else
+        m_WorldScale(1,1,1),
+        m_LocalScale(1,1,1),
+	#endif
+        m_World()
     {
-            m_pParentObject = parent;
+        m_pParentObject = parent;
     }
 
     TransformComponent::~TransformComponent(void)
@@ -44,33 +41,33 @@ namespace star
 #ifdef STAR2D
     void TransformComponent::Translate(const vec2 & translation)
     {
-            m_LocalPosition.x = translation.x;
-            m_LocalPosition.y = translation.y;
-            m_IsChanged |= TransformChanged::TRANSLATION;
+        m_LocalPosition.x = translation.x;
+        m_LocalPosition.y = translation.y;
+        m_IsChanged |= TransformChanged::TRANSLATION;
     }
 
     void TransformComponent::Translate(float x, float y)
     {
-            Translate(vec2(x, y));
+        Translate(vec2(x, y));
     }
 
     void TransformComponent::Translate(const vec2 & translation, lay l)
     {
-            m_LocalPosition.x = translation.x;
-            m_LocalPosition.y = translation.y;
-            m_LocalPosition.l = l;
-            m_IsChanged |= TransformChanged::TRANSLATION;
+		m_LocalPosition.x = translation.x;
+        m_LocalPosition.y = translation.y;
+        m_LocalPosition.l = l;
+        m_IsChanged |= TransformChanged::TRANSLATION;
     }
 
     void TransformComponent::Translate(float x, float y, lay l)
     {
-            Translate(vec2(x, y), l);
+        Translate(vec2(x, y), l);
     }
 
     void TransformComponent::Translate(const pos & pos2D)
     {
-            m_LocalPosition = pos2D;
-            m_IsChanged |= TransformChanged::TRANSLATION;
+        m_LocalPosition = pos2D;
+        m_IsChanged |= TransformChanged::TRANSLATION;
     }
 
 	void TransformComponent::TranslateX(float x)
@@ -148,18 +145,18 @@ namespace star
 
     void TransformComponent::Scale(const vec2 & scale)
     {
-            m_LocalScale = scale;
-            m_IsChanged |= TransformChanged::SCALE;
+        m_LocalScale = scale;
+        m_IsChanged |= TransformChanged::SCALE;
     }
 
     void TransformComponent::Scale(float x, float y)
     {
-            Scale(vec2(x, y));
+        Scale(vec2(x, y));
     }
 
     void TransformComponent::Scale(float u)
     {
-            Scale(vec2(u, u));
+        Scale(vec2(u, u));
     }
 
 	void TransformComponent::ScaleX(float x)
@@ -186,35 +183,35 @@ namespace star
 
     float TransformComponent::GetWorldRotation()
     {
-            return m_WorldRotation;
+        return m_WorldRotation;
     }
 
     //[TODO] Fix this to const correct (teach cedric)
     float TransformComponent::GetLocalRotation() const
     {
-            return m_LocalRotation;
+        return m_LocalRotation;
     }
 
     const vec2 & TransformComponent::GetWorldScale()
     {
-            return m_WorldScale;
+        return m_WorldScale;
     }
 
     const vec2 & TransformComponent::GetLocalScale()
     {
-            return m_LocalScale;
+        return m_LocalScale;
     }
 
 #else
     void TransformComponent::Translate(const vec3 & translation)
     {
-            m_LocalPosition = translation;
-            m_IsChanged |= TransformChanged::TRANSLATION;
+        m_LocalPosition = translation;
+        m_IsChanged |= TransformChanged::TRANSLATION;
     }
 
     void TransformComponent::Translate(float x, float y, float z)
     {
-            Translate(vec3(x,y,z));
+        Translate(vec3(x,y,z));
     }
 
     void TransformComponent::TranslateXY(float x, float y)
@@ -258,13 +255,13 @@ namespace star
 
 	void TransformComponent::Move(const vec3 & translation)
     {
-            m_LocalPosition += translation;
-            m_IsChanged |= TransformChanged::TRANSLATION;
+        m_LocalPosition += translation;
+        m_IsChanged |= TransformChanged::TRANSLATION;
     }
 
     void TransformComponent::Move(float x, float y, float z)
     {
-            Move(vec3(x,y,z));
+        Move(vec3(x,y,z));
     }
 
     void TransformComponent::MoveXY(float x, float y)
@@ -314,18 +311,18 @@ namespace star
 
     void TransformComponent::Scale(const vec3 & scale)
     {
-            m_LocalScale = scale;
-            m_IsChanged |= TransformChanged::SCALE;
+        m_LocalScale = scale;
+        m_IsChanged |= TransformChanged::SCALE;
     }
 
     void TransformComponent::Scale(float x, float y, float z)
     {
-            Scale(vec3(x,y,z));
+        Scale(vec3(x,y,z));
     }
 
     void TransformComponent::Scale(float u)
     {
-            Scale(vec3(u, u, u));
+        Scale(vec3(u, u, u));
     }
 
     void TransformComponent::ScaleXY(float x, float y)
@@ -369,32 +366,32 @@ namespace star
 
     const vec3 & TransformComponent::GetWorldPosition()
     {
-            return m_WorldPosition;
+        return m_WorldPosition;
     }
 
     const vec3 & TransformComponent::GetLocalPosition()
     {
-            return m_LocalPosition;
+        return m_LocalPosition;
     }
 
     const quat & TransformComponent::GetWorldRotation()
     {
-            return m_WorldRotation;
+        return m_WorldRotation;
     }
 
     const quat & TransformComponent::GetLocalRotation() const
     {
-            return m_LocalRotation;
+        return m_LocalRotation;
     }
 
     const vec3 & TransformComponent::GetWorldScale()
     {
-            return m_WorldScale;
+        return m_WorldScale;
     }
 
     const vec3 & TransformComponent::GetLocalScale()
     {
-            return m_LocalScale;
+        return m_LocalScale;
     }
 #endif
 
@@ -461,7 +458,7 @@ namespace star
 
     void TransformComponent::Update(const Context& context)
     {
-            CheckForUpdate();
+        CheckForUpdate();
     }
         
 	void TransformComponent::Draw()
