@@ -314,6 +314,16 @@ namespace star
 		return int32(mViewportResolution.y);
 	}
 
+	int32 GraphicsManager::GetScreenWidth() const
+	{
+		return int32(ScaleSystem::GetInstance()->GetWorkingResolution().x);
+	}
+
+	int32 GraphicsManager::GetScreenHeight() const
+	{
+		return int32(ScaleSystem::GetInstance()->GetWorkingResolution().y);
+	}
+
 	const mat4x4& GraphicsManager::GetViewProjectionMatrix() const
 	{
 		return mViewProjectionMatrix;
@@ -344,17 +354,22 @@ namespace star
 		return mViewportResolution;
 	}
 
+	const vec2 & GraphicsManager::GetScreenResolution() const
+	{
+		return ScaleSystem::GetInstance()->GetWorkingResolution();
+	}
+
 	float GraphicsManager::GetViewportAspectRatio() const
 	{
 		return mViewportResolution.x / mViewportResolution.y;
 	}
 
-	int GraphicsManager::GetHorizontalViewportOffset() const
+	int32 GraphicsManager::GetHorizontalViewportOffset() const
 	{
 		return mHorizontalViewportOffset;
 	}
 
-	int GraphicsManager::GetVerticalViewportOffset() const
+	int32 GraphicsManager::GetVerticalViewportOffset() const
 	{
 		return mVerticalViewportOffset;
 	}

@@ -124,8 +124,8 @@ namespace star
 		bool IsTouchPressedANDR(uint8 fingerIndex = 0) const;
 		bool IsTouchDownANDR(uint8 fingerIndex = 0) const;
 		bool IsTouchReleasedANDR(uint8 fingerIndex = 0) const;
-		vec2 GetCurrentTouchPosANDR(uint8 fingerIndex = 0);
-		vec2 GetOldTouchPosANDR(uint8 fingerIndex = 0);
+		vec2 GetCurrentTouchPosANDR(uint8 fingerIndex = 1);
+		vec2 GetOldTouchPosANDR(uint8 fingerIndex = 1);
 		FingerPointerANDR GetTouchPropertiesANDR(uint8 fingerIndex = 0) const;
 
 		void OnTouchEvent(AInputEvent* pEvent);

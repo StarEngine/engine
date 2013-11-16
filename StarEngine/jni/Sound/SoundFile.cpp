@@ -70,8 +70,8 @@ namespace star
 		lDataSink.pFormat= NULL;
 
 
-		const SLuint32 lPlayerIIDCount = 2;
-		const SLInterfaceID lPlayerIIDs[] ={ SL_IID_PLAY, SL_IID_SEEK };
+		const SLuint32 lPlayerIIDCount = 3;
+		const SLInterfaceID lPlayerIIDs[] ={ SL_IID_PLAY, SL_IID_SEEK, SL_IID_VOLUME };
 		const SLboolean lPlayerReqs[] ={ SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE };
 		lRes = (*mEngine)->CreateAudioPlayer(mEngine,&mPlayerObj, &lDataSource, &lDataSink,lPlayerIIDCount, lPlayerIIDs, lPlayerReqs);
 		if (lRes != SL_RESULT_SUCCESS)
@@ -220,6 +220,30 @@ namespace star
 		return mbStopped;
 	}
 
+	float SoundFile::Volume( float volume )
+	{
+#ifdef DESKTOP
+		return float(Mix_VolumeMusic(int(volume*MIX_MAX_VOLUME)))/float(MIX_MAX_VOLUME);
+#else
+		if(mPlayer != nullptr)
+		{
+			SLuint32 lPlayerState;
+			(*mPlayerObj)->GetState(mPlayerObj, &lPlayerState);
+			if(lPlayerState == SL_OBJECT_STATE_REALIZED)
+			{
+				SLmillibel maxMillibelLevel,actualMillibelLevel;
+				SLVolumeItf volumeItf;
+				SLresult result = (*mPlayerObj)->GetInterface(mPlayerObj,SL_IID_VOLUME,&volumeItf);
+				if(result != SL_RESULT_SUCCESS)return 0;
+				actualMillibelLevel = (volume*(2*float(SL_MILLIBEL_MAX)))+SL_MILLIBEL_MIN;
+				result = (*volumeItf)->SetVolumeLevel(volumeItf,actualMillibelLevel);
+				return volume;
+			}
+		}
+		return 0;
+#endif
+	}
+
 #ifdef DESKTOP
 	void SoundFile::MusicStoppedCallback()
 	{
@@ -248,5 +272,8 @@ namespace star
 			file->Play(file->mLoopTimes);
 		}
 	}
+
+
+
 #endif
 }

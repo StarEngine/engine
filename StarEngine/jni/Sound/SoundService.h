@@ -33,17 +33,43 @@ namespace star
 
 		//You can load sounds at runtime but for ensuring smooth play preload with LoadMusic
 		//For looptimes : -1 repeat forever, 0 play once 
-		void PlaySoundFile(const tstring& path, const tstring& name, int loopTimes=0);
-		//For looptimes : -1 repeat forever, 0 play once 
-		void PlaySoundFile(const tstring& name, int loopTimes = 0);
+		//Volume default 1, range 0 to 1
+		//This will interrupt the background playing queue
+		//For multiple music tracks at the same time, load them as sound effects
+		void PlaySoundFile(const tstring& path, const tstring& name, int loopTimes=0, float volume=1);
 
-		//You can load sounds at runtime but for ensuring smooth play preload with LoadMusic
-		void PlaySoundEffect(const tstring& path, const tstring& name);
-		void PlaySoundEffect(const tstring& name);
+		//For looptimes : -1 repeat forever, 0 play once 
+		//Volume default 1, range 0 to 1
+		//This will interrupt the background playing queue
+		//For multiple music tracks at the same time, load them as sound effects
+		void PlaySoundFile(const tstring& name, int loopTimes=0, float volume=1);
+
+		//You can load sound effects at runtime but for ensuring smooth play preload with LoadEffect
+		//For looptimes : -1 repeat forever, 0 play once 
+		//Volume default 1, range 0 to 1
+		void PlaySoundEffect(const tstring& path, const tstring& name, int loopTimes=0, float volume=1);
+
+		//For looptimes : -1 repeat forever, 0 play once 
+		//Volume default 1, range 0 to 1
+		void PlaySoundEffect(const tstring& name, int loopTimes=0, float volume=1);
 
 		void AddToBackgroundQueue(const tstring& name);
+
+		//This will interrupt the any music that is playing
+		//excluding the sound effects
+		//For multiple music tracks at the same time, load them as sound effects
 		void PlayBackgroundQueue();
 		void PlayNextSongInQueue();
+
+		//This sets the volume of the music track that is playing
+		//Min volume is 0, max volume is 1, anything above will be capped to 1
+		void SetMusicVolume(const tstring& name, float volume);
+		float	 GetMusicVolume(const tstring& name);
+
+		//This sets the volume of the music track that is playing
+		//Min volume is 0, max volume is 128, anything above will be capped to 128
+		void SetEffectVolume(const tstring& name, float volume);
+		float	 GetEffectVolume(const tstring& name);
 
 		void StopSound(const tstring& name);
 		void StopAllSound();
@@ -73,6 +99,7 @@ namespace star
 		SLObjectItf mEngineObj;
 		SLEngineItf mEngine;
 		SLObjectItf mOutputMixObj;
+		SLVolumeItf mOutputMixVolume;
 #endif
 		SoundService(const SoundService& yRef);
 		SoundService(SoundService&& yRef);

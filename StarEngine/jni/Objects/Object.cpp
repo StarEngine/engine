@@ -110,10 +110,6 @@ namespace star
 				}
 			}
 		}
-		else if(GraphicsManager::GetInstance()->GetHasWindowChanged())
-		{
-			GetTransform()->UpdateFrozenObjects(context);
-		}
 	}
 
 	void Object::Draw()

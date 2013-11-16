@@ -2,7 +2,7 @@
 #include "../../StarEngine/jni/Logger.h"
 #include "../../StarEngine/jni/defines.h"
 #include "../../StarEngine/jni/Context.h"
-
+#include "../../Helpers/Helpers.h"
 #include "../../StarEngine/jni/Input/InputManager.h"
 #define INPUT_MANAGER (InputManager::GetInstance())
 
@@ -16,7 +16,7 @@ namespace star
 		m_CurrentPos(),
 		m_OldPos(),
 		m_OldDirection(),
-		m_bIsGestureOk(false),
+		m_bIsGestureOk(true),
 		m_TotalDistance(0)
 	{
 	}
@@ -101,7 +101,6 @@ namespace star
 				m_CurrentPos = INPUT_MANAGER->GetCurrentTouchPosANDR();
 				if(m_OldPos != m_CurrentPos)
 				{
-					//The mouse moved
 					vec2 dir = m_CurrentPos - m_OldPos;
 					dir = glm::normalize(dir);
 					if(m_OldDirection != vec2())
@@ -132,7 +131,6 @@ namespace star
 			//div average dir by amount of times it was down, calc speed, dir and length :)
 			if(m_bIsGestureOk)
 			{
-				//[TODO] -- make distance in % of screen!
 				if(m_Speed >= MIN_SWIPE_SPEED && m_TotalDistance >= MIN_SWIPE_DISTANCE)
 				{
 					m_bCompletedGesture = true;

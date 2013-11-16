@@ -45,10 +45,7 @@ namespace star
 
 		SoundService::GetInstance()->Start();
 		GraphicsManager::GetInstance()->CalculateViewPort();
-		//[COMMENT] Quite unsafe to do this now, because nothing is disabled in release so far
-#if defined(DEBUG) | defined(_DEBUG)
 		DebugDraw::GetInstance()->Initialize();
-#endif
 	}
 
 	void StarEngine::Update(const Context & context)

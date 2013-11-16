@@ -69,6 +69,11 @@ namespace star
 #endif
 		void BaseGesture::Update(const Context& context)
 		{
+			
+		}
+
+		void BaseGesture::EndUpdate()
+		{
 			if(m_bCompletedGesture)
 			{
 				m_bCompletedGesture = false;

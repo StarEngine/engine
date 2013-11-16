@@ -93,9 +93,9 @@ namespace star
 		const SLuint32 lEngineMixIIDCount =1;
 		const SLInterfaceID lEngineMixIIDs[]={SL_IID_ENGINE};
 		const SLboolean lEngineMixReqs[]={SL_BOOLEAN_TRUE};
-		const SLuint32 lOutputMixIIDCount=0;
-		const SLInterfaceID lOutputMixIIDs[]={};
-		const SLboolean lOutputMixReqs[]={};
+		const SLuint32 lOutputMixIIDCount=1;
+		const SLInterfaceID lOutputMixIIDs[]={ SL_IID_VOLUME };
+		const SLboolean lOutputMixReqs[]={ SL_BOOLEAN_FALSE};
 
 		lRes = slCreateEngine(&mEngineObj, 0, NULL, lEngineMixIIDCount, lEngineMixIIDs, lEngineMixReqs);
 		if(lRes != SL_RESULT_SUCCESS)
@@ -135,6 +135,13 @@ namespace star
 			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't realise output object"));
 			Stop();
 			return;
+		}
+
+		lRes = (*mOutputMixObj)->GetInterface(mOutputMixObj,SL_IID_VOLUME, &mOutputMixVolume);
+		if(lRes != SL_RESULT_SUCCESS)
+		{
+			star::Logger::GetInstance()->Log(star::LogLevel::Warning, _T("Audio : Can't  get volume interface, but not a problem, just no global volume control"));
+			mOutputMixVolume=nullptr;
 		}
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Succesfull made Audio Engine"));
 #endif
@@ -226,7 +233,7 @@ namespace star
 		mSoundEffectPathList[path] = name;
 	}
 
-	void SoundService::PlaySoundFile(const tstring& path, const tstring& name, int loopTimes)
+	void SoundService::PlaySoundFile(const tstring& path, const tstring& name, int loopTimes, float volume)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
@@ -234,10 +241,10 @@ namespace star
 		{
 			LoadMusic(path,name);
 		}
-		return PlaySoundFile(name,loopTimes);
+		return PlaySoundFile(name,loopTimes,volume);
 	}
 
-	void SoundService::PlaySoundFile(const tstring& name, int loopTimes)
+	void SoundService::PlaySoundFile(const tstring& name, int loopTimes, float volume)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
@@ -247,6 +254,7 @@ namespace star
 			if(m_CurrentSoundFile != nullptr) m_CurrentSoundFile->Stop();
 			m_CurrentSoundFile = mMusicList[name];
 			m_CurrentSoundFile->Play(loopTimes);
+			m_CurrentSoundFile->Volume(volume);
 			return;
 		}
 		else
@@ -258,7 +266,7 @@ namespace star
 		
 	}
 
-	void SoundService::PlaySoundEffect(const tstring& path, const tstring& name)
+	void SoundService::PlaySoundEffect(const tstring& path, const tstring& name, int loopTimes, float volume)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
@@ -266,10 +274,10 @@ namespace star
 		{
 			LoadSoundEffect(path,name);
 		}
-		PlaySoundFile(name);
+		PlaySoundEffect(name,loopTimes,volume);
 	}
 
-	void SoundService::PlaySoundEffect(const tstring& name)
+	void SoundService::PlaySoundEffect(const tstring& name, int loopTimes, float volume)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
@@ -277,7 +285,8 @@ namespace star
 		if(it != mEffectsList.end())
 		{
 			m_CurrentSoundEffect = mEffectsList[name];
-			mEffectsList[name]->Play();
+			m_CurrentSoundEffect->Play(loopTimes);
+			m_CurrentSoundEffect->Volume(volume);
 		}
 		else
 		{
@@ -333,6 +342,44 @@ namespace star
 			mQueueIterator==mBackgroundQueue.begin();
 			(*mQueueIterator)->PlayQueued(0);
 		}
+	}
+
+	void SoundService::SetMusicVolume(const tstring& name, float volume )
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			it->second->Volume(volume);
+		}
+	}
+
+	float SoundService::GetMusicVolume(const tstring& name)
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			return it->second->Volume(-1);
+		}
+		return 0;
+	}
+
+	void SoundService::SetEffectVolume(const tstring& name, float volume )
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			it->second->Volume(volume);
+		}
+	}
+
+	float SoundService::GetEffectVolume(const tstring& name)
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			return it->second->Volume(-1);
+		}
+		return 0;
 	}
 
 	void SoundService::StopSound(const tstring& name)
@@ -427,5 +474,6 @@ namespace star
 	{
 		return mOutputMixObj;
 	}
+
 #endif
 }

@@ -73,6 +73,7 @@ namespace star
 		, m_bPointerIsDown(false)
 		, m_bPointerIsUp(false)
 		, m_NumberOfPointers(0)
+		, m_NumberOfPointersOLD(0)
 		, m_ActivePointerID(0)
 		, m_PointerVec()
 		, m_OldPointerVec()
@@ -305,7 +306,8 @@ namespace star
 	}
 
 	//NO RANGE CHECKS
-	bool InputManager::IsGamepadButtonDown_unsafe(WORD button, GamepadIndex playerIndex, bool previousFrame) const
+	bool InputManager::IsGamepadButtonDown_unsafe(WORD button, GamepadIndex playerIndex, 
+		bool previousFrame) const
 	{
 		if(!m_ConnectedGamepads[playerIndex])
 		{
@@ -367,8 +369,10 @@ namespace star
 
 					//GAMEPADS
 					if(!currAction->IsTriggered && currAction->GamepadButtonCode != 0)
-						if(!IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) &&
-							IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
+						if(!IsGamepadButtonDown_unsafe(
+							currAction->GamepadButtonCode,currAction->PlayerIndex,true) &&
+							IsGamepadButtonDown_unsafe(
+							currAction->GamepadButtonCode,currAction->PlayerIndex))
 						{
 							currAction->IsTriggered = true;
 						}
@@ -402,8 +406,10 @@ namespace star
 					//GAMEPADS
 					if(!currAction->IsTriggered && currAction->GamepadButtonCode != 0)
 					{
-						if(	IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) &&
-							IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
+						if(	IsGamepadButtonDown_unsafe(
+							currAction->GamepadButtonCode,currAction->PlayerIndex,true) &&
+							IsGamepadButtonDown_unsafe(
+							currAction->GamepadButtonCode,currAction->PlayerIndex))
 						{
 							currAction->IsTriggered = true;
 						}
@@ -440,8 +446,10 @@ namespace star
 						currAction->GamepadButtonCode > MIN_GAMEPAD_VALUE && 
 						currAction->GamepadButtonCode <= MAX_GAMEPAD_VALUE)
 					{
-						if(	IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex,true) && 
-							!IsGamepadButtonDown_unsafe(currAction->GamepadButtonCode,currAction->PlayerIndex))
+						if(	IsGamepadButtonDown_unsafe(
+							currAction->GamepadButtonCode,currAction->PlayerIndex,true) && 
+							!IsGamepadButtonDown_unsafe(
+							currAction->GamepadButtonCode,currAction->PlayerIndex))
 						{
 							currAction->IsTriggered = true;
 						}
@@ -458,17 +466,24 @@ namespace star
 				ScreenToClient(mWindowsHandle,&mousePos);
 			}
 			
-			m_CurrMousePosition = vec2(mousePos.x , (float)GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y);
-			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetWindowResolution();
-			m_CurrMousePosition *= ScaleSystem::GetInstance()->GetWorkingResolution();
+			m_CurrMousePosition = vec2(
+				mousePos.x , 
+				(float)GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y);
+			m_CurrMousePosition -= vec2(
+				float(GraphicsManager::GetInstance()->GetHorizontalViewportOffset()),
+				float(GraphicsManager::GetInstance()->GetVerticalViewportOffset()));
+			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetViewportResolution();
+			m_CurrMousePosition *= GraphicsManager::GetInstance()->GetScreenResolution();
 			
 			
 			if(SceneManager::GetInstance()->GetActiveScene())
 			{
-				BaseCamera* projectionObject = SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera();
+				BaseCamera* projectionObject = SceneManager::GetInstance()->
+					GetActiveScene()->GetActiveCamera();
 				if(projectionObject)
 				{
-					m_CurrMousePosition += projectionObject->GetTransform()->GetWorldPosition().pos2D();
+					m_CurrMousePosition += projectionObject->GetTransform()->
+						GetWorldPosition().pos2D();
 				}
 			}
 
@@ -529,7 +544,8 @@ namespace star
 			}
 		}
 
-		//Shorts have a range of 32768, so to convert that range to a double, devide it by that range
+		//Shorts have a range of 32768, so to convert that range to a double, 
+		//devide it by that range
 		if(pos.x < 0)
 		{
 			pos.x /= MAX_VALUE_OF_SHORT;
@@ -566,7 +582,8 @@ namespace star
 		}
 	}
 
-	void InputManager::SetVibration(float leftVibration, float rightVibration, GamepadIndex playerIndex)
+	void InputManager::SetVibration(float leftVibration, float rightVibration, 
+		GamepadIndex playerIndex)
 	{
 		XINPUT_VIBRATION vibration;
 		glm::clamp<float>(leftVibration, 0.0f, 1.0f);
@@ -593,7 +610,8 @@ namespace star
 		case 5:
 			return VK_XBUTTON2;
 		default:
-			Logger::GetInstance()->Log(LogLevel::Warning,_T("Only 5 (0 - 4) finger Indices supported for mouse. Using VK_XBUTTON2"));
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Only 5 (0 - 4) finger Indices supported for mouse. Using VK_XBUTTON2"));
 			return VK_XBUTTON2;
 		}
 	}
@@ -601,7 +619,7 @@ namespace star
 
 	bool InputManager::IsTouchPressedANDR(uint8 fingerIndex) const
 	{
-		if(m_NumberOfPointers == fingerIndex && (m_bMainIsDown || m_bPointerIsDown))
+		if(m_NumberOfPointers >= fingerIndex && (m_bMainIsDown || m_bPointerIsDown))
 		{
 			return (true);
 		}
@@ -610,7 +628,7 @@ namespace star
 
 	bool InputManager::IsTouchDownANDR(uint8 fingerIndex) const
 	{
-		if(m_NumberOfPointers == fingerIndex)
+		if(m_NumberOfPointers >= fingerIndex)
 		{
 			return (true);
 		}
@@ -619,7 +637,7 @@ namespace star
 
 	bool InputManager::IsTouchReleasedANDR(uint8 fingerIndex) const
 	{
-		if(m_NumberOfPointers == fingerIndex -1 && (m_bMainIsUp || m_bPointerIsUp))
+		if(m_NumberOfPointers >= fingerIndex -1 && (m_bMainIsUp || m_bPointerIsUp))
 		{
 			return (true);
 		}
@@ -631,9 +649,25 @@ namespace star
 		if((fingerIndex <= m_PointerVec.size() && fingerIndex > 0))
 		{
 			m_CurrMousePosition = m_PointerVec.at(fingerIndex-1).Position;
-			m_CurrMousePosition.y =  GraphicsManager::GetInstance()->GetWindowHeight()- m_CurrMousePosition.y;
-			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetWindowResolution();
-			m_CurrMousePosition *= ScaleSystem::GetInstance()->GetWorkingResolution();
+			m_CurrMousePosition = vec2(
+				m_CurrMousePosition.x , 
+				(float)GraphicsManager::GetInstance()->GetWindowHeight() - m_CurrMousePosition.y);
+			m_CurrMousePosition -= vec2(
+				float(GraphicsManager::GetInstance()->GetHorizontalViewportOffset()),
+				float(GraphicsManager::GetInstance()->GetVerticalViewportOffset()));
+			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetViewportResolution();
+			m_CurrMousePosition *= GraphicsManager::GetInstance()->GetScreenResolution();
+			
+			if(SceneManager::GetInstance()->GetActiveScene())
+			{
+				BaseCamera* projectionObject = SceneManager::GetInstance()->
+					GetActiveScene()->GetActiveCamera();
+				if(projectionObject)
+				{
+					m_CurrMousePosition += projectionObject->GetTransform()->
+						GetWorldPosition().pos2D();
+				}
+			}
 		}
 		return m_CurrMousePosition;
 	}
@@ -646,10 +680,26 @@ namespace star
 			if(m_OldPointerVec.at(fingerIndex-1).ID == m_PointerVec.at(fingerIndex-1).ID)
 			{
 				m_OldMousePosition = m_OldPointerVec.at(fingerIndex-1).Position;
-				m_OldMousePosition.y = GraphicsManager::GetInstance()->GetWindowHeight() - m_OldMousePosition.y;
-				m_OldMousePosition /= GraphicsManager::GetInstance()->GetWindowResolution();
-				m_OldMousePosition *= ScaleSystem::GetInstance()->GetWorkingResolution();
-
+				m_OldMousePosition = vec2(
+				m_OldMousePosition.x , 
+					(float)GraphicsManager::GetInstance()->GetWindowHeight() - m_OldMousePosition.y);
+				m_OldMousePosition -= vec2(
+					float(GraphicsManager::GetInstance()->GetHorizontalViewportOffset()),
+					float(GraphicsManager::GetInstance()->GetVerticalViewportOffset()));
+				m_OldMousePosition /= GraphicsManager::GetInstance()->GetViewportResolution();
+				m_OldMousePosition *= GraphicsManager::GetInstance()->GetScreenResolution();
+			
+				//[BUG] if camera moves, this might be a bad idea..
+				if(SceneManager::GetInstance()->GetActiveScene())
+				{
+					BaseCamera* projectionObject = SceneManager::GetInstance()->
+						GetActiveScene()->GetActiveCamera();
+					if(projectionObject)
+					{
+						m_OldMousePosition += projectionObject->GetTransform()->
+							GetWorldPosition().pos2D();
+					}
+				}
 			}
 		}
 		return m_OldMousePosition;
@@ -657,6 +707,7 @@ namespace star
 
 	void InputManager::OnTouchEvent(AInputEvent* pEvent)
 	{
+		m_NumberOfPointersOLD = m_NumberOfPointers;
 		int32 action = AMotionEvent_getAction(pEvent);
 		uint32 flags = action & AMOTION_EVENT_ACTION_MASK;
 		switch(flags)
@@ -829,6 +880,7 @@ namespace star
 
 	void InputManager::EndUpdate()
 	{
+		m_GestureManager->EndUpdate();
 #ifndef DESKTOP
 		m_bMainIsDown = false;
 		m_bMainIsUp = false;

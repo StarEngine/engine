@@ -22,6 +22,7 @@ namespace star
 		void OnTouchEventBase(AInputEvent* pEvent);
 #endif
 		virtual void Update(const Context& context);
+		void EndUpdate();
 		bool CompletedGesture();
 	protected:
 #ifdef _WIN32
