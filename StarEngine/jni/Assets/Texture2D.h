@@ -51,5 +51,6 @@ namespace star
 		Texture2D(const Texture2D& yRef);
 		Texture2D(Texture2D&& yRef);
 		Texture2D& operator=(const Texture2D& yRef);
+		Texture2D& operator=(Texture2D&& yRef);
 	};
 }

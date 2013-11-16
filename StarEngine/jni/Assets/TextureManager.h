@@ -17,7 +17,7 @@ namespace star
 {
 	class Texture2D;
 
-	class TextureManager
+	class TextureManager final
 	{
 	public:
 		~TextureManager(void);
@@ -42,5 +42,6 @@ namespace star
 		TextureManager(const TextureManager& yRef);
 		TextureManager(TextureManager&& yRef);
 		TextureManager& operator=(const TextureManager& yRef);
+		TextureManager& operator=(TextureManager&& yRef);
 	};
 }

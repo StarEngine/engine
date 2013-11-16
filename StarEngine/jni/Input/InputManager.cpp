@@ -475,7 +475,6 @@ namespace star
 			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetViewportResolution();
 			m_CurrMousePosition *= GraphicsManager::GetInstance()->GetScreenResolution();
 			
-			
 			if(SceneManager::GetInstance()->GetActiveScene())
 			{
 				BaseCamera* projectionObject = SceneManager::GetInstance()->
@@ -494,7 +493,6 @@ namespace star
 			{
 				m_GestureManager->OnUpdateWinInputState();
 			}
-
 			//Sleep(1000/60);
 		}
 		return 0;

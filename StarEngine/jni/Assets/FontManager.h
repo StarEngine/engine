@@ -38,7 +38,7 @@ namespace star
 		TransformComponent* TransformComp; 
 	};
 
-	class FontManager
+	class FontManager final
 	{
 	public:
 		~FontManager(void) {}
@@ -70,5 +70,6 @@ namespace star
 		FontManager(const FontManager& yRef);
 		FontManager(FontManager&& yRef);
 		FontManager& operator=(const FontManager& yRef);
+		FontManager& operator=(FontManager&& yRef);
 	};
 }
