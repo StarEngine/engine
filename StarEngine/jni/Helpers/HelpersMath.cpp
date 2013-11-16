@@ -69,6 +69,72 @@ namespace star
 		vec.w = RadiansToDegrees(radians.w);
 		return vec;
 	}
+	
+	vec2 Slerp(const vec2 & start, const vec2 & end, float percent)
+	{
+		float dot = glm::dot(start, end);
+		dot = Clamp(dot, -1.0f, 1.0f);
+		float theta = acos(dot) * percent;
+		vec2 relativeVec = end - start * dot;
+		relativeVec = glm::normalize(relativeVec);
+		return (start * cos(theta)) + (relativeVec * sin(theta));
+	}
+
+	vec3 Slerp(const vec3 & start, const vec3 & end, float percent)
+	{
+		float dot = glm::dot(start, end);
+		dot = Clamp(dot, -1.0f, 1.0f);
+		float theta = acos(dot) * percent;
+		vec3 relativeVec = end - start * dot;
+		relativeVec = glm::normalize(relativeVec);
+		return (start * cos(theta)) + (relativeVec * sin(theta));
+	}
+
+	vec4 Slerp(const vec4 & start, const vec4 & end, float percent)
+	{
+		float dot = glm::dot(start, end);
+		dot = Clamp(dot, -1.0f, 1.0f);
+		float theta = acos(dot) * percent;
+		vec4 relativeVec = end - start * dot;
+		relativeVec = glm::normalize(relativeVec);
+		return (start * cos(theta)) + (relativeVec * sin(theta));
+	}
+
+	quat Slerp(const quat & start, const quat & end, float percent)
+	{
+		vec4 vec = Slerp(
+			vec4(start.x, start.y, start.z, start.w),
+			vec4(end.x, end.y, end.z, end.w),
+			percent
+			);
+		return quat(vec.x, vec.y, vec.z, vec.w);
+	}
+
+	vec2 Nlerp(const vec2 & start, const vec2 & end, float percent)
+	{
+		return glm::normalize(Lerp(start, end, percent));
+	}
+
+	vec3 Nlerp(const vec3 & start, const vec3 & end, float percent)
+	{
+		return glm::normalize(Lerp(start, end, percent));
+	}
+
+	vec4 Nlerp(const vec4 & start, const vec4 & end, float percent)
+	{
+		return glm::normalize(Lerp(start, end, percent));
+	}
+
+	quat Nlerp(const quat & start, const quat & end, float percent)
+	{
+		vec4 vec = Lerp(
+			vec4(start.x, start.y, start.z, start.w),
+			vec4(end.x, end.y, end.z, end.w),
+			percent
+			);
+		vec = glm::normalize(vec);
+		return quat(vec.x, vec.y, vec.z, vec.w);
+	}
 
 	mat4x4 TransposeMatrix(const mat4x4& matrix)
 	{
@@ -77,19 +143,34 @@ namespace star
 
 	float GetPitch(const glm::quat & quaternion)
     {
-		return (float)atan2f(2 * (quaternion.y * quaternion.z + quaternion.w * quaternion.x),
-            quaternion.w * quaternion.w - quaternion.x * quaternion.x - quaternion.y * quaternion.y + quaternion.z * quaternion.z);
+		return float(atan2f(2 * (
+			quaternion.y * quaternion.z +
+			quaternion.w * quaternion.x),
+            quaternion.w * quaternion.w -
+			quaternion.x * quaternion.x -
+			quaternion.y * quaternion.y +
+			quaternion.z * quaternion.z
+			));
     }
 
     float GetYaw(const glm::quat & quaternion)
     {
-		return (float)asinf(-2 * (quaternion.x * quaternion.z - quaternion.w * quaternion.y));
+		return float(asinf(-2 * (
+			quaternion.x * quaternion.z -
+			quaternion.w * quaternion.y
+			)));
     }
 
     float GetRoll(const glm::quat & quaternion)
     {
-		return (float)atan2f(2 * (quaternion.x * quaternion.y + quaternion.w * quaternion.z),
-            quaternion.w * quaternion.w + quaternion.x * quaternion.x - quaternion.y * quaternion.y - quaternion.z * quaternion.z);
+		return float(atan2f(2 * (
+			quaternion.x * quaternion.y +
+			quaternion.w * quaternion.z),
+            quaternion.w * quaternion.w +
+			quaternion.x * quaternion.x -
+			quaternion.y * quaternion.y -
+			quaternion.z * quaternion.z
+			));
     }
 
 	void GetTranslation(const mat4x4& matrix, pos & translation)
@@ -119,7 +200,8 @@ namespace star
 		GetRotationAndScaling(matrix, rotation, scaling);
 	}
 	
-	void GetRotationAndScaling(const mat4x4& matrix, float & rotation, vec2 & scaling)
+	void GetRotationAndScaling(const mat4x4& matrix,
+		float & rotation, vec2 & scaling)
 	{
 		GetScaling(matrix, scaling);
 
