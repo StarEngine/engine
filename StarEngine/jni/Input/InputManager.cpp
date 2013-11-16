@@ -468,7 +468,7 @@ namespace star
 			
 			m_CurrMousePosition = vec2(
 				mousePos.x , 
-				(float)GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y);
+				float(GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y));
 			m_CurrMousePosition -= vec2(
 				float(GraphicsManager::GetInstance()->GetHorizontalViewportOffset()),
 				float(GraphicsManager::GetInstance()->GetVerticalViewportOffset()));
