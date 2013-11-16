@@ -214,13 +214,13 @@ namespace star
 
 		if(sprite != nullptr)
 		{
-			spriteWidth = sprite->GetWidth() * object->GetTransform()->GetWorldScale().x;
-			spriteHeight = sprite->GetHeight() * object->GetTransform()->GetWorldScale().y;
+			spriteWidth = int(float(sprite->GetWidth()) * object->GetTransform()->GetWorldScale().x);
+			spriteHeight = int(float(sprite->GetHeight()) * object->GetTransform()->GetWorldScale().y);
 		}
 		if(spritesheet != nullptr)
 		{
-			spriteWidth = spritesheet->GetWidth() * object->GetTransform()->GetWorldScale().x;
-			spriteHeight = spritesheet->GetHeight() * object->GetTransform()->GetWorldScale().y;
+			spriteWidth = int(float(spritesheet->GetWidth()) * object->GetTransform()->GetWorldScale().x);
+			spriteHeight = int(float(spritesheet->GetHeight()) * object->GetTransform()->GetWorldScale().y);
 		}
 
 		//[TODO] allow used to set the offset you want around the culling area.
