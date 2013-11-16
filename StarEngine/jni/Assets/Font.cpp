@@ -15,8 +15,8 @@ namespace star
 		mMaxLetterHeight=0;
 
 #ifdef DESKTOP
-		//Convert from wstring to const char* trough std::string
-		std::string font_path = string_cast<std::string>(path);
+		//Convert from wstring to const schar* trough sstring
+		sstring font_path = string_cast<sstring>(path);
 		auto error = FT_New_Face(library,font_path.c_str(),0,&mFace);
 #else
 		Resource resource(StarEngine::GetInstance()->GetAndroidApp(), path);
@@ -55,7 +55,7 @@ namespace star
 		FT_Set_Char_Size(mFace,size<<6, size<<6, FONT_DPI, FONT_DPI);
 
 		glGenTextures(FONT_TEXTURES,mTextures);
-		for(unsigned char i=0; i < FONT_TEXTURES; ++i)
+		for(suchar i=0; i < FONT_TEXTURES; ++i)
 		{
 			Make_D_List(mFace, i, mTextures);
 		}
@@ -73,7 +73,7 @@ namespace star
 #endif
 	}
 
-	void Font::Make_D_List( FT_Face face, char ch,GLuint * tex_base )
+	void Font::Make_D_List( FT_Face face, schar ch,GLuint * tex_base )
 	{
 
 		auto error = FT_Load_Char(face, ch, FT_LOAD_DEFAULT);
@@ -166,8 +166,8 @@ namespace star
 	int32 Font::GetStringLength( const tstring& string ) const
 	{
 		int32 length=0;
-		std::string conv_text = star::string_cast<std::string>(string);
-		const char *line=conv_text.c_str();
+		sstring conv_text = star::string_cast<sstring>(string);
+		const schar *line=conv_text.c_str();
 		for(int i=0;line[i]!=0;i++) 
 		{
 			length+=mLetterSizeList[ line[i]].x;

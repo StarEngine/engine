@@ -104,7 +104,7 @@ namespace star
 				void CommonUpdate();
 				void SingleUpdate(mat4x4 & world);
 
-                unsigned char m_IsChanged;
+                suchar m_IsChanged;
                 bool m_Invalidate;
 				bool m_bRotationCenterChanged, m_bRotationIsLocal;
 

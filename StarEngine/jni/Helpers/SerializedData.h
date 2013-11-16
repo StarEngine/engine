@@ -1,13 +1,15 @@
 #pragma once
 
+#include "../definesTypes.h"
+
 namespace star
 {
 	struct SerializedData
 	{
-		char * data;
+		schar * data;
 		unsigned int size;
 
 		SerializedData();
-		SerializedData(char * buffer, unsigned int n);
+		SerializedData(schar * buffer, unsigned int n);
 	};
 }

@@ -15,7 +15,7 @@ typedef struct myPoint
 
 #include <android/log.h>
 
-#define _T(x) x
+//#define _T(x) x
 
 #ifndef NDEBUG
 #define ASSERT \
@@ -38,9 +38,9 @@ typedef struct myPoint
 	struct LocalAssert { \
 		int mLine; \
 		LocalAssert(int line=__LINE__) : mLine(line) {} \
-		LocalAssert(bool isOK, const char* message="") { \
+		LocalAssert(bool isOK, const schar* message="") { \
 		if ( !isOK ) { \
-		std::stringstream buffer; \
+		sstringstream buffer; \
 		buffer << "ERROR!! Assert failed on line " << LocalAssert().mLine << " in file '" << __FILE__ << std::endl << "Message: \"" << message << "\"\n"; \
 		__android_log_assert("ASSERT", ANDROID_LOG_TAG, "%s", buffer.str().c_str()); \
 		} \

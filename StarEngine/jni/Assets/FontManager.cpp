@@ -102,10 +102,10 @@ namespace star
 		return (false);
 	}
 	
-	void FontManager::SplitIntoLines(std::vector<std::string> & list, const std::string &string )
+	void FontManager::SplitIntoLines(std::vector<sstring> & list, const sstring &string )
 	{
-		std::stringstream stream(string);
-		std::string line;
+		sstringstream stream(string);
+		sstring line;
 		while (std::getline(stream,line)){
 			list.push_back(line);
 		}

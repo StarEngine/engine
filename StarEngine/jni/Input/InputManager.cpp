@@ -257,7 +257,7 @@ namespace star
 	{
 		for (uint8 i = 0; i < NUMBER_OF_KEYBOARDKEYS; ++i)
 		{
-			if( (char) (GetAsyncKeyState(i) >> 8))
+			if( (schar) (GetAsyncKeyState(i) >> 8))
 			{
 				return true;
 			}
@@ -741,7 +741,7 @@ namespace star
 
 		if(AKeyEvent_getAction(pEvent) == AKEY_EVENT_ACTION_DOWN)
 		{
-			//Try: (char) cast the keycode
+			//Try: (schar) cast the keycode
 			switch(AKeyEvent_getKeyCode(pEvent))
 			{
 			case AKEYCODE_HOME:

@@ -32,7 +32,7 @@ namespace star
 			,TransformComp(nullptr)
 			,TextColor(Color::Black)
 		{}
-		std::vector<std::string> Text;
+		std::vector<sstring> Text;
 		tstring Fontname;
 		Color TextColor;
 		TransformComponent* TransformComp; 
@@ -51,7 +51,7 @@ namespace star
 		void EraseFonts();
 		bool DrawText(const tstring& text, const tstring& fontname,TransformComponent* transform, Color color = Color::Black);
 		bool DrawText(TextDesc textDesc);
-		void SplitIntoLines(std::vector<std::string> &list, const std::string &string);
+		void SplitIntoLines(std::vector<sstring> &list, const sstring &string);
 	private:
 		//Data Members
 		static FontManager * mFontManager;

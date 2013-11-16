@@ -176,7 +176,7 @@ namespace star
 #endif
 	}
 
-	void Logger::_CheckGlError(const char* file, int line) 
+	void Logger::_CheckGlError(const schar* file, int line) 
 	{
 #if LOGGER_MIN_LEVEL > 0
 		GLenum err (glGetError());

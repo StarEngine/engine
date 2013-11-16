@@ -47,7 +47,7 @@ namespace star
 		int32 GetStringLength(const tstring& string) const;
 
 	private:
-		void Make_D_List(FT_Face face, char ch,GLuint * tex_base);
+		void Make_D_List(FT_Face face, schar ch,GLuint * tex_base);
 		int32 NextPowerOfTwo(const int32& a);
 
 		FT_Face mFace;

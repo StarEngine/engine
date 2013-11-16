@@ -222,7 +222,7 @@ namespace star
 		FlushText(textDesc.Text, textDesc.Fontname, textDesc.TransformComp, textDesc.TextColor);
 	}
 
-	void SpriteBatch::FlushText(const std::vector<std::string>& text, 
+	void SpriteBatch::FlushText(const std::vector<sstring>& text, 
 		const tstring& fontname,TransformComponent* transform,const Color& color)
 	{
 		if(text.size() == 0)
@@ -260,7 +260,7 @@ namespace star
 		int offsetY(0);
 		for(auto it = text.begin(); it != text.end() ; ++it)
 		{
-			const char *start_line=it->c_str();
+			const schar *start_line=it->c_str();
 			for(int i = 0 ; start_line[i] != 0 ; i++) 
 			{
 

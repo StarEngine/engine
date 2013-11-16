@@ -214,8 +214,8 @@ namespace star
 			tstring windowsTitle = winManifest[_T("title")]->GetValue();
 			StarEngine::GetInstance()->SetGameTitle(windowsTitle);
 
-			mHandle = CreateWindowA(	string_cast<std::string>(winManifest[_T("class")]->GetValue()).c_str(),
-									string_cast<std::string>(windowsTitle).c_str(),
+			mHandle = CreateWindowA(	string_cast<sstring>(winManifest[_T("class")]->GetValue()).c_str(),
+									string_cast<sstring>(windowsTitle).c_str(),
 									windowStyles,
 									position_x,
 									position_y,

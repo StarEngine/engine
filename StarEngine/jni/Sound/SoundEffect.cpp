@@ -31,7 +31,7 @@ namespace star
 		++mPlayChannels;
 		
 		Filepath real_path(path);
-		std::string sound_path = string_cast<std::string>(real_path.GetAssetsPath());
+		sstring sound_path = string_cast<sstring>(real_path.GetAssetsPath());
 		if(mSoundEffect == nullptr)
 		{
 			mSoundEffect = Mix_LoadWAV(sound_path.c_str());

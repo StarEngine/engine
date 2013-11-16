@@ -36,7 +36,7 @@ namespace star
 		tstring m_Value, m_Name;
 		Dictionary<tstring, tstring> m_Attributes;
 		
-		uint32 SerializeString(const tstring & value, char ** data, char end = NULL);
+		uint32 SerializeString(const tstring & value, schar ** data, schar end = NULL);
 		void SerializeChildren(SerializedData & data,
 			const dictionary & map);
 		void SerializeXMLContainer(SerializedData & data,
@@ -52,7 +52,7 @@ namespace star
 		void DeserializeXMLContainer(SerializedData & data, uint32 & counter,
 			XMLContainer * container);
 
-		static const char 
+		static const schar 
 			SER_END_OF_NAME_OR_VALUE = 4,
 			SER_START_OF_ATTRIBUTES = 2,
 			SER_END_OF_ATTRIBUTES = 3,

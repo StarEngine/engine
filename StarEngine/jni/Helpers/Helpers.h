@@ -18,17 +18,33 @@ namespace star
 	}
 
 	template <>
-	std::wstring string_cast<std::wstring, std::wstring>
-		(const std::wstring & value);
+	sstring_16 string_cast<sstring_16, sstring_16>
+		(const sstring_16 & value);
 	template <>
-	std::string string_cast<std::string, std::string>
-		(const std::string & value);
+	sstring_16 string_cast<sstring_16, swstring>
+		(const swstring & value);
 	template <>
-	std::string string_cast<std::string, std::wstring>
-		(const std::wstring & value);
+	sstring_16 string_cast<sstring_16, sstring>
+		(const sstring & value);
 	template <>
-	std::wstring string_cast<std::wstring, std::string>
-		(const std::string & value);
+	swstring string_cast<swstring, sstring_16>
+		(const sstring_16 & value);
+	template <>
+	sstring string_cast<sstring, sstring_16>
+		(const sstring_16 & value);
+
+	template <>
+	swstring string_cast<swstring, swstring>
+		(const swstring & value);
+	template <>
+	sstring string_cast<sstring, sstring>
+		(const sstring & value);
+	template <>
+	sstring string_cast<sstring, swstring>
+		(const swstring & value);
+	template <>
+	swstring string_cast<swstring, sstring>
+		(const sstring & value);
 
 	template < typename TReturnValue, typename TValue>
 	TReturnValue string_cast(const TValue * value)
@@ -38,30 +54,88 @@ namespace star
 	}
 
 	template <>
-	std::wstring string_cast<std::wstring, wchar_t>
-		(const wchar_t * value);
+	sstring_16 string_cast<sstring_16, schar_16>
+		(const schar_16 * value);
 	template <>
-	std::string string_cast<std::string, char>
-		(const char * value);
+	sstring_16 string_cast<sstring_16, swchar>
+		(const swchar * value);
 	template <>
-	std::string string_cast<std::string, wchar_t>
-		(const wchar_t * value);
+	sstring_16 string_cast<sstring_16, schar>
+		(const schar * value);
 	template <>
-	std::wstring string_cast<std::wstring, char>
-		(const char * value);
+	schar_16 * string_cast<schar_16*, sstring_16>
+		(const sstring_16 & value);
+	template <>
+	swchar * string_cast<swchar*, sstring_16>
+		(const sstring_16 & value);
+	template <>
+	schar * string_cast<schar*, sstring_16>
+		(const sstring_16 & value);
 
 	template <>
-	char* string_cast<char*, std::wstring>
-		(const std::wstring & value);
+	sstring string_cast<sstring, schar_16>
+		(const schar_16 * value);
 	template <>
-	char* string_cast<char*, std::string>
-		(const std::string & value);
+	swstring string_cast<swstring, schar_16>
+		(const schar_16 * value);
 	template <>
-	wchar_t* string_cast<wchar_t*, std::wstring>
-		(const std::wstring & value);
+	schar_16* string_cast<schar_16*, sstring>
+		(const sstring & value);
 	template <>
-	wchar_t* string_cast<wchar_t*, std::string>
-		(const std::string & value);
+	schar_16* string_cast<schar_16*, swstring>
+		(const swstring & value);
+
+	template <>
+	swstring string_cast<swstring, swchar>
+		(const swchar * value);
+	template <>
+	sstring string_cast<sstring, schar>
+		(const schar * value);
+	template <>
+	sstring string_cast<sstring, swchar>
+		(const swchar * value);
+	template <>
+	swstring string_cast<swstring, schar>
+		(const schar * value);
+
+	template <>
+	schar* string_cast<schar*, swstring>
+		(const swstring & value);
+	template <>
+	schar* string_cast<schar*, sstring>
+		(const sstring & value);
+	template <>
+	swchar* string_cast<swchar*, swstring>
+		(const swstring & value);
+	template <>
+	swchar* string_cast<swchar*, sstring>
+		(const sstring & value);
+
+	template <>
+	swchar* string_cast<swchar*, schar>
+		(const schar * value);
+	template <>
+	swchar* string_cast<swchar*, swchar>
+		(const swchar * value);
+	template <>
+	schar* string_cast<schar*, swchar>
+		(const swchar * value);
+	template <>
+	schar* string_cast<schar*, schar>
+		(const schar * value);
+
+	template <>
+	schar_16* string_cast<schar_16*, schar>
+		(const schar * value);
+	template <>
+	schar_16* string_cast<schar_16*, swchar>
+		(const swchar * value);
+	template <>
+	schar* string_cast<schar*, schar_16>
+		(const schar_16 * value);
+	template <>
+	swchar* string_cast<swchar*, schar_16>
+		(const schar_16 * value);
 	
 	template <>
 	tstring string_cast<tstring, glm::vec2>
@@ -137,18 +211,18 @@ namespace star
 	void AppendTextFile(const tstring & file, const tstring & text,
 			DirectoryMode directory = DirectoryMode::assets);
 
-	char * ReadBinaryFile(const tstring & file, uint32 & size,
+	schar * ReadBinaryFile(const tstring & file, uint32 & size,
 			DirectoryMode directory = DirectoryMode::assets);
-	void WriteBinaryFile(const tstring & file, char * buffer, uint32 size,
+	void WriteBinaryFile(const tstring & file, schar * buffer, uint32 size,
 			DirectoryMode directory = DirectoryMode::assets);
-	void AppendBinaryFile(const tstring & file, char * buffer, uint32 size,
+	void AppendBinaryFile(const tstring & file, schar * buffer, uint32 size,
 			DirectoryMode directory = DirectoryMode::assets);
 
-	char * DecryptBinaryFile(const tstring & file, uint32 & size,
-		const std::function<char*(const char*, uint32&)> & decrypter, 
+	schar * DecryptBinaryFile(const tstring & file, uint32 & size,
+		const std::function<schar*(const schar*, uint32&)> & decrypter, 
 		DirectoryMode directory = DirectoryMode::assets);
-	void EncryptBinaryFile(const tstring & file, char * buffer, uint32 size,
-		const std::function<char*(const char*, uint32&)> & encrypter, 
+	void EncryptBinaryFile(const tstring & file, schar * buffer, uint32 size,
+		const std::function<schar*(const schar*, uint32&)> & encrypter, 
 		DirectoryMode directory = DirectoryMode::assets);
 
 	template<class To, class From>
@@ -162,7 +236,7 @@ namespace star
 			DirectoryMode directory = DirectoryMode::assets)
 	{
 		auto dataSize = sizeof(T);
-		char * dataBuffer = new char[dataSize];
+		schar * dataBuffer = new schar[dataSize];
 		memcpy(dataBuffer, buffer, dataSize);
 		WriteBinaryFile(file, dataBuffer, dataSize, directory);
 		delete [] dataBuffer;
@@ -173,7 +247,7 @@ namespace star
 			DirectoryMode directory = DirectoryMode::assets)
 	{
 		uint32 dataSize = sizeof(T);
-		char * dataBuffer = ReadBinaryFile(file, dataSize, directory);
+		schar * dataBuffer = ReadBinaryFile(file, dataSize, directory);
 		memcpy(buffer, dataBuffer, dataSize);
 		delete [] dataBuffer;
 	}
@@ -183,10 +257,10 @@ namespace star
 			DirectoryMode directory = DirectoryMode::assets)
 	{
 		auto dataSize = sizeof(T);
-		char * dataBuffer = new char[size * dataSize];
+		schar * dataBuffer = new schar[size * dataSize];
 		for(uint32 i = 0 ; i < size ; ++i)
 		{
-			char * data = new char[dataSize];
+			schar * data = new schar[dataSize];
 			memcpy(data, buffer[i], dataSize);
 			for(uint32 u = 0 ; u < dataSize ; ++u)
 			{
@@ -205,11 +279,11 @@ namespace star
 	{
 		uint32 dataSize = sizeof(T);
 		uint32 totalSize = dataSize * size;
-		char * dataBuffer = ReadBinaryFile(file, totalSize, directory);
+		schar * dataBuffer = ReadBinaryFile(file, totalSize, directory);
 		T * buffer = new T[size];
 		for(uint32 i = 0 ; i < size ; ++i)
 		{
-			char * data = new char[dataSize];
+			schar * data = new schar[dataSize];
 			for(uint32 u = 0 ; u < dataSize ; ++u)
 			{
 				data[u] = dataBuffer[(i * dataSize) + u];
@@ -225,11 +299,11 @@ namespace star
 
 	template <typename T>
 	void EncryptData(const tstring & file, T * buffer,
-		const std::function<char*(const char*, uint32&)> & encrypter, 
+		const std::function<schar*(const schar*, uint32&)> & encrypter, 
 		DirectoryMode directory = DirectoryMode::assets)
 	{
 		auto dataSize = sizeof(T);
-		char * dataBuffer = new char[dataSize];
+		schar * dataBuffer = new schar[dataSize];
 		memcpy(dataBuffer, buffer, dataSize);
 		EncryptBinaryFile(file, dataBuffer, dataSize, encrypter, directory);
 		delete [] dataBuffer;
@@ -237,25 +311,25 @@ namespace star
 
 	template <typename T>
 	void DecryptData(const tstring & file, T * buffer,
-		const std::function<char*(const char*, uint32&)> & decrypter, 
+		const std::function<schar*(const schar*, uint32&)> & decrypter, 
 		DirectoryMode directory = DirectoryMode::assets)
 	{
 		uint32 dataSize = sizeof(T);
-		char * dataBuffer = DecryptBinaryFile(file, dataSize, decrypter, directory);
+		schar * dataBuffer = DecryptBinaryFile(file, dataSize, decrypter, directory);
 		memcpy(buffer, dataBuffer, dataSize);
 		delete [] dataBuffer;
 	}
 
 	template <typename T>
 	void EncryptDataArray(const tstring & file, T * buffer, uint32 size,
-		const std::function<char*(const char*, uint32&)> & encrypter,
+		const std::function<schar*(const schar*, uint32&)> & encrypter,
 		DirectoryMode directory = DirectoryMode::assets)
 	{
 		auto dataSize = sizeof(T);
-		char * dataBuffer = new char[size * dataSize];
+		schar * dataBuffer = new schar[size * dataSize];
 		for(uint32 i = 0 ; i < size ; ++i)
 		{
-			char * data = new char[dataSize];
+			schar * data = new schar[dataSize];
 			memcpy(data, buffer[i], dataSize);
 			for(uint32 u = 0 ; u < dataSize ; ++u)
 			{
@@ -270,16 +344,16 @@ namespace star
 
 	template <typename T>
 	T * DecryptDataArray(const tstring & file, uint32 size,
-		const std::function<char*(const char*, uint32&)> & decrypter,
+		const std::function<schar*(const schar*, uint32&)> & decrypter,
 		DirectoryMode directory = DirectoryMode::assets)
 	{
 		uint32 dataSize = sizeof(T);
 		uint32 totalSize = dataSize * size;
-		char * dataBuffer = DecryptBinaryFile(file, totalSize, decrypter, directory);
+		schar * dataBuffer = DecryptBinaryFile(file, totalSize, decrypter, directory);
 		T * buffer = new T[size];
 		for(uint32 i = 0 ; i < size ; ++i)
 		{
-			char * data = new char[dataSize];
+			schar * data = new schar[dataSize];
 			for(uint32 u = 0 ; u < dataSize ; ++u)
 			{
 				data[u] = dataBuffer[(i * dataSize) + u];

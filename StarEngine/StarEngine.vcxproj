@@ -19,7 +19,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -98,6 +98,7 @@
     <ClInclude Include="jni\Context.h" />
     <ClInclude Include="jni\defines.h" />
     <ClInclude Include="jni\definesAndroid.h" />
+    <ClInclude Include="jni\definesTypes.h" />
     <ClInclude Include="jni\definesWindows.h" />
     <ClInclude Include="jni\EventLoop.h" />
     <ClInclude Include="jni\Graphics\Color.h" />

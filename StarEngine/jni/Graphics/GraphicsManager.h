@@ -65,7 +65,7 @@ namespace star
 		GraphicsManager();
 
 #ifdef DESKTOP
-		bool WGLExtensionSupported(const char* extension_name);
+		bool WGLExtensionSupported(const schar* extension_name);
 		bool InitializeOpenGLFunctors();
 
 		PFNWGLSWAPINTERVALEXTPROC       mWglSwapIntervalEXT;

@@ -200,7 +200,7 @@ tstring Filepath::m_ExternalRoot = EMPTY_STRING;
 	{
 		// This is quite involved, but the meat is SHGetFileInfo
 
-		const TCHAR kSeparator = _T('\\');
+		const tchar kSeparator = _T('\\');
 
 		tstring buffer(path);
 
@@ -226,7 +226,7 @@ tstring Filepath::m_ExternalRoot = EMPTY_STRING;
 			// last path name component
 			bool foundSeparator = (i < buffer.size());
 			buffer[i] = 0;
-			SHFILEINFOW info;
+			TSHFILEINFO info;
 
 			// nuke the path separator so that we get real name of current path component
 			info.szDisplayName[0] = 0;

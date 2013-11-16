@@ -382,7 +382,7 @@ namespace star
 
 #ifdef DESKTOP
 
-	bool GraphicsManager::WGLExtensionSupported(const char* extension_name)
+	bool GraphicsManager::WGLExtensionSupported(const schar* extension_name)
 	{
 		// this is the pointer to the function which returns the pointer to string with the list of all wgl extensions
 		PFNWGLGETEXTENSIONSSTRINGEXTPROC _wglGetExtensionsStringEXT = NULL;

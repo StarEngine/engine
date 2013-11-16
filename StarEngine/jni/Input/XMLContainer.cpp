@@ -113,13 +113,30 @@ namespace star
 	}
 
 	uint32 XMLContainer::SerializeString(
-		const tstring & value, char ** data, char end)
+		const tstring & value, schar ** data, schar end)
 	{
-		auto size = value.length() * sizeof(tchar);
+	#ifdef _WIN32
+		#ifndef _UNICODE
+		sstring_16 wValue =
+				string_cast<sstring_16>(value);
+		#endif
+	#else
+		sstring_16 wValue =
+				string_cast<sstring_16>(value);
+	#endif
+		auto size = value.length() * sizeof(swchar);
 		uint8 extra(0);
 		if(end != NULL) ++extra;
-		*data = new char[size + extra];
+		*data = new schar[size + extra];
+	#ifdef _WIN32
+		#ifdef _UNICODE
 		memcpy(*data, value.c_str(), size);
+		#else
+		memcpy(*data, wValue.c_str(), size);
+		#endif
+	#else
+		memcpy(*data, wValue.c_str(), size);
+	#endif
 		if(end != NULL)
 		{
 			(*data)[size] = end;
@@ -147,7 +164,7 @@ namespace star
 				++counter;
 			}
 
-			data.data = new char[data.size];
+			data.data = new schar[data.size];
 			counter = 1; // 0th character is SER_START_OF_CHILDREN
 
 			for(uint32 i = 0 ; i < mapSize ; ++i)
@@ -165,7 +182,7 @@ namespace star
 		}
 		else
 		{
-			data.data = new char[data.size];
+			data.data = new schar[data.size];
 		}
 		data.data[0] = SER_START_OF_CHILDREN;
 		data.data[data.size - 1] = SER_END_OF_CHILDREN;
@@ -198,7 +215,7 @@ namespace star
 			buffers[1].size + buffers[2].size
 			+ buffers[3].size + 2;
 
-		data.data = new char[data.size];
+		data.data = new schar[data.size];
 		uint32 c(1); // 0th character is SER_START_OF_CHILD
 		data.data[0] = SER_START_OF_CHILD;
 		data.data[data.size-1] = SER_END_OF_CHILD;
@@ -243,7 +260,7 @@ namespace star
 			++i;
 		}
 
-		data.data = new char[data.size];
+		data.data = new schar[data.size];
 		uint32 c(1);
 
 		data.data[0] = SER_START_OF_ATTRIBUTES;
@@ -268,8 +285,8 @@ namespace star
 	void XMLContainer::DeserializeString(
 		SerializedData & data, uint32 & counter, tstring & str)
 	{
-		std::string buffer;
-		char c;
+		sstring buffer;
+		schar c;
 		uint32 size(0);
 
 		do
@@ -282,10 +299,23 @@ namespace star
 		
 		--size;
 
+#ifdef _WIN32
+	#ifdef _UNICODE 
 		str.clear();
 		str.resize(size / sizeof(tchar));
-
 		memcpy(&str[0], &buffer[0], size);
+	#else
+		swstring stringBuffer;
+		stringBuffer.resize(size / sizeof(swchar));
+		memcpy(&stringBuffer[0], &buffer[0], size);
+		str = string_cast<sstring>(stringBuffer);
+	#endif
+#else
+		sstring_16 stringBuffer;
+		stringBuffer.resize(size / sizeof(schar_16));
+		memcpy(&stringBuffer[0], &buffer[0], size);
+		str = string_cast<tstring>(stringBuffer);
+#endif
 	}
 
 	void XMLContainer::DeserializeAttributes(SerializedData & data, uint32 & counter,

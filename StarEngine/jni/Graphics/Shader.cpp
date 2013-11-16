@@ -97,7 +97,7 @@ namespace star
 			glGetProgramiv(mShaderID, GL_INFO_LOG_LENGTH, &infoLen);
 			if(infoLen > 1)
 			{
-				char* infoLog = new char[infoLen];
+				schar* infoLog = new schar[infoLen];
 				glGetProgramInfoLog(mShaderID, infoLen, NULL, infoLog);
 				tstringstream buffer;
 				buffer << _T("Failed to link program") << _T(" : "); 
@@ -109,7 +109,7 @@ namespace star
 #ifdef ANDROID
 			else
 			{
-				char* infoLog = new char[ANDROID_ERROR_SIZE];
+				schar* infoLog = new schar[ANDROID_ERROR_SIZE];
 				glGetProgramInfoLog(mShaderID, ANDROID_ERROR_SIZE, NULL, infoLog);
 				tstringstream buffer;
 				buffer << _T("Failed to link program") << _T(": "); 
@@ -130,11 +130,11 @@ namespace star
 
 	bool Shader::CompileShader(GLuint* shader, GLenum type, const tstring& file)
 	{		
-		char* source;
+		schar* source;
 
 		uint32 size;
-		char * buffer = ReadBinaryFile(file, size);
-		source = new char[size+1];
+		schar * buffer = ReadBinaryFile(file, size);
+		source = new schar[size+1];
 		memcpy(source, buffer, size);
 
 		delete [] buffer;
@@ -162,7 +162,7 @@ namespace star
 			glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &infolength);
 			if (infolength > 1) 
 			{
-                char* buf = new char[infolength];
+                schar* buf = new schar[infolength];
                 if (buf) 
 				{
                     glGetShaderInfoLog(*shader, infolength, NULL, buf);
@@ -177,7 +177,7 @@ namespace star
 			else
 			{
 				//This is necessairy due to an android bug!
-				char* buf = new char[ANDROID_ERROR_SIZE];
+				schar* buf = new schar[ANDROID_ERROR_SIZE];
 				if (buf)
 				{
 					glGetShaderInfoLog(*shader, ANDROID_ERROR_SIZE, NULL, buf);

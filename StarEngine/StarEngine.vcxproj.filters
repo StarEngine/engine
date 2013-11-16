@@ -255,6 +255,9 @@
     <ClInclude Include="jni\Helpers\HelpersCrossplatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\definesTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">

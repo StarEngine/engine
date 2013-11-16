@@ -47,7 +47,7 @@ namespace star
 		if(m_WrapWidth != NO_WRAPPING && !m_bCheckedWrapping)
 		{
 			m_SplittedText.clear();
-			std::string text = string_cast<std::string>(m_OrigText);
+			sstring text = string_cast<sstring>(m_OrigText);
 			star::FontManager::GetInstance()->SplitIntoLines(m_SplittedText,text);
 			tstring totalline = EMPTY_STRING;
 			for(auto line : m_SplittedText)
@@ -56,7 +56,7 @@ namespace star
 				totalline += checkedline + _T("\n");
 			}
 			m_SplittedText.clear();
-			star::FontManager::GetInstance()->SplitIntoLines(m_SplittedText,string_cast<std::string>(totalline));
+			star::FontManager::GetInstance()->SplitIntoLines(m_SplittedText,string_cast<sstring>(totalline));
 			m_bCheckedWrapping=true;
 		}
 
@@ -83,7 +83,7 @@ namespace star
 		else
 		{
 			m_SplittedText.clear();
-			std::string text = string_cast<std::string>(m_OrigText);
+			sstring text = string_cast<sstring>(m_OrigText);
 			m_SplittedText.push_back(text);
 		}
 	}
@@ -145,12 +145,12 @@ namespace star
 
 	void TextComponent::SplitString( std::vector<tstring>& wordArrayIn,const tstring& stringIn , const tstring& delimiter)
 	{
-		std::string newstring = star::string_cast<std::string>(stringIn);
-		std::string newdelemiter= star::string_cast<std::string>(delimiter);
+		sstring newstring = star::string_cast<sstring>(stringIn);
+		sstring newdelemiter= star::string_cast<sstring>(delimiter);
 		size_t pos = 0;
-		std::string token;
+		sstring token;
 		//Split Everything
-		while((pos = newstring.find(newdelemiter))!= std::string::npos)
+		while((pos = newstring.find(newdelemiter))!= sstring::npos)
 		{
 			token = newstring.substr(0,pos);
 			wordArrayIn.push_back(star::string_cast<tstring>(token));

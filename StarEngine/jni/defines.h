@@ -7,60 +7,7 @@
 #endif
 
 #include "Helpers\SerializedData.h"
-
-#include <stdint.h>
-
-typedef int64_t 	int64;
-typedef int32_t 	int32;
-typedef int16_t 	int16;
-typedef int8_t 		int8;
-
-typedef uint64_t	uint64;
-typedef uint32_t 	uint32;
-typedef uint16_t 	uint16;
-typedef uint8_t 	uint8;
-
-#include <string>
-#include <sstream>
-#include <iostream>
-#include <fstream>
-
-#ifdef _WIN32
-#include <Windows.h>
-#include <stdlib.h>
-#include <minmax.h>
-#include <tchar.h>
-#endif
-
-#ifdef _UNICODE
-	#define tstring std::wstring
-	#define tcin std::wcin
-	#define tcout std::wcout
-	#define tstringstream std::wstringstream
-	#define tofstream std::wofstream
-	#define tifstream std::wifstream
-	#define tfstream std::wfstream
-	#define tchar wchar_t
-	#define tuchar unsigned std::char
-	#define tprintf std::wprintf
-	#define ttof _wtof
-	#define ttoi _wtoi
-	#define tstrlen wcslen
-#else
-	#define tstring std::string
-	#define tcin std::cin
-	#define tcout std::cout
-	#define tstringstream std::stringstream
-	#define tofstream std::ofstream
-	#define tifstream std::ifstream
-	#define tfstream std::fstream
-	#define tchar char
-	#define tuchar unsigned char
-	#define tprintf std::printf
-	#define ttof atof
-	#define ttoi atoi
-	#define tstrlen strlen
-#endif
+#include "definesTypes.h"
 
 #define STARENGINE_VERSION _T("0.0.1")
 

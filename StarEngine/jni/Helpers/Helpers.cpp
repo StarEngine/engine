@@ -4,6 +4,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <locale>
+#include <clocale>
+#include <vector>
 
 #include "HelpersCrossplatform.h"
 
@@ -25,97 +28,288 @@ namespace star
 	}
 
 	template <>
-	std::wstring string_cast<std::wstring, std::wstring>
-		(const std::wstring & value) { return value; }
-
-	template <>
-	std::string string_cast<std::string, std::string>
-		(const std::string & value) { return value; }
-
-	template <>
-	std::string string_cast<std::string, std::wstring>
-		(const std::wstring & value)
+	sstring_16 string_cast<sstring_16, sstring_16>
+		(const sstring_16 & value)
 	{
-		std::string ss;
-		ss.assign(value.begin(), value.end());
-		return ss;
+		return value;
 	}
 
 	template <>
-	std::wstring string_cast<std::wstring, std::string>
-		(const std::string & value)
+	sstring_16 string_cast<sstring_16, swstring>
+		(const swstring & value)
 	{
-		std::wstring ss;
-		ss.assign(value.begin(), value.end());
-		return ss;
+		sstring_16 str(value.begin(), value.end());
+		return str;
 	}
 
 	template <>
-	std::wstring string_cast<std::wstring, wchar_t>
-		(const wchar_t * value)
+	sstring_16 string_cast<sstring_16, sstring>
+		(const sstring & value)
 	{
-		return string_cast<std::wstring, std::wstring>(value);
+		sstring_16 str(value.begin(), value.end());
+		return str;
 	}
 
 	template <>
-	std::string string_cast<std::string, char>
-		(const char * value)
+	swstring string_cast<swstring, sstring_16>
+		(const sstring_16 & value)
 	{
-		return string_cast<std::string, std::string>(value);
+		swstring str(value.begin(), value.end());
+		return str;
 	}
 
 	template <>
-	std::string string_cast<std::string, wchar_t>
-		(const wchar_t * value)
+	sstring string_cast<sstring, sstring_16>
+		(const sstring_16 & value)
 	{
-		return string_cast<std::string, std::wstring>(value);
+		sstring str(value.begin(), value.end());
+		return str;
 	}
 
 	template <>
-	std::wstring string_cast<std::wstring, char>
-		(const char * value)
+	swstring string_cast<swstring, swstring>
+		(const swstring & value) { return value; }
+
+	template <>
+	sstring string_cast<sstring, sstring>
+		(const sstring & value) { return value; }
+
+	template <>
+	sstring string_cast<sstring, swstring>
+		(const swstring & value)
 	{
-		return string_cast<std::wstring, std::string>(value);
+		sstring str(value.begin(), value.end());
+		return str;
 	}
 
 	template <>
-	char* string_cast<char*, std::wstring>
-		(const std::wstring & value)
+	swstring string_cast<swstring, sstring>
+		(const sstring & value)
 	{
-		char * result = 
-			const_cast<char*>(
-				string_cast<std::string, std::wstring>(value).c_str()
+		swstring str(value.begin(), value.end());
+		return str;
+	}
+
+	template <>
+	sstring_16 string_cast<sstring_16, schar_16>
+		(const schar_16 * value)
+	{
+		return sstring_16(value);
+	}
+
+	template <>
+	sstring_16 string_cast<sstring_16, swchar>
+		(const swchar * value)
+	{
+		return string_cast<sstring_16, swstring>(value);
+	}
+
+	template <>
+	sstring_16 string_cast<sstring_16, schar>
+		(const schar * value)
+	{
+		return string_cast<sstring_16, sstring>(value);
+	}
+
+	template <>
+	schar_16 * string_cast<schar_16*, sstring_16>
+		(const sstring_16 & value)
+	{
+		schar_16 * cstr =
+			const_cast<schar_16*>(
+				value.c_str()
+			);
+		return cstr;
+	}
+
+	template <>
+	swchar * string_cast<swchar*, sstring_16>
+		(const sstring_16 & value)
+	{
+		swchar * cstr =
+			const_cast<swchar*>(
+				string_cast<swstring, sstring_16>(
+					value
+					).c_str()
+			);
+		return cstr;
+	}
+
+	template <>
+	schar * string_cast<schar*, sstring_16>
+		(const sstring_16 & value)
+	{
+		schar * cstr =
+			const_cast<schar*>(
+				string_cast<sstring, sstring_16>(
+					value
+					).c_str()
+			);
+		return cstr;
+	}
+
+	template <>
+	sstring string_cast<sstring, schar_16>
+		(const schar_16 * value)
+	{
+		return string_cast<sstring, sstring_16>(value);
+	}
+
+	template <>
+	swstring string_cast<swstring, schar_16>
+		(const schar_16 * value)
+	{
+		return string_cast<swstring, sstring_16>(value);
+	}
+
+	template <>
+	schar_16* string_cast<schar_16*, sstring>
+		(const sstring & value)
+	{
+		schar_16 * cstr =
+			const_cast<schar_16*>(
+				string_cast<sstring_16, sstring>(value).c_str()
+				);
+		return cstr;
+	}
+
+	template <>
+	schar_16* string_cast<schar_16*, swstring>
+		(const swstring & value)
+	{
+		schar_16 * cstr =
+			const_cast<schar_16*>(
+				string_cast<sstring_16, swstring>(value).c_str()
+				);
+		return cstr;
+	}
+
+	template <>
+	swstring string_cast<swstring, swchar>
+		(const swchar * value)
+	{
+		return string_cast<swstring, swstring>(value);
+	}
+
+	template <>
+	sstring string_cast<sstring, schar>
+		(const schar * value)
+	{
+		return string_cast<sstring, sstring>(value);
+	}
+
+	template <>
+	sstring string_cast<sstring, swchar>
+		(const swchar * value)
+	{
+		return string_cast<sstring, swstring>(value);
+	}
+
+	template <>
+	swstring string_cast<swstring, schar>
+		(const schar * value)
+	{
+		return string_cast<swstring, sstring>(value);
+	}
+
+	template <>
+	schar* string_cast<schar*, swstring>
+		(const swstring & value)
+	{
+		schar * result = 
+			const_cast<schar*>(
+				string_cast<sstring, swstring>(value).c_str()
 				);
 		return result;
 	}
 
 	template <>
-	char* string_cast<char*, std::string>
-		(const std::string & value)
+	schar* string_cast<schar*, sstring>
+		(const sstring & value)
 	{
-		char * result = 
-			const_cast<char*>(value.c_str());
+		schar * result = 
+			const_cast<schar*>(value.c_str());
 		return result;
 	}
 
 	template <>
-	wchar_t* string_cast<wchar_t*, std::wstring>
-		(const std::wstring & value)
+	swchar* string_cast<swchar*, swstring>
+		(const swstring & value)
 	{
-		wchar_t * result = 
-			const_cast<wchar_t*>(value.c_str());
+		swchar * result = 
+			const_cast<swchar*>(value.c_str());
 		return result;
 	}
 
 	template <>
-	wchar_t* string_cast<wchar_t*, std::string>
-		(const std::string & value)
+	swchar* string_cast<swchar*, sstring>
+		(const sstring & value)
 	{
-		wchar_t * result = 
-			const_cast<wchar_t*>(
-				string_cast<std::wstring, std::string>(value).c_str()
+		swchar * result = 
+			const_cast<swchar*>(
+				string_cast<swstring, sstring>(value).c_str()
 				);
 		return result;
+	}
+
+	template <>
+	swchar* string_cast<swchar*, schar>
+		(const schar * value)
+	{
+		return string_cast<swchar*>(
+			sstring(value)
+			);
+	}
+
+	template <>
+	swchar* string_cast<swchar*, swchar>
+		(const swchar * value)
+	{
+		return const_cast<swchar*>(value);
+	}
+
+	template <>
+	schar* string_cast<schar*, swchar>
+		(const swchar * value)
+	{
+		return string_cast<schar*>(
+			swstring(value)
+			);
+	}
+
+	template <>
+	schar* string_cast<schar*, schar>
+		(const schar * value)
+	{
+		return const_cast<schar*>(value);
+	}
+
+	template <>
+	schar_16* string_cast<schar_16*, schar>
+		(const schar * value)
+	{
+		return string_cast<schar_16*, sstring>(value);
+	}
+
+	template <>
+	schar_16* string_cast<schar_16*, swchar>
+		(const swchar * value)
+	{
+		return string_cast<schar_16*, swstring>(value);
+	}
+
+	template <>
+	schar* string_cast<schar*, schar_16>
+		(const schar_16 * value)
+	{
+		return string_cast<schar*, sstring_16>(value);
+	}
+
+	template <>
+	swchar* string_cast<swchar*, schar_16>
+		(const schar_16 * value)
+	{
+		return string_cast<swchar*, sstring_16>(value);
 	}
 
 	template <>
@@ -300,7 +494,7 @@ namespace star
 		{
 			text = _T("");
 			auto app = StarEngine::GetInstance()->GetAndroidApp();
-			std::stringstream strstr;
+			sstringstream strstr;
 			if(directory == DirectoryMode::internal)
 			{
 				strstr << app->activity->internalDataPath << "/";
@@ -309,16 +503,16 @@ namespace star
 			{
 				strstr << app->activity->internalDataPath << "/";
 			}
-			strstr << string_cast<std::string>(file);
+			strstr << string_cast<sstring>(file);
 
-			std::ifstream myfile;
+			sifstream myfile;
 			myfile.open(strstr.str(), std::ios::in);
 			bool succes = myfile.is_open();
 			ASSERT(succes, (_T("Couldn't open the text file '") +
 					strstr.str() + _T("'.")).c_str());
 			if(succes)
 			{
-				std::string str;
+				sstring str;
 				while (std::getline(myfile,str))
 				{
 					text += str;
@@ -361,7 +555,7 @@ namespace star
 		if(succesfull)
 		{
 			auto app = StarEngine::GetInstance()->GetAndroidApp();
-			std::stringstream strstr;
+			sstringstream strstr;
 			if(directory == DirectoryMode::internal)
 			{
 				strstr << app->activity->internalDataPath << "/";
@@ -370,8 +564,8 @@ namespace star
 			{
 				strstr << app->activity->internalDataPath << "/";
 			}
-			strstr << string_cast<std::string>(file);
-			std::ofstream myfile(strstr.str(), std::ios::out);
+			strstr << string_cast<sstring>(file);
+			sofstream myfile(strstr.str(), std::ios::out);
 			succesfull = myfile.is_open();
 			ASSERT(succesfull, (_T("Couldn't open the text file '") + strstr.str() + _T("'.")).c_str());
 			if(succesfull)
@@ -403,7 +597,7 @@ namespace star
 		if(succesfull)
 		{
 			auto app = StarEngine::GetInstance()->GetAndroidApp();
-			std::stringstream strstr;
+			sstringstream strstr;
 			if(directory == DirectoryMode::internal)
 			{
 				strstr << app->activity->internalDataPath << "/";
@@ -412,8 +606,8 @@ namespace star
 			{
 				strstr << app->activity->internalDataPath << "/";
 			}
-			strstr << string_cast<std::string>(file);
-			std::ofstream myfile(strstr.str(), std::ios::out | std::ios::app);
+			strstr << string_cast<sstring>(file);
+			sofstream myfile(strstr.str(), std::ios::out | std::ios::app);
 			succesfull = myfile.is_open();
 			ASSERT(succesfull, (_T("Couldn't open the text file '") + strstr.str() + _T("'.")).c_str());
 			if(succesfull)
@@ -436,7 +630,7 @@ namespace star
 #endif
 	}
 
-	char * ReadBinaryFile(const tstring & file, uint32 & size,
+	schar * ReadBinaryFile(const tstring & file, uint32 & size,
 			DirectoryMode directory)
 	{
 #ifdef ANDROID
@@ -450,7 +644,7 @@ namespace star
 		else
 		{
 			auto app = StarEngine::GetInstance()->GetAndroidApp();
-			std::stringstream strstr;
+			sstringstream strstr;
 			if(directory == DirectoryMode::internal)
 			{
 				strstr << app->activity->internalDataPath << "/";
@@ -459,21 +653,21 @@ namespace star
 			{
 				strstr << app->activity->internalDataPath << "/";
 			}
-			strstr << string_cast<std::string>(file);
+			strstr << string_cast<sstring>(file);
 
-			std::ifstream binary_file;
+			sifstream binary_file;
 			binary_file.open(strstr.str().c_str(),
 					std::ios::in | std::ios::binary | std::ios::ate);
 			bool succes = binary_file.is_open();
-			char * buffer(nullptr);
+			schar * buffer(nullptr);
 			ASSERT(succes, (_T("Couldn't open the binary file '") +
 					strstr.str() + _T("'.")).c_str());
 			if (succes)
 			{
 				size = uint32(binary_file.tellg());
-				buffer = new char[size];
+				buffer = new schar[size];
 				binary_file.seekg(0, std::ios::beg);
-				binary_file.read(buffer, sizeof(char) * size);
+				binary_file.read(buffer, sizeof(schar) * size);
 				binary_file.close();
 			}
 			return buffer;
@@ -481,26 +675,26 @@ namespace star
 #else
 		tstring file_path(EMPTY_STRING);
 		Filepath::GetCorrectPath(file, file_path, directory);
-		std::ifstream binary_file;
+		sifstream binary_file;
 		binary_file.open(file_path,
 				std::ios::in | std::ios::binary | std::ios::ate);
 		bool succes = binary_file.is_open();
-		char * buffer(nullptr);
+		schar * buffer(nullptr);
 		ASSERT(succes, (_T("Couldn't open the binary file '") +
 				file_path + _T("'.")).c_str());
 		if (succes)
 		{
 			size = uint32(binary_file.tellg());
-			buffer = new char[size];
+			buffer = new schar[size];
 			binary_file.seekg(0, std::ios::beg);
-			binary_file.read(buffer, sizeof(char) * size);
+			binary_file.read(buffer, sizeof(schar) * size);
 			binary_file.close();
 		}
 		return buffer;
 #endif
 	}
 
-	void WriteBinaryFile(const tstring & file, char * buffer, uint32 size,
+	void WriteBinaryFile(const tstring & file, schar * buffer, uint32 size,
 			DirectoryMode directory)
 	{
 #ifdef ANDROID
@@ -509,7 +703,7 @@ namespace star
 		if(succesfull)
 		{
 			auto app = StarEngine::GetInstance()->GetAndroidApp();
-			std::stringstream strstr;
+			sstringstream strstr;
 			if(directory == DirectoryMode::internal)
 			{
 				strstr << app->activity->internalDataPath << "/";
@@ -518,8 +712,8 @@ namespace star
 			{
 				strstr << app->activity->internalDataPath << "/";
 			}
-			strstr << string_cast<std::string>(file);
-			std::ofstream binary_file;
+			strstr << string_cast<sstring>(file);
+			sofstream binary_file;
 			binary_file.open(strstr.str(), std::ios::binary
 					| std::ios::trunc);
 			succesfull = binary_file.is_open();
@@ -537,7 +731,7 @@ namespace star
 #else
 		tstring file_path(EMPTY_STRING);
 		Filepath::GetCorrectPath(file, file_path, directory);
-		std::ofstream binary_file;
+		sofstream binary_file;
 		binary_file.open(file_path, std::ios::binary | std::ios::trunc);
 		bool succes = binary_file.is_open();
 		ASSERT(succes, (_T("Couldn't open the binary file '") + file_path + _T("'.")).c_str());
@@ -552,7 +746,7 @@ namespace star
 #endif
 	}
 
-	void AppendBinaryFile(const tstring & file, char * buffer, uint32 size,
+	void AppendBinaryFile(const tstring & file, schar * buffer, uint32 size,
 			DirectoryMode directory)
 	{
 #ifdef ANDROID
@@ -561,7 +755,7 @@ namespace star
 		if(succesfull)
 		{
 			auto app = StarEngine::GetInstance()->GetAndroidApp();
-			std::stringstream strstr;
+			sstringstream strstr;
 			if(directory == DirectoryMode::internal)
 			{
 				strstr << app->activity->internalDataPath << "/";
@@ -570,8 +764,8 @@ namespace star
 			{
 				strstr << app->activity->internalDataPath << "/";
 			}
-			strstr << string_cast<std::string>(file);
-			std::ofstream binary_file(strstr.str(),
+			strstr << string_cast<sstring>(file);
+			sofstream binary_file(strstr.str(),
 					std::ios::out | std::ios::binary | std::ios::app);
 			succesfull = binary_file.is_open();
 			ASSERT(succesfull, (_T("Couldn't open the binary file '") +
@@ -588,7 +782,7 @@ namespace star
 #else
 		tstring file_path(EMPTY_STRING);
 		Filepath::GetCorrectPath(file, file_path, directory);
-		std::ofstream binary_file(file_path,
+		sofstream binary_file(file_path,
 				std::ios::out | std::ios::binary | std::ios::app);
 		bool succes = binary_file.is_open();
 		ASSERT(succes, (_T("Couldn't open the binary file '") +
@@ -604,21 +798,21 @@ namespace star
 #endif
 	}
 
-	char * DecryptBinaryFile(const tstring & file, uint32 & size,
-		const std::function<char*(const char*, uint32&)> & decrypter, 
+	schar * DecryptBinaryFile(const tstring & file, uint32 & size,
+		const std::function<schar*(const schar*, uint32&)> & decrypter, 
 		DirectoryMode directory)
 	{
-		char * buffer = ReadBinaryFile(file, size, directory);
-		char * decryptedBuffer = decrypter(buffer, size);
+		schar * buffer = ReadBinaryFile(file, size, directory);
+		schar * decryptedBuffer = decrypter(buffer, size);
 		delete [] buffer;
 		return decryptedBuffer;
 	}
 
-	void EncryptBinaryFile(const tstring & file, char * buffer, uint32 size,
-		const std::function<char*(const char*, uint32&)> & encrypter, 
+	void EncryptBinaryFile(const tstring & file, schar * buffer, uint32 size,
+		const std::function<schar*(const schar*, uint32&)> & encrypter, 
 		DirectoryMode directory)
 	{
-		char * encryptedBuffer = encrypter(buffer, size);
+		schar * encryptedBuffer = encrypter(buffer, size);
 		WriteBinaryFile(file, encryptedBuffer, size, directory);
 		delete [] encryptedBuffer;
 	}

@@ -35,7 +35,7 @@ namespace star
 		//For looptimes : -1 repeat forever, 0 play once 
 		void PlaySoundFile(const tstring& path, const tstring& name, int loopTimes=0);
 		//For looptimes : -1 repeat forever, 0 play once 
-		void PlaySoundFile(const tstring& name, int loopTimes=0);
+		void PlaySoundFile(const tstring& name, int loopTimes = 0);
 
 		//You can load sounds at runtime but for ensuring smooth play preload with LoadMusic
 		void PlaySoundEffect(const tstring& path, const tstring& name);

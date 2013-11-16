@@ -15,12 +15,12 @@ namespace star_a
 		auto manager = app->activity->assetManager;
 		AAsset* asset = AAssetManager_open(
 				manager,
-				star::string_cast<std::string>(path.c_str()).c_str(),
+				star::string_cast<sstring>(path.c_str()).c_str(),
 				AASSET_MODE_UNKNOWN
 				);
 		ASSERT(asset != NULL, (_T("Couldn't find '") + path + _T("'.")).c_str());
 		data.size = AAsset_getLength(asset);
-		data.data = new char[sizeof(char) * data.size];
+		data.data = new schar[sizeof(schar) * data.size];
 		AAsset_read(asset, data.data, data.size);
 		AAsset_close(asset);
 	}

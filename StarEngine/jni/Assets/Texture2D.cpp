@@ -62,7 +62,7 @@ namespace star
 
 #ifdef DESKTOP
 		FILE *fp;
-		_wfopen_s(&fp,mPath.c_str(), _T("rb"));
+		tfopen(&fp, mPath.c_str(), _T("rb"));
 
 		if(fp == NULL)
 		{ 

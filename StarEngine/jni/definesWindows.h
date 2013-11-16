@@ -20,11 +20,11 @@
 	struct LocalAssert { \
 		int mLine; \
 		LocalAssert(int line=__LINE__) : mLine(line) {} \
-		LocalAssert(bool isOK, const char* message="") { \
+		LocalAssert(bool isOK, const schar* message="") { \
 		if ( !isOK ) { \
-		std::stringstream buffer; \
+		sstringstream buffer; \
 		buffer << "ERROR!! Assert failed on line " << LocalAssert().mLine << " in file '" << __FILE__ << "'\\Message: \"" << message << "\"\n"; \
-		std::printf(buffer.str().c_str()); \
+		sprintf(buffer.str().c_str()); \
 		__asm int 3 \
 		} \
 	} \
