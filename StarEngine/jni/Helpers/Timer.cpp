@@ -171,6 +171,11 @@ namespace star
 		currentTime = (int)m_CurrentTime;
 		return currentTime;
 	}
+	
+	double Timer::GetTargetTime() const
+	{
+		return m_TargetTime;
+	}
 
 	double Timer::GetCurrentAccurateTime() const
 	{

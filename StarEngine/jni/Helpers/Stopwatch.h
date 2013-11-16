@@ -31,6 +31,7 @@ namespace star
 		int GetTimerMinutes(const tstring & name) const;
 		int GetTimerSeconds(const tstring & name) const;
 		int GetTimerTotalSeconds(const tstring & name) const;
+		double GetTimerTargetTime(const tstring & name) const;
 		double GetTimerAccurateTime(const tstring & name) const;
 
 	private:

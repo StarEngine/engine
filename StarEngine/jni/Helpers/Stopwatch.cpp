@@ -168,10 +168,8 @@ namespace star
 				return it.second.GetCurrentMinutes();
 			}
 		}
-#ifdef _DEBUG
 		Logger::GetInstance()->Log(LogLevel::Warning, 
 			_T("GetTimerMinutes: Couldn't find the timer '") + name + _T("'."));
-#endif
 		return 0;
 	}
 
@@ -184,10 +182,8 @@ namespace star
 				return it.second.GetCurrentSeconds();
 			}
 		}
-#ifdef _DEBUG
 		Logger::GetInstance()->Log(LogLevel::Warning, 
 			_T("GetTimerSeconds: Couldn't find the timer '") + name + _T("'."));
-#endif
 		return 0;
 	}
 
@@ -200,10 +196,20 @@ namespace star
 				return it.second.GetCurrentTotalSeconds();
 			}
 		}
-#ifdef _DEBUG
 		Logger::GetInstance()->Log(LogLevel::Warning, 
 			_T("GetTimerTotalSeconds: Couldn't find the timer '") + name + _T("'."));
-#endif
+		return 0;
+	}
+	
+	double Stopwatch::GetTimerTargetTime(const tstring & name) const
+	{
+		for(auto& it : m_TimerContainer)
+		{
+			if(it.first == name)
+			{
+				return it.second.GetTargetTime();
+			}
+		}
 		return 0;
 	}
 
@@ -216,10 +222,8 @@ namespace star
 				return it.second.GetCurrentAccurateTime();
 			}
 		}
-#ifdef _DEBUG
 		Logger::GetInstance()->Log(LogLevel::Warning, 
 			_T("GetTimerAccurateTime: Couldn't find the timer '") + name + _T("'."));
-#endif
 		return 0;
 	}
 }

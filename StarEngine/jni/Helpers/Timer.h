@@ -31,6 +31,7 @@ namespace star
 		int GetCurrentMinutes() const;
 		int GetCurrentSeconds() const;
 		int GetCurrentTotalSeconds() const;
+		double GetTargetTime() const;
 		double GetCurrentAccurateTime() const;
 
 	private:
