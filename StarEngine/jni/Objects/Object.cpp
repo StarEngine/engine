@@ -212,16 +212,6 @@ namespace star
 		return m_pChildren;
 	}
 
-	void Object::SetCollisionTag(const tstring& tag)
-	{
-		m_CollisionTag = tag;
-	}
-
-	const tstring& Object::GetCollisionTag() const
-	{
-		return (m_CollisionTag);
-	}
-
 	void Object::SetVisible(bool visible)
 	{
 		m_IsVisible = visible;

@@ -97,32 +97,33 @@ namespace star
 	bool CircleColliderComponent::CollidesWithPoint(const vec2& point) const
 	{
 		
-		return (glm::length(point - GetPosition()) <= m_Radius);
+		return (glm::length(point - GetPosition()) <= GetRealRadius());
 	}
 
 	bool CircleColliderComponent::CollidesWithLine(const vec2& point1, const vec2& point2) const
 	{
 		//Check if circle is inside of boundaries of the line.
 		vec2 circlePos(GetPosition());
+		float radius = GetRealRadius();
 		//Check smallest point in x and y
 		if(point1.x < point2.x)
 		{
-			if(circlePos.x + m_Radius < point1.x)
+			if(circlePos.x + radius < point1.x)
 			{
 				return false;
 			}
-			if(circlePos.x - m_Radius > point2.x)
+			if(circlePos.x - radius > point2.x)
 			{
 				return false;
 			}
 		}
 		else
 		{
-			if(circlePos.x + m_Radius < point2.x)
+			if(circlePos.x + radius < point2.x)
 			{
 				return false;
 			}
-			if(circlePos.x - m_Radius > point1.x)
+			if(circlePos.x - radius > point1.x)
 			{
 				return false;
 			}
@@ -130,22 +131,22 @@ namespace star
 
 		if(point1.y < point2.y)
 			{
-				if(circlePos.y + m_Radius < point1.y)
+				if(circlePos.y + radius < point1.y)
 				{
 					return false;
 				}
-				if(circlePos.y - m_Radius > point2.y)
+				if(circlePos.y - radius > point2.y)
 				{
 					return false;
 				}
 			}
 			else
 			{
-				if(circlePos.y + m_Radius < point2.y)
+				if(circlePos.y + radius < point2.y)
 				{
 					return false;
 				}
-				if(circlePos.y - m_Radius > point1.y)
+				if(circlePos.y - radius > point1.y)
 				{
 					return false;
 				}
@@ -156,7 +157,7 @@ namespace star
 		vec2 closestPointOnLine(closestPointOnLineSize * lineVec);
 		closestPointOnLine = point1 + closestPointOnLine;
 
-		return glm::length(circlePos - closestPointOnLine) <= m_Radius;
+		return glm::length(circlePos - closestPointOnLine) <= radius;
 		
 	}
 
@@ -174,8 +175,7 @@ namespace star
 		}
 		else if(otherRectComp != nullptr)
 		{
-			/*
-			if(RectangleCircleCollision(otherRectComp->GetRealCollisionRect(), realRadius))
+			/*if(RectangleCircleCollision(otherRectComp->GetRealCollisionRect(), realRadius))
 			{
 
 			}*/
@@ -185,17 +185,25 @@ namespace star
 	bool CircleColliderComponent::CircleCircleCollision(const CircleColliderComponent* collider1, 
 		const CircleColliderComponent* collider2) const
 	{
-		float radius1 = collider1->GetRadius();
-		float radius2 = collider2->GetRadius();
-		glm::vec2 object1Pos = collider1->GetParent()->GetTransform()->GetWorldPosition().pos2D();
-		glm::vec2 object2Pos = collider2->GetParent()->GetTransform()->GetWorldPosition().pos2D();
+		float radius1 = collider1->GetRealRadius();
+		float radius2 = collider2->GetRealRadius();
+		vec2 object1Pos(collider1->GetPosition());
+		vec2 object2Pos(collider2->GetPosition());
 
-		return !((object1Pos - object2Pos).length() > radius1 + radius2);
+		return !(glm::abs(glm::length((object1Pos - object2Pos))) > (radius1 + radius2));
 	}
 
 	float CircleColliderComponent::GetRadius() const
 	{
 		return m_Radius;
+	}
+
+	float CircleColliderComponent::GetRealRadius() const
+	{
+		float xScale(m_Radius * GetTransform()->GetWorldScale().x);
+		float yScale(m_Radius * GetTransform()->GetWorldScale().y);
+
+		return (xScale > yScale ? xScale : yScale);
 	}
 
 	vec2 CircleColliderComponent::GetPosition() const
@@ -207,7 +215,7 @@ namespace star
 		return vec2(realPos.x, realPos.y);
 	}
 
-	void CircleColliderComponent::GetPosition(vec2& posOut)
+	void CircleColliderComponent::GetPosition(vec2& posOut) const
 	{
 		vec4 realPos(m_Offset.x, m_Offset.y, 0, 1);
 		realPos = glm::mul(realPos, TransposeMatrix(GetTransform()->GetWorldMatrix()));
@@ -223,9 +231,8 @@ namespace star
 	}
 
 	void CircleColliderComponent::Draw()
-	{
-		
+	{		
 		DebugDraw::GetInstance()->DrawSolidCircle(GetPosition()
-			, m_Radius, Color::Blue);
+			, GetRealRadius(), Color::Blue);
 	}
 }

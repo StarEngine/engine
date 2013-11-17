@@ -36,9 +36,6 @@ namespace star
 		void RemoveChild(const Object* pObject);
 		std::vector<Object*>& GetChildren();
 
-		void SetCollisionTag(const tstring& tag);
-		const tstring& GetCollisionTag() const;
-
 		void SetVisible(bool visible);
 		bool IsVisible() const;
 
@@ -47,11 +44,6 @@ namespace star
 
 		void SetDisabled(bool disabled);
 		bool IsDisabled() const;
-
-		void CollisionCheck(Object* otherObject);
-		bool RectangleCollision(Object* object, Object* otherObject);
-		bool CircleCollision(Object* object, Object* otherObject);
-		bool RectangleCircleCollision(Object* object, Object* otherObject);
 
 		void SetScene(BaseScene * pScene);
 		void UnsetScene(); 
