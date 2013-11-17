@@ -35,6 +35,9 @@ namespace star
 		void IncreaseVolume(float volume);
 		void DecreaseVolume(float volume);
 
+		virtual void SetMuted(bool muted) = 0;
+		virtual bool IsMuted() const = 0;
+
 	protected:
 		BaseSound();
 #ifdef ANDROID
@@ -65,12 +68,34 @@ namespace star
 			float volume
 			);
 
+		bool GetVolumeInterface(
+			const SLObjectItf & sound,
+			const SLPlayItf & player,
+			void * pInterface
+			) const;
+
 		float GetSoundVolume(
 			const SLObjectItf & sound,
 			const SLPlayItf & player
 			) const;
+
+		void SetSoundMuted(
+			SLObjectItf & sound,
+			SLPlayItf & player,
+			bool muted
+			);
+
+		bool GetSoundMuted(
+			const SLObjectItf & sound,
+			const SLPlayItf & player
+			) const;
+
 #else
+		bool mIsMuted;
+		float mVolume;
+
 		virtual void SetSoundVolume(int volume) = 0;
+		void SetSoundMuted(bool muted);
 #endif
 		bool mbStopped;
 

@@ -54,6 +54,10 @@ namespace star
 
 	BaseSound::BaseSound()
 		: mbStopped(false)
+#ifdef DESKTOP
+		, mIsMuted(false)
+		, mVolume(0)
+#endif
 	{
 	}
 
@@ -72,7 +76,11 @@ namespace star
 	{
 		SLresult lRes;
 
-		Resource lResource(star::StarEngine::GetInstance()->GetAndroidApp(), path);
+		Resource lResource(
+				star::StarEngine::GetInstance()->GetAndroidApp(),
+				path
+				);
+
 		ResourceDescriptor lDescriptor = lResource.DeScript();
 		if(lDescriptor.mDescriptor < 0)
 		{
@@ -190,39 +198,34 @@ namespace star
 		float volume
 		)
 	{
-		if(player != nullptr)
+		SLVolumeItf volumeItf;
+		if(GetVolumeInterface(sound, player, &volumeItf))
 		{
 			volume = Clamp(volume, 0.0f, 1.0f);
-
-			SLuint32 lPlayerState;
-			(*sound)->GetState(sound, &lPlayerState);
-			if(lPlayerState == SL_OBJECT_STATE_REALIZED)
-			{
-				SLmillibel actualMillibelLevel, maxMillibelLevel;
-				SLVolumeItf volumeItf;
-				SLresult result = (*sound)->GetInterface(
-					sound, SL_IID_VOLUME, &volumeItf
+			SLmillibel actualMillibelLevel, maxMillibelLevel;
+			SLresult result = (*volumeItf)->GetMaxVolumeLevel(
+					volumeItf,
+					&maxMillibelLevel
 					);
-				ASSERT(result == SL_RESULT_SUCCESS,
-						_T("Sound: Couldn't get the interface!"));
-				result = (*volumeItf)->GetMaxVolumeLevel(volumeItf, &maxMillibelLevel);
-				ASSERT(result == SL_RESULT_SUCCESS,
-						_T("Sound: Couldn't get the maximum volume level!"));
-				actualMillibelLevel = SLmillibel(
-						(1.0f - volume) * float(SL_MILLIBEL_MIN - maxMillibelLevel))
-								+ maxMillibelLevel;
-				result = (*volumeItf)->SetVolumeLevel(
-					volumeItf, actualMillibelLevel
-					);
-				ASSERT(result == SL_RESULT_SUCCESS,
-						_T("Sound: Couldn't set the volume!"));
-			}
+			ASSERT(result == SL_RESULT_SUCCESS,
+					_T("Sound: Couldn't get the maximum volume level!"));
+			actualMillibelLevel = SLmillibel(
+					(1.0f - volume) *
+					float(SL_MILLIBEL_MIN - maxMillibelLevel))
+							+ maxMillibelLevel;
+			result = (*volumeItf)->SetVolumeLevel(
+				volumeItf,
+				actualMillibelLevel
+				);
+			ASSERT(result == SL_RESULT_SUCCESS,
+					_T("Sound: Couldn't set the volume!"));
 		}
 	}
 
-	float BaseSound::GetSoundVolume(
+	bool BaseSound::GetVolumeInterface(
 		const SLObjectItf & sound,
-		const SLPlayItf & player
+		const SLPlayItf & player,
+		void * pInterface
 		) const
 	{
 		if(player != nullptr)
@@ -231,27 +234,95 @@ namespace star
 			(*sound)->GetState(sound, &lPlayerState);
 			if(lPlayerState == SL_OBJECT_STATE_REALIZED)
 			{
-				SLmillibel actualMillibelLevel, maxMillibelLevel;
-				SLVolumeItf volumeItf;
 				SLresult result = (*sound)->GetInterface(
-					sound, SL_IID_VOLUME, &volumeItf
+					sound, SL_IID_VOLUME, pInterface
 					);
-				ASSERT(result == SL_RESULT_SUCCESS,
-						_T("Sound: Couldn't get the interface!"));
-				result = (*volumeItf)->GetVolumeLevel(volumeItf, &actualMillibelLevel);
-				ASSERT(result == SL_RESULT_SUCCESS,
-						_T("Sound: Couldn't get the volume!"));
-				result = (*volumeItf)->GetMaxVolumeLevel(volumeItf, &maxMillibelLevel);
-				ASSERT(result == SL_RESULT_SUCCESS,
-						_T("Sound: Couldn't get the maximum volume level!"));
-				float posMinVol = float(SL_MILLIBEL_MIN) * -1.0f;
-				float volume =
-						float(actualMillibelLevel + posMinVol) /
-						float(posMinVol + maxMillibelLevel);
-				return volume;
+				bool isOK = result == SL_RESULT_SUCCESS;
+				ASSERT(isOK, _T("Sound: Couldn't get the interface!"));
+				return isOK;
 			}
 		}
+		return false;
+	}
+
+	float BaseSound::GetSoundVolume(
+		const SLObjectItf & sound,
+		const SLPlayItf & player
+		) const
+	{
+		SLVolumeItf volumeItf;
+		if(GetVolumeInterface(sound, player, &volumeItf))
+		{
+			SLmillibel actualMillibelLevel, maxMillibelLevel;
+			SLresult result = result = (*volumeItf)->GetVolumeLevel(
+					volumeItf,
+					&actualMillibelLevel
+					);
+			ASSERT(result == SL_RESULT_SUCCESS,
+					_T("Sound: Couldn't get the volume!"));
+			result = (*volumeItf)->GetMaxVolumeLevel(
+					volumeItf,
+					&maxMillibelLevel
+					);
+			ASSERT(result == SL_RESULT_SUCCESS,
+					_T("Sound: Couldn't get the maximum volume level!"));
+			float posMinVol = float(SL_MILLIBEL_MIN) * -1.0f;
+			float volume =
+					float(actualMillibelLevel + posMinVol) /
+					float(posMinVol + maxMillibelLevel);
+			return volume;
+		}
 		return 0;
+	}
+
+	void BaseSound::SetSoundMuted(
+		SLObjectItf & sound,
+		SLPlayItf & player,
+		bool muted
+		)
+	{
+		SLVolumeItf volumeItf;
+		if(GetVolumeInterface(sound, player, &volumeItf))
+		{
+			SLresult result = (*volumeItf)->SetMute(
+				volumeItf, SLboolean(muted)
+				);
+			ASSERT(result == SL_RESULT_SUCCESS,
+					_T("BaseSound::SetMuted: Couldn't set muted state!"));
+		}
+	}
+
+	bool BaseSound::GetSoundMuted(
+		const SLObjectItf & sound,
+		const SLPlayItf & player
+		) const
+	{
+		SLVolumeItf volumeItf;
+		if(GetVolumeInterface(sound, player, &volumeItf))
+		{
+			SLboolean isMuted;
+			SLresult result = (*volumeItf)->GetMute(
+				volumeItf, &isMuted
+				);
+			ASSERT(result == SL_RESULT_SUCCESS,
+					_T("BaseSound::SetMuted: Couldn't get muted state!"));
+			return bool(isMuted);
+		}
+		return false;
+	}
+#else
+	void BaseSound::SetSoundMuted(bool muted)
+	{
+		mIsMuted = muted;
+		if(mIsMuted)
+		{
+			mVolume = GetVolume();
+			SetVolume(0);
+		}
+		else
+		{
+			SetVolume(mVolume);
+		}
 	}
 #endif
 }

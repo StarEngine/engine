@@ -146,8 +146,33 @@ namespace star
 #ifdef ANDROID
 		return GetSoundVolume(mPlayerObj, mPlayer);
 #else
-		float volume = float(Mix_VolumeMusic(-1));
-		return volume / float(MIX_MAX_VOLUME);
+		if(mIsMuted)
+		{
+			return mVolume;
+		}
+		else
+		{
+			float volume = float(Mix_VolumeMusic(-1));
+			return volume / float(MIX_MAX_VOLUME);
+		}
+#endif
+	}
+
+	void SoundFile::SetMuted(bool muted)
+	{
+#ifdef ANDROID
+		SetSoundMuted(mPlayerObj, mPlayer, muted);
+#else
+		SetSoundMuted(muted);
+#endif
+	}
+
+	bool SoundFile::IsMuted() const
+	{
+#ifdef ANDROID
+		return GetSoundMuted(mPlayerObj, mPlayer);
+#else
+		return mIsMuted;
 #endif
 	}
 

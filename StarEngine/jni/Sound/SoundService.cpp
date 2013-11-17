@@ -571,6 +571,68 @@ namespace star
 		}
 	}
 
+	void SoundService::SetMusicMuted(const tstring& name, bool muted)
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			it->second->SetMuted(muted);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::SetMusicMuted: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+
+	bool SoundService::IsMusicMuted(const tstring& name) const
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			return it->second->IsMuted();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::IsMusicMuted: Couldn't find '") +
+				name + _T("'."));
+			return false;
+		}
+	}
+
+	void SoundService::SetEffectMuted(const tstring& name, bool muted)
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			it->second->SetMuted(muted);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::SetEffectMuted: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+
+	bool SoundService::IsEffectMuted(const tstring& name) const
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			return it->second->IsMuted();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::IsEffectMuted: Couldn't find '") +
+				name + _T("'."));
+			return false;
+		}
+	}
+
 	void SoundService::StopSound(const tstring& name)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
@@ -708,6 +770,5 @@ namespace star
 	{
 		return mOutputMixObj;
 	}
-
 #endif
 }

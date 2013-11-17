@@ -22,6 +22,9 @@ namespace star
 	#endif
 		float GetVolume() const;
 
+		void SetMuted(bool muted);
+		bool IsMuted() const;
+
 	private:
 #ifdef DESKTOP
 		void SetSoundVolume(int volume);
