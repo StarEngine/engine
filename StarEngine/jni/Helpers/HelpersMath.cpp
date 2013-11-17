@@ -77,7 +77,8 @@ namespace star
 		float theta = acos(dot) * percent;
 		vec2 relativeVec = end - start * dot;
 		relativeVec = glm::normalize(relativeVec);
-		return (start * cos(theta)) + (relativeVec * sin(theta));
+		return (start * float(cos(theta))) +
+				(relativeVec * float(sin(theta)));
 	}
 
 	vec3 Slerp(const vec3 & start, const vec3 & end, float percent)
@@ -87,7 +88,8 @@ namespace star
 		float theta = acos(dot) * percent;
 		vec3 relativeVec = end - start * dot;
 		relativeVec = glm::normalize(relativeVec);
-		return (start * cos(theta)) + (relativeVec * sin(theta));
+		return (start * float(cos(theta))) +
+				(relativeVec * float(sin(theta)));
 	}
 
 	vec4 Slerp(const vec4 & start, const vec4 & end, float percent)
@@ -97,7 +99,8 @@ namespace star
 		float theta = acos(dot) * percent;
 		vec4 relativeVec = end - start * dot;
 		relativeVec = glm::normalize(relativeVec);
-		return (start * cos(theta)) + (relativeVec * sin(theta));
+		return (start * float(cos(theta))) +
+				(relativeVec * float(sin(theta)));
 	}
 
 	quat Slerp(const quat & start, const quat & end, float percent)

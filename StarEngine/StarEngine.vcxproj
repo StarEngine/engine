@@ -19,7 +19,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -150,6 +150,7 @@
     <ClInclude Include="jni\Scenes\TiledScene.h" />
     <ClInclude Include="jni\Graphics\Shader.h" />
     <ClInclude Include="jni\defines2D.h" />
+    <ClInclude Include="jni\Sound\BaseSound.h" />
     <ClInclude Include="jni\Sound\SoundEffect.h" />
     <ClInclude Include="jni\Sound\SoundFile.h" />
     <ClInclude Include="jni\Sound\SoundService.h" />
@@ -223,6 +224,7 @@
     <ClCompile Include="jni\AI\Pathfinding\SearchCell.cpp" />
     <ClCompile Include="jni\Scenes\TiledScene.cpp" />
     <ClCompile Include="jni\Graphics\Shader.cpp" />
+    <ClCompile Include="jni\Sound\BaseSound.cpp" />
     <ClCompile Include="jni\Sound\SoundEffect.cpp" />
     <ClCompile Include="jni\Sound\SoundFile.cpp" />
     <ClCompile Include="jni\Sound\SoundService.cpp" />

@@ -3,9 +3,7 @@
 #include "../Context.h"
 #include <algorithm>
 
-#ifdef _DEBUG
 #include "../Logger.h"
-#endif
 
 namespace star
 {

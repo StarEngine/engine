@@ -4,149 +4,65 @@
 #include "../Assets/Resource.h"
 #include "../Helpers/Helpers.h"
 #include "../Helpers/Filepath.h"
+#include "../Helpers/HelpersMath.h"
 
 #ifdef ANDROID
 #include "../StarEngine.h"
 #endif
 
-
 namespace star
 {
-#ifdef DESKTOP
-	int SoundEffect::mPlayChannels = 0;
-#endif
+	#ifdef DESKTOP
+	int SoundEffect::PLAY_CHANNELS = 0;
+	#endif
 
-	SoundEffect::SoundEffect(const tstring& path):
-		mbStopped(false),
-#ifdef DESKTOP
-		mSoundEffect(nullptr),
-		mPlayChannel(0)
-#else
-		mPlayerObjs(MAX_SAMPLES),
-		mPlayers(MAX_SAMPLES)
-#endif
+	SoundEffect::SoundEffect(const tstring& path)
+		: BaseSound()
+	#ifdef DESKTOP
+		, mPlayChannel(PLAY_CHANNELS++)
+		, mpSound(nullptr)
+	#else
+		, mPlayerObjs(MAX_SAMPLES)
+		, mPlayers(MAX_SAMPLES)
+	#endif
 	{
-#ifdef DESKTOP	
-		mPlayChannel = mPlayChannels;
-		++mPlayChannels;
-		
+	#ifdef ANDROID
+		SLEngineItf engine = SoundService::GetInstance()->GetEngine();
+		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
+		{
+			CreateSound(mPlayerObjs[i], engine, mPlayers[i], path);
+		}
+	#else
 		Filepath real_path(path);
 		sstring sound_path = string_cast<sstring>(real_path.GetAssetsPath());
-		if(mSoundEffect == nullptr)
+		mpSound = Mix_LoadWAV(sound_path.c_str());
+		if(!mpSound)
 		{
-			mSoundEffect = Mix_LoadWAV(sound_path.c_str());
-			if(!mSoundEffect)
-			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Sound Effect :Could not load song, reason : ")
-					+string_cast<tstring>(Mix_GetError()));
-			}
+			star::Logger::GetInstance()->Log(star::LogLevel::Error,
+				_T("SoundEffect: Could not load sound, reason : ")
+				+ string_cast<tstring>(Mix_GetError()));
 		}
-#else
-		SLEngineItf mEngine = SoundService::GetInstance()->GetEngine();
-		for(int i=0; i<MAX_SAMPLES;++i)
-		{
-			SLresult lRes;
-
-			Resource lResource(star::StarEngine::GetInstance()->GetAndroidApp(), path);
-			ResourceDescriptor lDescriptor = lResource.DeScript();
-			if(lDescriptor.mDescriptor < 0)
-			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Could not open file"));
-				return;
-			}
-			SLDataLocator_AndroidFD lDataLocatorIn;
-			lDataLocatorIn.locatorType = SL_DATALOCATOR_ANDROIDFD;
-			lDataLocatorIn.fd = lDescriptor.mDescriptor;
-			lDataLocatorIn.offset = lDescriptor.mStart;
-			lDataLocatorIn.length = lDescriptor.mLength;
-
-			SLDataFormat_MIME lDataFormat;
-			lDataFormat.formatType = SL_DATAFORMAT_MIME;
-			lDataFormat.mimeType = NULL;
-			lDataFormat.containerType = SL_CONTAINERTYPE_UNSPECIFIED;
-
-			SLDataSource lDataSource;
-			lDataSource.pLocator = &lDataLocatorIn;
-			lDataSource.pFormat = &lDataFormat;
-
-			SLDataLocator_OutputMix lDataLocatorOut;
-			lDataLocatorOut.locatorType = SL_DATALOCATOR_OUTPUTMIX;
-			lDataLocatorOut.outputMix = SoundService::GetInstance()->GetOutputMixObject();
-
-			SLDataSink lDataSink;
-			lDataSink.pLocator=&lDataLocatorOut;
-			lDataSink.pFormat= NULL;
-
-
-			const SLuint32 lPlayerIIDCount = 3;
-			const SLInterfaceID lPlayerIIDs[] ={ SL_IID_PLAY, SL_IID_SEEK, SL_IID_VOLUME};
-			const SLboolean lPlayerReqs[] ={ SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE};
-			lRes = (*mEngine)->CreateAudioPlayer(mEngine,&mPlayerObjs[i], &lDataSource, &lDataSink,lPlayerIIDCount, lPlayerIIDs, lPlayerReqs);
-			if (lRes != SL_RESULT_SUCCESS)
-			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Can't create audio player"));
-				Stop();
-				return;
-			}
-
-			lRes = (*mPlayerObjs[i])->Realize(mPlayerObjs[i],SL_BOOLEAN_FALSE);
-			if (lRes != SL_RESULT_SUCCESS)
-			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Can't realise audio player"));
-				Stop();
-				return;
-			}
-
-			lRes = (*mPlayerObjs[i])->GetInterface(mPlayerObjs[i],SL_IID_PLAY, &mPlayers[i]);
-			if (lRes != SL_RESULT_SUCCESS)
-			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Can't get audio play interface"));
-				Stop();
-				return;
-			}
-
-			if((*mPlayers[i])->SetCallbackEventsMask(mPlayers[i],SL_PLAYSTATE_STOPPED)!=SL_RESULT_SUCCESS)
-			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Can't set callback flags"));
-			}
-			if((*mPlayers[i])->RegisterCallback(mPlayers[i],MusicStoppedCallback,&mPlayers[i])!=SL_RESULT_SUCCESS)
-			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Can't set callback"));
-			}
-		}
-#endif
+	#endif
 	}
 
 	SoundEffect::~SoundEffect()
 	{
-#ifdef DESKTOP
+	#ifdef DESKTOP
 		Mix_HaltChannel(mPlayChannel);
-#else
+	#else
 		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
-			if(mPlayers[i] != NULL)
-			{
-				SLuint32 lPlayerState;
-				(*mPlayerObjs[i])->GetState(mPlayerObjs[i], &lPlayerState);
-				if(lPlayerState == SL_OBJECT_STATE_REALIZED)
-				{
-					(*mPlayers[i])->SetPlayState(mPlayers[i],SL_PLAYSTATE_PAUSED);
-					(*mPlayerObjs[i])->Destroy(mPlayerObjs[i]);
-					mPlayerObjs[i] = NULL;
-					mPlayers[i] = NULL;
-					star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Soundfile Destroyed"));
-				}
-			}
+			DestroySound(mPlayerObjs[i], mPlayers[i]);
 		}
-#endif
+	#endif
 	}
 
 	void SoundEffect::Play(int loopTime)
 	{
-#ifdef DESKTOP
-		Mix_PlayChannel(mPlayChannel,mSoundEffect,loopTime);
-#else
-		for(int i=0; i<MAX_SAMPLES;++i)
+	#ifdef DESKTOP
+		Mix_PlayChannel(mPlayChannel, mpSound, loopTime);
+	#else
+		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			SLresult lRes;
 			(*mPlayers[i])->GetPlayState(mPlayers[i],&lRes);
@@ -155,7 +71,8 @@ namespace star
 				lRes = (*mPlayers[i])->SetPlayState(mPlayers[i],SL_PLAYSTATE_PLAYING);
 				if (lRes != SL_RESULT_SUCCESS)
 				{
-					star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Sound Effect : Can't play audio"));
+					star::Logger::GetInstance()->Log(star::LogLevel::Error,
+						_T("SoundEffect: Can't play audio!"));
 					Stop();
 					return;
 				};
@@ -172,7 +89,7 @@ namespace star
 #else	
 		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
-			(*mPlayers[i])->SetPlayState(mPlayers[i],SL_PLAYSTATE_STOPPED);
+			(*mPlayers[i])->SetPlayState(mPlayers[i], SL_PLAYSTATE_STOPPED);
 		}
 #endif
 	}
@@ -182,11 +99,17 @@ namespace star
 #ifdef DESKTOP
 		Mix_Pause(mPlayChannel);
 #else
-		for(int i = 0; i < MAX_SAMPLES ; ++i)
+		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
-			SLresult lres=(*mPlayers[i])->GetPlayState(mPlayers[i],&lres);
-			if(lres==SL_PLAYSTATE_PLAYING)
-			(*mPlayers[i])->SetPlayState(mPlayers[i],SL_PLAYSTATE_PAUSED);
+			SLresult lres = (*mPlayers[i])->GetPlayState(
+				mPlayers[i], &lres
+				);
+			if(lres == SL_PLAYSTATE_PLAYING)
+			{
+				(*mPlayers[i])->SetPlayState(
+					mPlayers[i],SL_PLAYSTATE_PAUSED
+					);
+			}
 		}
 #endif
 	}
@@ -198,53 +121,55 @@ namespace star
 #else
 		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
-			SLresult lres=(*mPlayers[i])->GetPlayState(mPlayers[i],&lres);
-			if(lres==SL_PLAYSTATE_PAUSED)
-			(*mPlayers[i])->SetPlayState(mPlayers[i],SL_PLAYSTATE_PLAYING);
+			ResumeSound(mPlayers[i]);
 		}
-#endif
-	}
-	
-	bool SoundEffect::IsStopped() const
-	{
-		return mbStopped;
-	}
-
-	float SoundEffect::Volume( float volume )
-	{
-#ifdef DESKTOP
-		return float(Mix_Volume(mPlayChannel,int(volume*MIX_MAX_VOLUME)))/float(MIX_MAX_VOLUME);
-#else
-		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
-		{
-			if(mPlayers[i] != NULL)
-			{
-				SLuint32 lPlayerState;
-				(*mPlayerObjs[i])->GetState(mPlayerObjs[i], &lPlayerState);
-				if(lPlayerState == SL_OBJECT_STATE_REALIZED)
-				{
-					SLmillibel maxMillibelLevel,actualMillibelLevel;
-					SLVolumeItf volumeItf;
-					SLresult result = (*mPlayerObjs[i])->GetInterface(mPlayerObjs[i],SL_IID_VOLUME,&volumeItf);
-					if(result != SL_RESULT_SUCCESS)return 0;
-					result = (*volumeItf)->GetMaxVolumeLevel(volumeItf,&maxMillibelLevel);
-					star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Sound Effect : maxmillibelLevel = ")+star::string_cast<tstring>(maxMillibelLevel));
-					actualMillibelLevel = (1.0f-volume)*SL_MILLIBEL_MIN;
-					star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Sound Effect : millibelLevel = ")+star::string_cast<tstring>(actualMillibelLevel));
-					result = (*volumeItf)->SetVolumeLevel(volumeItf,actualMillibelLevel);
-					return volume;
-				}
-			}
-		}
-		return 0;
 #endif
 	}
 
 #ifdef ANDROID
+	void SoundEffect::SetVolume(float volume)
+	{
+		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
+		{
+			SetSoundVolume(
+				mPlayerObjs[i],
+				mPlayers[i],
+				volume
+				);
+		}
+	}
+#endif
+
+	float SoundEffect::GetVolume() const
+	{
+#ifdef ANDROID
+		return GetSoundVolume(mPlayerObjs[0], mPlayers[0]);
+#else
+		float volume = float(Mix_Volume(mPlayChannel, -1));
+		return volume / float(MIX_MAX_VOLUME);
+#endif
+	}
+
+#ifdef DESKTOP
+	void SoundEffect::SetSoundVolume(int volume)
+	{
+		Mix_Volume(mPlayChannel, volume);
+	}
+#else
+	void SoundEffect::RegisterCallback(SLPlayItf & player)
+	{
+		if((*player)->RegisterCallback(
+			player, MusicStoppedCallback,
+			&player) != SL_RESULT_SUCCESS)
+		{
+			star::Logger::GetInstance()->Log(star::LogLevel::Error,
+				_T("SoundEffect: Can't set callback"));
+		}
+	}
+
 	void SoundEffect::MusicStoppedCallback(SLPlayItf caller,void *pContext,SLuint32 event)
 	{
 		(*caller)->SetPlayState(caller, SL_PLAYSTATE_STOPPED);
 	}
-
 #endif
 }

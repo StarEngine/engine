@@ -2,7 +2,6 @@
 #include "../Logger.h"
 #include "../Helpers/Helpers.h"
 
-
 #ifdef ANDROID
 #include "../Assets/Resource.h"
 #endif
@@ -22,12 +21,19 @@ namespace star
 	}
 
 	SoundService::SoundService()
+		: mMusicList()
+		, mMusicPathList()
+		, mEffectsList()
+		, mSoundEffectPathList()
+		, mBackgroundQueue()
+		, mQueueIterator()
+		, m_CurrentSoundFile(nullptr)
+		, m_CurrentSoundEffect(nullptr)
 #ifdef ANDROID
-		:mEngine(NULL),
-		mEngineObj(NULL),
-		mOutputMixObj(NULL),
-		m_CurrentSoundEffect(nullptr),
-		m_CurrentSoundFile(nullptr)
+		, mEngineObj(nullptr)
+		, mEngine(nullptr)
+		, mOutputMixObj(nullptr)
+		, mOutputMixVolume(nullptr)
 #endif
 	{
 		mQueueIterator = mBackgroundQueue.begin();
@@ -38,14 +44,16 @@ namespace star
 		for(auto music : mMusicList)
 		{
 			delete music.second;
-			music.second = nullptr;
 		}
+
+		mMusicList.clear();
 
 		for(auto effect : mEffectsList)
 		{
 			delete effect.second;
-			effect.second = nullptr;
 		}
+
+		mEffectsList.clear();
 	}
 
 	void SoundService::Start()
@@ -53,7 +61,8 @@ namespace star
 		if(mbIsInitialized) return;
 
 		mbIsInitialized = true;
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Started making Audio Engine"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info,
+			_T("Audio : Started making Audio Engine"));
 
 #ifdef DESKTOP
 		int32 audio_rate(44100);
@@ -67,12 +76,14 @@ namespace star
 		if((innited & flags) != flags)
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Info, 
-				_T("Audio :Could not init Ogg and Mp3, reason : ") + string_cast<tstring>(Mix_GetError()));
+				_T("Audio :Could not init Ogg and Mp3, reason : ") +
+				string_cast<tstring>(Mix_GetError()));
 		}
 
 		if(Mix_OpenAudio(audio_rate, audio_format,audio_channels,audio_buffers))
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Could Not open Audio Mix SDL"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Info,
+				_T("Audio : Could Not open Audio Mix SDL"));
 			Stop();
 			return;
 		}
@@ -83,24 +94,36 @@ namespace star
 
 		Mix_QuerySpec(&actual_rate,&actual_format,&actual_channels);
 		tstringstream buffer;
-		buffer << "Actual Rate : " << actual_rate << ", Actual Format : " << actual_format 
-			<< ", Actual Channels : " << actual_channels << std::endl;
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : SDL specs : ")+buffer.str());
+		buffer << "Actual Rate : " << actual_rate;
+		buffer << ", Actual Format : " << actual_format;
+		buffer << ", Actual Channels : " << actual_channels;
+		buffer << std::endl;
+		star::Logger::GetInstance()->Log(star::LogLevel::Info,
+			_T("Audio : SDL specs : ") + buffer.str());
 		Mix_Volume(-1,100);
 #else
 		
 		SLresult lRes;
-		const SLuint32 lEngineMixIIDCount =1;
-		const SLInterfaceID lEngineMixIIDs[]={SL_IID_ENGINE};
-		const SLboolean lEngineMixReqs[]={SL_BOOLEAN_TRUE};
-		const SLuint32 lOutputMixIIDCount=1;
-		const SLInterfaceID lOutputMixIIDs[]={ SL_IID_VOLUME };
-		const SLboolean lOutputMixReqs[]={ SL_BOOLEAN_FALSE};
+		const SLuint32 lEngineMixIIDCount = 1;
+		const SLInterfaceID lEngineMixIIDs[] = { SL_IID_ENGINE };
+		const SLboolean lEngineMixReqs[] = { SL_BOOLEAN_TRUE };
+		const SLuint32 lOutputMixIIDCount= 1;
+		const SLInterfaceID lOutputMixIIDs[] = { SL_IID_VOLUME };
+		const SLboolean lOutputMixReqs[] = { SL_BOOLEAN_FALSE};
 
-		lRes = slCreateEngine(&mEngineObj, 0, NULL, lEngineMixIIDCount, lEngineMixIIDs, lEngineMixReqs);
+		lRes = slCreateEngine(
+			&mEngineObj,
+			0,
+			NULL,
+			lEngineMixIIDCount,
+			lEngineMixIIDs,
+			lEngineMixReqs
+			);
+
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't make Audio Engine"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error,
+				_T("Audio : Can't make Audio Engine"));
 			Stop();
 			return;
 		}
@@ -108,23 +131,38 @@ namespace star
 		lRes = (*mEngineObj)->Realize(mEngineObj, SL_BOOLEAN_FALSE);
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't realize Engine"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error,
+				_T("Audio : Can't realize Engine"));
 			Stop();
 			return;
 		}
 
-		lRes = (*mEngineObj)->GetInterface(mEngineObj,SL_IID_ENGINE, &mEngine);
+		lRes = (*mEngineObj)->GetInterface(
+			mEngineObj,
+			SL_IID_ENGINE,
+			&mEngine
+			);
+
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't fetch engine interface"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error,
+				_T("Audio : Can't fetch engine interface"));
 			Stop();
 			return;
 		}
 
-		lRes = (*mEngine)->CreateOutputMix(mEngine, &mOutputMixObj, lOutputMixIIDCount, lOutputMixIIDs,lOutputMixReqs);
+		lRes = (*mEngine)->CreateOutputMix(
+			mEngine,
+			&mOutputMixObj,
+			lOutputMixIIDCount,
+			lOutputMixIIDs,
+			lOutputMixReqs
+			);
+
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't create outputmix"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error,
+				_T("Audio : Can't create outputmix"));
 			Stop();
 			return;
 		}
@@ -132,25 +170,33 @@ namespace star
 		lRes = (*mOutputMixObj)->Realize(mOutputMixObj,SL_BOOLEAN_FALSE);
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Audio : Can't realise output object"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error,
+				_T("Audio : Can't realise output object"));
 			Stop();
 			return;
 		}
 
-		lRes = (*mOutputMixObj)->GetInterface(mOutputMixObj,SL_IID_VOLUME, &mOutputMixVolume);
+		lRes = (*mOutputMixObj)->GetInterface(
+			mOutputMixObj,
+			SL_IID_VOLUME,
+			&mOutputMixVolume
+			);
+
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Warning, _T("Audio : Can't  get volume interface, but not a problem, just no global volume control"));
-			mOutputMixVolume=nullptr;
+			star::Logger::GetInstance()->Log(star::LogLevel::Warning,
+				_T("Audio : Can't get volume interface!"));
+			mOutputMixVolume = nullptr;
 		}
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Succesfull made Audio Engine"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info,
+			_T("Audio : Succesfull made Audio Engine"));
 #endif
 	}
 
 	void SoundService::Stop()
 	{
-		StopAllSound();
-		DeleteAllSound();
+		StopAllSounds();
+		DeleteAllSounds();
 
 #ifdef DESKTOP
 		Mix_CloseAudio();
@@ -169,29 +215,35 @@ namespace star
 			mEngine = NULL;
 		}
 #endif
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Audio : Stopped audio Engine"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info,
+			_T("Audio : Stopped audio Engine"));
 	}
 
 	void SoundService::LoadMusic(const tstring& path, const tstring& name)
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		ASSERT(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
 
 		if(mMusicList.find(name) != mMusicList.end())
 		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Sound Service: The music file '") + name +
+				_T("' is already loaded."));
 			return;
 		}
 
 		auto pathit = mMusicPathList.find(path);
 		if(pathit != mMusicPathList.end())
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Sound File Path Already Exists"));
+			star::Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Sound Service : Sound File Path Already Exists"));
 			tstring nameold = pathit->second;
 			auto nameit = mMusicList.find(nameold);
 			if(nameit != mMusicList.end())
 			{
-				star::Logger::GetInstance()->
-					Log(LogLevel::Warning,_T("Sound Service : Found sound file of old path, making copy for new name"));
-				mMusicList[name]=nameit->second;
+				star::Logger::GetInstance()->Log(LogLevel::Warning,
+					_T("Sound Service: Found sound file of old path, making copy for new name"));
+				mMusicList[name] = nameit->second;
 				return;
 			}
 			mMusicPathList.erase(pathit);
@@ -210,19 +262,23 @@ namespace star
 
 		if(mEffectsList.find(name) != mEffectsList.end())
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : That effect already excists."));
+			star::Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Sound Service: The effect '") + name +
+				_T("' already exists."));
 		}
 
 		auto pathit = mSoundEffectPathList.find(path);
 		if(pathit != mSoundEffectPathList.end())
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : Sound Effect Path Already Exists"));
+			star::Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Sound Service: Sound Effect Path Already Exists"));
 			tstring nameold = pathit->second;
 			auto nameit = mMusicList.find(nameold);
 			if(nameit!= mMusicList.end())
 			{
 				star::Logger::GetInstance()->
-					Log(LogLevel::Warning,_T("Sound Service : Found Sound Effect of old path, making copy for new name"));
+					Log(LogLevel::Warning,
+					_T("Sound Service: Found Sound Effect of old path, making copy for new name"));
 				mMusicList[name] = nameit->second;
 			}
 			mSoundEffectPathList.erase(pathit);
@@ -233,7 +289,12 @@ namespace star
 		mSoundEffectPathList[path] = name;
 	}
 
-	void SoundService::PlaySoundFile(const tstring& path, const tstring& name, int loopTimes, float volume)
+	void SoundService::PlayMusic(
+		const tstring& path,
+		const tstring& name,
+		int loopTimes,
+		float volume
+		)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
@@ -241,10 +302,14 @@ namespace star
 		{
 			LoadMusic(path,name);
 		}
-		return PlaySoundFile(name,loopTimes,volume);
+		return PlayMusic(name,loopTimes,volume);
 	}
 
-	void SoundService::PlaySoundFile(const tstring& name, int loopTimes, float volume)
+	void SoundService::PlayMusic(
+		const tstring& name,
+		int loopTimes,
+		float volume
+		)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
@@ -254,51 +319,67 @@ namespace star
 			if(m_CurrentSoundFile != nullptr) m_CurrentSoundFile->Stop();
 			m_CurrentSoundFile = mMusicList[name];
 			m_CurrentSoundFile->Play(loopTimes);
-			m_CurrentSoundFile->Volume(volume);
+			m_CurrentSoundFile->SetVolume(volume);
 			return;
 		}
 		else
 		{
 			m_CurrentSoundFile = nullptr;
 			star::Logger::GetInstance()->
-				Log(LogLevel::Warning,_T("Sound Service : Couldn't find song '") + name + _T("'."));
+				Log(LogLevel::Warning,
+				_T("Sound Service: Couldn't find the song '") + name +
+				_T("'."));
 		}
 		
 	}
 
-	void SoundService::PlaySoundEffect(const tstring& path, const tstring& name, int loopTimes, float volume)
+	void SoundService::PlaySoundEffect(
+		const tstring& path,
+		const tstring& name,
+		int loopTimes,
+		float volume
+		)
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		ASSERT(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
 
 		if(mEffectsList.find(name) == mEffectsList.end())
 		{
-			LoadSoundEffect(path,name);
+			LoadSoundEffect(path, name);
 		}
-		PlaySoundEffect(name,loopTimes,volume);
+		PlaySoundEffect(name, loopTimes, volume);
 	}
 
-	void SoundService::PlaySoundEffect(const tstring& name, int loopTimes, float volume)
+	void SoundService::PlaySoundEffect(
+		const tstring& name,
+		int loopTimes,
+		float volume
+		)
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		ASSERT(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
 
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
 			m_CurrentSoundEffect = mEffectsList[name];
 			m_CurrentSoundEffect->Play(loopTimes);
-			m_CurrentSoundEffect->Volume(volume);
+			m_CurrentSoundEffect->SetVolume(volume);
 		}
 		else
 		{
 			star::Logger::GetInstance()->
-				Log(LogLevel::Warning,_T("Sound Service : Couldn't find effect '") + name + _T("'."));
+				Log(LogLevel::Warning,
+				_T("Sound Service: Couldn't find effect '") + name +
+				_T("'."));
 		}
 		
 	}
 
 	void SoundService::AddToBackgroundQueue(const tstring& name)
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		ASSERT(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
 
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -308,13 +389,16 @@ namespace star
 		else
 		{
 			star::Logger::GetInstance()->
-				Log(LogLevel::Warning,_T("Sound Service : Couldn't find background song '") + name + _T("'."));
+				Log(LogLevel::Warning,
+				_T("Sound Service: Couldn't find background song '") + name +
+				_T("'."));
 		}
 	}
 
 	void SoundService::PlayBackgroundQueue()
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		ASSERT(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
 
 		mQueueIterator = mBackgroundQueue.begin();
 		if(mQueueIterator != mBackgroundQueue.end())
@@ -323,14 +407,20 @@ namespace star
 		}
 		else
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Sound Service : No song in background queue."));	
+			star::Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Sound Service : No song in background queue."));
 		}
 	}
 
 	void SoundService::PlayNextSongInQueue()
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
-		if(mBackgroundQueue.size() == 0) return;
+		ASSERT(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
+
+		if(mBackgroundQueue.size() == 0)
+		{
+			return;
+		}
 
 		++mQueueIterator;
 		if(mQueueIterator != mBackgroundQueue.end())
@@ -349,16 +439,28 @@ namespace star
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
-			it->second->Volume(volume);
+			it->second->SetVolume(volume);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::SetMusicVolume: Couldn't find '") +
+				name + _T("'."));
 		}
 	}
 
-	float SoundService::GetMusicVolume(const tstring& name)
+	float SoundService::GetMusicVolume(const tstring& name) const
 	{
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
-			return it->second->Volume(-1);
+			return it->second->GetVolume();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::SetMusicVolume: Couldn't find '") +
+				name + _T("'."));
 		}
 		return 0;
 	}
@@ -368,18 +470,89 @@ namespace star
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
-			it->second->Volume(volume);
+			it->second->SetVolume(volume);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::SetEffectVolume: Couldn't find '") +
+				name + _T("'."));
 		}
 	}
 
-	float SoundService::GetEffectVolume(const tstring& name)
+	float SoundService::GetEffectVolume(const tstring& name) const
 	{
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
-			return it->second->Volume(-1);
+			return it->second->GetVolume();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::GetEffectVolume: Couldn't find '") +
+				name + _T("'."));
 		}
 		return 0;
+	}
+
+	void SoundService::IncreaseMusicVolume(const tstring& name, float volume)
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			it->second->IncreaseVolume(volume);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::IncreaseMusicVolume: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+
+	void SoundService::DecreaseMusicVolume(const tstring& name, float volume)
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			it->second->DecreaseVolume(volume);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::DecreaseMusicVolume: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+
+	void SoundService::IncreaseEffectVolume(const tstring& name, float volume)
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			it->second->IncreaseVolume(volume);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::IncreaseEffectVolume: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+	void SoundService::DecreaseEffectVolume(const tstring& name, float volume)
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			it->second->DecreaseVolume(volume);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::DecreaseEffectVolume: Couldn't find '") +
+				name + _T("'."));
+		}
 	}
 
 	void SoundService::StopSound(const tstring& name)
@@ -401,9 +574,10 @@ namespace star
 		}
 	}
 
-	void SoundService::StopAllSound()
+	void SoundService::StopAllSounds()
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		ASSERT(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
 
 		for(auto song : mMusicList)
 		{
@@ -416,9 +590,10 @@ namespace star
 		}
 	}
 
-	void SoundService::PauseAllSound()
+	void SoundService::PauseAllSounds()
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		ASSERT(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
 
 		for(auto song : mMusicList)
 		{
@@ -431,9 +606,10 @@ namespace star
 		}
 	}
 
-	void SoundService::ResumeAllSound()
+	void SoundService::ResumeAllSounds()
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		ASSERT(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
 
 		for(auto song : mMusicList)
 		{
@@ -446,9 +622,10 @@ namespace star
 		}
 	}
 
-	void SoundService::DeleteAllSound()
+	void SoundService::DeleteAllSounds()
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		ASSERT(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
 
 		for(auto song : mMusicList)
 		{

@@ -1,21 +1,10 @@
 #pragma once
 
-#include "../defines.h"
-
-#ifdef DESKTOP
-#include "SDL.h"
-#include "SDL_mixer.h"
-#else
-#include "android_native_app_glue.h"
-#include  <SLES/OpenSLES.h>
-#include  <SLES/OpenSLES_Android.h>
-#include  <SLES/OpenSLES_AndroidConfiguration.h>
-#endif
-
+#include "BaseSound.h"
 #include "SoundFile.h"
 #include "SoundEffect.h"
-#include <map>
 #include <vector>
+#include <map>
 
 namespace star
 {
@@ -31,51 +20,52 @@ namespace star
 		void LoadMusic(const tstring& path, const tstring& name);
 		void LoadSoundEffect(const tstring& path, const tstring& name);
 
-		//You can load sounds at runtime but for ensuring smooth play preload with LoadMusic
-		//For looptimes : -1 repeat forever, 0 play once 
-		//Volume default 1, range 0 to 1
-		//This will interrupt the background playing queue
-		//For multiple music tracks at the same time, load them as sound effects
-		void PlaySoundFile(const tstring& path, const tstring& name, int loopTimes=0, float volume=1);
+		void PlayMusic(const tstring& path,
+			const tstring& name,
+			int loopTimes = 0,
+			float volume = 1.0f
+			);
 
-		//For looptimes : -1 repeat forever, 0 play once 
-		//Volume default 1, range 0 to 1
-		//This will interrupt the background playing queue
-		//For multiple music tracks at the same time, load them as sound effects
-		void PlaySoundFile(const tstring& name, int loopTimes=0, float volume=1);
+		void PlayMusic(const tstring& name,
+			int loopTimes = 0,
+			float volume = 1.0f
+			);
 
-		//You can load sound effects at runtime but for ensuring smooth play preload with LoadEffect
-		//For looptimes : -1 repeat forever, 0 play once 
-		//Volume default 1, range 0 to 1
-		void PlaySoundEffect(const tstring& path, const tstring& name, int loopTimes=0, float volume=1);
+		void PlaySoundEffect(
+			const tstring& path,
+			const tstring& name,
+			int loopTimes = 0,
+			float volume = 1
+			);
 
-		//For looptimes : -1 repeat forever, 0 play once 
-		//Volume default 1, range 0 to 1
-		void PlaySoundEffect(const tstring& name, int loopTimes=0, float volume=1);
+		void PlaySoundEffect(
+			const tstring& name,
+			int loopTimes = 0.0f,
+			float volume = 1.0f
+			);
 
 		void AddToBackgroundQueue(const tstring& name);
 
-		//This will interrupt the any music that is playing
-		//excluding the sound effects
-		//For multiple music tracks at the same time, load them as sound effects
 		void PlayBackgroundQueue();
 		void PlayNextSongInQueue();
 
-		//This sets the volume of the music track that is playing
-		//Min volume is 0, max volume is 1, anything above will be capped to 1
 		void SetMusicVolume(const tstring& name, float volume);
-		float	 GetMusicVolume(const tstring& name);
+		float GetMusicVolume(const tstring& name) const;
 
-		//This sets the volume of the music track that is playing
-		//Min volume is 0, max volume is 128, anything above will be capped to 128
 		void SetEffectVolume(const tstring& name, float volume);
-		float	 GetEffectVolume(const tstring& name);
+		float GetEffectVolume(const tstring& name) const;
+
+		void IncreaseMusicVolume(const tstring& name, float volume);
+		void DecreaseMusicVolume(const tstring& name, float volume);
+
+		void IncreaseEffectVolume(const tstring& name, float volume);
+		void DecreaseEffectVolume(const tstring& name, float volume);
 
 		void StopSound(const tstring& name);
-		void StopAllSound();
-		void PauseAllSound();
-		void ResumeAllSound();
-		void DeleteAllSound();
+		void StopAllSounds();
+		void PauseAllSounds();
+		void ResumeAllSounds();
+		void DeleteAllSounds();
 #ifdef ANDROID
 		const SLEngineItf& GetEngine() const;
 		const SLObjectItf& GetOutputMixObject() const;
@@ -95,6 +85,7 @@ namespace star
 
 		SoundFile* m_CurrentSoundFile;
 		SoundEffect* m_CurrentSoundEffect;
+
 #ifdef ANDROID
 		SLObjectItf mEngineObj;
 		SLEngineItf mEngine;

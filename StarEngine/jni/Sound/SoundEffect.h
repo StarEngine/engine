@@ -1,51 +1,46 @@
 #pragma once
-#include "../defines.h"
 
-#ifdef DESKTOP
-#include "SDL.h"
-#include "SDL_mixer.h"
-#else
-#include "android_native_app_glue.h"
-#include  <SLES/OpenSLES.h>
-#include  <SLES/OpenSLES_Android.h>
-#include  <SLES/OpenSLES_AndroidConfiguration.h>
-#endif
-
-#include <vector>
+#include "BaseSound.h"
 
 namespace star
 {
 	const int MAX_SAMPLES = 10;
 
-	class SoundEffect final
+	class SoundEffect final : public BaseSound
 	{
 	public:
 		SoundEffect(const tstring& path);
 		~SoundEffect();
 
-		//set looptime to -1 for l-inifinte loop
-		void Play(int loopTime=0);
+		void Play(int loopTime = 0);
 		void Stop();
 		void Pause();
 		void Resume();
-		bool IsStopped() const;
 
-		//Set the volume and it will return the actual volume of the channel
-		//passing -1 as volume will just return the volume
-		//Max volume is 128, anything above will auto be clamped to 128
-		float Volume(float volume);
+	#ifdef ANDROID
+		void SetVolume(float volume);
+	#endif
+		float GetVolume() const;
 
 	private:
-		bool mbStopped;
 #ifdef DESKTOP
-		Mix_Chunk* mSoundEffect;
-		static int mPlayChannels;
+		void SetSoundVolume(int volume);
+
+		static int PLAY_CHANNELS;
 		int mPlayChannel;
+		Mix_Chunk * mpSound;
 #else
-		static void MusicStoppedCallback(SLPlayItf caller,void *pContext,SLuint32 event);
+		void RegisterCallback(SLPlayItf & player);
+
+		static void MusicStoppedCallback(
+			SLPlayItf caller,
+			void *pContext,
+			SLuint32 event
+			);
+
 		std::vector<SLObjectItf> mPlayerObjs;
 		std::vector<SLPlayItf> mPlayers;
-#endif
+#endif		
 
 		SoundEffect(const SoundEffect& yRef);
 		SoundEffect(SoundEffect&& yRef);

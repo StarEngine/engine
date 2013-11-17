@@ -90,12 +90,12 @@ namespace star
 	
 	void StarEngine::SetActive()
 	{
-		SoundService::GetInstance()->ResumeAllSound();
+		SoundService::GetInstance()->ResumeAllSounds();
 	}
 
 	void StarEngine::SetInactive()
 	{
-		SoundService::GetInstance()->PauseAllSound();
+		SoundService::GetInstance()->PauseAllSounds();
 	}
 
 	int StarEngine::GetCurrentFPS() const

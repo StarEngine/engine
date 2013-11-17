@@ -1,51 +1,52 @@
 #pragma once
-#include "../defines.h"
 
-#ifdef DESKTOP
-#include "SDL.h"
-#include "SDL_mixer.h"
-#else
-#include "android_native_app_glue.h"
-#include  <SLES/OpenSLES.h>
-#include  <SLES/OpenSLES_Android.h>
-#include  <SLES/OpenSLES_AndroidConfiguration.h>
-#endif
+#include "BaseSound.h"
 
 #include <map>
 
 namespace star
 {
-	class SoundFile final
+	class SoundFile final : public BaseSound
 	{
 	public:
 		SoundFile(const tstring& path);
 		~SoundFile();
 
-		//for infinite loop set "looptimes" to -1
 		void Play(int32 looptimes = 0);
 		void PlayQueued(int32 looptimes = 0);
 		void Stop();
 		void Pause();
 		void Resume();
-		bool IsStopped() const;
 
-		//Set the volume and it will return the actual volume of the channel
-		//passing -1 as volume will just return the volume
-		//Max volume is 1, anything above will auto be clamped to 1
-		float Volume(float volume);
+#ifdef ANDROID
+		void SetVolume(float volume);
+#endif
+		float GetVolume() const;
+
+	protected:
+#ifdef DESKTOP
+		void SetSoundVolume(int volume);
+		static void MusicStoppedCallback();
+#else
+		void CreateSoundDetails();
+		void RegisterCallback(SLPlayItf & player);
+
+		static void MusicStoppedCallback(
+			SLPlayItf caller,
+			void *pContext,
+			SLuint32 event
+			);
+#endif
 
 	private:
 		int32 mLoopTimes;
-		bool mbStopped;
 		bool mbQueuedPlay;
-#ifdef DESKTOP
-		Mix_Music * mMusic;
-		static void MusicStoppedCallback();
-#else
-		static void MusicStoppedCallback(SLPlayItf caller,void *pContext,SLuint32 event);
+#ifdef ANDROID
 		SLObjectItf mPlayerObj;
 		SLPlayItf mPlayer;
 		SLSeekItf mPlayerSeek;
+#else
+		Mix_Music * mpSound;
 #endif
 
 		SoundFile(const SoundFile& yRef);
