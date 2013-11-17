@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../defines.h"
+#include <vector>
 
 #ifdef DESKTOP
 	#include "SDL.h"
@@ -38,8 +39,11 @@ namespace star
 		virtual void SetMuted(bool muted) = 0;
 		virtual bool IsMuted() const = 0;
 
+		virtual void SetChannel(uint8 channel);
+		virtual void UnsetChannel();
+
 	protected:
-		BaseSound();
+		BaseSound(uint8 channel);
 #ifdef ANDROID
 		static const SLuint32 PLAYER_ID_COUNT = 3;
 		static const SLInterfaceID PLAYER_ID_ARR[];
@@ -97,7 +101,10 @@ namespace star
 		virtual void SetSoundVolume(int volume) = 0;
 		void SetSoundMuted(bool muted);
 #endif
+
 		bool mbStopped;
+		bool mNoChannelAssigned;
+		uint8 mChannel;
 
 	private:
 		BaseSound(const BaseSound& yRef);

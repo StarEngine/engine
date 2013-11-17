@@ -28,9 +28,11 @@ namespace star
 		, mSoundEffectPathList()
 		, mBackgroundQueue()
 		, mQueueIterator()
-		, m_CurrentSoundFile(nullptr)
-		, m_CurrentSoundEffect(nullptr)
-		, m_Volume(1.0f)
+		, mChannels()
+		, mEmptyChannel()
+		, mCurrentSoundFile(nullptr)
+		, mCurrentSoundEffect(nullptr)
+		, mVolume(1.0f)
 #ifdef ANDROID
 		, mEngineObj(nullptr)
 		, mEngine(nullptr)
@@ -56,6 +58,8 @@ namespace star
 		}
 
 		mEffectsList.clear();
+
+		mChannels.clear();
 	}
 
 	void SoundService::Start()
@@ -221,7 +225,7 @@ namespace star
 			_T("Audio : Stopped audio Engine"));
 	}
 
-	void SoundService::LoadMusic(const tstring& path, const tstring& name)
+	void SoundService::LoadMusic(const tstring& path, const tstring& name, uint8 channel)
 	{
 		ASSERT(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
@@ -252,13 +256,18 @@ namespace star
 			return;
 		}
 
-		SoundFile* music = new SoundFile(path);
+		SoundFile* music = new SoundFile(path, channel);
+		music->SetVolume(
+			music->GetVolume() *
+			GetVolume() *
+			GetChannelVolume(channel)
+			);
 		mMusicList[name] = music;
 		mMusicPathList[path] = name;
 		return;
 	}
 
-	void SoundService::LoadSoundEffect(const tstring& path, const tstring& name)
+	void SoundService::LoadSoundEffect(const tstring& path, const tstring& name, uint8 channel)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
@@ -286,7 +295,12 @@ namespace star
 			mSoundEffectPathList.erase(pathit);
 		}
 
-		SoundEffect* effect = new SoundEffect(path);
+		SoundEffect* effect = new SoundEffect(path, channel);
+		effect->SetVolume(
+			effect->GetVolume() *
+			GetVolume() *
+			GetChannelVolume(channel)
+			);
 		mEffectsList[name] = effect;
 		mSoundEffectPathList[path] = name;
 	}
@@ -294,6 +308,7 @@ namespace star
 	void SoundService::PlayMusic(
 		const tstring& path,
 		const tstring& name,
+		uint8 channel,
 		int loopTimes,
 		float volume
 		)
@@ -302,9 +317,9 @@ namespace star
 
 		if(mMusicList.find(name) == mMusicList.end())
 		{
-			LoadMusic(path, name);
+			LoadMusic(path, name, channel);
 		}
-		return PlayMusic(name, loopTimes, volume * GetVolume());
+		return PlayMusic(name, loopTimes, volume);
 	}
 
 	void SoundService::PlayMusic(
@@ -318,15 +333,15 @@ namespace star
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
-			if(m_CurrentSoundFile != nullptr) m_CurrentSoundFile->Stop();
-			m_CurrentSoundFile = mMusicList[name];
-			m_CurrentSoundFile->Play(loopTimes);
-			m_CurrentSoundFile->SetVolume(volume * GetVolume());
+			if(mCurrentSoundFile != nullptr) mCurrentSoundFile->Stop();
+			mCurrentSoundFile = mMusicList[name];
+			mCurrentSoundFile->Play(loopTimes);
+			mCurrentSoundFile->SetVolume(volume);
 			return;
 		}
 		else
 		{
-			m_CurrentSoundFile = nullptr;
+			mCurrentSoundFile = nullptr;
 			star::Logger::GetInstance()->
 				Log(LogLevel::Warning,
 				_T("Sound Service: Couldn't find the song '") + name +
@@ -338,6 +353,7 @@ namespace star
 	void SoundService::PlaySoundEffect(
 		const tstring& path,
 		const tstring& name,
+		uint8 channel,
 		int loopTimes,
 		float volume
 		)
@@ -347,9 +363,9 @@ namespace star
 
 		if(mEffectsList.find(name) == mEffectsList.end())
 		{
-			LoadSoundEffect(path, name);
+			LoadSoundEffect(path, name, channel);
 		}
-		PlaySoundEffect(name, loopTimes, volume * GetVolume());
+		PlaySoundEffect(name, loopTimes, volume);
 	}
 
 	void SoundService::PlaySoundEffect(
@@ -364,9 +380,9 @@ namespace star
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
-			m_CurrentSoundEffect = mEffectsList[name];
-			m_CurrentSoundEffect->Play(loopTimes);
-			m_CurrentSoundEffect->SetVolume(volume * GetVolume());
+			mCurrentSoundEffect = mEffectsList[name];
+			mCurrentSoundEffect->Play(loopTimes);
+			mCurrentSoundEffect->SetVolume(volume);
 		}
 		else
 		{
@@ -431,7 +447,7 @@ namespace star
 		}
 		else
 		{
-			mQueueIterator==mBackgroundQueue.begin();
+			mQueueIterator == mBackgroundQueue.begin();
 			(*mQueueIterator)->PlayQueued(0);
 		}
 	}
@@ -633,6 +649,201 @@ namespace star
 		}
 	}
 
+	void SoundService::AddSoundToChannel(uint8 channel, BaseSound * pSound)
+	{
+		auto & chnl = mChannels[channel];
+		auto it = chnl.mSounds.begin();
+		auto end = chnl.mSounds.end();
+		while(it != end)
+		{
+			if(*it == pSound)
+			{
+				Logger::GetInstance()->Log(LogLevel::Warning,
+					_T("SoundService::AddSoundToChannel: Trying to add a sound twice in channel '")
+					+ string_cast<tstring>(channel) + _T("'."));
+				return;
+			}
+			++it;
+		}
+		pSound->SetVolume(pSound->GetVolume() * chnl.mVolume);
+		chnl.mSounds.push_back(pSound);
+		chnl.mChannel = channel;
+	}
+
+	void SoundService::RemoveSoundFromChannel(uint8 channel, BaseSound * pSound)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("SoundService::RemoveSoundFromChannel"),
+			result
+			);
+		if(result)
+		{
+			auto it = chnl.mSounds.begin();
+			auto end = chnl.mSounds.end();
+			while(it != end)
+			{
+				if(*it == pSound)
+				{
+					pSound->SetVolume(pSound->GetVolume() / chnl.mVolume);
+					chnl.mSounds.erase(it);
+					return;
+				}
+				++it;
+			}
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("SoundService::RemoveSoundFromChannel: Sound not found in channel '")
+				+ string_cast<tstring>(channel) + _T("'."));
+		}
+	}
+
+	void SoundService::SetChannelVolume(uint8 channel, float volume)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("SoundService::RemoveSoundFromChannel"),
+			result
+			);
+		if(result)
+		{
+			chnl.SetVolume(volume);
+		}
+	}
+
+	float SoundService::GetChannelVolume(uint8 channel)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("SoundService::RemoveSoundFromChannel"),
+			result
+			);
+		if(result)
+		{
+			return chnl.GetVolume();
+		}
+		return 0;
+	}
+
+	void SoundService::IncreaseChannelVolume(uint8 channel, float volume)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("SoundService::RemoveSoundFromChannel"),
+			result
+			);
+		if(result)
+		{
+			chnl.IncreaseVolume(volume);
+		}
+	}
+
+	void SoundService::DecreaseChannelVolume(uint8 channel, float volume)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("SoundService::RemoveSoundFromChannel"),
+			result
+			);
+		if(result)
+		{
+			chnl.DecreaseVolume(volume);
+		}
+	}
+
+	void SoundService::SetChannelMuted(uint8 channel, bool muted)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("SoundService::RemoveSoundFromChannel"),
+			result
+			);
+		if(result)
+		{
+			chnl.SetMuted(muted);
+		}
+	}
+
+	bool SoundService::IsChannelMuted(uint8 channel)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("SoundService::RemoveSoundFromChannel"),
+			result
+			);
+		if(result)
+		{
+			return chnl.IsMuted();
+		}
+		return false;
+	}
+
+	void SoundService::SetMusicChannel(const tstring & name, uint8 channel)
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			it->second->SetChannel(channel);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::SetMusicChannel: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+
+	void SoundService::UnsetMusicChannel(const tstring & name)
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			it->second->UnsetChannel();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::SetMusicChannel: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+
+	void SoundService::SetEffectChannel(const tstring & name, uint8 channel)
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			it->second->SetChannel(channel);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::SetEffectChannel: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+
+	void SoundService::UnsetEffectChannel(const tstring & name)
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			it->second->UnsetChannel();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SoundService::UnsetEffectChannel: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+
 	void SoundService::StopSound(const tstring& name)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
@@ -657,12 +868,12 @@ namespace star
 		ASSERT(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
-		for(auto song : mMusicList)
+		for(auto & song : mMusicList)
 		{
 			song.second->Stop();
 		}
 
-		for(auto effect : mEffectsList)
+		for(auto & effect : mEffectsList)
 		{
 			effect.second->Stop();
 		}
@@ -673,12 +884,12 @@ namespace star
 		ASSERT(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
-		for(auto song : mMusicList)
+		for(auto & song : mMusicList)
 		{
 			song.second->Pause();
 		}
 
-		for(auto effect : mEffectsList)
+		for(auto & effect : mEffectsList)
 		{
 			effect.second->Pause();
 		}
@@ -689,12 +900,12 @@ namespace star
 		ASSERT(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
-		for(auto song : mMusicList)
+		for(auto & song : mMusicList)
 		{
 			song.second->Resume();
 		}
 
-		for(auto effect : mEffectsList)
+		for(auto & effect : mEffectsList)
 		{
 			effect.second->Resume();
 		}
@@ -705,13 +916,13 @@ namespace star
 		ASSERT(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
-		for(auto song : mMusicList)
+		for(auto & song : mMusicList)
 		{
 			delete song.second;
 		}
 		mMusicList.clear();
 
-		for(auto effect : mEffectsList)
+		for(auto & effect : mEffectsList)
 		{
 			delete effect.second;
 		}	
@@ -721,14 +932,14 @@ namespace star
 
 	void SoundService::SetVolume(float volume)
 	{
-		float oldVol = m_Volume;
-		m_Volume = Clamp(volume, 0.0f, 1.0f);
+		float oldVol = mVolume;
+		mVolume = Clamp(volume, 0.0f, 1.0f);
 
 		for(auto song : mMusicList)
 		{
 			float vol = song.second->GetVolume();
 			vol /= oldVol;
-			vol *= m_Volume;
+			vol *= mVolume;
 			song.second->SetVolume(vol);
 		}
 
@@ -736,14 +947,14 @@ namespace star
 		{
 			float vol = effect.second->GetVolume();
 			vol /= oldVol;
-			vol *= m_Volume;
+			vol *= mVolume;
 			effect.second->SetVolume(vol);
 		}
 	}
 
 	float SoundService::GetVolume() const
 	{
-		return m_Volume;
+		return mVolume;
 	}
 
 	void SoundService::IncreaseVolume(float volume)
@@ -760,6 +971,27 @@ namespace star
 		SetVolume(vol);
 	}
 
+	SoundService::SoundChannel & SoundService::GetChannel(
+		uint8 channel,
+		const tstring & sender,
+		bool & result
+		)
+	{
+		auto it = mChannels.find(channel);
+		result = it != mChannels.end();
+		if(result)
+		{
+			return it->second;
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				sender + _T(": Couldn't find channel '")
+				+ string_cast<tstring>(channel) + _T("'."));
+		}
+		return mEmptyChannel;
+	}
+
 #ifdef ANDROID
 	const SLEngineItf& SoundService::GetEngine() const
 	{
@@ -771,4 +1003,61 @@ namespace star
 		return mOutputMixObj;
 	}
 #endif
+
+	SoundService::SoundChannel::SoundChannel()
+		: mVolume(1.0f)
+		, mIsMuted(false)
+		, mSounds()
+		, mChannel(0)
+	{
+	}
+
+	SoundService::SoundChannel::~SoundChannel()
+	{
+		for(auto it : mSounds)
+		{
+			it->SetVolume(it->GetVolume() / mVolume);
+			it->UnsetChannel();
+		}
+		mSounds.clear();
+	}
+
+	void SoundService::SoundChannel::SetVolume(float volume)
+	{
+		float oldVolume = mVolume;
+		mVolume = Clamp(volume, 0.0f, 1.0f);
+		for( auto it : mSounds)
+		{
+			it->SetVolume(it->GetVolume() / oldVolume * mVolume);
+		}
+	}
+
+	float SoundService::SoundChannel::GetVolume() const
+	{
+		return mVolume;
+	}
+
+	void SoundService::SoundChannel::IncreaseVolume(float volume)
+	{
+		SetVolume(mVolume + volume);
+	}
+
+	void SoundService::SoundChannel::DecreaseVolume(float volume)
+	{
+		SetVolume(mVolume - volume);
+	}
+
+	void SoundService::SoundChannel::SetMuted(bool muted)
+	{
+		mIsMuted = muted;
+		for( auto it : mSounds)
+		{
+			it->SetMuted(muted);
+		}
+	}
+
+	bool SoundService::SoundChannel::IsMuted() const
+	{
+		return mIsMuted;
+	}
 }

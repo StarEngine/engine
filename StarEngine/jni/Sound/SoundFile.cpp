@@ -11,8 +11,8 @@
 
 namespace star
 {
-	SoundFile::SoundFile(const tstring& path)
-		: BaseSound()
+	SoundFile::SoundFile(const tstring& path, uint8 channel)
+		: BaseSound(channel)
 		, mLoopTimes(0)
 		, mbQueuedPlay(false)
 #ifdef ANDROID
@@ -37,6 +37,7 @@ namespace star
 				+ string_cast<tstring>(Mix_GetError()));
 		}
 #endif
+		SetChannel(channel);
 	}
 
 	SoundFile::~SoundFile()
@@ -50,6 +51,10 @@ namespace star
 #else
 		DestroySound(mPlayerObj, mPlayer);
 #endif
+		if(!mNoChannelAssigned)
+		{
+			UnsetChannel();
+		}
 	}
 
 	void SoundFile::Play(int32 looptimes)
@@ -133,6 +138,18 @@ namespace star
 #else
 		ResumeSound(mPlayer);
 #endif
+	}
+
+	void SoundFile::SetChannel(uint8 channel)
+	{
+		BaseSound::SetChannel(channel);
+		SoundService::GetInstance()->AddSoundToChannel(channel, this);
+	}
+
+	void SoundFile::UnsetChannel()
+	{
+		BaseSound::UnsetChannel();
+		SoundService::GetInstance()->RemoveSoundFromChannel(mChannel, this);
 	}
 
 #ifdef ANDROID

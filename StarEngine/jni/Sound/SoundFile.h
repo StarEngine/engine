@@ -9,14 +9,17 @@ namespace star
 	class SoundFile final : public BaseSound
 	{
 	public:
-		SoundFile(const tstring& path);
+		SoundFile(const tstring& path, uint8 channel = 0);
 		~SoundFile();
 
-		void Play(int32 looptimes = 0);
+		virtual void Play(int32 looptimes = 0);
 		void PlayQueued(int32 looptimes = 0);
-		void Stop();
-		void Pause();
-		void Resume();
+		virtual void Stop();
+		virtual void Pause();
+		virtual void Resume();
+
+		virtual void SetChannel(uint8 channel);
+		virtual void UnsetChannel();
 
 #ifdef ANDROID
 		void SetVolume(float volume);

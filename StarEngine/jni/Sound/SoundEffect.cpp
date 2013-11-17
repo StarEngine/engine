@@ -16,8 +16,8 @@ namespace star
 	int SoundEffect::PLAY_CHANNELS = 0;
 	#endif
 
-	SoundEffect::SoundEffect(const tstring& path)
-		: BaseSound()
+	SoundEffect::SoundEffect(const tstring& path, uint8 channel)
+		: BaseSound(channel)
 	#ifdef DESKTOP
 		, mPlayChannel(PLAY_CHANNELS++)
 		, mpSound(nullptr)
@@ -43,6 +43,7 @@ namespace star
 				+ string_cast<tstring>(Mix_GetError()));
 		}
 	#endif
+		SetChannel(channel);
 	}
 
 	SoundEffect::~SoundEffect()
@@ -55,6 +56,10 @@ namespace star
 			DestroySound(mPlayerObjs[i], mPlayers[i]);
 		}
 	#endif
+		if(!mNoChannelAssigned)
+		{
+			UnsetChannel();
+		}
 	}
 
 	void SoundEffect::Play(int loopTime)
@@ -124,6 +129,18 @@ namespace star
 			ResumeSound(mPlayers[i]);
 		}
 #endif
+	}
+
+	void SoundEffect::SetChannel(uint8 channel)
+	{
+		BaseSound::SetChannel(channel);
+		SoundService::GetInstance()->AddSoundToChannel(channel, this);
+	}
+
+	void SoundEffect::UnsetChannel()
+	{
+		BaseSound::UnsetChannel();
+		SoundService::GetInstance()->RemoveSoundFromChannel(mChannel, this);
 	}
 
 #ifdef ANDROID

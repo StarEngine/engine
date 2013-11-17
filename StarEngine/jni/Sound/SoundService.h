@@ -17,11 +17,12 @@ namespace star
 		void Start();
 		void Stop();
 
-		void LoadMusic(const tstring& path, const tstring& name);
-		void LoadSoundEffect(const tstring& path, const tstring& name);
+		void LoadMusic(const tstring& path, const tstring& name, uint8 channel = 0);
+		void LoadSoundEffect(const tstring& path, const tstring& name, uint8 channel = 0);
 
 		void PlayMusic(const tstring& path,
 			const tstring& name,
+			uint8 channel = 0,
 			int loopTimes = 0,
 			float volume = 1.0f
 			);
@@ -34,6 +35,7 @@ namespace star
 		void PlaySoundEffect(
 			const tstring& path,
 			const tstring& name,
+			uint8 channel = 0,
 			int loopTimes = 0,
 			float volume = 1
 			);
@@ -67,6 +69,24 @@ namespace star
 		void SetEffectMuted(const tstring& name, bool muted);
 		bool IsEffectMuted(const tstring& name) const;
 
+		void AddSoundToChannel(uint8 channel, BaseSound * pSound);
+		void RemoveSoundFromChannel(uint8 channel, BaseSound * pSound);
+
+		void SetChannelVolume(uint8 channel, float volume);
+		float GetChannelVolume(uint8 channel);
+
+		void IncreaseChannelVolume(uint8 channel, float volume);
+		void DecreaseChannelVolume(uint8 channel, float volume);
+
+		void SetChannelMuted(uint8 channel, bool muted);
+		bool IsChannelMuted(uint8 channel);
+
+		void SetMusicChannel(const tstring & name, uint8 channel);
+		void UnsetMusicChannel(const tstring & name);
+
+		void SetEffectChannel(const tstring & name, uint8 channel);
+		void UnsetEffectChannel(const tstring & name);
+
 		void StopSound(const tstring& name);
 		void StopAllSounds();
 		void PauseAllSounds();
@@ -85,7 +105,29 @@ namespace star
 #endif
 
 	private:
+		struct SoundChannel
+		{
+			float mVolume;
+			bool mIsMuted;
+			std::vector<BaseSound*> mSounds;
+			uint8 mChannel;
+
+			SoundChannel();
+			~SoundChannel();
+
+			void SetVolume(float volume);
+			float GetVolume() const;
+
+			void IncreaseVolume(float volume);
+			void DecreaseVolume(float volume);
+
+			void SetMuted(bool muted);
+			bool IsMuted() const;
+		};
+
 		SoundService();
+		SoundChannel & GetChannel(uint8 channel, const tstring & sender,
+			bool & result);
 
 		static SoundService * mSoundService;
 		static bool mbIsInitialized;
@@ -96,11 +138,13 @@ namespace star
 		std::map<tstring,tstring> mSoundEffectPathList;
 		std::vector<SoundFile*> mBackgroundQueue;
 		std::vector<SoundFile*>::iterator mQueueIterator;
+		std::map<uint8, SoundChannel> mChannels;
+		SoundChannel mEmptyChannel;
 
-		SoundFile* m_CurrentSoundFile;
-		SoundEffect* m_CurrentSoundEffect;
+		SoundFile* mCurrentSoundFile;
+		SoundEffect* mCurrentSoundEffect;
 
-		float m_Volume;
+		float mVolume;
 
 #ifdef ANDROID
 		SLObjectItf mEngineObj;

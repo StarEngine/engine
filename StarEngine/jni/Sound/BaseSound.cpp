@@ -52,12 +52,30 @@ namespace star
 		SetVolume(vol);
 	}
 
-	BaseSound::BaseSound()
+	void BaseSound::SetChannel(uint8 channel)
+	{
+		if(!mNoChannelAssigned)
+		{
+			UnsetChannel();
+		}
+		mChannel = channel;
+		mNoChannelAssigned = false;
+	}
+
+	void BaseSound::UnsetChannel()
+	{
+		mNoChannelAssigned = true;
+	}
+
+	BaseSound::BaseSound(uint8 channel)
 		: mbStopped(false)
+		, mNoChannelAssigned(true)
 #ifdef DESKTOP
 		, mIsMuted(false)
 		, mVolume(0)
 #endif
+		, mChannel(0)
+
 	{
 	}
 

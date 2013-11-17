@@ -9,13 +9,16 @@ namespace star
 	class SoundEffect final : public BaseSound
 	{
 	public:
-		SoundEffect(const tstring& path);
+		SoundEffect(const tstring& path, uint8 channel = 0);
 		~SoundEffect();
 
-		void Play(int loopTime = 0);
-		void Stop();
-		void Pause();
-		void Resume();
+		virtual void Play(int loopTime = 0);
+		virtual void Stop();
+		virtual void Pause();
+		virtual void Resume();
+
+		virtual void SetChannel(uint8 channel);
+		virtual void UnsetChannel();
 
 	#ifdef ANDROID
 		void SetVolume(float volume);
@@ -43,7 +46,7 @@ namespace star
 
 		std::vector<SLObjectItf> mPlayerObjs;
 		std::vector<SLPlayItf> mPlayers;
-#endif		
+#endif	
 
 		SoundEffect(const SoundEffect& yRef);
 		SoundEffect(SoundEffect&& yRef);
