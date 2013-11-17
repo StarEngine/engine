@@ -24,8 +24,9 @@ namespace star
 		void CollidesWith(const BaseColliderComponent* other) const;
 
 		float GetRadius() const;
+		vec2 GetPosition() const;
+		void GetPosition(vec2& posOut);
 		void SetRadius(float radius);
-		float GetRealRadius() const;
 
 	protected:
 		void InitializeColliderComponent();

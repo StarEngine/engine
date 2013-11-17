@@ -184,6 +184,12 @@ namespace star
 
 	void RectangleColliderComponent::CollidesWith(const BaseColliderComponent* other) const
 	{
+		if(other == nullptr)
+		{
+			Logger::GetInstance()->
+				Log(LogLevel::Warning, _T("Checking Collision with a nullptr!\nMake sure the collider exists!"));
+			return;
+		}
 		const CircleColliderComponent* otherCircleComp = 
 			dynamic_cast<const CircleColliderComponent*>(other);
 		const RectangleColliderComponent* otherRectComp = 
@@ -225,6 +231,11 @@ namespace star
 				//[TODO] OOBB - Circle Collision!
 			}
 
+		}
+		else
+		{
+			Logger::GetInstance()->
+				Log(LogLevel::Warning, _T("Checking collision with an unknown collider type!"));
 		}
 	}
 

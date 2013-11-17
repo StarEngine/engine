@@ -1,9 +1,6 @@
 #pragma once
 
 #include <map>
-// [COMMENT] if you fix the comment on line 38, don't forget
-// to delete this include as well then.
-#include <vector>
 #include <memory>
 #include "../defines.h"
 
@@ -20,7 +17,7 @@ namespace star
 	class TextureManager final
 	{
 	public:
-		~TextureManager(void);
+		~TextureManager();
 
 		static TextureManager * GetInstance();
 
@@ -37,7 +34,7 @@ namespace star
 		std::map<tstring, std::shared_ptr<Texture2D>> mTextureMap;
 		std::map<tstring,tstring> mPathList;
 
-		TextureManager(void);
+		TextureManager();
 
 		TextureManager(const TextureManager& yRef);
 		TextureManager(TextureManager&& yRef);
