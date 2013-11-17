@@ -31,6 +31,7 @@ namespace star
 		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			CreateSound(mPlayerObjs[i], engine, mPlayers[i], path);
+			mLoopTimes.push_back(0);
 		}
 	#else
 		Filepath real_path(path);
@@ -68,6 +69,7 @@ namespace star
 			(*mPlayers[i])->GetPlayState(mPlayers[i],&lRes);
 			if( lRes == SL_PLAYSTATE_STOPPED)
 			{
+				mLoopTimes[i] = loopTime;
 				lRes = (*mPlayers[i])->SetPlayState(mPlayers[i],SL_PLAYSTATE_PLAYING);
 				if (lRes != SL_RESULT_SUCCESS)
 				{
@@ -188,7 +190,7 @@ namespace star
 	{
 		if((*player)->RegisterCallback(
 			player, MusicStoppedCallback,
-			&player) != SL_RESULT_SUCCESS)
+			this) != SL_RESULT_SUCCESS)
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error,
 				_T("SoundEffect: Can't set callback"));
@@ -198,6 +200,29 @@ namespace star
 	void SoundEffect::MusicStoppedCallback(SLPlayItf caller,void *pContext,SLuint32 event)
 	{
 		(*caller)->SetPlayState(caller, SL_PLAYSTATE_STOPPED);
+		SoundEffect* eff = reinterpret_cast<SoundEffect*>(pContext);
+		//Search for the caller in the list
+		for(int i = 0; i < eff->mPlayers.size() ; ++i)
+		{
+			if(eff->mPlayers[i] == caller)
+			{
+				//If infinite loop keep playing
+				if(eff->mLoopTimes[i] == -1)
+				{
+					(*caller)->SetPlayState(caller, SL_PLAYSTATE_PLAYING);
+				}
+				else
+				{
+					//check if only play once otherwise keep playing
+					if(eff->mLoopTimes[i] != 0)
+					{
+						(*caller)->SetPlayState(caller, SL_PLAYSTATE_PLAYING);
+					}
+					--eff->mLoopTimes[i];
+				}
+				break;
+			}
+		}
 	}
 #endif
 }

@@ -43,6 +43,7 @@ namespace star
 
 		std::vector<SLObjectItf> mPlayerObjs;
 		std::vector<SLPlayItf> mPlayers;
+		std::vector<int> mLoopTimes;
 #endif		
 
 		SoundEffect(const SoundEffect& yRef);
