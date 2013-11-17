@@ -97,8 +97,8 @@ namespace star
 
 		GLubyte* expanded_data = new GLubyte[2 * width * height];
 
-		for(int j = 0; j <height ; j++) {
-			for(int i = 0; i < width; i++) {
+		for(int j = 0; j <height ; ++j) {
+			for(int i = 0; i < width; ++i) {
 				expanded_data[2 * (i + j * width)] = 255;
 				expanded_data[2 * (i + j * width) + 1] = 
 					(i >= bitmap.width || j >= bitmap.rows) ? 0 : bitmap.buffer[i + bitmap.width * j];
@@ -168,7 +168,7 @@ namespace star
 		int32 length=0;
 		sstring conv_text = star::string_cast<sstring>(string);
 		const schar *line=conv_text.c_str();
-		for(int i=0;line[i]!=0;i++) 
+		for(int i=0;line[i]!=0;++i) 
 		{
 			length+=mLetterSizeList[ line[i]].x;
 		}

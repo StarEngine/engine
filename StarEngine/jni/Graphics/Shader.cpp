@@ -235,7 +235,7 @@ namespace star
 		GLenum type;
 		Logger::GetInstance()->Log(LogLevel::Debug,_T(" Location | Name"));
 		Logger::GetInstance()->Log(LogLevel::Debug,_T("------------------------------------------------"));
-		for(GLuint i = 0; i < GLuint(nAttribs); i++ )
+		for(GLuint i = 0; i < GLuint(nAttribs); ++i )
 		{
 			glGetActiveAttrib(mShaderID, i, maxLength, &written, &size, &type, name);
 			location = glGetAttribLocation(mShaderID, name);
@@ -260,7 +260,7 @@ namespace star
 		GLenum type;
 		Logger::GetInstance()->Log(LogLevel::Debug,_T(" Location | Name"));
 		Logger::GetInstance()->Log(LogLevel::Debug,_T("------------------------------------------------"));
-		for(GLuint i = 0; i < GLuint(nUniforms); i++ )
+		for(GLuint i = 0; i < GLuint(nUniforms); ++i )
 		{
 			glGetActiveUniform(mShaderID, i, maxLength, &written, &size, &type, name);
 			location = glGetUniformLocation(mShaderID, name);

@@ -261,7 +261,7 @@ namespace star
 		for(auto it = text.begin(); it != text.end() ; ++it)
 		{
 			const schar *start_line=it->c_str();
-			for(int i = 0 ; start_line[i] != 0 ; i++) 
+			for(int i = 0 ; start_line[i] != 0 ; ++i) 
 			{
 
 				glBindTexture(GL_TEXTURE_2D,textures[ start_line[i] ]);

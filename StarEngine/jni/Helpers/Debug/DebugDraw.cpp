@@ -194,7 +194,7 @@ namespace star
 		ASSERT(vertexCount <= MAX_VERTICES, _T("more vertices than allocated space"));
 		//ASSERT(vertexCount <= MAX_VERTICES, _T("more vertices then allocated space"));
 
-		for (uint32 i = 0; i < vertexCount; i++)
+		for (uint32 i = 0; i < vertexCount; ++i)
 		{
 			m_Vertices[i].x = vertices[i].x;
 			m_Vertices[i].y = vertices[i].y;
