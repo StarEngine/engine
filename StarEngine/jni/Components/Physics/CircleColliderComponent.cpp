@@ -202,7 +202,8 @@ namespace star
 	{
 		vec4 realPos(m_Offset.x, m_Offset.y, 0, 1);
 		realPos = glm::mul(realPos, TransposeMatrix(GetTransform()->GetWorldMatrix()));
-		realPos = glm::mul(realPos, TransposeMatrix(GraphicsManager::GetInstance()->GetViewInverseMatrix()));
+		realPos = glm::mul(realPos, TransposeMatrix(
+			GraphicsManager::GetInstance()->GetViewInverseMatrix()));
 		return vec2(realPos.x, realPos.y);
 	}
 
@@ -210,7 +211,8 @@ namespace star
 	{
 		vec4 realPos(m_Offset.x, m_Offset.y, 0, 1);
 		realPos = glm::mul(realPos, TransposeMatrix(GetTransform()->GetWorldMatrix()));
-		realPos = glm::mul(realPos, TransposeMatrix(GraphicsManager::GetInstance()->GetViewInverseMatrix()));
+		realPos = glm::mul(realPos, TransposeMatrix(
+			GraphicsManager::GetInstance()->GetViewInverseMatrix()));
 		posOut.x = realPos.x;
 		posOut.y = realPos.y;
 	}
