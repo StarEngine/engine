@@ -237,8 +237,8 @@ namespace star
 		const vec2& origposition = position;
 
 		GLuint* textures = curfont.GetTextures();
-		const std::vector<fontUvCoords>& tempuvs = curfont.getUvCoords();
-		const std::vector<fontVertices>& tempverts = curfont.getVetrices();
+		const std::vector<fontUvCoords>& tempuvs = curfont.GetUvCoords();
+		const std::vector<fontVertices>& tempverts = curfont.GetVetrices();
 		const std::vector<ivec2>& tempsizes = curfont.GetLetterDimensions();
 
 		m_Shader.Bind();
