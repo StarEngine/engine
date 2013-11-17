@@ -1,6 +1,7 @@
 #include "SoundService.h"
 #include "../Logger.h"
 #include "../Helpers/Helpers.h"
+#include "../Helpers/HelpersMath.h"
 
 #ifdef ANDROID
 #include "../Assets/Resource.h"
@@ -29,6 +30,7 @@ namespace star
 		, mQueueIterator()
 		, m_CurrentSoundFile(nullptr)
 		, m_CurrentSoundEffect(nullptr)
+		, m_Volume(1.0f)
 #ifdef ANDROID
 		, mEngineObj(nullptr)
 		, mEngine(nullptr)
@@ -252,7 +254,7 @@ namespace star
 
 		SoundFile* music = new SoundFile(path);
 		mMusicList[name] = music;
-		mMusicPathList[path]=name;
+		mMusicPathList[path] = name;
 		return;
 	}
 
@@ -300,9 +302,9 @@ namespace star
 
 		if(mMusicList.find(name) == mMusicList.end())
 		{
-			LoadMusic(path,name);
+			LoadMusic(path, name);
 		}
-		return PlayMusic(name,loopTimes,volume);
+		return PlayMusic(name, loopTimes, volume * GetVolume());
 	}
 
 	void SoundService::PlayMusic(
@@ -319,7 +321,7 @@ namespace star
 			if(m_CurrentSoundFile != nullptr) m_CurrentSoundFile->Stop();
 			m_CurrentSoundFile = mMusicList[name];
 			m_CurrentSoundFile->Play(loopTimes);
-			m_CurrentSoundFile->SetVolume(volume);
+			m_CurrentSoundFile->SetVolume(volume * GetVolume());
 			return;
 		}
 		else
@@ -347,7 +349,7 @@ namespace star
 		{
 			LoadSoundEffect(path, name);
 		}
-		PlaySoundEffect(name, loopTimes, volume);
+		PlaySoundEffect(name, loopTimes, volume * GetVolume());
 	}
 
 	void SoundService::PlaySoundEffect(
@@ -364,7 +366,7 @@ namespace star
 		{
 			m_CurrentSoundEffect = mEffectsList[name];
 			m_CurrentSoundEffect->Play(loopTimes);
-			m_CurrentSoundEffect->SetVolume(volume);
+			m_CurrentSoundEffect->SetVolume(volume * GetVolume());
 		}
 		else
 		{
@@ -434,12 +436,12 @@ namespace star
 		}
 	}
 
-	void SoundService::SetMusicVolume(const tstring& name, float volume )
+	void SoundService::SetMusicVolume(const tstring& name, float volume)
 	{
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
-			it->second->SetVolume(volume);
+			it->second->SetVolume(volume * GetVolume());
 		}
 		else
 		{
@@ -454,7 +456,14 @@ namespace star
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
-			return it->second->GetVolume();
+			if(GetVolume() == 0)
+			{
+				return 0;
+			}
+			else
+			{
+				return it->second->GetVolume() / GetVolume();
+			}
 		}
 		else
 		{
@@ -465,12 +474,12 @@ namespace star
 		return 0;
 	}
 
-	void SoundService::SetEffectVolume(const tstring& name, float volume )
+	void SoundService::SetEffectVolume(const tstring& name, float volume)
 	{
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
-			it->second->SetVolume(volume);
+			it->second->SetVolume(volume * GetVolume());
 		}
 		else
 		{
@@ -485,7 +494,14 @@ namespace star
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
-			return it->second->GetVolume();
+			if(GetVolume() == 0)
+			{
+				return 0;
+			}
+			else
+			{
+				return it->second->GetVolume() / GetVolume();
+			}
 		}
 		else
 		{
@@ -501,7 +517,7 @@ namespace star
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
-			it->second->IncreaseVolume(volume);
+			it->second->IncreaseVolume(volume * GetVolume());
 		}
 		else
 		{
@@ -516,7 +532,7 @@ namespace star
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
-			it->second->DecreaseVolume(volume);
+			it->second->DecreaseVolume(volume * GetVolume());
 		}
 		else
 		{
@@ -531,7 +547,7 @@ namespace star
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
-			it->second->IncreaseVolume(volume);
+			it->second->IncreaseVolume(volume * GetVolume());
 		}
 		else
 		{
@@ -545,7 +561,7 @@ namespace star
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
-			it->second->DecreaseVolume(volume);
+			it->second->DecreaseVolume(volume * GetVolume());
 		}
 		else
 		{
@@ -639,6 +655,47 @@ namespace star
 		}	
 		mEffectsList.clear();
 		
+	}
+
+	void SoundService::SetVolume(float volume)
+	{
+		float oldVol = m_Volume;
+		m_Volume = Clamp(volume, 0.0f, 1.0f);
+
+		for(auto song : mMusicList)
+		{
+			float vol = song.second->GetVolume();
+			vol /= oldVol;
+			vol *= m_Volume;
+			song.second->SetVolume(vol);
+		}
+
+		for(auto effect : mEffectsList)
+		{
+			float vol = effect.second->GetVolume();
+			vol /= oldVol;
+			vol *= m_Volume;
+			effect.second->SetVolume(vol);
+		}
+	}
+
+	float SoundService::GetVolume() const
+	{
+		return m_Volume;
+	}
+
+	void SoundService::IncreaseVolume(float volume)
+	{
+		float vol = GetVolume();
+		vol += volume;
+		SetVolume(vol);
+	}
+
+	void SoundService::DecreaseVolume(float volume)
+	{
+		float vol = GetVolume();
+		vol -= volume;
+		SetVolume(vol);
 	}
 
 #ifdef ANDROID

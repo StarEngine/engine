@@ -66,10 +66,18 @@ namespace star
 		void PauseAllSounds();
 		void ResumeAllSounds();
 		void DeleteAllSounds();
+
+		void SetVolume(float volume);
+		float GetVolume() const;
+
+		void IncreaseVolume(float volume);
+		void DecreaseVolume(float volume);
+
 #ifdef ANDROID
 		const SLEngineItf& GetEngine() const;
 		const SLObjectItf& GetOutputMixObject() const;
 #endif
+
 	private:
 		SoundService();
 
@@ -85,6 +93,8 @@ namespace star
 
 		SoundFile* m_CurrentSoundFile;
 		SoundEffect* m_CurrentSoundEffect;
+
+		float m_Volume;
 
 #ifdef ANDROID
 		SLObjectItf mEngineObj;
