@@ -53,6 +53,26 @@ namespace star
 		return m_Y + m_Height;
 	}
 
+	void AARect::SetLeft(int left)
+	{
+		m_X = left;
+	}
+
+	void AARect::SetTop(int top)
+	{
+		m_Height = top - m_Y;
+	}
+
+	void AARect::SetRight(int right)
+	{
+		m_Width = right - m_X;
+	}
+
+	void AARect::SetBottom(int bottom)
+	{
+		m_Y = bottom;
+	}
+
 	bool AARect::Equals(const AARect& rect) const
 	{
 		return m_X == rect.m_X &&

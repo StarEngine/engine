@@ -39,6 +39,9 @@ namespace star
 		void SetActiveCamera(BaseCamera* pCamera);
 		BaseCamera* GetActiveCamera() const;
 
+		void SetCullingOffset(int offset);
+		void SetCullingOffset(int offsetX, int offsetY);
+
 		std::shared_ptr<Stopwatch> GetStopwatch() const;
 
 		std::shared_ptr<GestureManager> GetGestureManager() const;
@@ -50,6 +53,7 @@ namespace star
 		virtual void OnDeactivate();
 		virtual void Update(const Context& context);
 		virtual void Draw();
+		bool CheckCulling(Object* object);
 
 		std::shared_ptr<GestureManager> m_GestureManagerPtr;
 
@@ -58,6 +62,8 @@ namespace star
 		std::shared_ptr<Stopwatch> m_pStopwatch;
 
 	private:
+		int m_CullingOffsetX,
+			m_CullingOffsetY;
 		bool m_Initialized;
 		tstring m_Name;
 	

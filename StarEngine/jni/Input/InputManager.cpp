@@ -468,13 +468,12 @@ namespace star
 			
 			m_CurrMousePosition = vec2(
 				mousePos.x , 
-				(float)GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y);
+				float(GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y));
 			m_CurrMousePosition -= vec2(
 				float(GraphicsManager::GetInstance()->GetHorizontalViewportOffset()),
 				float(GraphicsManager::GetInstance()->GetVerticalViewportOffset()));
 			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetViewportResolution();
 			m_CurrMousePosition *= GraphicsManager::GetInstance()->GetScreenResolution();
-			
 			
 			if(SceneManager::GetInstance()->GetActiveScene())
 			{
@@ -494,7 +493,6 @@ namespace star
 			{
 				m_GestureManager->OnUpdateWinInputState();
 			}
-
 			//Sleep(1000/60);
 		}
 		return 0;

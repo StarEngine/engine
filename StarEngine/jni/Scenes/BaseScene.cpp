@@ -5,6 +5,7 @@
 #include "../StarComponents.h"
 #include "../Objects/BaseCamera.h"
 #include "../Graphics/GraphicsManager.h"
+#include "../Graphics/ScaleSystem.h"
 #include "../Helpers/Debug/DebugDraw.h"
 
 namespace star 
@@ -13,6 +14,8 @@ namespace star
 		: m_GestureManagerPtr(nullptr)
 		, m_Objects()
 		, m_pDefaultCamera(nullptr)
+		, m_CullingOffsetX(0)
+		, m_CullingOffsetY(0)
 		, m_Initialized(false) 
 		, m_Name(name)
 	{
@@ -69,7 +72,10 @@ namespace star
 
 		for(auto object : m_Objects)
 		{
-			object->BaseUpdate(context);
+			//if(CheckCulling(object))
+			//{
+				object->BaseUpdate(context);
+			//}
 		}
 
 		Update(context);
@@ -79,9 +85,11 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			object->BaseDraw();
+			if(CheckCulling(object))
+			{
+				object->BaseDraw();
+			}
 		}
-
 		Draw(); 
 	}
 
@@ -184,5 +192,57 @@ namespace star
 
 	void BaseScene::Draw()
 	{
+	}
+
+	bool BaseScene::CheckCulling(Object* object)
+	{
+		pos objectPos = object->GetTransform()->GetWorldPosition();
+		pos camPos = m_pDefaultCamera->GetTransform()->GetWorldPosition();
+		float xPos = (camPos.pos2D().x) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().x) / 2.0f);
+		float yPos = (camPos.pos2D().y) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().y) / 2.0f); 
+		int screenWidth = GraphicsManager::GetInstance()->GetWindowWidth();
+		int screenHeight = GraphicsManager::GetInstance()->GetWindowHeight();
+		SpriteComponent* sprite = object->GetComponent<SpriteComponent>();
+		SpritesheetComponent* spritesheet = object->GetComponent<SpritesheetComponent>();
+		if(sprite == nullptr && spritesheet == nullptr)
+		{
+			return false;
+		}
+
+		int spriteWidth;
+		int spriteHeight;
+
+		if(sprite != nullptr)
+		{
+			spriteWidth = int(float(sprite->GetWidth()) * object->GetTransform()->GetWorldScale().x);
+			spriteHeight = int(float(sprite->GetHeight()) * object->GetTransform()->GetWorldScale().y);
+		}
+		if(spritesheet != nullptr)
+		{
+			spriteWidth = int(float(spritesheet->GetWidth()) * object->GetTransform()->GetWorldScale().x);
+			spriteHeight = int(float(spritesheet->GetHeight()) * object->GetTransform()->GetWorldScale().y);
+		}
+
+		//[TODO] allow used to set the offset you want around the culling area.
+		if(objectPos.x > xPos + screenWidth + m_CullingOffsetX ||
+			objectPos.x + spriteWidth < xPos - m_CullingOffsetX ||
+			objectPos.y > yPos + screenHeight + m_CullingOffsetY ||
+			objectPos.y + spriteHeight < yPos - m_CullingOffsetY)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	void BaseScene::SetCullingOffset(int offset)
+	{
+		m_CullingOffsetX = offset;
+		m_CullingOffsetY = offset;
+	}
+
+	void BaseScene::SetCullingOffset(int offsetX, int offsetY)
+	{
+		m_CullingOffsetX = offsetX;
+		m_CullingOffsetY = offsetY;
 	}
 }

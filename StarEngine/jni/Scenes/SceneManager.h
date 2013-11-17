@@ -32,7 +32,6 @@ namespace star
 
 		std::shared_ptr<Stopwatch> GetStopwatch() const;
 
-
 #ifdef ANDROID
 		void processActivityEvent(int32 pCommand, android_app* pApplication);
 		int32 processInputEvent(AInputEvent* pEvent);
