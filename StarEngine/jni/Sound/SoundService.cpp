@@ -257,10 +257,10 @@ namespace star
 		}
 
 		SoundFile* music = new SoundFile(path, channel);
-		music->SetVolume(
-			music->GetVolume() *
-			GetVolume() *
-			GetChannelVolume(channel)
+		music->SetCompleteVolume(
+			music->GetVolume(),
+			GetChannelVolume(channel),
+			GetVolume()
 			);
 		mMusicList[name] = music;
 		mMusicPathList[path] = name;
@@ -296,10 +296,10 @@ namespace star
 		}
 
 		SoundEffect* effect = new SoundEffect(path, channel);
-		effect->SetVolume(
-			effect->GetVolume() *
-			GetVolume() *
-			GetChannelVolume(channel)
+		effect->SetCompleteVolume(
+			effect->GetVolume(),
+			GetChannelVolume(channel),
+			GetVolume()
 			);
 		mEffectsList[name] = effect;
 		mSoundEffectPathList[path] = name;
@@ -336,7 +336,7 @@ namespace star
 			if(mCurrentSoundFile != nullptr) mCurrentSoundFile->Stop();
 			mCurrentSoundFile = mMusicList[name];
 			mCurrentSoundFile->Play(loopTimes);
-			mCurrentSoundFile->SetVolume(volume);
+			mCurrentSoundFile->SetBaseVolume(volume);
 			return;
 		}
 		else
@@ -344,7 +344,7 @@ namespace star
 			mCurrentSoundFile = nullptr;
 			star::Logger::GetInstance()->
 				Log(LogLevel::Warning,
-				_T("Sound Service: Couldn't find the song '") + name +
+				_T("SoundService::PlayMusic: Couldn't find the song '") + name +
 				_T("'."));
 		}
 		
@@ -382,13 +382,13 @@ namespace star
 		{
 			mCurrentSoundEffect = mEffectsList[name];
 			mCurrentSoundEffect->Play(loopTimes);
-			mCurrentSoundEffect->SetVolume(volume);
+			mCurrentSoundEffect->SetBaseVolume(volume);
 		}
 		else
 		{
 			star::Logger::GetInstance()->
 				Log(LogLevel::Warning,
-				_T("Sound Service: Couldn't find effect '") + name +
+				_T("SoundService::PlaySoundEffect: Couldn't find effect '") + name +
 				_T("'."));
 		}
 		
@@ -408,7 +408,7 @@ namespace star
 		{
 			star::Logger::GetInstance()->
 				Log(LogLevel::Warning,
-				_T("Sound Service: Couldn't find background song '") + name +
+				_T("SSoundService::AddToBackgroundQueue: Couldn't find background song '") + name +
 				_T("'."));
 		}
 	}
@@ -457,7 +457,7 @@ namespace star
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
-			it->second->SetVolume(volume * GetVolume());
+			it->second->SetBaseVolume(volume);
 		}
 		else
 		{
@@ -472,14 +472,7 @@ namespace star
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
-			if(GetVolume() == 0)
-			{
-				return 0;
-			}
-			else
-			{
-				return it->second->GetVolume() / GetVolume();
-			}
+			return it->second->GetVolume();
 		}
 		else
 		{
@@ -495,7 +488,7 @@ namespace star
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
-			it->second->SetVolume(volume * GetVolume());
+			it->second->SetBaseVolume(volume);
 		}
 		else
 		{
@@ -510,14 +503,7 @@ namespace star
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
-			if(GetVolume() == 0)
-			{
-				return 0;
-			}
-			else
-			{
-				return it->second->GetVolume() / GetVolume();
-			}
+			return it->second->GetVolume();
 		}
 		else
 		{
@@ -533,7 +519,7 @@ namespace star
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
-			it->second->IncreaseVolume(volume * GetVolume());
+			it->second->IncreaseVolume(volume);
 		}
 		else
 		{
@@ -548,7 +534,7 @@ namespace star
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
-			it->second->DecreaseVolume(volume * GetVolume());
+			it->second->DecreaseVolume(volume);
 		}
 		else
 		{
@@ -563,7 +549,7 @@ namespace star
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
-			it->second->IncreaseVolume(volume * GetVolume());
+			it->second->IncreaseVolume(volume);
 		}
 		else
 		{
@@ -577,7 +563,7 @@ namespace star
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
-			it->second->DecreaseVolume(volume * GetVolume());
+			it->second->DecreaseVolume(volume);
 		}
 		else
 		{
@@ -665,7 +651,7 @@ namespace star
 			}
 			++it;
 		}
-		pSound->SetVolume(pSound->GetVolume() * chnl.mVolume);
+		pSound->SetChannelVolume(chnl.mVolume);
 		chnl.mSounds.push_back(pSound);
 		chnl.mChannel = channel;
 	}
@@ -686,7 +672,7 @@ namespace star
 			{
 				if(*it == pSound)
 				{
-					pSound->SetVolume(pSound->GetVolume() / chnl.mVolume);
+					pSound->SetChannelVolume(1.0f);
 					chnl.mSounds.erase(it);
 					return;
 				}
@@ -932,23 +918,16 @@ namespace star
 
 	void SoundService::SetVolume(float volume)
 	{
-		float oldVol = mVolume;
 		mVolume = Clamp(volume, 0.0f, 1.0f);
 
 		for(auto song : mMusicList)
 		{
-			float vol = song.second->GetVolume();
-			vol /= oldVol;
-			vol *= mVolume;
-			song.second->SetVolume(vol);
+			song.second->SetMasterVolume(volume);
 		}
 
 		for(auto effect : mEffectsList)
 		{
-			float vol = effect.second->GetVolume();
-			vol /= oldVol;
-			vol *= mVolume;
-			effect.second->SetVolume(vol);
+			effect.second->SetMasterVolume(volume);
 		}
 	}
 
@@ -1016,7 +995,7 @@ namespace star
 	{
 		for(auto it : mSounds)
 		{
-			it->SetVolume(it->GetVolume() / mVolume);
+			it->SetChannelVolume(1.0f);
 			it->UnsetChannel();
 		}
 		mSounds.clear();
@@ -1024,11 +1003,10 @@ namespace star
 
 	void SoundService::SoundChannel::SetVolume(float volume)
 	{
-		float oldVolume = mVolume;
 		mVolume = Clamp(volume, 0.0f, 1.0f);
 		for( auto it : mSounds)
 		{
-			it->SetVolume(it->GetVolume() / oldVolume * mVolume);
+			it->SetChannelVolume(mVolume);
 		}
 	}
 

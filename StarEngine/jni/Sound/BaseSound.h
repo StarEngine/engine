@@ -26,12 +26,22 @@ namespace star
 		virtual void Resume() = 0;
 		bool IsStopped() const;
 
-#ifdef ANDROID
-		virtual void SetVolume(float volume) = 0;
-#else
-		void SetVolume(float volume);
-#endif
-		virtual float GetVolume() const = 0;
+		void SetCompleteVolume(
+			float volume,
+			float channelVolume,
+			float masterVolume
+			);
+		void SetBaseVolume(
+			float volume
+			);
+		void SetChannelVolume(
+			float volume
+			);
+		void SetMasterVolume(
+			float volume
+			);
+
+		float GetBaseVolume() const;
 
 		void IncreaseVolume(float volume);
 		void DecreaseVolume(float volume);
@@ -42,7 +52,16 @@ namespace star
 		virtual void SetChannel(uint8 channel);
 		virtual void UnsetChannel();
 
+		uint8 GetChannel() const;
+
 	protected:
+#ifdef ANDROID
+		virtual void SetVolume(float volume) = 0;
+#else
+		void SetVolume(float volume);
+#endif
+		virtual float GetVolume() const = 0;
+
 		BaseSound(uint8 channel);
 #ifdef ANDROID
 		static const SLuint32 PLAYER_ID_COUNT = 3;
@@ -107,6 +126,18 @@ namespace star
 		uint8 mChannel;
 
 	private:
+		struct SoundVolume
+		{
+			float Volume;
+			float ChannelVolume;
+			float MasterVolume;
+
+			SoundVolume();
+			float GetVolume() const;
+		};
+
+		SoundVolume mSoundVolume;
+
 		BaseSound(const BaseSound& yRef);
 		BaseSound(BaseSound&& yRef);
 		BaseSound& operator=(const BaseSound& yRef);

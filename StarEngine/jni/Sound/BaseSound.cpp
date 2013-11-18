@@ -29,6 +29,47 @@ namespace star
 		return mbStopped;
 	}
 
+	void BaseSound::SetCompleteVolume(
+		float volume,
+		float channelVolume,
+		float masterVolume
+		)
+	{
+		mSoundVolume.Volume = volume;
+		mSoundVolume.ChannelVolume = channelVolume;
+		mSoundVolume.MasterVolume = masterVolume;
+		SetVolume(mSoundVolume.GetVolume());
+	}
+
+	void BaseSound::SetBaseVolume(
+		float volume
+		)
+	{
+		mSoundVolume.Volume = volume;
+		SetVolume(mSoundVolume.GetVolume());
+	}
+
+	void BaseSound::SetChannelVolume(
+		float volume
+		)
+	{
+		mSoundVolume.ChannelVolume = volume;
+		SetVolume(mSoundVolume.GetVolume());
+	}
+
+	void BaseSound::SetMasterVolume(
+		float volume
+		)
+	{
+		mSoundVolume.MasterVolume = volume;
+		SetVolume(mSoundVolume.GetVolume());
+	}
+
+	float BaseSound::GetBaseVolume() const
+	{
+		return mSoundVolume.Volume;
+	}
+
 	void BaseSound::SetVolume(float volume)
 	{
 #ifdef DESKTOP
@@ -40,16 +81,16 @@ namespace star
 
 	void BaseSound::IncreaseVolume(float volume)
 	{
-		float vol = GetVolume();
-		vol += volume;
-		SetVolume(vol);
+		mSoundVolume.Volume += volume;
+		mSoundVolume.Volume = Clamp(mSoundVolume.Volume, 0.0f, 1.0f);
+		SetVolume(mSoundVolume.GetVolume());
 	}
 
 	void BaseSound::DecreaseVolume(float volume)
 	{
-		float vol = GetVolume();
-		vol -= volume;
-		SetVolume(vol);
+		mSoundVolume.Volume -= volume;
+		mSoundVolume.Volume = Clamp(mSoundVolume.Volume, 0.0f, 1.0f);
+		SetVolume(mSoundVolume.GetVolume());
 	}
 
 	void BaseSound::SetChannel(uint8 channel)
@@ -67,6 +108,11 @@ namespace star
 		mNoChannelAssigned = true;
 	}
 
+	uint8 BaseSound::GetChannel() const
+	{
+		return mChannel;
+	}
+
 	BaseSound::BaseSound(uint8 channel)
 		: mbStopped(false)
 		, mNoChannelAssigned(true)
@@ -75,6 +121,7 @@ namespace star
 		, mVolume(0)
 #endif
 		, mChannel(0)
+		, mSoundVolume()
 
 	{
 	}
@@ -343,4 +390,17 @@ namespace star
 		}
 	}
 #endif
+
+	BaseSound::SoundVolume::SoundVolume()
+		: Volume(1.0f)
+		, ChannelVolume(1.0f)
+		, MasterVolume(1.0f)
+	{
+
+	}
+
+	float BaseSound::SoundVolume::GetVolume() const
+	{
+		return Volume * ChannelVolume * MasterVolume;
+	}
 }
