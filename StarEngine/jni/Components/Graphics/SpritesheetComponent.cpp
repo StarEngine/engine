@@ -47,12 +47,11 @@ namespace star
 		{
 			m_Animations.front().Play();
 		}
-#ifdef _DEBUG
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning, _T("Tried to resume sprite animation while there is none active."));
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("SpritesheetComponent::Restart: There is no animation."));
 		}
-#endif
 	}
 
 	void SpritesheetComponent::Restart()
@@ -61,12 +60,11 @@ namespace star
 		{
 			m_Animations.front().Replay();
 		}
-#ifdef _DEBUG
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning, _T("Tried to restart sprite animation while there is none active."));
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("SpritesheetComponent::Restart: There is no animation."));
 		}
-#endif
 	}
 
 	void SpritesheetComponent::Pause()
@@ -75,12 +73,11 @@ namespace star
 		{
 			m_Animations.front().Pause();
 		}
-#ifdef _DEBUG
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning, _T("Tried to pause sprite animation while there is none active."));
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("SpritesheetComponent::Pause: There is no animation."));
 		}
-#endif
 	}
 
 	void SpritesheetComponent::Stop()
@@ -89,12 +86,11 @@ namespace star
 		{
 			m_Animations.front().Stop();
 		}
-#ifdef _DEBUG
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning, _T("Tried to stop sprite animation while there is none active."));
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("SpritesheetComponent::Stop: There is no animation."));
 		}
-#endif
 	}
 
 	void SpritesheetComponent::PushAnimation(const tstring & animation)
@@ -135,12 +131,6 @@ namespace star
 			m_Animations.pop_front();
 			m_Animations.front().Replay();
 		}
-#ifdef _DEBUG
-		else
-		{
-			Logger::GetInstance()->Log(LogLevel::Warning, _T("Tried to go to next sprite animation while there is only one or none."));
-		}
-#endif
 	}
 
 	void SpritesheetComponent::PlayNextAnimation(int startFrame)
@@ -150,12 +140,6 @@ namespace star
 			m_Animations.pop_front();
 			m_Animations.front().PlayAtFrame(startFrame);
 		}
-#ifdef _DEBUG
-		else
-		{
-			Logger::GetInstance()->Log(LogLevel::Warning, _T("Tried to go to next sprite animation while there is only one or none."));
-		}
-#endif
 	}
 
 	void SpritesheetComponent::Reset()

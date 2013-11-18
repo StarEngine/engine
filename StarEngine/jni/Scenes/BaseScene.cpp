@@ -170,30 +170,6 @@ namespace star
 		return m_GestureManagerPtr;
 	}
 
-	void BaseScene::CreateObjects()
-	{
-	}
-
-	void BaseScene::AfterInitializedObjects()
-	{
-	}
-
-	void BaseScene::OnActivate()
-	{
-	}
-
-	void BaseScene::OnDeactivate()
-	{
-	}
-
-	void BaseScene::Update(const Context& context)
-	{
-	}
-
-	void BaseScene::Draw()
-	{
-	}
-
 	bool BaseScene::CheckCulling(Object* object)
 	{
 		pos objectPos = object->GetTransform()->GetWorldPosition();

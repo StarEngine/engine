@@ -12,6 +12,7 @@ namespace star
 		, m_Repeat(0)
 		, m_CurrentRepeats(0)
 		, m_UVScale(0,0)
+		, m_Callback(nullptr)
 		, m_Frames()
 		, m_IsPlaying(true)
 	{
@@ -26,6 +27,7 @@ namespace star
 		, m_Repeat(repeat)
 		, m_CurrentRepeats(0)
 		, m_UVScale(uv_scale)
+		, m_Callback(nullptr)
 		, m_Frames()
 		, m_IsPlaying(true)
 	{
@@ -37,8 +39,9 @@ namespace star
 		, m_Speed(yRef.m_Speed)
 		, m_CurrentFrame(yRef.m_CurrentFrame)
 		, m_Repeat(yRef.m_Repeat)
-		, m_CurrentRepeats(0)
+		, m_CurrentRepeats(yRef.m_CurrentRepeats)
 		, m_UVScale(yRef.m_UVScale)
+		, m_Callback(yRef.m_Callback)
 		, m_Frames(yRef.m_Frames)
 		, m_IsPlaying(yRef.m_IsPlaying)
 	{
@@ -49,8 +52,9 @@ namespace star
 		, m_Speed(yRef.m_Speed)
 		, m_CurrentFrame(yRef.m_CurrentFrame)
 		, m_Repeat(yRef.m_Repeat)
-		, m_CurrentRepeats(0)
+		, m_CurrentRepeats(yRef.m_CurrentRepeats)
 		, m_UVScale(yRef.m_UVScale)
+		, m_Callback(yRef.m_Callback)
 		, m_Frames(yRef.m_Frames)
 		, m_IsPlaying(yRef.m_IsPlaying)
 	{
@@ -67,7 +71,9 @@ namespace star
 		m_Speed = yRef.m_Speed;
 		m_CurrentFrame = yRef.m_CurrentFrame;
 		m_Repeat = yRef.m_Repeat;
+		m_CurrentRepeats = yRef.m_CurrentRepeats;
 		m_UVScale = yRef.m_UVScale;
+		m_Callback = yRef.m_Callback;
 		m_Frames = yRef.m_Frames;
 		m_IsPlaying = yRef.m_IsPlaying;
 
@@ -80,7 +86,9 @@ namespace star
 		m_Speed = yRef.m_Speed;
 		m_CurrentFrame = yRef.m_CurrentFrame;
 		m_Repeat = yRef.m_Repeat;
+		m_CurrentRepeats = yRef.m_CurrentRepeats;
 		m_UVScale = yRef.m_UVScale;
+		m_Callback = yRef.m_Callback;
 		m_Frames = yRef.m_Frames;
 		m_IsPlaying = yRef.m_IsPlaying;
 

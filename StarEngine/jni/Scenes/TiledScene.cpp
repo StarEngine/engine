@@ -101,9 +101,29 @@ namespace star
 		}
 	}
 
-	void TiledScene::AfterInitializedObjects(const star::Context& context)
+	void TiledScene::AfterInitializedObjects()
 	{
 		SetActiveCamera(m_pActiveCamera);
+	}
+
+	void TiledScene::OnActivate()
+	{
+
+	}
+
+	void TiledScene::OnDeactivate()
+	{
+
+	}
+
+	void TiledScene::Update(const Context& context)
+	{
+
+	}
+
+	void TiledScene::Draw()
+	{
+
 	}
 
 	void TiledScene::CreateLevel(const tstring & file,

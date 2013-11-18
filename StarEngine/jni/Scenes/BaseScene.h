@@ -47,12 +47,12 @@ namespace star
 		std::shared_ptr<GestureManager> GetGestureManager() const;
 
 	protected:
-		virtual void CreateObjects();
-		virtual void AfterInitializedObjects();
-		virtual void OnActivate();
-		virtual void OnDeactivate();
-		virtual void Update(const Context& context);
-		virtual void Draw();
+		virtual void CreateObjects() = 0;
+		virtual void AfterInitializedObjects() = 0;
+		virtual void OnActivate() = 0;
+		virtual void OnDeactivate() = 0;
+		virtual void Update(const Context& context) = 0;
+		virtual void Draw() = 0;
 		bool CheckCulling(Object* object);
 
 		std::shared_ptr<GestureManager> m_GestureManagerPtr;

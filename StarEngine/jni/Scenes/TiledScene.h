@@ -34,7 +34,11 @@ namespace star
 	protected:
 
 		virtual void CreateObjects();
-		virtual void AfterInitializedObjects(const star::Context& context);
+		virtual void AfterInitializedObjects();
+		virtual void OnActivate();
+		virtual void OnDeactivate();
+		virtual void Update(const Context& context);
+		virtual void Draw();
 
 		void CreateLevel(const tstring & file,
 			DirectoryMode mode = DirectoryMode::assets);
