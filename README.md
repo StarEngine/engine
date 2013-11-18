@@ -9,8 +9,8 @@ Crossplatform C++11 2D Game Engine for Windows and Android games
 * [Pieter Vantorre (NuclearCookie)](http://pietervantorre.com/)
 * Simon Vanhauwaert (Syvion)
 
-## Current State 
-In development. Stay tuned for information!
+## Stable (master): In Development 
+## Unstable (develop): v0.0.1
 
 ## License
 The Star 2D Game Engine is licensed under the MIT License.
