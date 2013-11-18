@@ -4,9 +4,14 @@
 #include "../../Helpers/HelpersMath.h"
 #include "../../Helpers/Debug/DebugDraw.h"
 #include "../../Graphics/GraphicsManager.h"
+#include "../../Scenes/SceneManager.h"
+#include "../../Scenes/BaseScene.h"
+#include "../../Physics/Collision/CollisionManager.h"
 
 namespace star
 {
+#define COLLISION_MANAGER (SceneManager::GetInstance()->GetActiveScene()->GetCollisionManager())
+
 	CircleColliderComponent::CircleColliderComponent()
 		: BaseColliderComponent()
 		, m_Radius(0)
@@ -92,6 +97,8 @@ namespace star
 			}
 		}
 		ASSERT(m_Radius > 0, _T("Invalid Radius: Radius has to be > 0"));
+
+		COLLISION_MANAGER->AddComponent(this, m_Layers, m_NrOfElementsInLayers);
 	}
 
 	bool CircleColliderComponent::CollidesWithPoint(const vec2& point) const
@@ -175,10 +182,10 @@ namespace star
 		}
 		else if(otherRectComp != nullptr)
 		{
-			/*if(RectangleCircleCollision(otherRectComp->GetRealCollisionRect(), realRadius))
+			if(RectangleCircleCollision(otherRectComp, this))
 			{
-
-			}*/
+				Logger::GetInstance()->Log(LogLevel::Info, _T("Collision between circle and rect"));
+			}
 		}
 	}
 

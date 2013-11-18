@@ -1,13 +1,19 @@
 #include "BaseColliderComponent.h"
 #include "../../Context.h"
+#include "RectangleColliderComponent.h"
+#include "CircleColliderComponent.h"
+#include "../TransformComponent.h"
+
 
 namespace star
 {
+	const tstring BaseColliderComponent::DEFAULT_LAYER_NAME = _T("default");
 	BaseColliderComponent::BaseColliderComponent()
 		: BaseComponent()
 		, m_bIsTrigger(false)
 		, m_bIsStatic(false)
-		
+		, m_Layers(&DEFAULT_LAYER_NAME)
+		, m_NrOfElementsInLayers(1)		
 	{
 	}
 
@@ -15,27 +21,23 @@ namespace star
 		: BaseComponent()
 		, m_bIsTrigger(false)
 		, m_bIsStatic(false)
-		
+		, m_Layers(layers)
+		, m_NrOfElementsInLayers(n)
 	{
+		
 	}
 
-	BaseColliderComponent::~BaseColliderComponent(void)
+	BaseColliderComponent::~BaseColliderComponent()
 	{
 	}
 
 	void BaseColliderComponent::InitializeComponent()
 	{
 		InitializeColliderComponent();
-		m_bInitialized = true;
 	}
 
 	void BaseColliderComponent::Update(const Context& context)
 	{
-		if(!m_bInitialized)
-		{
-			return;
-		}
-
 		/*
 		If the component is not static and is not a trigger, 
 		then we need to update the force impacts of the object. 
@@ -68,5 +70,72 @@ namespace star
 	bool BaseColliderComponent::IsStatic() const
 	{
 		return m_bIsStatic;
+	}
+
+	bool BaseColliderComponent::RectangleCircleCollision(
+		const RectangleColliderComponent* rect, 
+		const CircleColliderComponent* circle) const
+	{
+		Rect realRect = rect->GetCollisionRect();
+		float radius = circle->GetRealRadius();
+
+		glm::vec2 circleObjectPos = circle->GetPosition();
+		if(rect->GetTransform()->GetWorldRotation() == 0.0f)
+		{
+			// Find the closest point to the circle within the rectangle
+			vec2 closestPos(
+				glm::clamp(circleObjectPos.x, realRect.GetRealLeft(), realRect.GetRealRight()),
+				glm::clamp(circleObjectPos.y, realRect.GetRealBottom(), realRect.GetRealTop()));
+
+			// Calculate the distance between the circle's center and this closest point
+			vec2 distance(circleObjectPos - closestPos);
+
+			// If the distance is less than the circle's radius, an intersection occurs
+			return glm::length(distance) < radius;
+		}
+		else
+		{			
+			//Check with SAT
+			Logger::GetInstance()->
+				Log(LogLevel::Warning, _T("CollisionChecking between OOBB and Circle is not yet implemented"));
+			return false;
+			/*
+			vec2 closestPoint(FindClosestPointToOOBB(circleObjectPos,rect));
+			return glm::length(closestPoint) < radius;*/
+		}
+	}
+
+	vec2 BaseColliderComponent::FindClosestPointToOOBB(
+		const vec2& point, 
+		const RectangleColliderComponent* oobb) const
+	{
+		//http://notmagi.me/closest-point-on-line-aabb-and-obb-to-point/
+		vec2 pos = oobb->GetCenterPoint();
+		vec2 distVec = point - pos;
+		vec2 u0 = oobb->GetOrientatedUnitVecX();
+		vec2 u1(-u0.y , u0.x);
+		float distance = glm::dot(distVec, u0);
+		float halfWidth = oobb->GetCollisionRectWidth() / 2.0f;
+		if(distance > halfWidth)
+		{
+			distance = halfWidth;
+		}
+		else if(distance < -halfWidth)
+		{
+			distance = -halfWidth;
+		}
+		pos += u0 * distance;
+		distance = glm::dot(distVec, u1);
+		float halfHeight = oobb->GetCollisionRectHeight() / 2.0f;
+		if(distance > halfHeight)
+		{
+			distance = halfHeight;
+		}
+		else if(distance < -halfHeight)
+		{
+			distance = -halfHeight;
+		}
+		pos += u1 * distance;
+		return pos;
 	}
 }

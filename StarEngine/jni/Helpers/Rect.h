@@ -1,7 +1,7 @@
 #pragma once
 
 #include <algorithm>
-#include "..\Logger.h"
+#include "../Logger.h"
 #include "../defines.h"
 
 namespace star
@@ -32,6 +32,8 @@ namespace star
 		const vec2& GetRightTop() const;
 		const vec2& GetLeftBottom() const;
 		const vec2& GetRightBottom() const;
+
+		vec2 GetCenterPoint() const;
 
 		float GetRealLeft() const;
 		float GetRealRight() const;

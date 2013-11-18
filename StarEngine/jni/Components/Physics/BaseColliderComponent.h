@@ -6,6 +6,8 @@
 namespace star
 {
 	struct Context;
+	class CircleColliderComponent;
+	class RectangleColliderComponent;
 
 	class BaseColliderComponent : public BaseComponent
 	{
@@ -30,8 +32,17 @@ namespace star
 	protected:
 		virtual void InitializeColliderComponent() = 0;
 		virtual void Draw();
+		bool RectangleCircleCollision(
+			const RectangleColliderComponent* rect, 
+			const CircleColliderComponent* circle) const;
 		bool m_bIsTrigger;
 		bool m_bIsStatic;
+		vec2 FindClosestPointToOOBB(
+			const vec2& point, 
+			const RectangleColliderComponent* oobb) const;
+		const tstring* m_Layers;
+		uint8 m_NrOfElementsInLayers;
+		static const tstring DEFAULT_LAYER_NAME;
 
 	private:
 

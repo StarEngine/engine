@@ -166,6 +166,14 @@ namespace star
 		return m_LeftBottom;
 	}
 
+	vec2 Rect::GetCenterPoint() const
+	{
+		vec2 centerPos;
+		centerPos.x = (GetRealLeft() + GetRealRight()) / 2.0f;
+		centerPos.y = (GetRealTop() + GetRealBottom()) / 2.0f;
+		return centerPos;
+	}
+
 	float Rect::GetRealLeft() const
 	{
 		float realLeft(m_LeftTop.x);
@@ -196,9 +204,9 @@ namespace star
 	float Rect::GetRealBottom() const
 	{
 		float realBottom(m_LeftBottom.y);
-		realBottom = realBottom > m_LeftTop.x ? m_LeftTop.x : realBottom;
-		realBottom = realBottom > m_RightBottom.x ? m_RightBottom.x : realBottom;
-		realBottom = realBottom > m_RightTop.x ? m_RightTop.x : realBottom;
+		realBottom = realBottom > m_LeftTop.y ? m_LeftTop.y : realBottom;
+		realBottom = realBottom > m_RightBottom.y ? m_RightBottom.y : realBottom;
+		realBottom = realBottom > m_RightTop.y ? m_RightTop.y : realBottom;
 		return realBottom;
 	}
 
@@ -209,6 +217,10 @@ namespace star
 		m_LeftTop = leftTop;
 		m_RightBottom = rightBottom;
 		m_RightTop = rightTop;
+		
+		m_Width = m_RightTop.x - m_LeftTop.x;
+		m_Height = m_RightTop.y - m_LeftTop.y;
+		m_Diagonal = glm::length(m_RightBottom - m_LeftTop);
 	}
 
 	void Rect::SetLeftTop(const vec2& pos)

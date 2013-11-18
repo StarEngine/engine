@@ -6,9 +6,14 @@
 #include "../Graphics/SpriteComponent.h"
 #include "../../Helpers/Debug/DebugDraw.h"
 #include "../../Helpers/Helpers.h"
+#include "../../Helpers/HelpersMath.h"
+#include "../../Scenes/SceneManager.h"
+#include "../../Scenes/BaseScene.h"
+#include "../../Physics/Collision/CollisionManager.h"
 
 namespace star
 {
+#define COLLISION_MANAGER (SceneManager::GetInstance()->GetActiveScene()->GetCollisionManager())
 
 	RectangleColliderComponent::RectangleColliderComponent()
 		: BaseColliderComponent()
@@ -85,6 +90,8 @@ namespace star
 								the RectangleColliderComponent."));
 			}
 		}
+
+		COLLISION_MANAGER->AddComponent(this, m_Layers, m_NrOfElementsInLayers);
 	}
 
 	bool RectangleColliderComponent::CollidesWithPoint(const vec2& point) const
@@ -221,18 +228,11 @@ namespace star
 		}
 		else if(otherCircleComp != nullptr)
 		{
-			if(GetTransform()->GetWorldRotation() == 0.0f)
-			{
-				if(RectangleCircleCollision(this, otherCircleComp))
-				{
 
-				}
-			}
-			else
+			if(RectangleCircleCollision(this, otherCircleComp))
 			{
-				//[TODO] OOBB - Circle Collision!
-			}
 
+			}
 		}
 		else
 		{
@@ -399,46 +399,20 @@ namespace star
 		return maximum;
 	}
 
-	bool RectangleColliderComponent::RectangleCircleCollision(const RectangleColliderComponent* collider1, 
-		const CircleColliderComponent* collider2) const
-	{
-		Rect rect = collider1->GetCollisionRect();
-		float radius = collider2->GetRadius();
-
-		glm::vec2 rectObjectPos = collider1->GetTransform()->GetWorldPosition().pos2D();
-		glm::vec2 circleObjectPos = collider2->GetTransform()->GetWorldPosition().pos2D();
-
-		// Find the closest point to the circle within the rectangle
-		float closestX = glm::clamp(circleObjectPos.x, rect.GetRealLeft(), rect.GetRealRight());
-		float closestY = glm::clamp(circleObjectPos.y, rect.GetRealBottom(), rect.GetRealTop());
-
-		// Calculate the distance between the circle's center and this closest point
-		float distanceX = circleObjectPos.x - closestX;
-		float distanceY = circleObjectPos.y - closestY;
-
-		// If the distance is less than the circle's radius, an intersection occurs
-		float doubleDistanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
-		if( doubleDistanceSquared < (radius * radius))
-		{
-			return true;
-		}
-		return false;
-	}
-
 	float RectangleColliderComponent::GetCollisionRectWidth() const
 	{
-		return m_CollisionRect.GetWidth();
+		return GetCollisionRect().GetWidth();
 	}
 
 	float RectangleColliderComponent::GetCollisionRectHeight() const
 	{
-		return m_CollisionRect.GetHeight();
+		return GetCollisionRect().GetHeight();
 	}
 
 	void RectangleColliderComponent::GetColliisonRectSize(vec2& outputVec) const
 	{
-		outputVec.x = m_CollisionRect.GetWidth();
-		outputVec.y = m_CollisionRect.GetHeight();
+		outputVec.x = GetCollisionRectWidth();
+		outputVec.y = GetCollisionRectHeight();
 	}
 
 	void RectangleColliderComponent::SetCollisionRectSize(float width, float height)
@@ -453,9 +427,41 @@ namespace star
 
 	Rect RectangleColliderComponent::GetCollisionRect() const
 	{
-		Rect temp = (m_CollisionRect * GetTransform()->GetWorldMatrix()) 
-			* GraphicsManager::GetInstance()->GetViewInverseMatrix();
+		Rect temp((m_CollisionRect * GetTransform()->GetWorldMatrix()) 
+			* GraphicsManager::GetInstance()->GetViewInverseMatrix());
 		return temp;
+	}
+
+	vec2 RectangleColliderComponent::GetCenterPoint() const
+	{
+		vec4 pos;
+		pos.x = m_CollisionRect.GetCenterPoint().x;
+		pos.y = m_CollisionRect.GetCenterPoint().y;
+		pos.w = 1;
+		pos = glm::mul(pos, TransposeMatrix(GetTransform()->GetWorldMatrix()));
+		pos = glm::mul(pos, 
+			TransposeMatrix(GraphicsManager::GetInstance()->GetViewInverseMatrix()));
+		return vec2(pos.x, pos.y);
+	}
+
+	vec2 RectangleColliderComponent::GetOrientatedUnitVecX() const
+	{
+		vec4 unitVec(1, 0, 0, 1);
+		unitVec = glm::mul(unitVec, TransposeMatrix(GetTransform()->GetWorldMatrix()));
+		unitVec = glm::mul(unitVec, 
+			TransposeMatrix(GraphicsManager::GetInstance()->GetViewInverseMatrix()));
+		unitVec = glm::normalize(unitVec);
+		return vec2(unitVec.x, unitVec.y);
+	}
+
+	vec2 RectangleColliderComponent::GetOrientatedUnitVecY() const
+	{
+		vec4 unitVec(0, 1, 0, 1);
+		unitVec = glm::mul(unitVec, TransposeMatrix(GetTransform()->GetWorldMatrix()));
+		unitVec = glm::mul(unitVec, 
+			TransposeMatrix(GraphicsManager::GetInstance()->GetViewInverseMatrix()));
+		unitVec = glm::normalize(unitVec);
+		return vec2(unitVec.x, unitVec.y);
 	}
 
 	void RectangleColliderComponent::Draw()
