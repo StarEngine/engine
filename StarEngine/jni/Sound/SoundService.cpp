@@ -227,6 +227,21 @@ namespace star
 
 	void SoundService::LoadMusic(const tstring& path, const tstring& name, uint8 channel)
 	{
+		LoadMusic(path, name, 1.0f, channel);
+	}
+
+	void SoundService::LoadSoundEffect(const tstring& path, const tstring& name, uint8 channel)
+	{
+		LoadSoundEffect(path, name, 1.0f, channel);
+	}
+
+	void SoundService::LoadMusic(
+		const tstring& path,
+		const tstring& name,
+		float volume,
+		uint8 channel
+		)
+	{
 		ASSERT(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
@@ -258,7 +273,7 @@ namespace star
 
 		SoundFile* music = new SoundFile(path, channel);
 		music->SetCompleteVolume(
-			music->GetVolume(),
+			volume,
 			GetChannelVolume(channel),
 			GetVolume()
 			);
@@ -267,7 +282,12 @@ namespace star
 		return;
 	}
 
-	void SoundService::LoadSoundEffect(const tstring& path, const tstring& name, uint8 channel)
+	void SoundService::LoadSoundEffect(
+		const tstring& path,
+		const tstring& name,
+		float volume,
+		uint8 channel
+		)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
@@ -297,7 +317,7 @@ namespace star
 
 		SoundEffect* effect = new SoundEffect(path, channel);
 		effect->SetCompleteVolume(
-			effect->GetVolume(),
+			volume,
 			GetChannelVolume(channel),
 			GetVolume()
 			);
@@ -309,8 +329,7 @@ namespace star
 		const tstring& path,
 		const tstring& name,
 		uint8 channel,
-		int loopTimes,
-		float volume
+		int loopTimes
 		)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
@@ -319,13 +338,95 @@ namespace star
 		{
 			LoadMusic(path, name, channel);
 		}
-		return PlayMusic(name, loopTimes, volume);
+		return PlayMusic(name, loopTimes);
 	}
 
 	void SoundService::PlayMusic(
 		const tstring& name,
-		int loopTimes,
-		float volume
+		int loopTimes
+		)
+	{
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			if(mCurrentSoundFile != nullptr) mCurrentSoundFile->Stop();
+			mCurrentSoundFile = mMusicList[name];
+			mCurrentSoundFile->Play(loopTimes);
+			return;
+		}
+		else
+		{
+			mCurrentSoundFile = nullptr;
+			star::Logger::GetInstance()->
+				Log(LogLevel::Warning,
+				_T("SoundService::PlayMusic: Couldn't find the song '") + name +
+				_T("'."));
+		}
+	}
+
+	void SoundService::PlaySoundEffect(
+		const tstring& path,
+		const tstring& name,
+		uint8 channel,
+		int loopTimes
+		)
+	{
+		ASSERT(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
+
+		if(mEffectsList.find(name) == mEffectsList.end())
+		{
+			LoadSoundEffect(path, name, channel);
+		}
+		PlaySoundEffect(name, loopTimes);
+	}
+
+	void SoundService::PlaySoundEffect(
+		const tstring& name,
+		int loopTimes
+		)
+	{
+		ASSERT(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
+
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			mCurrentSoundEffect = mEffectsList[name];
+			mCurrentSoundEffect->Play(loopTimes);
+		}
+		else
+		{
+			star::Logger::GetInstance()->
+				Log(LogLevel::Warning,
+				_T("SoundService::PlaySoundEffect: Couldn't find effect '") + name +
+				_T("'."));
+		}
+	}
+
+	void SoundService::PlayMusic(
+		const tstring& path,
+		const tstring& name,
+		float volume,
+		uint8 channel,
+		int loopTimes
+		)
+	{
+		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+
+		if(mMusicList.find(name) == mMusicList.end())
+		{
+			LoadMusic(path, name, channel);
+		}
+		return PlayMusic(name, volume, loopTimes);
+	}
+
+	void SoundService::PlayMusic(
+		const tstring& name,
+		float volume,
+		int loopTimes
 		)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
@@ -347,15 +448,14 @@ namespace star
 				_T("SoundService::PlayMusic: Couldn't find the song '") + name +
 				_T("'."));
 		}
-		
 	}
 
 	void SoundService::PlaySoundEffect(
 		const tstring& path,
 		const tstring& name,
+		float volume,
 		uint8 channel,
-		int loopTimes,
-		float volume
+		int loopTimes
 		)
 	{
 		ASSERT(mSoundService != nullptr,
@@ -365,13 +465,13 @@ namespace star
 		{
 			LoadSoundEffect(path, name, channel);
 		}
-		PlaySoundEffect(name, loopTimes, volume);
+		PlaySoundEffect(name, volume, loopTimes);
 	}
 
 	void SoundService::PlaySoundEffect(
 		const tstring& name,
-		int loopTimes,
-		float volume
+		float volume,
+		int loopTimes
 		)
 	{
 		ASSERT(mSoundService != nullptr,
@@ -391,7 +491,6 @@ namespace star
 				_T("SoundService::PlaySoundEffect: Couldn't find effect '") + name +
 				_T("'."));
 		}
-		
 	}
 
 	void SoundService::AddToBackgroundQueue(const tstring& name)

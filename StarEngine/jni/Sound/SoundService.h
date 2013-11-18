@@ -17,33 +17,74 @@ namespace star
 		void Start();
 		void Stop();
 
-		void LoadMusic(const tstring& path, const tstring& name, uint8 channel = 0);
-		void LoadSoundEffect(const tstring& path, const tstring& name, uint8 channel = 0);
+		void LoadMusic(
+			const tstring& path,
+			const tstring& name,
+			uint8 channel = 0
+			);
+		void LoadSoundEffect(
+			const tstring& path,
+			const tstring& name,
+			uint8 channel = 0
+			);
 
-		void PlayMusic(const tstring& path,
+		void LoadMusic(
+			const tstring& path,
+			const tstring& name,
+			float volume,
+			uint8 channel = 0
+			);
+		void LoadSoundEffect(
+			const tstring& path,
+			const tstring& name,
+			float volume,
+			uint8 channel = 0
+			);
+
+		void PlayMusic(
+			const tstring& path,
 			const tstring& name,
 			uint8 channel = 0,
-			int loopTimes = 0,
-			float volume = 1.0f
+			int loopTimes = 0
 			);
-
-		void PlayMusic(const tstring& name,
-			int loopTimes = 0,
-			float volume = 1.0f
+		void PlayMusic(
+			const tstring& name,
+			int loopTimes = 0
 			);
-
 		void PlaySoundEffect(
 			const tstring& path,
 			const tstring& name,
 			uint8 channel = 0,
-			int loopTimes = 0,
-			float volume = 1
+			int loopTimes = 0
 			);
-
 		void PlaySoundEffect(
 			const tstring& name,
-			int loopTimes = 0.0f,
-			float volume = 1.0f
+			int loopTimes = 0.0f
+			);
+
+		void PlayMusic(
+			const tstring& path,
+			const tstring& name,
+			float volume,
+			uint8 channel = 0,
+			int loopTimes = 0
+			);
+		void PlayMusic(
+			const tstring& name,
+			float volume,
+			int loopTimes = 0
+			);
+		void PlaySoundEffect(
+			const tstring& path,
+			const tstring& name,
+			float volume,
+			uint8 channel = 0,
+			int loopTimes = 0
+			);
+		void PlaySoundEffect(
+			const tstring& name,
+			float volume,
+			int loopTimes = 0.0f
 			);
 
 		void AddToBackgroundQueue(const tstring& name);
