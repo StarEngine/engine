@@ -27,6 +27,9 @@ namespace star
 		void CollidesWith(const BaseColliderComponent* other) const;
 
 		Rect GetCollisionRect() const;
+		vec2 GetCenterPoint() const;
+		vec2 GetOrientatedUnitVecX() const;
+		vec2 GetOrientatedUnitVecY() const;
 
 		float GetCollisionRectWidth() const;
 		float GetCollisionRectHeight() const;
@@ -40,11 +43,11 @@ namespace star
 		void Draw();
 		bool OOBBRectangleRectangleCollision(const Rect& rect1, const Rect& rect2) const;
 		bool AABBRectangleRectangleCollision(const Rect& rect1, const Rect& rect2) const;
-		bool RectangleCircleCollision(const RectangleColliderComponent* collider1, const CircleColliderComponent* collider2) const;
 
 		bool CalculateAxisSpecificCollision(const Rect& rect1, const Rect& rect2, const vec2& axis) const;
 		bool CalculateAxisSpecificCollision(const Rect& rect, const vec2& point1, const vec2& point2, const vec2& axis) const;
 		bool CalculateAxisSpecificCollision(const Rect& rect1, const vec2& point1, const vec2& axis) const;
+
 		Rect m_CollisionRect;
 
 	private:

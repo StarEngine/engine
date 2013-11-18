@@ -82,7 +82,6 @@ namespace star
 		delete GraphicsManager::GetInstance();
 		delete SpriteBatch::GetInstance();
 		delete AudioManager::GetInstance();
-		delete CollisionManager::GetInstance();
 		delete PathFindManager::GetInstance();
 		delete SceneManager::GetInstance();
 		delete Logger::GetInstance();

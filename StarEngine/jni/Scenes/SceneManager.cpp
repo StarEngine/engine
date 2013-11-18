@@ -72,6 +72,11 @@ namespace star
 		}
 		if(m_SceneList.find(name) != m_SceneList.end())
 		{
+			//[COMMENT] Can somebody confirm this does not cause any harm?? Thanks
+			if(m_ActiveScene == nullptr)
+			{
+				m_ActiveScene = m_SceneList[name];
+			}
 			m_NewActiveScene = m_SceneList[name];
 			m_bSwitchingScene = true;
 			m_bInitialized = m_NewActiveScene->IsInitialized();

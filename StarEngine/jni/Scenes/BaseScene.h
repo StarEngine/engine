@@ -1,8 +1,9 @@
 #pragma once
 
 #include "../defines.h"
-#include "../Input/Gestures/GestureManager.h"
+
 #include "../Helpers/Stopwatch.h"
+
 #include <vector>
 #include <memory>
 
@@ -11,6 +12,8 @@ namespace star
 	struct Context;
 	class Object;
 	class CameraComponent;
+	class CollisionManager;
+	class GestureManager;
 	class BaseCamera;
 
 	class BaseScene
@@ -45,6 +48,7 @@ namespace star
 		std::shared_ptr<Stopwatch> GetStopwatch() const;
 
 		std::shared_ptr<GestureManager> GetGestureManager() const;
+		std::shared_ptr<CollisionManager> GetCollisionManager() const;
 
 	protected:
 		virtual void CreateObjects();
@@ -56,6 +60,7 @@ namespace star
 		bool CheckCulling(Object* object);
 
 		std::shared_ptr<GestureManager> m_GestureManagerPtr;
+		std::shared_ptr<CollisionManager> m_CollisionManagerPtr;
 
 		std::vector<Object*> m_Objects;
 		BaseCamera* m_pDefaultCamera;

@@ -7,11 +7,14 @@
 #include "../Graphics/GraphicsManager.h"
 #include "../Graphics/ScaleSystem.h"
 #include "../Helpers/Debug/DebugDraw.h"
+#include "../Physics/Collision/CollisionManager.h"
+#include "../Input/Gestures/GestureManager.h"
 
 namespace star 
 {
 	BaseScene::BaseScene(const tstring & name)
 		: m_GestureManagerPtr(nullptr)
+		, m_CollisionManagerPtr(nullptr)
 		, m_Objects()
 		, m_pDefaultCamera(nullptr)
 		, m_CullingOffsetX(0)
@@ -21,6 +24,7 @@ namespace star
 	{
 		m_pStopwatch = std::make_shared<Stopwatch>();
 		m_GestureManagerPtr = std::make_shared<GestureManager>();
+		m_CollisionManagerPtr = std::make_shared<CollisionManager>();
 	}
 	
 	BaseScene::~BaseScene()
@@ -31,6 +35,7 @@ namespace star
 		}
 		m_Objects.clear();
 		m_GestureManagerPtr = nullptr;
+		m_CollisionManagerPtr = nullptr;
 	}
 
 	void BaseScene::BaseInitialize()
@@ -168,6 +173,11 @@ namespace star
 	std::shared_ptr<GestureManager> BaseScene::GetGestureManager() const
 	{
 		return m_GestureManagerPtr;
+	}
+
+	std::shared_ptr<CollisionManager> BaseScene::GetCollisionManager() const
+	{
+		return m_CollisionManagerPtr;
 	}
 
 	void BaseScene::CreateObjects()
