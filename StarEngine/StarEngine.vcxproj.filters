@@ -54,9 +54,6 @@
     <ClInclude Include="jni\Input\XMLFileSerializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Sound\SoundService.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="jni\Helpers\Dictionary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -261,6 +258,9 @@
     <ClInclude Include="jni\Sound\BaseSound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Sound\AudioManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -345,9 +345,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Sound\SoundFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="jni\Sound\SoundService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\EventLoop.cpp">
@@ -480,6 +477,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Sound\BaseSound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Sound\AudioManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

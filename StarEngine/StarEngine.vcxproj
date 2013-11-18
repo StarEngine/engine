@@ -153,7 +153,7 @@
     <ClInclude Include="jni\Sound\BaseSound.h" />
     <ClInclude Include="jni\Sound\SoundEffect.h" />
     <ClInclude Include="jni\Sound\SoundFile.h" />
-    <ClInclude Include="jni\Sound\SoundService.h" />
+    <ClInclude Include="jni\Sound\AudioManager.h" />
     <ClInclude Include="jni\StarComponents.h" />
     <ClInclude Include="jni\StarEngine.h" />
     <ClInclude Include="jni\TimeManager.h" />
@@ -227,7 +227,7 @@
     <ClCompile Include="jni\Sound\BaseSound.cpp" />
     <ClCompile Include="jni\Sound\SoundEffect.cpp" />
     <ClCompile Include="jni\Sound\SoundFile.cpp" />
-    <ClCompile Include="jni\Sound\SoundService.cpp" />
+    <ClCompile Include="jni\Sound\AudioManager.cpp" />
     <ClCompile Include="jni\StarEngine.cpp" />
     <ClCompile Include="jni\TimeManager.cpp" />
     <ClCompile Include="jni\Graphics\ScaleSystem.cpp" />

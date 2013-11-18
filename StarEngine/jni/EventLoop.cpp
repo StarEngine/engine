@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include "Input/InputManager.h"
 #include "StarEngine.h"
-#include "Sound/SoundService.h"
+#include "Sound/AudioManager.h"
 
 namespace star {
 	EventLoop * EventLoop::mEventLoop = nullptr;
@@ -145,7 +145,7 @@ namespace star {
 		case APP_CMD_LOST_FOCUS:
 			Logger::GetInstance()->Log(LogLevel::Info,
 					_T("Eventloop : APP_CMD_LOST_FOCUS"));
-			SoundService::GetInstance()->PauseAllSounds();
+			AudioManager::GetInstance()->PauseAllSounds();
 			break;
 
 			//Gets called first when rotating the screen
@@ -154,7 +154,7 @@ namespace star {
 			Logger::GetInstance()->Log(LogLevel::Info,
 					_T("Eventloop : APP CMD PAUSE"));
 			lEventLoop.mEnabled = false;
-			SoundService::GetInstance()->PauseAllSounds();
+			AudioManager::GetInstance()->PauseAllSounds();
 			break;
 
 		case APP_CMD_RESUME:

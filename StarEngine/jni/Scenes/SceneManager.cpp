@@ -4,7 +4,7 @@
 #include "BaseScene.h"
 #include "../Graphics/GraphicsManager.h"
 #include "../Assets/TextureManager.h"
-#include "../Sound/SoundService.h"
+#include "../Sound/AudioManager.h"
 #include "../Graphics/SpriteBatch.h"
 #include "../Input/InputManager.h"
 

@@ -9,11 +9,11 @@
 namespace star
 {
 
-	class SoundService
+	class AudioManager
 	{
 	public:
-		static SoundService * GetInstance();
-		~SoundService();
+		static AudioManager * GetInstance();
+		~AudioManager();
 		void Start();
 		void Stop();
 
@@ -166,11 +166,11 @@ namespace star
 			bool IsMuted() const;
 		};
 
-		SoundService();
+		AudioManager();
 		SoundChannel & GetChannel(uint8 channel, const tstring & sender,
 			bool & result);
 
-		static SoundService * mSoundService;
+		static AudioManager * mSoundService;
 		static bool mbIsInitialized;
 
 		std::map<tstring,SoundFile*> mMusicList;
@@ -193,9 +193,9 @@ namespace star
 		SLObjectItf mOutputMixObj;
 		SLVolumeItf mOutputMixVolume;
 #endif
-		SoundService(const SoundService& yRef);
-		SoundService(SoundService&& yRef);
-		SoundService& operator=(const SoundService& yRef);
-		SoundService& operator=(SoundService&& yRef);
+		AudioManager(const AudioManager& yRef);
+		AudioManager(AudioManager&& yRef);
+		AudioManager& operator=(const AudioManager& yRef);
+		AudioManager& operator=(AudioManager&& yRef);
 	};
 }

@@ -1,5 +1,5 @@
 #include "SoundEffect.h"
-#include "SoundService.h"
+#include "AudioManager.h"
 #include "../Logger.h"
 #include "../Assets/Resource.h"
 #include "../Helpers/Helpers.h"
@@ -27,7 +27,7 @@ namespace star
 	#endif
 	{
 	#ifdef ANDROID
-		SLEngineItf engine = SoundService::GetInstance()->GetEngine();
+		SLEngineItf engine = AudioManager::GetInstance()->GetEngine();
 		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			CreateSound(mPlayerObjs[i], engine, mPlayers[i], path);
@@ -134,13 +134,13 @@ namespace star
 	void SoundEffect::SetChannel(uint8 channel)
 	{
 		BaseSound::SetChannel(channel);
-		SoundService::GetInstance()->AddSoundToChannel(channel, this);
+		AudioManager::GetInstance()->AddSoundToChannel(channel, this);
 	}
 
 	void SoundEffect::UnsetChannel()
 	{
 		BaseSound::UnsetChannel();
-		SoundService::GetInstance()->RemoveSoundFromChannel(mChannel, this);
+		AudioManager::GetInstance()->RemoveSoundFromChannel(mChannel, this);
 	}
 
 #ifdef ANDROID

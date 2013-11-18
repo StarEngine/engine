@@ -1,4 +1,4 @@
-#include "SoundService.h"
+#include "AudioManager.h"
 #include "../Logger.h"
 #include "../Helpers/Helpers.h"
 #include "../Helpers/HelpersMath.h"
@@ -9,19 +9,19 @@
 
 namespace star
 {
-	SoundService * SoundService::mSoundService = nullptr;
-	bool SoundService::mbIsInitialized = false;
+	AudioManager * AudioManager::mSoundService = nullptr;
+	bool AudioManager::mbIsInitialized = false;
 
-	SoundService * SoundService::GetInstance()
+	AudioManager * AudioManager::GetInstance()
 	{
 		if(mSoundService == nullptr)
 		{
-			mSoundService = new SoundService();
+			mSoundService = new AudioManager();
 		}
 		return mSoundService;
 	}
 
-	SoundService::SoundService()
+	AudioManager::AudioManager()
 		: mMusicList()
 		, mMusicPathList()
 		, mEffectsList()
@@ -43,7 +43,7 @@ namespace star
 		mQueueIterator = mBackgroundQueue.begin();
 	}
 
-	SoundService::~SoundService()
+	AudioManager::~AudioManager()
 	{
 		for(auto music : mMusicList)
 		{
@@ -62,7 +62,7 @@ namespace star
 		mChannels.clear();
 	}
 
-	void SoundService::Start()
+	void AudioManager::Start()
 	{
 		if(mbIsInitialized) return;
 
@@ -199,7 +199,7 @@ namespace star
 #endif
 	}
 
-	void SoundService::Stop()
+	void AudioManager::Stop()
 	{
 		StopAllSounds();
 		DeleteAllSounds();
@@ -225,17 +225,17 @@ namespace star
 			_T("Audio : Stopped audio Engine"));
 	}
 
-	void SoundService::LoadMusic(const tstring& path, const tstring& name, uint8 channel)
+	void AudioManager::LoadMusic(const tstring& path, const tstring& name, uint8 channel)
 	{
 		LoadMusic(path, name, 1.0f, channel);
 	}
 
-	void SoundService::LoadSoundEffect(const tstring& path, const tstring& name, uint8 channel)
+	void AudioManager::LoadSoundEffect(const tstring& path, const tstring& name, uint8 channel)
 	{
 		LoadSoundEffect(path, name, 1.0f, channel);
 	}
 
-	void SoundService::LoadMusic(
+	void AudioManager::LoadMusic(
 		const tstring& path,
 		const tstring& name,
 		float volume,
@@ -282,7 +282,7 @@ namespace star
 		return;
 	}
 
-	void SoundService::LoadSoundEffect(
+	void AudioManager::LoadSoundEffect(
 		const tstring& path,
 		const tstring& name,
 		float volume,
@@ -325,7 +325,7 @@ namespace star
 		mSoundEffectPathList[path] = name;
 	}
 
-	void SoundService::PlayMusic(
+	void AudioManager::PlayMusic(
 		const tstring& path,
 		const tstring& name,
 		uint8 channel,
@@ -341,7 +341,7 @@ namespace star
 		return PlayMusic(name, loopTimes);
 	}
 
-	void SoundService::PlayMusic(
+	void AudioManager::PlayMusic(
 		const tstring& name,
 		int loopTimes
 		)
@@ -361,12 +361,12 @@ namespace star
 			mCurrentSoundFile = nullptr;
 			star::Logger::GetInstance()->
 				Log(LogLevel::Warning,
-				_T("SoundService::PlayMusic: Couldn't find the song '") + name +
+				_T("AudioManager::PlayMusic: Couldn't find the song '") + name +
 				_T("'."));
 		}
 	}
 
-	void SoundService::PlaySoundEffect(
+	void AudioManager::PlaySoundEffect(
 		const tstring& path,
 		const tstring& name,
 		uint8 channel,
@@ -383,7 +383,7 @@ namespace star
 		PlaySoundEffect(name, loopTimes);
 	}
 
-	void SoundService::PlaySoundEffect(
+	void AudioManager::PlaySoundEffect(
 		const tstring& name,
 		int loopTimes
 		)
@@ -401,12 +401,12 @@ namespace star
 		{
 			star::Logger::GetInstance()->
 				Log(LogLevel::Warning,
-				_T("SoundService::PlaySoundEffect: Couldn't find effect '") + name +
+				_T("AudioManager::PlaySoundEffect: Couldn't find effect '") + name +
 				_T("'."));
 		}
 	}
 
-	void SoundService::PlayMusic(
+	void AudioManager::PlayMusic(
 		const tstring& path,
 		const tstring& name,
 		float volume,
@@ -423,7 +423,7 @@ namespace star
 		return PlayMusic(name, volume, loopTimes);
 	}
 
-	void SoundService::PlayMusic(
+	void AudioManager::PlayMusic(
 		const tstring& name,
 		float volume,
 		int loopTimes
@@ -445,12 +445,12 @@ namespace star
 			mCurrentSoundFile = nullptr;
 			star::Logger::GetInstance()->
 				Log(LogLevel::Warning,
-				_T("SoundService::PlayMusic: Couldn't find the song '") + name +
+				_T("AudioManager::PlayMusic: Couldn't find the song '") + name +
 				_T("'."));
 		}
 	}
 
-	void SoundService::PlaySoundEffect(
+	void AudioManager::PlaySoundEffect(
 		const tstring& path,
 		const tstring& name,
 		float volume,
@@ -468,7 +468,7 @@ namespace star
 		PlaySoundEffect(name, volume, loopTimes);
 	}
 
-	void SoundService::PlaySoundEffect(
+	void AudioManager::PlaySoundEffect(
 		const tstring& name,
 		float volume,
 		int loopTimes
@@ -488,12 +488,12 @@ namespace star
 		{
 			star::Logger::GetInstance()->
 				Log(LogLevel::Warning,
-				_T("SoundService::PlaySoundEffect: Couldn't find effect '") + name +
+				_T("AudioManager::PlaySoundEffect: Couldn't find effect '") + name +
 				_T("'."));
 		}
 	}
 
-	void SoundService::AddToBackgroundQueue(const tstring& name)
+	void AudioManager::AddToBackgroundQueue(const tstring& name)
 	{
 		ASSERT(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
@@ -512,7 +512,7 @@ namespace star
 		}
 	}
 
-	void SoundService::PlayBackgroundQueue()
+	void AudioManager::PlayBackgroundQueue()
 	{
 		ASSERT(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
@@ -529,7 +529,7 @@ namespace star
 		}
 	}
 
-	void SoundService::PlayNextSongInQueue()
+	void AudioManager::PlayNextSongInQueue()
 	{
 		ASSERT(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
@@ -551,7 +551,7 @@ namespace star
 		}
 	}
 
-	void SoundService::SetMusicVolume(const tstring& name, float volume)
+	void AudioManager::SetMusicVolume(const tstring& name, float volume)
 	{
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -561,12 +561,12 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::SetMusicVolume: Couldn't find '") +
+				_T("AudioManager::SetMusicVolume: Couldn't find '") +
 				name + _T("'."));
 		}
 	}
 
-	float SoundService::GetMusicVolume(const tstring& name) const
+	float AudioManager::GetMusicVolume(const tstring& name) const
 	{
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -576,13 +576,13 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::SetMusicVolume: Couldn't find '") +
+				_T("AudioManager::SetMusicVolume: Couldn't find '") +
 				name + _T("'."));
 		}
 		return 0;
 	}
 
-	void SoundService::SetEffectVolume(const tstring& name, float volume)
+	void AudioManager::SetEffectVolume(const tstring& name, float volume)
 	{
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
@@ -592,12 +592,12 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::SetEffectVolume: Couldn't find '") +
+				_T("AudioManager::SetEffectVolume: Couldn't find '") +
 				name + _T("'."));
 		}
 	}
 
-	float SoundService::GetEffectVolume(const tstring& name) const
+	float AudioManager::GetEffectVolume(const tstring& name) const
 	{
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
@@ -607,13 +607,13 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::GetEffectVolume: Couldn't find '") +
+				_T("AudioManager::GetEffectVolume: Couldn't find '") +
 				name + _T("'."));
 		}
 		return 0;
 	}
 
-	void SoundService::IncreaseMusicVolume(const tstring& name, float volume)
+	void AudioManager::IncreaseMusicVolume(const tstring& name, float volume)
 	{
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -623,12 +623,12 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::IncreaseMusicVolume: Couldn't find '") +
+				_T("AudioManager::IncreaseMusicVolume: Couldn't find '") +
 				name + _T("'."));
 		}
 	}
 
-	void SoundService::DecreaseMusicVolume(const tstring& name, float volume)
+	void AudioManager::DecreaseMusicVolume(const tstring& name, float volume)
 	{
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -638,12 +638,12 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::DecreaseMusicVolume: Couldn't find '") +
+				_T("AudioManager::DecreaseMusicVolume: Couldn't find '") +
 				name + _T("'."));
 		}
 	}
 
-	void SoundService::IncreaseEffectVolume(const tstring& name, float volume)
+	void AudioManager::IncreaseEffectVolume(const tstring& name, float volume)
 	{
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
@@ -653,11 +653,11 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::IncreaseEffectVolume: Couldn't find '") +
+				_T("AudioManager::IncreaseEffectVolume: Couldn't find '") +
 				name + _T("'."));
 		}
 	}
-	void SoundService::DecreaseEffectVolume(const tstring& name, float volume)
+	void AudioManager::DecreaseEffectVolume(const tstring& name, float volume)
 	{
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
@@ -667,12 +667,12 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::DecreaseEffectVolume: Couldn't find '") +
+				_T("AudioManager::DecreaseEffectVolume: Couldn't find '") +
 				name + _T("'."));
 		}
 	}
 
-	void SoundService::SetMusicMuted(const tstring& name, bool muted)
+	void AudioManager::SetMusicMuted(const tstring& name, bool muted)
 	{
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -682,12 +682,12 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::SetMusicMuted: Couldn't find '") +
+				_T("AudioManager::SetMusicMuted: Couldn't find '") +
 				name + _T("'."));
 		}
 	}
 
-	bool SoundService::IsMusicMuted(const tstring& name) const
+	bool AudioManager::IsMusicMuted(const tstring& name) const
 	{
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -697,13 +697,13 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::IsMusicMuted: Couldn't find '") +
+				_T("AudioManager::IsMusicMuted: Couldn't find '") +
 				name + _T("'."));
 			return false;
 		}
 	}
 
-	void SoundService::SetEffectMuted(const tstring& name, bool muted)
+	void AudioManager::SetEffectMuted(const tstring& name, bool muted)
 	{
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
@@ -713,12 +713,12 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::SetEffectMuted: Couldn't find '") +
+				_T("AudioManager::SetEffectMuted: Couldn't find '") +
 				name + _T("'."));
 		}
 	}
 
-	bool SoundService::IsEffectMuted(const tstring& name) const
+	bool AudioManager::IsEffectMuted(const tstring& name) const
 	{
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
@@ -728,13 +728,13 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::IsEffectMuted: Couldn't find '") +
+				_T("AudioManager::IsEffectMuted: Couldn't find '") +
 				name + _T("'."));
 			return false;
 		}
 	}
 
-	void SoundService::AddSoundToChannel(uint8 channel, BaseSound * pSound)
+	void AudioManager::AddSoundToChannel(uint8 channel, BaseSound * pSound)
 	{
 		auto & chnl = mChannels[channel];
 		auto it = chnl.mSounds.begin();
@@ -744,7 +744,7 @@ namespace star
 			if(*it == pSound)
 			{
 				Logger::GetInstance()->Log(LogLevel::Warning,
-					_T("SoundService::AddSoundToChannel: Trying to add a sound twice in channel '")
+					_T("AudioManager::AddSoundToChannel: Trying to add a sound twice in channel '")
 					+ string_cast<tstring>(channel) + _T("'."));
 				return;
 			}
@@ -755,12 +755,12 @@ namespace star
 		chnl.mChannel = channel;
 	}
 
-	void SoundService::RemoveSoundFromChannel(uint8 channel, BaseSound * pSound)
+	void AudioManager::RemoveSoundFromChannel(uint8 channel, BaseSound * pSound)
 	{
 		bool result;
 		SoundChannel & chnl = GetChannel(
 			channel,
-			_T("SoundService::RemoveSoundFromChannel"),
+			_T("AudioManager::RemoveSoundFromChannel"),
 			result
 			);
 		if(result)
@@ -778,17 +778,17 @@ namespace star
 				++it;
 			}
 			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("SoundService::RemoveSoundFromChannel: Sound not found in channel '")
+				_T("AudioManager::RemoveSoundFromChannel: Sound not found in channel '")
 				+ string_cast<tstring>(channel) + _T("'."));
 		}
 	}
 
-	void SoundService::SetChannelVolume(uint8 channel, float volume)
+	void AudioManager::SetChannelVolume(uint8 channel, float volume)
 	{
 		bool result;
 		SoundChannel & chnl = GetChannel(
 			channel,
-			_T("SoundService::RemoveSoundFromChannel"),
+			_T("AudioManager::RemoveSoundFromChannel"),
 			result
 			);
 		if(result)
@@ -797,12 +797,12 @@ namespace star
 		}
 	}
 
-	float SoundService::GetChannelVolume(uint8 channel)
+	float AudioManager::GetChannelVolume(uint8 channel)
 	{
 		bool result;
 		SoundChannel & chnl = GetChannel(
 			channel,
-			_T("SoundService::RemoveSoundFromChannel"),
+			_T("AudioManager::RemoveSoundFromChannel"),
 			result
 			);
 		if(result)
@@ -812,12 +812,12 @@ namespace star
 		return 0;
 	}
 
-	void SoundService::IncreaseChannelVolume(uint8 channel, float volume)
+	void AudioManager::IncreaseChannelVolume(uint8 channel, float volume)
 	{
 		bool result;
 		SoundChannel & chnl = GetChannel(
 			channel,
-			_T("SoundService::RemoveSoundFromChannel"),
+			_T("AudioManager::RemoveSoundFromChannel"),
 			result
 			);
 		if(result)
@@ -826,12 +826,12 @@ namespace star
 		}
 	}
 
-	void SoundService::DecreaseChannelVolume(uint8 channel, float volume)
+	void AudioManager::DecreaseChannelVolume(uint8 channel, float volume)
 	{
 		bool result;
 		SoundChannel & chnl = GetChannel(
 			channel,
-			_T("SoundService::RemoveSoundFromChannel"),
+			_T("AudioManager::RemoveSoundFromChannel"),
 			result
 			);
 		if(result)
@@ -840,12 +840,12 @@ namespace star
 		}
 	}
 
-	void SoundService::SetChannelMuted(uint8 channel, bool muted)
+	void AudioManager::SetChannelMuted(uint8 channel, bool muted)
 	{
 		bool result;
 		SoundChannel & chnl = GetChannel(
 			channel,
-			_T("SoundService::RemoveSoundFromChannel"),
+			_T("AudioManager::RemoveSoundFromChannel"),
 			result
 			);
 		if(result)
@@ -854,12 +854,12 @@ namespace star
 		}
 	}
 
-	bool SoundService::IsChannelMuted(uint8 channel)
+	bool AudioManager::IsChannelMuted(uint8 channel)
 	{
 		bool result;
 		SoundChannel & chnl = GetChannel(
 			channel,
-			_T("SoundService::RemoveSoundFromChannel"),
+			_T("AudioManager::RemoveSoundFromChannel"),
 			result
 			);
 		if(result)
@@ -869,7 +869,7 @@ namespace star
 		return false;
 	}
 
-	void SoundService::SetMusicChannel(const tstring & name, uint8 channel)
+	void AudioManager::SetMusicChannel(const tstring & name, uint8 channel)
 	{
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -879,12 +879,12 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::SetMusicChannel: Couldn't find '") +
+				_T("AudioManager::SetMusicChannel: Couldn't find '") +
 				name + _T("'."));
 		}
 	}
 
-	void SoundService::UnsetMusicChannel(const tstring & name)
+	void AudioManager::UnsetMusicChannel(const tstring & name)
 	{
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -894,12 +894,12 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::SetMusicChannel: Couldn't find '") +
+				_T("AudioManager::SetMusicChannel: Couldn't find '") +
 				name + _T("'."));
 		}
 	}
 
-	void SoundService::SetEffectChannel(const tstring & name, uint8 channel)
+	void AudioManager::SetEffectChannel(const tstring & name, uint8 channel)
 	{
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
@@ -909,12 +909,12 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::SetEffectChannel: Couldn't find '") +
+				_T("AudioManager::SetEffectChannel: Couldn't find '") +
 				name + _T("'."));
 		}
 	}
 
-	void SoundService::UnsetEffectChannel(const tstring & name)
+	void AudioManager::UnsetEffectChannel(const tstring & name)
 	{
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
@@ -924,12 +924,12 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("SoundService::UnsetEffectChannel: Couldn't find '") +
+				_T("AudioManager::UnsetEffectChannel: Couldn't find '") +
 				name + _T("'."));
 		}
 	}
 
-	void SoundService::StopSound(const tstring& name)
+	void AudioManager::StopSound(const tstring& name)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
 
@@ -948,7 +948,7 @@ namespace star
 		}
 	}
 
-	void SoundService::StopAllSounds()
+	void AudioManager::StopAllSounds()
 	{
 		ASSERT(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
@@ -964,7 +964,7 @@ namespace star
 		}
 	}
 
-	void SoundService::PauseAllSounds()
+	void AudioManager::PauseAllSounds()
 	{
 		ASSERT(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
@@ -980,7 +980,7 @@ namespace star
 		}
 	}
 
-	void SoundService::ResumeAllSounds()
+	void AudioManager::ResumeAllSounds()
 	{
 		ASSERT(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
@@ -996,7 +996,7 @@ namespace star
 		}
 	}
 
-	void SoundService::DeleteAllSounds()
+	void AudioManager::DeleteAllSounds()
 	{
 		ASSERT(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
@@ -1015,7 +1015,7 @@ namespace star
 		
 	}
 
-	void SoundService::SetVolume(float volume)
+	void AudioManager::SetVolume(float volume)
 	{
 		mVolume = Clamp(volume, 0.0f, 1.0f);
 
@@ -1030,26 +1030,26 @@ namespace star
 		}
 	}
 
-	float SoundService::GetVolume() const
+	float AudioManager::GetVolume() const
 	{
 		return mVolume;
 	}
 
-	void SoundService::IncreaseVolume(float volume)
+	void AudioManager::IncreaseVolume(float volume)
 	{
 		float vol = GetVolume();
 		vol += volume;
 		SetVolume(vol);
 	}
 
-	void SoundService::DecreaseVolume(float volume)
+	void AudioManager::DecreaseVolume(float volume)
 	{
 		float vol = GetVolume();
 		vol -= volume;
 		SetVolume(vol);
 	}
 
-	SoundService::SoundChannel & SoundService::GetChannel(
+	AudioManager::SoundChannel & AudioManager::GetChannel(
 		uint8 channel,
 		const tstring & sender,
 		bool & result
@@ -1071,18 +1071,18 @@ namespace star
 	}
 
 #ifdef ANDROID
-	const SLEngineItf& SoundService::GetEngine() const
+	const SLEngineItf& AudioManager::GetEngine() const
 	{
 		return mEngine;
 	}
 
-	const SLObjectItf& SoundService::GetOutputMixObject() const
+	const SLObjectItf& AudioManager::GetOutputMixObject() const
 	{
 		return mOutputMixObj;
 	}
 #endif
 
-	SoundService::SoundChannel::SoundChannel()
+	AudioManager::SoundChannel::SoundChannel()
 		: mVolume(1.0f)
 		, mIsMuted(false)
 		, mSounds()
@@ -1090,7 +1090,7 @@ namespace star
 	{
 	}
 
-	SoundService::SoundChannel::~SoundChannel()
+	AudioManager::SoundChannel::~SoundChannel()
 	{
 		for(auto it : mSounds)
 		{
@@ -1100,7 +1100,7 @@ namespace star
 		mSounds.clear();
 	}
 
-	void SoundService::SoundChannel::SetVolume(float volume)
+	void AudioManager::SoundChannel::SetVolume(float volume)
 	{
 		mVolume = Clamp(volume, 0.0f, 1.0f);
 		for( auto it : mSounds)
@@ -1109,22 +1109,22 @@ namespace star
 		}
 	}
 
-	float SoundService::SoundChannel::GetVolume() const
+	float AudioManager::SoundChannel::GetVolume() const
 	{
 		return mVolume;
 	}
 
-	void SoundService::SoundChannel::IncreaseVolume(float volume)
+	void AudioManager::SoundChannel::IncreaseVolume(float volume)
 	{
 		SetVolume(mVolume + volume);
 	}
 
-	void SoundService::SoundChannel::DecreaseVolume(float volume)
+	void AudioManager::SoundChannel::DecreaseVolume(float volume)
 	{
 		SetVolume(mVolume - volume);
 	}
 
-	void SoundService::SoundChannel::SetMuted(bool muted)
+	void AudioManager::SoundChannel::SetMuted(bool muted)
 	{
 		mIsMuted = muted;
 		for( auto it : mSounds)
@@ -1133,7 +1133,7 @@ namespace star
 		}
 	}
 
-	bool SoundService::SoundChannel::IsMuted() const
+	bool AudioManager::SoundChannel::IsMuted() const
 	{
 		return mIsMuted;
 	}

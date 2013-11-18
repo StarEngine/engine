@@ -6,7 +6,7 @@
 #include "Input/InputManager.h"
 #include "Context.h"
 #include "Logger.h"
-#include "Sound/SoundService.h"
+#include "Sound/AudioManager.h"
 #include "Helpers/Stopwatch.h"
 #include "AI/Pathfinding/PathFindManager.h"
 #include "Assets/FontManager.h"
@@ -43,7 +43,7 @@ namespace star
 		GraphicsManager::GetInstance()->Initialize(window_width,window_height);
 #endif
 
-		SoundService::GetInstance()->Start();
+		AudioManager::GetInstance()->Start();
 		GraphicsManager::GetInstance()->CalculateViewPort();
 		DebugDraw::GetInstance()->Initialize();
 	}
@@ -81,7 +81,7 @@ namespace star
 		delete TextureManager::GetInstance();
 		delete GraphicsManager::GetInstance();
 		delete SpriteBatch::GetInstance();
-		delete SoundService::GetInstance();
+		delete AudioManager::GetInstance();
 		delete CollisionManager::GetInstance();
 		delete PathFindManager::GetInstance();
 		delete SceneManager::GetInstance();
@@ -90,12 +90,12 @@ namespace star
 	
 	void StarEngine::SetActive()
 	{
-		SoundService::GetInstance()->ResumeAllSounds();
+		AudioManager::GetInstance()->ResumeAllSounds();
 	}
 
 	void StarEngine::SetInactive()
 	{
-		SoundService::GetInstance()->PauseAllSounds();
+		AudioManager::GetInstance()->PauseAllSounds();
 	}
 
 	int StarEngine::GetCurrentFPS() const

@@ -1,5 +1,5 @@
 #include "BaseSound.h"
-#include "SoundService.h"
+#include "AudioManager.h"
 #include "../Logger.h"
 #include "../Assets/Resource.h"
 #include "../Helpers/Helpers.h"
@@ -170,7 +170,7 @@ namespace star
 
 		SLDataLocator_OutputMix lDataLocatorOut;
 		lDataLocatorOut.locatorType = SL_DATALOCATOR_OUTPUTMIX;
-		lDataLocatorOut.outputMix = SoundService::GetInstance()->GetOutputMixObject();
+		lDataLocatorOut.outputMix = AudioManager::GetInstance()->GetOutputMixObject();
 
 		SLDataSink lDataSink;
 		lDataSink.pLocator = &lDataLocatorOut;

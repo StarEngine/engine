@@ -1,5 +1,5 @@
 #include "SoundFile.h"
-#include "SoundService.h"
+#include "AudioManager.h"
 #include "../Logger.h"
 #include "../Assets/Resource.h"
 #include "../Helpers/Helpers.h"
@@ -24,7 +24,7 @@ namespace star
 #endif
 	{
 #ifdef ANDROID
-		SLEngineItf engine = SoundService::GetInstance()->GetEngine();
+		SLEngineItf engine = AudioManager::GetInstance()->GetEngine();
 		CreateSound(mPlayerObj, engine, mPlayer, path);
 #else
 		Filepath real_path(path);
@@ -143,13 +143,13 @@ namespace star
 	void SoundFile::SetChannel(uint8 channel)
 	{
 		BaseSound::SetChannel(channel);
-		SoundService::GetInstance()->AddSoundToChannel(channel, this);
+		AudioManager::GetInstance()->AddSoundToChannel(channel, this);
 	}
 
 	void SoundFile::UnsetChannel()
 	{
 		BaseSound::UnsetChannel();
-		SoundService::GetInstance()->RemoveSoundFromChannel(mChannel, this);
+		AudioManager::GetInstance()->RemoveSoundFromChannel(mChannel, this);
 	}
 
 #ifdef ANDROID
@@ -201,7 +201,7 @@ namespace star
 
 	void SoundFile::MusicStoppedCallback()
 	{
-		SoundService::GetInstance()->PlayNextSongInQueue();
+		AudioManager::GetInstance()->PlayNextSongInQueue();
 	}
 #else
 	void SoundFile::CreateSoundDetails()
@@ -252,7 +252,7 @@ namespace star
 			file->mbStopped = true;
 			if(file->mbQueuedPlay)
 			{
-				star::SoundService::GetInstance()->PlayNextSongInQueue();
+				star::AudioManager::GetInstance()->PlayNextSongInQueue();
 			}
 		}
 		else
