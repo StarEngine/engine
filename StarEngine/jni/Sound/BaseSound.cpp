@@ -23,10 +23,46 @@ namespace star
 	BaseSound::~BaseSound()
 	{
 	}
+
+	void BaseSound::Play(int loopTime)
+	{
+		mSoundState = SoundState::playing;
+		mbIsLooping = loopTime == -1;
+	}
+
+	void BaseSound::Stop()
+	{
+		mSoundState = SoundState::stopped;
+	}
+
+	void BaseSound::Pause()
+	{
+		mSoundState = SoundState::paused;
+	}
+
+	void BaseSound::Resume()
+	{
+		mSoundState = SoundState::playing;
+	}
 	
 	bool BaseSound::IsStopped() const
 	{
-		return mbStopped;
+		return mSoundState == SoundState::stopped;
+	}
+
+	bool BaseSound::IsPlaying() const
+	{
+		return mSoundState == SoundState::playing;
+	}
+
+	bool BaseSound::IsPaused() const
+	{
+		return mSoundState == SoundState::paused;
+	}
+
+	bool BaseSound::IsLooping() const
+	{
+		return mbIsLooping && IsPlaying();
 	}
 
 	void BaseSound::SetCompleteVolume(
@@ -114,7 +150,7 @@ namespace star
 	}
 
 	BaseSound::BaseSound(uint8 channel)
-		: mbStopped(false)
+		: mbIsLooping(false)
 		, mNoChannelAssigned(true)
 #ifdef DESKTOP
 		, mIsMuted(false)
@@ -122,6 +158,7 @@ namespace star
 #endif
 		, mChannel(0)
 		, mSoundVolume()
+		, mSoundState(SoundState::stopped)
 
 	{
 	}
@@ -381,7 +418,7 @@ namespace star
 		mIsMuted = muted;
 		if(mIsMuted)
 		{
-			mVolume = GetVolume();
+			mVolume = GetBaseVolume();
 			SetVolume(0);
 		}
 		else

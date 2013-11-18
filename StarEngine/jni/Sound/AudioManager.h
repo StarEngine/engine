@@ -92,6 +92,24 @@ namespace star
 		void PlayBackgroundQueue();
 		void PlayNextSongInQueue();
 
+		void PauseMusic(const tstring & name);
+		void ResumeMusic(const tstring & name);
+		void StopMusic(const tstring & name);
+
+		bool IsMusicPaused(const tstring & name) const;
+		bool IsMusicStopped(const tstring & name) const;
+		bool IsMusicPlaying(const tstring & name) const;
+		bool IsMusicLooping(const tstring & name) const;
+
+		void PauseEffect(const tstring & name);
+		void ResumeEffect(const tstring & name);
+		void StopEffect(const tstring & name);
+
+		bool IsEffectPaused(const tstring & name) const;
+		bool IsEffectStopped(const tstring & name) const;
+		bool IsEffectPlaying(const tstring & name) const;
+		bool IsEffectLooping(const tstring & name) const;
+
 		void SetMusicVolume(const tstring& name, float volume);
 		float GetMusicVolume(const tstring& name) const;
 
@@ -110,6 +128,9 @@ namespace star
 		void SetEffectMuted(const tstring& name, bool muted);
 		bool IsEffectMuted(const tstring& name) const;
 
+		bool ToggleMusicMuted(const tstring& name);
+		bool ToggleEffectMuted(const tstring& name);
+
 		void AddSoundToChannel(uint8 channel, BaseSound * pSound);
 		void RemoveSoundFromChannel(uint8 channel, BaseSound * pSound);
 
@@ -121,6 +142,7 @@ namespace star
 
 		void SetChannelMuted(uint8 channel, bool muted);
 		bool IsChannelMuted(uint8 channel);
+		bool ToggleChannelMuted(uint8 channel);
 
 		void SetMusicChannel(const tstring & name, uint8 channel);
 		void UnsetMusicChannel(const tstring & name);

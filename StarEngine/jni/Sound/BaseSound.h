@@ -20,11 +20,15 @@ namespace star
 	public:
 		virtual ~BaseSound();
 
-		virtual void Play(int loopTime = 0) = 0;
-		virtual void Stop() = 0;
-		virtual void Pause() = 0;
-		virtual void Resume() = 0;
+		virtual void Play(int loopTime = 0);
+		virtual void Stop();
+		virtual void Pause();
+		virtual void Resume();
+
 		bool IsStopped() const;
+		bool IsPlaying() const;
+		bool IsPaused() const;
+		bool IsLooping() const;
 
 		void SetCompleteVolume(
 			float volume,
@@ -121,7 +125,7 @@ namespace star
 		void SetSoundMuted(bool muted);
 #endif
 
-		bool mbStopped;
+		bool mbIsLooping;
 		bool mNoChannelAssigned;
 		uint8 mChannel;
 
@@ -136,7 +140,15 @@ namespace star
 			float GetVolume() const;
 		};
 
+		enum class SoundState : byte
+		{
+			playing = 0,
+			paused = 1,
+			stopped = 2
+		};
+
 		SoundVolume mSoundVolume;
+		SoundState mSoundState;
 
 		BaseSound(const BaseSound& yRef);
 		BaseSound(BaseSound&& yRef);

@@ -551,6 +551,224 @@ namespace star
 		}
 	}
 
+	void AudioManager::PauseMusic(const tstring & name)
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			it->second->Pause();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::PauseMusic: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+
+	void AudioManager::ResumeMusic(const tstring & name)
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			it->second->Resume();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::ResumeMusic: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+
+	void AudioManager::StopMusic(const tstring & name)
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			it->second->Stop();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::StopMusic: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+
+	bool AudioManager::IsMusicPaused(const tstring & name) const
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			return it->second->IsPaused();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::IsMusicPaused: Couldn't find '") +
+				name + _T("'."));
+		}
+		return false;
+	}
+
+	bool AudioManager::IsMusicStopped(const tstring & name) const
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			return it->second->IsStopped();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::IsMusicStopped: Couldn't find '") +
+				name + _T("'."));
+		}
+		return false;
+	}
+
+	bool AudioManager::IsMusicPlaying(const tstring & name) const
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			return it->second->IsPlaying();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::IsMusicPlaying: Couldn't find '") +
+				name + _T("'."));
+		}
+		return false;
+	}
+
+	bool AudioManager::IsMusicLooping(const tstring & name) const
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			return it->second->IsLooping();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::IsMusicLooping: Couldn't find '") +
+				name + _T("'."));
+		}
+		return false;
+	}
+
+	void AudioManager::PauseEffect(const tstring & name)
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			it->second->Pause();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::PauseEffect: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+
+	void AudioManager::ResumeEffect(const tstring & name)
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			it->second->Resume();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::ResumeEffect: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+
+	void AudioManager::StopEffect(const tstring & name)
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			it->second->Stop();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::StopEffect: Couldn't find '") +
+				name + _T("'."));
+		}
+	}
+
+	bool AudioManager::IsEffectPaused(const tstring & name) const
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			return it->second->IsPaused();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::IsEffectPaused: Couldn't find '") +
+				name + _T("'."));
+		}
+		return false;
+	}
+
+	bool AudioManager::IsEffectStopped(const tstring & name) const
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			return it->second->IsStopped();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::IsEffectStopped: Couldn't find '") +
+				name + _T("'."));
+		}
+		return false;
+	}
+
+	bool AudioManager::IsEffectPlaying(const tstring & name) const
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			return it->second->IsPlaying();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::IsEffectPlaying: Couldn't find '") +
+				name + _T("'."));
+		}
+		return false;
+	}
+
+	bool AudioManager::IsEffectLooping(const tstring & name) const
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			return it->second->IsLooping();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::IsEffectLooping: Couldn't find '") +
+				name + _T("'."));
+		}
+		return false;
+	}
+
 	void AudioManager::SetMusicVolume(const tstring& name, float volume)
 	{
 		auto it = mMusicList.find(name);
@@ -734,6 +952,40 @@ namespace star
 		}
 	}
 
+	bool AudioManager::ToggleMusicMuted(const tstring& name)
+	{
+		auto it = mEffectsList.find(name);
+		if(it != mEffectsList.end())
+		{
+			it->second->SetMuted(!it->second->IsMuted());
+			return it->second->IsMuted();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::ToggleMusicMuted: Couldn't find '") +
+				name + _T("'."));
+			return false;
+		}
+	}
+
+	bool AudioManager::ToggleEffectMuted(const tstring& name)
+	{
+		auto it = mMusicList.find(name);
+		if(it != mMusicList.end())
+		{
+			it->second->SetMuted(!it->second->IsMuted());
+			return it->second->IsMuted();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("AudioManager::ToggleEffectMuted: Couldn't find '") +
+				name + _T("'."));
+			return false;
+		}
+	}
+
 	void AudioManager::AddSoundToChannel(uint8 channel, BaseSound * pSound)
 	{
 		auto & chnl = mChannels[channel];
@@ -797,7 +1049,7 @@ namespace star
 		bool result;
 		SoundChannel & chnl = GetChannel(
 			channel,
-			_T("AudioManager::RemoveSoundFromChannel"),
+			_T("AudioManager::SetChannelVolume"),
 			result
 			);
 		if(result)
@@ -811,7 +1063,7 @@ namespace star
 		bool result;
 		SoundChannel & chnl = GetChannel(
 			channel,
-			_T("AudioManager::RemoveSoundFromChannel"),
+			_T("AudioManager::GetChannelVolume"),
 			result
 			);
 		if(result)
@@ -826,7 +1078,7 @@ namespace star
 		bool result;
 		SoundChannel & chnl = GetChannel(
 			channel,
-			_T("AudioManager::RemoveSoundFromChannel"),
+			_T("AudioManager::IncreaseChannelVolume"),
 			result
 			);
 		if(result)
@@ -840,7 +1092,7 @@ namespace star
 		bool result;
 		SoundChannel & chnl = GetChannel(
 			channel,
-			_T("AudioManager::RemoveSoundFromChannel"),
+			_T("AudioManager::DecreaseChannelVolume"),
 			result
 			);
 		if(result)
@@ -854,7 +1106,7 @@ namespace star
 		bool result;
 		SoundChannel & chnl = GetChannel(
 			channel,
-			_T("AudioManager::RemoveSoundFromChannel"),
+			_T("AudioManager::SetChannelMuted"),
 			result
 			);
 		if(result)
@@ -868,11 +1120,27 @@ namespace star
 		bool result;
 		SoundChannel & chnl = GetChannel(
 			channel,
-			_T("AudioManager::RemoveSoundFromChannel"),
+			_T("AudioManager::IsChannelMuted"),
 			result
 			);
 		if(result)
 		{
+			return chnl.IsMuted();
+		}
+		return false;
+	}
+	
+	bool AudioManager::ToggleChannelMuted(uint8 channel)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("AudioManager::ToggleChannelMuted"),
+			result
+			);
+		if(result)
+		{
+			chnl.SetMuted(!chnl.IsMuted());
 			return chnl.IsMuted();
 		}
 		return false;

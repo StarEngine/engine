@@ -65,6 +65,7 @@ namespace star
 
 	void SoundEffect::Play(int loopTime)
 	{
+		BaseSound::Play(loopTime);
 	#ifdef DESKTOP
 		Mix_PlayChannel(mPlayChannel, mpSound, loopTime);
 	#else
@@ -90,7 +91,8 @@ namespace star
 	}
 
 	void SoundEffect::Stop()
-	{		
+	{
+		BaseSound::Stop();
 #ifdef DESKTOP
 		Mix_HaltChannel(mPlayChannel);
 #else	
@@ -103,6 +105,7 @@ namespace star
 	
 	void SoundEffect::Pause()
 	{
+		BaseSound::Pause();
 #ifdef DESKTOP
 		Mix_Pause(mPlayChannel);
 #else
@@ -123,6 +126,7 @@ namespace star
 
 	void SoundEffect::Resume()
 	{
+		BaseSound::Resume();
 #ifdef DESKTOP
 		Mix_Resume(mPlayChannel);
 #else

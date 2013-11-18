@@ -59,6 +59,7 @@ namespace star
 
 	void SoundFile::Play(int32 looptimes)
 	{
+		BaseSound::Play(looptimes);
 		mLoopTimes = looptimes;
 		star::Logger::GetInstance()->Log(star::LogLevel::Info,
 			_T("Sound File: Playing File , Looptimes = ") +
@@ -101,6 +102,7 @@ namespace star
 	
 	void SoundFile::PlayQueued(int32 looptimes)
 	{
+		BaseSound::Play(looptimes);
 		mLoopTimes = looptimes;
 		mbQueuedPlay = true;
 
@@ -114,6 +116,7 @@ namespace star
 
 	void SoundFile::Stop()
 	{		
+		BaseSound::Stop();
 #ifdef DESKTOP
 		Mix_PauseMusic();
 		Mix_RewindMusic();
@@ -124,6 +127,7 @@ namespace star
 
 	void SoundFile::Pause()
 	{
+		BaseSound::Pause();
 #ifdef DESKTOP
 		Mix_PauseMusic();
 #else
@@ -133,6 +137,7 @@ namespace star
 
 	void SoundFile::Resume()
 	{
+		BaseSound::Resume();
 #ifdef DESKTOP
 		Mix_ResumeMusic();
 #else
