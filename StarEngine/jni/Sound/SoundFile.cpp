@@ -254,7 +254,6 @@ namespace star
 		{
 			SLPlayItf pPlay = file->mPlayer;
 			(*pPlay)->SetPlayState(pPlay, SL_PLAYSTATE_STOPPED);
-			file->mbStopped = true;
 			if(file->mbQueuedPlay)
 			{
 				star::AudioManager::GetInstance()->PlayNextSongInQueue();
