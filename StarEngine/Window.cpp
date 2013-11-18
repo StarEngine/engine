@@ -20,6 +20,9 @@
 
 #pragma comment(lib, "opengl32.lib")
 
+#define KEYDOWN(vkCode) ((GetAsyncKeyState(vkCode) & 0x8000) ? 1 : 0)
+#define KEYUP(vkCode) ((GetAsyncKeyState(vkCode) & 0x8000) ? 0 : 1)
+
 namespace star
 {
 	const Window::psip Window::CLASS_STYLES[] = {
@@ -604,7 +607,7 @@ namespace star
 											// WindowTitle.
 		tchar pszOldWindowTitle[MY_BUFSIZE]; // Contains original
 											// WindowTitle.
-    
+	
 		// Fetch current window title.
 		GetConsoleTitle(pszOldWindowTitle, MY_BUFSIZE);
 
@@ -681,7 +684,7 @@ namespace star
 			case WM_SYSCOMMAND:
 				if (Window::GetInstance()->CanGoFullScreen()
 					&& SC_KEYMENU == (wParam & 0xFFF0)
-					&& GetKeyState(VK_RETURN))
+					&& KEYDOWN(VK_RETURN))
 				{
 					//alt - enter => FullScreen
 					Window::GetInstance()->ToggleFullScreen(hWnd);
