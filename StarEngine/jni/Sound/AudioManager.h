@@ -128,6 +128,17 @@ namespace star
 		void SetEffectChannel(const tstring & name, uint8 channel);
 		void UnsetEffectChannel(const tstring & name);
 
+		void PauseChannel(uint8 channel);
+		bool IsChannelPaused(uint8 channel);
+		
+		void ResumeChannel(uint8 channel);
+		bool IsChannelPlaying(uint8 channel);
+
+		void StopChannel(uint8 channel);
+		bool IsChannelStopped(uint8 channel);
+
+		void PlayChannel(uint8 channel, int loopTimes = 0);
+
 		void StopSound(const tstring& name);
 		void StopAllSounds();
 		void PauseAllSounds();
@@ -146,12 +157,20 @@ namespace star
 #endif
 
 	private:
+		enum class ChannelState : byte
+		{
+			paused = 0,
+			playing,
+			stopped
+		};
+
 		struct SoundChannel
 		{
 			float mVolume;
 			bool mIsMuted;
 			std::vector<BaseSound*> mSounds;
 			uint8 mChannel;
+			ChannelState mState;
 
 			SoundChannel();
 			~SoundChannel();

@@ -753,6 +753,15 @@ namespace star
 		pSound->SetChannelVolume(chnl.mVolume);
 		chnl.mSounds.push_back(pSound);
 		chnl.mChannel = channel;
+		switch(chnl.mState)
+		{
+			case ChannelState::paused:
+				pSound->Pause();
+				break;
+			case ChannelState::stopped:
+				pSound->Stop();
+				break;
+		}
 	}
 
 	void AudioManager::RemoveSoundFromChannel(uint8 channel, BaseSound * pSound)
@@ -929,6 +938,135 @@ namespace star
 		}
 	}
 
+	void AudioManager::PauseChannel(uint8 channel)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("AudioManager::PauseChannel"),
+			result
+			);
+		if(result)
+		{
+			auto it = chnl.mSounds.begin();
+			auto end = chnl.mSounds.end();
+			while(it != end)
+			{
+				(*it)->Pause();
+				++it;
+			}
+			chnl.mState = ChannelState::paused;
+		}
+	}
+
+	bool AudioManager::IsChannelPaused(uint8 channel)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("AudioManager::IsChannelPaused"),
+			result
+			);
+		if(result)
+		{
+			return chnl.mState == ChannelState::paused;
+		}
+		return false;
+	}
+		
+	void AudioManager::ResumeChannel(uint8 channel)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("AudioManager::ResumeChannel"),
+			result
+			);
+		if(result)
+		{
+			auto it = chnl.mSounds.begin();
+			auto end = chnl.mSounds.end();
+			while(it != end)
+			{
+				(*it)->Resume();
+				++it;
+			}
+			chnl.mState = ChannelState::playing;
+		}
+	}
+
+	bool AudioManager::IsChannelPlaying(uint8 channel)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("AudioManager::IsChannelPlaying"),
+			result
+			);
+		if(result)
+		{
+			return chnl.mState == ChannelState::playing;
+		}
+		return false;
+	}
+
+	void AudioManager::StopChannel(uint8 channel)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("AudioManager::StopChannel"),
+			result
+			);
+		if(result)
+		{
+			auto it = chnl.mSounds.begin();
+			auto end = chnl.mSounds.end();
+			while(it != end)
+			{
+				(*it)->Stop();
+				++it;
+			}
+			chnl.mState = ChannelState::stopped;
+		}
+	}
+
+	bool AudioManager::IsChannelStopped(uint8 channel)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("AudioManager::IsChannelStopped"),
+			result
+			);
+		if(result)
+		{
+			return chnl.mState == ChannelState::stopped;
+		}
+		return false;
+	}
+	
+	void AudioManager::PlayChannel(uint8 channel, int loopTimes)
+	{
+		bool result;
+		SoundChannel & chnl = GetChannel(
+			channel,
+			_T("AudioManager::StopChannel"),
+			result
+			);
+		if(result)
+		{
+			auto it = chnl.mSounds.begin();
+			auto end = chnl.mSounds.end();
+			while(it != end)
+			{
+				(*it)->Play(loopTimes);
+				++it;
+			}
+			chnl.mState = ChannelState::playing;
+		}
+	}
+
 	void AudioManager::StopSound(const tstring& name)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
@@ -1087,6 +1225,7 @@ namespace star
 		, mIsMuted(false)
 		, mSounds()
 		, mChannel(0)
+		, mState(ChannelState::playing)
 	{
 	}
 
