@@ -200,8 +200,8 @@ namespace star
 		pos camPos = m_pDefaultCamera->GetTransform()->GetWorldPosition();
 		float xPos = (camPos.pos2D().x) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().x) / 2.0f);
 		float yPos = (camPos.pos2D().y) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().y) / 2.0f); 
-		int screenWidth = GraphicsManager::GetInstance()->GetWindowWidth();
-		int screenHeight = GraphicsManager::GetInstance()->GetWindowHeight();
+		int screenWidth = GraphicsManager::GetInstance()->GetScreenWidth();
+		int screenHeight = GraphicsManager::GetInstance()->GetScreenHeight();
 		SpriteComponent* sprite = object->GetComponent<SpriteComponent>();
 		SpritesheetComponent* spritesheet = object->GetComponent<SpritesheetComponent>();
 		if(sprite == nullptr && spritesheet == nullptr)
@@ -224,7 +224,7 @@ namespace star
 		}
 
 		//[TODO] allow used to set the offset you want around the culling area.
-		if(objectPos.x > xPos + screenWidth + m_CullingOffsetX ||
+		if(	objectPos.x > xPos + screenWidth + m_CullingOffsetX ||
 			objectPos.x + spriteWidth < xPos - m_CullingOffsetX ||
 			objectPos.y > yPos + screenHeight + m_CullingOffsetY ||
 			objectPos.y + spriteHeight < yPos - m_CullingOffsetY)

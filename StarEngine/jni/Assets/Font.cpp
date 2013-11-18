@@ -8,11 +8,26 @@
 
 namespace star
 {
-	bool Font::Init(const tstring& path, int32 size, FT_Library& library )
+	Font::Font():
+		mFace(0),
+		mTextures(nullptr),
+		mMaxLetterHeight(0),
+		mUVcoordsList(),
+		mVecticesList(),
+		mLetterSizeList(),
+		mSize(0)
+	{
+	}
+
+	Font::~Font()
+	{
+	}
+
+	bool Font::Init(const tstring& path, int32 size, FT_Library& library)
 	{
 		mSize = static_cast<float>(size);
 		mTextures = new GLuint[FONT_TEXTURES];
-		mMaxLetterHeight=0;
+		mMaxLetterHeight = 0;
 
 #ifdef DESKTOP
 		//Convert from wstring to const schar* trough sstring
@@ -42,20 +57,20 @@ namespace star
 #endif
 		if(error == FT_Err_Unknown_File_Format)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error,_T("Font Manager : Font : ") + path + _T(" ,could be opened but its in unsuported format"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Font Manager : Font : ") + path + _T(" ,could be opened but its in unsuported format"));
 			return (false);
 		}
 		else if(error)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error,_T("Font Manager : Font : ") + path + _T(" ,is invalid and cant be opened or read or its broken"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Font Manager : Font : ") + path + _T(" ,is invalid and cant be opened or read or its broken"));
 			return (false);
 		}
-		star::Logger::GetInstance()->Log(star::LogLevel::Info,_T("Font Manager : Font : ") + path + _T(" ,loaded and ready for use"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Font Manager : Font : ") + path + _T(" ,loaded and ready for use"));
 
-		FT_Set_Char_Size(mFace,size<<6, size<<6, FONT_DPI, FONT_DPI);
+		FT_Set_Char_Size(mFace, size << 6, size << 6, FONT_DPI, FONT_DPI);
 
-		glGenTextures(FONT_TEXTURES,mTextures);
-		for(suchar i=0; i < FONT_TEXTURES; ++i)
+		glGenTextures(FONT_TEXTURES, mTextures);
+		for(suchar i = 0; i < FONT_TEXTURES; ++i)
 		{
 			Make_D_List(mFace, i, mTextures);
 		}
@@ -73,20 +88,20 @@ namespace star
 #endif
 	}
 
-	void Font::Make_D_List( FT_Face face, schar ch,GLuint * tex_base )
+	void Font::Make_D_List(FT_Face face, schar ch,GLuint * tex_base)
 	{
 
 		auto error = FT_Load_Char(face, ch, FT_LOAD_DEFAULT);
 		if(error)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error,_T("Font : could not load Glyph"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Font : could not load Glyph"));
 			return;
 		}
 
 		error = FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL);
 		if(error)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error,_T("Font : could not load Glyph"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Font : could not load Glyph"));
 			return;
 		}
 
@@ -97,8 +112,10 @@ namespace star
 
 		GLubyte* expanded_data = new GLubyte[2 * width * height];
 
-		for(int j = 0; j <height ; j++) {
-			for(int i = 0; i < width; i++) {
+		for(int j = 0; j < height; ++j) 
+		{
+			for(int i = 0; i < width; ++i) 
+			{
 				expanded_data[2 * (i + j * width)] = 255;
 				expanded_data[2 * (i + j * width) + 1] = 
 					(i >= bitmap.width || j >= bitmap.rows) ? 0 : bitmap.buffer[i + bitmap.width * j];
@@ -117,15 +134,13 @@ namespace star
 		Logger::GetInstance()->CheckGlError();
 		delete[] expanded_data;
 
-		float x=static_cast<float>(bitmap.width) / static_cast<float>(width);
-		float y=static_cast<float>(bitmap.rows) / static_cast<float>(height);
-		int dimx = (face->glyph->metrics.horiAdvance/64);
-		int dimy = ((face->glyph->metrics.horiBearingY)-(face->glyph->metrics.height))/64;
-		ivec2 tempdim(dimx,dimy);
-		if(mMaxLetterHeight<face->glyph->bitmap_top)mMaxLetterHeight=face->glyph->bitmap_top;
-		mLetterSizeList.push_back(tempdim);
-
-		
+		float x = static_cast<float>(bitmap.width) / static_cast<float>(width);
+		float y = static_cast<float>(bitmap.rows) / static_cast<float>(height);
+		int dimx = (face->glyph->metrics.horiAdvance / 64);
+		int dimy = ((face->glyph->metrics.horiBearingY) - (face->glyph->metrics.height)) / 64;
+		ivec2 tempdim(dimx, dimy);
+		if(mMaxLetterHeight<face->glyph->bitmap_top)mMaxLetterHeight = face->glyph->bitmap_top;
+		mLetterSizeList.push_back(tempdim);	
 
 		fontVertices tempVertices;
 		tempVertices.ver[0] = (GLfloat)bitmap.width;
@@ -156,23 +171,45 @@ namespace star
 		mUVcoordsList.push_back(tempCoords);
 	}
 
-	int32 Font::NextPowerOfTwo( const int32& a )
+	int32 Font::NextPowerOfTwo(int32 a)
 	{
-		int32 rval=1;
-		while(rval<a)rval<<=1;
+		int32 rval = 1;
+		while(rval < a)
+		{
+			rval <<= 1;
+		}
 		return rval;
 	}
 
-	int32 Font::GetStringLength( const tstring& string ) const
+	const std::vector<fontUvCoords>& Font::GetUvCoords() const 
 	{
-		int32 length=0;
+		return mUVcoordsList;
+	}
+
+	const std::vector<fontVertices>& Font::GetVetrices() const 
+	{
+		return mVecticesList;
+	}
+
+	const std::vector<ivec2>& Font::GetLetterDimensions() const 
+	{
+		return mLetterSizeList;
+	}
+
+	int32 Font::GetMaxLetterHeight() const 
+	{
+		return mMaxLetterHeight;
+	}
+
+	int32 Font::GetStringLength(const tstring& string) const
+	{
+		int32 length = 0;
 		sstring conv_text = star::string_cast<sstring>(string);
-		const schar *line=conv_text.c_str();
-		for(int i=0;line[i]!=0;i++) 
+		const schar *line = conv_text.c_str();
+		for(int i = 0; line[i] != 0; ++i) 
 		{
-			length+=mLetterSizeList[ line[i]].x;
+			length += mLetterSizeList[line[i]].x;
 		}
 		return length;
 	}
-
 }

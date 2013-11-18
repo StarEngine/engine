@@ -187,7 +187,9 @@ namespace star
 		if(other == nullptr)
 		{
 			Logger::GetInstance()->
-				Log(LogLevel::Warning, _T("Checking Collision with a nullptr!\nMake sure the collider exists!"));
+				Log(LogLevel::Warning, _T("Checking Collision with a nullptr!"));
+			Logger::GetInstance()->
+				Log(LogLevel::Warning, _T("Make sure the collider exists!"));
 			return;
 		}
 		const CircleColliderComponent* otherCircleComp = 

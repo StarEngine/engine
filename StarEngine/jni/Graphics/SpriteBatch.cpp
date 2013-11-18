@@ -237,8 +237,8 @@ namespace star
 		const vec2& origposition = position;
 
 		GLuint* textures = curfont.GetTextures();
-		const std::vector<fontUvCoords>& tempuvs = curfont.getUvCoords();
-		const std::vector<fontVertices>& tempverts = curfont.getVetrices();
+		const std::vector<fontUvCoords>& tempuvs = curfont.GetUvCoords();
+		const std::vector<fontVertices>& tempverts = curfont.GetVetrices();
 		const std::vector<ivec2>& tempsizes = curfont.GetLetterDimensions();
 
 		m_Shader.Bind();
@@ -261,7 +261,7 @@ namespace star
 		for(auto it = text.begin(); it != text.end() ; ++it)
 		{
 			const schar *start_line=it->c_str();
-			for(int i = 0 ; start_line[i] != 0 ; i++) 
+			for(int i = 0 ; start_line[i] != 0 ; ++i) 
 			{
 
 				glBindTexture(GL_TEXTURE_2D,textures[ start_line[i] ]);
