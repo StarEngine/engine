@@ -3,6 +3,7 @@
 #include "RectangleColliderComponent.h"
 #include "CircleColliderComponent.h"
 #include "../TransformComponent.h"
+#include "../../Helpers/Math.h"
 
 
 namespace star
@@ -79,19 +80,19 @@ namespace star
 		Rect realRect = rect->GetCollisionRect();
 		float32 radius = circle->GetRealRadius();
 
-		glm::vec2 circleObjectPos = circle->GetPosition();
+		vec2 circleObjectPos = circle->GetPosition();
 		if(rect->GetTransform()->GetWorldRotation() == 0.0f)
 		{
 			// Find the closest point to the circle within the rectangle
 			vec2 closestPos(
-				glm::clamp(circleObjectPos.x, realRect.GetRealLeft(), realRect.GetRealRight()),
-				glm::clamp(circleObjectPos.y, realRect.GetRealBottom(), realRect.GetRealTop()));
+				Clamp(circleObjectPos.x, realRect.GetRealLeft(), realRect.GetRealRight()),
+				Clamp(circleObjectPos.y, realRect.GetRealBottom(), realRect.GetRealTop()));
 
 			// Calculate the distance between the circle's center and this closest point
 			vec2 distance(circleObjectPos - closestPos);
 
 			// If the distance is less than the circle's radius, an intersection occurs
-			return glm::length(distance) < radius;
+			return Mag(distance) < radius;
 		}
 		else
 		{			
@@ -101,7 +102,7 @@ namespace star
 			return false;
 			/*
 			vec2 closestPoint(FindClosestPointToOOBB(circleObjectPos,rect));
-			return glm::length(closestPoint) < radius;*/
+			return Mag(closestPoint) < radius;*/
 		}
 	}
 
@@ -114,7 +115,7 @@ namespace star
 		vec2 distVec = point - pos;
 		vec2 u0 = oobb->GetOrientatedUnitVecX();
 		vec2 u1(-u0.y , u0.x);
-		float32 distance = glm::dot(distVec, u0);
+		float32 distance = Dot(distVec, u0);
 		float32 halfWidth = oobb->GetCollisionRectWidth() / 2.0f;
 		if(distance > halfWidth)
 		{
@@ -125,7 +126,7 @@ namespace star
 			distance = -halfWidth;
 		}
 		pos += u0 * distance;
-		distance = glm::dot(distVec, u1);
+		distance = Dot(distVec, u1);
 		float32 halfHeight = oobb->GetCollisionRectHeight() / 2.0f;
 		if(distance > halfHeight)
 		{

@@ -1,7 +1,7 @@
 #include "AudioManager.h"
 #include "../Logger.h"
 #include "../Helpers/Helpers.h"
-#include "../Helpers/HelpersMath.h"
+#include "../Helpers/Math.h"
 
 #ifdef ANDROID
 #include "../Assets/Resource.h"

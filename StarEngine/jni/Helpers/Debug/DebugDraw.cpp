@@ -5,6 +5,7 @@
 #include "../AARect.h"
 #include "../Rect.h"
 #include "../Helpers.h"
+#include "../Math.h"
 
 namespace star
 {
@@ -211,7 +212,7 @@ namespace star
 
 		for (uint32 i = 0; i < m_CircleSegments; ++i)
 		{
-			vec2 v = center + radius * vec2(glm::cos(theta), glm::sin(theta));
+			vec2 v = center + radius * vec2(cos(theta), sin(theta));
 
 			m_Vertices[i].x = v.x;
 			m_Vertices[i].y = v.y;
@@ -225,11 +226,11 @@ namespace star
 		glUseProgram(m_Shader->GetID());
 		
 		float32 scaleValue = ScaleSystem::GetInstance()->GetScale();
-		mat4 scaleMat = glm::scale<float32>(scaleValue, scaleValue, 1.0f);
+		mat4 scaleMat = Scale(scaleValue, scaleValue, 1.0f);
 
 		glUniformMatrix4fv(m_MVPLocation,
 			1, GL_FALSE,
-			glm::value_ptr(
+			ToPointerValue(
 				scaleMat *
 				GraphicsManager::GetInstance()->GetViewProjectionMatrix()
 			)

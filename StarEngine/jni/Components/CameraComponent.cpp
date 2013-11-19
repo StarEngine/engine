@@ -4,7 +4,7 @@
 #include "../Input/InputManager.h"
 #include "../Context.h"
 #include "../Logger.h"
-#include "../Helpers/HelpersMath.h"
+#include "../Helpers/Math.h"
 #include "../Objects/BaseCamera.h"
 
 namespace star
@@ -97,7 +97,7 @@ namespace star
 #else
 		quat rotation = m_pParentObject->GetTransform()->GetWorldRotation();
 #endif
-		rotTransform = glm::toMat4(rotation);
+		rotTransform = ToMat4(rotation);
 
 		//Only vec4 * mat4  possible
 		vec4 vLookTemp = vec4(0,0,1,0) * TransposeMatrix(rotTransform);
@@ -207,7 +207,7 @@ namespace star
 	{
 		float32 viewSpaceWidth, viewSpaceHeight;
 		
-		viewSpaceHeight = glm::cot(FovY/2);
+		viewSpaceHeight = Cotan(FovY/2);
 		viewSpaceWidth = viewSpaceHeight * ratio;
 
 		mat4 matPerspective 
@@ -239,16 +239,16 @@ namespace star
 	{
 		vec3 xAxis, yAxis, zAxis;
 
-		zAxis = glm::normalize(at - eye);
-		xAxis = glm::normalize(glm::cross(up, zAxis));
-		yAxis = glm::cross(zAxis, xAxis);
+		zAxis = Normalize(at - eye);
+		xAxis = Normalize(Cross(up, zAxis));
+		yAxis = Cross(zAxis, xAxis);
 		
 		mat4 matLookAt 
 		(
 			 xAxis.x, yAxis.x, zAxis.x, 0,
 			 xAxis.y, yAxis.y, zAxis.y, 0,
 			 xAxis.z, yAxis.z, zAxis.z, 0,
-			-glm::dot(xAxis, eye),  -glm::dot(yAxis, eye),  -glm::dot(zAxis, eye),  1
+			-Dot(xAxis, eye),  -Dot(yAxis, eye),  -Dot(zAxis, eye),  1
 		);
 
 		return matLookAt;

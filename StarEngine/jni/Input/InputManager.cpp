@@ -15,6 +15,7 @@
 #include "../Scenes/BaseScene.h"
 #include "../Objects/BaseCamera.h"
 #include "../Helpers/Helpers.h"
+#include "../Helpers/Math.h"
 
 namespace star
 {
@@ -584,8 +585,8 @@ namespace star
 		GamepadIndex playerIndex)
 	{
 		XINPUT_VIBRATION vibration;
-		glm::clamp<float32>(leftVibration, 0.0f, 1.0f);
-		glm::clamp<float32>(rightVibration, 0.0f, 1.0f);
+		Clamp(leftVibration, 0.0f, 1.0f);
+		Clamp(rightVibration, 0.0f, 1.0f);
 		ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
 		//convert from float32 to word -> float32 * lenght of word
 		vibration.wLeftMotorSpeed = static_cast<WORD>(leftVibration * MAX_VALUE_OF_WORD);

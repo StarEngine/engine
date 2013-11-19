@@ -7,7 +7,7 @@
 #include "../Objects/FreeCamera.h"
 #include "../Scenes/BaseScene.h"
 #include <algorithm>
-#include "../Helpers/HelpersMath.h"
+#include "../Helpers/Math.h"
 #include "ScaleSystem.h"
 
 namespace star
@@ -174,7 +174,7 @@ namespace star
 			batchSize += 4;
 
 			float32 scaleValue = ScaleSystem::GetInstance()->GetScale();
-			mat4 scaleMat = glm::scale<float32>(scaleValue, scaleValue, 1.0f);
+			mat4 scaleMat = Scale(scaleValue, scaleValue, 1.0f);
 		
 			for(int32 j = 0; j < ((batchSize/4)); ++j)
 			{
@@ -187,7 +187,7 @@ namespace star
 				if(spriteQueue[m_CurrentSprite + j].bIsHUD)
 				{
 					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
-						1, GL_FALSE, glm::value_ptr(
+						1, GL_FALSE, ToPointerValue(
 							TransposeMatrix(spriteQueue[m_CurrentSprite + j].transform) * 
 							scaleMat *
 							GraphicsManager::GetInstance()->GetProjectionMatrix()
@@ -197,7 +197,7 @@ namespace star
 				else
 				{
 					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
-						1, GL_FALSE, glm::value_ptr(
+						1, GL_FALSE, ToPointerValue(
 							TransposeMatrix(spriteQueue[m_CurrentSprite + j].transform) *
 							scaleMat *
 							GraphicsManager::GetInstance()->GetViewProjectionMatrix()));
@@ -254,7 +254,7 @@ namespace star
 		glUniform4f(s_colorId,color.r,color.g,color.b,color.a);
 	
 		float32 scaleValue = ScaleSystem::GetInstance()->GetScale();
-		mat4 scaleMat = glm::scale<float32>(scaleValue, scaleValue, 1.0f);
+		mat4 scaleMat = Scale(scaleValue, scaleValue, 1.0f);
 
 		int32 offsetX(0);
 		int32 offsetY(0);
@@ -277,19 +277,19 @@ namespace star
 				if(start_line[i] != 0)
 				{
 					int32 offset = curfont.GetMaxLetterHeight() - tempsizes[start_line[i]].y;
-					offsetTrans = glm::translate(
-						glm::vec3(offsetX, offsetY - curfont.GetMaxLetterHeight() - offset, 0));
+					offsetTrans = Translate(
+						vec3(offsetX, offsetY - curfont.GetMaxLetterHeight() - offset, 0));
 					offsetX += tempsizes[start_line[i]].x;
 				}
 				else
 				{
-					offsetTrans = glm::translate(glm::vec3(0, 0, 0));
+					offsetTrans = Translate(0.0f, 0.0f, 0.0f);
 				}
 				const mat4& world = transform->GetWorldMatrix() * offsetTrans;
 
 				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
 					1,GL_FALSE,
-					glm::value_ptr(
+					ToPointerValue(
 						TransposeMatrix(world) *
 						scaleMat *
 						GraphicsManager::GetInstance()->GetViewProjectionMatrix()

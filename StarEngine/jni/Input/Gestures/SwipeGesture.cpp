@@ -1,9 +1,10 @@
 #include "SwipeGesture.h"
-#include "../../StarEngine/jni/Logger.h"
-#include "../../StarEngine/jni/defines.h"
-#include "../../StarEngine/jni/Context.h"
+#include "../../Logger.h"
+#include "../../defines.h"
+#include "../../Context.h"
 #include "../../Helpers/Helpers.h"
-#include "../../StarEngine/jni/Input/InputManager.h"
+#include "../../Helpers/Math.h"
+#include "../InputManager.h"
 #define INPUT_MANAGER (InputManager::GetInstance())
 
 namespace star
@@ -44,10 +45,10 @@ namespace star
 				{
 					//The mouse moved
 					vec2 dir = m_CurrentPos - m_OldPos;
-					dir = glm::normalize(dir);
+					dir = Normalize(dir);
 					if(m_OldDirection != vec2())
 					{
-						if(glm::dot(dir, m_OldDirection) >= glm::cos(glm::radians((float32)ANGLE_FLEX)))
+						if(Dot(dir, m_OldDirection) >= cos(DegreesToRadians(float32(ANGLE_FLEX))))
 						{
 							m_OldPos = INPUT_MANAGER->GetCurrentMousePosition();
 							m_OldDirection = dir;
@@ -63,7 +64,7 @@ namespace star
 						m_OldDirection = dir;
 					}
 					//Check speed:
-					m_TotalDistance = glm::length(m_CurrentPos - m_StartPos);
+					m_TotalDistance = Mag(m_CurrentPos - m_StartPos);
 					m_Speed = m_TotalDistance / float32(m_ElapsedTime);
 				}
 			}			
@@ -102,10 +103,10 @@ namespace star
 				if(m_OldPos != m_CurrentPos)
 				{
 					vec2 dir = m_CurrentPos - m_OldPos;
-					dir = glm::normalize(dir);
+					dir = Normalize(dir);
 					if(m_OldDirection != vec2())
 					{
-						if(glm::dot(dir, m_OldDirection) >= glm::cos(glm::radians((float32)ANGLE_FLEX)))
+						if(Dot(dir, m_OldDirection) >= cos(DegreesToRadians(float32(ANGLE_FLEX))))
 						{
 							m_OldPos = INPUT_MANAGER->GetCurrentTouchPosANDR();
 							m_OldDirection = dir;
@@ -121,7 +122,7 @@ namespace star
 						m_OldDirection = dir;
 					}
 					//Check speed:
-					m_TotalDistance = glm::length(m_CurrentPos - m_StartPos);
+					m_TotalDistance = Mag(m_CurrentPos - m_StartPos);
 					m_Speed = m_TotalDistance / (float32)m_ElapsedTime ;
 				}
 			}
@@ -167,7 +168,7 @@ namespace star
 		vec2 vec = m_CurrentPos - m_StartPos;
 		if(vec != vec2())
 		{
-			return glm::normalize(vec);
+			return Normalize(vec);
 		}
 		return vec;
 	}

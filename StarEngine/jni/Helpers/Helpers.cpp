@@ -313,8 +313,8 @@ namespace star
 	}
 
 	template <>
-	tstring string_cast<tstring, glm::vec2>
-		(const glm::vec2 & value)
+	tstring string_cast<tstring, fvec2>
+		(const fvec2 & value)
 	{
 		tstringstream strstr;
 		strstr << value.x << _T(";");
@@ -334,8 +334,8 @@ namespace star
 	}
 
 	template <>
-	tstring string_cast<tstring, glm::vec3>
-		(const glm::vec3 & value)
+	tstring string_cast<tstring, fvec3>
+		(const fvec3 & value)
 	{
 		tstringstream strstr;
 		strstr << value.x << _T(";");
@@ -345,8 +345,8 @@ namespace star
 	}
 
 	template <>
-	tstring string_cast<tstring, glm::vec4>
-		(const glm::vec4 & value)
+	tstring string_cast<tstring, fvec4>
+		(const fvec4 & value)
 	{
 		tstringstream strstr;
 		strstr << value.x << _T(";");
@@ -357,8 +357,8 @@ namespace star
 	}
 
 	template <>
-	tstring string_cast<tstring, glm::quat>
-		(const glm::quat & value)
+	tstring string_cast<tstring, fquat>
+		(const fquat & value)
 	{
 		tstringstream strstr;
 		strstr << value.x << _T(";");
@@ -413,10 +413,10 @@ namespace star
 	}
 
 	template <>
-	glm::vec2 string_cast<glm::vec2, tstring>
+	fvec2 string_cast<fvec2, tstring>
 		(const tstring & value)
 	{
-		glm::vec2 vec;
+		fvec2 vec;
 		int32 index = value.find(';',0);
 		vec.x = string_cast<float32>(value.substr(0, index));
 		vec.y = string_cast<float32>(value.substr(++index,value.size()-index));
@@ -437,10 +437,10 @@ namespace star
 	}
 
 	template <>
-	glm::vec3 string_cast<glm::vec3, tstring>
+	fvec3 string_cast<fvec3, tstring>
 		(const tstring & value)
 	{
-		glm::vec3 vec;
+		fvec3 vec;
 		int32 index = value.find(';', 0);
 		vec.x = string_cast<float32>(value.substr(0, index));
 		int32 index2 = value.find(';', ++index);
@@ -450,10 +450,10 @@ namespace star
 	}
 
 	template <>
-	glm::vec4 string_cast<glm::vec4, tstring>
+	fvec4 string_cast<fvec4, tstring>
 		(const tstring & value)
 	{
-		glm::vec4 vec;
+		fvec4 vec;
 		int32 index = value.find(';', 0);
 		vec.x = string_cast<float32>(value.substr(0, index));
 		int32 index2 = value.find(';', ++index);
@@ -465,10 +465,10 @@ namespace star
 	}
 
 	template <>
-	glm::quat string_cast<glm::quat, tstring>
+	fquat string_cast<fquat, tstring>
 		(const tstring & value)
 	{
-		glm::quat quat;
+		fquat quat;
 		int32 index = value.find(';', 0);
 		quat.x = string_cast<float32>(value.substr(0, index));
 		int32 index2 = value.find(';', ++index);

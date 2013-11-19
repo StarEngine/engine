@@ -1,4 +1,4 @@
-#include "HelpersMath.h"
+#include "Math.h"
 #include "Rect.h"
 #include <random>
 #include "../StarEngine.h"
@@ -6,6 +6,21 @@
 
 namespace star
 {
+	float32 Cotan(float32 x)
+	{
+		return 1.0f / tan(x);
+	}
+
+	float64 Cotan(float64 x)
+	{
+		return 1.0 / tan(x);
+	}
+
+	float128 Cotan(float128 x)
+	{
+		return 1.0 / tan(x);
+	}
+
 	fvec2 DegreesToRadians(const vec2 & degrees)
 	{
 		fvec2 vec;
@@ -674,6 +689,66 @@ namespace star
 		vecOut = glm::cross<float64>(vecA, vecB);
 	}
 
+	fvec2 Mul(const fvec2 & vec, const fmat2 & mat)
+	{
+		return glm::mul<float32>(vec, mat);
+	}
+
+	fvec3 Mul(const fvec3 & vec, const fmat3 & mat)
+	{
+		return glm::mul<float32>(vec, mat);
+	}
+
+	fvec4 Mul(const fvec4 & vec, const fmat4 & mat)
+	{
+		return glm::mul<float32>(vec, mat);
+	}
+
+	dvec2 Mul(const dvec2 & vec, const dmat2 & mat)
+	{
+		return glm::mul<float64>(vec, mat);
+	}
+
+	dvec3 Mul(const dvec3 & vec, const dmat3 & mat)
+	{
+		return glm::mul<float64>(vec, mat);
+	}
+
+	dvec4 Mul(const dvec4 & vec, const dmat4 & mat)
+	{
+		return glm::mul<float64>(vec, mat);
+	}
+
+	void Mul(const fvec2 & vecIn, const fmat2 & mat, fvec2 & vecOut)
+	{
+		vecOut = glm::mul<float32>(vecIn, mat);
+	}
+
+	void Mul(const fvec3 & vecIn, const fmat3 & mat, fvec3 & vecOut)
+	{
+		vecOut = glm::mul<float32>(vecIn, mat);
+	}
+
+	void Mul(const fvec4 & vecIn, const fmat4 & mat, fvec4 & vecOut)
+	{
+		vecOut = glm::mul<float32>(vecIn, mat);
+	}
+
+	void Mul(const dvec2 & vecIn, const dmat2 & mat, dvec2 & vecOut)
+	{
+		vecOut = glm::mul<float64>(vecIn, mat);
+	}
+
+	void Mul(const dvec3 & vecIn, const dmat3 & mat, dvec3 & vecOut)
+	{
+		vecOut = glm::mul<float64>(vecIn, mat);
+	}
+
+	void Mul(const dvec4 & vecIn, const dmat4 & mat, dvec4 & vecOut)
+	{
+		vecOut = glm::mul<float64>(vecIn, mat);
+	}
+
 	fvec2 Normalize(const fvec2 & vec)
 	{
 		return glm::normalize<float32>(vec);
@@ -764,8 +839,278 @@ namespace star
 		return glm::distance<float64>(vecA, vecB);
 	}
 
+	fmat3 ToMat3(const fquat & quaternion)
+	{
+		return glm::toMat3<float32>(quaternion);
+	}
+
+	dmat3 ToMat3(const dquat & quaternion)
+	{
+		return glm::toMat3<float64>(quaternion);
+	}
+
+	void ToMat3(const fquat & quaternion, fmat3 & out)
+	{
+		out = glm::toMat3<float32>(quaternion);
+	}
+
+	void ToMat3(const dquat & quaternion, dmat3 & out)
+	{
+		out = glm::toMat3<float64>(quaternion);
+	}
+
+	fmat4 ToMat4(const fquat & quaternion)
+	{
+		return glm::toMat4<float32>(quaternion);
+	}
+
+	dmat4 ToMat4(const dquat & quaternion)
+	{
+		return glm::toMat4<float64>(quaternion);
+	}
+
+	void ToMat4(const fquat & quaternion, fmat4 & out)
+	{
+		out = glm::toMat4<float32>(quaternion);
+	}
+
+	void ToMat4(const dquat & quaternion, dmat4 & out)
+	{
+		out = glm::toMat4<float64>(quaternion);
+	}
+
+	fmat4 Translate(const fmat4 & mat, fvec3 & vec)
+	{
+		return glm::translate<float32>(mat, vec);
+	}
+
+	fmat4 Translate(const fmat4 & mat, float32 x, float32 y, float32 z)
+	{
+		return glm::translate<float32>(mat, x, y, z);
+	}
+
+	fmat4 Translate(const fvec3 & vec)
+	{
+		return glm::translate<float32>(vec);
+	}
+
+	fmat4 Translate(float32 x, float32 y, float32 z)
+	{
+		return glm::translate<float32>(x, y, z);
+	}
+
+	void Translate(const fmat4 & mat, fvec3 & vec, fmat4 & out)
+	{
+		out = glm::translate<float32>(mat, vec);
+	}
+
+	void Translate(const fmat4 & mat, float32 x, float32 y, float32 z, fmat4 & out)
+	{
+		out = glm::translate<float32>(mat, x, y, z);
+	}
+
+	void Translate(const fvec3 & vec, fmat4 & out)
+	{
+		out = glm::translate<float32>(vec);
+	}
+
+	void Translate(float32 x, float32 y, float32 z, fmat4 & out)
+	{
+		out = glm::translate<float32>(x, y, z);
+	}
+
+	dmat4 Translate(const dmat4 & mat, dvec3 & vec)
+	{
+		return glm::translate<float64>(mat, vec);
+	}
+
+	dmat4 Translate(const dmat4 & mat, float64 x, float64 y, float64 z)
+	{
+		return glm::translate<float64>(mat, x, y, z);
+	}
+
+	dmat4 Translate(const dvec3 & vec)
+	{
+		return glm::translate<float64>(vec);
+	}
+
+	dmat4 Translate(float64 x, float64 y, float64 z)
+	{
+		return glm::translate<float64>(x, y, z);
+	}
+
+	void Translate(const dmat4 & mat, dvec3 & vec, dmat4 & out)
+	{
+		out = glm::translate<float64>(mat, vec);
+	}
+
+	void Translate(const dmat4 & mat, float64 x, float64 y, float64 z, dmat4 & out)
+	{
+		out = glm::translate<float64>(mat, x, y, z);
+	}
+
+	void Translate(const dvec3 & vec, dmat4 & out)
+	{
+		out = glm::translate<float64>(vec);
+	}
+
+	void Translate(float64 x, float64 y, float64 z, dmat4 & out)
+	{
+		out = glm::translate<float64>(x, y, z);
+	}
+
+	fmat4 Scale(const fmat4 & mat, fvec3 & vec)
+	{
+		return glm::scale<float32>(mat, vec);
+	}
+
+	fmat4 Scale(const fmat4 & mat, float32 x, float32 y, float32 z)
+	{
+		return glm::scale<float32>(mat, x, y, z);
+	}
+
+	fmat4 Scale(const fvec3 & vec)
+	{
+		return glm::scale<float32>(vec);
+	}
+
+	fmat4 Scale(float32 x, float32 y, float32 z)
+	{
+		return glm::scale<float32>(x, y, z);
+	}
+
+	void Scale(const fmat4 & mat, fvec3 & vec, fmat4 & out)
+	{
+		out = glm::scale<float32>(mat, vec);
+	}
+
+	void Scale(const fmat4 & mat, float32 x, float32 y, float32 z, fmat4 & out)
+	{
+		out = glm::scale<float32>(mat, x, y, z);
+	}
+
+	void Scale(const fvec3 & vec, fmat4 & out)
+	{
+		out = glm::scale<float32>(vec);
+	}
+
+	void Scale(float32 x, float32 y, float32 z, fmat4 & out)
+	{
+		out = glm::scale<float32>(x, y, z);
+	}
+
+	dmat4 Scale(const dmat4 & mat, dvec3 & vec)
+	{
+		return glm::scale<float64>(mat, vec);
+	}
+
+	dmat4 Scale(const dmat4 & mat, float64 x, float64 y, float64 z)
+	{
+		return glm::scale<float64>(mat, x, y, z);
+	}
+
+	dmat4 Scale(const dvec3 & vec)
+	{
+		return glm::scale<float64>(vec);
+	}
+
+	dmat4 Scale(float64 x, float64 y, float64 z)
+	{
+		return glm::scale<float64>(x, y, z);
+	}
+
+	void Scale(const dmat4 & mat, dvec3 & vec, dmat4 & out)
+	{
+		out = glm::scale<float64>(mat, vec);
+	}
+
+	void Scale(const dmat4 & mat, float64 x, float64 y, float64 z, dmat4 & out)
+	{
+		out = glm::scale<float64>(mat, x, y, z);
+	}
+
+	void Scale(const dvec3 & vec, dmat4 & out)
+	{
+		out = glm::scale<float64>(vec);
+	}
+
+	void Scale(float64 x, float64 y, float64 z, dmat4 & out)
+	{
+		out = glm::scale<float64>(x, y, z);
+	}
+
+	const float32 * ToPointerValue(const fmat2 & mat)
+	{
+		return glm::value_ptr<float32>(mat);
+	}
+
+	const float32 * ToPointerValue(const fmat3 & mat)
+	{
+		return glm::value_ptr<float32>(mat);
+	}
+
+	const float32 * ToPointerValue(const fmat4 & mat)
+	{
+		return glm::value_ptr<float32>(mat);
+	}
+
+	const float32 * ToPointerValue(const fvec2 & vec)
+	{
+		return glm::value_ptr<float32>(vec);
+	}
+
+	const float32 * ToPointerValue(const fvec3 & vec)
+	{
+		return glm::value_ptr<float32>(vec);
+	}
+
+	const float32 * ToPointerValue(const fvec4 & vec)
+	{
+		return glm::value_ptr<float32>(vec);
+	}
+
+	const float32 * ToPointerValue(const fquat & quat)
+	{
+		return glm::value_ptr<float32>(quat);
+	}
+
+	const float64 * ToPointerValue(const dmat2 & mat)
+	{
+		return glm::value_ptr<float64>(mat);
+	}
+
+	const float64 * ToPointerValue(const dmat3 & mat)
+	{
+		return glm::value_ptr<float64>(mat);
+	}
+
+	const float64 * ToPointerValue(const dmat4 & mat)
+	{
+		return glm::value_ptr<float64>(mat);
+	}
+
+	const float64 * ToPointerValue(const dvec2 & vec)
+	{
+		return glm::value_ptr<float64>(vec);
+	}
+
+	const float64 * ToPointerValue(const dvec3 & vec)
+	{
+		return glm::value_ptr<float64>(vec);
+	}
+
+	const float64 * ToPointerValue(const dvec4 & vec)
+	{
+		return glm::value_ptr<float64>(vec);
+	}
+
+	const float64 * ToPointerValue(const dquat & quat)
+	{
+		return glm::value_ptr<float64>(quat);
+	}
+
 #ifdef STAR2D
-	pos Lerp(const pos & start, const pos & end, float percent)
+	pos Lerp(const pos & start, const pos & end, float32 percent)
 	{
 		return pos(
 			Lerp(start.pos2D(), end.pos2D(), percent),
@@ -773,7 +1118,7 @@ namespace star
 			);
 	}
 
-	pos Slerp(const pos & start, const pos & end, float percent)
+	pos Slerp(const pos & start, const pos & end, float32 percent)
 	{
 		return pos(
 			Slerp(start.pos2D(), end.pos2D(), percent),
@@ -781,7 +1126,7 @@ namespace star
 			);
 	}
 
-	pos Nlerp(const pos & start, const pos & end, float percent)
+	pos Nlerp(const pos & start, const pos & end, float32 percent)
 	{
 		return pos(
 			Nlerp(start.pos2D(), end.pos2D(), percent),
@@ -797,6 +1142,23 @@ namespace star
 	float32 Dot(const pos & posA, const pos & posB)
 	{
 		return Dot(posA.pos2D(), posB.pos2D());
+	}
+
+	pos Mul(const pos & position, const fmat2 & mat)
+	{
+		return 
+			pos(
+				Mul(position.pos2D(), mat),
+				position.l
+				);
+	}
+
+	void Mul(const pos & posIn, const fmat2 & mat, pos & posOut)
+	{
+		posOut = pos(
+				Mul(posIn.pos2D(), mat),
+				posIn.l
+				);
 	}
 
 	pos Normalize(const pos & position)

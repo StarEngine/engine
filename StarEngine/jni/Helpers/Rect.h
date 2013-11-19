@@ -15,12 +15,12 @@ namespace star
 		Rect operator=(const Rect& yRef);
 		//[TODO] write operators and copy + move constructors (and non member operators)
 
-		Rect operator*(glm::mat4 matrix) const;
+		Rect operator*(mat4 matrix) const;
 		Rect operator*(float32 constant) const;
 
 		Rect operator/(float32 constant) const;
 
-		Rect& operator*=(glm::mat4 matrix);		
+		Rect& operator*=(mat4 matrix);		
 		Rect& operator*=(float32 constant);
 
 

@@ -6,6 +6,10 @@
 
 namespace star
 {
+	float32 Cotan(float32 x);
+	float64 Cotan(float64 x);
+	float128 Cotan(float128 x);
+
 	template <typename T>
 	T DegreesToRadians(T degrees)
 	{
@@ -165,6 +169,22 @@ namespace star
 	void Cross(const fvec3 & vecA, const fvec3 & vecB, fvec3 & vecOut);
 	void Cross(const dvec3 & vecA, const dvec3 & vecB, dvec3 & vecOut);
 
+	fvec2 Mul(const fvec2 & vec, const fmat2 & mat);
+	fvec3 Mul(const fvec3 & vec, const fmat3 & mat);
+	fvec4 Mul(const fvec4 & vec, const fmat4 & mat);
+
+	dvec2 Mul(const dvec2 & vec, const dmat2 & mat);
+	dvec3 Mul(const dvec3 & vec, const dmat3 & mat);
+	dvec4 Mul(const dvec4 & vec, const dmat4 & mat);
+
+	void Mul(const fvec2 & vecIn, const fmat2 & mat, fvec2 & vecOut);
+	void Mul(const fvec3 & vecIn, const fmat3 & mat, fvec3 & vecOut);
+	void Mul(const fvec4 & vecIn, const fmat4 & mat, fvec4 & vecOut);
+
+	void Mul(const dvec2 & vecIn, const dmat2 & mat, dvec2 & vecOut);
+	void Mul(const dvec3 & vecIn, const dmat3 & mat, dvec3 & vecOut);
+	void Mul(const dvec4 & vecIn, const dmat4 & mat, dvec4 & vecOut);
+
 	fvec2 Normalize(const fvec2 & vec);
 	fvec3 Normalize(const fvec3 & vec);
 	fvec4 Normalize(const fvec4 & vec);
@@ -189,12 +209,84 @@ namespace star
 	float64 Distance(const dvec3 & vecA, const dvec3 & vecB);
 	float64 Distance(const dvec4 & vecA, const dvec4 & vecB);
 
+	fmat3 ToMat3(const fquat & quaternion);
+	dmat3 ToMat3(const dquat & quaternion);
+
+	void ToMat3(const fquat & quaternion, fmat3 & out);
+	void ToMat3(const dquat & quaternion, dmat3 & out);
+
+	fmat4 ToMat4(const fquat & quaternion);
+	dmat4 ToMat4(const dquat & quaternion);
+
+	void ToMat4(const fquat & quaternion, fmat4 & out);
+	void ToMat4(const dquat & quaternion, dmat4 & out);
+
+	fmat4 Translate(const fmat4 & mat, fvec3 & vec);
+	fmat4 Translate(const fmat4 & mat, float32 x, float32 y, float32 z);
+	fmat4 Translate(const fvec3 & vec);
+	fmat4 Translate(float32 x, float32 y, float32 z);
+
+	void Translate(const fmat4 & mat, fvec3 & vec, fmat4 & out);
+	void Translate(const fmat4 & mat, float32 x, float32 y, float32 z, fmat4 & out);
+	void Translate(const fvec3 & vec, fmat4 & out);
+	void Translate(float32 x, float32 y, float32 z, fmat4 & out);
+
+	dmat4 Translate(const dmat4 & mat, dvec3 & vec);
+	dmat4 Translate(const dmat4 & mat, float64 x, float64 y, float64 z);
+	dmat4 Translate(const dvec3 & vec);
+	dmat4 Translate(float64 x, float64 y, float64 z);
+
+	void Translate(const dmat4 & mat, dvec3 & vec, dmat4 & out);
+	void Translate(const dmat4 & mat, float64 x, float64 y, float64 z, dmat4 & out);
+	void Translate(const dvec3 & vec, dmat4 & out);
+	void Translate(float64 x, float64 y, float64 z, dmat4 & out);
+
+	fmat4 Scale(const fmat4 & mat, fvec3 & vec);
+	fmat4 Scale(const fmat4 & mat, float32 x, float32 y, float32 z);
+	fmat4 Scale(const fvec3 & vec);
+	fmat4 Scale(float32 x, float32 y, float32 z);
+
+	void Scale(const fmat4 & mat, fvec3 & vec, fmat4 & out);
+	void Scale(const fmat4 & mat, float32 x, float32 y, float32 z, fmat4 & out);
+	void Scale(const fvec3 & vec, fmat4 & out);
+	void Scale(float32 x, float32 y, float32 z, fmat4 & out);
+
+	dmat4 Scale(const dmat4 & mat, dvec3 & vec);
+	dmat4 Scale(const dmat4 & mat, float64 x, float64 y, float64 z);
+	dmat4 Scale(const dvec3 & vec);
+	dmat4 Scale(float64 x, float64 y, float64 z);
+
+	void Scale(const dmat4 & mat, dvec3 & vec, dmat4 & out);
+	void Scale(const dmat4 & mat, float64 x, float64 y, float64 z, dmat4 & out);
+	void Scale(const dvec3 & vec, dmat4 & out);
+	void Scale(float64 x, float64 y, float64 z, dmat4 & out);
+
+	const float32 * ToPointerValue(const fmat2 & mat);
+	const float32 * ToPointerValue(const fmat3 & mat);
+	const float32 * ToPointerValue(const fmat4 & mat);
+
+	const float32 * ToPointerValue(const fvec2 & vec);
+	const float32 * ToPointerValue(const fvec3 & vec);
+	const float32 * ToPointerValue(const fvec4 & vec);
+	const float32 * ToPointerValue(const fquat & quat);
+
+	const float64 * ToPointerValue(const dmat2 & mat);
+	const float64 * ToPointerValue(const dmat3 & mat);
+	const float64 * ToPointerValue(const dmat4 & mat);
+
+	const float64 * ToPointerValue(const dvec2 & vec);
+	const float64 * ToPointerValue(const dvec3 & vec);
+	const float64 * ToPointerValue(const dvec4 & vec);
+	const float64 * ToPointerValue(const dquat & quat);
+
 #ifdef STAR2D
-	pos Lerp(const pos & start, const pos & end, float percent);
-	pos Slerp(const pos & start, const pos & end, float percent);
-	pos Nlerp(const pos & start, const pos & end, float percent);
+	pos Lerp(const pos & start, const pos & end, float32 percent);
+	pos Slerp(const pos & start, const pos & end, float32 percent);
+	pos Nlerp(const pos & start, const pos & end, float32 percent);
 	float32 Mag(const pos & pos);
 	float32 Dot(const pos & posA, const pos & posB);
+	pos Mul(const pos & position, const fmat2 & mat);
+	void Mul(const pos & posIn, const fmat2 & mat, pos & posOut);
 	pos Normalize(const pos & position);
 	void Normalize(const pos & posIn, pos & posOut);
 	float32 Distance(const pos & posA, const pos & posB);
