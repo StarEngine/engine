@@ -77,10 +77,7 @@ namespace star
 
 		for(auto object : m_Objects)
 		{
-			//if(CheckCulling(object))
-			//{
-				object->BaseUpdate(context);
-			//}
+			object->BaseUpdate(context);
 		}
 
 		Update(context);

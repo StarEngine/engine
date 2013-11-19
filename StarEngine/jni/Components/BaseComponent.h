@@ -17,6 +17,8 @@ namespace star
 		virtual ~BaseComponent(void);
 
 		void Initialize();
+		void BaseUpdate(const Context& context);
+		void BaseDraw();
 		virtual void Update(const Context& context) = 0;
 		virtual void Draw() = 0;
 
@@ -26,14 +28,17 @@ namespace star
 		void SetParent(Object* parent);
 
 		BaseScene* GetGameScene() const;
-
 		TransformComponent* GetTransform() const;
+
+		void Disable();
+		void Enable();
 
 	protected:
 		virtual void InitializeComponent() = 0;
 
 		Object* m_pParentObject;
-		bool m_bInitialized;
+		bool m_bInitialized,
+			 m_bIsDisabled;
 
 	private:
 		BaseComponent(const BaseComponent& t);

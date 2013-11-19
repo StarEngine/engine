@@ -2,19 +2,20 @@
 #include "../Objects/Object.h"
 #include "../Context.h"
 #include "../Logger.h"
-#include "../Objects/Object.h"
 
 namespace star
 {
 	BaseComponent::BaseComponent():
 		m_pParentObject(nullptr),
-		m_bInitialized(false)
+		m_bInitialized(false),
+		m_bIsDisabled(false)
 	{
 	}
 
 	BaseComponent::BaseComponent(Object* parent):
 		m_pParentObject(parent),
-		m_bInitialized(false)
+		m_bInitialized(false),
+		m_bIsDisabled(false)
 	{
 	}
 
@@ -33,6 +34,24 @@ namespace star
 		}
 		InitializeComponent();
 		m_bInitialized = true;
+	}
+
+	void BaseComponent::BaseUpdate(const Context& context)
+	{
+		if(m_bIsDisabled)
+		{
+			return;
+		}
+		Update(context);
+	}
+
+	void BaseComponent::BaseDraw()
+	{
+		if(m_bIsDisabled)
+		{
+			return;
+		}
+		Draw();
 	}
 	
 	bool BaseComponent::IsInitialized() const
@@ -58,5 +77,15 @@ namespace star
 	TransformComponent* BaseComponent::GetTransform() const
 	{
 		 return m_pParentObject->GetComponent<TransformComponent>();
+	}
+
+	void BaseComponent::Disable()
+	{
+		m_bIsDisabled = true;
+	}
+
+	void BaseComponent::Enable()
+	{
+		m_bIsDisabled = false;
 	}
 }

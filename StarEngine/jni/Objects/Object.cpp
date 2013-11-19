@@ -98,7 +98,7 @@ namespace star
 			{
 				if(component)
 				{
-					component->Update(context);
+					component->BaseUpdate(context);
 				}
 			}
 
@@ -126,7 +126,7 @@ namespace star
 			{
 				if(component)
 				{
-					component->Draw();
+					component->BaseDraw();
 				} 
 			}
 
