@@ -1279,6 +1279,166 @@ namespace star
 		out = glm::scale<float64>(x, y, z);
 	}
 
+	fvec2 Rotate(const fvec2 & vec, float32 angle)
+	{
+		return glm::rotate(vec, angle);
+	}
+
+	fvec3 Rotate(const fvec3 & vec, float32 angle, const fvec3 & normal)
+	{
+		return glm::rotate(vec, angle, normal);
+	}
+
+	fvec4 Rotate(const fvec4 & vec, float32 angle, const fvec3 & normal)
+	{
+		return glm::rotate(vec, angle, normal);
+	}
+
+	fmat4 Rotate(const fmat4 & mat, float32 angle, float32 x, float32 y, float32 z)
+	{
+		return glm::rotate(mat, angle, x, y, z);
+	}
+
+	fmat4 Rotate(const fvec3 & vec, float32 angle)
+	{
+		return glm::rotate(angle, vec);
+	}
+
+	fmat4 Rotate(float32 angle, float32 x, float32 y, float32 z)
+	{
+		return glm::rotate(angle, x, y, z);
+	}
+
+	fvec3 Rotate(const fquat & quat, const fvec3 & vec)
+	{
+		return glm::rotate(quat, vec);
+	}
+
+	fvec4 Rotate(const fquat & quat, const fvec4 & vec)
+	{
+		return glm::rotate(quat, vec);
+	}
+
+	void Rotate(const fvec2 & vec, float32 angle, fvec2 & out)
+	{
+		out = glm::rotate(vec, angle);
+	}
+
+	void Rotate(const fvec3 & vec, float32 angle, const fvec3 & normal, fvec3 & out)
+	{
+		out = glm::rotate(vec, angle, normal);
+	}
+
+	void Rotate(const fvec4 & vec, float32 angle, const fvec3 & normal, fvec4 & out)
+	{
+		out = glm::rotate(vec, angle, normal);
+	}
+
+	void Rotate(const fmat4 & mat, float32 angle, float32 x, float32 y, float32 z, fmat4 & out)
+	{
+		out = glm::rotate(mat, angle, x, y, z);
+	}
+
+	void Rotate(const fvec3 & vec, float32 angle, fmat4 & out)
+	{
+		out = glm::rotate(angle, vec);
+	}
+
+	void Rotate(float32 angle, float32 x, float32 y, float32 z, fmat4 & out)
+	{
+		out = glm::rotate(angle, x, y, z);
+	}
+
+	void Rotate(const fquat & quat, const fvec3 & vec, fvec3 & out)
+	{
+		out = glm::rotate(quat, vec);
+	}
+
+	void Rotate(const fquat & quat, const fvec4 & vec, fvec4 & out)
+	{
+		out = glm::rotate(quat, vec);
+	}
+
+	dvec2 Rotate(const dvec2 & vec, float64 angle)
+	{
+		return glm::rotate(vec, angle);
+	}
+
+	dvec3 Rotate(const dvec3 & vec, float64 angle, const dvec3 & normal)
+	{
+		return glm::rotate(vec, angle, normal);
+	}
+
+	dvec4 Rotate(const dvec4 & vec, float64 angle, const dvec3 & normal)
+	{
+		return glm::rotate(vec, angle, normal);
+	}
+
+	dmat4 Rotate(const dmat4 & mat, float64 angle, float64 x, float64 y, float64 z)
+	{
+		return glm::rotate(mat, angle, x, y, z);
+	}
+
+	dmat4 Rotate(const dvec3 & vec, float64 angle)
+	{
+		return glm::rotate(angle, vec);
+	}
+
+	dmat4 Rotate(float64 angle, float64 x, float64 y, float64 z)
+	{
+		return glm::rotate(angle, x, y, z);
+	}
+
+	dvec3 Rotate(const dquat & quat, const dvec3 & vec)
+	{
+		return glm::rotate(quat, vec);
+	}
+
+	dvec4 Rotate(const dquat & quat, const dvec4 & vec)
+	{
+		return glm::rotate(quat, vec);
+	}
+
+	void Rotate(const dvec2 & vec, float64 angle, dvec2 & out)
+	{
+		out = glm::rotate(vec, angle);
+	}
+
+	void Rotate(const dvec3 & vec, float64 angle, const dvec3 & normal, dvec3 & out)
+	{
+		out = glm::rotate(vec, angle, normal);
+	}
+
+	void Rotate(const dvec4 & vec, float64 angle, const dvec3 & normal, dvec4 & out)
+	{
+		out = glm::rotate(vec, angle, normal);
+	}
+
+	void Rotate(const dmat4 & mat, float64 angle, float64 x, float64 y, float64 z, dmat4 & out)
+	{
+		out = glm::rotate(mat, angle, x, y, z);
+	}
+
+	void Rotate(const dvec3 & vec, float64 angle, dmat4 & out)
+	{
+		out = glm::rotate(angle, vec);
+	}
+
+	void Rotate(float64 angle, float64 x, float64 y, float64 z, dmat4 & out)
+	{
+		out = glm::rotate(angle, x, y, z);
+	}
+
+	void Rotate(const dquat & quat, const dvec3 & vec, dvec3 & out)
+	{
+		out = glm::rotate(quat, vec);
+	}
+
+	void Rotate(const dquat & quat, const dvec4 & vec, dvec4 & out)
+	{
+		out = glm::rotate(quat, vec);
+	}
+
 	fvec2 Saturate(const fvec2 & vec)
 	{
 		return glm::saturate<float32>(vec);
@@ -1337,6 +1497,66 @@ namespace star
 	void Saturate(const dvec4 & vecIn, dvec4 & vecOut)
 	{
 		vecOut = glm::saturate<float64>(vecIn);
+	}
+
+	fvec2 Refract(const fvec2 & I, const fvec2 & N, float32 eta)
+	{
+		return glm::refract(I, N, eta);
+	}
+
+	fvec3 Refract(const fvec3 & I, const fvec3 & N, float32 eta)
+	{
+		return glm::refract(I, N, eta);
+	}
+
+	fvec4 Refract(const fvec4 & I, const fvec4 & N, float32 eta)
+	{
+		return glm::refract(I, N, eta);
+	}
+
+	void Refract(const fvec2 & I, const fvec2 & N, float32 eta, fvec2 & out)
+	{
+		out = glm::refract(I, N, eta);
+	}
+
+	void Refract(const fvec3 & I, const fvec3 & N, float32 eta, fvec3 & out)
+	{
+		out = glm::refract(I, N, eta);
+	}
+
+	void Refract(const fvec4 & I, const fvec4 & N, float32 eta, fvec4 & out)
+	{
+		out = glm::refract(I, N, eta);
+	}
+
+	dvec2 Refract(const dvec2 & I, const dvec2 & N, float32 eta)
+	{
+		return glm::refract(I, N, eta);
+	}
+
+	dvec3 Refract(const dvec3 & I, const dvec3 & N, float32 eta)
+	{
+		return glm::refract(I, N, eta);
+	}
+
+	dvec4 Refract(const dvec4 & I, const dvec4 & N, float32 eta)
+	{
+		return glm::refract(I, N, eta);
+	}
+
+	void Refract(const dvec2 & I, const dvec2 & N, float32 eta, dvec2 & out)
+	{
+		out = glm::refract(I, N, eta);
+	}
+
+	void Refract(const dvec3 & I, const dvec3 & N, float32 eta, dvec3 & out)
+	{
+		out = glm::refract(I, N, eta);
+	}
+
+	void Refract(const dvec4 & I, const dvec4 & N, float32 eta, dvec4 & out)
+	{
+		out = glm::refract(I, N, eta);
 	}
 
 	uint32 Mod(uint32 x, uint32 y)
@@ -1481,46 +1701,86 @@ namespace star
 
 #ifdef STAR2D
 
-	fmat3 Reflect(const fmat3 & mat, const fvec3 & vec)
+	fmat3 Reflect(const fmat3 & mat, const fvec3 & normal)
 	{
-		return glm::reflect2D<float32>(mat, vec);
+		return glm::reflect2D<float32>(mat, normal);
 	}
 
-	dmat3 Reflect(const dmat3 & mat, const dvec3 & vec)
+	dmat3 Reflect(const dmat3 & mat, const dvec3 & normal)
 	{
-		return glm::reflect2D<float64>(mat, vec);
+		return glm::reflect2D<float64>(mat, normal);
 	}
 
-	void Reflect(const fmat3 & matIn, const fvec3 & vec, fmat3 & matOut)
+	void Reflect(const fmat3 & matIn, const fvec3 & normal, fmat3 & matOut)
 	{
-		matOut = glm::reflect2D<float32>(matIn, vec);
+		matOut = glm::reflect2D<float32>(matIn, normal);
 	}
 
-	void Reflect(const dmat3 & matIn, const dvec3 & vec, dmat3 & matOut)
+	void Reflect(const dmat3 & matIn, const dvec3 & normal, dmat3 & matOut)
 	{
-		matOut = glm::reflect2D<float64>(matIn, vec);
+		matOut = glm::reflect2D<float64>(matIn, normal);
+	}
+	
+	fmat3 Project(const fmat3 & mat, const fvec3 & normal)
+	{
+		return glm::proj2D<float32>(mat, normal);
+	}
+
+	dmat3 Project(const dmat3 & mat, const dvec3 & normal)
+	{
+		return glm::proj2D<float64>(mat, normal);
+	}
+
+	void Project(const fmat3 & matIn, const fvec3 & normal, fmat3 & matOut)
+	{
+		matOut = glm::proj2D<float32>(matIn, normal);
+	}
+
+	void Project(const dmat3 & matIn, const dvec3 & normal, dmat3 & matOut)
+	{
+		matOut = glm::proj2D<float64>(matIn, normal);
 	}
 
 #else
 
-	fmat4 Reflect(const fmat4 & mat, const fvec4 & vec)
+	fmat4 Reflect(const fmat4 & mat, const fvec4 & normal)
 	{
-		return glm::reflect3D<float32>(mat, vec);
+		return glm::reflect3D<float32>(mat, normal);
 	}
 
-	dmat4 Reflect(const dmat4 & mat, const dvec4 & vec)
+	dmat4 Reflect(const dmat4 & mat, const dvec4 & normal)
 	{
-		return glm::reflect3D<float64>(mat, vec);
+		return glm::reflect3D<float64>(mat, normal);
 	}
 
-	void Reflect(const fmat4 & matIn, const fvec4 & vec, fmat4 & matOut)
+	void Reflect(const fmat4 & matIn, const fvec4 & normal, fmat4 & matOut)
 	{
-		matOut = glm::reflect3D<float32>(matIn, vec);
+		matOut = glm::reflect3D<float32>(matIn, normal);
 	}
 
-	void Reflect(const dmat4 & matIn, const dvec4 & vec, dmat4 & matOut)
+	void Reflect(const dmat4 & matIn, const dvec4 & normal, dmat4 & matOut)
 	{
-		matOut = glm::reflect3D<float64>(matIn, vec);
+		matOut = glm::reflect3D<float64>(matIn, normal);
+	}
+
+	fmat4 Project(const fmat4 & mat, const fvec4 & normal)
+	{
+		return glm::proj3D<float32>(mat, normal);
+	}
+
+	dmat4 Project(const dmat4 & mat, const dvec4 & normal)
+	{
+		return glm::proj3D<float64>(mat, normal);
+	}
+
+	void Project(const fmat4 & matIn, const fvec4 & normal, fmat4 & matOut)
+	{
+		matOut = glm::proj3D<float32>(matIn, normal);
+	}
+
+	void Project(const dmat4 & matIn, const dvec4 & normal, dmat4 & matOut)
+	{
+		matOut = glm::proj3D<float64>(matIn, normal);
 	}
 
 #endif
@@ -1675,7 +1935,8 @@ namespace star
 
 	fmat4 Translate(const fmat4 & mat, const pos & pos)
 	{
-		return Translate(mat, pos.pos3D());
+		fvec3 pos3D(pos.pos3D());
+		return Translate(mat, pos3D);
 	}
 
 	void Translate(const pos & pos, fmat4 & out)
@@ -1685,7 +1946,8 @@ namespace star
 
 	void Translate(const fmat4 & mat, const pos & pos, fmat4 & out)
 	{
-		out = Translate(mat, pos.pos3D());
+		fvec3 pos3D(pos.pos3D());
+		out = Translate(mat, pos3D);
 	}
 
 	fmat4 Scale(const pos & pos)
@@ -1695,7 +1957,8 @@ namespace star
 
 	fmat4 Scale(const fmat4 & mat, const pos & pos)
 	{
-		return Scale(mat, pos.pos3D());
+		fvec3 pos3D(pos.pos3D());
+		return Scale(mat, pos3D);
 	}
 
 	void Scale(const pos & pos, fmat4 & out)
@@ -1705,7 +1968,8 @@ namespace star
 
 	void Scale(const fmat4 & mat, const pos & pos, fmat4 & out)
 	{
-		out = Scale(mat, pos.pos3D());
+		fvec3 pos3D(pos.pos3D());
+		out = Scale(mat, pos3D);
 	}
 
 	fmat4 LookAt(const pos & eye, const pos & center)

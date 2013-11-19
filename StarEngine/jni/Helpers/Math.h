@@ -323,6 +323,42 @@ namespace star
 	void Scale(const dvec3 & vec, dmat4 & out);
 	void Scale(float64 x, float64 y, float64 z, dmat4 & out);
 
+	fvec2 Rotate(const fvec2 & vec, float32 angle);
+	fvec3 Rotate(const fvec3 & vec, float32 angle, const fvec3 & normal);
+	fvec4 Rotate(const fvec4 & vec, float32 angle, const fvec3 & normal);
+	fmat4 Rotate(const fmat4 & mat, float32 angle, float32 x, float32 y, float32 z);
+	fmat4 Rotate(const fvec3 & vec, float32 angle);
+	fmat4 Rotate(float32 angle, float32 x, float32 y, float32 z);
+	fvec3 Rotate(const fquat & quat, const fvec3 & vec);
+	fvec4 Rotate(const fquat & quat, const fvec4 & vec);
+
+	void Rotate(const fvec2 & vec, float32 angle, fvec2 & out);
+	void Rotate(const fvec3 & vec, float32 angle, const fvec3 & normal, fvec3 & out);
+	void Rotate(const fvec4 & vec, float32 angle, const fvec3 & normal, fvec4 & out);
+	void Rotate(const fmat4 & mat, float32 angle, float32 x, float32 y, float32 z, fmat4 & out);
+	void Rotate(const fvec3 & vec, float32 angle, fmat4 & out);
+	void Rotate(float32 angle, float32 x, float32 y, float32 z, fmat4 & out);
+	void Rotate(const fquat & quat, const fvec3 & vec, fvec3 & out);
+	void Rotate(const fquat & quat, const fvec4 & vec, fvec4 & out);
+
+	dvec2 Rotate(const dvec2 & vec, float64 angle);
+	dvec3 Rotate(const dvec3 & vec, float64 angle, const dvec3 & normal);
+	dvec4 Rotate(const dvec4 & vec, float64 angle, const dvec3 & normal);
+	dmat4 Rotate(const dmat4 & mat, float64 angle, float64 x, float64 y, float64 z);
+	dmat4 Rotate(const dvec3 & vec, float64 angle);
+	dmat4 Rotate(float64 angle, float64 x, float64 y, float64 z);
+	dvec3 Rotate(const dquat & quat, const dvec3 & vec);
+	dvec4 Rotate(const dquat & quat, const dvec4 & vec);
+
+	void Rotate(const dvec2 & vec, float64 angle, dvec2 & out);
+	void Rotate(const dvec3 & vec, float64 angle, const dvec3 & normal, dvec3 & out);
+	void Rotate(const dvec4 & vec, float64 angle, const dvec3 & normal, dvec4 & out);
+	void Rotate(const dmat4 & mat, float64 angle, float64 x, float64 y, float64 z, dmat4 & out);
+	void Rotate(const dvec3 & vec, float64 angle, dmat4 & out);
+	void Rotate(float64 angle, float64 x, float64 y, float64 z, dmat4 & out);
+	void Rotate(const dquat & quat, const dvec3 & vec, dvec3 & out);
+	void Rotate(const dquat & quat, const dvec4 & vec, dvec4 & out);
+
 	template <typename T>
 	T Saturate(T x)
 	{
@@ -344,6 +380,22 @@ namespace star
 	void Saturate(const dvec2 & vecIn, dvec2 & vecOut);
 	void Saturate(const dvec3 & vecIn, dvec3 & vecOut);
 	void Saturate(const dvec4 & vecIn, dvec4 & vecOut);
+
+	fvec2 Refract(const fvec2 & I, const fvec2 & N, float32 eta);
+	fvec3 Refract(const fvec3 & I, const fvec3 & N, float32 eta);
+	fvec4 Refract(const fvec4 & I, const fvec4 & N, float32 eta);
+
+	void Refract(const fvec2 & I, const fvec2 & N, float32 eta, fvec2 & out);
+	void Refract(const fvec3 & I, const fvec3 & N, float32 eta, fvec3 & out);
+	void Refract(const fvec4 & I, const fvec4 & N, float32 eta, fvec4 & out);
+
+	dvec2 Refract(const dvec2 & I, const dvec2 & N, float32 eta);
+	dvec3 Refract(const dvec3 & I, const dvec3 & N, float32 eta);
+	dvec4 Refract(const dvec4 & I, const dvec4 & N, float32 eta);
+
+	void Refract(const dvec2 & I, const dvec2 & N, float32 eta, dvec2 & out);
+	void Refract(const dvec3 & I, const dvec3 & N, float32 eta, dvec3 & out);
+	void Refract(const dvec4 & I, const dvec4 & N, float32 eta, dvec4 & out);
 
 	uint32 Mod(uint32 x, uint32 y);
 	int32 Mod(int32 x, int32 y);
@@ -383,15 +435,25 @@ namespace star
 	void Mod(const dvec4 & x, float64 y, dvec4 & out);
 
 #ifdef STAR2D
-	fmat3 Reflect(const fmat3 & mat, const fvec3 & vec);
-	dmat3 Reflect(const dmat3 & mat, const dvec3 & vec);
-	void Reflect(const fmat3 & matIn, const fvec3 & vec, fmat3 & matOut);
-	void Reflect(const dmat3 & matIn, const dvec3 & vec, dmat3 & matOut);
+	fmat3 Reflect(const fmat3 & mat, const fvec3 & normal);
+	dmat3 Reflect(const dmat3 & mat, const dvec3 & normal);
+	void Reflect(const fmat3 & matIn, const fvec3 & normal, fmat3 & matOut);
+	void Reflect(const dmat3 & matIn, const dvec3 & normal, dmat3 & matOut);
+
+	fmat3 Project(const fmat3 & mat, const fvec3 & normal);
+	dmat3 Project(const dmat3 & mat, const dvec3 & normal);
+	void Project(const fmat3 & matIn, const fvec3 & normal, fmat3 & matOut);
+	void Project(const dmat3 & matIn, const dvec3 & normal, dmat3 & matOut);
 #else
-	fmat4 Reflect(const fmat4 & mat, const fvec4 & vec);
-	dmat4 Reflect(const dmat4 & mat, const dvec4 & vec);
-	void Reflect(const fmat4 & matIn, const fvec4 & vec, fmat4 & matOut);
-	void Reflect(const dmat4 & matIn, const dvec4 & vec, dmat4 & matOut);
+	fmat4 Reflect(const fmat4 & mat, const fvec4 & normal);
+	dmat4 Reflect(const dmat4 & mat, const dvec4 & normal);
+	void Reflect(const fmat4 & matIn, const fvec4 & normal, fmat4 & matOut);
+	void Reflect(const dmat4 & matIn, const dvec4 & normal, dmat4 & matOut);
+
+	fmat4 Project(const fmat4 & mat, const fvec4 & normal);
+	dmat4 Project(const dmat4 & mat, const dvec4 & normal);
+	void Project(const fmat4 & matIn, const fvec4 & normal, fmat4 & matOut);
+	void Project(const dmat4 & matIn, const dvec4 & normal, dmat4 & matOut);
 #endif
 
 	const float32 * ToPointerValue(const fmat2 & mat);
