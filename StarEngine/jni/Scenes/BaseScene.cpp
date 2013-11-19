@@ -206,7 +206,6 @@ namespace star
 			spriteHeight = int32(float32(spritesheet->GetHeight()) * object->GetTransform()->GetWorldScale().y);
 		}
 
-		//[TODO] allow used to set the offset you want around the culling area.
 		if(	objectPos.x > xPos + screenWidth + m_CullingOffsetX ||
 			objectPos.x + spriteWidth < xPos - m_CullingOffsetX ||
 			objectPos.y > yPos + screenHeight + m_CullingOffsetY ||

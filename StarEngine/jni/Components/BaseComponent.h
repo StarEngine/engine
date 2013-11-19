@@ -30,15 +30,15 @@ namespace star
 		BaseScene* GetGameScene() const;
 		TransformComponent* GetTransform() const;
 
-		void Disable();
-		void Enable();
+		void SetEnabled(bool bEnabled);
+		bool IsEnabled() const;
 
 	protected:
 		virtual void InitializeComponent() = 0;
 
 		Object* m_pParentObject;
 		bool m_bInitialized,
-			 m_bIsDisabled;
+			 m_bIsEnabled;
 
 	private:
 		BaseComponent(const BaseComponent& t);
