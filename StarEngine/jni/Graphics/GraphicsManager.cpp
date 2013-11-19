@@ -47,12 +47,12 @@ namespace star
 		vec2 screenRes = GetWindowResolution();
 		vec2 workingRes = ScaleSystem::GetInstance()->GetWorkingResolution();
                 
-		float width = screenRes.x / workingRes.x;
-		float height = screenRes.y / workingRes.y;
+		float32 width = screenRes.x / workingRes.x;
+		float32 height = screenRes.y / workingRes.y;
 
 		mHorizontalViewportOffset = 0;
 		mVerticalViewportOffset = 0;
-		float aspectRatio(0);
+		float32 aspectRatio(0);
 
 		if(width > height)
 		{
@@ -124,8 +124,8 @@ namespace star
 	{
 		if(!mIsInitialized)
 		{
-			mScreenResolution.x = float(screenWidth);
-			mScreenResolution.y = float(screenHeight);
+			mScreenResolution.x = float32(screenWidth);
+			mScreenResolution.y = float32(screenHeight);
 			glewInit();
 
 			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initializing OpenGL Functors"));
@@ -283,9 +283,9 @@ namespace star
 			auto projectionObject(SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera());
 			if(projectionObject)
 			{
-				const mat4x4& projection = projectionObject->GetComponent<CameraComponent>()
+				const mat4& projection = projectionObject->GetComponent<CameraComponent>()
 					->GetProjection();
-				const mat4x4& viewInverse = projectionObject->GetComponent<CameraComponent>()
+				const mat4& viewInverse = projectionObject->GetComponent<CameraComponent>()
 					->GetViewInverse();
 				mProjectionMatrix = projection;
 				mViewInverseMatrix = viewInverse;
@@ -324,22 +324,22 @@ namespace star
 		return int32(ScaleSystem::GetInstance()->GetWorkingResolution().y);
 	}
 
-	const mat4x4& GraphicsManager::GetViewProjectionMatrix() const
+	const mat4& GraphicsManager::GetViewProjectionMatrix() const
 	{
 		return mViewProjectionMatrix;
 	}
 
-	const mat4x4& GraphicsManager::GetProjectionMatrix() const
+	const mat4& GraphicsManager::GetProjectionMatrix() const
 	{
 		return mProjectionMatrix;
 	}
 
-	const mat4x4& GraphicsManager::GetViewInverseMatrix() const
+	const mat4& GraphicsManager::GetViewInverseMatrix() const
 	{
 		return mViewInverseMatrix;
 	}
 
-	float GraphicsManager::GetWindowAspectRatio() const
+	float32 GraphicsManager::GetWindowAspectRatio() const
 	{
 		return mScreenResolution.x / mScreenResolution.y;
 	}
@@ -359,7 +359,7 @@ namespace star
 		return ScaleSystem::GetInstance()->GetWorkingResolution();
 	}
 
-	float GraphicsManager::GetViewportAspectRatio() const
+	float32 GraphicsManager::GetViewportAspectRatio() const
 	{
 		return mViewportResolution.x / mViewportResolution.y;
 	}
@@ -376,8 +376,8 @@ namespace star
 
 	void GraphicsManager::SetWindowDimensions(int32 width, int32 height)
 	{
-		mScreenResolution.x = float(width);
-		mScreenResolution.y = float(height);
+		mScreenResolution.x = float32(width);
+		mScreenResolution.y = float32(height);
 		CalculateViewPort();
 	}
 

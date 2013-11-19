@@ -47,7 +47,7 @@ namespace star
 					dir = glm::normalize(dir);
 					if(m_OldDirection != vec2())
 					{
-						if(glm::dot(dir, m_OldDirection) >= glm::cos(glm::radians((float)ANGLE_FLEX)))
+						if(glm::dot(dir, m_OldDirection) >= glm::cos(glm::radians((float32)ANGLE_FLEX)))
 						{
 							m_OldPos = INPUT_MANAGER->GetCurrentMousePosition();
 							m_OldDirection = dir;
@@ -64,7 +64,7 @@ namespace star
 					}
 					//Check speed:
 					m_TotalDistance = glm::length(m_CurrentPos - m_StartPos);
-					m_Speed = m_TotalDistance / float(m_ElapsedTime);
+					m_Speed = m_TotalDistance / float32(m_ElapsedTime);
 				}
 			}			
 
@@ -105,7 +105,7 @@ namespace star
 					dir = glm::normalize(dir);
 					if(m_OldDirection != vec2())
 					{
-						if(glm::dot(dir, m_OldDirection) >= glm::cos(glm::radians((float)ANGLE_FLEX)))
+						if(glm::dot(dir, m_OldDirection) >= glm::cos(glm::radians((float32)ANGLE_FLEX)))
 						{
 							m_OldPos = INPUT_MANAGER->GetCurrentTouchPosANDR();
 							m_OldDirection = dir;
@@ -122,7 +122,7 @@ namespace star
 					}
 					//Check speed:
 					m_TotalDistance = glm::length(m_CurrentPos - m_StartPos);
-					m_Speed = m_TotalDistance / (float)m_ElapsedTime ;
+					m_Speed = m_TotalDistance / (float32)m_ElapsedTime ;
 				}
 			}
 			break;
@@ -172,12 +172,12 @@ namespace star
 		return vec;
 	}
 
-	float SwipeGesture::GetSwipeSpeed() const
+	float32 SwipeGesture::GetSwipeSpeed() const
 	{
 		return m_Speed;
 	}
 
-	float SwipeGesture::GetSwipeLength() const
+	float32 SwipeGesture::GetSwipeLength() const
 	{
 		return m_TotalDistance;
 	}

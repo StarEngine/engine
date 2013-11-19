@@ -30,7 +30,7 @@ namespace star
 		}
 		if(INPUT_MANAGER->IsMouseButtonReleasedWIN(VK_LBUTTON))
 		{
-			double timeSinceDown = m_TimeSinceBeginning - m_StartTime;
+			float64 timeSinceDown = m_TimeSinceBeginning - m_StartTime;
 			if(timeSinceDown > MINIMUM_TAP_TIME && timeSinceDown < MAXIMUM_TAP_TIME)
 			{
 				m_bCompletedGesture = true;
@@ -49,7 +49,7 @@ namespace star
 			break;
 		case AMOTION_EVENT_ACTION_UP:
 		{
-			double timeSinceDown = m_TimeSinceBeginning - m_StartTime;
+			float64 timeSinceDown = m_TimeSinceBeginning - m_StartTime;
 			if(timeSinceDown > MINIMUM_TAP_TIME && 
 				timeSinceDown < MAXIMUM_TAP_TIME)
 			{

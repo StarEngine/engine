@@ -31,24 +31,24 @@ namespace star
 		bool IsLooping() const;
 
 		void SetCompleteVolume(
-			float volume,
-			float channelVolume,
-			float masterVolume
+			float32 volume,
+			float32 channelVolume,
+			float32 masterVolume
 			);
 		void SetBaseVolume(
-			float volume
+			float32 volume
 			);
 		void SetChannelVolume(
-			float volume
+			float32 volume
 			);
 		void SetMasterVolume(
-			float volume
+			float32 volume
 			);
 
-		float GetBaseVolume() const;
+		float32 GetBaseVolume() const;
 
-		void IncreaseVolume(float volume);
-		void DecreaseVolume(float volume);
+		void IncreaseVolume(float32 volume);
+		void DecreaseVolume(float32 volume);
 
 		virtual void SetMuted(bool muted) = 0;
 		virtual bool IsMuted() const = 0;
@@ -60,11 +60,11 @@ namespace star
 
 	protected:
 #ifdef ANDROID
-		virtual void SetVolume(float volume) = 0;
+		virtual void SetVolume(float32 volume) = 0;
 #else
-		void SetVolume(float volume);
+		void SetVolume(float32 volume);
 #endif
-		virtual float GetVolume() const = 0;
+		virtual float32 GetVolume() const = 0;
 
 		BaseSound(uint8 channel);
 #ifdef ANDROID
@@ -92,7 +92,7 @@ namespace star
 		void SetSoundVolume(
 			SLObjectItf & sound,
 			SLPlayItf & player,
-			float volume
+			float32 volume
 			);
 
 		bool GetVolumeInterface(
@@ -101,7 +101,7 @@ namespace star
 			void * pInterface
 			) const;
 
-		float GetSoundVolume(
+		float32 GetSoundVolume(
 			const SLObjectItf & sound,
 			const SLPlayItf & player
 			) const;
@@ -119,7 +119,7 @@ namespace star
 
 #else
 		bool mIsMuted;
-		float mVolume;
+		float32 mVolume;
 
 		virtual void SetSoundVolume(int32 volume) = 0;
 		void SetSoundMuted(bool muted);
@@ -132,12 +132,12 @@ namespace star
 	private:
 		struct SoundVolume
 		{
-			float Volume;
-			float ChannelVolume;
-			float MasterVolume;
+			float32 Volume;
+			float32 ChannelVolume;
+			float32 MasterVolume;
 
 			SoundVolume();
-			float GetVolume() const;
+			float32 GetVolume() const;
 		};
 
 		enum class SoundState : byte

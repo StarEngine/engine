@@ -50,7 +50,7 @@ namespace star
 		CalculateScale();
 	}
 
-	float ScaleSystem::GetScale() const
+	float32 ScaleSystem::GetScale() const
 	{
 		return m_Scale;
 	}

@@ -185,7 +185,7 @@ namespace star
 	SearchCell* PathFindManager::GetNextCell()
 	{
 		//reset values
-		float bestF = 999999.0f;
+		float32 bestF = 999999.0f;
 		int32 cellIndex = -1;
 		SearchCell* nextCell = nullptr;
 
@@ -216,7 +216,7 @@ namespace star
 		return nextCell;
 	}
 
-	void PathFindManager::PathOpened(int32 x, int32 y, float newCost, SearchCell *parent, Direction dir)
+	void PathFindManager::PathOpened(int32 x, int32 y, float32 newCost, SearchCell *parent, Direction dir)
 	{
 		//check if position is accesible
 		if(find(m_PositionList.begin(), m_PositionList.end(), pos(x,y)) == m_PositionList.end())
@@ -349,7 +349,7 @@ namespace star
 		{
 			if(id == searchCell->Id)
 			{
-				float newF = newCell->G + newCost + searchCell->H;
+				float32 newF = newCell->G + newCost + searchCell->H;
 
 				//Check if it's better then the old one
 				if(searchCell->GetF() > newF)
@@ -392,7 +392,7 @@ namespace star
 #else
 				vec3 temp(getPath->X, getPath->Y, 0);
 #endif
-				m_PathToGoal.push_back(temp);
+				m_PathToGoal.push_back(pos(temp));
 			}
 			
 			tstringstream str;

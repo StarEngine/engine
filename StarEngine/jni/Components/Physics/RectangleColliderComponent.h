@@ -14,11 +14,11 @@ namespace star
 	public:
 		RectangleColliderComponent();
 		RectangleColliderComponent(const vec2& size);
-		RectangleColliderComponent(float width, float height);
+		RectangleColliderComponent(float32 width, float32 height);
 
 		RectangleColliderComponent(const tstring* layers, uint8 n = 1);
 		RectangleColliderComponent(const vec2& size, const tstring* layers, uint8 = 1);
-		RectangleColliderComponent(float width, float height, const tstring* layers, uint8 = 1);
+		RectangleColliderComponent(float32 width, float32 height, const tstring* layers, uint8 = 1);
 
 		~RectangleColliderComponent();
 
@@ -31,11 +31,11 @@ namespace star
 		vec2 GetOrientatedUnitVecX() const;
 		vec2 GetOrientatedUnitVecY() const;
 
-		float GetCollisionRectWidth() const;
-		float GetCollisionRectHeight() const;
+		float32 GetCollisionRectWidth() const;
+		float32 GetCollisionRectHeight() const;
 		void GetColliisonRectSize(vec2& outVec) const;
 
-		void SetCollisionRectSize(float width, float height);
+		void SetCollisionRectSize(float32 width, float32 height);
 		void SetCollisionRectSize(const vec2& size);
 
 	protected:
@@ -53,8 +53,8 @@ namespace star
 	private:
 		bool m_bDefaultInitialized;
 
-		float CalculateMinimum(const float* vec, uint8 size) const;
-		float CalculateMaximum(const float* vec, uint8 size) const;
+		float32 CalculateMinimum(const float32* vec, uint8 size) const;
+		float32 CalculateMaximum(const float32* vec, uint8 size) const;
 
 		RectangleColliderComponent(const RectangleColliderComponent& t);
 		RectangleColliderComponent(RectangleColliderComponent&& t);

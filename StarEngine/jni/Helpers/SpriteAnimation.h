@@ -13,7 +13,7 @@ namespace star
 	public:
 		SpriteAnimation();
 		SpriteAnimation(const tstring & name, const vec2 & uv_scale, 
-			float speed, int32 repeat, const tstring & frames, 
+			float32 speed, int32 repeat, const tstring & frames, 
 			int32 frames_x, int32 frames_y, int32 amount);
 		SpriteAnimation(const SpriteAnimation &);
 		SpriteAnimation(SpriteAnimation &&);
@@ -44,7 +44,7 @@ namespace star
 		void ParseFrame(int32 frame, int32 frames_x, int32 frames_y, int32 amount);
 
 		tstring m_Name;
-		float m_Speed, m_CurrentFrame;
+		float32 m_Speed, m_CurrentFrame;
 		int32 m_Repeat;
 		int32 m_CurrentRepeats;
 		vec2 m_UVScale;

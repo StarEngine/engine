@@ -6,7 +6,7 @@ namespace star
 {
 	struct Color final
 	{
-		float r, g, b, a;
+		float32 r, g, b, a;
 
 		static const Color
 			AliceBlue,
@@ -158,8 +158,8 @@ namespace star
 		Color(int16 R, int16 G, int16 B, int16 A = 255);
 		Color(int32 R, int32 G, int32 B, int32 A = 255);
 		Color(int64 R, int64 G, int64 B, int64 A = 255);
-		Color(float R, float G, float B, float A = 1.0f);
-		Color(double R, double G, double B, double A = 1.0);
+		Color(float32 R, float32 G, float32 B, float32 A = 1.0f);
+		Color(float64 R, float64 G, float64 B, float64 A = 1.0);
 		Color(const Color & yRef);
 		Color(Color && yRef);
 		Color(const vec3 & yRef);

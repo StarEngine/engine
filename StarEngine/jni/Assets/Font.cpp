@@ -25,7 +25,7 @@ namespace star
 
 	bool Font::Init(const tstring& path, int32 size, FT_Library& library)
 	{
-		mSize = static_cast<float>(size);
+		mSize = static_cast<float32>(size);
 		mTextures = new GLuint[FONT_TEXTURES];
 		mMaxLetterHeight = 0;
 
@@ -134,8 +134,8 @@ namespace star
 		Logger::GetInstance()->CheckGlError();
 		delete[] expanded_data;
 
-		float x = static_cast<float>(bitmap.width) / static_cast<float>(width);
-		float y = static_cast<float>(bitmap.rows) / static_cast<float>(height);
+		float32 x = static_cast<float32>(bitmap.width) / static_cast<float32>(width);
+		float32 y = static_cast<float32>(bitmap.rows) / static_cast<float32>(height);
 		int32 dimx = (face->glyph->metrics.horiAdvance / 64);
 		int32 dimy = ((face->glyph->metrics.horiBearingY) - (face->glyph->metrics.height)) / 64;
 		ivec2 tempdim(dimx, dimy);

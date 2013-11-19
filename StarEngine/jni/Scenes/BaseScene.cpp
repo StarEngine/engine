@@ -184,8 +184,8 @@ namespace star
 	{
 		pos objectPos = object->GetTransform()->GetWorldPosition();
 		pos camPos = m_pDefaultCamera->GetTransform()->GetWorldPosition();
-		float xPos = (camPos.pos2D().x) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().x) / 2.0f);
-		float yPos = (camPos.pos2D().y) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().y) / 2.0f); 
+		float32 xPos = (camPos.pos2D().x) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().x) / 2.0f);
+		float32 yPos = (camPos.pos2D().y) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().y) / 2.0f); 
 		int32 screenWidth = GraphicsManager::GetInstance()->GetScreenWidth();
 		int32 screenHeight = GraphicsManager::GetInstance()->GetScreenHeight();
 		SpriteComponent* sprite = object->GetComponent<SpriteComponent>();
@@ -200,13 +200,13 @@ namespace star
 
 		if(sprite != nullptr)
 		{
-			spriteWidth = int32(float(sprite->GetWidth()) * object->GetTransform()->GetWorldScale().x);
-			spriteHeight = int32(float(sprite->GetHeight()) * object->GetTransform()->GetWorldScale().y);
+			spriteWidth = int32(float32(sprite->GetWidth()) * object->GetTransform()->GetWorldScale().x);
+			spriteHeight = int32(float32(sprite->GetHeight()) * object->GetTransform()->GetWorldScale().y);
 		}
 		if(spritesheet != nullptr)
 		{
-			spriteWidth = int32(float(spritesheet->GetWidth()) * object->GetTransform()->GetWorldScale().x);
-			spriteHeight = int32(float(spritesheet->GetHeight()) * object->GetTransform()->GetWorldScale().y);
+			spriteWidth = int32(float32(spritesheet->GetWidth()) * object->GetTransform()->GetWorldScale().x);
+			spriteHeight = int32(float32(spritesheet->GetHeight()) * object->GetTransform()->GetWorldScale().y);
 		}
 
 		//[TODO] allow used to set the offset you want around the culling area.

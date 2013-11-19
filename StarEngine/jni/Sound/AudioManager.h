@@ -31,13 +31,13 @@ namespace star
 		void LoadMusic(
 			const tstring& path,
 			const tstring& name,
-			float volume,
+			float32 volume,
 			uint8 channel = 0
 			);
 		void LoadSoundEffect(
 			const tstring& path,
 			const tstring& name,
-			float volume,
+			float32 volume,
 			uint8 channel = 0
 			);
 
@@ -65,25 +65,25 @@ namespace star
 		void PlayMusic(
 			const tstring& path,
 			const tstring& name,
-			float volume,
+			float32 volume,
 			uint8 channel = 0,
 			int32 loopTimes = 0
 			);
 		void PlayMusic(
 			const tstring& name,
-			float volume,
+			float32 volume,
 			int32 loopTimes = 0
 			);
 		void PlaySoundEffect(
 			const tstring& path,
 			const tstring& name,
-			float volume,
+			float32 volume,
 			uint8 channel = 0,
 			int32 loopTimes = 0
 			);
 		void PlaySoundEffect(
 			const tstring& name,
-			float volume,
+			float32 volume,
 			int32 loopTimes = 0.0f
 			);
 
@@ -110,17 +110,17 @@ namespace star
 		bool IsEffectPlaying(const tstring & name) const;
 		bool IsEffectLooping(const tstring & name) const;
 
-		void SetMusicVolume(const tstring& name, float volume);
-		float GetMusicVolume(const tstring& name) const;
+		void SetMusicVolume(const tstring& name, float32 volume);
+		float32 GetMusicVolume(const tstring& name) const;
 
-		void SetEffectVolume(const tstring& name, float volume);
-		float GetEffectVolume(const tstring& name) const;
+		void SetEffectVolume(const tstring& name, float32 volume);
+		float32 GetEffectVolume(const tstring& name) const;
 
-		void IncreaseMusicVolume(const tstring& name, float volume);
-		void DecreaseMusicVolume(const tstring& name, float volume);
+		void IncreaseMusicVolume(const tstring& name, float32 volume);
+		void DecreaseMusicVolume(const tstring& name, float32 volume);
 
-		void IncreaseEffectVolume(const tstring& name, float volume);
-		void DecreaseEffectVolume(const tstring& name, float volume);
+		void IncreaseEffectVolume(const tstring& name, float32 volume);
+		void DecreaseEffectVolume(const tstring& name, float32 volume);
 
 		void SetMusicMuted(const tstring& name, bool muted);
 		bool IsMusicMuted(const tstring& name) const;
@@ -134,11 +134,11 @@ namespace star
 		void AddSoundToChannel(uint8 channel, BaseSound * pSound);
 		void RemoveSoundFromChannel(uint8 channel, BaseSound * pSound);
 
-		void SetChannelVolume(uint8 channel, float volume);
-		float GetChannelVolume(uint8 channel);
+		void SetChannelVolume(uint8 channel, float32 volume);
+		float32 GetChannelVolume(uint8 channel);
 
-		void IncreaseChannelVolume(uint8 channel, float volume);
-		void DecreaseChannelVolume(uint8 channel, float volume);
+		void IncreaseChannelVolume(uint8 channel, float32 volume);
+		void DecreaseChannelVolume(uint8 channel, float32 volume);
 
 		void SetChannelMuted(uint8 channel, bool muted);
 		bool IsChannelMuted(uint8 channel);
@@ -166,11 +166,11 @@ namespace star
 		void ResumeAllSounds();
 		void DeleteAllSounds();
 
-		void SetVolume(float volume);
-		float GetVolume() const;
+		void SetVolume(float32 volume);
+		float32 GetVolume() const;
 
-		void IncreaseVolume(float volume);
-		void DecreaseVolume(float volume);
+		void IncreaseVolume(float32 volume);
+		void DecreaseVolume(float32 volume);
 
 #ifdef ANDROID
 		const SLEngineItf& GetEngine() const;
@@ -187,7 +187,7 @@ namespace star
 
 		struct SoundChannel
 		{
-			float mVolume;
+			float32 mVolume;
 			bool mIsMuted;
 			std::vector<BaseSound*> mSounds;
 			uint8 mChannel;
@@ -196,11 +196,11 @@ namespace star
 			SoundChannel();
 			~SoundChannel();
 
-			void SetVolume(float volume);
-			float GetVolume() const;
+			void SetVolume(float32 volume);
+			float32 GetVolume() const;
 
-			void IncreaseVolume(float volume);
-			void DecreaseVolume(float volume);
+			void IncreaseVolume(float32 volume);
+			void DecreaseVolume(float32 volume);
 
 			void SetMuted(bool muted);
 			bool IsMuted() const;
@@ -225,7 +225,7 @@ namespace star
 		SoundFile* mCurrentSoundFile;
 		SoundEffect* mCurrentSoundEffect;
 
-		float mVolume;
+		float32 mVolume;
 
 #ifdef ANDROID
 		SLObjectItf mEngineObj;

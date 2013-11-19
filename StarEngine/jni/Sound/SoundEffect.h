@@ -21,9 +21,9 @@ namespace star
 		virtual void UnsetChannel();
 
 	#ifdef ANDROID
-		void SetVolume(float volume);
+		void SetVolume(float32 volume);
 	#endif
-		float GetVolume() const;
+		float32 GetVolume() const;
 
 		void SetMuted(bool muted);
 		bool IsMuted() const;

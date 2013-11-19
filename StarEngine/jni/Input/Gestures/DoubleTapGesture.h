@@ -19,9 +19,9 @@ namespace star
 	#else
 		virtual void OnTouchEvent(AInputEvent* pEvent);
 	#endif
-		double m_StartTime;
-		double m_TimeSinceBeginning;
-		double m_TimeBetweenTaps;
+		float64 m_StartTime;
+		float64 m_TimeSinceBeginning;
+		float64 m_TimeBetweenTaps;
 		vec2 m_StartPos;
 		bool m_bIsGestureOk;
 		static const int32 MINIMUM_TAP_TIME = 10;

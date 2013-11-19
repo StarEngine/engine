@@ -15,18 +15,18 @@ namespace star
 		Rect operator=(const Rect& yRef);
 		//[TODO] write operators and copy + move constructors (and non member operators)
 
-		Rect operator*(glm::mat4x4 matrix) const;
-		Rect operator*(float constant) const;
+		Rect operator*(glm::mat4 matrix) const;
+		Rect operator*(float32 constant) const;
 
-		Rect operator/(float constant) const;
+		Rect operator/(float32 constant) const;
 
-		Rect& operator*=(glm::mat4x4 matrix);		
-		Rect& operator*=(float constant);
+		Rect& operator*=(glm::mat4 matrix);		
+		Rect& operator*=(float32 constant);
 
 
-		float GetWidth() const;
-		float GetHeight() const;
-		float GetDiagonal() const;
+		float32 GetWidth() const;
+		float32 GetHeight() const;
+		float32 GetDiagonal() const;
 
 		const vec2& GetLeftTop() const;
 		const vec2& GetRightTop() const;
@@ -35,10 +35,10 @@ namespace star
 
 		vec2 GetCenterPoint() const;
 
-		float GetRealLeft() const;
-		float GetRealRight() const;
-		float GetRealTop() const;
-		float GetRealBottom() const;
+		float32 GetRealLeft() const;
+		float32 GetRealRight() const;
+		float32 GetRealTop() const;
+		float32 GetRealBottom() const;
 
 		void SetPoints(const vec2& leftBottom, const vec2& rightBottom, 
 		const vec2& leftTop, const vec2& rightTop);
@@ -53,8 +53,8 @@ namespace star
 		vec2 m_LeftBottom;
 		vec2 m_RightBottom;
 
-		float m_Width;
-		float m_Height;
-		float m_Diagonal;
+		float32 m_Width;
+		float32 m_Height;
+		float32 m_Diagonal;
 	};
 }

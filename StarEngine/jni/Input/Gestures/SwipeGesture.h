@@ -14,8 +14,8 @@ namespace star
 
 		virtual void Update(const Context& context);
 		vec2 GetSwipeDirection() const;
-		float GetSwipeSpeed() const;
-		float GetSwipeLength() const;
+		float32 GetSwipeSpeed() const;
+		float32 GetSwipeLength() const;
 
 	private:
 	#ifdef _WIN32
@@ -25,8 +25,8 @@ namespace star
 	#endif
 		void InitializeAllVars();
 
-		double m_ElapsedTime;
-		float m_Speed;
+		float64 m_ElapsedTime;
+		float32 m_Speed;
 		vec2 m_StartPos;
 		vec2 m_CurrentPos;
 		vec2 m_OldPos;
@@ -35,7 +35,7 @@ namespace star
 		static const int32 MIN_SWIPE_SPEED = 1000;
 		static const int32 MIN_SWIPE_DISTANCE = 200;
 		bool m_bIsGestureOk;
-		float m_TotalDistance;
+		float32 m_TotalDistance;
 
 		SwipeGesture(const SwipeGesture& t);
 		SwipeGesture(SwipeGesture&& t);

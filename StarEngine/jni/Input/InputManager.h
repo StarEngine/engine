@@ -59,9 +59,9 @@ namespace star
 
 		vec2 Position;
 		vec2 RawPosition;
-		float Pressure;
-		float ToolMajor;
-		float ToolMinor;
+		float32 Pressure;
+		float32 ToolMajor;
+		float32 ToolMinor;
 		int32 ID;
 	};
 #endif
@@ -94,10 +94,10 @@ namespace star
 		vec2 GetThumbstickPosition(bool leftThumbstick = true, 
 			GamepadIndex playerIndex = GamepadIndex::PlayerOne) const;
 
-		float GetTriggerPressure(bool leftTrigger = true, 
+		float32 GetTriggerPressure(bool leftTrigger = true, 
 			GamepadIndex playerIndex = GamepadIndex::PlayerOne) const;
 
-		void SetVibration(float leftVibration, float rightVibration, 
+		void SetVibration(float32 leftVibration, float32 rightVibration, 
 			GamepadIndex playerIndex = GamepadIndex::PlayerOne);
 
 		bool IsGamepadConnected(GamepadIndex index) const { return m_ConnectedGamepads[(DWORD)index]; }
@@ -147,7 +147,7 @@ namespace star
 		static const WORD  MAX_GAMEPAD_VALUE = 0x8000;
 		static const int32 MAX_VALUE_OF_SHORT = 32768;
 		static const int32 MAX_VALUE_OF_WORD = 65535;
-		static const float BYTE_TO_DOUBLE_VALUE;
+		static const float32 BYTE_TO_DOUBLE_VALUE;
 
 		std::map<int32,InputAction> m_InputActions;
 		BYTE	m_pCurrKeyboardState[NUMBER_OF_KEYBOARDKEYS],
@@ -169,7 +169,7 @@ namespace star
 		bool IsMouseButtonDown_unsafe(uint8 button, bool previousFrame = false) const;
 #else
 		static const int32 INVALID_POINTER_ID = -1;
-		static const float UNDEFINED_POINTER_POSITION;
+		static const float32 UNDEFINED_POINTER_POSITION;
 		bool m_bMainIsDown;
 		bool m_bPointerIsDown;
 		bool m_bMainIsUp;

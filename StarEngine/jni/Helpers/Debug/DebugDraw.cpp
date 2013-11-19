@@ -38,17 +38,17 @@ namespace star
 		delete m_Shader;
 	}
 
-	void DebugDraw::SetDrawOpacityTriangles(float opacity)
+	void DebugDraw::SetDrawOpacityTriangles(float32 opacity)
 	{
 		m_DrawOpTriangles = opacity;
 	}
 
-	void DebugDraw::SetDrawOpacityLines(float opacity)
+	void DebugDraw::SetDrawOpacityLines(float32 opacity)
 	{
 		m_DrawOpLines = opacity;
 	}
 
-	void DebugDraw::SetDrawOpacityPoints(float opacity)
+	void DebugDraw::SetDrawOpacityPoints(float32 opacity)
 	{
 		m_DrawOpPoints = opacity;
 	}
@@ -71,7 +71,7 @@ namespace star
 			";
 
 		static const GLchar* fragmentShader = "\
-			precision mediump float; \
+			precision mediump float32; \
 			uniform vec4 color;\
 			void main() { \
 			  gl_FragColor = color; \
@@ -99,13 +99,13 @@ namespace star
 		DrawPrimitives(Triangles + Lines, vertexCount, color);
 	}
 
-	void DebugDraw::DrawCircle(const vec2& center, float radius, const Color& color)
+	void DebugDraw::DrawCircle(const vec2& center, float32 radius, const Color& color)
 	{
 		CreateCircleVertices(center, radius);
 		DrawPrimitives(Lines, m_CircleSegments, color);
 	}
 
-	void DebugDraw::DrawSolidCircle(const vec2& center, float radius,
+	void DebugDraw::DrawSolidCircle(const vec2& center, float32 radius,
 			const Color& color)
 	{
 		CreateCircleVertices(center, radius);
@@ -121,7 +121,7 @@ namespace star
 		DrawPrimitives(Lines, 2, color);
 	}
 
-	void DebugDraw::DrawPoint(const vec2& pos, float size, const Color& color)
+	void DebugDraw::DrawPoint(const vec2& pos, float32 size, const Color& color)
 	{
 		m_PointSize = size;
 
@@ -147,14 +147,14 @@ namespace star
 
 	void DebugDraw::DrawRect(const AARect& rect, const Color& color)
 	{
-		m_Vertices[0].x = float(rect.GetLeft());
-		m_Vertices[0].y = float(rect.GetBottom());
-		m_Vertices[1].x = float(rect.GetRight());
-		m_Vertices[1].y = float(rect.GetBottom());
-		m_Vertices[2].x = float(rect.GetRight());
-		m_Vertices[2].y = float(rect.GetTop());
-		m_Vertices[3].x = float(rect.GetLeft());
-		m_Vertices[3].y = float(rect.GetTop());
+		m_Vertices[0].x = float32(rect.GetLeft());
+		m_Vertices[0].y = float32(rect.GetBottom());
+		m_Vertices[1].x = float32(rect.GetRight());
+		m_Vertices[1].y = float32(rect.GetBottom());
+		m_Vertices[2].x = float32(rect.GetRight());
+		m_Vertices[2].y = float32(rect.GetTop());
+		m_Vertices[3].x = float32(rect.GetLeft());
+		m_Vertices[3].y = float32(rect.GetTop());
 		DrawPrimitives(Lines, 4, color);
 	}
 
@@ -169,14 +169,14 @@ namespace star
 
 	void DebugDraw::DrawSolidRect(const AARect& rect, const Color& color)
 	{
-		m_Vertices[0].x = float(rect.GetLeft());
-		m_Vertices[0].y = float(rect.GetBottom());
-		m_Vertices[1].x = float(rect.GetRight());
-		m_Vertices[1].y = float(rect.GetBottom());
-		m_Vertices[2].x = float(rect.GetRight());
-		m_Vertices[2].y = float(rect.GetTop());
-		m_Vertices[3].x = float(rect.GetLeft()); 
-		m_Vertices[3].y = float(rect.GetTop());
+		m_Vertices[0].x = float32(rect.GetLeft());
+		m_Vertices[0].y = float32(rect.GetBottom());
+		m_Vertices[1].x = float32(rect.GetRight());
+		m_Vertices[1].y = float32(rect.GetBottom());
+		m_Vertices[2].x = float32(rect.GetRight());
+		m_Vertices[2].y = float32(rect.GetTop());
+		m_Vertices[3].x = float32(rect.GetLeft()); 
+		m_Vertices[3].y = float32(rect.GetTop());
 		DrawPrimitives(Triangles + Lines, 4, color);
 	}
 
@@ -201,13 +201,13 @@ namespace star
 		}
 	}
 
-	void DebugDraw::CreateCircleVertices(const vec2& center, float radius)
+	void DebugDraw::CreateCircleVertices(const vec2& center, float32 radius)
 	{
 		// [TODO] Fix this bug in eclipse: (undefined reference to 'star::DebugDraw::MAX_VERTICES')
 		//ASSERT(m_CircleSegments < MAX_VERTICES, tstring(_T("You can only draw ") 
 		//	+ string_cast<tstring>(MAX_VERTICES) + _T(" vertices per primitive")).c_str());
-		const float increment = float(2.0 * PI / m_CircleSegments);
-		float theta = 0.0f;
+		const float32 increment = float32(2.0 * PI / m_CircleSegments);
+		float32 theta = 0.0f;
 
 		for (uint32 i = 0; i < m_CircleSegments; ++i)
 		{
@@ -224,8 +224,8 @@ namespace star
 #ifdef DESKTOP
 		glUseProgram(m_Shader->GetID());
 		
-		float scaleValue = ScaleSystem::GetInstance()->GetScale();
-		mat4x4 scaleMat = glm::scale<float>(scaleValue, scaleValue, 1.0f);
+		float32 scaleValue = ScaleSystem::GetInstance()->GetScale();
+		mat4 scaleMat = glm::scale<float32>(scaleValue, scaleValue, 1.0f);
 
 		glUniformMatrix4fv(m_MVPLocation,
 			1, GL_FALSE,

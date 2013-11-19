@@ -77,7 +77,7 @@ namespace star
 		const CircleColliderComponent* circle) const
 	{
 		Rect realRect = rect->GetCollisionRect();
-		float radius = circle->GetRealRadius();
+		float32 radius = circle->GetRealRadius();
 
 		glm::vec2 circleObjectPos = circle->GetPosition();
 		if(rect->GetTransform()->GetWorldRotation() == 0.0f)
@@ -114,8 +114,8 @@ namespace star
 		vec2 distVec = point - pos;
 		vec2 u0 = oobb->GetOrientatedUnitVecX();
 		vec2 u1(-u0.y , u0.x);
-		float distance = glm::dot(distVec, u0);
-		float halfWidth = oobb->GetCollisionRectWidth() / 2.0f;
+		float32 distance = glm::dot(distVec, u0);
+		float32 halfWidth = oobb->GetCollisionRectWidth() / 2.0f;
 		if(distance > halfWidth)
 		{
 			distance = halfWidth;
@@ -126,7 +126,7 @@ namespace star
 		}
 		pos += u0 * distance;
 		distance = glm::dot(distVec, u1);
-		float halfHeight = oobb->GetCollisionRectHeight() / 2.0f;
+		float32 halfHeight = oobb->GetCollisionRectHeight() / 2.0f;
 		if(distance > halfHeight)
 		{
 			distance = halfHeight;

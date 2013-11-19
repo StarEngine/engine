@@ -15,14 +15,14 @@ namespace star
 		void SetWorkingResolution(const vec2& pixels);
 		const vec2& GetWorkingResolution() const;
 		const vec2& GetActualResolution() const;
-		float GetScale() const;
+		float32 GetScale() const;
 		void CalculateScale();
 
 	private:
 		ScaleSystem();
 
 		vec2 m_WorkingRes;
-		float m_Scale;
+		float32 m_Scale;
 		bool m_bIninitialized;
 
 		static ScaleSystem * m_ScaleSystemPtr;

@@ -98,6 +98,7 @@
     <ClInclude Include="jni\Context.h" />
     <ClInclude Include="jni\defines.h" />
     <ClInclude Include="jni\definesAndroid.h" />
+    <ClInclude Include="jni\definesMath.h" />
     <ClInclude Include="jni\definesTypes.h" />
     <ClInclude Include="jni\definesWindows.h" />
     <ClInclude Include="jni\EventLoop.h" />

@@ -215,7 +215,7 @@ namespace star
 #endif
 	}
 
-	void Logger::SetLogSaveDelayTime(float seconds)
+	void Logger::SetLogSaveDelayTime(float32 seconds)
 	{
 #ifndef NO_LOG_FILE
 		SceneManager::GetInstance()->GetStopwatch()->SetTargetTimeTimer(

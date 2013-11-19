@@ -31,7 +31,7 @@ namespace star
 		void _CheckGlError(const schar* file, int32 line);
 		#define CheckGlError() _CheckGlError(__FILE__,__LINE__);
 
-		void SetLogSaveDelayTime(float seconds);
+		void SetLogSaveDelayTime(float32 seconds);
 
 	private:
 		Logger();

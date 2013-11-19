@@ -2,8 +2,8 @@
 
 #include <stdint.h>
 
-const float ZDEPTH_0 = 0.0f;
-const float LAYER_HEIGHT = 1.0f;
+const float32 ZDEPTH_0 = 0.0f;
+const float32 LAYER_HEIGHT = 1.0f;
 
 typedef int8_t lay;
 

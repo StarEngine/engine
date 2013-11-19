@@ -70,10 +70,10 @@ namespace star
 
 	void SpriteComponent::CreateIndices()
 	{
-		float startX = static_cast<float>(m_CurrentWidthSegment) / static_cast<float>(m_WidthSegments);
-		float endX = 1.0f / m_WidthSegments;
-		float startY = static_cast<float>(m_CurrentHeightSegment) / static_cast<float>(m_HeightSegments);
-		float endY = 1.0f / m_HeightSegments;
+		float32 startX = static_cast<float32>(m_CurrentWidthSegment) / static_cast<float32>(m_WidthSegments);
+		float32 endX = 1.0f / m_WidthSegments;
+		float32 startY = static_cast<float32>(m_CurrentHeightSegment) / static_cast<float32>(m_HeightSegments);
+		float32 endY = 1.0f / m_HeightSegments;
 
 		m_UvCoords[0] = startX + endX;
 		m_UvCoords[1] = startY + endY;

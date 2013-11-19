@@ -15,7 +15,7 @@ namespace star
 		void Update(const Context & context);
 
 	private:
-		double m_Timer;
+		float64 m_Timer;
 		int32 m_Counter;
 	};
 }

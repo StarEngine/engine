@@ -50,7 +50,7 @@ namespace star
 	private:
 		PathFindManager(void);
 		void SetStartAndGoal(const SearchCell& start, const SearchCell& end);
-		void PathOpened(int32 x, int32 y, float newCost, SearchCell *parent, Direction dir);
+		void PathOpened(int32 x, int32 y, float32 newCost, SearchCell *parent, Direction dir);
 		SearchCell *GetNextCell();
 		void ContinuePath();
 

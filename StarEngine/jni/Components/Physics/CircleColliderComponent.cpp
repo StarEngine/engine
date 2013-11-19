@@ -30,7 +30,7 @@ namespace star
 
 	}
 
-	CircleColliderComponent::CircleColliderComponent(float radius)
+	CircleColliderComponent::CircleColliderComponent(float32 radius)
 		: BaseColliderComponent()
 		, m_Radius(radius)
 		, m_Offset()
@@ -38,7 +38,7 @@ namespace star
 	{
 	}
 
-	CircleColliderComponent::CircleColliderComponent(float radius, const tstring* layers, uint8 tag)
+	CircleColliderComponent::CircleColliderComponent(float32 radius, const tstring* layers, uint8 tag)
 		: BaseColliderComponent(layers, tag)
 		, m_Radius(radius)
 		, m_Offset()
@@ -46,7 +46,7 @@ namespace star
 	{
 	}
 
-	CircleColliderComponent::CircleColliderComponent(float radius, const vec2& offset)
+	CircleColliderComponent::CircleColliderComponent(float32 radius, const vec2& offset)
 		: BaseColliderComponent()
 		, m_Radius(radius)
 		, m_Offset(offset)
@@ -54,7 +54,7 @@ namespace star
 	{
 	}
 
-	CircleColliderComponent::CircleColliderComponent(float radius, const vec2& offset,
+	CircleColliderComponent::CircleColliderComponent(float32 radius, const vec2& offset,
 		const tstring* layers, uint8 tag)
 			: BaseColliderComponent(layers, tag)
 			, m_Radius(radius)
@@ -79,11 +79,11 @@ namespace star
 				ASSERT(spriteComp->IsInitialized(),_T("First add the spriteComponent and then the rectColliderComp"));
 				if(spriteComp->GetWidth() > spriteComp->GetHeight())
 				{
-					m_Radius = float(spriteComp->GetWidth() / 2.0f);
+					m_Radius = float32(spriteComp->GetWidth() / 2.0f);
 				}
 				else
 				{
-					m_Radius = float(spriteComp->GetHeight() / 2.0f);
+					m_Radius = float32(spriteComp->GetHeight() / 2.0f);
 				}
 				m_Offset.x = spriteComp->GetWidth() / 2.0f;
 				m_Offset.y = spriteComp->GetHeight() / 2.0f;
@@ -111,7 +111,7 @@ namespace star
 	{
 		//Check if circle is inside of boundaries of the line.
 		vec2 circlePos(GetPosition());
-		float radius = GetRealRadius();
+		float32 radius = GetRealRadius();
 		//Check smallest point in x and y
 		if(point1.x < point2.x)
 		{
@@ -160,7 +160,7 @@ namespace star
 			}
 		//The circle is inside the boundaries of the line!
 		vec2 lineVec(glm::normalize(point2 - point1));
-		float closestPointOnLineSize(glm::dot(circlePos - point1,lineVec));
+		float32 closestPointOnLineSize(glm::dot(circlePos - point1,lineVec));
 		vec2 closestPointOnLine(closestPointOnLineSize * lineVec);
 		closestPointOnLine = point1 + closestPointOnLine;
 
@@ -192,23 +192,23 @@ namespace star
 	bool CircleColliderComponent::CircleCircleCollision(const CircleColliderComponent* collider1, 
 		const CircleColliderComponent* collider2) const
 	{
-		float radius1 = collider1->GetRealRadius();
-		float radius2 = collider2->GetRealRadius();
+		float32 radius1 = collider1->GetRealRadius();
+		float32 radius2 = collider2->GetRealRadius();
 		vec2 object1Pos(collider1->GetPosition());
 		vec2 object2Pos(collider2->GetPosition());
 
 		return !(glm::abs(glm::length((object1Pos - object2Pos))) > (radius1 + radius2));
 	}
 
-	float CircleColliderComponent::GetRadius() const
+	float32 CircleColliderComponent::GetRadius() const
 	{
 		return m_Radius;
 	}
 
-	float CircleColliderComponent::GetRealRadius() const
+	float32 CircleColliderComponent::GetRealRadius() const
 	{
-		float xScale(m_Radius * GetTransform()->GetWorldScale().x);
-		float yScale(m_Radius * GetTransform()->GetWorldScale().y);
+		float32 xScale(m_Radius * GetTransform()->GetWorldScale().x);
+		float32 yScale(m_Radius * GetTransform()->GetWorldScale().y);
 
 		return (xScale > yScale ? xScale : yScale);
 	}
@@ -232,7 +232,7 @@ namespace star
 		posOut.y = realPos.y;
 	}
 
-	void CircleColliderComponent::SetRadius(float radius)
+	void CircleColliderComponent::SetRadius(float32 radius)
 	{
 		m_Radius = radius;
 	}

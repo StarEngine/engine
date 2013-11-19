@@ -8,10 +8,10 @@
 
 namespace star
 {
-	const double NSMULTIPLIER = 1.0e-9;
-	const double MICROMULTIPLIER = 1000000.0;
-	const double MILLIMULTIPLIER = 1000.0;
-	const double SECONDMULTIPLIER = 1.0;
+	const float64 NSMULTIPLIER = 1.0e-9;
+	const float64 MICROMULTIPLIER = 1000000.0;
+	const float64 MILLIMULTIPLIER = 1000.0;
+	const float64 SECONDMULTIPLIER = 1.0;
 
 	class TimeManager final
 	{
@@ -22,12 +22,12 @@ namespace star
 		void StartMonitoring();
 		void StopMonitoring();
 
-		double GetSeconds() const;
-		double GetMilliSeconds() const;
-		double GetMicroSeconds() const;
+		float64 GetSeconds() const;
+		float64 GetMilliSeconds() const;
+		float64 GetMicroSeconds() const;
 
-		double GetSecondsSinceStart() const;
-		double GetMilliSecondsSinceStart() const;
+		float64 GetSecondsSinceStart() const;
+		float64 GetMilliSecondsSinceStart() const;
 
 		tstring GetTimeStamp();
 
@@ -38,16 +38,16 @@ namespace star
 		LARGE_INTEGER	mF1,
 						mF2;
 #else
-		double 	mF1,
+		float64 	mF1,
 				mF2;
-		float mElapsed;
+		float32 mElapsed;
 #endif
 
-		double	mDeltaMs,
+		float64	mDeltaMs,
 				mDeltaS,
 				mDeltauS;
 
-		double	mTotalMS;
+		float64	mTotalMS;
 
 		TimeManager(const TimeManager& t);
 		TimeManager(TimeManager&& t);
