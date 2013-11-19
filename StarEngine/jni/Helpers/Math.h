@@ -531,5 +531,13 @@ namespace star
 	void Log(const pos & posIn, pos & posOut);
 	pos Log2(const pos & pos);
 	void Log2(const pos & posIn, pos & posOut);
+	pos Step(const pos & pos, fvec2 & x);
+	pos Step(const pos & pos, float32 x);
+	void Step(const pos & posIn, fvec2 & x, pos & posOut);
+	void Step(const pos & posIn, float32 x, pos & posOut);
+	pos Mod(const pos & pos, fvec2 mod);
+	pos Mod(const pos & pos, float32 mod);
+	void Mod(const pos & posIn, fvec2 mod, pos & posOut);
+	void Mod(const pos & posIn, float32 mod, pos & posOut);
 #endif
 }
