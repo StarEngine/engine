@@ -438,18 +438,18 @@ namespace star
 		pos.x = m_CollisionRect.GetCenterPoint().x;
 		pos.y = m_CollisionRect.GetCenterPoint().y;
 		pos.w = 1;
-		pos = Mul(pos, TransposeMatrix(GetTransform()->GetWorldMatrix()));
+		pos = Mul(pos, Transpose(GetTransform()->GetWorldMatrix()));
 		pos = Mul(pos, 
-			TransposeMatrix(GraphicsManager::GetInstance()->GetViewInverseMatrix()));
+			Transpose(GraphicsManager::GetInstance()->GetViewInverseMatrix()));
 		return vec2(pos.x, pos.y);
 	}
 
 	vec2 RectangleColliderComponent::GetOrientatedUnitVecX() const
 	{
 		vec4 unitVec(1, 0, 0, 1);
-		unitVec = Mul(unitVec, TransposeMatrix(GetTransform()->GetWorldMatrix()));
+		unitVec = Mul(unitVec, Transpose(GetTransform()->GetWorldMatrix()));
 		unitVec = Mul(unitVec, 
-			TransposeMatrix(GraphicsManager::GetInstance()->GetViewInverseMatrix()));
+			Transpose(GraphicsManager::GetInstance()->GetViewInverseMatrix()));
 		unitVec = Normalize(unitVec);
 		return vec2(unitVec.x, unitVec.y);
 	}
@@ -457,9 +457,9 @@ namespace star
 	vec2 RectangleColliderComponent::GetOrientatedUnitVecY() const
 	{
 		vec4 unitVec(0, 1, 0, 1);
-		unitVec = Mul(unitVec, TransposeMatrix(GetTransform()->GetWorldMatrix()));
+		unitVec = Mul(unitVec, Transpose(GetTransform()->GetWorldMatrix()));
 		unitVec = Mul(unitVec, 
-			TransposeMatrix(GraphicsManager::GetInstance()->GetViewInverseMatrix()));
+			Transpose(GraphicsManager::GetInstance()->GetViewInverseMatrix()));
 		unitVec = Normalize(unitVec);
 		return vec2(unitVec.x, unitVec.y);
 	}

@@ -216,8 +216,8 @@ namespace star
 	vec2 CircleColliderComponent::GetPosition() const
 	{
 		vec4 realPos(m_Offset.x, m_Offset.y, 0, 1);
-		realPos = Mul(realPos, TransposeMatrix(GetTransform()->GetWorldMatrix()));
-		realPos = Mul(realPos, TransposeMatrix(
+		realPos = Mul(realPos, Transpose(GetTransform()->GetWorldMatrix()));
+		realPos = Mul(realPos, Transpose(
 			GraphicsManager::GetInstance()->GetViewInverseMatrix()));
 		return vec2(realPos.x, realPos.y);
 	}
@@ -225,8 +225,8 @@ namespace star
 	void CircleColliderComponent::GetPosition(vec2& posOut) const
 	{
 		vec4 realPos(m_Offset.x, m_Offset.y, 0, 1);
-		realPos = Mul(realPos, TransposeMatrix(GetTransform()->GetWorldMatrix()));
-		realPos = Mul(realPos, TransposeMatrix(
+		realPos = Mul(realPos, Transpose(GetTransform()->GetWorldMatrix()));
+		realPos = Mul(realPos, Transpose(
 			GraphicsManager::GetInstance()->GetViewInverseMatrix()));
 		posOut.x = realPos.x;
 		posOut.y = realPos.y;

@@ -363,64 +363,304 @@ namespace star
 		return dquat(vec.x, vec.y, vec.z, vec.w);
 	}
 
-	fmat2 TransposeMatrix(const fmat2& matrix)
+	fmat2 Transpose(const fmat2& matrix)
 	{
 		return glm::transpose(matrix);
 	}
 
-	fmat3 TransposeMatrix(const fmat3& matrix)
+	fmat3 Transpose(const fmat3& matrix)
 	{
 		return glm::transpose(matrix);
 	}
 
-	fmat4 TransposeMatrix(const fmat4& matrix)
+	fmat4 Transpose(const fmat4& matrix)
 	{
 		return glm::transpose(matrix);
 	}
 
-	void TransposeMatrix(const fmat2& matIn, fmat2& matOut)
+	void Transpose(const fmat2& matIn, fmat2& matOut)
 	{
 		matOut = glm::transpose(matIn);
 	}
 
-	void TransposeMatrix(const fmat3& matIn, fmat3& matOut)
+	void Transpose(const fmat3& matIn, fmat3& matOut)
 	{
 		matOut = glm::transpose(matIn);
 	}
 
-	void TransposeMatrix(const fmat4& matIn, fmat4& matOut)
+	void Transpose(const fmat4& matIn, fmat4& matOut)
 	{
 		matOut = glm::transpose(matIn);
 	}
 
-	dmat2 TransposeMatrix(const dmat2& matIn)
+	dmat2 Transpose(const dmat2& matIn)
 	{
 		return glm::transpose(matIn);
 	}
 
-	dmat3 TransposeMatrix(const dmat3& matIn)
+	dmat3 Transpose(const dmat3& matIn)
 	{
 		return glm::transpose(matIn);
 	}
 
-	dmat4 TransposeMatrix(const dmat4& matIn)
+	dmat4 Transpose(const dmat4& matIn)
 	{
 		return glm::transpose(matIn);
 	}
 
-	void TransposeMatrix(const dmat2& matIn, dmat2& matOut)
+	void Transpose(const dmat2& matIn, dmat2& matOut)
 	{
 		matOut = glm::transpose(matIn);
 	}
 
-	void TransposeMatrix(const dmat3& matIn, dmat3& matOut)
+	void Transpose(const dmat3& matIn, dmat3& matOut)
 	{
 		matOut = glm::transpose(matIn);
 	}
 
-	void TransposeMatrix(const dmat4& matIn, dmat4& matOut)
+	void Transpose(const dmat4& matIn, dmat4& matOut)
 	{
 		matOut = glm::transpose(matIn);
+	}
+
+	fmat2 Inverse(const fmat2 & mat)
+	{
+		return glm::inverse<float32>(mat);
+	}
+
+	fmat3 Inverse(const fmat3 & mat)
+	{
+		return glm::inverse<float32>(mat);
+	}
+
+	fmat4 Inverse(const fmat4 & mat)
+	{
+		return glm::inverse<float32>(mat);
+	}
+
+	fquat Inverse(const fquat & quat)
+	{
+		return glm::inverse<float32>(quat);
+	}
+
+	void Inverse(const fmat2 & mat, fmat2 & out)
+	{
+		out = glm::inverse<float32>(mat);
+	}
+
+	void Inverse(const fmat3 & mat, fmat3 & out)
+	{
+		out = glm::inverse<float32>(mat);
+	}
+
+	void Inverse(const fmat4 & mat, fmat4 & out)
+	{
+		out = glm::inverse<float32>(mat);
+	}
+
+	void Inverse(const fquat & quat, fquat & out)
+	{
+		out = glm::inverse<float32>(quat);
+	}
+
+	dmat2 Inverse(const dmat2 & mat)
+	{
+		return glm::inverse<float64>(mat);
+	}
+
+	dmat3 Inverse(const dmat3 & mat)
+	{
+		return glm::inverse<float64>(mat);
+	}
+
+	dmat4 Inverse(const dmat4 & mat)
+	{
+		return glm::inverse<float64>(mat);
+	}
+
+	dquat Inverse(const dquat & quat)
+	{
+		return glm::inverse<float64>(quat);
+	}
+
+	void Inverse(const dmat2 & mat, dmat2 & out)
+	{
+		out = glm::inverse<float64>(mat);
+	}
+
+	void Inverse(const dmat3 & mat, dmat3 & out)
+	{
+		out = glm::inverse<float64>(mat);
+	}
+
+	void Inverse(const dmat4 & mat, dmat4 & out)
+	{
+		out = glm::inverse<float64>(mat);
+	}
+
+	void Inverse(const dquat & quat, dquat & out)
+	{
+		out = glm::inverse<float64>(quat);
+	}
+
+	fmat4 LookAt(const fvec3 & eye, const fvec3 & center, const fvec3 & up)
+	{
+		return glm::lookAt<float32>(eye, center, up);
+	}
+
+	dmat4 LookAt(const dvec3 & eye, const dvec3 & center, const dvec3 & up)
+	{
+		return glm::lookAt<float64>(eye, center, up);
+	}
+
+	void LookAt(const fvec3 & eye, const fvec3 & center, const fvec3 & up, fmat4 & out)
+	{
+		out = glm::lookAt<float32>(eye, center, up);
+	}
+
+	void LookAt(const dvec3 & eye, const dvec3 & center, const dvec3 & up, fmat4 & out)
+	{
+		out = glm::lookAt<float64>(eye, center, up);
+	}
+
+	fvec2 Log(const fvec2 & vec)
+	{
+		return glm::log<float32>(vec);
+	}
+
+	fvec3 Log(const fvec3 & vec)
+	{
+		return glm::log<float32>(vec);
+	}
+
+	fvec4 Log(const fvec4 & vec)
+	{
+		return glm::log<float32>(vec);
+	}
+
+	fquat Log(const fquat & quat)
+	{
+		return glm::log<float32>(quat);
+	}
+
+	void Log(const fvec2 & vecIn, fvec2 & vecOut)
+	{
+		vecOut = glm::log<float32>(vecIn);
+	}
+
+	void Log(const fvec3 & vecIn, fvec3 & vecOut)
+	{
+		vecOut = glm::log<float32>(vecIn);
+	}
+
+	void Log(const fvec4 & vecIn, fvec4 & vecOut)
+	{
+		vecOut = glm::log<float32>(vecIn);
+	}
+
+	void Log(const fquat & quatIn, fquat & quatOut)
+	{
+		quatOut = glm::log<float32>(quatIn);
+	}
+
+	dvec2 Log(const dvec2 & vec)
+	{
+		return glm::log<float64>(vec);
+	}
+
+	dvec3 Log(const dvec3 & vec)
+	{
+		return glm::log<float64>(vec);
+	}
+
+	dvec4 Log(const dvec4 & vec)
+	{
+		return glm::log<float64>(vec);
+	}
+
+	dquat Log(const dquat & quat)
+	{
+		return glm::log<float64>(quat);
+	}
+
+	void Log(const dvec2 & vecIn, dvec2 & vecOut)
+	{
+		vecOut = glm::log<float64>(vecIn);
+	}
+
+	void Log(const dvec3 & vecIn, dvec3 & vecOut)
+	{
+		vecOut = glm::log<float64>(vecIn);
+	}
+
+	void Log(const dvec4 & vecIn, dvec4 & vecOut)
+	{
+		vecOut = glm::log<float64>(vecIn);
+	}
+
+	void Log(const dquat & quatIn, dquat & quatOut)
+	{
+		quatOut = glm::log<float64>(quatIn);
+	}
+
+	fvec2 Log2(const fvec2 & vec)
+	{
+		return glm::log2<float32>(vec);
+	}
+
+	fvec3 Log2(const fvec3 & vec)
+	{
+		return glm::log2<float32>(vec);
+	}
+
+	fvec4 Log2(const fvec4 & vec)
+	{
+		return glm::log2<float32>(vec);
+	}
+
+	void Log2(const fvec2 & vecIn, fvec2 & vecOut)
+	{
+		vecOut = glm::log2<float32>(vecIn);
+	}
+
+	void Log2(const fvec3 & vecIn, fvec3 & vecOut)
+	{
+		vecOut = glm::log2<float32>(vecIn);
+	}
+
+	void Log2(const fvec4 & vecIn, fvec4 & vecOut)
+	{
+		vecOut = glm::log2<float32>(vecIn);
+	}
+
+	dvec2 Log2(const dvec2 & vec)
+	{
+		return glm::log2<float64>(vec);
+	}
+
+	dvec3 Log2(const dvec3 & vec)
+	{
+		return glm::log2<float64>(vec);
+	}
+
+	dvec4 Log2(const dvec4 & vec)
+	{
+		return glm::log2<float64>(vec);
+	}
+
+	void Log2(const dvec2 & vecIn, dvec2 & vecOut)
+	{
+		vecOut = glm::log2<float64>(vecIn);
+	}
+
+	void Log2(const dvec3 & vecIn, dvec3 & vecOut)
+	{
+		vecOut = glm::log2<float64>(vecIn);
+	}
+
+	void Log2(const dvec4 & vecIn, dvec4 & vecOut)
+	{
+		vecOut = glm::log2<float64>(vecIn);
 	}
 
 	float32 GetPitch(const fquat & quaternion)
@@ -1180,6 +1420,76 @@ namespace star
 	float32 Distance(const pos & posA, const pos & posB)
 	{
 		return Distance(posA.pos2D(), posB.pos2D());
+	}
+
+	fmat4 Translate(const pos & pos)
+	{
+		return Translate(pos.pos3D());
+	}
+
+	fmat4 Translate(const fmat4 & mat, const pos & pos)
+	{
+		return Translate(mat, pos.pos3D());
+	}
+
+	void Translate(const pos & pos, fmat4 & out)
+	{
+		out = Translate(pos.pos3D());
+	}
+
+	void Translate(const fmat4 & mat, const pos & pos, fmat4 & out)
+	{
+		out = Translate(mat, pos.pos3D());
+	}
+
+	fmat4 Scale(const pos & pos)
+	{
+		return Scale(pos.pos3D());
+	}
+
+	fmat4 Scale(const fmat4 & mat, const pos & pos)
+	{
+		return Scale(mat, pos.pos3D());
+	}
+
+	void Scale(const pos & pos, fmat4 & out)
+	{
+		out = Scale(pos.pos3D());
+	}
+
+	void Scale(const fmat4 & mat, const pos & pos, fmat4 & out)
+	{
+		out = Scale(mat, pos.pos3D());
+	}
+
+	fmat4 LookAt(const pos & eye, const pos & center)
+	{
+		return LookAt(eye.pos3D(), center.pos3D(), fvec3(0,0,1.0f));
+	}
+
+	void LookAt(const pos & eye, const pos & center, fmat4 & out)
+	{
+		out = LookAt(eye.pos3D(), center.pos3D(), fvec3(0,0,1.0f));
+	}
+
+	pos Log(const pos & pos)
+	{
+		return star::pos(Log(pos.pos2D()), pos.l);
+	}
+
+	void Log(const pos & posIn, pos & posOut)
+	{
+		posOut = star::pos(Log(posIn.pos2D()), posIn.l);
+	}
+
+	pos Log2(const pos & pos)
+	{
+		return star::pos(Log2(pos.pos2D()), pos.l);
+	}
+
+	void Log2(const pos & posIn, pos & posOut)
+	{
+		posOut = star::pos(Log2(posIn.pos2D()), posIn.l);
 	}
 #endif
 }
