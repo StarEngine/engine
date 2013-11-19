@@ -8,14 +8,14 @@ namespace star
 	BaseComponent::BaseComponent():
 		m_pParentObject(nullptr),
 		m_bInitialized(false),
-		m_bIsDisabled(false)
+		m_bIsEnabled(true)
 	{
 	}
 
 	BaseComponent::BaseComponent(Object* parent):
 		m_pParentObject(parent),
 		m_bInitialized(false),
-		m_bIsDisabled(false)
+		m_bIsEnabled(true)
 	{
 	}
 
@@ -38,7 +38,7 @@ namespace star
 
 	void BaseComponent::BaseUpdate(const Context& context)
 	{
-		if(m_bIsDisabled)
+		if(!m_bIsEnabled)
 		{
 			return;
 		}
@@ -47,7 +47,7 @@ namespace star
 
 	void BaseComponent::BaseDraw()
 	{
-		if(m_bIsDisabled)
+		if(!m_bIsEnabled)
 		{
 			return;
 		}
@@ -79,13 +79,13 @@ namespace star
 		 return m_pParentObject->GetComponent<TransformComponent>();
 	}
 
-	void BaseComponent::Disable()
+	void BaseComponent::SetEnabled(bool bEnabled)
 	{
-		m_bIsDisabled = true;
+		m_bIsEnabled = bEnabled;
 	}
 
-	void BaseComponent::Enable()
+	bool BaseComponent::IsEnabled() const
 	{
-		m_bIsDisabled = false;
+		return m_bIsEnabled;
 	}
 }
