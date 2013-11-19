@@ -6,7 +6,7 @@
 #include "../Graphics/SpriteComponent.h"
 #include "../../Helpers/Debug/DebugDraw.h"
 #include "../../Helpers/Helpers.h"
-#include "../../Helpers/HelpersMath.h"
+#include "../../Helpers/Math.h"
 #include "../../Scenes/SceneManager.h"
 #include "../../Scenes/BaseScene.h"
 #include "../../Physics/Collision/CollisionManager.h"
@@ -274,13 +274,13 @@ namespace star
 	bool RectangleColliderComponent::CalculateAxisSpecificCollision(const Rect& rect, 
 		const vec2& point1, const vec2& point2, const vec2& axis) const
 	{
-		float32 AvecPosOnAxis1 = glm::dot(rect.GetLeftTop(),axis);
-		float32 AvecPosOnAxis2 = glm::dot(rect.GetLeftBottom(),axis);
-		float32 AvecPosOnAxis3 = glm::dot(rect.GetRightBottom(),axis);
-		float32 AvecPosOnAxis4 = glm::dot(rect.GetRightTop(),axis);
+		float32 AvecPosOnAxis1 = Dot(rect.GetLeftTop(),axis);
+		float32 AvecPosOnAxis2 = Dot(rect.GetLeftBottom(),axis);
+		float32 AvecPosOnAxis3 = Dot(rect.GetRightBottom(),axis);
+		float32 AvecPosOnAxis4 = Dot(rect.GetRightTop(),axis);
 
-		float32 BvecPosOnAxis1 = glm::dot(point1,axis);
-		float32 BvecPosOnAxis2 = glm::dot(point2,axis);
+		float32 BvecPosOnAxis1 = Dot(point1,axis);
+		float32 BvecPosOnAxis2 = Dot(point2,axis);
 
 		//Find Min and Max
 		float32 vec1[4];
@@ -305,12 +305,12 @@ namespace star
 	bool RectangleColliderComponent::CalculateAxisSpecificCollision(const Rect& rect,
 		const vec2& point, const vec2& axis) const
 	{
-		float32 AvecPosOnAxis1 = glm::dot(rect.GetLeftTop(), axis);
-		float32 AvecPosOnAxis2 = glm::dot(rect.GetLeftBottom(), axis);
-		float32 AvecPosOnAxis3 = glm::dot(rect.GetRightBottom(), axis);
-		float32 AvecPosOnAxis4 = glm::dot(rect.GetRightTop(), axis);
+		float32 AvecPosOnAxis1 = Dot(rect.GetLeftTop(), axis);
+		float32 AvecPosOnAxis2 = Dot(rect.GetLeftBottom(), axis);
+		float32 AvecPosOnAxis3 = Dot(rect.GetRightBottom(), axis);
+		float32 AvecPosOnAxis4 = Dot(rect.GetRightTop(), axis);
 
-		float32 BvecPosOnAxis1 =  glm::dot(point, axis);
+		float32 BvecPosOnAxis1 =  Dot(point, axis);
 
 		float32 vec1[4];
 		vec1[0] = AvecPosOnAxis1;
@@ -327,15 +327,15 @@ namespace star
 	bool RectangleColliderComponent::CalculateAxisSpecificCollision(const Rect& rect1, 
 		const Rect& rect2, const vec2& axis) const
 	{
-		float32 AvecPosOnAxis1 = glm::dot(rect1.GetLeftTop(),axis);
-		float32 AvecPosOnAxis2 = glm::dot(rect1.GetLeftBottom(),axis);
-		float32 AvecPosOnAxis3 = glm::dot(rect1.GetRightBottom(),axis);
-		float32 AvecPosOnAxis4 = glm::dot(rect1.GetRightTop(),axis);
+		float32 AvecPosOnAxis1 = Dot(rect1.GetLeftTop(),axis);
+		float32 AvecPosOnAxis2 = Dot(rect1.GetLeftBottom(),axis);
+		float32 AvecPosOnAxis3 = Dot(rect1.GetRightBottom(),axis);
+		float32 AvecPosOnAxis4 = Dot(rect1.GetRightTop(),axis);
 
-		float32 BvecPosOnAxis1 = glm::dot(rect2.GetLeftTop(),axis);
-		float32 BvecPosOnAxis2 = glm::dot(rect2.GetLeftBottom(),axis);
-		float32 BvecPosOnAxis3 = glm::dot(rect2.GetRightBottom(),axis);
-		float32 BvecPosOnAxis4 = glm::dot(rect2.GetRightTop(),axis);
+		float32 BvecPosOnAxis1 = Dot(rect2.GetLeftTop(),axis);
+		float32 BvecPosOnAxis2 = Dot(rect2.GetLeftBottom(),axis);
+		float32 BvecPosOnAxis3 = Dot(rect2.GetRightBottom(),axis);
+		float32 BvecPosOnAxis4 = Dot(rect2.GetRightTop(),axis);
 
 		float32 vec1[4];
 		vec1[0] = AvecPosOnAxis1;
@@ -424,8 +424,8 @@ namespace star
 		pos.x = m_CollisionRect.GetCenterPoint().x;
 		pos.y = m_CollisionRect.GetCenterPoint().y;
 		pos.w = 1;
-		pos = glm::mul(pos, TransposeMatrix(GetTransform()->GetWorldMatrix()));
-		pos = glm::mul(pos, 
+		pos = Mul(pos, TransposeMatrix(GetTransform()->GetWorldMatrix()));
+		pos = Mul(pos, 
 			TransposeMatrix(GraphicsManager::GetInstance()->GetViewInverseMatrix()));
 		return vec2(pos.x, pos.y);
 	}
@@ -433,20 +433,20 @@ namespace star
 	vec2 RectangleColliderComponent::GetOrientatedUnitVecX() const
 	{
 		vec4 unitVec(1, 0, 0, 1);
-		unitVec = glm::mul(unitVec, TransposeMatrix(GetTransform()->GetWorldMatrix()));
-		unitVec = glm::mul(unitVec, 
+		unitVec = Mul(unitVec, TransposeMatrix(GetTransform()->GetWorldMatrix()));
+		unitVec = Mul(unitVec, 
 			TransposeMatrix(GraphicsManager::GetInstance()->GetViewInverseMatrix()));
-		unitVec = glm::normalize(unitVec);
+		unitVec = Normalize(unitVec);
 		return vec2(unitVec.x, unitVec.y);
 	}
 
 	vec2 RectangleColliderComponent::GetOrientatedUnitVecY() const
 	{
 		vec4 unitVec(0, 1, 0, 1);
-		unitVec = glm::mul(unitVec, TransposeMatrix(GetTransform()->GetWorldMatrix()));
-		unitVec = glm::mul(unitVec, 
+		unitVec = Mul(unitVec, TransposeMatrix(GetTransform()->GetWorldMatrix()));
+		unitVec = Mul(unitVec, 
 			TransposeMatrix(GraphicsManager::GetInstance()->GetViewInverseMatrix()));
-		unitVec = glm::normalize(unitVec);
+		unitVec = Normalize(unitVec);
 		return vec2(unitVec.x, unitVec.y);
 	}
 

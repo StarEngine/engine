@@ -1,5 +1,5 @@
 #include "Rect.h"
-#include "HelpersMath.h"
+#include "Math.h"
 
 namespace star
 {
@@ -28,9 +28,9 @@ namespace star
 		//[COMMENT] This assert is temporarely disabled because of strange scale issues
 		/*
 	//Check if the rect is a  rect! (all angles ~90°)	
-		float32 dot1 = glm::dot(rightTop - leftTop , leftBottom - leftTop);
-		float32 dot2 = glm::dot(leftTop - rightTop , rightBottom - rightTop);
-		float32 dot3 = glm::dot(rightTop - rightBottom, leftBottom - rightBottom);
+		float32 dot1 = Dot(rightTop - leftTop , leftBottom - leftTop);
+		float32 dot2 = Dot(leftTop - rightTop , rightBottom - rightTop);
+		float32 dot3 = Dot(rightTop - rightBottom, leftBottom - rightBottom);
 		
 		float32 tolerance = 0.1f;
 		ASSERT((abs(dot1) < 0 + tolerance
@@ -40,7 +40,7 @@ namespace star
 			
 		m_Width = m_RightTop.x - m_LeftTop.x;
 		m_Height = m_RightTop.y - m_LeftTop.y;
-		m_Diagonal = glm::length(m_RightBottom - m_LeftTop);
+		m_Diagonal = Mag(m_RightBottom - m_LeftTop);
 	}
 
 	Rect Rect::operator=(const Rect& yRef)
@@ -55,13 +55,13 @@ namespace star
 		return *this;
 	}
 
-	Rect Rect::operator*(glm::mat4 matrix) const
+	Rect Rect::operator*(mat4 matrix) const
 	{
 		matrix = TransposeMatrix(matrix);
-		vec4 returnVec1 = glm::mul(vec4(m_LeftBottom.x, m_LeftBottom.y, 0, 1), matrix);
-		vec4 returnVec2 = glm::mul(vec4(m_RightBottom.x, m_RightBottom.y, 0, 1), matrix);
-		vec4 returnVec3 = glm::mul(vec4(m_LeftTop.x, m_LeftTop.y, 0, 1), matrix);
-		vec4 returnVec4 = glm::mul(vec4(m_RightTop.x, m_RightTop.y, 0, 1), matrix);
+		vec4 returnVec1 = Mul(vec4(m_LeftBottom.x, m_LeftBottom.y, 0, 1), matrix);
+		vec4 returnVec2 = Mul(vec4(m_RightBottom.x, m_RightBottom.y, 0, 1), matrix);
+		vec4 returnVec3 = Mul(vec4(m_LeftTop.x, m_LeftTop.y, 0, 1), matrix);
+		vec4 returnVec4 = Mul(vec4(m_RightTop.x, m_RightTop.y, 0, 1), matrix);
 
 		return Rect(vec2(returnVec1.x , returnVec1.y),
 					vec2(returnVec2.x , returnVec2.y),
@@ -78,7 +78,7 @@ namespace star
 		temp.m_RightTop = m_RightTop * constant;
 		temp.m_Width = temp.m_RightTop.x - temp.m_LeftTop.x;
 		temp.m_Height = temp.m_RightTop.y - temp.m_LeftTop.y;
-		temp.m_Diagonal = glm::length(temp.m_RightBottom - temp.m_LeftTop);
+		temp.m_Diagonal = Mag(temp.m_RightBottom - temp.m_LeftTop);
 
 		return temp;
 	}
@@ -92,18 +92,18 @@ namespace star
 		temp.m_RightTop = m_RightTop / constant;
 		temp.m_Width = temp.m_RightTop.x - temp.m_LeftTop.x;
 		temp.m_Height = temp.m_RightTop.y - temp.m_LeftTop.y;
-		temp.m_Diagonal = glm::length(temp.m_RightBottom - temp.m_LeftTop);
+		temp.m_Diagonal = Mag(temp.m_RightBottom - temp.m_LeftTop);
 
 		return temp;
 	}
 
-	Rect& Rect::operator*=(glm::mat4 matrix)
+	Rect& Rect::operator*=(mat4 matrix)
 	{
 		matrix = TransposeMatrix(matrix);
-		vec4 returnVec1 = glm::mul(vec4(m_LeftBottom.x, m_LeftBottom.y, 0, 0), matrix);
-		vec4 returnVec2 = glm::mul(vec4(m_RightBottom.x, m_RightBottom.y, 0, 0), matrix);
-		vec4 returnVec3 = glm::mul(vec4(m_LeftTop.x, m_LeftTop.y, 0, 0), matrix);
-		vec4 returnVec4 = glm::mul(vec4(m_RightTop.x, m_RightTop.y, 0, 0), matrix);
+		vec4 returnVec1 = Mul(vec4(m_LeftBottom.x, m_LeftBottom.y, 0, 0), matrix);
+		vec4 returnVec2 = Mul(vec4(m_RightBottom.x, m_RightBottom.y, 0, 0), matrix);
+		vec4 returnVec3 = Mul(vec4(m_LeftTop.x, m_LeftTop.y, 0, 0), matrix);
+		vec4 returnVec4 = Mul(vec4(m_RightTop.x, m_RightTop.y, 0, 0), matrix);
 
 		m_LeftBottom = vec2(returnVec1.x, returnVec1.y);
 		m_RightBottom = vec2(returnVec2.x , returnVec2.y);
@@ -112,7 +112,7 @@ namespace star
 
 		m_Width = m_RightTop.x - m_LeftTop.x;
 		m_Height = m_RightTop.y - m_LeftTop.y;
-		m_Diagonal = glm::length(m_RightBottom - m_LeftTop);
+		m_Diagonal = Mag(m_RightBottom - m_LeftTop);
 
 		return *this;
 	}
@@ -126,7 +126,7 @@ namespace star
 
 		m_Width = m_RightTop.x - m_LeftTop.x;
 		m_Height = m_RightTop.y - m_LeftTop.y;
-		m_Diagonal = glm::length(m_RightBottom - m_LeftTop);
+		m_Diagonal = Mag(m_RightBottom - m_LeftTop);
 
 		return *this;
 	}
@@ -220,7 +220,7 @@ namespace star
 		
 		m_Width = m_RightTop.x - m_LeftTop.x;
 		m_Height = m_RightTop.y - m_LeftTop.y;
-		m_Diagonal = glm::length(m_RightBottom - m_LeftTop);
+		m_Diagonal = Mag(m_RightBottom - m_LeftTop);
 	}
 
 	void Rect::SetLeftTop(const vec2& pos)

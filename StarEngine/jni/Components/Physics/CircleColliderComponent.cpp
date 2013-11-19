@@ -1,7 +1,7 @@
 #include "CircleColliderComponent.h"
 #include "../../Context.h"
 #include "../../Objects/Object.h"
-#include "../../Helpers/HelpersMath.h"
+#include "../../Helpers/Math.h"
 #include "../../Helpers/Debug/DebugDraw.h"
 #include "../../Graphics/GraphicsManager.h"
 #include "../../Scenes/SceneManager.h"
@@ -104,7 +104,7 @@ namespace star
 	bool CircleColliderComponent::CollidesWithPoint(const vec2& point) const
 	{
 		
-		return (glm::length(point - GetPosition()) <= GetRealRadius());
+		return (Mag(point - GetPosition()) <= GetRealRadius());
 	}
 
 	bool CircleColliderComponent::CollidesWithLine(const vec2& point1, const vec2& point2) const
@@ -159,12 +159,12 @@ namespace star
 				}
 			}
 		//The circle is inside the boundaries of the line!
-		vec2 lineVec(glm::normalize(point2 - point1));
-		float32 closestPointOnLineSize(glm::dot(circlePos - point1,lineVec));
+		vec2 lineVec(Normalize(point2 - point1));
+		float32 closestPointOnLineSize(Dot(circlePos - point1,lineVec));
 		vec2 closestPointOnLine(closestPointOnLineSize * lineVec);
 		closestPointOnLine = point1 + closestPointOnLine;
 
-		return glm::length(circlePos - closestPointOnLine) <= radius;
+		return Mag(circlePos - closestPointOnLine) <= radius;
 		
 	}
 
@@ -195,7 +195,7 @@ namespace star
 		vec2 object1Pos(collider1->GetPosition());
 		vec2 object2Pos(collider2->GetPosition());
 
-		return !(glm::abs(glm::length((object1Pos - object2Pos))) > (radius1 + radius2));
+		return !(abs(Mag((object1Pos - object2Pos))) > (radius1 + radius2));
 	}
 
 	float32 CircleColliderComponent::GetRadius() const
@@ -214,8 +214,8 @@ namespace star
 	vec2 CircleColliderComponent::GetPosition() const
 	{
 		vec4 realPos(m_Offset.x, m_Offset.y, 0, 1);
-		realPos = glm::mul(realPos, TransposeMatrix(GetTransform()->GetWorldMatrix()));
-		realPos = glm::mul(realPos, TransposeMatrix(
+		realPos = Mul(realPos, TransposeMatrix(GetTransform()->GetWorldMatrix()));
+		realPos = Mul(realPos, TransposeMatrix(
 			GraphicsManager::GetInstance()->GetViewInverseMatrix()));
 		return vec2(realPos.x, realPos.y);
 	}
@@ -223,8 +223,8 @@ namespace star
 	void CircleColliderComponent::GetPosition(vec2& posOut) const
 	{
 		vec4 realPos(m_Offset.x, m_Offset.y, 0, 1);
-		realPos = glm::mul(realPos, TransposeMatrix(GetTransform()->GetWorldMatrix()));
-		realPos = glm::mul(realPos, TransposeMatrix(
+		realPos = Mul(realPos, TransposeMatrix(GetTransform()->GetWorldMatrix()));
+		realPos = Mul(realPos, TransposeMatrix(
 			GraphicsManager::GetInstance()->GetViewInverseMatrix()));
 		posOut.x = realPos.x;
 		posOut.y = realPos.y;

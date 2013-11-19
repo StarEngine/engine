@@ -1,9 +1,10 @@
 #include "DoubleTapGesture.h"
-#include "../../StarEngine/jni/Logger.h"
-#include "../../StarEngine/jni/defines.h"
-#include "../../StarEngine/jni/Context.h"
+#include "../../Logger.h"
+#include "../../defines.h"
+#include "../../Context.h"
+#include "../../Helpers/Math.h"
 
-#include "../../StarEngine/jni/Input/InputManager.h"
+#include "../InputManager.h"
 #define INPUT_MANAGER (InputManager::GetInstance())
 
 namespace star
@@ -39,7 +40,7 @@ namespace star
 			else
 			{
 				vec2 currentPos = INPUT_MANAGER->GetCurrentMousePosition();
-				if(glm::abs(glm::length(m_StartPos - currentPos)) >= MAXIMUM_MOVEMENT_RANGE)
+				if(abs(Mag(m_StartPos - currentPos)) >= MAXIMUM_MOVEMENT_RANGE)
 				{
 					m_bIsGestureOk = false;
 				}
@@ -90,7 +91,7 @@ namespace star
 			else
 			{
 				vec2 currentPos = INPUT_MANAGER->GetCurrentTouchPosANDR();
-				if(glm::abs(glm::length(m_StartPos - currentPos)) >= MAXIMUM_MOVEMENT_RANGE)
+				if(abs(Mag(m_StartPos - currentPos)) >= MAXIMUM_MOVEMENT_RANGE)
 				{
 					m_bIsGestureOk = false;
 				}

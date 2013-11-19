@@ -4,7 +4,7 @@
 #include "../Assets/Resource.h"
 #include "../Helpers/Helpers.h"
 #include "../Helpers/Filepath.h"
-#include "../Helpers/HelpersMath.h"
+#include "../Helpers/Math.h"
 
 #ifdef ANDROID
 #include "../StarEngine.h"
