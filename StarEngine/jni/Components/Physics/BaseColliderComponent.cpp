@@ -141,7 +141,8 @@ namespace star
 
 	vec2 BaseColliderComponent::FindClosestPointToOOBB(
 		const vec2& point, 
-		const RectangleColliderComponent* oobb) const
+		const RectangleColliderComponent* oobb
+		) const
 	{
 		//http://notmagi.me/closest-point-on-line-aabb-and-obb-to-point/
 		vec2 pos = oobb->GetCenterPoint();
