@@ -161,7 +161,6 @@ namespace star
 
 		void PlayChannel(uint8 channel, int loopTimes = 0);
 
-		void StopSound(const tstring& name);
 		void StopAllSounds();
 		void PauseAllSounds();
 		void ResumeAllSounds();

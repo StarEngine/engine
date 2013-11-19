@@ -45,14 +45,14 @@ namespace star
 
 	AudioManager::~AudioManager()
 	{
-		for(auto music : mMusicList)
+		for(auto & music : mMusicList)
 		{
 			delete music.second;
 		}
 
 		mMusicList.clear();
 
-		for(auto effect : mEffectsList)
+		for(auto & effect : mEffectsList)
 		{
 			delete effect.second;
 		}
@@ -507,7 +507,7 @@ namespace star
 		{
 			star::Logger::GetInstance()->
 				Log(LogLevel::Warning,
-				_T("SSoundService::AddToBackgroundQueue: Couldn't find background song '") + name +
+				_T("SoundService::AddToBackgroundQueue: Couldn't find background song '") + name +
 				_T("'."));
 		}
 	}
@@ -1335,25 +1335,6 @@ namespace star
 		}
 	}
 
-	void AudioManager::StopSound(const tstring& name)
-	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
-
-		auto it = mMusicList.find(name);
-		if(it != mMusicList.end())
-		{
-			mMusicList[name]->Stop();
-			return;
-		}
-
-		auto it2 = mEffectsList.find(name);
-		if(it2 != mEffectsList.end())
-		{
-			mEffectsList[name]->Stop();
-			return;
-		}
-	}
-
 	void AudioManager::StopAllSounds()
 	{
 		ASSERT(mSoundService != nullptr,
@@ -1425,12 +1406,12 @@ namespace star
 	{
 		mVolume = Clamp(volume, 0.0f, 1.0f);
 
-		for(auto song : mMusicList)
+		for(auto & song : mMusicList)
 		{
 			song.second->SetMasterVolume(volume);
 		}
 
-		for(auto effect : mEffectsList)
+		for(auto & effect : mEffectsList)
 		{
 			effect.second->SetMasterVolume(volume);
 		}
