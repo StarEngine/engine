@@ -30,10 +30,10 @@ namespace star
 
 	private:
 #ifdef DESKTOP
-		void SetSoundVolume(int volume);
+		void SetSoundVolume(int32 volume);
 
-		static int PLAY_CHANNELS;
-		int mPlayChannel;
+		static int32 PLAY_CHANNELS;
+		int32 mPlayChannel;
 		Mix_Chunk * mpSound;
 #else
 		void RegisterCallback(SLPlayItf & player);
