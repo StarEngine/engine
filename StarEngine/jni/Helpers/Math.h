@@ -359,6 +359,38 @@ namespace star
 	void Rotate(const dquat & quat, const dvec3 & vec, dvec3 & out);
 	void Rotate(const dquat & quat, const dvec4 & vec, dvec4 & out);
 
+	fvec2 Step(const fvec2 & edge, const fvec2 & x);
+	fvec3 Step(const fvec3 & edge, const fvec3 & x);
+	fvec4 Step(const fvec4 & edge, const fvec4 & x);
+
+	fvec2 Step(const fvec2 & edge, float32 x);
+	fvec3 Step(const fvec3 & edge, float32 x);
+	fvec4 Step(const fvec4 & edge, float32 x);
+
+	void Step(const fvec2 & edge, const fvec2 & x, fvec2 & out);
+	void Step(const fvec3 & edge, const fvec3 & x, fvec2 & out);
+	void Step(const fvec4 & edge, const fvec4 & x, fvec2 & out);
+
+	void Step(const fvec2 & edge, float32 x, fvec2 & out);
+	void Step(const fvec3 & edge, float32 x, fvec2 & out);
+	void Step(const fvec4 & edge, float32 x, fvec2 & out);
+
+	dvec2 Step(const dvec2 & edge, const dvec2 & x);
+	dvec3 Step(const dvec3 & edge, const dvec3 & x);
+	dvec4 Step(const dvec4 & edge, const dvec4 & x);
+
+	dvec2 Step(const dvec2 & edge, float64 x);
+	dvec3 Step(const dvec3 & edge, float64 x);
+	dvec4 Step(const dvec4 & edge, float64 x);
+
+	void Step(const dvec2 & edge, const dvec2 & x, dvec2 & out);
+	void Step(const dvec3 & edge, const dvec3 & x, dvec2 & out);
+	void Step(const dvec4 & edge, const dvec4 & x, dvec2 & out);
+
+	void Step(const dvec2 & edge, float64 x, dvec2 & out);
+	void Step(const dvec3 & edge, float64 x, dvec2 & out);
+	void Step(const dvec4 & edge, float64 x, dvec2 & out);
+
 	template <typename T>
 	T Saturate(T x)
 	{

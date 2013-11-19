@@ -1439,6 +1439,138 @@ namespace star
 		out = glm::rotate(quat, vec);
 	}
 
+	fvec2 Step(const fvec2 & edge, const fvec2 & x)
+	{
+		return glm::step<float32>(edge, x);
+	}
+
+	fvec3 Step(const fvec3 & edge, const fvec3 & x)
+	{
+		return glm::step<float32>(edge, x);
+	}
+
+	fvec4 Step(const fvec4 & edge, const fvec4 & x)
+	{
+		return glm::step<float32>(edge, x);
+	}
+
+	fvec2 Step(const fvec2 & edge, float32 x)
+	{
+		fvec2 vec(x, x);
+		return glm::step<float32>(edge, vec);
+	}
+
+	fvec3 Step(const fvec3 & edge, float32 x)
+	{
+		fvec3 vec(x, x, x);
+		return glm::step<float32>(edge, vec);
+	}
+
+	fvec4 Step(const fvec4 & edge, float32 x)
+	{
+		fvec4 vec(x, x, x, x);
+		return glm::step<float32>(edge, vec);
+	}
+
+	void Step(const fvec2 & edge, const fvec2 & x, fvec2 & out)
+	{
+		out = glm::step<float32>(edge, x);
+	}
+
+	void Step(const fvec3 & edge, const fvec3 & x, fvec3 & out)
+	{
+		out = glm::step<float32>(edge, x);
+	}
+
+	void Step(const fvec4 & edge, const fvec4 & x, fvec4 & out)
+	{
+		out = glm::step<float32>(edge, x);
+	}
+
+	void Step(const fvec2 & edge, float32 x, fvec2 & out)
+	{
+		fvec2 vec(x, x);
+		out = glm::step<float32>(edge, vec);
+	}
+
+	void Step(const fvec3 & edge, float32 x, fvec3 & out)
+	{
+		fvec3 vec(x, x, x);
+		out = glm::step<float32>(edge, vec);
+	}
+
+	void Step(const fvec4 & edge, float32 x, fvec4 & out)
+	{
+		fvec4 vec(x, x, x, x);
+		out = glm::step<float32>(edge, vec);
+	}
+
+	dvec2 Step(const dvec2 & edge, const dvec2 & x)
+	{
+		return glm::step<float64>(edge, x);
+	}
+
+	dvec3 Step(const dvec3 & edge, const dvec3 & x)
+	{
+		return glm::step<float64>(edge, x);
+	}
+
+	dvec4 Step(const dvec4 & edge, const dvec4 & x)
+	{
+		return glm::step<float64>(edge, x);
+	}
+
+	dvec2 Step(const dvec2 & edge, float64 x)
+	{
+		dvec2 vec(x, x);
+		return glm::step<float64>(edge, vec);
+	}
+
+	dvec3 Step(const dvec3 & edge, float64 x)
+	{
+		dvec3 vec(x, x, x);
+		return glm::step<float64>(edge, vec);
+	}
+
+	dvec4 Step(const dvec4 & edge, float64 x)
+	{
+		dvec4 vec(x, x, x, x);
+		return glm::step<float64>(edge, vec);
+	}
+
+	void Step(const dvec2 & edge, const dvec2 & x, dvec2 & out)
+	{
+		out = glm::step<float64>(edge, x);
+	}
+
+	void Step(const dvec3 & edge, const dvec3 & x, dvec3 & out)
+	{
+		out = glm::step<float64>(edge, x);
+	}
+
+	void Step(const dvec4 & edge, const dvec4 & x, dvec4 & out)
+	{
+		out = glm::step<float64>(edge, x);
+	}
+
+	void Step(const dvec2 & edge, float64 x, dvec2 & out)
+	{
+		dvec2 vec(x, x);
+		out = glm::step<float64>(edge, vec);
+	}
+
+	void Step(const dvec3 & edge, float64 x, dvec3 & out)
+	{
+		dvec3 vec(x, x, x);
+		out = glm::step<float64>(edge, vec);
+	}
+
+	void Step(const dvec4 & edge, float64 x, dvec4 & out)
+	{
+		dvec4 vec(x, x, x, x);
+		out = glm::step<float64>(edge, vec);
+	}
+
 	fvec2 Saturate(const fvec2 & vec)
 	{
 		return glm::saturate<float32>(vec);
