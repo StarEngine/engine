@@ -13,7 +13,7 @@ namespace star
 		pos(const vec2 & vec, lay layer = LAYER_DEF);
 		pos(double X, double Y, lay layer = LAYER_DEF);
 		pos(float X, float Y, lay layer = LAYER_DEF);
-		pos(int X, int Y, lay layer = LAYER_DEF);
+		pos(int32 X, int32 Y, lay layer = LAYER_DEF);
 		pos(long X, long Y, lay layer = LAYER_DEF);
 		pos(const pos & yRef);
 		pos(pos && yRef);
@@ -34,30 +34,30 @@ namespace star
 		pos operator-(const pos & yRef) const;
 		pos operator-(const vec2 & yRef) const;
 	
-		pos & operator*=(unsigned int n);
+		pos & operator*=(uint32 n);
 		pos & operator*=(unsigned long n);
-		pos & operator*=(int n);
+		pos & operator*=(int32 n);
 		pos & operator*=(long n);
 		pos & operator*=(float n);
 		pos & operator*=(double n);
 	
-		pos & operator/=(unsigned int n);
+		pos & operator/=(uint32 n);
 		pos & operator/=(unsigned long n);
-		pos & operator/=(int n);
+		pos & operator/=(int32 n);
 		pos & operator/=(long n);
 		pos & operator/=(float n);
 		pos & operator/=(double n);
 	
-		pos operator*(unsigned int n);
+		pos operator*(uint32 n);
 		pos operator*(unsigned long n);
-		pos operator*(int n);
+		pos operator*(int32 n);
 		pos operator*(long n);
 		pos operator*(float n);
 		pos operator*(double n);
 	
-		pos operator/(unsigned int n);
+		pos operator/(uint32 n);
 		pos operator/(unsigned long n);
-		pos operator/(int n);
+		pos operator/(int32 n);
 		pos operator/(long n);
 		pos operator/(float n);
 		pos operator/(double n);
@@ -67,17 +67,17 @@ namespace star
 
 		float length() const;
 	
-		friend pos operator*(unsigned int n, const pos & yRef);
+		friend pos operator*(uint32 n, const pos & yRef);
 		friend pos operator*(unsigned long n, const pos & yRef);
-		friend pos operator*(int n, const pos & yRef);
+		friend pos operator*(int32 n, const pos & yRef);
 		friend pos operator*(long n, const pos & yRef);
 		friend pos operator*(float n, const pos & yRef);
 		friend pos operator*(double n, const pos & yRef);
 		friend pos operator*(const vec2 & v, const pos & yRef);
 	
-		friend pos operator/(unsigned int n, const pos & yRef);
+		friend pos operator/(uint32 n, const pos & yRef);
 		friend pos operator/(unsigned long n, const pos & yRef);
-		friend pos operator/(int n, const pos & yRef);
+		friend pos operator/(int32 n, const pos & yRef);
 		friend pos operator/(long n, const pos & yRef);
 		friend pos operator/(float n, const pos & yRef);
 		friend pos operator/(double n, const pos & yRef);

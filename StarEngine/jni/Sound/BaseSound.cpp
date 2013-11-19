@@ -24,7 +24,7 @@ namespace star
 	{
 	}
 
-	void BaseSound::Play(int loopTime)
+	void BaseSound::Play(int32 loopTime)
 	{
 		mSoundState = SoundState::playing;
 		mbIsLooping = loopTime == -1;
@@ -110,7 +110,7 @@ namespace star
 	{
 #ifdef DESKTOP
 		volume = Clamp(volume, 0.0f, 1.0f);
-		int vol(int(volume * float(MIX_MAX_VOLUME)));
+		int32 vol(int32(volume * float(MIX_MAX_VOLUME)));
 		SetSoundVolume(vol);
 #endif
 	}

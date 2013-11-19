@@ -32,7 +32,7 @@ namespace star
 		// void DrawTransform(const mat4x4& aXf);  
 		void DrawPoint(const vec2& pos, float size, const Color& color);  
 		void DrawLine(const vec2& pos1, const vec2& pos2, const Color& color);
-		void DrawString(int xPos, int yPos, const tstring& text);  
+		void DrawString(int32 xPos, int32 yPos, const tstring& text);  
 		void DrawRect(const AARect& rect, const Color& color);  
 		void DrawRect(const Rect& rect, const Color& color); 
 		void DrawSolidRect(const AARect& rect, const Color& color);  

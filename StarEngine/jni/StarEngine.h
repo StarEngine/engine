@@ -35,8 +35,8 @@ namespace star
 		void SetActive();
 		void SetInactive();
 
-		int GetCurrentFPS() const;
-		int GetPreviousFPS() const;
+		int32 GetCurrentFPS() const;
+		int32 GetPreviousFPS() const;
 
 		void SetGameTitle(const tstring & title);
 		void SetGameSubTitle(const tstring & title);

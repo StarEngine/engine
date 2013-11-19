@@ -10,7 +10,7 @@ enum ButtonInput
 namespace star
 {
 	Button::Button(const tstring& assetFile, const tstring& spriteName, 
-		bool isSpriteSheet, int heightSegments,  bool isHudElement)
+		bool isSpriteSheet, int32 heightSegments,  bool isHudElement)
 		: Object()
 		, m_OnClick(nullptr)
 		, m_OnHover(nullptr)
@@ -58,21 +58,21 @@ namespace star
 		tex2D = static_cast<ID3D10Texture2D*>(resource);
 		tex2D->GetDesc(&tex2DDesc);
 
-		m_Width = (int)tex2DDesc.Width;
+		m_Width = (int32)tex2DDesc.Width;
 		//Set Dimensions after the button texture is loaded, otherwise we can't extract the width and height
 		if(m_IsSpriteSheet)
 		{
-			m_Height = (int)tex2DDesc.Height/3;
+			m_Height = (int32)tex2DDesc.Height/3;
 
 			//Only use these rectangle properties when the button texture is a spriteSheet
-			m_NormalRect =	GameRectangle(	0,		0,									(int)tex2DDesc.Width,	(int)(tex2DDesc.Height / 3.0f));
-			m_HoverRect =	GameRectangle(	0,		(int)(tex2DDesc.Height / 3.0f),		(int)tex2DDesc.Width,	2*(int)(tex2DDesc.Height / 3.0f));
-			m_PressedRect = GameRectangle(	0,		2*(int)(tex2DDesc.Height / 3.0f),	(int)tex2DDesc.Width,	(int)(tex2DDesc.Height));
+			m_NormalRect =	GameRectangle(	0,		0,									(int32)tex2DDesc.Width,	(int32)(tex2DDesc.Height / 3.0f));
+			m_HoverRect =	GameRectangle(	0,		(int32)(tex2DDesc.Height / 3.0f),		(int32)tex2DDesc.Width,	2*(int32)(tex2DDesc.Height / 3.0f));
+			m_PressedRect = GameRectangle(	0,		2*(int32)(tex2DDesc.Height / 3.0f),	(int32)tex2DDesc.Width,	(int32)(tex2DDesc.Height));
 
 			m_SpriteInfo.DrawRect = GameRectangle::AsRect(m_NormalRect);
 		}
 		else
-			m_Height = (int)tex2DDesc.Height;
+			m_Height = (int32)tex2DDesc.Height;
 
 		m_HitRegion->SetDimensions(m_Width, m_Height);*/
 

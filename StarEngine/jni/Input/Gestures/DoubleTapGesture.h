@@ -24,11 +24,11 @@ namespace star
 		double m_TimeBetweenTaps;
 		vec2 m_StartPos;
 		bool m_bIsGestureOk;
-		static const int MINIMUM_TAP_TIME = 10;
-		static const int MAXIMUM_TAP_TIME = 500;
-		static const int MAXIMUM_TIME_BETWEEN_TAPS = 300;
-		static const int MAXIMUM_MOVEMENT_RANGE = 50;
-		int m_Count;
+		static const int32 MINIMUM_TAP_TIME = 10;
+		static const int32 MAXIMUM_TAP_TIME = 500;
+		static const int32 MAXIMUM_TIME_BETWEEN_TAPS = 300;
+		static const int32 MAXIMUM_MOVEMENT_RANGE = 50;
+		int32 m_Count;
 
 		DoubleTapGesture(const DoubleTapGesture& t);
 		DoubleTapGesture(DoubleTapGesture&& t);

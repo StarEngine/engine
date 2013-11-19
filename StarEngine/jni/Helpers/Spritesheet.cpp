@@ -24,9 +24,9 @@ namespace star
 		auto attributes = spritesheet.GetAttributes();
 		m_Name = attributes[_T("name")];
 		m_DefaultAnimation = attributes[_T("default")];
-		m_FramesHorizontal = string_cast<int>(attributes[_T("width")]);
-		m_FramesVertical = string_cast<int>(attributes[_T("height")]);
-		int amount = m_FramesHorizontal * m_FramesVertical;
+		m_FramesHorizontal = string_cast<int32>(attributes[_T("width")]);
+		m_FramesVertical = string_cast<int32>(attributes[_T("height")]);
+		int32 amount = m_FramesHorizontal * m_FramesVertical;
 		float speed = string_cast<float>(attributes[_T("speed")]);
 
 		auto it = spritesheet.lower_bound(_T("animation"));
@@ -38,7 +38,7 @@ namespace star
 			auto animation_attributes = animation->GetAttributes();
 			tstring aName = animation_attributes[_T("name")];
 			float aSpeed = string_cast<float>(animation_attributes[_T("speed")]);
-			int aRepeat = string_cast<int>(animation_attributes[_T("repeat")]);
+			int32 aRepeat = string_cast<int32>(animation_attributes[_T("repeat")]);
 			tstring frames = animation->GetValue();
 
 			vec2 uv;
@@ -127,12 +127,12 @@ namespace star
 		return m_DefaultAnimation;
 	}
 
-	int Spritesheet::GetFramesHorizontal() const
+	int32 Spritesheet::GetFramesHorizontal() const
 	{
 		return m_FramesHorizontal;
 	}
 
-	int Spritesheet::GetFramesVertical() const
+	int32 Spritesheet::GetFramesVertical() const
 	{
 		return m_FramesVertical;
 	}

@@ -7,9 +7,9 @@ namespace star
 	struct SerializedData
 	{
 		schar * data;
-		unsigned int size;
+		uint32 size;
 
 		SerializedData();
-		SerializedData(schar * buffer, unsigned int n);
+		SerializedData(schar * buffer, uint32 n);
 	};
 }

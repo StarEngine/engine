@@ -14,7 +14,7 @@ namespace star
 		typedef std::function<void()> ButtonAction;
 
 		Button(const tstring& assetFile, const tstring& spriteName, 
-			bool isSpriteSheet = false, int Heightsegments = 1, bool isHudElement = true);
+			bool isSpriteSheet = false, int32 Heightsegments = 1, bool isHudElement = true);
 		~Button();
 
 		void SetOnHoverCallback(ButtonAction onHover);
@@ -36,7 +36,7 @@ namespace star
 		bool m_bIsHovered;
 		tstring m_FilePath;
 		tstring m_SpriteName;
-		int m_HeightSegments;
+		int32 m_HeightSegments;
 
 		ButtonAction m_OnHover;
 		ButtonAction m_OnClick;

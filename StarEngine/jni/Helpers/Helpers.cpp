@@ -378,7 +378,7 @@ namespace star
 	}
 
 	template <>
-	int string_cast<int, tstring>
+	int32 string_cast<int32, tstring>
 		(const tstring & value)
 	{
 		return ttoi(value.c_str());
@@ -388,7 +388,7 @@ namespace star
 	uint32 string_cast<uint32, tstring>
 		(const tstring & value)
 	{
-		return uint32(string_cast<int>(value));
+		return uint32(string_cast<int32>(value));
 	}
 
 	template <>
@@ -417,7 +417,7 @@ namespace star
 		(const tstring & value)
 	{
 		glm::vec2 vec;
-		int index = value.find(';',0);
+		int32 index = value.find(';',0);
 		vec.x = string_cast<float>(value.substr(0, index));
 		vec.y = string_cast<float>(value.substr(++index,value.size()-index));
 		return vec;
@@ -428,9 +428,9 @@ namespace star
 		(const tstring & value)
 	{
 		pos pos;
-		int index = value.find(';', 0);
+		int32 index = value.find(';', 0);
 		pos.x = string_cast<float>(value.substr(0, index));
-		int index2 = value.find(';', ++index);
+		int32 index2 = value.find(';', ++index);
 		pos.y = string_cast<float>(value.substr(index, index2 - index));
 		pos.l = lay(string_cast<int32>(value.substr(++index2, value.size() - index2)));
 		return pos;
@@ -441,9 +441,9 @@ namespace star
 		(const tstring & value)
 	{
 		glm::vec3 vec;
-		int index = value.find(';', 0);
+		int32 index = value.find(';', 0);
 		vec.x = string_cast<float>(value.substr(0, index));
-		int index2 = value.find(';', ++index);
+		int32 index2 = value.find(';', ++index);
 		vec.y = string_cast<float>(value.substr(index, index2 - index));
 		vec.z = string_cast<float>(value.substr(++index2, value.size() - index2));
 		return vec;
@@ -454,9 +454,9 @@ namespace star
 		(const tstring & value)
 	{
 		glm::vec4 vec;
-		int index = value.find(';', 0);
+		int32 index = value.find(';', 0);
 		vec.x = string_cast<float>(value.substr(0, index));
-		int index2 = value.find(';', ++index);
+		int32 index2 = value.find(';', ++index);
 		vec.y = string_cast<float>(value.substr(index, index2 - index));
 		index = value.find(';', ++index2);
 		vec.z = string_cast<float>(value.substr(index2, index - index2));
@@ -469,9 +469,9 @@ namespace star
 		(const tstring & value)
 	{
 		glm::quat quat;
-		int index = value.find(';', 0);
+		int32 index = value.find(';', 0);
 		quat.x = string_cast<float>(value.substr(0, index));
-		int index2 = value.find(';', ++index);
+		int32 index2 = value.find(';', ++index);
 		quat.y = string_cast<float>(value.substr(index, index2 - index));
 		index = value.find(';', ++index2);
 		quat.z = string_cast<float>(value.substr(index2, index - index2));

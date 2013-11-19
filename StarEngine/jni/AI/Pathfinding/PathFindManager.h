@@ -50,7 +50,7 @@ namespace star
 	private:
 		PathFindManager(void);
 		void SetStartAndGoal(const SearchCell& start, const SearchCell& end);
-		void PathOpened(int x, int y, float newCost, SearchCell *parent, Direction dir);
+		void PathOpened(int32 x, int32 y, float newCost, SearchCell *parent, Direction dir);
 		SearchCell *GetNextCell();
 		void ContinuePath();
 
@@ -82,8 +82,8 @@ namespace star
 		bool m_bInitializedStartGoal;
 		bool m_bFoundGoal;
 
-		static const int WORLD_SIZE = 100;
-		static const int STEP_SIZE = 1;
+		static const int32 WORLD_SIZE = 100;
+		static const int32 STEP_SIZE = 1;
 
 #ifdef STAR2D
 		static const pos NO_PATH_AVAILBLE;

@@ -1,4 +1,5 @@
 #include "Console.h"
+#include "jni\defines.h"
 
 namespace WindowsConsole
 {
@@ -6,7 +7,7 @@ namespace WindowsConsole
 
 	void RedirectIOToConsole()
 	{
-		int hConHandle;
+		int32 hConHandle;
 		long lStdHandle;
 
 		CONSOLE_SCREEN_BUFFER_INFO coninfo;

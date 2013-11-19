@@ -3,8 +3,8 @@
 		if ( false ) {} \
 	else \
 	struct LocalAssert { \
-		int mLine; \
-		LocalAssert(int line=__LINE__) : mLine(line) {} \
+		int32 mLine; \
+		LocalAssert(int32 line=__LINE__) : mLine(line) {} \
 		LocalAssert(bool isOK, const tchar* message=_T("")) { \
 		if ( !isOK ) { \
 		tstringstream buffer; \
@@ -18,8 +18,8 @@
 		if ( false ) {} \
 	else \
 	struct LocalAssert { \
-		int mLine; \
-		LocalAssert(int line=__LINE__) : mLine(line) {} \
+		int32 mLine; \
+		LocalAssert(int32 line=__LINE__) : mLine(line) {} \
 		LocalAssert(bool isOK, const schar* message="") { \
 		if ( !isOK ) { \
 		sstringstream buffer; \

@@ -13,8 +13,8 @@ namespace star
 	public:
 		SpriteAnimation();
 		SpriteAnimation(const tstring & name, const vec2 & uv_scale, 
-			float speed, int repeat, const tstring & frames, 
-			int frames_x, int frames_y, int amount);
+			float speed, int32 repeat, const tstring & frames, 
+			int32 frames_x, int32 frames_y, int32 amount);
 		SpriteAnimation(const SpriteAnimation &);
 		SpriteAnimation(SpriteAnimation &&);
 		~SpriteAnimation();
@@ -26,7 +26,7 @@ namespace star
 		vec4 GetCurrentUV() const;
 
 		void Play();
-		void PlayAtFrame(int startFrame);
+		void PlayAtFrame(int32 startFrame);
 		void Replay();
 		void Pause();
 		void Stop();
@@ -36,17 +36,17 @@ namespace star
 
 		void SetCallback(const std::function<void()> & callback);
 
-		int GetCurrentFrame() const;
+		int32 GetCurrentFrame() const;
 
 	private:
-		void ParseFrameString(tstring frames, int frames_x, int frames_y, int amount);
-		void ParseFrames(const tstring & frame, int frames_x, int frames_y, int amount);
-		void ParseFrame(int frame, int frames_x, int frames_y, int amount);
+		void ParseFrameString(tstring frames, int32 frames_x, int32 frames_y, int32 amount);
+		void ParseFrames(const tstring & frame, int32 frames_x, int32 frames_y, int32 amount);
+		void ParseFrame(int32 frame, int32 frames_x, int32 frames_y, int32 amount);
 
 		tstring m_Name;
 		float m_Speed, m_CurrentFrame;
-		int m_Repeat;
-		int m_CurrentRepeats;
+		int32 m_Repeat;
+		int32 m_CurrentRepeats;
 		vec2 m_UVScale;
 
 		std::function<void()> m_Callback;

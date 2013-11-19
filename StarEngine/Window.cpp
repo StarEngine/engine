@@ -99,10 +99,10 @@ namespace star
 				if(consoleHandle != NULL)
 				{
 					auto consoleAttributes = winManifest[_T("console")]->GetAttributes();
-					int x = string_cast<int>(consoleAttributes[_T("x")]);
-					int y = string_cast<int>(consoleAttributes[_T("y")]);
-					int width = string_cast<int>(consoleAttributes[_T("width")]);
-					int height = string_cast<int>(consoleAttributes[_T("height")]);
+					int32 x = string_cast<int32>(consoleAttributes[_T("x")]);
+					int32 y = string_cast<int32>(consoleAttributes[_T("y")]);
+					int32 width = string_cast<int32>(consoleAttributes[_T("width")]);
+					int32 height = string_cast<int32>(consoleAttributes[_T("height")]);
 					MoveWindow(consoleHandle, x, y, width, height, true);
 				}
 			}
@@ -197,20 +197,20 @@ namespace star
 			auto & resolution = winManifest[_T("resolution")]->GetAttributes();
 			auto & position = winManifest[_T("position")]->GetAttributes();
 
-			int position_x = string_cast<int>(position[_T("x")]);
-			int position_y = string_cast<int>(position[_T("y")]);
-			int position_width = string_cast<int>(resolution[_T("width")]);
-			int position_height = string_cast<int>(resolution[_T("height")]);
+			int32 position_x = string_cast<int32>(position[_T("x")]);
+			int32 position_y = string_cast<int32>(position[_T("y")]);
+			int32 position_width = string_cast<int32>(resolution[_T("width")]);
+			int32 position_height = string_cast<int32>(resolution[_T("height")]);
 
 			if(position_x == -1)
 			{
-				position_x = int(GetSystemMetrics(SM_CXSCREEN)) / 2;
+				position_x = int32(GetSystemMetrics(SM_CXSCREEN)) / 2;
 				position_x -= position_width / 2;
 			}
 
 			if(position_y == -1)
 			{
-				position_y = int(GetSystemMetrics(SM_CYSCREEN)) / 2;
+				position_y = int32(GetSystemMetrics(SM_CYSCREEN)) / 2;
 				position_y -= position_height / 2;
 			}
 
@@ -252,7 +252,7 @@ namespace star
 			mHDC = GetDC(mHandle); // Gets the display context
 			ASSERT(mHDC != NULL, _T("Couldn't create the Display Context!"));
 
-			int pixelFormat = ChoosePixelFormat(mHDC, &pixelFormatDesc); // Chooses the pixel format
+			int32 pixelFormat = ChoosePixelFormat(mHDC, &pixelFormatDesc); // Chooses the pixel format
 			ASSERT(pixelFormat != 0, _T("Invalid pixel format!"));
 
 			// Sets the pixel format
@@ -451,8 +451,8 @@ namespace star
 		{
 			DEVMODE fullscreenSettings;
 
-			int screenWidth = GetDeviceCaps(hdc, HORZRES);
-			int screenHeight = GetDeviceCaps(hdc, VERTRES);
+			int32 screenWidth = GetDeviceCaps(hdc, HORZRES);
+			int32 screenHeight = GetDeviceCaps(hdc, VERTRES);
 
 			if(m_ManipulateWindowResolution)
 			{
@@ -517,7 +517,7 @@ namespace star
 		m_IsActive = active;
 	}
 	
-	void Window::SetResolution(int width, int height, bool reset)
+	void Window::SetResolution(int32 width, int32 height, bool reset)
 	{
 		GraphicsManager::GetInstance()->SetWindowDimensions(
 			width, 
@@ -549,16 +549,16 @@ namespace star
 		UpdateWindow(mHandle);
 	}
 
-	void Window::ClientResize(int & width, int & height)
+	void Window::ClientResize(int32 & width, int32 & height)
 	{
-		int difX, difY;
+		int32 difX, difY;
 		GetWindowDifferenceSize(difX, difY);
 
 		width += difX;
 		height += difY;
 	}
 
-	void Window::GetWindowDifferenceSize(int & difX, int & difY)
+	void Window::GetWindowDifferenceSize(int32 & difX, int32 & difY)
 	{
 		RECT rcClient, rcWindow;
 
@@ -571,11 +571,11 @@ namespace star
 
 	void Window::GetWindowClipSize(RECT & rect)
 	{
-		int difX, difY;
+		int32 difX, difY;
 		GetWindowDifferenceSize(difX, difY);
 
-		int border = difX / 2;
-		int top = difY - border;
+		int32 border = difX / 2;
+		int32 top = difY - border;
 
 		rect.top += top;
 		rect.left += border;
@@ -749,7 +749,7 @@ namespace star
 		return mHandle;
 	}
 
-	int Window::CastStringToClassStyle(const tstring & style)
+	int32 Window::CastStringToClassStyle(const tstring & style)
 	{
 		for ( int32 i = 0 ; i < CLASS_STYLES_COUNT ; ++i )
 		{
@@ -762,7 +762,7 @@ namespace star
 		return NULL;
 	}
 
-	int Window::CastStringToWinStyle(const tstring & style)
+	int32 Window::CastStringToWinStyle(const tstring & style)
 	{
 		for ( int32 i = 0 ; i < WINDOW_STYLES_COUNT ; ++i )
 		{

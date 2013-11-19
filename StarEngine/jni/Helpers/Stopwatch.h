@@ -28,9 +28,9 @@ namespace star
 		void SetTargetTimeTimer(const tstring & name, float targetTime, bool reset = true, bool paused = false);
 		void SetFunctionTimer(const tstring & name, std::function<void ()> func);
 
-		int GetTimerMinutes(const tstring & name) const;
-		int GetTimerSeconds(const tstring & name) const;
-		int GetTimerTotalSeconds(const tstring & name) const;
+		int32 GetTimerMinutes(const tstring & name) const;
+		int32 GetTimerSeconds(const tstring & name) const;
+		int32 GetTimerTotalSeconds(const tstring & name) const;
 		double GetTimerTargetTime(const tstring & name) const;
 		double GetTimerAccurateTime(const tstring & name) const;
 

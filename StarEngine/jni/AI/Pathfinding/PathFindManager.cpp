@@ -12,7 +12,7 @@ namespace star
 #endif
 	PathFindManager * PathFindManager::m_pPathFindManager = nullptr;
 
-	bool idCheckerCompare(int leftId, int rightId) 
+	bool idCheckerCompare(int32 leftId, int32 rightId) 
 	{
 		return (leftId == rightId);
 	}
@@ -108,13 +108,13 @@ namespace star
 			
 			//Initialize start
 			SearchCell start;
-			start.X = static_cast<int>(currentPos.x);
-			start.Y = static_cast<int>(currentPos.y);
+			start.X = static_cast<int32>(currentPos.x);
+			start.Y = static_cast<int32>(currentPos.y);
 
 			//Initiliaze end
 			SearchCell end;
-			end.X = static_cast<int>(targetPos.x);
-			end.Y = static_cast<int>(targetPos.y);
+			end.X = static_cast<int32>(targetPos.x);
+			end.Y = static_cast<int32>(targetPos.y);
 
 			SetStartAndGoal(start, end);
 			m_bInitializedStartGoal = true;
@@ -157,13 +157,13 @@ namespace star
 
 			//Initialize start
 			SearchCell start;
-			start.X = static_cast<int>(currentPos.x);
-			start.Y = static_cast<int>(currentPos.y);
+			start.X = static_cast<int32>(currentPos.x);
+			start.Y = static_cast<int32>(currentPos.y);
 
 			//Initiliaze end
 			SearchCell end;
-			end.X = static_cast<int>(targetPos.x);
-			end.Y = static_cast<int>(targetPos.y);
+			end.X = static_cast<int32>(targetPos.x);
+			end.Y = static_cast<int32>(targetPos.y);
 
 			SetStartAndGoal(start, end);
 			m_bInitializedStartGoal = true;
@@ -186,7 +186,7 @@ namespace star
 	{
 		//reset values
 		float bestF = 999999.0f;
-		int cellIndex = -1;
+		int32 cellIndex = -1;
 		SearchCell* nextCell = nullptr;
 
 		//find closest
@@ -216,7 +216,7 @@ namespace star
 		return nextCell;
 	}
 
-	void PathFindManager::PathOpened(int x, int y, float newCost, SearchCell *parent, Direction dir)
+	void PathFindManager::PathOpened(int32 x, int32 y, float newCost, SearchCell *parent, Direction dir)
 	{
 		//check if position is accesible
 		if(find(m_PositionList.begin(), m_PositionList.end(), pos(x,y)) == m_PositionList.end())
@@ -331,7 +331,7 @@ namespace star
 		}
 
 		//check if position has been visited
-		int id = y * WORLD_SIZE + x;
+		int32 id = y * WORLD_SIZE + x;
 		for (uint16 i=0; i<m_VisitedList.size(); ++i)
 		{
 			if(id == m_VisitedList[i]->Id)
@@ -435,7 +435,7 @@ namespace star
 			
 			for (uint16 i = 0 ; i < m_OpenList.size() ; ++i)
 			{
-				int id = m_OpenList[i]->Id;
+				int32 id = m_OpenList[i]->Id;
 				m_OpenList.erase(std::remove_if(m_OpenList.begin(), m_OpenList.end(),
 					[&id](SearchCell * currentCell)
 					{

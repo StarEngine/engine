@@ -20,7 +20,7 @@ namespace star
 
 	SpriteAnimation::SpriteAnimation(
 		const tstring & name, const vec2 & uv_scale, float speed,
-		int repeat, const tstring & frames, int frames_x, int frames_y, int amount)
+		int32 repeat, const tstring & frames, int32 frames_x, int32 frames_y, int32 amount)
 		: m_Name(name)
 		, m_Speed(speed)
 		, m_CurrentFrame(0)
@@ -132,9 +132,9 @@ namespace star
 	vec4 SpriteAnimation::GetCurrentUV() const
 	{
 		vec4 uv;
-		int currentFrame = int(m_CurrentFrame);
+		int32 currentFrame = int32(m_CurrentFrame);
 		
-		auto size = int(m_Frames.size());
+		auto size = int32(m_Frames.size());
 		if(currentFrame >= size)
 		{
 			currentFrame = size - 1;
@@ -160,7 +160,7 @@ namespace star
 		m_IsPlaying = true;
 	}
 
-	void SpriteAnimation::PlayAtFrame(int startFrame)
+	void SpriteAnimation::PlayAtFrame(int32 startFrame)
 	{
 		m_IsPlaying = true;
 		m_CurrentFrame = float(startFrame);
@@ -198,13 +198,13 @@ namespace star
 		m_Callback = callback;
 	}
 	
-	int SpriteAnimation::GetCurrentFrame() const
+	int32 SpriteAnimation::GetCurrentFrame() const
 	{
-		return int(m_CurrentFrame);
+		return int32(m_CurrentFrame);
 	}
 	
 	void SpriteAnimation::ParseFrameString(
-		tstring frames, int frames_x, int frames_y, int amount)
+		tstring frames, int32 frames_x, int32 frames_y, int32 amount)
 	{
 		tstring::size_type index(tstring::npos);
 		tstring frame(EMPTY_STRING);
@@ -227,20 +227,20 @@ namespace star
 	}
 	
 	void SpriteAnimation::ParseFrames(const tstring & frame, 
-		int frames_x, int frames_y, int amount)
+		int32 frames_x, int32 frames_y, int32 amount)
 	{
 		auto index = frame.find(_T('-'));
 		if(index == tstring::npos)
 		{
-			int f = string_cast<int>(frame);
+			int32 f = string_cast<int32>(frame);
 			ParseFrame(f, frames_x, frames_y, amount);
 		}
 		else
 		{
 			tstring x = frame.substr(0,index);
 			tstring y = frame.substr(index + 1, frame.length() - index - 1);
-			int nX = string_cast<int>(x);
-			int nY = string_cast<int>(y);
+			int32 nX = string_cast<int32>(x);
+			int32 nY = string_cast<int32>(y);
 			if(nX < nY)
 			{
 				for ( ; nX <= nY ; ++nX )
@@ -258,11 +258,11 @@ namespace star
 		}
 	}
 	
-	void SpriteAnimation::ParseFrame(int frame, int frames_x, int frames_y, int amount)
+	void SpriteAnimation::ParseFrame(int32 frame, int32 frames_x, int32 frames_y, int32 amount)
 	{
 		ASSERT(frame < amount && frame > -1, _T("Invalid frame index."));
-		int x = frame % frames_x;
-		int y = frame / frames_x;
+		int32 x = frame % frames_x;
+		int32 y = frame / frames_x;
 		
 		vec2 uv;
 		uv.x = float(x) * m_UVScale.x;

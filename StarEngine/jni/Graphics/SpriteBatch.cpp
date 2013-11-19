@@ -145,9 +145,9 @@ namespace star
 		CreateSpriteQuad(spriteQueue);
 		
 		//DRAW
-		int batchStart = 0;
-		int batchSize = 0;
-		for(unsigned int i = 0; i < spriteQueue.size(); ++i)
+		int32 batchStart = 0;
+		int32 batchSize = 0;
+		for(uint32 i = 0; i < spriteQueue.size(); ++i)
 		{
 			GLuint currTexture = star::TextureManager::GetInstance()
 				->GetTextureID(spriteQueue[i].spriteName);
@@ -176,7 +176,7 @@ namespace star
 			float scaleValue = ScaleSystem::GetInstance()->GetScale();
 			mat4x4 scaleMat = glm::scale<float>(scaleValue, scaleValue, 1.0f);
 		
-			for(int j = 0; j < ((batchSize/4)); ++j)
+			for(int32 j = 0; j < ((batchSize/4)); ++j)
 			{
 				//Set attributes and buffers
 				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, 
@@ -256,12 +256,12 @@ namespace star
 		float scaleValue = ScaleSystem::GetInstance()->GetScale();
 		mat4x4 scaleMat = glm::scale<float>(scaleValue, scaleValue, 1.0f);
 
-		int offsetX(0);
-		int offsetY(0);
+		int32 offsetX(0);
+		int32 offsetY(0);
 		for(auto it = text.begin(); it != text.end() ; ++it)
 		{
 			const schar *start_line=it->c_str();
-			for(int i = 0 ; start_line[i] != 0 ; ++i) 
+			for(int32 i = 0 ; start_line[i] != 0 ; ++i) 
 			{
 
 				glBindTexture(GL_TEXTURE_2D,textures[ start_line[i] ]);
@@ -276,7 +276,7 @@ namespace star
 				
 				if(start_line[i] != 0)
 				{
-					int offset = curfont.GetMaxLetterHeight() - tempsizes[start_line[i]].y;
+					int32 offset = curfont.GetMaxLetterHeight() - tempsizes[start_line[i]].y;
 					offsetTrans = glm::translate(
 						glm::vec3(offsetX, offsetY - curfont.GetMaxLetterHeight() - offset, 0));
 					offsetX += tempsizes[start_line[i]].x;

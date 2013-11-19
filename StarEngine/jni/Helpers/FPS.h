@@ -8,7 +8,7 @@ namespace star
 
 	struct FPS
 	{
-		int CurrentFPS, PreviousFPS;
+		int32 CurrentFPS, PreviousFPS;
 
 		FPS();
 
@@ -16,6 +16,6 @@ namespace star
 
 	private:
 		double m_Timer;
-		int m_Counter;
+		int32 m_Counter;
 	};
 }

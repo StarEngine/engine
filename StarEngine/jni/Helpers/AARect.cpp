@@ -10,7 +10,7 @@ namespace star
 	{
 	}
 
-	AARect::AARect(int x, int y, int width, int height):
+	AARect::AARect(int32 x, int32 y, int32 width, int32 height):
 		m_X(x),
 		m_Y(y),
 		m_Width(width),
@@ -22,10 +22,10 @@ namespace star
 
 	AARect::AARect(const vec2& location,const vec2& size)
 	{
-		m_X = static_cast<int>(location.x);
-		m_Y = static_cast<int>(location.y);
-		m_Width = static_cast<int>(size.x);
-		m_Height = static_cast<int>(size.y);
+		m_X = static_cast<int32>(location.x);
+		m_Y = static_cast<int32>(location.y);
+		m_Width = static_cast<int32>(size.x);
+		m_Height = static_cast<int32>(size.y);
 	}
 
 	AARect::~AARect()
@@ -33,42 +33,42 @@ namespace star
 
 	}
 
-	int AARect::GetLeft() const
+	int32 AARect::GetLeft() const
 	{
 		return m_X;
 	}
 
-	int AARect::GetTop() const
+	int32 AARect::GetTop() const
 	{
 		return m_Y;
 	}
 
-	int AARect::GetRight() const
+	int32 AARect::GetRight() const
 	{
 		return m_X + m_Width;
 	}
 
-	int AARect::GetBottom() const
+	int32 AARect::GetBottom() const
 	{
 		return m_Y + m_Height;
 	}
 
-	void AARect::SetLeft(int left)
+	void AARect::SetLeft(int32 left)
 	{
 		m_X = left;
 	}
 
-	void AARect::SetTop(int top)
+	void AARect::SetTop(int32 top)
 	{
 		m_Height = top - m_Y;
 	}
 
-	void AARect::SetRight(int right)
+	void AARect::SetRight(int32 right)
 	{
 		m_Width = right - m_X;
 	}
 
-	void AARect::SetBottom(int bottom)
+	void AARect::SetBottom(int32 bottom)
 	{
 		m_Y = bottom;
 	}
@@ -81,7 +81,7 @@ namespace star
 			m_Height == rect.m_Height;
 	}
 
-	bool AARect::Contains(int x, int y) const
+	bool AARect::Contains(int32 x, int32 y) const
 	{
 		return x >= m_X && x < (m_X + m_Width) &&
 			y >= m_Y && y < (m_Y + m_Height);
@@ -89,7 +89,7 @@ namespace star
 
 	bool AARect::Contains(const vec2& pt) const
 	{
-		return Contains(int(pt.x), int(pt.y));
+		return Contains(int32(pt.x), int32(pt.y));
 	}
 
 	bool AARect::Contains(AARect& rect) const
@@ -105,10 +105,10 @@ namespace star
 
 	bool AARect::Intersect(const AARect& a, const AARect& b)
 	{
-		int right = min(a.GetRight(), b.GetRight());
-		int bottom = min(a.GetBottom(), b.GetBottom());
-		int left = max(a.GetLeft(), b.GetLeft());
-		int top = max(a.GetTop(), b.GetTop());
+		int32 right = min(a.GetRight(), b.GetRight());
+		int32 bottom = min(a.GetBottom(), b.GetBottom());
+		int32 left = max(a.GetLeft(), b.GetLeft());
+		int32 top = max(a.GetTop(), b.GetTop());
 
 		AARect c(
 		left,

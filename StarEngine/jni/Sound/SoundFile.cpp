@@ -199,7 +199,7 @@ namespace star
 	}
 
 #ifdef DESKTOP
-	void SoundFile::SetSoundVolume(int volume)
+	void SoundFile::SetSoundVolume(int32 volume)
 	{
 		Mix_VolumeMusic(volume);
 	}

@@ -151,24 +151,24 @@ namespace star
 		m_ExcecutingFunction = func;
 	}
 
-	int Timer::GetCurrentMinutes() const
+	int32 Timer::GetCurrentMinutes() const
 	{
-		int currentTime(0);
-		currentTime = (int)m_CurrentTime;
+		int32 currentTime(0);
+		currentTime = (int32)m_CurrentTime;
 		return currentTime / 60;
 	}
 
-	int Timer::GetCurrentSeconds() const
+	int32 Timer::GetCurrentSeconds() const
 	{
-		int currentTime(0);
-		currentTime = (int)m_CurrentTime;
+		int32 currentTime(0);
+		currentTime = (int32)m_CurrentTime;
 		return currentTime % 60;
 	}
 
-	int Timer::GetCurrentTotalSeconds() const
+	int32 Timer::GetCurrentTotalSeconds() const
 	{
-		int currentTime(0);
-		currentTime = (int)m_CurrentTime;
+		int32 currentTime(0);
+		currentTime = (int32)m_CurrentTime;
 		return currentTime;
 	}
 	

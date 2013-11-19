@@ -112,9 +112,9 @@ namespace star
 
 		GLubyte* expanded_data = new GLubyte[2 * width * height];
 
-		for(int j = 0; j < height; ++j) 
+		for(int32 j = 0; j < height; ++j) 
 		{
-			for(int i = 0; i < width; ++i) 
+			for(int32 i = 0; i < width; ++i) 
 			{
 				expanded_data[2 * (i + j * width)] = 255;
 				expanded_data[2 * (i + j * width) + 1] = 
@@ -136,8 +136,8 @@ namespace star
 
 		float x = static_cast<float>(bitmap.width) / static_cast<float>(width);
 		float y = static_cast<float>(bitmap.rows) / static_cast<float>(height);
-		int dimx = (face->glyph->metrics.horiAdvance / 64);
-		int dimy = ((face->glyph->metrics.horiBearingY) - (face->glyph->metrics.height)) / 64;
+		int32 dimx = (face->glyph->metrics.horiAdvance / 64);
+		int32 dimy = ((face->glyph->metrics.horiBearingY) - (face->glyph->metrics.height)) / 64;
 		ivec2 tempdim(dimx, dimy);
 		if(mMaxLetterHeight<face->glyph->bitmap_top)mMaxLetterHeight = face->glyph->bitmap_top;
 		mLetterSizeList.push_back(tempdim);	
@@ -206,7 +206,7 @@ namespace star
 		int32 length = 0;
 		sstring conv_text = star::string_cast<sstring>(string);
 		const schar *line = conv_text.c_str();
-		for(int i = 0; line[i] != 0; ++i) 
+		for(int32 i = 0; line[i] != 0; ++i) 
 		{
 			length += mLetterSizeList[line[i]].x;
 		}

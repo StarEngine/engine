@@ -375,7 +375,7 @@ namespace star
 	{
 		ASSERT(size != 0, _T("You can't calculate the minimum of 0 elements!"));
 		float minimum = vec[0];
-		for(int i = 1; i < size; ++i)
+		for(int32 i = 1; i < size; ++i)
 		{
 			if(vec[i] < minimum)
 			{
@@ -389,7 +389,7 @@ namespace star
 	{
 		ASSERT(size != 0, _T("You can't calculate the maximum of 0 elements!"));
 		float maximum = vec[0];
-		for(int i = 1; i < size; ++i)
+		for(int32 i = 1; i < size; ++i)
 		{
 			if(vec[i] > maximum)
 			{

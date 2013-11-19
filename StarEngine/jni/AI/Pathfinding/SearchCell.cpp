@@ -13,7 +13,7 @@ namespace star
 	{
 	}
 
-	SearchCell::SearchCell(int x, int y, SearchCell *parent):
+	SearchCell::SearchCell(int32 x, int32 y, SearchCell *parent):
 		X(x),
 		Y(y),
 		Id(y * WORLD_SIZE + x),
