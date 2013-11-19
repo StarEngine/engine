@@ -13,7 +13,7 @@
 namespace star
 {
 	#ifdef DESKTOP
-	int SoundEffect::PLAY_CHANNELS = 0;
+	int32 SoundEffect::PLAY_CHANNELS = 0;
 	#endif
 
 	SoundEffect::SoundEffect(const tstring& path, uint8 channel)
@@ -28,7 +28,7 @@ namespace star
 	{
 	#ifdef ANDROID
 		SLEngineItf engine = AudioManager::GetInstance()->GetEngine();
-		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
+		for(int32 i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			CreateSound(mPlayerObjs[i], engine, mPlayers[i], path);
 			mLoopTimes.push_back(0);
@@ -52,7 +52,7 @@ namespace star
 	#ifdef DESKTOP
 		Mix_HaltChannel(mPlayChannel);
 	#else
-		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
+		for(int32 i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			DestroySound(mPlayerObjs[i], mPlayers[i]);
 		}
@@ -63,20 +63,20 @@ namespace star
 		}
 	}
 
-	void SoundEffect::Play(int loopTime)
+	void SoundEffect::Play(int32 loopTime)
 	{
 		BaseSound::Play(loopTime);
 	#ifdef DESKTOP
 		Mix_PlayChannel(mPlayChannel, mpSound, loopTime);
 	#else
-		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
+		for(int32 i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			SLresult lRes;
-			(*mPlayers[i])->GetPlayState(mPlayers[i],&lRes);
-			if( lRes == SL_PLAYSTATE_STOPPED)
+			(*mPlayers[i])->GetPlayState(mPlayers[i], &lRes);
+			if(lRes == SL_PLAYSTATE_STOPPED)
 			{
 				mLoopTimes[i] = loopTime;
-				lRes = (*mPlayers[i])->SetPlayState(mPlayers[i],SL_PLAYSTATE_PLAYING);
+				lRes = (*mPlayers[i])->SetPlayState(mPlayers[i], SL_PLAYSTATE_PLAYING);
 				if (lRes != SL_RESULT_SUCCESS)
 				{
 					star::Logger::GetInstance()->Log(star::LogLevel::Error,
@@ -96,7 +96,7 @@ namespace star
 #ifdef DESKTOP
 		Mix_HaltChannel(mPlayChannel);
 #else	
-		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
+		for(int32 i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			(*mPlayers[i])->SetPlayState(mPlayers[i], SL_PLAYSTATE_STOPPED);
 		}
@@ -109,7 +109,7 @@ namespace star
 #ifdef DESKTOP
 		Mix_Pause(mPlayChannel);
 #else
-		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
+		for(int32 i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			SLresult lres = (*mPlayers[i])->GetPlayState(
 				mPlayers[i], &lres
@@ -130,7 +130,7 @@ namespace star
 #ifdef DESKTOP
 		Mix_Resume(mPlayChannel);
 #else
-		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
+		for(int32 i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			ResumeSound(mPlayers[i]);
 		}
@@ -152,7 +152,7 @@ namespace star
 #ifdef ANDROID
 	void SoundEffect::SetVolume(float volume)
 	{
-		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
+		for(int32 i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			SetSoundVolume(
 				mPlayerObjs[i],
@@ -183,7 +183,7 @@ namespace star
 	void SoundEffect::SetMuted(bool muted)
 	{
 #ifdef ANDROID
-		for(int i = 0 ; i < MAX_SAMPLES ; ++i)
+		for(int32 i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			SetSoundMuted(mPlayerObjs[i], mPlayers[i], muted);
 		}
@@ -202,7 +202,7 @@ namespace star
 	}
 
 #ifdef DESKTOP
-	void SoundEffect::SetSoundVolume(int volume)
+	void SoundEffect::SetSoundVolume(int32 volume)
 	{
 		Mix_Volume(mPlayChannel, volume);
 	}
@@ -214,16 +214,20 @@ namespace star
 			this) != SL_RESULT_SUCCESS)
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error,
-				_T("SoundEffect: Can't set callback"));
+				_T("SoundEffect::RegisterCallback: unable to register the class-defined callback function."));
 		}
 	}
 
-	void SoundEffect::MusicStoppedCallback(SLPlayItf caller,void *pContext,SLuint32 event)
+	void SoundEffect::MusicStoppedCallback(
+		SLPlayItf caller,
+		void *pContext,
+		SLuint32 event
+		)
 	{
 		(*caller)->SetPlayState(caller, SL_PLAYSTATE_STOPPED);
 		SoundEffect* eff = reinterpret_cast<SoundEffect*>(pContext);
 		//Search for the caller in the list
-		for(int i = 0; i < eff->mPlayers.size() ; ++i)
+		for(uint32 i = 0 ; i < eff->mPlayers.size() ; ++i)
 		{
 			if(eff->mPlayers[i] == caller)
 			{
@@ -239,7 +243,7 @@ namespace star
 					{
 						(*caller)->SetPlayState(caller, SL_PLAYSTATE_PLAYING);
 					}
-					--eff->mLoopTimes[i];
+					--(eff->mLoopTimes[i]);
 				}
 				break;
 			}
