@@ -12,23 +12,32 @@ namespace star
 		: BaseComponent()
 		, m_bIsTrigger(false)
 		, m_bIsStatic(false)
-		, m_Layers(&DEFAULT_LAYER_NAME)
-		, m_NrOfElementsInLayers(1)		
+		, m_Entered(false)
+		, m_Left(true)
 	{
+		m_Layers.amount = 1;
+		m_Layers.elements = new tstring[1];
+		m_Layers.elements[0] = DEFAULT_LAYER_NAME;
 	}
 
 	BaseColliderComponent::BaseColliderComponent(const tstring* layers, uint8 n)
 		: BaseComponent()
 		, m_bIsTrigger(false)
 		, m_bIsStatic(false)
-		, m_Layers(layers)
-		, m_NrOfElementsInLayers(n)
+		, m_Entered(false)
+		, m_Left(true)
 	{
-		
+		m_Layers.amount = n;
+		m_Layers.elements = new tstring[m_Layers.amount];
+		for(uint8 i = 0; i < m_Layers.amount; ++i)
+		{
+			m_Layers.elements[i] = layers[i];
+		}
 	}
 
 	BaseColliderComponent::~BaseColliderComponent()
 	{
+		delete[] m_Layers.elements;
 	}
 
 	void BaseColliderComponent::InitializeComponent()
@@ -45,6 +54,10 @@ namespace star
 		and by the force he moves and rotates a little bit. 
 		IN this update we’ll handle that. 
 		*/
+		/*if(!m_bIsStatic && !m_bIsTrigger)
+		{
+
+		}*/
 	}
 
 	void BaseColliderComponent::Draw()
@@ -70,6 +83,26 @@ namespace star
 	bool BaseColliderComponent::IsStatic() const
 	{
 		return m_bIsStatic;
+	}
+
+	void BaseColliderComponent::SetEntered(bool hasEntered)
+	{
+		m_Entered = hasEntered;
+	}
+
+	bool BaseColliderComponent::GetEntered() const
+	{
+		return m_Entered;
+	}
+
+	void BaseColliderComponent::SetLeft(bool hasLeft)
+	{
+		m_Left = hasLeft;
+	}
+
+	bool BaseColliderComponent::GetLeft() const
+	{
+		return m_Left;
 	}
 
 	bool BaseColliderComponent::RectangleCircleCollision(

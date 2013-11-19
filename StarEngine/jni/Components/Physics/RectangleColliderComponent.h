@@ -24,7 +24,7 @@ namespace star
 
 		bool CollidesWithPoint(const vec2& point) const;
 		bool CollidesWithLine(const vec2& point1, const vec2& point2) const;
-		void CollidesWith(const BaseColliderComponent* other) const;
+		bool CollidesWith(const BaseColliderComponent* other) const;
 
 		Rect GetCollisionRect() const;
 		vec2 GetCenterPoint() const;

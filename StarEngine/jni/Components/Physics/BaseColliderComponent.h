@@ -25,9 +25,15 @@ namespace star
 		void SetAsStatic(bool isStatic);
 		bool IsStatic() const;
 
+		void SetEntered(bool hasEntered);
+		bool GetEntered() const;
+
+		void SetLeft(bool hasLeft);
+		bool GetLeft() const;
+
 		virtual bool CollidesWithPoint(const vec2& point) const = 0;
 		virtual bool CollidesWithLine(const vec2& point1, const vec2& point2) const = 0;
-		virtual void CollidesWith(const BaseColliderComponent* other) const = 0;
+		virtual bool CollidesWith(const BaseColliderComponent* other) const = 0;
 
 	protected:
 		virtual void InitializeColliderComponent() = 0;
@@ -40,11 +46,13 @@ namespace star
 		vec2 FindClosestPointToOOBB(
 			const vec2& point, 
 			const RectangleColliderComponent* oobb) const;
-		const tstring* m_Layers;
-		uint8 m_NrOfElementsInLayers;
+		PointerArray<tstring> m_Layers;
 		static const tstring DEFAULT_LAYER_NAME;
 
 	private:
+
+		bool m_Entered;
+		bool m_Left;
 
 		void InitializeComponent();
 

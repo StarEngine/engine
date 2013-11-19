@@ -120,3 +120,10 @@ typedef uint8_t 	uint8;
 		#define TSHFILEINFO SSHFILEINFO
 	#endif
 #endif
+
+template <typename T, typename U = uint8>
+struct PointerArray
+{
+	  U amount;
+	  T * elements;
+};
