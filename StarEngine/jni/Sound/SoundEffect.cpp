@@ -150,7 +150,7 @@ namespace star
 	}
 
 #ifdef ANDROID
-	void SoundEffect::SetVolume(float volume)
+	void SoundEffect::SetVolume(float32 volume)
 	{
 		for(int32 i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
@@ -163,7 +163,7 @@ namespace star
 	}
 #endif
 
-	float SoundEffect::GetVolume() const
+	float32 SoundEffect::GetVolume() const
 	{
 #ifdef ANDROID
 		return GetSoundVolume(mPlayerObjs[0], mPlayers[0]);
@@ -174,8 +174,8 @@ namespace star
 		}
 		else
 		{
-			float volume = float(Mix_Volume(mPlayChannel, -1));
-			return volume / float(MIX_MAX_VOLUME);
+			float32 volume = float32(Mix_Volume(mPlayChannel, -1));
+			return volume / float32(MIX_MAX_VOLUME);
 		}
 #endif
 	}

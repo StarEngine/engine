@@ -46,7 +46,7 @@ namespace star
 		}
 	}
 
-	bool Stopwatch::CreateTimer(	const tstring & name, float targetTime,
+	bool Stopwatch::CreateTimer(	const tstring & name, float32 targetTime,
 									bool countingDown, bool loop,
 									std::function<void ()> func, bool paused)
 	{
@@ -133,7 +133,7 @@ namespace star
 		}
 	}
 
-	void Stopwatch::SetTargetTimeTimer(const tstring & name, float targetTime, bool reset, bool paused)
+	void Stopwatch::SetTargetTimeTimer(const tstring & name, float32 targetTime, bool reset, bool paused)
 	{
 		for(auto& it : m_TimerContainer)
 		{
@@ -199,7 +199,7 @@ namespace star
 		return 0;
 	}
 	
-	double Stopwatch::GetTimerTargetTime(const tstring & name) const
+	float64 Stopwatch::GetTimerTargetTime(const tstring & name) const
 	{
 		for(auto& it : m_TimerContainer)
 		{
@@ -211,7 +211,7 @@ namespace star
 		return 0;
 	}
 
-	double Stopwatch::GetTimerAccurateTime(const tstring & name) const
+	float64 Stopwatch::GetTimerAccurateTime(const tstring & name) const
 	{
 		for(auto& it : m_TimerContainer)
 		{

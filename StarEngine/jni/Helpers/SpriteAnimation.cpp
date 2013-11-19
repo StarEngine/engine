@@ -19,7 +19,7 @@ namespace star
 	}
 
 	SpriteAnimation::SpriteAnimation(
-		const tstring & name, const vec2 & uv_scale, float speed,
+		const tstring & name, const vec2 & uv_scale, float32 speed,
 		int32 repeat, const tstring & frames, int32 frames_x, int32 frames_y, int32 amount)
 		: m_Name(name)
 		, m_Speed(speed)
@@ -99,8 +99,8 @@ namespace star
 	{
 		if(m_IsPlaying)
 		{
-			m_CurrentFrame += (float)context.mTimeManager->GetSeconds() * m_Speed;
-			float size = (float)m_Frames.size();
+			m_CurrentFrame += (float32)context.mTimeManager->GetSeconds() * m_Speed;
+			float32 size = (float32)m_Frames.size();
 			bool readyToGo(false);
 			if(m_CurrentFrame >= size)
 			{
@@ -163,7 +163,7 @@ namespace star
 	void SpriteAnimation::PlayAtFrame(int32 startFrame)
 	{
 		m_IsPlaying = true;
-		m_CurrentFrame = float(startFrame);
+		m_CurrentFrame = float32(startFrame);
 	}
 
 	void SpriteAnimation::Replay()
@@ -265,8 +265,8 @@ namespace star
 		int32 y = frame / frames_x;
 		
 		vec2 uv;
-		uv.x = float(x) * m_UVScale.x;
-		uv.y = float(frames_y - y - 1) * m_UVScale.y;
+		uv.x = float32(x) * m_UVScale.x;
+		uv.y = float32(frames_y - y - 1) * m_UVScale.y;
 
 		m_Frames.push_back(uv);
 	}

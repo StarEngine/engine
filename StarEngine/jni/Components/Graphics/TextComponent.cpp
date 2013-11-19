@@ -103,7 +103,7 @@ namespace star
 		return m_TextColor;
 	}
 
-	void TextComponent::SetWrapWidth(float width )
+	void TextComponent::SetWrapWidth(float32 width )
 	{
 		m_WrapWidth = width;
 		if(m_WrapWidth!= NO_WRAPPING)
@@ -116,12 +116,12 @@ namespace star
 		}
 	}
 
-	float TextComponent::GetWrapWidth() const
+	float32 TextComponent::GetWrapWidth() const
 	{
 		return m_WrapWidth;
 	}
 
-	tstring TextComponent::CheckWrapping(const Font& font, const tstring& stringIn,float wrapWidth )
+	tstring TextComponent::CheckWrapping(const Font& font, const tstring& stringIn,float32 wrapWidth )
 	{
 		tstring line = EMPTY_STRING;
 		tstring returnString = EMPTY_STRING;

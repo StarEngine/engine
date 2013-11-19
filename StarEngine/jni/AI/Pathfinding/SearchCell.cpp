@@ -27,18 +27,18 @@ namespace star
 	{
 	}
 
-	float SearchCell::GetF() const
+	float32 SearchCell::GetF() const
 	{
 		return G + H;
 	}
 
-	float SearchCell::ManhattanDistance(SearchCell *nodeEnd)
+	float32 SearchCell::ManhattanDistance(SearchCell *nodeEnd)
 	{
-		float x = static_cast<float>(
-			fabs(static_cast<float>(X - nodeEnd->X))
+		float32 x = static_cast<float32>(
+			fabs(static_cast<float32>(X - nodeEnd->X))
 			);
-		float y = static_cast<float>(
-			fabs(static_cast<float>(Y - nodeEnd->Y))
+		float32 y = static_cast<float32>(
+			fabs(static_cast<float32>(Y - nodeEnd->Y))
 			);
 
 		return std::max(x,y);

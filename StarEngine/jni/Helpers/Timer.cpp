@@ -14,7 +14,7 @@ namespace star
 	{
 	}
 
-	Timer::Timer(	double targetTime, bool countingDown,
+	Timer::Timer(	float64 targetTime, bool countingDown,
 					bool loop, std::function<void ()> func,
 					bool paused) 
 		:m_TargetTime(targetTime)
@@ -137,7 +137,7 @@ namespace star
 		SetPaused(paused);
 	}
 
-	void Timer::SetTargetTime(double targetTime, const bool reset, const bool paused)
+	void Timer::SetTargetTime(float64 targetTime, const bool reset, const bool paused)
 	{
 		m_TargetTime = targetTime;
 		if(reset)
@@ -172,12 +172,12 @@ namespace star
 		return currentTime;
 	}
 	
-	double Timer::GetTargetTime() const
+	float64 Timer::GetTargetTime() const
 	{
 		return m_TargetTime;
 	}
 
-	double Timer::GetCurrentAccurateTime() const
+	float64 Timer::GetCurrentAccurateTime() const
 	{
 		return m_CurrentTime;
 	}

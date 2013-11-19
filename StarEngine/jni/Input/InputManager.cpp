@@ -19,9 +19,9 @@
 namespace star
 {
 #ifdef DESKTOP
-	const float InputManager::BYTE_TO_DOUBLE_VALUE = 255.0f;
+	const float32 InputManager::BYTE_TO_DOUBLE_VALUE = 255.0f;
 #else
-	const float InputManager::UNDEFINED_POINTER_POSITION = -123456.0f;
+	const float32 InputManager::UNDEFINED_POINTER_POSITION = -123456.0f;
 #endif
 
 	InputManager * InputManager::m_InputManagerPtr = nullptr;
@@ -468,10 +468,10 @@ namespace star
 			
 			m_CurrMousePosition = vec2(
 				mousePos.x , 
-				float(GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y));
+				float32(GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y));
 			m_CurrMousePosition -= vec2(
-				float(GraphicsManager::GetInstance()->GetHorizontalViewportOffset()),
-				float(GraphicsManager::GetInstance()->GetVerticalViewportOffset()));
+				float32(GraphicsManager::GetInstance()->GetHorizontalViewportOffset()),
+				float32(GraphicsManager::GetInstance()->GetVerticalViewportOffset()));
 			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetViewportResolution();
 			m_CurrMousePosition *= GraphicsManager::GetInstance()->GetScreenResolution();
 			
@@ -542,7 +542,7 @@ namespace star
 			}
 		}
 
-		//Shorts have a range of 32768, so to convert that range to a double, 
+		//Shorts have a range of 32768, so to convert that range to a float64, 
 		//devide it by that range
 		if(pos.x < 0)
 		{
@@ -565,11 +565,11 @@ namespace star
 		return pos;
 	}
 	
-	float InputManager::GetTriggerPressure(bool leftTrigger, GamepadIndex playerIndex) const
+	float32 InputManager::GetTriggerPressure(bool leftTrigger, GamepadIndex playerIndex) const
 	{
 		if(leftTrigger)
 		{
-			//bLeftTrigger returns a byte, div by 255 to cast to double
+			//bLeftTrigger returns a byte, div by 255 to cast to float64
 			return m_CurrGamepadState[playerIndex].Gamepad.bLeftTrigger 
 					/ BYTE_TO_DOUBLE_VALUE;
 		}
@@ -580,14 +580,14 @@ namespace star
 		}
 	}
 
-	void InputManager::SetVibration(float leftVibration, float rightVibration, 
+	void InputManager::SetVibration(float32 leftVibration, float32 rightVibration, 
 		GamepadIndex playerIndex)
 	{
 		XINPUT_VIBRATION vibration;
-		glm::clamp<float>(leftVibration, 0.0f, 1.0f);
-		glm::clamp<float>(rightVibration, 0.0f, 1.0f);
+		glm::clamp<float32>(leftVibration, 0.0f, 1.0f);
+		glm::clamp<float32>(rightVibration, 0.0f, 1.0f);
 		ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
-		//convert from float to word -> float * lenght of word
+		//convert from float32 to word -> float32 * lenght of word
 		vibration.wLeftMotorSpeed = static_cast<WORD>(leftVibration * MAX_VALUE_OF_WORD);
 		vibration.wRightMotorSpeed = static_cast<WORD>(rightVibration * MAX_VALUE_OF_WORD);
 		XInputSetState(playerIndex, &vibration);
@@ -649,10 +649,10 @@ namespace star
 			m_CurrMousePosition = m_PointerVec.at(fingerIndex-1).Position;
 			m_CurrMousePosition = vec2(
 				m_CurrMousePosition.x , 
-				(float)GraphicsManager::GetInstance()->GetWindowHeight() - m_CurrMousePosition.y);
+				(float32)GraphicsManager::GetInstance()->GetWindowHeight() - m_CurrMousePosition.y);
 			m_CurrMousePosition -= vec2(
-				float(GraphicsManager::GetInstance()->GetHorizontalViewportOffset()),
-				float(GraphicsManager::GetInstance()->GetVerticalViewportOffset()));
+				float32(GraphicsManager::GetInstance()->GetHorizontalViewportOffset()),
+				float32(GraphicsManager::GetInstance()->GetVerticalViewportOffset()));
 			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetViewportResolution();
 			m_CurrMousePosition *= GraphicsManager::GetInstance()->GetScreenResolution();
 			
@@ -680,10 +680,10 @@ namespace star
 				m_OldMousePosition = m_OldPointerVec.at(fingerIndex-1).Position;
 				m_OldMousePosition = vec2(
 				m_OldMousePosition.x , 
-					(float)GraphicsManager::GetInstance()->GetWindowHeight() - m_OldMousePosition.y);
+					(float32)GraphicsManager::GetInstance()->GetWindowHeight() - m_OldMousePosition.y);
 				m_OldMousePosition -= vec2(
-					float(GraphicsManager::GetInstance()->GetHorizontalViewportOffset()),
-					float(GraphicsManager::GetInstance()->GetVerticalViewportOffset()));
+					float32(GraphicsManager::GetInstance()->GetHorizontalViewportOffset()),
+					float32(GraphicsManager::GetInstance()->GetVerticalViewportOffset()));
 				m_OldMousePosition /= GraphicsManager::GetInstance()->GetViewportResolution();
 				m_OldMousePosition *= GraphicsManager::GetInstance()->GetScreenResolution();
 			

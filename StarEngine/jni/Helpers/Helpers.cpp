@@ -399,14 +399,14 @@ namespace star
 	}
 
 	template <>
-	float string_cast<float, tstring>
+	float32 string_cast<float32, tstring>
 		(const tstring & value)
 	{
-		return static_cast<float>(ttof(value.c_str()));
+		return static_cast<float32>(ttof(value.c_str()));
 	}
 
 	template <>
-	double string_cast<double, tstring>
+	float64 string_cast<float64, tstring>
 		(const tstring & value)
 	{
 		return ttof(value.c_str());
@@ -418,8 +418,8 @@ namespace star
 	{
 		glm::vec2 vec;
 		int32 index = value.find(';',0);
-		vec.x = string_cast<float>(value.substr(0, index));
-		vec.y = string_cast<float>(value.substr(++index,value.size()-index));
+		vec.x = string_cast<float32>(value.substr(0, index));
+		vec.y = string_cast<float32>(value.substr(++index,value.size()-index));
 		return vec;
 	}
 
@@ -429,9 +429,9 @@ namespace star
 	{
 		pos pos;
 		int32 index = value.find(';', 0);
-		pos.x = string_cast<float>(value.substr(0, index));
+		pos.x = string_cast<float32>(value.substr(0, index));
 		int32 index2 = value.find(';', ++index);
-		pos.y = string_cast<float>(value.substr(index, index2 - index));
+		pos.y = string_cast<float32>(value.substr(index, index2 - index));
 		pos.l = lay(string_cast<int32>(value.substr(++index2, value.size() - index2)));
 		return pos;
 	}
@@ -442,10 +442,10 @@ namespace star
 	{
 		glm::vec3 vec;
 		int32 index = value.find(';', 0);
-		vec.x = string_cast<float>(value.substr(0, index));
+		vec.x = string_cast<float32>(value.substr(0, index));
 		int32 index2 = value.find(';', ++index);
-		vec.y = string_cast<float>(value.substr(index, index2 - index));
-		vec.z = string_cast<float>(value.substr(++index2, value.size() - index2));
+		vec.y = string_cast<float32>(value.substr(index, index2 - index));
+		vec.z = string_cast<float32>(value.substr(++index2, value.size() - index2));
 		return vec;
 	}
 
@@ -455,12 +455,12 @@ namespace star
 	{
 		glm::vec4 vec;
 		int32 index = value.find(';', 0);
-		vec.x = string_cast<float>(value.substr(0, index));
+		vec.x = string_cast<float32>(value.substr(0, index));
 		int32 index2 = value.find(';', ++index);
-		vec.y = string_cast<float>(value.substr(index, index2 - index));
+		vec.y = string_cast<float32>(value.substr(index, index2 - index));
 		index = value.find(';', ++index2);
-		vec.z = string_cast<float>(value.substr(index2, index - index2));
-		vec.w = string_cast<float>(value.substr(++index, value.size() - index));
+		vec.z = string_cast<float32>(value.substr(index2, index - index2));
+		vec.w = string_cast<float32>(value.substr(++index, value.size() - index));
 		return vec;
 	}
 
@@ -470,12 +470,12 @@ namespace star
 	{
 		glm::quat quat;
 		int32 index = value.find(';', 0);
-		quat.x = string_cast<float>(value.substr(0, index));
+		quat.x = string_cast<float32>(value.substr(0, index));
 		int32 index2 = value.find(';', ++index);
-		quat.y = string_cast<float>(value.substr(index, index2 - index));
+		quat.y = string_cast<float32>(value.substr(index, index2 - index));
 		index = value.find(';', ++index2);
-		quat.z = string_cast<float>(value.substr(index2, index - index2));
-		quat.w = string_cast<float>(value.substr(++index, value.size() - index));
+		quat.z = string_cast<float32>(value.substr(index2, index - index2));
+		quat.w = string_cast<float32>(value.substr(++index, value.size() - index));
 		return quat;
 	}
 

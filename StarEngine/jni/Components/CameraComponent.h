@@ -13,37 +13,37 @@ namespace star
 		virtual void Update(const Context& context);
 		virtual void Draw();
 		
-		void SetFieldOfView(float fov);
-		void SetOrthoSize(float size);
-		void SetNearClippingPlane(float nearPlane);
-		void SetFarClippingPlane(float farPlane);
+		void SetFieldOfView(float32 fov);
+		void SetOrthoSize(float32 size);
+		void SetNearClippingPlane(float32 nearPlane);
+		void SetFarClippingPlane(float32 farPlane);
 		
 		void SetActive();
 		bool IsActive() const;
 		void Activate();
 		void Deactivate();
 
-		void SetZoom(float zoom);
-		float GetZoom() const;
+		void SetZoom(float32 zoom);
+		float32 GetZoom() const;
 
-		const mat4x4 & GetView() const;
-		const mat4x4 & GetProjection() const;
-		const mat4x4 & GetViewInverse() const;
-		mat4x4 GetProjectionViewInverse() const;
+		const mat4 & GetView() const;
+		const mat4 & GetProjection() const;
+		const mat4 & GetViewInverse() const;
+		mat4 GetProjectionViewInverse() const;
 
 	protected:
 		virtual void InitializeComponent();
 
 	private:
-		mat4x4 MatrixPerspectiveFOV(float FovY, float ratio, float nearPlane, float farPlane);
-		mat4x4 MatrixOrtho(float width, float height, float nearPlane, float farPlane);
-		mat4x4 MatrixLookAt(const vec3& eye, const vec3& at, const vec3& up);
+		mat4 MatrixPerspectiveFOV(float32 FovY, float32 ratio, float32 nearPlane, float32 farPlane);
+		mat4 MatrixOrtho(float32 width, float32 height, float32 nearPlane, float32 farPlane);
+		mat4 MatrixLookAt(const vec3& eye, const vec3& at, const vec3& up);
 
-		mat4x4	m_Projection,
+		mat4	m_Projection,
 				m_View,
 				m_ViewInverse;
 
-		float	m_FarPlane,
+		float32	m_FarPlane,
 				m_NearPlane,
 				m_FOV,
 				m_Size,

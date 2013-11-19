@@ -154,60 +154,60 @@ namespace star
 	}
 
 	Color::Color(uint16 R, uint16 G, uint16 B, uint16 A)
-		: r(IntegerToFloat<float, uint16>(R))
-		, g(IntegerToFloat<float, uint16>(G))
-		, b(IntegerToFloat<float, uint16>(B))
-		, a(IntegerToFloat<float, uint16>(A))
+		: r(IntegerToFloat<float32, uint16>(R))
+		, g(IntegerToFloat<float32, uint16>(G))
+		, b(IntegerToFloat<float32, uint16>(B))
+		, a(IntegerToFloat<float32, uint16>(A))
 	{
 
 	}
 
 	Color::Color(uint32 R, uint32 G, uint32 B, uint32 A)
-		: r(IntegerToFloat<float, uint32>(R))
-		, g(IntegerToFloat<float, uint32>(G))
-		, b(IntegerToFloat<float, uint32>(B))
-		, a(IntegerToFloat<float, uint32>(A))
+		: r(IntegerToFloat<float32, uint32>(R))
+		, g(IntegerToFloat<float32, uint32>(G))
+		, b(IntegerToFloat<float32, uint32>(B))
+		, a(IntegerToFloat<float32, uint32>(A))
 	{
 
 	}
 
 	Color::Color(uint64 R, uint64 G, uint64 B, uint64 A)
-		: r(IntegerToFloat<float, uint64>(R))
-		, g(IntegerToFloat<float, uint64>(G))
-		, b(IntegerToFloat<float, uint64>(B))
-		, a(IntegerToFloat<float, uint64>(A))
+		: r(IntegerToFloat<float32, uint64>(R))
+		, g(IntegerToFloat<float32, uint64>(G))
+		, b(IntegerToFloat<float32, uint64>(B))
+		, a(IntegerToFloat<float32, uint64>(A))
 	{
 
 	}
 
 	Color::Color(int16 R, int16 G, int16 B, int16 A)
-		: r(IntegerToFloat<float, int16>(R))
-		, g(IntegerToFloat<float, int16>(G))
-		, b(IntegerToFloat<float, int16>(B))
-		, a(IntegerToFloat<float, int16>(A))
+		: r(IntegerToFloat<float32, int16>(R))
+		, g(IntegerToFloat<float32, int16>(G))
+		, b(IntegerToFloat<float32, int16>(B))
+		, a(IntegerToFloat<float32, int16>(A))
 	{
 
 	}
 
 	Color::Color(int32 R, int32 G, int32 B, int32 A)
-		: r(IntegerToFloat<float, int32>(R))
-		, g(IntegerToFloat<float, int32>(G))
-		, b(IntegerToFloat<float, int32>(B))
-		, a(IntegerToFloat<float, int32>(A))
+		: r(IntegerToFloat<float32, int32>(R))
+		, g(IntegerToFloat<float32, int32>(G))
+		, b(IntegerToFloat<float32, int32>(B))
+		, a(IntegerToFloat<float32, int32>(A))
 	{
 
 	}
 
 	Color::Color(int64 R, int64 G, int64 B, int64 A)
-		: r(IntegerToFloat<float, int64>(R))
-		, g(IntegerToFloat<float, int64>(G))
-		, b(IntegerToFloat<float, int64>(B))
-		, a(IntegerToFloat<float, int64>(A))
+		: r(IntegerToFloat<float32, int64>(R))
+		, g(IntegerToFloat<float32, int64>(G))
+		, b(IntegerToFloat<float32, int64>(B))
+		, a(IntegerToFloat<float32, int64>(A))
 	{
 
 	}
 
-	Color::Color(float R, float G, float B, float A)
+	Color::Color(float32 R, float32 G, float32 B, float32 A)
 		: r(R)
 		, g(G)
 		, b(B)
@@ -216,11 +216,11 @@ namespace star
 
 	}
 
-	Color::Color(double R, double G, double B, double A)
-		: r(float(R))
-		, g(float(G))
-		, b(float(B))
-		, a(float(A))
+	Color::Color(float64 R, float64 G, float64 B, float64 A)
+		: r(float32(R))
+		, g(float32(G))
+		, b(float32(B))
+		, a(float32(A))
 	{
 
 	}
@@ -262,19 +262,19 @@ namespace star
 	}
 
 	Color::Color(const ivec3 & yRef)
-		: r(IntegerToFloat<float, int32>(yRef.x))
-		, g(IntegerToFloat<float, int32>(yRef.y))
-		, b(IntegerToFloat<float, int32>(yRef.z))
+		: r(IntegerToFloat<float32, int32>(yRef.x))
+		, g(IntegerToFloat<float32, int32>(yRef.y))
+		, b(IntegerToFloat<float32, int32>(yRef.z))
 		, a(1.0f)
 	{
 
 	}
 
 	Color::Color(const ivec4 & yRef)
-		: r(IntegerToFloat<float, int32>(yRef.x))
-		, g(IntegerToFloat<float, int32>(yRef.y))
-		, b(IntegerToFloat<float, int32>(yRef.z))
-		, a(IntegerToFloat<float, int32>(yRef.w))
+		: r(IntegerToFloat<float32, int32>(yRef.x))
+		, g(IntegerToFloat<float32, int32>(yRef.y))
+		, b(IntegerToFloat<float32, int32>(yRef.z))
+		, a(IntegerToFloat<float32, int32>(yRef.w))
 	{
 
 	}
@@ -311,9 +311,9 @@ namespace star
 
 	Color & Color::operator=(const ivec3 & yRef)
 	{
-		r = IntegerToFloat<float,int32>(yRef.x);
-		g = IntegerToFloat<float,int32>(yRef.y);
-		b = IntegerToFloat<float,int32>(yRef.z);
+		r = IntegerToFloat<float32,int32>(yRef.x);
+		g = IntegerToFloat<float32,int32>(yRef.y);
+		b = IntegerToFloat<float32,int32>(yRef.z);
 		a = 1.0f;
 
 		return *this;
@@ -321,10 +321,10 @@ namespace star
 
 	Color & Color::operator=(const ivec4 & yRef)
 	{
-		r = IntegerToFloat<float,int32>(yRef.x);
-		g = IntegerToFloat<float,int32>(yRef.y);
-		b = IntegerToFloat<float,int32>(yRef.z);
-		a = IntegerToFloat<float,int32>(yRef.w);
+		r = IntegerToFloat<float32,int32>(yRef.x);
+		g = IntegerToFloat<float32,int32>(yRef.y);
+		b = IntegerToFloat<float32,int32>(yRef.z);
+		a = IntegerToFloat<float32,int32>(yRef.w);
 
 		return *this;
 	}
@@ -361,11 +361,11 @@ namespace star
 	Color & Color::operator+=(const ivec3 & yRef)
 	{
 		r = std::min( r + 
-			IntegerToFloat<float, int32>(yRef.x), 1.0f);
+			IntegerToFloat<float32, int32>(yRef.x), 1.0f);
 		g = std::min( g + 
-			IntegerToFloat<float, int32>(yRef.y), 1.0f);
+			IntegerToFloat<float32, int32>(yRef.y), 1.0f);
 		b = std::min( b + 
-			IntegerToFloat<float, int32>(yRef.z), 1.0f);
+			IntegerToFloat<float32, int32>(yRef.z), 1.0f);
 
 		return *this;
 	}
@@ -373,13 +373,13 @@ namespace star
 	Color & Color::operator+=(const ivec4 & yRef)
 	{
 		r = std::min( r + 
-			IntegerToFloat<float, int32>(yRef.x), 1.0f);
+			IntegerToFloat<float32, int32>(yRef.x), 1.0f);
 		g = std::min( g + 
-			IntegerToFloat<float, int32>(yRef.y), 1.0f);
+			IntegerToFloat<float32, int32>(yRef.y), 1.0f);
 		b = std::min( b + 
-			IntegerToFloat<float, int32>(yRef.z), 1.0f);
+			IntegerToFloat<float32, int32>(yRef.z), 1.0f);
 		a = std::min( a + 
-			IntegerToFloat<float, int32>(yRef.w), 1.0f);
+			IntegerToFloat<float32, int32>(yRef.w), 1.0f);
 
 		return *this;
 	}
@@ -416,11 +416,11 @@ namespace star
 	Color & Color::operator-=(const ivec3 & yRef)
 	{
 		r = std::max(r - 
-			IntegerToFloat<float, int32>(yRef.x), 0.0f);
+			IntegerToFloat<float32, int32>(yRef.x), 0.0f);
 		g = std::max(g - 
-			IntegerToFloat<float, int32>(yRef.y), 0.0f);
+			IntegerToFloat<float32, int32>(yRef.y), 0.0f);
 		b = std::max(b - 
-			IntegerToFloat<float, int32>(yRef.z), 0.0f);
+			IntegerToFloat<float32, int32>(yRef.z), 0.0f);
 
 		return *this;
 	}
@@ -428,13 +428,13 @@ namespace star
 	Color & Color::operator-=(const ivec4 & yRef)
 	{
 		r = std::max(r - 
-			IntegerToFloat<float, int32>(yRef.x), 0.0f);
+			IntegerToFloat<float32, int32>(yRef.x), 0.0f);
 		g = std::max(g - 
-			IntegerToFloat<float, int32>(yRef.y), 0.0f);
+			IntegerToFloat<float32, int32>(yRef.y), 0.0f);
 		b = std::max(b - 
-			IntegerToFloat<float, int32>(yRef.z), 0.0f);
+			IntegerToFloat<float32, int32>(yRef.z), 0.0f);
 		a = std::max(a - 
-			IntegerToFloat<float, int32>(yRef.w), 0.0f);
+			IntegerToFloat<float32, int32>(yRef.w), 0.0f);
 
 		return *this;
 	}
@@ -544,17 +544,17 @@ namespace star
 
 	bool Color::operator==(const ivec3 & yRef)
 	{
-		return r == IntegerToFloat<float, int32>(yRef.x)
-			&& g == IntegerToFloat<float, int32>(yRef.y)
-			&& b == IntegerToFloat<float, int32>(yRef.z);
+		return r == IntegerToFloat<float32, int32>(yRef.x)
+			&& g == IntegerToFloat<float32, int32>(yRef.y)
+			&& b == IntegerToFloat<float32, int32>(yRef.z);
 	}
 
 	bool Color::operator==(const ivec4 & yRef)
 	{
-		return r == IntegerToFloat<float, int32>(yRef.x)
-			&& g == IntegerToFloat<float, int32>(yRef.y)
-			&& b == IntegerToFloat<float, int32>(yRef.z)
-			&& a == IntegerToFloat<float, int32>(yRef.w);
+		return r == IntegerToFloat<float32, int32>(yRef.x)
+			&& g == IntegerToFloat<float32, int32>(yRef.y)
+			&& b == IntegerToFloat<float32, int32>(yRef.z)
+			&& a == IntegerToFloat<float32, int32>(yRef.w);
 	}
 
 	bool Color::operator!=(const Color & yRef)
@@ -663,17 +663,17 @@ namespace star
 
 	bool operator==(const ivec3 & yRef, const Color & op2)
 	{
-		return op2.r == op2.IntegerToFloat<float, int32>(yRef.x)
-			&& op2.g == op2.IntegerToFloat<float, int32>(yRef.y)
-			&& op2.b == op2.IntegerToFloat<float, int32>(yRef.z);
+		return op2.r == op2.IntegerToFloat<float32, int32>(yRef.x)
+			&& op2.g == op2.IntegerToFloat<float32, int32>(yRef.y)
+			&& op2.b == op2.IntegerToFloat<float32, int32>(yRef.z);
 	}
 
 	bool operator==(const ivec4 & yRef, const Color & op2)
 	{
-		return op2.r == op2.IntegerToFloat<float, int32>(yRef.x)
-			&& op2.g == op2.IntegerToFloat<float, int32>(yRef.y)
-			&& op2.b == op2.IntegerToFloat<float, int32>(yRef.z)
-			&& op2.a == op2.IntegerToFloat<float, int32>(yRef.w);
+		return op2.r == op2.IntegerToFloat<float32, int32>(yRef.x)
+			&& op2.g == op2.IntegerToFloat<float32, int32>(yRef.y)
+			&& op2.b == op2.IntegerToFloat<float32, int32>(yRef.z)
+			&& op2.a == op2.IntegerToFloat<float32, int32>(yRef.w);
 	}
 
 	bool operator!=(const vec3 & yRef, const Color & op2)

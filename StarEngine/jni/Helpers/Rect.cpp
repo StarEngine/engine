@@ -28,11 +28,11 @@ namespace star
 		//[COMMENT] This assert is temporarely disabled because of strange scale issues
 		/*
 	//Check if the rect is a  rect! (all angles ~90°)	
-		float dot1 = glm::dot(rightTop - leftTop , leftBottom - leftTop);
-		float dot2 = glm::dot(leftTop - rightTop , rightBottom - rightTop);
-		float dot3 = glm::dot(rightTop - rightBottom, leftBottom - rightBottom);
+		float32 dot1 = glm::dot(rightTop - leftTop , leftBottom - leftTop);
+		float32 dot2 = glm::dot(leftTop - rightTop , rightBottom - rightTop);
+		float32 dot3 = glm::dot(rightTop - rightBottom, leftBottom - rightBottom);
 		
-		float tolerance = 0.1f;
+		float32 tolerance = 0.1f;
 		ASSERT((abs(dot1) < 0 + tolerance
 			|| abs(dot2) < 0 + tolerance
 			|| abs(dot3) < 0 + tolerance)
@@ -55,7 +55,7 @@ namespace star
 		return *this;
 	}
 
-	Rect Rect::operator*(glm::mat4x4 matrix) const
+	Rect Rect::operator*(glm::mat4 matrix) const
 	{
 		matrix = TransposeMatrix(matrix);
 		vec4 returnVec1 = glm::mul(vec4(m_LeftBottom.x, m_LeftBottom.y, 0, 1), matrix);
@@ -69,7 +69,7 @@ namespace star
 					vec2(returnVec4.x , returnVec4.y));
 	}
 
-	Rect Rect::operator*(float constant) const
+	Rect Rect::operator*(float32 constant) const
 	{
 		Rect temp;
 		temp.m_LeftBottom = m_LeftBottom * constant;
@@ -83,7 +83,7 @@ namespace star
 		return temp;
 	}
 
-	Rect Rect::operator/(float constant) const
+	Rect Rect::operator/(float32 constant) const
 	{
 		Rect temp;
 		temp.m_LeftBottom = m_LeftBottom / constant;
@@ -97,7 +97,7 @@ namespace star
 		return temp;
 	}
 
-	Rect& Rect::operator*=(glm::mat4x4 matrix)
+	Rect& Rect::operator*=(glm::mat4 matrix)
 	{
 		matrix = TransposeMatrix(matrix);
 		vec4 returnVec1 = glm::mul(vec4(m_LeftBottom.x, m_LeftBottom.y, 0, 0), matrix);
@@ -117,7 +117,7 @@ namespace star
 		return *this;
 	}
 
-	Rect& Rect::operator*=(float constant)
+	Rect& Rect::operator*=(float32 constant)
 	{
 		m_LeftBottom *= constant;
 		m_LeftTop *= constant;
@@ -131,17 +131,17 @@ namespace star
 		return *this;
 	}
 
-	float Rect::GetWidth() const
+	float32 Rect::GetWidth() const
 	{
 		return m_Width;
 	}
 
-	float Rect::GetHeight() const
+	float32 Rect::GetHeight() const
 	{
 		return m_Height;
 	}
 
-	float Rect::GetDiagonal() const
+	float32 Rect::GetDiagonal() const
 	{
 		return m_Diagonal;
 	}
@@ -174,36 +174,36 @@ namespace star
 		return centerPos;
 	}
 
-	float Rect::GetRealLeft() const
+	float32 Rect::GetRealLeft() const
 	{
-		float realLeft(m_LeftTop.x);
+		float32 realLeft(m_LeftTop.x);
 		realLeft = realLeft > m_LeftBottom.x ? m_LeftBottom.x : realLeft;
 		realLeft = realLeft > m_RightBottom.x ? m_RightBottom.x : realLeft;
 		realLeft = realLeft > m_RightTop.x ? m_RightTop.x : realLeft;
 		return realLeft;
 	}
 
-	float Rect::GetRealRight() const
+	float32 Rect::GetRealRight() const
 	{
-		float realRight(m_RightTop.x);
+		float32 realRight(m_RightTop.x);
 		realRight = realRight < m_LeftBottom.x ? m_LeftBottom.x : realRight;
 		realRight = realRight < m_RightBottom.x ? m_RightBottom.x : realRight;
 		realRight = realRight < m_LeftTop.x ? m_LeftTop.x : realRight;
 		return realRight;
 	}
 
-	float Rect::GetRealTop() const
+	float32 Rect::GetRealTop() const
 	{
-		float realTop(m_RightTop.y);
+		float32 realTop(m_RightTop.y);
 		realTop = realTop < m_LeftBottom.y ? m_LeftBottom.y : realTop;
 		realTop = realTop < m_RightBottom.y ? m_RightBottom.y : realTop;
 		realTop = realTop < m_LeftTop.y ? m_LeftTop.y : realTop;
 		return realTop;
 	}
 
-	float Rect::GetRealBottom() const
+	float32 Rect::GetRealBottom() const
 	{
-		float realBottom(m_LeftBottom.y);
+		float32 realBottom(m_LeftBottom.y);
 		realBottom = realBottom > m_LeftTop.y ? m_LeftTop.y : realBottom;
 		realBottom = realBottom > m_RightBottom.y ? m_RightBottom.y : realBottom;
 		realBottom = realBottom > m_RightTop.y ? m_RightTop.y : realBottom;

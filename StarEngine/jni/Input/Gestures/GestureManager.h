@@ -30,8 +30,8 @@ namespace star
 #endif
 	private:
 		std::map<tstring, std::shared_ptr<BaseGesture>> m_GestureMap;
-		double m_dTime;
-		double m_TotalTime;
+		float64 m_dTime;
+		float64 m_TotalTime;
 
 		GestureManager(const GestureManager& t);
 		GestureManager(GestureManager&& t);

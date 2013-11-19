@@ -42,7 +42,7 @@ namespace star
 							 m_HUDVertexBuffer;
 		std::vector<GLfloat> m_UvCoordBuffer,
 							 m_HUDUvCoordBuffer;
-		std::vector<mat4x4> m_WorldMatBuffer;
+		std::vector<mat4> m_WorldMatBuffer;
 		int32 m_CurrentSprite,
 			m_CurrentHudSprite;
 		Shader m_Shader;	

@@ -28,7 +28,7 @@ namespace star
 			TileObject();
 		};
 
-		TiledScene(const tstring & name, float scale = 1.0f);
+		TiledScene(const tstring & name, float32 scale = 1.0f);
 		virtual ~TiledScene();
 
 	protected:
@@ -56,7 +56,7 @@ namespace star
 		star::FreeCamera *m_pActiveCamera;
 
 		uint32 m_Width, m_Height, m_TileWidth, m_TileHeight;
-		float m_Scale;
+		float32 m_Scale;
 		std::vector<TileSet> m_TileSets;
 		std::map<tstring, std::function<Object*(const TileObject&)>> m_DefinedObject;
 

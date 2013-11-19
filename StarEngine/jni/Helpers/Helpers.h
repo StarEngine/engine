@@ -174,11 +174,11 @@ namespace star
 		(const tstring & value);
 
 	template <>
-	float string_cast<float, tstring>
+	float32 string_cast<float32, tstring>
 		(const tstring & value);
 
 	template <>
-	double string_cast<double, tstring>
+	float64 string_cast<float64, tstring>
 		(const tstring & value);
 
 	template <>

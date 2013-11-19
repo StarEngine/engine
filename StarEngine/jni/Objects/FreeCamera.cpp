@@ -13,7 +13,7 @@ namespace star
 		,m_MoveSpeed(1.0f)
 		,m_Zoom(1.0f)
 		,m_ZoomSpeed(0.5f)
-		,m_RotationSpeed(static_cast<float>(PI)/2)
+		,m_RotationSpeed(static_cast<float32>(PI)/2)
 		,m_bisStatic(false)
 		,m_bZoom(false)
 	{
@@ -38,12 +38,12 @@ namespace star
 		return m_bZoom;
 	}
 	
-	void FreeCamera::SetZoomSpeed(float speed)
+	void FreeCamera::SetZoomSpeed(float32 speed)
 	{
 		m_ZoomSpeed = speed;
 	}
 	
-	void FreeCamera::SetMoveSpeed(float speed)
+	void FreeCamera::SetMoveSpeed(float32 speed)
 	{
 		m_MoveSpeed = speed;
 	}
@@ -91,12 +91,12 @@ namespace star
 			{
 				if(InputManager::GetInstance()->IsKeyboardKeyDown('O'))
 				{
-					m_Zoom += m_ZoomSpeed * static_cast<float>(context.mTimeManager->GetSeconds());
+					m_Zoom += m_ZoomSpeed * static_cast<float32>(context.mTimeManager->GetSeconds());
 					m_pCamera->SetZoom(m_Zoom);
 				}
 				else if(InputManager::GetInstance()->IsKeyboardKeyDown('P'))
 				{
-					m_Zoom -= m_ZoomSpeed * static_cast<float>(context.mTimeManager->GetSeconds());
+					m_Zoom -= m_ZoomSpeed * static_cast<float32>(context.mTimeManager->GetSeconds());
 					m_pCamera->SetZoom(m_Zoom);
 				}
 			}
@@ -108,11 +108,11 @@ namespace star
 				auto currPos = transform->GetLocalPosition();
 				auto currRot = transform->GetLocalRotation();
 				
-				double deltaTime = context.mTimeManager->GetSeconds();
+				float64 deltaTime = context.mTimeManager->GetSeconds();
 				move *= m_MoveSpeed * deltaTime;
 	
-				currPos.y += static_cast<float>(move.y);
-				currPos.x += static_cast<float>(move.x);
+				currPos.y += static_cast<float32>(move.y);
+				currPos.x += static_cast<float32>(move.x);
 
 				transform->Translate(currPos);
 			}

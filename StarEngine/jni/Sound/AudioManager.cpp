@@ -238,7 +238,7 @@ namespace star
 	void AudioManager::LoadMusic(
 		const tstring& path,
 		const tstring& name,
-		float volume,
+		float32 volume,
 		uint8 channel
 		)
 	{
@@ -285,7 +285,7 @@ namespace star
 	void AudioManager::LoadSoundEffect(
 		const tstring& path,
 		const tstring& name,
-		float volume,
+		float32 volume,
 		uint8 channel
 		)
 	{
@@ -409,7 +409,7 @@ namespace star
 	void AudioManager::PlayMusic(
 		const tstring& path,
 		const tstring& name,
-		float volume,
+		float32 volume,
 		uint8 channel,
 		int32 loopTimes
 		)
@@ -425,7 +425,7 @@ namespace star
 
 	void AudioManager::PlayMusic(
 		const tstring& name,
-		float volume,
+		float32 volume,
 		int32 loopTimes
 		)
 	{
@@ -453,7 +453,7 @@ namespace star
 	void AudioManager::PlaySoundEffect(
 		const tstring& path,
 		const tstring& name,
-		float volume,
+		float32 volume,
 		uint8 channel,
 		int32 loopTimes
 		)
@@ -470,7 +470,7 @@ namespace star
 
 	void AudioManager::PlaySoundEffect(
 		const tstring& name,
-		float volume,
+		float32 volume,
 		int32 loopTimes
 		)
 	{
@@ -769,7 +769,7 @@ namespace star
 		return false;
 	}
 
-	void AudioManager::SetMusicVolume(const tstring& name, float volume)
+	void AudioManager::SetMusicVolume(const tstring& name, float32 volume)
 	{
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -784,7 +784,7 @@ namespace star
 		}
 	}
 
-	float AudioManager::GetMusicVolume(const tstring& name) const
+	float32 AudioManager::GetMusicVolume(const tstring& name) const
 	{
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -800,7 +800,7 @@ namespace star
 		return 0;
 	}
 
-	void AudioManager::SetEffectVolume(const tstring& name, float volume)
+	void AudioManager::SetEffectVolume(const tstring& name, float32 volume)
 	{
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
@@ -815,7 +815,7 @@ namespace star
 		}
 	}
 
-	float AudioManager::GetEffectVolume(const tstring& name) const
+	float32 AudioManager::GetEffectVolume(const tstring& name) const
 	{
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
@@ -831,7 +831,7 @@ namespace star
 		return 0;
 	}
 
-	void AudioManager::IncreaseMusicVolume(const tstring& name, float volume)
+	void AudioManager::IncreaseMusicVolume(const tstring& name, float32 volume)
 	{
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -846,7 +846,7 @@ namespace star
 		}
 	}
 
-	void AudioManager::DecreaseMusicVolume(const tstring& name, float volume)
+	void AudioManager::DecreaseMusicVolume(const tstring& name, float32 volume)
 	{
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -861,7 +861,7 @@ namespace star
 		}
 	}
 
-	void AudioManager::IncreaseEffectVolume(const tstring& name, float volume)
+	void AudioManager::IncreaseEffectVolume(const tstring& name, float32 volume)
 	{
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
@@ -875,7 +875,7 @@ namespace star
 				name + _T("'."));
 		}
 	}
-	void AudioManager::DecreaseEffectVolume(const tstring& name, float volume)
+	void AudioManager::DecreaseEffectVolume(const tstring& name, float32 volume)
 	{
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
@@ -1043,7 +1043,7 @@ namespace star
 		}
 	}
 
-	void AudioManager::SetChannelVolume(uint8 channel, float volume)
+	void AudioManager::SetChannelVolume(uint8 channel, float32 volume)
 	{
 		bool result;
 		SoundChannel & chnl = GetChannel(
@@ -1057,7 +1057,7 @@ namespace star
 		}
 	}
 
-	float AudioManager::GetChannelVolume(uint8 channel)
+	float32 AudioManager::GetChannelVolume(uint8 channel)
 	{
 		bool result;
 		SoundChannel & chnl = GetChannel(
@@ -1072,7 +1072,7 @@ namespace star
 		return 0;
 	}
 
-	void AudioManager::IncreaseChannelVolume(uint8 channel, float volume)
+	void AudioManager::IncreaseChannelVolume(uint8 channel, float32 volume)
 	{
 		bool result;
 		SoundChannel & chnl = GetChannel(
@@ -1086,7 +1086,7 @@ namespace star
 		}
 	}
 
-	void AudioManager::DecreaseChannelVolume(uint8 channel, float volume)
+	void AudioManager::DecreaseChannelVolume(uint8 channel, float32 volume)
 	{
 		bool result;
 		SoundChannel & chnl = GetChannel(
@@ -1389,7 +1389,7 @@ namespace star
 		
 	}
 
-	void AudioManager::SetVolume(float volume)
+	void AudioManager::SetVolume(float32 volume)
 	{
 		mVolume = Clamp(volume, 0.0f, 1.0f);
 
@@ -1404,21 +1404,21 @@ namespace star
 		}
 	}
 
-	float AudioManager::GetVolume() const
+	float32 AudioManager::GetVolume() const
 	{
 		return mVolume;
 	}
 
-	void AudioManager::IncreaseVolume(float volume)
+	void AudioManager::IncreaseVolume(float32 volume)
 	{
-		float vol = GetVolume();
+		float32 vol = GetVolume();
 		vol += volume;
 		SetVolume(vol);
 	}
 
-	void AudioManager::DecreaseVolume(float volume)
+	void AudioManager::DecreaseVolume(float32 volume)
 	{
-		float vol = GetVolume();
+		float32 vol = GetVolume();
 		vol -= volume;
 		SetVolume(vol);
 	}
@@ -1475,7 +1475,7 @@ namespace star
 		mSounds.clear();
 	}
 
-	void AudioManager::SoundChannel::SetVolume(float volume)
+	void AudioManager::SoundChannel::SetVolume(float32 volume)
 	{
 		mVolume = Clamp(volume, 0.0f, 1.0f);
 		for( auto it : mSounds)
@@ -1484,17 +1484,17 @@ namespace star
 		}
 	}
 
-	float AudioManager::SoundChannel::GetVolume() const
+	float32 AudioManager::SoundChannel::GetVolume() const
 	{
 		return mVolume;
 	}
 
-	void AudioManager::SoundChannel::IncreaseVolume(float volume)
+	void AudioManager::SoundChannel::IncreaseVolume(float32 volume)
 	{
 		SetVolume(mVolume + volume);
 	}
 
-	void AudioManager::SoundChannel::DecreaseVolume(float volume)
+	void AudioManager::SoundChannel::DecreaseVolume(float32 volume)
 	{
 		SetVolume(mVolume - volume);
 	}

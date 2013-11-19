@@ -158,12 +158,12 @@ namespace star
 	}
 
 #ifdef ANDROID
-	void SoundFile::SetVolume(float volume)
+	void SoundFile::SetVolume(float32 volume)
 	{
 		SetSoundVolume(mPlayerObj, mPlayer, volume);
 	}
 #endif
-	float SoundFile::GetVolume() const
+	float32 SoundFile::GetVolume() const
 	{
 #ifdef ANDROID
 		return GetSoundVolume(mPlayerObj, mPlayer);
@@ -174,8 +174,8 @@ namespace star
 		}
 		else
 		{
-			float volume = float(Mix_VolumeMusic(-1));
-			return volume / float(MIX_MAX_VOLUME);
+			float32 volume = float32(Mix_VolumeMusic(-1));
+			return volume / float32(MIX_MAX_VOLUME);
 		}
 #endif
 	}

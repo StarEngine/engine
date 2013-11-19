@@ -18,7 +18,7 @@ namespace star
 		std::vector<GLfloat> vertices;
 		std::vector<GLfloat> uvCoords;
 		tstring spriteName;
-		mat4x4 transform;
+		mat4 transform;
 		bool bIsHUD;
 	};
 

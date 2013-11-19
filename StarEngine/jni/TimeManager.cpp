@@ -58,22 +58,22 @@ namespace star
 		mTotalMS += mDeltaMs;
 	}
 
-	double TimeManager::GetSeconds() const
+	float64 TimeManager::GetSeconds() const
 	{
 		return mDeltaS;
 	}
 
-	double TimeManager::GetMilliSeconds() const
+	float64 TimeManager::GetMilliSeconds() const
 	{
 		return mDeltaMs;
 	}
 
-	double TimeManager::GetMicroSeconds() const
+	float64 TimeManager::GetMicroSeconds() const
 	{
 		return mDeltauS;
 	}
 
-	double TimeManager::GetMilliSecondsSinceStart() const
+	float64 TimeManager::GetMilliSecondsSinceStart() const
 	{
 		return mTotalMS;
 	}
@@ -105,7 +105,7 @@ namespace star
 		return strstr.str();
 	}
 
-	double TimeManager::GetSecondsSinceStart() const
+	float64 TimeManager::GetSecondsSinceStart() const
 	{
 		return mTotalMS / MILLIMULTIPLIER;
 	}

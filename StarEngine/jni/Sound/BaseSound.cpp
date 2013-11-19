@@ -66,9 +66,9 @@ namespace star
 	}
 
 	void BaseSound::SetCompleteVolume(
-		float volume,
-		float channelVolume,
-		float masterVolume
+		float32 volume,
+		float32 channelVolume,
+		float32 masterVolume
 		)
 	{
 		mSoundVolume.Volume = volume;
@@ -78,7 +78,7 @@ namespace star
 	}
 
 	void BaseSound::SetBaseVolume(
-		float volume
+		float32 volume
 		)
 	{
 		mSoundVolume.Volume = volume;
@@ -86,7 +86,7 @@ namespace star
 	}
 
 	void BaseSound::SetChannelVolume(
-		float volume
+		float32 volume
 		)
 	{
 		mSoundVolume.ChannelVolume = volume;
@@ -94,35 +94,35 @@ namespace star
 	}
 
 	void BaseSound::SetMasterVolume(
-		float volume
+		float32 volume
 		)
 	{
 		mSoundVolume.MasterVolume = volume;
 		SetVolume(mSoundVolume.GetVolume());
 	}
 
-	float BaseSound::GetBaseVolume() const
+	float32 BaseSound::GetBaseVolume() const
 	{
 		return mSoundVolume.Volume;
 	}
 
-	void BaseSound::SetVolume(float volume)
+	void BaseSound::SetVolume(float32 volume)
 	{
 #ifdef DESKTOP
 		volume = Clamp(volume, 0.0f, 1.0f);
-		int32 vol(int32(volume * float(MIX_MAX_VOLUME)));
+		int32 vol(int32(volume * float32(MIX_MAX_VOLUME)));
 		SetSoundVolume(vol);
 #endif
 	}
 
-	void BaseSound::IncreaseVolume(float volume)
+	void BaseSound::IncreaseVolume(float32 volume)
 	{
 		mSoundVolume.Volume += volume;
 		mSoundVolume.Volume = Clamp(mSoundVolume.Volume, 0.0f, 1.0f);
 		SetVolume(mSoundVolume.GetVolume());
 	}
 
-	void BaseSound::DecreaseVolume(float volume)
+	void BaseSound::DecreaseVolume(float32 volume)
 	{
 		mSoundVolume.Volume -= volume;
 		mSoundVolume.Volume = Clamp(mSoundVolume.Volume, 0.0f, 1.0f);
@@ -297,7 +297,7 @@ namespace star
 	void BaseSound::SetSoundVolume(
 		SLObjectItf & sound,
 		SLPlayItf & player,
-		float volume
+		float32 volume
 		)
 	{
 		SLVolumeItf volumeItf;
@@ -313,7 +313,7 @@ namespace star
 					_T("Sound: Couldn't get the maximum volume level!"));
 			actualMillibelLevel = SLmillibel(
 					(1.0f - volume) *
-					float(SL_MILLIBEL_MIN - maxMillibelLevel))
+					float32(SL_MILLIBEL_MIN - maxMillibelLevel))
 							+ maxMillibelLevel;
 			result = (*volumeItf)->SetVolumeLevel(
 				volumeItf,
@@ -347,7 +347,7 @@ namespace star
 		return false;
 	}
 
-	float BaseSound::GetSoundVolume(
+	float32 BaseSound::GetSoundVolume(
 		const SLObjectItf & sound,
 		const SLPlayItf & player
 		) const
@@ -368,10 +368,10 @@ namespace star
 					);
 			ASSERT(result == SL_RESULT_SUCCESS,
 					_T("Sound: Couldn't get the maximum volume level!"));
-			float posMinVol = float(SL_MILLIBEL_MIN) * -1.0f;
-			float volume =
-					float(actualMillibelLevel + posMinVol) /
-					float(posMinVol + maxMillibelLevel);
+			float32 posMinVol = float32(SL_MILLIBEL_MIN) * -1.0f;
+			float32 volume =
+					float32(actualMillibelLevel + posMinVol) /
+					float32(posMinVol + maxMillibelLevel);
 			return volume;
 		}
 		return 0;
@@ -436,7 +436,7 @@ namespace star
 
 	}
 
-	float BaseSound::SoundVolume::GetVolume() const
+	float32 BaseSound::SoundVolume::GetVolume() const
 	{
 		return Volume * ChannelVolume * MasterVolume;
 	}

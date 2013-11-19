@@ -173,8 +173,8 @@ namespace star
 		
 			batchSize += 4;
 
-			float scaleValue = ScaleSystem::GetInstance()->GetScale();
-			mat4x4 scaleMat = glm::scale<float>(scaleValue, scaleValue, 1.0f);
+			float32 scaleValue = ScaleSystem::GetInstance()->GetScale();
+			mat4 scaleMat = glm::scale<float32>(scaleValue, scaleValue, 1.0f);
 		
 			for(int32 j = 0; j < ((batchSize/4)); ++j)
 			{
@@ -232,7 +232,7 @@ namespace star
 		}
 		
 		auto curfont = FontManager::GetInstance()->GetFont(fontname);
-		float h = curfont.GetSize()/0.63f;
+		float32 h = curfont.GetSize()/0.63f;
 		const vec2& position = transform->GetWorldPosition().pos2D();
 		const vec2& origposition = position;
 
@@ -253,8 +253,8 @@ namespace star
 		GLint s_colorId = glGetUniformLocation(m_Shader.GetID(), "colorMultiplier");
 		glUniform4f(s_colorId,color.r,color.g,color.b,color.a);
 	
-		float scaleValue = ScaleSystem::GetInstance()->GetScale();
-		mat4x4 scaleMat = glm::scale<float>(scaleValue, scaleValue, 1.0f);
+		float32 scaleValue = ScaleSystem::GetInstance()->GetScale();
+		mat4 scaleMat = glm::scale<float32>(scaleValue, scaleValue, 1.0f);
 
 		int32 offsetX(0);
 		int32 offsetY(0);
@@ -272,7 +272,7 @@ namespace star
 				glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, 
 					tempuvs[start_line[i]].uv);
 
-				mat4x4 offsetTrans;
+				mat4 offsetTrans;
 				
 				if(start_line[i] != 0)
 				{
@@ -285,7 +285,7 @@ namespace star
 				{
 					offsetTrans = glm::translate(glm::vec3(0, 0, 0));
 				}
-				const mat4x4& world = transform->GetWorldMatrix() * offsetTrans;
+				const mat4& world = transform->GetWorldMatrix() * offsetTrans;
 
 				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
 					1,GL_FALSE,

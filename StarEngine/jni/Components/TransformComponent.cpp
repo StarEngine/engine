@@ -46,7 +46,7 @@ namespace star
         m_IsChanged |= TransformChanged::TRANSLATION;
     }
 
-    void TransformComponent::Translate(float x, float y)
+    void TransformComponent::Translate(float32 x, float32 y)
     {
         Translate(vec2(x, y));
     }
@@ -59,7 +59,7 @@ namespace star
         m_IsChanged |= TransformChanged::TRANSLATION;
     }
 
-    void TransformComponent::Translate(float x, float y, lay l)
+    void TransformComponent::Translate(float32 x, float32 y, lay l)
     {
         Translate(vec2(x, y), l);
     }
@@ -70,13 +70,13 @@ namespace star
         m_IsChanged |= TransformChanged::TRANSLATION;
     }
 
-	void TransformComponent::TranslateX(float x)
+	void TransformComponent::TranslateX(float32 x)
 	{
 		m_LocalPosition.x = x;
         m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-	void TransformComponent::TranslateY(float y)
+	void TransformComponent::TranslateY(float32 y)
 	{
 		m_LocalPosition.y = y;
         m_IsChanged |= TransformChanged::TRANSLATION;
@@ -95,26 +95,26 @@ namespace star
         m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-	void TransformComponent::Move(float x, float y)
+	void TransformComponent::Move(float32 x, float32 y)
 	{
 		m_LocalPosition.x += x;
 		m_LocalPosition.y += y;
         m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-	void TransformComponent::MoveX(float x)
+	void TransformComponent::MoveX(float32 x)
 	{
 		m_LocalPosition.x += x;
         m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-	void TransformComponent::MoveY(float y)
+	void TransformComponent::MoveY(float32 y)
 	{
 		m_LocalPosition.y += y;
         m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-    void TransformComponent::Rotate(float rotation)
+    void TransformComponent::Rotate(float32 rotation)
     {
 		m_bRotationCenterChanged = false;
 		m_bRotationIsLocal = false;
@@ -122,7 +122,7 @@ namespace star
         m_IsChanged |= TransformChanged::ROTATION;
     }
 
-	void TransformComponent::Rotate(float rotation, const pos& centerPoint)
+	void TransformComponent::Rotate(float32 rotation, const pos& centerPoint)
 	{
 		m_bRotationCenterChanged = true;
 		m_bRotationIsLocal = false;
@@ -131,13 +131,13 @@ namespace star
 		m_IsChanged |= TransformChanged::ROTATION;
 	}
 
-	void TransformComponent::RotateLocal(float rotation)
+	void TransformComponent::RotateLocal(float32 rotation)
 	{
 		Rotate(rotation);
 		m_bRotationIsLocal = m_pParentObject->GetParent() != nullptr;
 	}
 
-	void TransformComponent::RotateLocal(float rotation, const pos& centerPoint)
+	void TransformComponent::RotateLocal(float32 rotation, const pos& centerPoint)
 	{
 		Rotate(rotation, centerPoint);
 		m_bRotationIsLocal = m_pParentObject->GetParent() != nullptr;
@@ -149,23 +149,23 @@ namespace star
         m_IsChanged |= TransformChanged::SCALE;
     }
 
-    void TransformComponent::Scale(float x, float y)
+    void TransformComponent::Scale(float32 x, float32 y)
     {
         Scale(vec2(x, y));
     }
 
-    void TransformComponent::Scale(float u)
+    void TransformComponent::Scale(float32 u)
     {
         Scale(vec2(u, u));
     }
 
-	void TransformComponent::ScaleX(float x)
+	void TransformComponent::ScaleX(float32 x)
 	{
 		m_LocalScale.x = x;
         m_IsChanged |= TransformChanged::SCALE;
 	}
 
-	void TransformComponent::ScaleY(float y)
+	void TransformComponent::ScaleY(float32 y)
 	{
 		m_LocalScale.y = y;
         m_IsChanged |= TransformChanged::SCALE;
@@ -181,13 +181,13 @@ namespace star
         return m_LocalPosition;
     }
 
-    float TransformComponent::GetWorldRotation()
+    float32 TransformComponent::GetWorldRotation()
     {
         return m_WorldRotation;
     }
 
     //[TODO] Fix this to const correct (teach cedric)
-    float TransformComponent::GetLocalRotation() const
+    float32 TransformComponent::GetLocalRotation() const
     {
         return m_LocalRotation;
     }
@@ -209,45 +209,45 @@ namespace star
         m_IsChanged |= TransformChanged::TRANSLATION;
     }
 
-    void TransformComponent::Translate(float x, float y, float z)
+    void TransformComponent::Translate(float32 x, float32 y, float32 z)
     {
         Translate(vec3(x,y,z));
     }
 
-    void TransformComponent::TranslateXY(float x, float y)
+    void TransformComponent::TranslateXY(float32 x, float32 y)
 	{
 		m_LocalPosition.x = x;
 		m_LocalPosition.y = y;
 		m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-    void TransformComponent::TranslateXZ(float x, float z)
+    void TransformComponent::TranslateXZ(float32 x, float32 z)
 	{
 		m_LocalPosition.x = x;
 		m_LocalPosition.z = z;
 		m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-    void TransformComponent::TranslateX(float x)
+    void TransformComponent::TranslateX(float32 x)
 	{
 		m_LocalPosition.x = x;
 		m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-    void TransformComponent::TranslateYZ(float y, float z)
+    void TransformComponent::TranslateYZ(float32 y, float32 z)
 	{
 		m_LocalPosition.y = y;
 		m_LocalPosition.z = z;
 		m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-    void TransformComponent::TranslateY(float y)
+    void TransformComponent::TranslateY(float32 y)
 	{
 		m_LocalPosition.y = y;
 		m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-    void TransformComponent::TranslateZ(float z)
+    void TransformComponent::TranslateZ(float32 z)
 	{
 		m_LocalPosition.z = z;
 		m_IsChanged |= TransformChanged::TRANSLATION;
@@ -259,45 +259,45 @@ namespace star
         m_IsChanged |= TransformChanged::TRANSLATION;
     }
 
-    void TransformComponent::Move(float x, float y, float z)
+    void TransformComponent::Move(float32 x, float32 y, float32 z)
     {
         Move(vec3(x,y,z));
     }
 
-    void TransformComponent::MoveXY(float x, float y)
+    void TransformComponent::MoveXY(float32 x, float32 y)
 	{
 		m_LocalPosition.x += x;
 		m_LocalPosition.y += y;
 		m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-    void TransformComponent::MoveXZ(float x, float z)
+    void TransformComponent::MoveXZ(float32 x, float32 z)
 	{
 		m_LocalPosition.x += x;
 		m_LocalPosition.z += z;
 		m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-    void TransformComponent::MoveX(float x)
+    void TransformComponent::MoveX(float32 x)
 	{
 		m_LocalPosition.x += x;
 		m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-    void TransformComponent::MoveYZ(float y, float z)
+    void TransformComponent::MoveYZ(float32 y, float32 z)
 	{
 		m_LocalPosition.y += y;
 		m_LocalPosition.z += z;
 		m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-    void TransformComponent::MoveY(float y)
+    void TransformComponent::MoveY(float32 y)
 	{
 		m_LocalPosition.y += y;
 		m_IsChanged |= TransformChanged::TRANSLATION;
 	}
 
-    void TransformComponent::MoveZ(float z)
+    void TransformComponent::MoveZ(float32 z)
 	{
 		m_LocalPosition.z += z;
 		m_IsChanged |= TransformChanged::TRANSLATION;
@@ -315,50 +315,50 @@ namespace star
         m_IsChanged |= TransformChanged::SCALE;
     }
 
-    void TransformComponent::Scale(float x, float y, float z)
+    void TransformComponent::Scale(float32 x, float32 y, float32 z)
     {
         Scale(vec3(x,y,z));
     }
 
-    void TransformComponent::Scale(float u)
+    void TransformComponent::Scale(float32 u)
     {
         Scale(vec3(u, u, u));
     }
 
-    void TransformComponent::ScaleXY(float x, float y)
+    void TransformComponent::ScaleXY(float32 x, float32 y)
 	{
 		m_LocalScale.x = x;
 		m_LocalScale.y = y;
 		m_IsChanged |= TransformChanged::SCALE;
 	}
 
-    void TransformComponent::ScaleXZ(float x, float z)
+    void TransformComponent::ScaleXZ(float32 x, float32 z)
 	{
 		m_LocalScale.x = x;
 		m_LocalScale.z = z;
 		m_IsChanged |= TransformChanged::SCALE;
 	}
 
-    void TransformComponent::ScaleX(float x)
+    void TransformComponent::ScaleX(float32 x)
 	{
 		m_LocalScale.x = x;
 		m_IsChanged |= TransformChanged::SCALE;
 	}
 
-    void TransformComponent::ScaleYZ(float y, float z)
+    void TransformComponent::ScaleYZ(float32 y, float32 z)
 	{
 		m_LocalScale.y = y;
 		m_LocalScale.z = z;
 		m_IsChanged |= TransformChanged::SCALE;
 	}
 
-    void TransformComponent::ScaleY(float y)
+    void TransformComponent::ScaleY(float32 y)
 	{
 		m_LocalScale.y = y;
 		m_IsChanged |= TransformChanged::SCALE;
 	}
 
-    void TransformComponent::ScaleZ(float z)
+    void TransformComponent::ScaleZ(float32 z)
 	{
 		m_LocalScale.z = z;
 		m_IsChanged |= TransformChanged::SCALE;
@@ -395,7 +395,7 @@ namespace star
     }
 #endif
 
-    const mat4x4 & TransformComponent::GetWorldMatrix() const
+    const mat4 & TransformComponent::GetWorldMatrix() const
     {
 		return m_World;
     }
@@ -433,9 +433,9 @@ namespace star
 		DecomposeMatrix(m_World, m_WorldPosition, m_WorldScale, m_WorldRotation);
 	}
 		
-	void TransformComponent::SingleUpdate(mat4x4 & world)
+	void TransformComponent::SingleUpdate(mat4 & world)
 	{
-		mat4x4 matRot, matTrans, matScale, matC, matCI;
+		mat4 matRot, matTrans, matScale, matC, matCI;
 
 		matTrans = glm::translate(m_LocalPosition.pos3D());
 		matRot   = glm::toMat4(quat(vec3(0,0,m_LocalRotation)));

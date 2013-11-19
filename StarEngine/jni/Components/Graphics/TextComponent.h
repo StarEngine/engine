@@ -22,8 +22,8 @@ namespace star
 		void SetColor(const Color& color);
 		const Color& GetColor() const;
 		//Default set to -1, Set width to -1 to disable wrapping
-		void SetWrapWidth(float width);
-		float GetWrapWidth() const;
+		void SetWrapWidth(float32 width);
+		float32 GetWrapWidth() const;
 		int32 GetMaxTextWidth();
 		int32 GetTotalTextHeight();
 		
@@ -37,7 +37,7 @@ namespace star
 
 		Color m_TextColor;
 		TextDesc m_TextDesc;
-		float m_WrapWidth;
+		float32 m_WrapWidth;
 		int32 m_MaxWidth;
 		int32 m_MaxHeight;
 		tstring m_OrigText;
@@ -47,7 +47,7 @@ namespace star
 		bool m_bCheckedWrapping, 
 			 m_bInFront;
 
-		tstring CheckWrapping(const Font& font, const tstring& stringIn, float wrapWidth);
+		tstring CheckWrapping(const Font& font, const tstring& stringIn, float32 wrapWidth);
 		void SplitString(std::vector<tstring>& wordArrayIn,const tstring& stringIn, const tstring& delimiter);
 		void SplitIntoLines(std::vector<sstring> &list, const sstring &string);
 

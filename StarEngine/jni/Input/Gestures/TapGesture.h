@@ -20,8 +20,8 @@ namespace star
 	#else
 		virtual void OnTouchEvent(AInputEvent* pEvent);
 	#endif
-		double m_StartTime;
-		double m_TimeSinceBeginning;
+		float64 m_StartTime;
+		float64 m_TimeSinceBeginning;
 		static const int32 MINIMUM_TAP_TIME = 10;
 		static const int32 MAXIMUM_TAP_TIME = 500;
 

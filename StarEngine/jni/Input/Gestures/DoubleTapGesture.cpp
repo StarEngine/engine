@@ -49,7 +49,7 @@ namespace star
 		{
 			if(m_bIsGestureOk)
 			{
-				double timeSinceDown = m_TimeSinceBeginning - m_StartTime;
+				float64 timeSinceDown = m_TimeSinceBeginning - m_StartTime;
 				if(	timeSinceDown > MINIMUM_TAP_TIME && 
 					timeSinceDown < MAXIMUM_TAP_TIME && 
 					m_TimeBetweenTaps < MAXIMUM_TIME_BETWEEN_TAPS)
@@ -100,7 +100,7 @@ namespace star
 			{
 				if(m_bIsGestureOk)
 				{
-					double timeSinceDown = m_TimeSinceBeginning - m_StartTime;
+					float64 timeSinceDown = m_TimeSinceBeginning - m_StartTime;
 					if(	timeSinceDown > MINIMUM_TAP_TIME &&
 						timeSinceDown < MAXIMUM_TAP_TIME &&
 						m_TimeBetweenTaps < MAXIMUM_TIME_BETWEEN_TAPS)

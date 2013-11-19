@@ -16,7 +16,7 @@ namespace star
 		m_ViewInverse(),
 		m_FarPlane(100.0f),
 		m_NearPlane(0.1f),
-		m_FOV(static_cast<float>(PI/4.0f)),
+		m_FOV(static_cast<float32>(PI/4.0f)),
 		m_Size(0.0f),
 		m_Zoom(1.0f),
 		m_bIsActive(false),
@@ -47,7 +47,7 @@ namespace star
 		{
 			if(m_Size <= 0)
 			{
-				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetViewportHeight());
+				m_Size = static_cast<float32>(GraphicsManager::GetInstance()->GetViewportHeight());
 			}
 
 			m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom,
@@ -73,7 +73,7 @@ namespace star
 			}
 			else
 			{
-				m_Size = static_cast<float>(GraphicsManager::GetInstance()->GetViewportHeight());
+				m_Size = static_cast<float32>(GraphicsManager::GetInstance()->GetViewportHeight());
 				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, 
 										   m_Size * m_Zoom, 
 										   m_NearPlane, 
@@ -88,10 +88,10 @@ namespace star
 		vec3 vEyePt = m_pParentObject->GetTransform()->GetWorldPosition();
 #endif
 		vec3 vLookat, vUpVec;
-		mat4x4 rotTransform;
+		mat4 rotTransform;
 	
 #ifdef STAR2D
-		float rotDegrees = m_pParentObject->GetTransform()->GetWorldRotation();
+		float32 rotDegrees = m_pParentObject->GetTransform()->GetWorldRotation();
 		rotDegrees = RadiansToDegrees(rotDegrees);
 		quat rotation(vec3(0, 0, rotDegrees));
 #else
@@ -99,7 +99,7 @@ namespace star
 #endif
 		rotTransform = glm::toMat4(rotation);
 
-		//Only vec4 * mat4x4  possible
+		//Only vec4 * mat4  possible
 		vec4 vLookTemp = vec4(0,0,1,0) * TransposeMatrix(rotTransform);
 		vec4 vUpVecTemp = vec4(0,1,0,0) * TransposeMatrix(rotTransform);
 
@@ -117,22 +117,22 @@ namespace star
 
 	}
 
-	void CameraComponent::SetFieldOfView(float fov)
+	void CameraComponent::SetFieldOfView(float32 fov)
 	{
 		m_FOV = fov;
 	}
 
-	void CameraComponent::SetOrthoSize(float size)
+	void CameraComponent::SetOrthoSize(float32 size)
 	{
 		m_Size = size;
 	}
 
-	void CameraComponent::SetNearClippingPlane(float nearPlane)
+	void CameraComponent::SetNearClippingPlane(float32 nearPlane)
 	{
 		m_NearPlane = nearPlane;
 	}
 
-	void CameraComponent::SetFarClippingPlane(float farPlane)
+	void CameraComponent::SetFarClippingPlane(float32 farPlane)
 	{
 		m_FarPlane = farPlane;
 	}
@@ -169,7 +169,7 @@ namespace star
 		m_bIsActive = false;
 	}
 
-	void CameraComponent::SetZoom(float zoom)
+	void CameraComponent::SetZoom(float32 zoom)
 	{
 		m_Zoom = zoom;
 		m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, 
@@ -178,39 +178,39 @@ namespace star
 									m_FarPlane);
 	}
 
-	float CameraComponent::GetZoom() const
+	float32 CameraComponent::GetZoom() const
 	{
 		return m_Zoom;
 	}
 
-	const mat4x4 & CameraComponent::GetView() const
+	const mat4 & CameraComponent::GetView() const
 	{
 		return m_View;
 	}
 
-	const mat4x4 & CameraComponent::GetProjection() const
+	const mat4 & CameraComponent::GetProjection() const
 	{
 		return m_Projection;
 	}
 
-	const mat4x4 & CameraComponent::GetViewInverse() const
+	const mat4 & CameraComponent::GetViewInverse() const
 	{
 		return m_ViewInverse;
 	}
 
-	mat4x4 CameraComponent::GetProjectionViewInverse() const
+	mat4 CameraComponent::GetProjectionViewInverse() const
 	{
 		return m_Projection * m_ViewInverse;
 	}
 
-	mat4x4 CameraComponent::MatrixPerspectiveFOV(float FovY, float ratio, float nearPlane, float farPlane)
+	mat4 CameraComponent::MatrixPerspectiveFOV(float32 FovY, float32 ratio, float32 nearPlane, float32 farPlane)
 	{
-		float viewSpaceWidth, viewSpaceHeight;
+		float32 viewSpaceWidth, viewSpaceHeight;
 		
 		viewSpaceHeight = glm::cot(FovY/2);
 		viewSpaceWidth = viewSpaceHeight * ratio;
 
-		mat4x4 matPerspective 
+		mat4 matPerspective 
 		(
 		viewSpaceWidth, 0, 0, 0,
 		0, viewSpaceHeight, 0, 0,
@@ -221,10 +221,10 @@ namespace star
 		return matPerspective;
 	}
 
-	mat4x4 CameraComponent::MatrixOrtho(float width, float height, float nearPlane, float farPlane)
+	mat4 CameraComponent::MatrixOrtho(float32 width, float32 height, float32 nearPlane, float32 farPlane)
 	{
 		//opengl standard is -1 to 1 --> 2 width
-		mat4x4 matOrtho
+		mat4 matOrtho
 		(
 		2 / width, 0, 0, -1,
 		0, 2 / height, 0, -1,
@@ -235,7 +235,7 @@ namespace star
 		return matOrtho;
 	}
 
-	mat4x4 CameraComponent::MatrixLookAt(const vec3& eye, const vec3& at, const vec3& up)
+	mat4 CameraComponent::MatrixLookAt(const vec3& eye, const vec3& at, const vec3& up)
 	{
 		vec3 xAxis, yAxis, zAxis;
 
@@ -243,7 +243,7 @@ namespace star
 		xAxis = glm::normalize(glm::cross(up, zAxis));
 		yAxis = glm::cross(zAxis, xAxis);
 		
-		mat4x4 matLookAt 
+		mat4 matLookAt 
 		(
 			 xAxis.x, yAxis.x, zAxis.x, 0,
 			 xAxis.y, yAxis.y, zAxis.y, 0,

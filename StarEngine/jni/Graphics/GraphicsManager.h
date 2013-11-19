@@ -42,17 +42,17 @@ namespace star
 		int32 GetScreenWidth() const;
 		int32 GetScreenHeight() const;
 
-		const mat4x4& GetViewProjectionMatrix() const;
-		const mat4x4& GetViewInverseMatrix() const;
-		const mat4x4& GetProjectionMatrix() const;
+		const mat4& GetViewProjectionMatrix() const;
+		const mat4& GetViewInverseMatrix() const;
+		const mat4& GetProjectionMatrix() const;
 
-		float GetWindowAspectRatio() const;
+		float32 GetWindowAspectRatio() const;
 
 		const vec2 & GetWindowResolution() const;
 		const vec2 & GetViewportResolution() const;
 		const vec2 & GetScreenResolution() const;
 
-		float GetViewportAspectRatio() const;
+		float32 GetViewportAspectRatio() const;
 
 		int32 GetHorizontalViewportOffset() const;
 		int32 GetVerticalViewportOffset() const;
@@ -81,9 +81,9 @@ namespace star
 		int32 mHorizontalViewportOffset,
 			mVerticalViewportOffset;
 
-		mat4x4 mViewProjectionMatrix;
-		mat4x4 mViewInverseMatrix;
-		mat4x4 mProjectionMatrix;
+		mat4 mViewProjectionMatrix;
+		mat4 mViewInverseMatrix;
+		mat4 mProjectionMatrix;
 		vec2 mScreenResolution, mViewportResolution;
 		bool mbHasWindowChanged;
 		bool mIsInitialized;

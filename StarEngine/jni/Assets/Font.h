@@ -41,7 +41,7 @@ namespace star
 		void DeleteFont();
 
 		GLuint* GetTextures() const {return mTextures;}
-		float GetSize() const {return mSize;}
+		float32 GetSize() const {return mSize;}
 		const std::vector<fontUvCoords>& GetUvCoords() const;
 		const std::vector<fontVertices>& GetVetrices() const;
 		const std::vector<ivec2>& GetLetterDimensions() const;
@@ -62,6 +62,6 @@ namespace star
 		std::vector< fontUvCoords > mUVcoordsList;
 		std::vector< fontVertices > mVecticesList;
 		std::vector< ivec2 > mLetterSizeList;
-		float mSize;
+		float32 mSize;
 	};
 }

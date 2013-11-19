@@ -11,7 +11,7 @@ namespace star
 	{
 	public:
 		Timer();
-		Timer(	double targetTime, bool countingDown, bool loop,
+		Timer(	float64 targetTime, bool countingDown, bool loop,
 				std::function<void ()> func, bool paused = false);
 		~Timer();
 		Timer(const Timer& yRef);
@@ -25,17 +25,17 @@ namespace star
 		void SetCountingDown(bool countingDown);
 		void SetLoop(bool looping);
 		void Reset(bool paused = false);
-		void SetTargetTime(double targetTime, bool reset = true, bool paused = false);
+		void SetTargetTime(float64 targetTime, bool reset = true, bool paused = false);
 		void SetFunction(std::function<void ()> func);
 
 		int32 GetCurrentMinutes() const;
 		int32 GetCurrentSeconds() const;
 		int32 GetCurrentTotalSeconds() const;
-		double GetTargetTime() const;
-		double GetCurrentAccurateTime() const;
+		float64 GetTargetTime() const;
+		float64 GetCurrentAccurateTime() const;
 
 	private:
-		double	m_TargetTime,
+		float64	m_TargetTime,
 				m_CurrentTime;
 		bool	m_CountingDown,
 				m_Looping,
