@@ -2133,5 +2133,65 @@ namespace star
 	{
 		posOut = star::pos(Log2(posIn.pos2D()), posIn.l);
 	}
+
+	pos Step(const pos & pos, fvec2 & x)
+	{
+		fvec2 pos2D = pos.pos2D();
+		return star::pos(Step(pos2D, x), pos.l);
+	}
+
+	pos Step(const pos & pos, float32 x)
+	{
+		fvec2 pos2D = pos.pos2D();
+		return star::pos(Step(pos2D, x), pos.l);
+	}
+
+	void Step(const pos & posIn, fvec2 & x, pos & posOut)
+	{
+		fvec2 pos2D = posIn.pos2D();
+		posOut = star::pos(Step(pos2D, x), posIn.l);
+	}
+
+	void Step(const pos & posIn, float32 x, pos & posOut)
+	{
+		fvec2 pos2D = posIn.pos2D();
+		posOut = star::pos(Step(pos2D, x), posIn.l);
+	}
+	
+	pos Mod(const pos & pos, fvec2 mod)
+	{
+		fvec2 pos2D = pos.pos2D();
+		return star::pos(
+			Mod(pos2D, mod),
+			pos.l
+			);
+	}
+
+	pos Mod(const pos & pos, float32 mod)
+	{
+		fvec2 pos2D = pos.pos2D();
+		return star::pos(
+			Mod(pos2D, mod),
+			pos.l
+			);
+	}
+
+	void Mod(const pos & posIn, fvec2 mod, pos & posOut)
+	{
+		fvec2 pos2D = posIn.pos2D();
+		posOut = star::pos(
+			Mod(pos2D, mod),
+			posIn.l
+			);
+	}
+
+	void Mod(const pos & posIn, float32 mod, pos & posOut)
+	{
+		fvec2 pos2D = posIn.pos2D();
+		posOut = star::pos(
+			Mod(pos2D, mod),
+			posIn.l
+			);
+	}
 #endif
 }
