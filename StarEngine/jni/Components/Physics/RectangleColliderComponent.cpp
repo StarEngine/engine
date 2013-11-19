@@ -282,19 +282,23 @@ namespace star
 				return false;
 			}
 			return true;
-		}									  
-	}		
+		}
+	}
 
-	bool RectangleColliderComponent::CalculateAxisSpecificCollision(const Rect& rect, 
-		const vec2& point1, const vec2& point2, const vec2& axis) const
+	bool RectangleColliderComponent::CalculateAxisSpecificCollision(
+		const Rect& rect,
+		const vec2& point1,
+		const vec2& point2,
+		const vec2& axis
+		) const
 	{
-		float32 AvecPosOnAxis1 = Dot(rect.GetLeftTop(),axis);
-		float32 AvecPosOnAxis2 = Dot(rect.GetLeftBottom(),axis);
-		float32 AvecPosOnAxis3 = Dot(rect.GetRightBottom(),axis);
-		float32 AvecPosOnAxis4 = Dot(rect.GetRightTop(),axis);
+		float32 AvecPosOnAxis1 = Dot(rect.GetLeftTop(), axis);
+		float32 AvecPosOnAxis2 = Dot(rect.GetLeftBottom(), axis);
+		float32 AvecPosOnAxis3 = Dot(rect.GetRightBottom(), axis);
+		float32 AvecPosOnAxis4 = Dot(rect.GetRightTop(), axis);
 
-		float32 BvecPosOnAxis1 = Dot(point1,axis);
-		float32 BvecPosOnAxis2 = Dot(point2,axis);
+		float32 BvecPosOnAxis1 = Dot(point1, axis);
+		float32 BvecPosOnAxis2 = Dot(point2, axis);
 
 		//Find Min and Max
 		float32 vec1[4];
@@ -338,18 +342,21 @@ namespace star
 		return (BvecPosOnAxis1 <= AMaximum && BvecPosOnAxis1 >= AMinimum);
 	}
 
-	bool RectangleColliderComponent::CalculateAxisSpecificCollision(const Rect& rect1, 
-		const Rect& rect2, const vec2& axis) const
+	bool RectangleColliderComponent::CalculateAxisSpecificCollision(
+		const Rect& rect1,
+		const Rect& rect2,
+		const vec2& axis
+		) const
 	{
-		float32 AvecPosOnAxis1 = Dot(rect1.GetLeftTop(),axis);
-		float32 AvecPosOnAxis2 = Dot(rect1.GetLeftBottom(),axis);
-		float32 AvecPosOnAxis3 = Dot(rect1.GetRightBottom(),axis);
-		float32 AvecPosOnAxis4 = Dot(rect1.GetRightTop(),axis);
+		float32 AvecPosOnAxis1 = Dot(rect1.GetLeftTop(), axis);
+		float32 AvecPosOnAxis2 = Dot(rect1.GetLeftBottom(), axis);
+		float32 AvecPosOnAxis3 = Dot(rect1.GetRightBottom(), axis);
+		float32 AvecPosOnAxis4 = Dot(rect1.GetRightTop(), axis);
 
-		float32 BvecPosOnAxis1 = Dot(rect2.GetLeftTop(),axis);
-		float32 BvecPosOnAxis2 = Dot(rect2.GetLeftBottom(),axis);
-		float32 BvecPosOnAxis3 = Dot(rect2.GetRightBottom(),axis);
-		float32 BvecPosOnAxis4 = Dot(rect2.GetRightTop(),axis);
+		float32 BvecPosOnAxis1 = Dot(rect2.GetLeftTop(), axis);
+		float32 BvecPosOnAxis2 = Dot(rect2.GetLeftBottom(), axis);
+		float32 BvecPosOnAxis3 = Dot(rect2.GetRightBottom(), axis);
+		float32 BvecPosOnAxis4 = Dot(rect2.GetRightTop(), axis);
 
 		float32 vec1[4];
 		vec1[0] = AvecPosOnAxis1;

@@ -283,42 +283,42 @@ namespace star
 	void ToMat4(const fquat & quaternion, fmat4 & out);
 	void ToMat4(const dquat & quaternion, dmat4 & out);
 
-	fmat4 Translate(const fmat4 & mat, fvec3 & vec);
+	fmat4 Translate(const fmat4 & mat, const fvec3 & vec);
 	fmat4 Translate(const fmat4 & mat, float32 x, float32 y, float32 z);
 	fmat4 Translate(const fvec3 & vec);
 	fmat4 Translate(float32 x, float32 y, float32 z);
 
-	void Translate(const fmat4 & mat, fvec3 & vec, fmat4 & out);
+	void Translate(const fmat4 & mat, const fvec3 & vec, fmat4 & out);
 	void Translate(const fmat4 & mat, float32 x, float32 y, float32 z, fmat4 & out);
 	void Translate(const fvec3 & vec, fmat4 & out);
 	void Translate(float32 x, float32 y, float32 z, fmat4 & out);
 
-	dmat4 Translate(const dmat4 & mat, dvec3 & vec);
+	dmat4 Translate(const dmat4 & mat, const dvec3 & vec);
 	dmat4 Translate(const dmat4 & mat, float64 x, float64 y, float64 z);
 	dmat4 Translate(const dvec3 & vec);
 	dmat4 Translate(float64 x, float64 y, float64 z);
 
-	void Translate(const dmat4 & mat, dvec3 & vec, dmat4 & out);
+	void Translate(const dmat4 & mat, const dvec3 & vec, dmat4 & out);
 	void Translate(const dmat4 & mat, float64 x, float64 y, float64 z, dmat4 & out);
 	void Translate(const dvec3 & vec, dmat4 & out);
 	void Translate(float64 x, float64 y, float64 z, dmat4 & out);
 
-	fmat4 Scale(const fmat4 & mat, fvec3 & vec);
+	fmat4 Scale(const fmat4 & mat, const fvec3 & vec);
 	fmat4 Scale(const fmat4 & mat, float32 x, float32 y, float32 z);
 	fmat4 Scale(const fvec3 & vec);
 	fmat4 Scale(float32 x, float32 y, float32 z);
 
-	void Scale(const fmat4 & mat, fvec3 & vec, fmat4 & out);
+	void Scale(const fmat4 & mat, const fvec3 & vec, fmat4 & out);
 	void Scale(const fmat4 & mat, float32 x, float32 y, float32 z, fmat4 & out);
 	void Scale(const fvec3 & vec, fmat4 & out);
 	void Scale(float32 x, float32 y, float32 z, fmat4 & out);
 
-	dmat4 Scale(const dmat4 & mat, dvec3 & vec);
+	dmat4 Scale(const dmat4 & mat, const dvec3 & vec);
 	dmat4 Scale(const dmat4 & mat, float64 x, float64 y, float64 z);
 	dmat4 Scale(const dvec3 & vec);
 	dmat4 Scale(float64 x, float64 y, float64 z);
 
-	void Scale(const dmat4 & mat, dvec3 & vec, dmat4 & out);
+	void Scale(const dmat4 & mat, const dvec3 & vec, dmat4 & out);
 	void Scale(const dmat4 & mat, float64 x, float64 y, float64 z, dmat4 & out);
 	void Scale(const dvec3 & vec, dmat4 & out);
 	void Scale(float64 x, float64 y, float64 z, dmat4 & out);
