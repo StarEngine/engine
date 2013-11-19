@@ -366,6 +366,22 @@ namespace star
 	void Mod(const dvec3 & x, const dvec3 & y, dvec3 & out);
 	void Mod(const dvec4 & x, const dvec4 & y, dvec4 & out);
 
+	fvec2 Mod(const fvec2 & x, float32 y);
+	fvec3 Mod(const fvec3 & x, float32 y);
+	fvec4 Mod(const fvec4 & x, float32 y);
+
+	dvec2 Mod(const dvec2 & x, float64 y);
+	dvec3 Mod(const dvec3 & x, float64 y);
+	dvec4 Mod(const dvec4 & x, float64 y);
+
+	void Mod(const fvec2 & x, float32 y, fvec2 & out);
+	void Mod(const fvec3 & x, float32 y, fvec3 & out);
+	void Mod(const fvec4 & x, float32 y, fvec4 & out);
+
+	void Mod(const dvec2 & x, float64 y, dvec2 & out);
+	void Mod(const dvec3 & x, float64 y, dvec3 & out);
+	void Mod(const dvec4 & x, float64 y, dvec4 & out);
+
 #ifdef STAR2D
 	fmat3 Reflect(const fmat3 & mat, const fvec3 & vec);
 	dmat3 Reflect(const dmat3 & mat, const dvec3 & vec);
