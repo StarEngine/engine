@@ -186,7 +186,6 @@ namespace star
 		return m_WorldRotation;
 	}
 
-	//[TODO] Fix this to const correct (teach cedric)
 	float32 TransformComponent::GetLocalRotation() const
 	{
 		return m_LocalRotation;

@@ -160,7 +160,7 @@ namespace star
 			}
 		//The circle is inside the boundaries of the line!
 		vec2 lineVec(Normalize(point2 - point1));
-		float32 closestPointOnLineSize(Dot(circlePos - point1,lineVec));
+		float32 closestPointOnLineSize(Dot(circlePos - point1, lineVec));
 		vec2 closestPointOnLine(closestPointOnLineSize * lineVec);
 		closestPointOnLine = point1 + closestPointOnLine;
 

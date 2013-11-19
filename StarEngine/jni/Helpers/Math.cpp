@@ -1119,7 +1119,7 @@ namespace star
 		out = glm::toMat4<float64>(quaternion);
 	}
 
-	fmat4 Translate(const fmat4 & mat, fvec3 & vec)
+	fmat4 Translate(const fmat4 & mat, const fvec3 & vec)
 	{
 		return glm::translate<float32>(mat, vec);
 	}
@@ -1139,7 +1139,7 @@ namespace star
 		return glm::translate<float32>(x, y, z);
 	}
 
-	void Translate(const fmat4 & mat, fvec3 & vec, fmat4 & out)
+	void Translate(const fmat4 & mat, const fvec3 & vec, fmat4 & out)
 	{
 		out = glm::translate<float32>(mat, vec);
 	}
@@ -1159,7 +1159,7 @@ namespace star
 		out = glm::translate<float32>(x, y, z);
 	}
 
-	dmat4 Translate(const dmat4 & mat, dvec3 & vec)
+	dmat4 Translate(const dmat4 & mat, const dvec3 & vec)
 	{
 		return glm::translate<float64>(mat, vec);
 	}
@@ -1179,7 +1179,7 @@ namespace star
 		return glm::translate<float64>(x, y, z);
 	}
 
-	void Translate(const dmat4 & mat, dvec3 & vec, dmat4 & out)
+	void Translate(const dmat4 & mat, const dvec3 & vec, dmat4 & out)
 	{
 		out = glm::translate<float64>(mat, vec);
 	}
@@ -1199,7 +1199,7 @@ namespace star
 		out = glm::translate<float64>(x, y, z);
 	}
 
-	fmat4 Scale(const fmat4 & mat, fvec3 & vec)
+	fmat4 Scale(const fmat4 & mat, const fvec3 & vec)
 	{
 		return glm::scale<float32>(mat, vec);
 	}
@@ -1219,7 +1219,7 @@ namespace star
 		return glm::scale<float32>(x, y, z);
 	}
 
-	void Scale(const fmat4 & mat, fvec3 & vec, fmat4 & out)
+	void Scale(const fmat4 & mat, const fvec3 & vec, fmat4 & out)
 	{
 		out = glm::scale<float32>(mat, vec);
 	}
@@ -1239,7 +1239,7 @@ namespace star
 		out = glm::scale<float32>(x, y, z);
 	}
 
-	dmat4 Scale(const dmat4 & mat, dvec3 & vec)
+	dmat4 Scale(const dmat4 & mat, const dvec3 & vec)
 	{
 		return glm::scale<float64>(mat, vec);
 	}
@@ -1259,7 +1259,7 @@ namespace star
 		return glm::scale<float64>(x, y, z);
 	}
 
-	void Scale(const dmat4 & mat, dvec3 & vec, dmat4 & out)
+	void Scale(const dmat4 & mat, const dvec3 & vec, dmat4 & out)
 	{
 		out = glm::scale<float64>(mat, vec);
 	}
