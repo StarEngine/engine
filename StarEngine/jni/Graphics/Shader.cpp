@@ -102,7 +102,7 @@ namespace star
 				tstringstream buffer;
 				buffer << _T("Failed to link program") << _T(" : "); 
 				buffer << std::endl << infoLog;
-                Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
+				Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
 				delete infoLog;
 				
 			}
@@ -114,7 +114,7 @@ namespace star
 				tstringstream buffer;
 				buffer << _T("Failed to link program") << _T(": "); 
 				buffer << std::endl << infoLog;
-                Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
+				Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
 				delete infoLog;
 				
 			}
@@ -162,17 +162,17 @@ namespace star
 			glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &infolength);
 			if (infolength > 1) 
 			{
-                schar* buf = new schar[infolength];
-                if (buf) 
+				schar* buf = new schar[infolength];
+				if (buf) 
 				{
-                    glGetShaderInfoLog(*shader, infolength, NULL, buf);
+					glGetShaderInfoLog(*shader, infolength, NULL, buf);
 					tstringstream buffer;
 					buffer << _T("Could not compile shader") << (int32)type << _T(": "); 
 					buffer << std::endl << buf;
-                    Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
-                    delete buf;
-                }
-            }
+					Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
+					delete buf;
+				}
+			}
 #ifdef ANDROID
 			else
 			{

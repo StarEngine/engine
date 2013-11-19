@@ -33,7 +33,8 @@ namespace star
 		auto error = FT_Init_FreeType(&mLibrary);
 		if(error)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Font Manager : Could not initialize FreeType library"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error,
+				_T("Font Manager : Could not initialize FreeType library"));
 		}
 
 #ifdef _WIN32
@@ -45,10 +46,12 @@ namespace star
 #endif
 		if(!m_Shader.Init(vShader, fShader))
 		{
-			Logger::GetInstance()->Log(star::LogLevel::Error, _T("Font Manager : Making Shader Failed"));
+			Logger::GetInstance()->Log(star::LogLevel::Error,
+				_T("Font Manager : Making Shader Failed"));
 		}
 
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Font Manager : Initialized FreeType library"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info,
+			_T("Font Manager : Initialized FreeType library"));
 	}
 
 	void FontManager::EraseFonts()

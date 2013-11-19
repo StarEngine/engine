@@ -46,14 +46,5 @@ typedef fmat2 mat2;
 typedef fmat3 mat3;
 typedef fmat4 mat4;
 
-typedef mat4 mat;
-
-#ifdef STAR2D
-	typedef vec2 vec;
-#else
-	typedef vec3 vec;
-#endif
-
-
 const float64 PI = 3.14159265358979323846264338327950288;
 const float32 EPSILON = 0.0000001f;
