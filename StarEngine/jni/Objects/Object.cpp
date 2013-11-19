@@ -2,6 +2,8 @@
 #include "../StarComponents.h"
 #include "../Components/TransformComponent.h"
 #include "../Graphics/GraphicsManager.h"
+#include "../Scenes/BaseScene.h"
+#include "../Physics/Collision/CollisionManager.h"
 #include <algorithm>
 #include <typeinfo>
 
@@ -180,6 +182,11 @@ namespace star
 	void Object::RemoveComponent(const BaseComponent* pComponent)
 	{
 		m_pComponents.erase(std::find(m_pComponents.begin(), m_pComponents.end(), pComponent));
+		/*auto baseColComp = dynamic_cast<const BaseColliderComponent*>(pComponent);
+		if(baseColComp)
+		{
+			GetScene()->GetCollisionManager()->RemoveComponent(baseColComp);
+		}*/
 		delete pComponent;
 
 		Logger::GetInstance()->Log(LogLevel::Info, _T("Component Removed"));

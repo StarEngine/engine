@@ -4,7 +4,9 @@
 #include "CircleColliderComponent.h"
 #include "../TransformComponent.h"
 #include "../../Helpers/Math.h"
-
+#include "../../Scenes/SceneManager.h"
+#include "../../Scenes/BaseScene.h"
+#include "../../Physics/Collision/CollisionManager.h"
 
 namespace star
 {
@@ -44,6 +46,7 @@ namespace star
 
 	BaseColliderComponent::~BaseColliderComponent()
 	{
+		SceneManager::GetInstance()->GetActiveScene()->GetCollisionManager()->RemoveComponent(this);
 		delete[] m_Layers.elements;
 	}
 
@@ -149,6 +152,11 @@ namespace star
 	bool BaseColliderComponent::GetExited() const
 	{
 		return m_Exited;
+	}
+
+	const PointerArray<tstring> & BaseColliderComponent::GetLayers() const
+	{
+		return m_Layers;
 	}
 
 	bool BaseColliderComponent::RectangleCircleCollision(

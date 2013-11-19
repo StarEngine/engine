@@ -53,11 +53,10 @@ namespace star
 		}
 	}
 
-	void CollisionManager::RemoveComponent(
-		BaseColliderComponent* component, 
-		const tstring* layers, 
-		uint8 n)
+	void CollisionManager::RemoveComponent(const BaseColliderComponent* component)
 	{
+		const tstring* layers = component->GetLayers().elements;
+		uint8 n = component->GetLayers().amount;
 		for(uint8 i = 0; i < n; ++i)
 		{
 			auto it = m_CollisionMap.find(layers[i]);
@@ -89,6 +88,7 @@ namespace star
 						The component you tried to remove is not in the CollisionManager"));
 			}
 		}
+	//	delete[] layers;
 	}
 
 	void CollisionManager::Update(const Context& context)
@@ -96,41 +96,45 @@ namespace star
 		//All objects get checked only 1 time, 1 vs 2 but not 2 vs 1
 		for(auto& key : m_CollisionMap)
 		{
-			for(uint32 iter1(0); iter1 < key.second.size(); ++iter1)
+
+			for(auto iter1 = key.second.begin(); iter1 != key.second.end(); ++iter1)
 			{
-				for(uint32 iter2(iter1 + 1); iter2 < key.second.size(); ++iter2)
+				for(auto iter2 = iter1 +1; iter2 != key.second.end(); ++iter2)
 				{
-					if(key.second.at(iter1)->CollidesWith(key.second.at(iter2)))
+					if(iter1 != iter2)
 					{
-						if(!key.second.at(iter1)->GetEntered())
+						if((*iter1)->CollidesWith(*iter2))
 						{
-							Logger::GetInstance()->Log(LogLevel::Info, _T("Enter"));
-							key.second.at(iter1)->TriggerOnEnter();
-							key.second.at(iter2)->TriggerOnEnter();
-							key.second.at(iter1)->SetEntered(true);
-							key.second.at(iter2)->SetEntered(true);
-							key.second.at(iter1)->SetExited(false);
-							key.second.at(iter2)->SetExited(false);
-							continue;
+							if(!(*iter1)->GetEntered())
+							{
+								Logger::GetInstance()->Log(LogLevel::Info, _T("Enter"));
+								(*iter1)->SetEntered(true);
+								(*iter2)->SetEntered(true);
+								(*iter1)->SetExited(false);
+								(*iter2)->SetExited(false);
+								(*iter1)->TriggerOnEnter();
+								(*iter2)->TriggerOnEnter();
+								continue;
+							}
+							else
+							{
+								Logger::GetInstance()->Log(LogLevel::Info, _T("Stay"));
+								(*iter1)->TriggerOnStay();
+								(*iter2)->TriggerOnStay();
+							}
 						}
 						else
 						{
-							Logger::GetInstance()->Log(LogLevel::Info, _T("Stay"));
-							key.second.at(iter1)->TriggerOnStay();
-							key.second.at(iter2)->TriggerOnStay();
-						}
-					}
-					else
-					{
-						if(!key.second.at(iter1)->GetExited())
-						{
-							Logger::GetInstance()->Log(LogLevel::Info, _T("Leave"));
-							key.second.at(iter1)->TriggerOnExit();
-							key.second.at(iter2)->TriggerOnExit();
-							key.second.at(iter1)->SetEntered(false);
-							key.second.at(iter2)->SetEntered(false);
-							key.second.at(iter1)->SetExited(true);
-							key.second.at(iter2)->SetExited(true);
+							if(!(*iter1)->GetExited())
+							{
+								Logger::GetInstance()->Log(LogLevel::Info, _T("Leave"));
+								(*iter1)->SetEntered(false);
+								(*iter2)->SetEntered(false);
+								(*iter1)->SetExited(true);
+								(*iter2)->SetExited(true);
+								(*iter1)->TriggerOnExit();
+								(*iter2)->TriggerOnExit();
+							}
 						}
 					}
 				}

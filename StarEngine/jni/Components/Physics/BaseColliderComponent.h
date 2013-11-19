@@ -41,6 +41,8 @@ namespace star
 		void SetExited(bool hasLeft);
 		bool GetExited() const;
 
+		const PointerArray<tstring>& GetLayers() const;
+
 		virtual bool CollidesWithPoint(const vec2& point) const = 0;
 		virtual bool CollidesWithLine(const vec2& point1, const vec2& point2) const = 0;
 		virtual bool CollidesWith(const BaseColliderComponent* other) const = 0;
