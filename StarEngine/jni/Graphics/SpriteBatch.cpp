@@ -188,7 +188,7 @@ namespace star
 				{
 					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
 						1, GL_FALSE, ToPointerValue(
-							TransposeMatrix(spriteQueue[m_CurrentSprite + j].transform) * 
+							Transpose(spriteQueue[m_CurrentSprite + j].transform) * 
 							scaleMat *
 							GraphicsManager::GetInstance()->GetProjectionMatrix()
 							)
@@ -198,7 +198,7 @@ namespace star
 				{
 					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
 						1, GL_FALSE, ToPointerValue(
-							TransposeMatrix(spriteQueue[m_CurrentSprite + j].transform) *
+							Transpose(spriteQueue[m_CurrentSprite + j].transform) *
 							scaleMat *
 							GraphicsManager::GetInstance()->GetViewProjectionMatrix()));
 				}
@@ -290,7 +290,7 @@ namespace star
 				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
 					1,GL_FALSE,
 					ToPointerValue(
-						TransposeMatrix(world) *
+						Transpose(world) *
 						scaleMat *
 						GraphicsManager::GetInstance()->GetViewProjectionMatrix()
 						)

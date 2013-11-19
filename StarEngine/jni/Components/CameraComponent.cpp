@@ -100,8 +100,8 @@ namespace star
 		rotTransform = ToMat4(rotation);
 
 		//Only vec4 * mat4  possible
-		vec4 vLookTemp = vec4(0,0,1,0) * TransposeMatrix(rotTransform);
-		vec4 vUpVecTemp = vec4(0,1,0,0) * TransposeMatrix(rotTransform);
+		vec4 vLookTemp = vec4(0,0,1,0) * Transpose(rotTransform);
+		vec4 vUpVecTemp = vec4(0,1,0,0) * Transpose(rotTransform);
 
 		//put them into a vec3
 		vLookat = vec3(vLookTemp.x, vLookTemp.y, vLookTemp.z);
@@ -109,7 +109,7 @@ namespace star
 
 		//Calculate the viewmatrix and inverse
 		m_View = MatrixLookAt(vEyePt, (vEyePt + vLookat), vUpVec);
-		m_ViewInverse = TransposeMatrix(m_View);
+		m_ViewInverse = Transpose(m_View);
 	}
 
 	void CameraComponent::Draw()

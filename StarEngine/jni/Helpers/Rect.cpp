@@ -57,7 +57,7 @@ namespace star
 
 	Rect Rect::operator*(mat4 matrix) const
 	{
-		matrix = TransposeMatrix(matrix);
+		matrix = Transpose(matrix);
 		vec4 returnVec1 = Mul(vec4(m_LeftBottom.x, m_LeftBottom.y, 0, 1), matrix);
 		vec4 returnVec2 = Mul(vec4(m_RightBottom.x, m_RightBottom.y, 0, 1), matrix);
 		vec4 returnVec3 = Mul(vec4(m_LeftTop.x, m_LeftTop.y, 0, 1), matrix);
@@ -99,7 +99,7 @@ namespace star
 
 	Rect& Rect::operator*=(mat4 matrix)
 	{
-		matrix = TransposeMatrix(matrix);
+		matrix = Transpose(matrix);
 		vec4 returnVec1 = Mul(vec4(m_LeftBottom.x, m_LeftBottom.y, 0, 0), matrix);
 		vec4 returnVec2 = Mul(vec4(m_RightBottom.x, m_RightBottom.y, 0, 0), matrix);
 		vec4 returnVec3 = Mul(vec4(m_LeftTop.x, m_LeftTop.y, 0, 0), matrix);

@@ -110,21 +110,83 @@ namespace star
 	dvec4 Nlerp(const dvec4 & start, const dvec4 & end, float64 percent);
 	dquat Nlerp(const dquat & start, const dquat & end, float64 percent);
 	
-	fmat2 TransposeMatrix(const fmat2& matIn);
-	fmat3 TransposeMatrix(const fmat3& matIn);
-	fmat4 TransposeMatrix(const fmat4& matIn);
+	fmat2 Transpose(const fmat2& matIn);
+	fmat3 Transpose(const fmat3& matIn);
+	fmat4 Transpose(const fmat4& matIn);
 
-	void TransposeMatrix(const fmat2& matIn, fmat2& matOut);
-	void TransposeMatrix(const fmat3& matIn, fmat3& matOut);
-	void TransposeMatrix(const fmat4& matIn, fmat4& matOut);
+	void Transpose(const fmat2& matIn, fmat2& matOut);
+	void Transpose(const fmat3& matIn, fmat3& matOut);
+	void Transpose(const fmat4& matIn, fmat4& matOut);
 
-	dmat2 TransposeMatrix(const dmat2& matIn);
-	dmat3 TransposeMatrix(const dmat3& matIn);
-	dmat4 TransposeMatrix(const dmat4& matIn);
+	dmat2 Transpose(const dmat2& matIn);
+	dmat3 Transpose(const dmat3& matIn);
+	dmat4 Transpose(const dmat4& matIn);
 
-	void TransposeMatrix(const dmat3& matIn, dmat3& matOut);
-	void TransposeMatrix(const dmat3& matIn, dmat3& matOut);
-	void TransposeMatrix(const dmat3& matIn, dmat3& matOut);
+	void Transpose(const dmat3& matIn, dmat3& matOut);
+	void Transpose(const dmat3& matIn, dmat3& matOut);
+	void Transpose(const dmat3& matIn, dmat3& matOut);
+
+	fmat2 Inverse(const fmat2 & mat);
+	fmat3 Inverse(const fmat3 & mat);
+	fmat4 Inverse(const fmat4 & mat);
+	fquat Inverse(const fquat & quat);
+
+	void Inverse(const fmat2 & mat, fmat2 & out);
+	void Inverse(const fmat3 & mat, fmat3 & out);
+	void Inverse(const fmat4 & mat, fmat4 & out);
+	void Inverse(const fquat & quat, fquat & out);
+
+	dmat2 Inverse(const dmat2 & mat);
+	dmat3 Inverse(const dmat3 & mat);
+	dmat4 Inverse(const dmat4 & mat);
+	dquat Inverse(const dquat & quat);
+
+	void Inverse(const dmat2 & mat, dmat2 & out);
+	void Inverse(const dmat3 & mat, dmat3 & out);
+	void Inverse(const dmat4 & mat, dmat4 & out);
+	void Inverse(const dquat & quat, dquat & out);
+
+	fmat4 LookAt(const fvec3 & eye, const fvec3 & center, const fvec3 & up);
+	dmat4 LookAt(const dvec3 & eye, const dvec3 & center, const dvec3 & up);
+
+	void LookAt(const fvec3 & eye, const fvec3 & center, const fvec3 & up, fmat4 & out);
+	void LookAt(const dvec3 & eye, const dvec3 & center, const dvec3 & up, fmat4 & out);
+
+	fvec2 Log(const fvec2 & vec);
+	fvec3 Log(const fvec3 & vec);
+	fvec4 Log(const fvec4 & vec);
+	fquat Log(const fquat & quat);
+
+	void Log(const fvec2 & vecIn, fvec2 & vecOut);
+	void Log(const fvec3 & vecIn, fvec3 & vecOut);
+	void Log(const fvec4 & vecIn, fvec4 & vecOut);
+	void Log(const fquat & quatIn, fquat & quatOut);
+
+	dvec2 Log(const dvec2 & vec);
+	dvec3 Log(const dvec3 & vec);
+	dvec4 Log(const dvec4 & vec);
+	dquat Log(const dquat & quat);
+
+	void Log(const dvec2 & vecIn, dvec2 & vecOut);
+	void Log(const dvec3 & vecIn, dvec3 & vecOut);
+	void Log(const dvec4 & vecIn, dvec4 & vecOut);
+	void Log(const dquat & quatIn, dquat & quatOut);
+
+	fvec2 Log2(const fvec2 & vec);
+	fvec3 Log2(const fvec3 & vec);
+	fvec4 Log2(const fvec4 & vec);
+
+	void Log2(const fvec2 & vecIn, fvec2 & vecOut);
+	void Log2(const fvec3 & vecIn, fvec3 & vecOut);
+	void Log2(const fvec4 & vecIn, fvec4 & vecOut);
+
+	dvec2 Log2(const dvec2 & vec);
+	dvec3 Log2(const dvec3 & vec);
+	dvec4 Log2(const dvec4 & vec);
+
+	void Log2(const dvec2 & vecIn, dvec2 & vecOut);
+	void Log2(const dvec3 & vecIn, dvec3 & vecOut);
+	void Log2(const dvec4 & vecIn, dvec4 & vecOut);
 
 	float32 GetPitch(const fquat & quaternion);
 	float32 GetYaw(const fquat & quaternion);
@@ -290,5 +352,19 @@ namespace star
 	pos Normalize(const pos & position);
 	void Normalize(const pos & posIn, pos & posOut);
 	float32 Distance(const pos & posA, const pos & posB);
+	fmat4 Translate(const pos & pos);
+	fmat4 Translate(const fmat4 & mat, const pos & pos);
+	void Translate(const pos & pos, fmat4 & out);
+	void Translate(const fmat4 & mat, const pos & pos, fmat4 & out);
+	fmat4 Scale(const pos & pos);
+	fmat4 Scale(const fmat4 & mat, const pos & pos);
+	void Scale(const pos & pos, fmat4 & out);
+	void Scale(const fmat4 & mat, const pos & pos, fmat4 & out);
+	fmat4 LookAt(const pos & eye, const pos & center);
+	void LookAt(const pos & eye, const pos & center, fmat4 & out);
+	pos Log(const pos & pos);
+	void Log(const pos & posIn, pos & posOut);
+	pos Log2(const pos & pos);
+	void Log2(const pos & posIn, pos & posOut);
 #endif
 }
