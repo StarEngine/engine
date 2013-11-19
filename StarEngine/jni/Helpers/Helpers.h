@@ -156,6 +156,46 @@ namespace star
 	template <>
 	tstring string_cast<tstring, fquat>
 		(const fquat & value);
+	
+	template <>
+	tstring string_cast<tstring, dvec2>
+		(const dvec2 & value);
+
+	template <>
+	tstring string_cast<tstring, dvec3>
+		(const dvec3 & value);
+
+	template <>
+	tstring string_cast<tstring, dvec4>
+		(const dvec4 & value);
+
+	template <>
+	tstring string_cast<tstring, dquat>
+		(const dquat & value);
+	
+	template <>
+	tstring string_cast<tstring, ivec2>
+		(const ivec2 & value);
+
+	template <>
+	tstring string_cast<tstring, ivec3>
+		(const ivec3 & value);
+
+	template <>
+	tstring string_cast<tstring, ivec4>
+		(const ivec4 & value);
+	
+	template <>
+	tstring string_cast<tstring, uvec2>
+		(const uvec2 & value);
+
+	template <>
+	tstring string_cast<tstring, uvec3>
+		(const uvec3 & value);
+
+	template <>
+	tstring string_cast<tstring, uvec4>
+		(const uvec4 & value);
 
 	template <>
 	bool string_cast<bool, tstring>
@@ -199,6 +239,46 @@ namespace star
 
 	template <>
 	fquat string_cast<fquat, tstring>
+		(const tstring & value);
+
+	template <>
+	dvec2 string_cast<dvec2, tstring>
+		(const tstring & value);
+
+	template <>
+	dvec3 string_cast<dvec3, tstring>
+		(const tstring & value);
+
+	template <>
+	dvec4 string_cast<dvec4, tstring>
+		(const tstring & value);
+
+	template <>
+	dquat string_cast<dquat, tstring>
+		(const tstring & value);
+
+	template <>
+	ivec2 string_cast<ivec2, tstring>
+		(const tstring & value);
+
+	template <>
+	ivec3 string_cast<ivec3, tstring>
+		(const tstring & value);
+
+	template <>
+	ivec4 string_cast<ivec4, tstring>
+		(const tstring & value);
+
+	template <>
+	uvec2 string_cast<uvec2, tstring>
+		(const tstring & value);
+
+	template <>
+	uvec3 string_cast<uvec3, tstring>
+		(const tstring & value);
+
+	template <>
+	uvec4 string_cast<uvec4, tstring>
 		(const tstring & value);
 
 	void ReadTextFile(const tstring & file, tstring & text,
