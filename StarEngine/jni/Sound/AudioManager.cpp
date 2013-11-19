@@ -77,8 +77,8 @@ namespace star
 		int32 audio_buffers(4096);
 
 		SDL_Init(SDL_INIT_AUDIO);
-		int flags = MIX_INIT_OGG | MIX_INIT_MP3;
-		int innited = Mix_Init(flags);
+		int32 flags = MIX_INIT_OGG | MIX_INIT_MP3;
+		int32 innited = Mix_Init(flags);
 		if((innited & flags) != flags)
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Info, 
@@ -329,7 +329,7 @@ namespace star
 		const tstring& path,
 		const tstring& name,
 		uint8 channel,
-		int loopTimes
+		int32 loopTimes
 		)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
@@ -343,7 +343,7 @@ namespace star
 
 	void AudioManager::PlayMusic(
 		const tstring& name,
-		int loopTimes
+		int32 loopTimes
 		)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
@@ -370,7 +370,7 @@ namespace star
 		const tstring& path,
 		const tstring& name,
 		uint8 channel,
-		int loopTimes
+		int32 loopTimes
 		)
 	{
 		ASSERT(mSoundService != nullptr,
@@ -385,7 +385,7 @@ namespace star
 
 	void AudioManager::PlaySoundEffect(
 		const tstring& name,
-		int loopTimes
+		int32 loopTimes
 		)
 	{
 		ASSERT(mSoundService != nullptr,
@@ -411,7 +411,7 @@ namespace star
 		const tstring& name,
 		float volume,
 		uint8 channel,
-		int loopTimes
+		int32 loopTimes
 		)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
@@ -426,7 +426,7 @@ namespace star
 	void AudioManager::PlayMusic(
 		const tstring& name,
 		float volume,
-		int loopTimes
+		int32 loopTimes
 		)
 	{
 		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
@@ -455,7 +455,7 @@ namespace star
 		const tstring& name,
 		float volume,
 		uint8 channel,
-		int loopTimes
+		int32 loopTimes
 		)
 	{
 		ASSERT(mSoundService != nullptr,
@@ -471,7 +471,7 @@ namespace star
 	void AudioManager::PlaySoundEffect(
 		const tstring& name,
 		float volume,
-		int loopTimes
+		int32 loopTimes
 		)
 	{
 		ASSERT(mSoundService != nullptr,
@@ -991,16 +991,15 @@ namespace star
 		auto & chnl = mChannels[channel];
 		auto it = chnl.mSounds.begin();
 		auto end = chnl.mSounds.end();
-		while(it != end)
+		for(auto sound : chnl.mSounds)
 		{
-			if(*it == pSound)
+			if(sound == pSound)
 			{
 				Logger::GetInstance()->Log(LogLevel::Warning,
 					_T("AudioManager::AddSoundToChannel: Trying to add a sound twice in channel '")
 					+ string_cast<tstring>(channel) + _T("'."));
 				return;
 			}
-			++it;
 		}
 		pSound->SetChannelVolume(chnl.mVolume);
 		chnl.mSounds.push_back(pSound);
@@ -1026,9 +1025,10 @@ namespace star
 			);
 		if(result)
 		{
-			auto it = chnl.mSounds.begin();
-			auto end = chnl.mSounds.end();
-			while(it != end)
+			for(auto it = chnl.mSounds.begin() ;
+				it != chnl.mSounds.end() ;
+				++it
+				)
 			{
 				if(*it == pSound)
 				{
@@ -1036,7 +1036,6 @@ namespace star
 					chnl.mSounds.erase(it);
 					return;
 				}
-				++it;
 			}
 			Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("AudioManager::RemoveSoundFromChannel: Sound not found in channel '")
@@ -1216,12 +1215,9 @@ namespace star
 			);
 		if(result)
 		{
-			auto it = chnl.mSounds.begin();
-			auto end = chnl.mSounds.end();
-			while(it != end)
+			for(auto sound : chnl.mSounds)
 			{
-				(*it)->Pause();
-				++it;
+				sound->Pause();
 			}
 			chnl.mState = ChannelState::paused;
 		}
@@ -1252,12 +1248,9 @@ namespace star
 			);
 		if(result)
 		{
-			auto it = chnl.mSounds.begin();
-			auto end = chnl.mSounds.end();
-			while(it != end)
+			for(auto sound : chnl.mSounds)
 			{
-				(*it)->Resume();
-				++it;
+				sound->Resume();
 			}
 			chnl.mState = ChannelState::playing;
 		}
@@ -1288,12 +1281,9 @@ namespace star
 			);
 		if(result)
 		{
-			auto it = chnl.mSounds.begin();
-			auto end = chnl.mSounds.end();
-			while(it != end)
+			for(auto sound : chnl.mSounds)
 			{
-				(*it)->Stop();
-				++it;
+				sound->Stop();
 			}
 			chnl.mState = ChannelState::stopped;
 		}
@@ -1314,7 +1304,7 @@ namespace star
 		return false;
 	}
 	
-	void AudioManager::PlayChannel(uint8 channel, int loopTimes)
+	void AudioManager::PlayChannel(uint8 channel, int32 loopTimes)
 	{
 		bool result;
 		SoundChannel & chnl = GetChannel(
@@ -1324,12 +1314,9 @@ namespace star
 			);
 		if(result)
 		{
-			auto it = chnl.mSounds.begin();
-			auto end = chnl.mSounds.end();
-			while(it != end)
+			for(auto sound : chnl.mSounds)
 			{
-				(*it)->Play(loopTimes);
-				++it;
+				sound->Play(loopTimes);
 			}
 			chnl.mState = ChannelState::playing;
 		}

@@ -45,21 +45,21 @@ namespace star
 			const tstring& path,
 			const tstring& name,
 			uint8 channel = 0,
-			int loopTimes = 0
+			int32 loopTimes = 0
 			);
 		void PlayMusic(
 			const tstring& name,
-			int loopTimes = 0
+			int32 loopTimes = 0
 			);
 		void PlaySoundEffect(
 			const tstring& path,
 			const tstring& name,
 			uint8 channel = 0,
-			int loopTimes = 0
+			int32 loopTimes = 0
 			);
 		void PlaySoundEffect(
 			const tstring& name,
-			int loopTimes = 0.0f
+			int32 loopTimes = 0.0f
 			);
 
 		void PlayMusic(
@@ -67,24 +67,24 @@ namespace star
 			const tstring& name,
 			float volume,
 			uint8 channel = 0,
-			int loopTimes = 0
+			int32 loopTimes = 0
 			);
 		void PlayMusic(
 			const tstring& name,
 			float volume,
-			int loopTimes = 0
+			int32 loopTimes = 0
 			);
 		void PlaySoundEffect(
 			const tstring& path,
 			const tstring& name,
 			float volume,
 			uint8 channel = 0,
-			int loopTimes = 0
+			int32 loopTimes = 0
 			);
 		void PlaySoundEffect(
 			const tstring& name,
 			float volume,
-			int loopTimes = 0.0f
+			int32 loopTimes = 0.0f
 			);
 
 		void AddToBackgroundQueue(const tstring& name);
@@ -159,7 +159,7 @@ namespace star
 		void StopChannel(uint8 channel);
 		bool IsChannelStopped(uint8 channel);
 
-		void PlayChannel(uint8 channel, int loopTimes = 0);
+		void PlayChannel(uint8 channel, int32 loopTimes = 0);
 
 		void StopAllSounds();
 		void PauseAllSounds();
