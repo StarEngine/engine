@@ -1341,12 +1341,12 @@ namespace star
 
 	uint32 Mod(uint32 x, uint32 y)
 	{
-		return glm::mod<uint32>(x, y);
+		return x % y;
 	}
 
 	int32 Mod(int32 x, int32 y)
 	{
-		return glm::mod<int32>(x, y);
+		return x % y;
 	}
 
 	float32 Mod(float32 x, float32 y)
@@ -1417,6 +1417,66 @@ namespace star
 	void Mod(const dvec4 & x, const dvec4 & y, dvec4 & out)
 	{
 		out = glm::mod<float64>(x, y);
+	}
+
+	fvec2 Mod(const fvec2 & x, float32 y)
+	{
+		return glm::mod<float32>(x, fvec2(y, y));
+	}
+
+	fvec3 Mod(const fvec3 & x, float32 y)
+	{
+		return glm::mod<float32>(x, fvec3(y, y, y));
+	}
+
+	fvec4 Mod(const fvec4 & x, float32 y)
+	{
+		return glm::mod<float32>(x, fvec4(y, y, y, y));
+	}
+
+	dvec2 Mod(const dvec2 & x, float64 y)
+	{
+		return glm::mod<float64>(x, dvec2(y, y));
+	}
+
+	dvec3 Mod(const dvec3 & x, float64 y)
+	{
+		return glm::mod<float64>(x, dvec3(y, y, y));
+	}
+
+	dvec4 Mod(const dvec4 & x, float64 y)
+	{
+		return glm::mod<float64>(x, dvec4(y, y, y, y));
+	}
+
+	void Mod(const fvec2 & x, float32 y, fvec2 & out)
+	{
+		out = glm::mod<float32>(x, fvec2(y, y));
+	}
+
+	void Mod(const fvec3 & x, float32 y, fvec3 & out)
+	{
+		out = glm::mod<float32>(x, fvec3(y, y, y));
+	}
+
+	void Mod(const fvec4 & x, float32 y, fvec4 & out)
+	{
+		out = glm::mod<float32>(x, fvec4(y, y, y, y));
+	}
+
+	void Mod(const dvec2 & x, float64 y, dvec2 & out)
+	{
+		out = glm::mod<float64>(x, dvec2(y, y));
+	}
+
+	void Mod(const dvec3 & x, float64 y, dvec3 & out)
+	{
+		out = glm::mod<float64>(x, dvec3(y, y, y));
+	}
+
+	void Mod(const dvec4 & x, float64 y, dvec4 & out)
+	{
+		out = glm::mod<float64>(x, dvec4(y, y, y, y));
 	}
 
 #ifdef STAR2D
