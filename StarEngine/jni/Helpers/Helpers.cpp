@@ -596,9 +596,9 @@ namespace star
 		(const tstring & value)
 	{
 		dvec2 vec;
-		int32 index = value.find(';',0);
+		int32 index = value.find(';', 0);
 		vec.x = string_cast<float64>(value.substr(0, index));
-		vec.y = string_cast<float64>(value.substr(++index,value.size()-index));
+		vec.y = string_cast<float64>(value.substr(++index, value.size() - index));
 		return vec;
 	}
 
@@ -650,9 +650,9 @@ namespace star
 		(const tstring & value)
 	{
 		ivec2 vec;
-		int32 index = value.find(';',0);
+		int32 index = value.find(';', 0);
 		vec.x = string_cast<int32>(value.substr(0, index));
-		vec.y = string_cast<int32>(value.substr(++index,value.size()-index));
+		vec.y = string_cast<int32>(value.substr(++index ,value.size() - index));
 		return vec;
 	}
 
@@ -689,9 +689,9 @@ namespace star
 		(const tstring & value)
 	{
 		uvec2 vec;
-		int32 index = value.find(';',0);
+		int32 index = value.find(';', 0);
 		vec.x = string_cast<uint32>(value.substr(0, index));
-		vec.y = string_cast<uint32>(value.substr(++index,value.size()-index));
+		vec.y = string_cast<uint32>(value.substr(++index, value.size() - index));
 		return vec;
 	}
 
