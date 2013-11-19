@@ -20,7 +20,7 @@ namespace star
 	public:
 		virtual ~BaseSound();
 
-		virtual void Play(int loopTime = 0);
+		virtual void Play(int32 loopTime = 0);
 		virtual void Stop();
 		virtual void Pause();
 		virtual void Resume();
@@ -121,7 +121,7 @@ namespace star
 		bool mIsMuted;
 		float mVolume;
 
-		virtual void SetSoundVolume(int volume) = 0;
+		virtual void SetSoundVolume(int32 volume) = 0;
 		void SetSoundMuted(bool muted);
 #endif
 

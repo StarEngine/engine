@@ -31,7 +31,7 @@ namespace star
 
 	protected:
 #ifdef DESKTOP
-		void SetSoundVolume(int volume);
+		void SetSoundVolume(int32 volume);
 		static void MusicStoppedCallback();
 #else
 		void CreateSoundDetails();

@@ -167,7 +167,7 @@ namespace star
 				{
                     glGetShaderInfoLog(*shader, infolength, NULL, buf);
 					tstringstream buffer;
-					buffer << _T("Could not compile shader") << (int)type << _T(": "); 
+					buffer << _T("Could not compile shader") << (int32)type << _T(": "); 
 					buffer << std::endl << buf;
                     Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
                     delete buf;
@@ -183,7 +183,7 @@ namespace star
 					glGetShaderInfoLog(*shader, ANDROID_ERROR_SIZE, NULL, buf);
 					tstringstream buffer;
 					buffer << _T("Could not compile shader");
-					buffer << (int)type << _T(" : ") << std::endl << buf;
+					buffer << (int32)type << _T(" : ") << std::endl << buf;
 					Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
 					delete buf;
 				}

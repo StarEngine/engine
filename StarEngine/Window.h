@@ -38,7 +38,7 @@ namespace star
 		void SetWindowMoved();
 		void SetWindowActive(bool active);
 
-		void SetResolution(int width, int height, bool reset = true);
+		void SetResolution(int32 width, int32 height, bool reset = true);
 
 		void ForceTimerCalculation();
 
@@ -52,8 +52,8 @@ namespace star
 
 		static Window * m_pInstance;
 
-		void ClientResize(int & width, int & height);
-		void GetWindowDifferenceSize(int & difX, int & difY);
+		void ClientResize(int32 & width, int32 & height);
+		void GetWindowDifferenceSize(int32 & difX, int32 & difY);
 
 		bool m_IsInitialized;
 		bool m_IsFullScreen;
@@ -93,8 +93,8 @@ namespace star
 		static const psip CLASS_STYLES[];
 		static const psip WINDOW_STYLES[];
 
-		int CastStringToClassStyle(const tstring & style);
-		int CastStringToWinStyle(const tstring & style);
+		int32 CastStringToClassStyle(const tstring & style);
+		int32 CastStringToWinStyle(const tstring & style);
 
 		Window & operator=(const Window&);
 		Window & operator=(Window&&);

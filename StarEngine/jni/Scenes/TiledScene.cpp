@@ -60,7 +60,7 @@ namespace star
 	{
 		gid -= set.FirstGid;
 
-		int tx(set.Width / set.TileWidth),
+		int32 tx(set.Width / set.TileWidth),
 			ty(set.Height / set.TileHeight);
 
 		auto texture = new SpriteComponent(
@@ -222,7 +222,7 @@ namespace star
 			uint32 i = 0;
 			while(TIT != tilesEnd)
 			{
-				uint32 tID = string_cast<int>(TIT->second->GetAttributes().at(_T("gid")));
+				uint32 tID = string_cast<int32>(TIT->second->GetAttributes().at(_T("gid")));
 				if(tID != 0)
 				{
 					TileSet tileSet;

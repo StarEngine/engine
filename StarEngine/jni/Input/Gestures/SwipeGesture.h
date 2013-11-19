@@ -31,9 +31,9 @@ namespace star
 		vec2 m_CurrentPos;
 		vec2 m_OldPos;
 		vec2 m_OldDirection;
-		static const int ANGLE_FLEX = 20;
-		static const int MIN_SWIPE_SPEED = 1000;
-		static const int MIN_SWIPE_DISTANCE = 200;
+		static const int32 ANGLE_FLEX = 20;
+		static const int32 MIN_SWIPE_SPEED = 1000;
+		static const int32 MIN_SWIPE_DISTANCE = 200;
 		bool m_bIsGestureOk;
 		float m_TotalDistance;
 

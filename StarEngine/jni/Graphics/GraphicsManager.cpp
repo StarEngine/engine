@@ -60,7 +60,7 @@ namespace star
 				aspectRatio = (workingRes.x / workingRes.y);
 				width = height * aspectRatio;
 
-				mHorizontalViewportOffset = static_cast<int>((screenRes.x - width)/2);
+				mHorizontalViewportOffset = static_cast<int32>((screenRes.x - width)/2);
 		}
 		else
 		{
@@ -68,10 +68,10 @@ namespace star
 				aspectRatio = (workingRes.y / workingRes.x);
 				height = width * aspectRatio;
 
-				mVerticalViewportOffset = static_cast<int>((screenRes.y - height)/2);
+				mVerticalViewportOffset = static_cast<int32>((screenRes.y - height)/2);
 		}
 
-		glViewport(mHorizontalViewportOffset, mVerticalViewportOffset, static_cast<int>(width), static_cast<int>(height));
+		glViewport(mHorizontalViewportOffset, mVerticalViewportOffset, static_cast<int32>(width), static_cast<int32>(height));
 
 		mViewportResolution.x = width;
 		mViewportResolution.y = height;

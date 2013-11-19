@@ -11,7 +11,7 @@ namespace star
 		~ScaleSystem();
 
 		static ScaleSystem * GetInstance();
-		void SetWorkingResolution(int xPixels, int yPixels);
+		void SetWorkingResolution(int32 xPixels, int32 yPixels);
 		void SetWorkingResolution(const vec2& pixels);
 		const vec2& GetWorkingResolution() const;
 		const vec2& GetActualResolution() const;

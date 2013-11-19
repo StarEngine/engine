@@ -10,7 +10,7 @@
 
 namespace star
 {
-	SpriteComponent::SpriteComponent(const tstring& filepath,const tstring& spriteName, bool bIsHUDElement, bool bIsUberHUD, int widthSegments, int heightSegments)
+	SpriteComponent::SpriteComponent(const tstring& filepath,const tstring& spriteName, bool bIsHUDElement, bool bIsUberHUD, int32 widthSegments, int32 heightSegments)
 		: BaseComponent()
 		, m_Width(0)
 		, m_WidthSegments(widthSegments)
@@ -117,7 +117,7 @@ namespace star
 		std::vector<GLfloat> vertices;
 		vertices.clear();
 		
-		for(int i = 0; i < 12; ++i)
+		for(int32 i = 0; i < 12; ++i)
 		{
 			vertices.push_back(m_Vertices[i]);
 		}
@@ -129,14 +129,14 @@ namespace star
 		std::vector<GLfloat> uvCoords;
 		uvCoords.clear();
 		
-		for(int i = 0; i < 8; ++i)
+		for(int32 i = 0; i < 8; ++i)
 		{
 			uvCoords.push_back(m_UvCoords[i]);
 		}
 		return uvCoords;
 	}
 
-	void SpriteComponent::SetCurrentSegment(int widthSegment, int heightSegment)
+	void SpriteComponent::SetCurrentSegment(int32 widthSegment, int32 heightSegment)
 	{
 		m_CurrentWidthSegment = widthSegment;
 		m_CurrentHeightSegment = m_HeightSegments - heightSegment - 1;
@@ -144,7 +144,7 @@ namespace star
 		CreateIndices();
 	}
 
-	void SpriteComponent::SetTexture( const tstring& filepath, const tstring& spriteName, bool bIsHUDElement /*= false*/, int widthSegments /*= 1*/, int heightSegments /*= 1*/ )
+	void SpriteComponent::SetTexture( const tstring& filepath, const tstring& spriteName, bool bIsHUDElement /*= false*/, int32 widthSegments /*= 1*/, int32 heightSegments /*= 1*/ )
 	{
 		m_Width = 0;
 		m_WidthSegments = widthSegments;

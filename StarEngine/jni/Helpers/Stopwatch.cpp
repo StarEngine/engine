@@ -157,7 +157,7 @@ namespace star
 		}
 	}
 
-	int Stopwatch::GetTimerMinutes(const tstring & name) const
+	int32 Stopwatch::GetTimerMinutes(const tstring & name) const
 	{
 		for(auto& it : m_TimerContainer)
 		{
@@ -171,7 +171,7 @@ namespace star
 		return 0;
 	}
 
-	int Stopwatch::GetTimerSeconds(const tstring & name) const
+	int32 Stopwatch::GetTimerSeconds(const tstring & name) const
 	{
 		for(auto& it : m_TimerContainer)
 		{
@@ -185,7 +185,7 @@ namespace star
 		return 0;
 	}
 
-	int Stopwatch::GetTimerTotalSeconds(const tstring & name) const
+	int32 Stopwatch::GetTimerTotalSeconds(const tstring & name) const
 	{
 		for(auto& it : m_TimerContainer)
 		{

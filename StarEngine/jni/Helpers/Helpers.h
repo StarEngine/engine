@@ -162,7 +162,7 @@ namespace star
 		(const tstring & value);
 
 	template <>
-	int string_cast<int, tstring>
+	int32 string_cast<int32, tstring>
 		(const tstring & value);
 
 	template <>

@@ -139,7 +139,7 @@ namespace star
 		DrawPrimitives(Lines,2,color);
 	}
 
-	void DebugDraw::DrawString(int aX, int aY, const tstring& text)
+	void DebugDraw::DrawString(int32 aX, int32 aY, const tstring& text)
 	{
 		//[TODO] Implement this through the font manager, draw text on screen on given pos.
 		Logger::GetInstance()->Log(LogLevel::Warning, _T("DebugDraw::DrawString is not yet implemented!"));

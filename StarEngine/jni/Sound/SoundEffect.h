@@ -4,7 +4,7 @@
 
 namespace star
 {
-	const int MAX_SAMPLES = 10;
+	const int32 MAX_SAMPLES = 10;
 
 	class SoundEffect final : public BaseSound
 	{
@@ -12,7 +12,7 @@ namespace star
 		SoundEffect(const tstring& path, uint8 channel = 0);
 		~SoundEffect();
 
-		virtual void Play(int loopTime = 0);
+		virtual void Play(int32 loopTime = 0);
 		virtual void Stop();
 		virtual void Pause();
 		virtual void Resume();
@@ -46,7 +46,7 @@ namespace star
 
 		std::vector<SLObjectItf> mPlayerObjs;
 		std::vector<SLPlayItf> mPlayers;
-		std::vector<int> mLoopTimes;
+		std::vector<int32> mLoopTimes;
 #endif	
 
 		SoundEffect(const SoundEffect& yRef);

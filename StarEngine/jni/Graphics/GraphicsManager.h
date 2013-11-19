@@ -78,7 +78,7 @@ namespace star
 
 		static GraphicsManager * mGraphicsManager;
 
-		int mHorizontalViewportOffset,
+		int32 mHorizontalViewportOffset,
 			mVerticalViewportOffset;
 
 		mat4x4 mViewProjectionMatrix;

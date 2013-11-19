@@ -11,7 +11,7 @@
 
 namespace star
 {
-	TextComponent::TextComponent(const tstring& fileName,const tstring& name, int fontSize, bool bInFront)
+	TextComponent::TextComponent(const tstring& fileName,const tstring& name, int32 fontSize, bool bInFront)
 		: BaseComponent()
 		, m_FontSize(fontSize)
 		, m_FileName(fileName)
@@ -132,7 +132,7 @@ namespace star
 		{
 			int32 w = font.GetStringLength(line + wordArray[i]);
 			if(w>m_MaxWidth)m_MaxWidth=w;
-			if( w > int(wrapWidth))
+			if( w > int32(wrapWidth))
 			{
 				m_MaxWidth+=font.GetMaxLetterHeight();
 				returnString += line + _T("\n");

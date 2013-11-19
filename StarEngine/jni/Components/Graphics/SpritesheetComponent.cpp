@@ -111,7 +111,7 @@ namespace star
 		m_Animations.push_front(ani);
 	}
 
-	void SpritesheetComponent::PlayAnimation(const tstring & animation, int startFrame)
+	void SpritesheetComponent::PlayAnimation(const tstring & animation, int32 startFrame)
 	{
 		if(m_Animations.size() > 0)
 		{
@@ -133,7 +133,7 @@ namespace star
 		}
 	}
 
-	void SpritesheetComponent::PlayNextAnimation(int startFrame)
+	void SpritesheetComponent::PlayNextAnimation(int32 startFrame)
 	{
 		if(m_Animations.size() > 1)
 		{
@@ -164,7 +164,7 @@ namespace star
 		return EMPTY_STRING;
 	}
 
-	int SpritesheetComponent::GetCurrentFrame() const
+	int32 SpritesheetComponent::GetCurrentFrame() const
 	{
 		return m_Animations.size() > 0 ? 
 					m_Animations.front().GetCurrentFrame() : 0;
@@ -175,9 +175,9 @@ namespace star
 		return m_SpritesheetName;
 	}
 
-	int SpritesheetComponent::GetFramesHorizontal() const
+	int32 SpritesheetComponent::GetFramesHorizontal() const
 	{
-		int nrOfFrames = m_Spritesheet.GetFramesHorizontal();
+		int32 nrOfFrames = m_Spritesheet.GetFramesHorizontal();
 		if(nrOfFrames == 0)
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning, _T("GetFramesHorizontal() -- nrOfFrames = 0!"));
@@ -185,9 +185,9 @@ namespace star
 		return nrOfFrames;
 	}
 
-	int SpritesheetComponent::GetFramesVertical() const
+	int32 SpritesheetComponent::GetFramesVertical() const
 	{
-		int nrOfFrames = m_Spritesheet.GetFramesVertical();
+		int32 nrOfFrames = m_Spritesheet.GetFramesVertical();
 		if(nrOfFrames == 0)
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning, _T("GetFramesVertical() -- nrOfFrames = 0!"));

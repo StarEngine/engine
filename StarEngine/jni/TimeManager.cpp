@@ -80,10 +80,10 @@ namespace star
 
 	tstring TimeManager::GetTimeStamp()
 	{
-		int totalSeconds = int(mTotalMS / 1000);
-		int seconds = totalSeconds % 60;
-		int minutes = totalSeconds / 60;
-		int hours = totalSeconds / 3600;
+		int32 totalSeconds = int32(mTotalMS / 1000);
+		int32 seconds = totalSeconds % 60;
+		int32 minutes = totalSeconds / 60;
+		int32 hours = totalSeconds / 3600;
 
 		tstringstream strstr;
 		if(hours < 10)

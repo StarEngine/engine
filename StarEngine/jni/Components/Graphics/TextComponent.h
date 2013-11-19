@@ -12,7 +12,7 @@ namespace star
 	class TextComponent : public BaseComponent
 	{
 	public:
-		TextComponent(const tstring& fileName,const tstring& tag, int fontSize, bool bInFront = true);
+		TextComponent(const tstring& fileName,const tstring& tag, int32 fontSize, bool bInFront = true);
 		virtual ~TextComponent();
 
 		void Draw();

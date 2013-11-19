@@ -29,7 +29,7 @@ tstring Filepath::m_ExternalRoot = EMPTY_STRING;
 		: m_Path(EMPTY_STRING)
 		, m_File(EMPTY_STRING)
 	{
-		int dotCounter(0);
+		int32 dotCounter(0);
 		for(uint32 i = 0; i < full_path.size(); ++i)
 		{
 			if(full_path[i] == _T('.'))

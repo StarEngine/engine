@@ -30,7 +30,7 @@ namespace star
 		void FlushText(const std::vector<sstring>& text, const tstring& fontname,TransformComponent* transform, const Color& color);
 
 		static SpriteBatch * m_pSpriteBatch;
-		static const int BATCHSIZE = 50;
+		static const int32 BATCHSIZE = 50;
 
 		std::vector<SpriteInfo> m_SpriteQueue,
 								m_HudSpriteQueue,
@@ -43,7 +43,7 @@ namespace star
 		std::vector<GLfloat> m_UvCoordBuffer,
 							 m_HUDUvCoordBuffer;
 		std::vector<mat4x4> m_WorldMatBuffer;
-		int m_CurrentSprite,
+		int32 m_CurrentSprite,
 			m_CurrentHudSprite;
 		Shader m_Shader;	
 

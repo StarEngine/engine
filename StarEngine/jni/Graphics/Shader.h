@@ -55,7 +55,7 @@ namespace star
 		GLuint mFragmentShader;
 
 #ifdef ANDROID
-		static const int ANDROID_ERROR_SIZE = 4096;
+		static const int32 ANDROID_ERROR_SIZE = 4096;
 #endif
 
 		Shader(const Shader& t);

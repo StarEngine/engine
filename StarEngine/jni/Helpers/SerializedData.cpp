@@ -9,7 +9,7 @@ namespace star
 
 	}
 
-	SerializedData::SerializedData(schar * buffer, unsigned int n)
+	SerializedData::SerializedData(schar * buffer, uint32 n)
 		: data(buffer)
 		, size(n)
 	{

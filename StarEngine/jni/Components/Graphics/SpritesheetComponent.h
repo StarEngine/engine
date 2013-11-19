@@ -22,9 +22,9 @@ namespace star
 
 		void PushAnimation(const tstring & animation);
 		void PlayAnimation(const tstring & animation);
-		void PlayAnimation(const tstring & animation, int startFrame);
+		void PlayAnimation(const tstring & animation, int32 startFrame);
 		void PlayNextAnimation();
-		void PlayNextAnimation(int startFrame);
+		void PlayNextAnimation(int32 startFrame);
 		void Reset();
 
 		void SetSpritesheet(const tstring & spritesheet);
@@ -32,10 +32,10 @@ namespace star
 		tstring GetCurrentAnimation() const;
 		const tstring & GetcurrentSpritesheet() const;
 
-		int GetCurrentFrame() const;
+		int32 GetCurrentFrame() const;
 
-		int GetFramesHorizontal() const;
-		int GetFramesVertical() const;
+		int32 GetFramesHorizontal() const;
+		int32 GetFramesVertical() const;
 
 		void SetCallbackAnimations(const std::function<void()> & callback);
 

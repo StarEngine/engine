@@ -10,22 +10,22 @@ namespace star
 	{
 	public:
 		AARect();
-		AARect(int x, int y, int width, int height);
+		AARect(int32 x, int32 y, int32 width, int32 height);
 		AARect(const vec2& location,const vec2& size);
 		~AARect();
 
-		int GetLeft() const;
-		int GetTop() const;
-		int GetRight() const;
-		int GetBottom() const;
+		int32 GetLeft() const;
+		int32 GetTop() const;
+		int32 GetRight() const;
+		int32 GetBottom() const;
 
-		void SetLeft(int left);
-		void SetTop(int top);
-		void SetRight(int right);
-		void SetBottom(int bottom);
+		void SetLeft(int32 left);
+		void SetTop(int32 top);
+		void SetRight(int32 right);
+		void SetBottom(int32 bottom);
 
 		bool Equals(const AARect& rect) const;
-		bool Contains(int x, int y) const;
+		bool Contains(int32 x, int32 y) const;
 		bool Contains(const vec2& pt) const;
 		bool Contains(AARect& rect) const;
 		bool Intersect(const AARect& rect);
@@ -33,15 +33,15 @@ namespace star
 		static bool Intersect(const AARect& a, const AARect& b);
 
 	private:
-		int m_X;
-		int m_Y;
-		int m_Width;
-		int m_Height;
+		int32 m_X;
+		int32 m_Y;
+		int32 m_Width;
+		int32 m_Height;
 
-		int m_Left;
-		int m_Right;
-		int m_Top;
-		int m_Bottom;
+		int32 m_Left;
+		int32 m_Right;
+		int32 m_Top;
+		int32 m_Bottom;
 
 		AARect* m_IntersectRect;
 	};

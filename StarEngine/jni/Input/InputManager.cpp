@@ -38,8 +38,8 @@ namespace star
 	{
 	}
 
-	InputAction::InputAction(int actionID, InputTriggerState triggerState,
-				int keyboardCode, int mouseButtonCode, WORD gamepadButtonCode,
+	InputAction::InputAction(int32 actionID, InputTriggerState triggerState,
+				int32 keyboardCode, int32 mouseButtonCode, WORD gamepadButtonCode,
 				GamepadIndex playerIndex):
 		ActionID(actionID),
 		TriggerState(triggerState),
@@ -124,7 +124,7 @@ namespace star
 		return true;
 	}
 
-	bool InputManager::IsActionTriggered(int actionID) const
+	bool InputManager::IsActionTriggered(int32 actionID) const
 	{
 		return m_InputActions.at(actionID).IsTriggered;
 	}
@@ -169,7 +169,7 @@ namespace star
 		{
 			//GetKeyboardState is thread dependant! use AttachThreadInput to link them!
 			getKeyboardResult = GetKeyboardState(m_pKeyboardState1);
-			for(int i = 0 ; i < NUMBER_OF_KEYBOARDKEYS ; ++i)
+			for(int32 i = 0 ; i < NUMBER_OF_KEYBOARDKEYS ; ++i)
 			{
 				m_pOldKeyboardState[i] = m_pKeyboardState0[i];
 				m_pCurrKeyboardState[i] = m_pKeyboardState1[i];
@@ -178,7 +178,7 @@ namespace star
 		else
 		{
 			getKeyboardResult = GetKeyboardState(m_pKeyboardState0);
-			for(int i = 0 ; i < NUMBER_OF_KEYBOARDKEYS ; ++i)
+			for(int32 i = 0 ; i < NUMBER_OF_KEYBOARDKEYS ; ++i)
 			{
 				m_pOldKeyboardState[i] = m_pKeyboardState1[i];
 				m_pCurrKeyboardState[i] = m_pKeyboardState0[i];
@@ -712,13 +712,13 @@ namespace star
 		{
 		case AMOTION_EVENT_ACTION_POINTER_UP:
 		{
-			int pointerIndex((action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) 
+			int32 pointerIndex((action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) 
 								>> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT);
-			int pointerID(AMotionEvent_getPointerId(pEvent,pointerIndex));
+			int32 pointerID(AMotionEvent_getPointerId(pEvent,pointerIndex));
 			if(pointerID == m_ActivePointerID)
 			{
 				//This was our active pointer going up. Choose a new active pointer and adjust
-				int newPointerIndex = pointerIndex == 0? 1 : 0;
+				int32 newPointerIndex = pointerIndex == 0? 1 : 0;
 				m_ActivePointerID = AMotionEvent_getPointerId(pEvent, newPointerIndex);
 			}
 			--m_NumberOfPointers;
@@ -761,7 +761,7 @@ namespace star
 		m_OldPointerVec = m_PointerVec;
 		m_PointerVec.clear();
 		//Store every pointer in a vector, with their position and everything else we need
-		for(int i = 0; i < AMotionEvent_getPointerCount(pEvent); ++i)
+		for(int32 i = 0; i < AMotionEvent_getPointerCount(pEvent); ++i)
 		{
 			FingerPointerANDR temp = FingerPointerANDR();
 			temp.ID = AMotionEvent_getPointerId(pEvent,i);

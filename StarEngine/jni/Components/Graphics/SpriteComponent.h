@@ -25,7 +25,7 @@ namespace star
 	class SpriteComponent : public BaseComponent
 	{
 	public:
-		SpriteComponent(const tstring& filepath, const tstring& spriteName, bool bIsHUDElement = false, bool bIsUberHUD = false, int widthSegments = 1, int heightSegments = 1);
+		SpriteComponent(const tstring& filepath, const tstring& spriteName, bool bIsHUDElement = false, bool bIsUberHUD = false, int32 widthSegments = 1, int32 heightSegments = 1);
 		virtual ~SpriteComponent();
 
 		void Draw();
@@ -38,9 +38,9 @@ namespace star
 		std::vector<GLfloat> GetVertices() const;
 		std::vector<GLfloat> GetUVCoords() const;
 		
-		void SetCurrentSegment(int widthSegment, int heightSegment);
+		void SetCurrentSegment(int32 widthSegment, int32 heightSegment);
 
-		void SetTexture(const tstring& filepath, const tstring& spriteName, bool bIsHUDElement = false, int widthSegments = 1, int heightSegments = 1);
+		void SetTexture(const tstring& filepath, const tstring& spriteName, bool bIsHUDElement = false, int32 widthSegments = 1, int32 heightSegments = 1);
 
 	protected:
 		virtual void InitializeComponent();

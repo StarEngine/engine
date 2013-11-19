@@ -9,8 +9,8 @@ typedef uint8_t *        PBYTE;
 
 typedef struct myPoint
 {
-    int32_t  x;
-    int32_t  y;
+	int32_t  x;
+	int32_t  y;
 } POINT;
 
 #include <android/log.h>
@@ -22,8 +22,8 @@ typedef struct myPoint
 	if ( false ) {} \
 	else \
 	struct LocalAssert { \
-		int mLine; \
-		LocalAssert(int line=__LINE__) : mLine(line) {} \
+		int32 mLine; \
+		LocalAssert(int32 line=__LINE__) : mLine(line) {} \
 		LocalAssert(bool isOK, const tchar* message=_T("")) { \
 		if ( !isOK ) { \
 		tstringstream buffer; \
@@ -36,8 +36,8 @@ typedef struct myPoint
 		if ( false ) {} \
 	else \
 	struct LocalAssert { \
-		int mLine; \
-		LocalAssert(int line=__LINE__) : mLine(line) {} \
+		int32 mLine; \
+		LocalAssert(int32 line=__LINE__) : mLine(line) {} \
 		LocalAssert(bool isOK, const schar* message="") { \
 		if ( !isOK ) { \
 		sstringstream buffer; \

@@ -97,12 +97,12 @@ namespace star
 		AudioManager::GetInstance()->PauseAllSounds();
 	}
 
-	int StarEngine::GetCurrentFPS() const
+	int32 StarEngine::GetCurrentFPS() const
 	{
 		return m_FPS.CurrentFPS;
 	}
 
-	int StarEngine::GetPreviousFPS() const
+	int32 StarEngine::GetPreviousFPS() const
 	{
 		return m_FPS.PreviousFPS;
 	}

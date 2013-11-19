@@ -28,9 +28,9 @@ namespace star
 		void SetTargetTime(double targetTime, bool reset = true, bool paused = false);
 		void SetFunction(std::function<void ()> func);
 
-		int GetCurrentMinutes() const;
-		int GetCurrentSeconds() const;
-		int GetCurrentTotalSeconds() const;
+		int32 GetCurrentMinutes() const;
+		int32 GetCurrentSeconds() const;
+		int32 GetCurrentTotalSeconds() const;
 		double GetTargetTime() const;
 		double GetCurrentAccurateTime() const;
 

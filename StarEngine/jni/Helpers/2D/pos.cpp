@@ -18,7 +18,7 @@ namespace star
 
 	}
 
-	pos::pos(int X, int Y, lay layer)
+	pos::pos(int32 X, int32 Y, lay layer)
 		: x((float)X)
 		, y((float)Y)
 		, l(layer)
@@ -176,7 +176,7 @@ namespace star
 		return copy;
 	}
 
-	pos pos::operator*(unsigned int n)
+	pos pos::operator*(uint32 n)
 	{
 		pos copy(*this);
 		copy *= n;
@@ -192,7 +192,7 @@ namespace star
 		return copy;
 	}
 
-	pos pos::operator*(int n)
+	pos pos::operator*(int32 n)
 	{
 		pos copy(*this);
 		copy *= n;
@@ -224,7 +224,7 @@ namespace star
 		return copy;
 	}
 	
-	pos pos::operator/(unsigned int n)
+	pos pos::operator/(uint32 n)
 	{
 		pos copy(*this);
 		copy /= n;
@@ -240,7 +240,7 @@ namespace star
 		return copy;
 	}
 
-	pos pos::operator/(int n)
+	pos pos::operator/(int32 n)
 	{
 		pos copy(*this);
 		copy /= n;
@@ -272,7 +272,7 @@ namespace star
 		return copy;
 	}
 	
-	pos & pos::operator*=(unsigned int n)
+	pos & pos::operator*=(uint32 n)
 	{
 		x *= (float)n;
 		y *= (float)n;
@@ -288,7 +288,7 @@ namespace star
 		return *this;
 	}
 
-	pos & pos::operator*=(int n)
+	pos & pos::operator*=(int32 n)
 	{
 		x *= (float)n;
 		y *= (float)n;
@@ -320,7 +320,7 @@ namespace star
 		return *this;
 	}
 	
-	pos & pos::operator/=(unsigned int n)
+	pos & pos::operator/=(uint32 n)
 	{
 		x /= (float)n;
 		y /= (float)n;
@@ -336,7 +336,7 @@ namespace star
 		return *this;
 	}
 
-	pos & pos::operator/=(int n)
+	pos & pos::operator/=(int32 n)
 	{
 		x /= (float)n;
 		y /= (float)n;
@@ -368,7 +368,7 @@ namespace star
 		return *this;
 	}
 	
-	pos operator*(unsigned int n, const pos & yRef)
+	pos operator*(uint32 n, const pos & yRef)
 	{
 		pos copy(yRef);
 
@@ -388,7 +388,7 @@ namespace star
 		return copy;
 	}
 
-	pos operator*(int n, const pos & yRef)
+	pos operator*(int32 n, const pos & yRef)
 	{
 		pos copy(yRef);
 
@@ -438,7 +438,7 @@ namespace star
 		return copy;
 	}
 	
-	pos operator/(unsigned int n, const pos & yRef)
+	pos operator/(uint32 n, const pos & yRef)
 	{
 		pos copy(yRef);
 
@@ -458,7 +458,7 @@ namespace star
 		return copy;
 	}
 
-	pos operator/(int n, const pos & yRef)
+	pos operator/(int32 n, const pos & yRef)
 	{
 		pos copy(yRef);
 

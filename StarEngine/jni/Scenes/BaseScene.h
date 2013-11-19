@@ -42,8 +42,8 @@ namespace star
 		void SetActiveCamera(BaseCamera* pCamera);
 		BaseCamera* GetActiveCamera() const;
 
-		void SetCullingOffset(int offset);
-		void SetCullingOffset(int offsetX, int offsetY);
+		void SetCullingOffset(int32 offset);
+		void SetCullingOffset(int32 offsetX, int32 offsetY);
 
 		std::shared_ptr<Stopwatch> GetStopwatch() const;
 
@@ -67,7 +67,7 @@ namespace star
 		std::shared_ptr<Stopwatch> m_pStopwatch;
 
 	private:
-		int m_CullingOffsetX,
+		int32 m_CullingOffsetX,
 			m_CullingOffsetY;
 		bool m_Initialized;
 		tstring m_Name;

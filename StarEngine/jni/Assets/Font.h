@@ -54,7 +54,7 @@ namespace star
 
 		FT_Face mFace;
 		GLuint* mTextures;
-		int mMaxLetterHeight;
+		int32 mMaxLetterHeight;
 #ifdef ANDROID
 		BYTE* mFontBuffer;
 #endif
