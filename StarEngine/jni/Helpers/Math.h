@@ -323,6 +323,61 @@ namespace star
 	void Scale(const dvec3 & vec, dmat4 & out);
 	void Scale(float64 x, float64 y, float64 z, dmat4 & out);
 
+	template <typename T>
+	T Saturate(T x)
+	{
+		return glm::saturate<T>(x);
+	}
+
+	fvec2 Saturate(const fvec2 & vec);
+	fvec3 Saturate(const fvec3 & vec);
+	fvec4 Saturate(const fvec4 & vec);
+
+	dvec2 Saturate(const dvec2 & vec);
+	dvec3 Saturate(const dvec3 & vec);
+	dvec4 Saturate(const dvec4 & vec);
+
+	void Saturate(const fvec2 & vecIn, fvec2 & vecOut);
+	void Saturate(const fvec3 & vecIn, fvec3 & vecOut);
+	void Saturate(const fvec4 & vecIn, fvec4 & vecOut);
+
+	void Saturate(const dvec2 & vecIn, dvec2 & vecOut);
+	void Saturate(const dvec3 & vecIn, dvec3 & vecOut);
+	void Saturate(const dvec4 & vecIn, dvec4 & vecOut);
+
+	uint32 Mod(uint32 x, uint32 y);
+	int32 Mod(int32 x, int32 y);
+	float32 Mod(float32 x, float32 y);
+	float64 Mod(float64 x, float64 y);
+
+	fvec2 Mod(const fvec2 & x, const fvec2 & y);
+	fvec3 Mod(const fvec3 & x, const fvec3 & y);
+	fvec4 Mod(const fvec4 & x, const fvec4 & y);
+
+	dvec2 Mod(const dvec2 & x, const dvec2 & y);
+	dvec3 Mod(const dvec3 & x, const dvec3 & y);
+	dvec4 Mod(const dvec4 & x, const dvec4 & y);
+
+	void Mod(const fvec2 & x, const fvec2 & y, fvec2 & out);
+	void Mod(const fvec3 & x, const fvec3 & y, fvec3 & out);
+	void Mod(const fvec4 & x, const fvec4 & y, fvec4 & out);
+
+	void Mod(const dvec2 & x, const dvec2 & y, dvec2 & out);
+	void Mod(const dvec3 & x, const dvec3 & y, dvec3 & out);
+	void Mod(const dvec4 & x, const dvec4 & y, dvec4 & out);
+
+#ifdef STAR2D
+	fmat3 Reflect(const fmat3 & mat, const fvec3 & vec);
+	dmat3 Reflect(const dmat3 & mat, const dvec3 & vec);
+	void Reflect(const fmat3 & matIn, const fvec3 & vec, fmat3 & matOut);
+	void Reflect(const dmat3 & matIn, const dvec3 & vec, dmat3 & matOut);
+#else
+	fmat4 Reflect(const fmat4 & mat, const fvec4 & vec);
+	dmat4 Reflect(const dmat4 & mat, const dvec4 & vec);
+	void Reflect(const fmat4 & matIn, const fvec4 & vec, fmat4 & matOut);
+	void Reflect(const dmat4 & matIn, const dvec4 & vec, dmat4 & matOut);
+#endif
+
 	const float32 * ToPointerValue(const fmat2 & mat);
 	const float32 * ToPointerValue(const fmat3 & mat);
 	const float32 * ToPointerValue(const fmat4 & mat);

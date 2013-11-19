@@ -1279,6 +1279,192 @@ namespace star
 		out = glm::scale<float64>(x, y, z);
 	}
 
+	fvec2 Saturate(const fvec2 & vec)
+	{
+		return glm::saturate<float32>(vec);
+	}
+
+	fvec3 Saturate(const fvec3 & vec)
+	{
+		return glm::saturate<float32>(vec);
+	}
+
+	fvec4 Saturate(const fvec4 & vec)
+	{
+		return glm::saturate<float32>(vec);
+	}
+
+	dvec2 Saturate(const dvec2 & vec)
+	{
+		return glm::saturate<float64>(vec);
+	}
+
+	dvec3 Saturate(const dvec3 & vec)
+	{
+		return glm::saturate<float64>(vec);
+	}
+
+	dvec4 Saturate(const dvec4 & vec)
+	{
+		return glm::saturate<float64>(vec);
+	}
+
+	void Saturate(const fvec2 & vecIn, fvec2 & vecOut)
+	{
+		vecOut = glm::saturate<float32>(vecIn);
+	}
+
+	void Saturate(const fvec3 & vecIn, fvec3 & vecOut)
+	{
+		vecOut = glm::saturate<float32>(vecIn);
+	}
+
+	void Saturate(const fvec4 & vecIn, fvec4 & vecOut)
+	{
+		vecOut = glm::saturate<float32>(vecIn);
+	}
+
+	void Saturate(const dvec2 & vecIn, dvec2 & vecOut)
+	{
+		vecOut = glm::saturate<float64>(vecIn);
+	}
+
+	void Saturate(const dvec3 & vecIn, dvec3 & vecOut)
+	{
+		vecOut = glm::saturate<float64>(vecIn);
+	}
+
+	void Saturate(const dvec4 & vecIn, dvec4 & vecOut)
+	{
+		vecOut = glm::saturate<float64>(vecIn);
+	}
+
+	uint32 Mod(uint32 x, uint32 y)
+	{
+		return glm::mod<uint32>(x, y);
+	}
+
+	int32 Mod(int32 x, int32 y)
+	{
+		return glm::mod<int32>(x, y);
+	}
+
+	float32 Mod(float32 x, float32 y)
+	{
+		return glm::modf<float32>(x, y);
+	}
+
+	float64 Mod(float64 x, float64 y)
+	{
+		return glm::modf<float64>(x, y);
+	}
+
+	fvec2 Mod(const fvec2 & x, const fvec2 & y)
+	{
+		return glm::mod<float32>(x, y);
+	}
+
+	fvec3 Mod(const fvec3 & x, const fvec3 & y)
+	{
+		return glm::mod<float32>(x, y);
+	}
+
+	fvec4 Mod(const fvec4 & x, const fvec4 & y)
+	{
+		return glm::mod<float32>(x, y);
+	}
+
+	dvec2 Mod(const dvec2 & x, const dvec2 & y)
+	{
+		return glm::mod<float64>(x, y);
+	}
+
+	dvec3 Mod(const dvec3 & x, const dvec3 & y)
+	{
+		return glm::mod<float64>(x, y);
+	}
+
+	dvec4 Mod(const dvec4 & x, const dvec4 & y)
+	{
+		return glm::mod<float64>(x, y);
+	}
+
+	void Mod(const fvec2 & x, const fvec2 & y, fvec2 & out)
+	{
+		out = glm::mod<float32>(x, y);
+	}
+
+	void Mod(const fvec3 & x, const fvec3 & y, fvec3 & out)
+	{
+		out = glm::mod<float32>(x, y);
+	}
+
+	void Mod(const fvec4 & x, const fvec4 & y, fvec4 & out)
+	{
+		out = glm::mod<float32>(x, y);
+	}
+
+	void Mod(const dvec2 & x, const dvec2 & y, dvec2 & out)
+	{
+		out = glm::mod<float64>(x, y);
+	}
+
+	void Mod(const dvec3 & x, const dvec3 & y, dvec3 & out)
+	{
+		out = glm::mod<float64>(x, y);
+	}
+
+	void Mod(const dvec4 & x, const dvec4 & y, dvec4 & out)
+	{
+		out = glm::mod<float64>(x, y);
+	}
+
+#ifdef STAR2D
+
+	fmat3 Reflect(const fmat3 & mat, const fvec3 & vec)
+	{
+		return glm::reflect2D<float32>(mat, vec);
+	}
+
+	dmat3 Reflect(const dmat3 & mat, const dvec3 & vec)
+	{
+		return glm::reflect2D<float64>(mat, vec);
+	}
+
+	void Reflect(const fmat3 & matIn, const fvec3 & vec, fmat3 & matOut)
+	{
+		matOut = glm::reflect2D<float32>(matIn, vec);
+	}
+
+	void Reflect(const dmat3 & matIn, const dvec3 & vec, dmat3 & matOut)
+	{
+		matOut = glm::reflect2D<float64>(matIn, vec);
+	}
+
+#else
+
+	fmat4 Reflect(const fmat4 & mat, const fvec4 & vec)
+	{
+		return glm::reflect3D<float32>(mat, vec);
+	}
+
+	dmat4 Reflect(const dmat4 & mat, const dvec4 & vec)
+	{
+		return glm::reflect3D<float64>(mat, vec);
+	}
+
+	void Reflect(const fmat4 & matIn, const fvec4 & vec, fmat4 & matOut)
+	{
+		matOut = glm::reflect3D<float32>(matIn, vec);
+	}
+
+	void Reflect(const dmat4 & matIn, const dvec4 & vec, dmat4 & matOut)
+	{
+		matOut = glm::reflect3D<float64>(matIn, vec);
+	}
+
+#endif
+
 	const float32 * ToPointerValue(const fmat2 & mat)
 	{
 		return glm::value_ptr<float32>(mat);
