@@ -2,12 +2,15 @@
 
 #include "../BaseComponent.h"
 #include "../../defines.h"
+#include <functional>
 
 namespace star
 {
 	struct Context;
 	class CircleColliderComponent;
 	class RectangleColliderComponent;
+
+	typedef std::function<void()>  Callback;
 
 	class BaseColliderComponent : public BaseComponent
 	{
@@ -18,6 +21,13 @@ namespace star
 
 		void Update(const Context& context);
 		
+		void SetOnEnterCallback(Callback onEnter);
+		void SetOnStayCallback(Callback onStay);
+		void SetOnExitCallback(Callback onExit);
+
+		void TriggerOnEnter();
+		void TriggerOnStay();
+		void TriggerOnExit();
 
 		void SetAsTrigger(bool isTrigger);
 		bool IsTrigger() const;
@@ -28,8 +38,8 @@ namespace star
 		void SetEntered(bool hasEntered);
 		bool GetEntered() const;
 
-		void SetLeft(bool hasLeft);
-		bool GetLeft() const;
+		void SetExited(bool hasLeft);
+		bool GetExited() const;
 
 		virtual bool CollidesWithPoint(const vec2& point) const = 0;
 		virtual bool CollidesWithLine(const vec2& point1, const vec2& point2) const = 0;
@@ -52,7 +62,11 @@ namespace star
 	private:
 
 		bool m_Entered;
-		bool m_Left;
+		bool m_Exited;
+
+		Callback m_OnEnter;
+		Callback m_OnStay;
+		Callback m_OnExit;
 
 		void InitializeComponent();
 

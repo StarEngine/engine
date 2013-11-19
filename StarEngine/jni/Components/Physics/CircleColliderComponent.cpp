@@ -185,6 +185,12 @@ namespace star
 		{
 			return RectangleCircleCollision(otherRectComp, this);
 		}
+		else
+		{
+			Logger::GetInstance()->
+				Log(LogLevel::Warning, _T("Checking collision with an unknown collider type!"));
+			return false;
+		}
 	}
 
 	bool CircleColliderComponent::CircleCircleCollision(const CircleColliderComponent* collider1, 

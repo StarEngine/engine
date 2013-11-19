@@ -14,7 +14,10 @@ namespace star
 		, m_bIsTrigger(false)
 		, m_bIsStatic(false)
 		, m_Entered(false)
-		, m_Left(true)
+		, m_Exited(true)
+		, m_OnEnter(nullptr)
+		, m_OnStay(nullptr)
+		, m_OnExit(nullptr)
 	{
 		m_Layers.amount = 1;
 		m_Layers.elements = new tstring[1];
@@ -26,7 +29,10 @@ namespace star
 		, m_bIsTrigger(false)
 		, m_bIsStatic(false)
 		, m_Entered(false)
-		, m_Left(true)
+		, m_Exited(true)
+		, m_OnEnter(nullptr)
+		, m_OnStay(nullptr)
+		, m_OnExit(nullptr)
 	{
 		m_Layers.amount = n;
 		m_Layers.elements = new tstring[m_Layers.amount];
@@ -59,6 +65,45 @@ namespace star
 		{
 
 		}*/
+	}
+
+	void BaseColliderComponent::SetOnEnterCallback(Callback onEnter)
+	{
+		m_OnEnter = onEnter;
+	}
+
+	void BaseColliderComponent::SetOnStayCallback(Callback onStay)
+	{
+		m_OnStay = onStay;
+	}
+
+	void BaseColliderComponent::SetOnExitCallback(Callback onExit)
+	{
+		m_OnExit = onExit;
+	}
+
+	void BaseColliderComponent::TriggerOnEnter()
+	{
+		if(m_OnEnter)
+		{
+			m_OnEnter();		
+		}
+	}
+
+	void BaseColliderComponent::TriggerOnStay()
+	{
+		if(m_OnStay)
+		{
+			m_OnStay();
+		}
+	}
+
+	void BaseColliderComponent::TriggerOnExit()
+	{
+		if(m_OnExit)
+		{
+			m_OnExit();
+		}
 	}
 
 	void BaseColliderComponent::Draw()
@@ -96,14 +141,14 @@ namespace star
 		return m_Entered;
 	}
 
-	void BaseColliderComponent::SetLeft(bool hasLeft)
+	void BaseColliderComponent::SetExited(bool hasLeft)
 	{
-		m_Left = hasLeft;
+		m_Exited = hasLeft;
 	}
 
-	bool BaseColliderComponent::GetLeft() const
+	bool BaseColliderComponent::GetExited() const
 	{
-		return m_Left;
+		return m_Exited;
 	}
 
 	bool BaseColliderComponent::RectangleCircleCollision(

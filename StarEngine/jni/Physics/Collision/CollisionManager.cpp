@@ -105,32 +105,32 @@ namespace star
 						if(!key.second.at(iter1)->GetEntered())
 						{
 							Logger::GetInstance()->Log(LogLevel::Info, _T("Enter"));
-							key.second.at(iter1);//Callback OnEnter
-							key.second.at(iter2);//Callback OnEnter
+							key.second.at(iter1)->TriggerOnEnter();
+							key.second.at(iter2)->TriggerOnEnter();
 							key.second.at(iter1)->SetEntered(true);
 							key.second.at(iter2)->SetEntered(true);
-							key.second.at(iter1)->SetLeft(false);
-							key.second.at(iter2)->SetLeft(false);
+							key.second.at(iter1)->SetExited(false);
+							key.second.at(iter2)->SetExited(false);
 							continue;
 						}
 						else
 						{
 							Logger::GetInstance()->Log(LogLevel::Info, _T("Stay"));
-							key.second.at(iter1);//Callback OnStay
-							key.second.at(iter2);//Callback OnStay
+							key.second.at(iter1)->TriggerOnStay();
+							key.second.at(iter2)->TriggerOnStay();
 						}
 					}
 					else
 					{
-						if(!key.second.at(iter1)->GetLeft())
+						if(!key.second.at(iter1)->GetExited())
 						{
 							Logger::GetInstance()->Log(LogLevel::Info, _T("Leave"));
-							key.second.at(iter1);//Callback OnExit
-							key.second.at(iter2);//Callback OnExit
+							key.second.at(iter1)->TriggerOnExit();
+							key.second.at(iter2)->TriggerOnExit();
 							key.second.at(iter1)->SetEntered(false);
 							key.second.at(iter2)->SetEntered(false);
-							key.second.at(iter1)->SetLeft(true);
-							key.second.at(iter2)->SetLeft(true);
+							key.second.at(iter1)->SetExited(true);
+							key.second.at(iter2)->SetExited(true);
 						}
 					}
 				}
