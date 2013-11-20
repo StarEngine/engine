@@ -79,8 +79,12 @@ namespace star
 		{
 			object->BaseUpdate(context);
 		}
-
 		Update(context);
+		//[COMMENT] Updating the collisionManager before the objects or here?
+		//			If i do it before the objects, there is the problem that
+		//			the objects won't be translated correctly...
+		//			So i think here is best, unless somebody proves me wrong
+		m_CollisionManagerPtr->Update(context);
 	}
 
 	void BaseScene::BaseDraw()
