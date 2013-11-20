@@ -17,7 +17,6 @@ namespace star
 	SpriteBatch::SpriteBatch(void):
 		m_SpriteQueue(),
 		m_HudSpriteQueue(),
-		m_UberHudSpriteQueue(),
 		m_TextBackQueue(),
 		m_TextFrontQueue(),
 		m_HUDTextQueue(),
@@ -79,7 +78,6 @@ namespace star
 	{
 		m_SpriteQueue.clear();
 		m_HudSpriteQueue.clear();
-		m_UberHudSpriteQueue.clear();
 		m_TextBackQueue.clear();
 		m_TextFrontQueue.clear();
 		m_HUDTextQueue.clear();
@@ -127,8 +125,6 @@ namespace star
 		m_UvCoordBuffer.clear();
 		m_CurrentSprite = 0;
 		m_CurrentHudSprite = 0;
-
-		FlushSprites(m_UberHudSpriteQueue);
 
 		End();
 	}
@@ -335,13 +331,9 @@ namespace star
 		}
 	}
 
-	void SpriteBatch::AddSpriteToQueue(const SpriteInfo& spriteInfo, bool bIsHud, bool m_bIsUberHUD)
+	void SpriteBatch::AddSpriteToQueue(const SpriteInfo& spriteInfo, bool bIsHud)
 	{
-		if(m_bIsUberHUD)
-		{
-			m_UberHudSpriteQueue.push_back(spriteInfo);
-		}
-		else if(bIsHud)
+		if(bIsHud)
 		{
 			m_HudSpriteQueue.push_back(spriteInfo);
 		}
