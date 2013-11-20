@@ -1,13 +1,9 @@
 #pragma once
-#include "../../defines.h"
-#include "../../Context.h"
-#include "../../Objects/Object.h"
-
-#include <functional>
+#include "UIElement.h"
 
 namespace star
 {
-	class UIUserElement : public Object
+	class UIUserElement : public UIElement
 	{
 	public:
 		enum class ElementStates : byte
@@ -17,16 +13,14 @@ namespace star
 			HOVER = 1,
 #endif
 			CLICK = 2,
-			TOGGLE = 3,
 			DISABLED = 4
 		};
 
-		UIUserElement(void);
-		virtual ~UIUserElement(void);
+		UIUserElement(const tstring & name);
+		virtual ~UIUserElement();
 
 		virtual void Initialize();
 
-		bool IsToggled() const;
 		bool IsDisabled() const;
 
 		void SetSelectCallback(std::function<void()> callback);

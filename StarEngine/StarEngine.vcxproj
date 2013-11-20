@@ -105,7 +105,9 @@
     <ClInclude Include="jni\Graphics\Color.h" />
     <ClInclude Include="jni\Graphics\GraphicsManager.h" />
     <ClInclude Include="jni\Graphics\SpriteBatch.h" />
+    <ClInclude Include="jni\Graphics\UI\UIButton.h" />
     <ClInclude Include="jni\Graphics\UI\UIDock.h" />
+    <ClInclude Include="jni\Graphics\UI\UIElement.h" />
     <ClInclude Include="jni\Graphics\UI\UIUserElement.h" />
     <ClInclude Include="jni\Helpers\2D\pos.h" />
     <ClInclude Include="jni\Helpers\AARect.h" />
@@ -180,7 +182,9 @@
     <ClCompile Include="jni\Graphics\Color.cpp" />
     <ClCompile Include="jni\Graphics\GraphicsManager.cpp" />
     <ClCompile Include="jni\Graphics\SpriteBatch.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UIButton.cpp" />
     <ClCompile Include="jni\Graphics\UI\UIDock.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UIElement.cpp" />
     <ClCompile Include="jni\Graphics\UI\UIUserElement.cpp" />
     <ClCompile Include="jni\Helpers\2D\pos.cpp" />
     <ClCompile Include="Console.cpp" />

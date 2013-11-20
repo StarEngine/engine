@@ -5,6 +5,8 @@
 
 namespace star
 {
+	class UIElement;
+
 	class UIDock : public Object
 	{
 	public:
@@ -12,6 +14,7 @@ namespace star
 		virtual ~UIDock(void);
 
 		virtual void Initialize();
+		void AddElement(UIElement * pElement);
 
 	protected:
 		virtual void Update(const Context& context);
