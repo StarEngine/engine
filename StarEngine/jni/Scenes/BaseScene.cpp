@@ -19,7 +19,7 @@ namespace star
 		, m_pDefaultCamera(nullptr)
 		, m_CullingOffsetX(0)
 		, m_CullingOffsetY(0)
-		, m_Initialized(false) 
+		, m_Initialized(false)
 		, m_Name(name)
 	{
 		m_pStopwatch = std::make_shared<Stopwatch>();
@@ -44,7 +44,11 @@ namespace star
 		{
 			CreateObjects();
 
-			m_pDefaultCamera = new BaseCamera();
+			if(m_pDefaultCamera == nullptr)
+			{
+				m_pDefaultCamera = new BaseCamera();
+				AddObject(m_pDefaultCamera);
+			}
 
 			m_Initialized = true;
 			for(auto object : m_Objects)
@@ -57,6 +61,7 @@ namespace star
 
 	void BaseScene::BaseAfterInitializedObjects()
 	{
+		SetActiveCamera(m_pDefaultCamera);
 		AfterInitializedObjects();
 	}
 

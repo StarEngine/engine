@@ -222,12 +222,17 @@ namespace star
 		FlushText(textDesc.Text, textDesc.Fontname, textDesc.TransformComp, textDesc.TextColor);
 	}
 
-	void SpriteBatch::FlushText(const std::vector<sstring>& text, 
-		const tstring& fontname,TransformComponent* transform,const Color& color)
+	void SpriteBatch::FlushText(
+		const std::vector<sstring>& text, 
+		const tstring& fontname,
+		TransformComponent* transform,
+		const Color& color
+		)
 	{
 		if(text.size() == 0)
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,	_T("FontManager::DrawText: Drawing an empty string..."));
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("FontManager::DrawText: Drawing an empty string..."));
 			return;
 		}
 		
