@@ -82,7 +82,10 @@ namespace star
 
 		for(auto object : m_Objects)
 		{
-			object->BaseUpdate(context);
+			//if(CheckCulling(object))
+			//{
+				object->BaseUpdate(context);
+			//}
 		}
 		Update(context);
 		//[COMMENT] Updating the collisionManager before the objects or here?
@@ -99,6 +102,13 @@ namespace star
 			if(CheckCulling(object))
 			{
 				object->BaseDraw();
+			}
+			for(auto child : object->GetChildren())
+			{
+				if(CheckCulling(child))
+				{
+					child->BaseDraw();
+				}
 			}
 		}
 		Draw(); 
@@ -194,9 +204,12 @@ namespace star
 		float32 yPos = (camPos.pos2D().y) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().y) / 2.0f); 
 		int32 screenWidth = GraphicsManager::GetInstance()->GetScreenWidth();
 		int32 screenHeight = GraphicsManager::GetInstance()->GetScreenHeight();
+
 		SpriteComponent* sprite = object->GetComponent<SpriteComponent>();
 		SpritesheetComponent* spritesheet = object->GetComponent<SpritesheetComponent>();
-		if(sprite == nullptr && spritesheet == nullptr)
+		TextComponent* text = object->GetComponent<TextComponent>();
+
+		if(sprite == nullptr && spritesheet == nullptr && text == nullptr)
 		{
 			return false;
 		}
@@ -209,10 +222,15 @@ namespace star
 			spriteWidth = int32(float32(sprite->GetWidth()) * object->GetTransform()->GetWorldScale().x);
 			spriteHeight = int32(float32(sprite->GetHeight()) * object->GetTransform()->GetWorldScale().y);
 		}
-		if(spritesheet != nullptr)
+		else if(spritesheet != nullptr)
 		{
 			spriteWidth = int32(float32(spritesheet->GetWidth()) * object->GetTransform()->GetWorldScale().x);
 			spriteHeight = int32(float32(spritesheet->GetHeight()) * object->GetTransform()->GetWorldScale().y);
+		}
+		else if(text != nullptr)
+		{
+			spriteWidth = int32(float32(text->GetMaxTextWidth()) * object->GetTransform()->GetWorldScale().x);
+			spriteHeight = int32(float32(text->GetTotalTextHeight()) * object->GetTransform()->GetWorldScale().y);
 		}
 
 		if(	objectPos.x > xPos + screenWidth + m_CullingOffsetX ||
