@@ -98,7 +98,7 @@ namespace star
 		}
 		ASSERT(m_Radius > 0, _T("Invalid Radius: Radius has to be > 0"));
 
-		COLLISION_MANAGER->AddComponent(this, m_Layers, m_NrOfElementsInLayers);
+		COLLISION_MANAGER->AddComponent(this, m_Layers.elements, m_Layers.amount);
 	}
 
 	bool CircleColliderComponent::CollidesWithPoint(const vec2& point) const
@@ -168,24 +168,28 @@ namespace star
 		
 	}
 
-	void CircleColliderComponent::CollidesWith(const BaseColliderComponent* other) const
+	bool CircleColliderComponent::CollidesWith(const BaseColliderComponent* other) const
 	{
+		ASSERT(other != nullptr, 
+			_T("CircleColliderComponent::CollidesWith: \
+			   The collierComponent to check is a nullptr"));
+
 		auto otherCircleComp = dynamic_cast<const CircleColliderComponent*>(other);
 		auto otherRectComp = dynamic_cast<const RectangleColliderComponent*>(other);
 
 		if(otherCircleComp != nullptr)
 		{
-			if(CircleCircleCollision(this, otherCircleComp))
-			{
-				
-			}
+			return CircleCircleCollision(this, otherCircleComp);
 		}
 		else if(otherRectComp != nullptr)
 		{
-			if(RectangleCircleCollision(otherRectComp, this))
-			{
-				Logger::GetInstance()->Log(LogLevel::Info, _T("Collision between circle and rect"));
-			}
+			return RectangleCircleCollision(otherRectComp, this);
+		}
+		else
+		{
+			Logger::GetInstance()->
+				Log(LogLevel::Warning, _T("Checking collision with an unknown collider type!"));
+			return false;
 		}
 	}
 

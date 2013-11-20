@@ -25,7 +25,13 @@ namespace star
 	class SpriteComponent : public BaseComponent
 	{
 	public:
-		SpriteComponent(const tstring& filepath, const tstring& spriteName, bool bIsHUDElement = false, bool bIsUberHUD = false, int32 widthSegments = 1, int32 heightSegments = 1);
+		SpriteComponent(
+			const tstring& filepath,
+			const tstring& spriteName,
+			int32 widthSegments = 1,
+			int32 heightSegments = 1
+			);
+
 		virtual ~SpriteComponent();
 
 		void Draw();
@@ -40,7 +46,10 @@ namespace star
 		
 		void SetCurrentSegment(int32 widthSegment, int32 heightSegment);
 
-		void SetTexture(const tstring& filepath, const tstring& spriteName, bool bIsHUDElement = false, int32 widthSegments = 1, int32 heightSegments = 1);
+		void SetHUDOptionEnabled(bool enabled);
+		bool IsHUDOptionEnabled() const;
+
+		void SetTexture(const tstring& filepath, const tstring& spriteName, int32 widthSegments = 1, int32 heightSegments = 1);
 
 	protected:
 		virtual void InitializeComponent();
@@ -55,7 +64,7 @@ namespace star
 	private:
 		Filepath m_FilePath;
 		tstring m_SpriteName;
-		bool m_bIsHudElement, m_bIsUberHUD;
+		bool m_bIsHudElement;
 		
 		SpriteInfo m_SpriteInfo;
 

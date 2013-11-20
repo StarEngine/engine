@@ -36,13 +36,14 @@ namespace star
 		if(m_bIsSpriteSheet)
 		{
 			spriteSheetComp = new SpriteComponent(m_FilePath, 
-				m_SpriteName,m_bIsHudElement,1,m_HeightSegments);
+				m_SpriteName,1,m_HeightSegments);
 		}
 		else
 		{
 			spriteSheetComp = new SpriteComponent(m_FilePath, 
-				m_SpriteName,m_bIsHudElement);
+				m_SpriteName);
 		}
+		spriteSheetComp->SetHUDOptionEnabled(m_bIsHudElement);
 		AddComponent(spriteSheetComp);
 		/*
 		SpriteComponent::InitializeComponent();

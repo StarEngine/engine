@@ -16,13 +16,14 @@ namespace star
 
 		CollisionManager();
 		~CollisionManager();
-		void AddComponent(const BaseColliderComponent* component, const tstring* layers, uint8 n);
-		void RemoveComponent(const BaseColliderComponent* component, const tstring* layers, uint8 n);
+		void AddComponent(BaseColliderComponent* component, const tstring* layers, uint8 n);
+		void RemoveComponent(const BaseColliderComponent* component);
+		void Update(const Context& context);
 		//[TODO] OnCollisionEnter, Stay, Leave
 
 	private:
 
-		std::map<tstring, std::vector<const BaseColliderComponent*>> m_CollisionMap;
+		std::map<tstring, std::vector<BaseColliderComponent*>> m_CollisionMap;
 		//disabling default copy constructor
 		CollisionManager(const CollisionManager& yRef);
 		CollisionManager(CollisionManager&& yRef);

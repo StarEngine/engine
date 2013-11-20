@@ -65,7 +65,7 @@ namespace star
 
 		auto texture = new SpriteComponent(
 			set.Texture, 
-			GetSpritesheetName(set), false, false, tx, ty);
+			GetSpritesheetName(set), tx, ty);
 		texture->SetCurrentSegment(gid % tx, gid / tx);
 
 		return texture;
