@@ -25,8 +25,8 @@ namespace star
 
 		void DrawPolygon(const vec2* vertices, int32 vertexCount, const Color& color);  
 		void DrawSolidPolygon(const vec2* vertices, int32 vertexCount, const Color& color);  
-		void DrawCircle(const vec2& center, float32 radius, const Color& color);  
-		void DrawSolidCircle(const vec2& center, float32 radius, const Color& color); 
+		void DrawCircle(const vec2& center, float32 radius, const Color& color, uint32 segments = 16);  
+		void DrawSolidCircle(const vec2& center, float32 radius, const Color& color, uint32 segments = 16); 
 		void DrawSegment(const vec2& pos1, const vec2& pos2, const Color& aColor);  
 		//[TODO] DrawTransform: Draw the transformed Axises of the object/matrix
 		// void DrawTransform(const mat4& aXf);  
@@ -41,7 +41,6 @@ namespace star
 		void SetDrawOpacityTriangles(float32 opacity);
 		void SetDrawOpacityLines(float32 opacity);
 		void SetDrawOpacityPoints(float32 opacity);
-		void SetCircleSegements(uint32 segments);
   
 	private:  
 		static const uint32 MAX_VERTICES = 64;

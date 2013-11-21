@@ -63,10 +63,14 @@ namespace star
 		std::shared_ptr<CollisionManager> m_CollisionManagerPtr;
 
 		std::vector<Object*> m_Objects;
+		std::vector<Object*> m_Garbage;
 		BaseCamera* m_pDefaultCamera;
 		std::shared_ptr<Stopwatch> m_pStopwatch;
 
 	private:
+
+		void CollectGarbage();
+
 		int32 m_CullingOffsetX,
 			m_CullingOffsetY;
 		bool m_Initialized;

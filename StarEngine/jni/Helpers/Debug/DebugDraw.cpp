@@ -54,11 +54,6 @@ namespace star
 		m_DrawOpPoints = opacity;
 	}
 
-	void DebugDraw::SetCircleSegements(uint32 segments)
-	{
-		m_CircleSegments = segments;
-	}
-
 	void DebugDraw::Initialize()
 	{
 		static const GLchar* vertexShader = "\
@@ -100,15 +95,17 @@ namespace star
 		DrawPrimitives(Triangles + Lines, vertexCount, color);
 	}
 
-	void DebugDraw::DrawCircle(const vec2& center, float32 radius, const Color& color)
+	void DebugDraw::DrawCircle(const vec2& center, float32 radius, const Color& color, uint32 segments)
 	{
+		m_CircleSegments = segments;
 		CreateCircleVertices(center, radius);
 		DrawPrimitives(Lines, m_CircleSegments, color);
 	}
 
 	void DebugDraw::DrawSolidCircle(const vec2& center, float32 radius,
-			const Color& color)
+			const Color& color, uint32 segments)
 	{
+		m_CircleSegments = segments;
 		CreateCircleVertices(center, radius);
 		DrawPrimitives(Triangles + Lines, m_CircleSegments, color);
 	}

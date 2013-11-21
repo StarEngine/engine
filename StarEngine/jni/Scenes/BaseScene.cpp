@@ -16,6 +16,7 @@ namespace star
 		: m_GestureManagerPtr(nullptr)
 		, m_CollisionManagerPtr(nullptr)
 		, m_Objects()
+		, m_Garbage()
 		, m_pDefaultCamera(nullptr)
 		, m_CullingOffsetX(0)
 		, m_CullingOffsetY(0)
@@ -78,8 +79,10 @@ namespace star
 
 	void BaseScene::BaseUpdate(const Context& context)
 	{	
-		m_pStopwatch->Update(context);
+		CollectGarbage();
 
+		m_pStopwatch->Update(context);
+		
 		for(auto object : m_Objects)
 		{
 			object->BaseUpdate(context);
@@ -144,7 +147,7 @@ namespace star
 		auto it = std::find(m_Objects.begin(), m_Objects.end(), object);
 		if(it != m_Objects.end())
 		{
-			m_Objects.erase(it);
+			m_Garbage.push_back(object);
 			object->UnsetScene();
 		}
 	}
@@ -235,5 +238,18 @@ namespace star
 	{
 		m_CullingOffsetX = offsetX;
 		m_CullingOffsetY = offsetY;
+	}
+
+	void BaseScene::CollectGarbage()
+	{
+		for(auto elem : m_Garbage)
+		{
+			auto it = std::find(m_Objects.begin(), m_Objects.end(), elem);
+			ASSERT(it != m_Objects.end(), _T("BaseScene::CollectGarbage: Trying to delete unknown object"));
+			m_Objects.erase(it);
+			delete elem;
+		}
+		m_Garbage.clear();
+		
 	}
 }

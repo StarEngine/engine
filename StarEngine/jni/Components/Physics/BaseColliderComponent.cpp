@@ -24,6 +24,8 @@ namespace star
 		m_Layers.amount = 1;
 		m_Layers.elements = new tstring[1];
 		m_Layers.elements[0] = DEFAULT_LAYER_NAME;
+
+		SetVisible(false);
 	}
 
 	BaseColliderComponent::BaseColliderComponent(const tstring* layers, uint8 n)
@@ -42,6 +44,8 @@ namespace star
 		{
 			m_Layers.elements[i] = layers[i];
 		}
+
+		SetVisible(false);
 	}
 
 	BaseColliderComponent::~BaseColliderComponent()
