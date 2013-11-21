@@ -10,7 +10,7 @@ namespace star
 	class SpritesheetComponent final : public SpriteComponent
 	{
 	public:
-		SpritesheetComponent(const tstring& filePath, const tstring& spriteName, const tstring & spritesheet, bool isHUD = false);
+		SpritesheetComponent(const tstring& filePath, const tstring& spriteName, const tstring & spritesheet);
 		~SpritesheetComponent();
 
 		void Update(const Context& context);

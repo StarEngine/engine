@@ -6,8 +6,8 @@ namespace star
 {
 	SpritesheetComponent::SpritesheetComponent
 		(const tstring& filePath, const tstring& spriteName,
-			const tstring & spritesheet, bool isHUD)
-		: SpriteComponent(filePath, spriteName, isHUD)
+			const tstring & spritesheet)
+		: SpriteComponent(filePath, spriteName)
 		, m_SpritesheetName(spritesheet)
 		, m_Spritesheet()
 		, m_Animations(0)
