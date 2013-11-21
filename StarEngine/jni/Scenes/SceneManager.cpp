@@ -118,6 +118,14 @@ namespace star
 		return false;
 	}
 
+	void SceneManager::SetCullingEnabled(bool enabled)
+	{
+		for(auto scene : m_SceneList)
+		{
+			scene.second->SetCullingIsEnabled(enabled);
+		}
+	}
+
 	bool SceneManager::InitializeCurScene(const Context& context)
 	{
 		if(m_bInitialized)
