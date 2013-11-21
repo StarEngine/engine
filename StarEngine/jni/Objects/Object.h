@@ -45,6 +45,8 @@ namespace star
 		void SetDisabled(bool disabled);
 		bool IsDisabled() const;
 
+		bool IsInitialized() const;
+
 		void SetScene(BaseScene * pScene);
 		void UnsetScene(); 
 

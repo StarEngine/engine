@@ -30,7 +30,7 @@ namespace star
 		void CreateSpriteQuad(const std::vector<SpriteInfo>& spriteQueue);
 		void FlushSprites(const std::vector<SpriteInfo>& spriteQueue);
 		void FlushText(const TextDesc& textDesc);
-		void FlushText(const std::vector<sstring>& text, const tstring& fontname,TransformComponent* transform, const Color& color);
+		void FlushText(const tstring & text, const tstring& fontname, int32 spacing, TransformComponent* transform, const Color& color);
 
 		static SpriteBatch * m_pSpriteBatch;
 		static const int32 BATCHSIZE = 50;

@@ -32,8 +32,8 @@ namespace star
 #endif
 			return;
 		}
-		InitializeComponent();
 		m_bInitialized = true;
+		InitializeComponent();
 	}
 
 	void BaseComponent::BaseUpdate(const Context& context)

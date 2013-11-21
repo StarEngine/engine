@@ -255,6 +255,11 @@ namespace star
 		return !m_IsVisible && m_IsFrozen;
 	}
 
+	bool Object::IsInitialized() const
+	{
+		return m_bIsInitialized;
+	}
+
 	void Object::SetScene(BaseScene * pScene)
 	{
 		m_pScene = pScene;
