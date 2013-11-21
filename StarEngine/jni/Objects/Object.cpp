@@ -188,7 +188,7 @@ namespace star
 		m_pGarbageChildren.push_back(*it);
 	}
 
-	std::vector<Object*>& Object::GetChildren()
+	const std::vector<Object*>& Object::GetChildren() const
 	{
 		return m_pChildren;
 	}
@@ -260,6 +260,11 @@ namespace star
 	BaseScene * Object::GetScene() const
 	{
 		return m_pScene;
+	}
+
+	const std::vector<BaseComponent*>& Object::GetComponents() const
+	{
+		return m_pComponents;
 	}
 
 	void Object::CollectGarbage()

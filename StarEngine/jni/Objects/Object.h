@@ -33,7 +33,7 @@ namespace star
 
 		void AddChild(Object* pObject);
 		void RemoveChild(const Object* pObject);
-		std::vector<Object*>& GetChildren();
+		const std::vector<Object*>& GetChildren() const;
 
 		void SetVisible(bool visible);
 		bool IsVisible() const;
@@ -66,8 +66,6 @@ namespace star
 
 		template<class T>
 		T* GetChild(const tstring & name) const;
-
-		const std::vector<Object*>& GetChildren() const;
 
 	protected:
 		virtual void Initialize();
