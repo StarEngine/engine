@@ -39,6 +39,11 @@ namespace star
 		void AddObject(Object * object); 
 		void RemoveObject(Object * object);
 
+		void SetGroupFrozen(const tstring & tag, bool freeze);
+		void SetGroupDisabled(const tstring & tag, bool disabled);
+		void SetGroupVisible(const tstring & tag, bool visable);
+		void GetGroup(const tstring & tag, std::vector<Object*> & group);
+
 		void SetActiveCamera(BaseCamera* pCamera);
 		BaseCamera* GetActiveCamera() const;
 

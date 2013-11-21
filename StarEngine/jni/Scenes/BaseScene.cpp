@@ -162,6 +162,51 @@ namespace star
 		}
 	}
 
+	void BaseScene::SetGroupFrozen(const tstring & tag, bool visible)
+	{
+		for(auto object : m_Objects)
+		{
+			if(object->GetGroupTag() == tag)
+			{
+				object->Freeze(visible);
+			}
+		}
+	}
+
+	void BaseScene::SetGroupDisabled(const tstring & tag, bool visible)
+	{
+		for(auto object : m_Objects)
+		{
+			if(object->GetGroupTag() == tag)
+			{
+				object->SetDisabled(visible);
+			}
+		}
+	}
+
+	void BaseScene::SetGroupVisible(const tstring & tag, bool visible)
+	{
+		for(auto object : m_Objects)
+		{
+			if(object->GetGroupTag() == tag)
+			{
+				object->SetVisible(visible);
+			}
+		}
+	}
+
+	void BaseScene::GetGroup(const tstring & tag, std::vector<Object*> & group)
+	{
+		group.clear();
+		for(auto object : m_Objects)
+		{
+			if(object->GetGroupTag() == tag)
+			{
+				group.push_back(object);
+			}
+		}
+	}
+
 	void BaseScene::SetActiveCamera(BaseCamera* pCamera)
 	{
 		if(m_pDefaultCamera == pCamera)
