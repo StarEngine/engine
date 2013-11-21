@@ -30,7 +30,6 @@ namespace star
 		void SetName(const tstring& name);
 
 		void AddComponent(BaseComponent* pComponent);
-		void RemoveComponent(const BaseComponent* pComponent);
 
 		void AddChild(Object* pObject);
 		void RemoveChild(const Object* pObject);
@@ -51,6 +50,9 @@ namespace star
 		TransformComponent * GetTransform() const;
 
 		BaseScene * GetScene() const;
+
+		template<class T>
+		void RemoveComponent();
 
 		template<class T>
 		T* GetComponent(bool searchChildren = false) const;
@@ -75,10 +77,15 @@ namespace star
 		BaseScene *m_pScene;
 
 		std::vector<BaseComponent*> m_pComponents;
+		std::vector<BaseComponent*> m_pGarbageComponents;
 		std::vector<Object*> m_pChildren;
+		std::vector<Object*> m_pGarbageChildren;
 		tstring m_Name, m_CollisionTag;
 
 	private:
+
+		void CollectGarbage();
+
 		Object(const Object& t);
 		Object(Object&& t);
 		Object& operator=(const Object& t);
@@ -86,10 +93,23 @@ namespace star
 	};
 
 	template<class T>
+	void Object::RemoveComponent()
+	{
+		const std::type_info& ti = typeid(T);
+		for(auto component : m_pComponents)
+		{
+			if(component && typeid(*component) == ti)
+			{
+				m_pGarbageComponents.push_back(component);
+			}
+		}	
+	}
+
+	template<class T>
 	T* Object::GetComponent(bool searchChildren) const
 	{
 		const std::type_info& ti = typeid(T);
-		for(auto *component : m_pComponents)
+		for(auto component : m_pComponents)
 		{
 			if(component && typeid(*component) == ti)
 			{
@@ -99,7 +119,7 @@ namespace star
 
 		if(searchChildren)
 		{
-			for(auto *child : m_pChildren)
+			for(auto child : m_pChildren)
 			{
 				return (child->GetComponent<T>(searchChildren));
 			}
@@ -111,7 +131,7 @@ namespace star
 	T* Object::GetChild() const
 	{
 		const std::type_info& ti = typeid(T);
-		for(auto *child : m_pChildren)
+		for(auto child : m_pChildren)
 		{
 			if(child && typeid(*child) == ti)
 			{
@@ -125,7 +145,7 @@ namespace star
 	T* Object::GetChild(const tstring & name) const
 	{
 		const std::type_info& ti = typeid(T);
-		for(auto *child : m_pChildren)
+		for(auto child : m_pChildren)
 		{
 			if(child && typeid(*child) == ti
 				&& child->GetName() == name)

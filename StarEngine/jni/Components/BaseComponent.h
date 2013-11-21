@@ -12,9 +12,9 @@ namespace star
 	class BaseComponent
 	{
 	public:
-		BaseComponent(void);
+		BaseComponent();
 		BaseComponent(Object* parent);
-		virtual ~BaseComponent(void);
+		virtual ~BaseComponent();
 
 		void Initialize();
 		void BaseUpdate(const Context& context);
