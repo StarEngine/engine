@@ -150,6 +150,30 @@ namespace star
 			m_Objects.push_back(object);
 			object->SetScene(this);
 		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("BaseScene::AddObject: \
+				   Trying to add a duplicate object."));
+		}
+	}
+
+	void BaseScene::AddObject(Object * object, const tstring & name)
+	{
+		auto it = std::find(m_Objects.begin(), m_Objects.end(), object);
+		if(it == m_Objects.end())
+		{
+			object->SetName(name);
+			m_Objects.push_back(object);
+			object->SetScene(this);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("BaseScene::AddObject: \
+				   Trying to add a duplicate object '")
+				   + name + _T("'."));
+		}
 	}
 
 	void BaseScene::RemoveObject(Object * object)
@@ -160,6 +184,91 @@ namespace star
 			m_Garbage.push_back(object);
 			object->UnsetScene();
 		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("BaseScene::RemoveObject: \
+				   Trying to remove an unknown object."));
+		}
+	}
+	
+	void BaseScene::RemoveObject(const tstring & name)
+	{
+		for(auto object : m_Objects)
+		{
+			if(object->GetName() == name)
+			{
+				RemoveObject(object);
+				return;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("BaseScene::RemoveObject: \
+				   Trying to remove an unknown object '")
+				   + name + _T("'."));
+	}
+
+	Object * BaseScene::GetObjectByName(const tstring & name)
+	{
+		for(auto object : m_Objects)
+		{
+			if(object->GetName() == name)
+			{
+				return object;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("BaseScene::GetObjectByName: \
+				   Trying to get an unknown object '")
+				   + name + _T("'."));
+	}
+
+	void BaseScene::SetObjectFrozen(const tstring & name, bool freeze)
+	{
+		for(auto object : m_Objects)
+		{
+			if(object->GetName() == name)
+			{
+				object->Freeze(freeze);
+				return;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("BaseScene::SetObjectFrozen: \
+				   Trying to (un)freeze an unknown object '")
+				   + name + _T("'."));
+	}
+
+	void BaseScene::SetObjectDisabled(const tstring & name, bool disabled)
+	{
+		for(auto object : m_Objects)
+		{
+			if(object->GetName() == name)
+			{
+				object->SetDisabled(disabled);
+				return;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("BaseScene::SetObjectDisabled: \
+				   Trying to enable/disable an unknown object '")
+				   + name + _T("'."));
+	}
+
+	void BaseScene::SetObjectVisible(const tstring & name, bool visible)
+	{
+		for(auto object : m_Objects)
+		{
+			if(object->GetName() == name)
+			{
+				object->SetVisible(visible);
+				return;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("BaseScene::SetObjectVisible: \
+				   Trying to (un)hide an unknown object '")
+				   + name + _T("'."));
 	}
 
 	void BaseScene::SetGroupFrozen(const tstring & tag, bool visible)

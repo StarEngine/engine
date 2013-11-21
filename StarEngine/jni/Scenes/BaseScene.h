@@ -37,7 +37,14 @@ namespace star
 		bool IsInitialized() const;
 
 		void AddObject(Object * object); 
+		void AddObject(Object * object, const tstring & name); 
 		void RemoveObject(Object * object);
+		void RemoveObject(const tstring & name);
+
+		Object * GetObjectByName(const tstring & name);
+		void SetObjectFrozen(const tstring & name, bool freeze);
+		void SetObjectDisabled(const tstring & name, bool disabled);
+		void SetObjectVisible(const tstring & name, bool visible);
 
 		void SetGroupFrozen(const tstring & tag, bool freeze);
 		void SetGroupDisabled(const tstring & tag, bool disabled);
