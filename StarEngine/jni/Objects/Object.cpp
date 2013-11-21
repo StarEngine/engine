@@ -157,29 +157,21 @@ namespace star
 
 	void Object::AddComponent(BaseComponent *pComponent)
 	{
-		bool isValid(true);
 		for(auto comp : m_pComponents)
 		{
-			if(typeid(*comp) == typeid(*pComponent))
-			{
-				isValid = false;
-				break;
-			}
+			ASSERT(typeid(*comp) != typeid(*pComponent), 
+				_T("Object::AddComponent: \
+				   Adding 2 components of the same type to the same object is illegal."));
 		}
 
-		ASSERT(isValid, _T("Adding 2 components of the same type to the same object is illegal."));
+		pComponent->SetParent(this);
 
-		if(isValid)
+		if(m_bIsInitialized && ! pComponent->IsInitialized())
 		{
-			pComponent->SetParent(this);
-
-			if(m_bIsInitialized && ! pComponent->IsInitialized())
-			{
-				pComponent->Initialize();
-			}
-
-			m_pComponents.push_back(pComponent);
+			pComponent->Initialize();
 		}
+
+		m_pComponents.push_back(pComponent);
 	}	
 
 	void Object::AddChild(Object *pChild)
