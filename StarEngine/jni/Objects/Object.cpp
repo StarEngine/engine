@@ -22,6 +22,7 @@ namespace star
 		, m_pGarbageChildren()
 		, m_Name(_T("Default"))
 		, m_CollisionTag(_T("Default"))
+		, m_GroupTag(_T("Default"))
 	{
 		m_pComponents.push_back(new TransformComponent(this));
 	}
@@ -145,6 +146,16 @@ namespace star
 	void Object::SetName(const tstring& name)
 	{
 		m_Name = name;
+	}
+
+	const tstring& Object::GetGroupTag() const
+	{
+		return m_GroupTag;
+	}
+
+	void Object::SetGroupTag(const tstring& tag)
+	{
+		m_GroupTag = tag;
 	}
 
 	void Object::AddComponent(BaseComponent *pComponent)

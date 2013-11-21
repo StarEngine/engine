@@ -21,6 +21,7 @@ namespace star
 		, m_CullingOffsetX(0)
 		, m_CullingOffsetY(0)
 		, m_Initialized(false)
+		, m_CullingIsEnabled(true)
 		, m_Name(name)
 	{
 		m_pStopwatch = std::make_shared<Stopwatch>();
@@ -99,13 +100,15 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			if(object->IsVisible() && CheckCulling(object))
+			if(!m_CullingIsEnabled ||
+				(object->IsVisible() && CheckCulling(object)))
 			{
 				object->BaseDraw();
 			}
 			for(auto child : object->GetChildren())
 			{
-				if(CheckCulling(child))
+				if(!m_CullingIsEnabled ||
+					child->IsVisible() && CheckCulling(child))
 				{
 					child->BaseDraw();
 				}
@@ -179,6 +182,16 @@ namespace star
 	BaseCamera* BaseScene::GetActiveCamera() const
 	{
 		return m_pDefaultCamera;
+	}
+
+	void BaseScene::SetCullingIsEnabled(bool enabled)
+	{
+		m_CullingIsEnabled = enabled;
+	}
+
+	bool BaseScene::IsCullingEnabled() const
+	{
+		return m_CullingIsEnabled;
 	}
 	
 	std::shared_ptr<Stopwatch> BaseScene::GetStopwatch() const

@@ -29,6 +29,9 @@ namespace star
 		const tstring& GetName() const;
 		void SetName(const tstring& name);
 
+		const tstring& GetGroupTag() const;
+		void SetGroupTag(const tstring& tag);
+
 		void AddComponent(BaseComponent* pComponent);
 
 		void AddChild(Object* pObject);
@@ -84,7 +87,7 @@ namespace star
 		std::vector<BaseComponent*> m_pGarbageComponents;
 		std::vector<Object*> m_pChildren;
 		std::vector<Object*> m_pGarbageChildren;
-		tstring m_Name, m_CollisionTag;
+		tstring m_Name, m_CollisionTag, m_GroupTag;
 
 	private:
 
