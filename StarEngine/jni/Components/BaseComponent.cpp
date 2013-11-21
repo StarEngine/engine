@@ -34,8 +34,8 @@ namespace star
 #endif
 			return;
 		}
-		InitializeComponent();
 		m_bInitialized = true;
+		InitializeComponent();
 	}
 
 	void BaseComponent::BaseUpdate(const Context& context)
@@ -77,6 +77,16 @@ namespace star
 	TransformComponent* BaseComponent::GetTransform() const
 	{
 		 return m_pParentObject->GetComponent<TransformComponent>();
+	}
+
+	bool BaseComponent::CheckCulling(
+		float left,
+		float right,
+		float top,
+		float bottom
+		) const
+	{
+		return false;
 	}
 
 	void BaseComponent::SetEnabled(bool bEnabled)

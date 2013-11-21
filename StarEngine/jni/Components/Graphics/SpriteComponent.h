@@ -35,12 +35,19 @@ namespace star
 		virtual ~SpriteComponent();
 
 		void Draw();
-		virtual void Update(const Context& context) {};
+		virtual void Update(const Context& context);
+
+		virtual bool CheckCulling(
+			float left,
+			float right,
+			float top,
+			float bottom
+			) const;
 
 		const tstring& GetFilePath() const;
 		const tstring& GetName() const;
-		int32 GetWidth() const;
-		int32 GetHeight() const;
+		virtual int32 GetWidth() const;
+		virtual int32 GetHeight() const;
 		std::vector<GLfloat> GetVertices() const;
 		std::vector<GLfloat> GetUVCoords() const;
 		

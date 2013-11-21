@@ -2,8 +2,8 @@
 
 namespace star
 {
-	UIUserElement::UIUserElement(void)
-		: Object()
+	UIUserElement::UIUserElement(const tstring & name)
+		: UIElement(name)
 		, m_SelectCallback(nullptr)
 #ifdef DESKTOP
 		, m_HoverCallback(nullptr)
@@ -14,27 +14,24 @@ namespace star
 
 	}
 
-	UIUserElement::~UIUserElement(void)
+	UIUserElement::~UIUserElement()
 	{
 
 	}
 
 	void UIUserElement::Initialize()
 	{
-		Object::Initialize();
+		UIElement::Initialize();
 	}
 
 	void UIUserElement::Update(const Context& context)
 	{
+		UIElement::Update(context);
 	}
 
 	void UIUserElement::Draw()
 	{
-	}
-
-	bool UIUserElement::IsToggled() const
-	{
-		return m_ElementState == ElementStates::TOGGLE;
+		UIElement::Draw();
 	}
 
 	bool UIUserElement::IsDisabled() const

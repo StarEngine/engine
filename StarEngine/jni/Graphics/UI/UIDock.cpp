@@ -1,4 +1,5 @@
 #include "UIDock.h"
+#include "UIElement.h"
 
 namespace star
 {
@@ -16,6 +17,11 @@ namespace star
 	void UIDock::Initialize()
 	{
 		Object::Initialize();
+	}
+	
+	void UIDock::AddElement(UIElement * pElement)
+	{
+		AddChild(pElement);
 	}
 
 	void UIDock::Update(const Context& context)

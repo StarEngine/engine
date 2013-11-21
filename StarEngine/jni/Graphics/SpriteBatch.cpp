@@ -215,12 +215,18 @@ namespace star
 	
 	void SpriteBatch::FlushText(const TextDesc& textDesc)
 	{
-		FlushText(textDesc.Text, textDesc.Fontname, textDesc.TransformComp, textDesc.TextColor);
+		FlushText(
+			textDesc.Text,
+			textDesc.Fontname,
+			textDesc.VerticalSpacing, 
+			textDesc.TransformComp,
+			textDesc.TextColor);
 	}
 
 	void SpriteBatch::FlushText(
-		const std::vector<sstring>& text, 
+		const tstring & text, 
 		const tstring& fontname,
+		int32 spacing, 
 		TransformComponent* transform,
 		const Color& color
 		)
@@ -259,13 +265,18 @@ namespace star
 
 		int32 offsetX(0);
 		int32 offsetY(0);
-		for(auto it = text.begin(); it != text.end() ; ++it)
-		{
-			const schar *start_line=it->c_str();
-			for(int32 i = 0 ; start_line[i] != 0 ; ++i) 
-			{
 
-				glBindTexture(GL_TEXTURE_2D,textures[ start_line[i] ]);
+		const tchar *start_line = text.c_str();
+		for(int32 i = 0 ; start_line[i] != 0 ; ++i) 
+		{
+			if(start_line[i] == _T('\n'))
+			{
+				offsetY -= curfont.GetMaxLetterHeight() + spacing;
+				offsetX = 0;	
+			}
+			else
+			{
+				glBindTexture(GL_TEXTURE_2D, textures[start_line[i]]);
 
 				//Set attributes and buffers
 				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0,
@@ -298,9 +309,7 @@ namespace star
 					);
 				glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 			}
-			offsetY -= curfont.GetMaxLetterHeight();
-			offsetX = 0;
-		}	
+		}
 
 		//Unbind attributes and buffers
 		glDisableVertexAttribArray(ATTRIB_VERTEX);

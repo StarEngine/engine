@@ -264,6 +264,12 @@
     <ClInclude Include="jni\Helpers\Math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Graphics\UI\UIElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Graphics\UI\UIButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -483,6 +489,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Helpers\Math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Graphics\UI\UIElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Graphics\UI\UIButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

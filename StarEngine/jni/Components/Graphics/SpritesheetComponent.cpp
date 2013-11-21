@@ -195,12 +195,22 @@ namespace star
 		return nrOfFrames;
 	}
 
+	int32 SpritesheetComponent::GetWidth() const
+	{
+		return int32(m_Width);
+	}
+
+	int32 SpritesheetComponent::GetHeight() const
+	{
+		return int32(m_Heigth);
+	}
+
 	void SpritesheetComponent::InitializeComponent()
 	{
 		SetSpritesheet(m_SpritesheetName);
 		SpriteComponent::InitializeComponent();
 		m_Width /= GetFramesHorizontal();
-		m_Heigth += GetFramesVertical();
+		m_Heigth /= GetFramesVertical();
 	}
 
 	void SpritesheetComponent::CreateVertices()
@@ -231,5 +241,6 @@ namespace star
 	{
 		return m_Animations.front().IsPlaying();
 	}
+
 
 }

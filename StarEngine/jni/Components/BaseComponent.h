@@ -30,6 +30,13 @@ namespace star
 		BaseScene* GetGameScene() const;
 		TransformComponent* GetTransform() const;
 
+		virtual bool CheckCulling(
+			float left,
+			float right,
+			float top,
+			float bottom
+			) const;
+
 		void SetEnabled(bool bEnabled);
 		bool IsEnabled() const;
 

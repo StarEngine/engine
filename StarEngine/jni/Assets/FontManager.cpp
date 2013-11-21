@@ -28,7 +28,8 @@ namespace star
 	}
 
 	FontManager::FontManager():
-		mLibrary(0)
+		mLibrary(0),
+		mFontPath(_T("Fonts/"))
 	{
 		auto error = FT_Init_FreeType(&mLibrary);
 		if(error)
@@ -79,10 +80,10 @@ namespace star
 			return false;
 		}
 
-		star::Filepath filepath(_T("Fonts/"),path);
+		star::Filepath filepath(mFontPath, path);
 
 		Font tempfont;
-		if(tempfont.Init(filepath.GetAssetsPath(),size,mLibrary))
+		if(tempfont.Init(filepath.GetAssetsPath(), size, mLibrary))
 		{
 			mFontList[name] = tempfont;
 
@@ -114,7 +115,17 @@ namespace star
 		}
 	}
 
-	const Font& FontManager::GetFont( const tstring& name )
+	void FontManager::SetFontPath(const tstring & path)
+	{
+		mFontPath = path;
+	}
+
+	const tstring & FontManager::GetFontPath() const
+	{
+		return mFontPath;
+	}
+
+	const Font& FontManager::GetFont(const tstring& name)
 	{
 		ASSERT(mFontList.find(name) != mFontList.end(),_T("No such font"));
 		return mFontList[name];

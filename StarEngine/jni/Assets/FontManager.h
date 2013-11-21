@@ -31,11 +31,13 @@ namespace star
 			,Fontname(EMPTY_STRING)
 			,TransformComp(nullptr)
 			,TextColor(Color::Black)
+			,VerticalSpacing(5)
 		{}
-		std::vector<sstring> Text;
+		tstring Text;
 		tstring Fontname;
 		Color TextColor;
 		TransformComponent* TransformComp; 
+		int32 VerticalSpacing;
 	};
 
 	class FontManager final
@@ -52,6 +54,8 @@ namespace star
 		bool DrawText(const tstring& text, const tstring& fontname,TransformComponent* transform, Color color = Color::Black);
 		bool DrawText(TextDesc textDesc);
 		void SplitIntoLines(std::vector<sstring> &list, const sstring &string);
+		void SetFontPath(const tstring & path);
+		const tstring & GetFontPath() const;
 	private:
 		//Data Members
 		static FontManager * mFontManager;
@@ -60,6 +64,8 @@ namespace star
 
 		std::map<tstring, Font> mFontList;
 		std::vector<tstring> mPathList;
+
+		tstring mFontPath;
 
 		Shader m_Shader;
 
