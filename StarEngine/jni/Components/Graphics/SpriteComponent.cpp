@@ -108,6 +108,30 @@ namespace star
 		SpriteBatch::GetInstance()->AddSpriteToQueue(m_SpriteInfo, m_bIsHudElement);
 	}
 
+	void SpriteComponent::Update(const Context & context)
+	{
+
+	}
+	
+	bool SpriteComponent::CheckCulling(
+		float left,
+		float right,
+		float top,
+		float bottom
+		) const
+	{
+		float32 spriteWidth, spriteHeight;
+
+		pos objectPos = GetTransform()->GetWorldPosition();
+
+		spriteWidth = float32(GetWidth()) * GetTransform()->GetWorldScale().x;
+		spriteHeight = float32(GetHeight()) * GetTransform()->GetWorldScale().y;
+
+		return
+			(objectPos.x >= left || objectPos.x + spriteWidth <= right) &&
+			(objectPos.y >= bottom || objectPos.y + spriteHeight <= top);
+	}
+
 	const tstring& SpriteComponent::GetFilePath() const
 	{
 		return m_FilePath.GetPath();

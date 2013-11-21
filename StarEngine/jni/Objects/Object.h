@@ -55,11 +55,15 @@ namespace star
 		template<class T>
 		T* GetComponent(bool searchChildren = false) const;
 
+		const std::vector<BaseComponent*>& GetComponents() const;
+
 		template<class T>
 		T* GetChild() const;
 
 		template<class T>
 		T* GetChild(const tstring & name) const;
+
+		const std::vector<Object*>& GetChildren() const;
 
 	protected:
 		virtual void Initialize();

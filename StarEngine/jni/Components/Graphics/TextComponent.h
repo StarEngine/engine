@@ -17,13 +17,25 @@ namespace star
 
 		void Draw();
 		virtual void Update(const Context& context);
+
+		virtual bool CheckCulling(
+			float left,
+			float right,
+			float top,
+			float bottom
+			) const;
+
+
 		void SetText(const tstring& text);
 		const tstring& GetText() const;
+
 		void SetColor(const Color& color);
 		const Color& GetColor() const;
+
 		//Default set to -1, Set width to -1 to disable wrapping
 		void SetWrapWidth(float32 width);
 		float32 GetWrapWidth() const;
+
 		int32 GetMaxTextWidth();
 		int32 GetTotalTextHeight();
 		

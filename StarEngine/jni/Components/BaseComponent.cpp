@@ -79,6 +79,16 @@ namespace star
 		 return m_pParentObject->GetComponent<TransformComponent>();
 	}
 
+	bool BaseComponent::CheckCulling(
+		float left,
+		float right,
+		float top,
+		float bottom
+		) const
+	{
+		return false;
+	}
+
 	void BaseComponent::SetEnabled(bool bEnabled)
 	{
 		m_bIsEnabled = bEnabled;

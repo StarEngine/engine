@@ -70,6 +70,29 @@ namespace star
 	{
 
 	}
+	
+	bool TextComponent::CheckCulling(
+		float left,
+		float right,
+		float top,
+		float bottom
+		) const
+	{
+		float32 textWidth, textHeight, textW, textH;
+
+		pos objectPos = GetTransform()->GetWorldPosition();
+		
+		auto font = FontManager::GetInstance()->GetFont(m_FontName);
+		textW = float32(font.GetStringLength(m_OrigText));
+		textH = float32(font.GetMaxLetterHeight());
+
+		textWidth = textW * GetTransform()->GetWorldScale().x;
+		textHeight = textH * GetTransform()->GetWorldScale().y;
+
+		return
+			(objectPos.x >= left || objectPos.x + textWidth <= right) &&
+			(objectPos.y >= bottom || objectPos.y + textHeight <= top);
+	}
 
 	void TextComponent::SetText(const tstring& text)
 	{
@@ -164,7 +187,7 @@ namespace star
 	{
 		if(m_MaxWidth == 0)
 		{
-			auto font =FontManager::GetInstance()->GetFont(m_FontName);
+			auto font = FontManager::GetInstance()->GetFont(m_FontName);
 			m_MaxWidth = font.GetStringLength(m_OrigText);
 		}
 		return m_MaxWidth;

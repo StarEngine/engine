@@ -96,7 +96,7 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			if(CheckCulling(object))
+			if(object->IsVisible() && CheckCulling(object))
 			{
 				object->BaseDraw();
 			}
@@ -188,41 +188,31 @@ namespace star
 
 	bool BaseScene::CheckCulling(Object* object)
 	{
-		pos objectPos = object->GetTransform()->GetWorldPosition();
 		pos camPos = m_pDefaultCamera->GetTransform()->GetWorldPosition();
-		float32 xPos = (camPos.pos2D().x) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().x) / 2.0f);
-		float32 yPos = (camPos.pos2D().y) * ((star::ScaleSystem::GetInstance()->GetWorkingResolution().y) / 2.0f); 
+
+		float32 xPos = camPos.pos2D().x *
+			((star::ScaleSystem::GetInstance()->GetWorkingResolution().x) / 2.0f);
+		float32 yPos = camPos.pos2D().y *
+			((star::ScaleSystem::GetInstance()->GetWorkingResolution().y) / 2.0f); 
+
 		int32 screenWidth = GraphicsManager::GetInstance()->GetScreenWidth();
 		int32 screenHeight = GraphicsManager::GetInstance()->GetScreenHeight();
-		SpriteComponent* sprite = object->GetComponent<SpriteComponent>();
-		SpritesheetComponent* spritesheet = object->GetComponent<SpritesheetComponent>();
-		if(sprite == nullptr && spritesheet == nullptr)
+
+		const auto & objComponents = object->GetComponents();
+		for ( auto component : objComponents)
 		{
-			return false;
+			if(component->CheckCulling(
+				xPos - m_CullingOffsetX,
+				xPos + screenWidth + m_CullingOffsetX,
+				yPos + screenHeight + m_CullingOffsetY,
+				yPos - m_CullingOffsetY
+				))
+			{
+				return true;
+			}
 		}
 
-		int32 spriteWidth;
-		int32 spriteHeight;
-
-		if(sprite != nullptr)
-		{
-			spriteWidth = int32(float32(sprite->GetWidth()) * object->GetTransform()->GetWorldScale().x);
-			spriteHeight = int32(float32(sprite->GetHeight()) * object->GetTransform()->GetWorldScale().y);
-		}
-		if(spritesheet != nullptr)
-		{
-			spriteWidth = int32(float32(spritesheet->GetWidth()) * object->GetTransform()->GetWorldScale().x);
-			spriteHeight = int32(float32(spritesheet->GetHeight()) * object->GetTransform()->GetWorldScale().y);
-		}
-
-		if(	objectPos.x > xPos + screenWidth + m_CullingOffsetX ||
-			objectPos.x + spriteWidth < xPos - m_CullingOffsetX ||
-			objectPos.y > yPos + screenHeight + m_CullingOffsetY ||
-			objectPos.y + spriteHeight < yPos - m_CullingOffsetY)
-		{
-			return false;
-		}
-		return true;
+		return false;
 	}
 
 	void BaseScene::SetCullingOffset(int32 offset)

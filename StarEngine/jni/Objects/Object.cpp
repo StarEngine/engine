@@ -269,4 +269,15 @@ namespace star
 	{
 		return m_pScene;
 	}
+	
+	const std::vector<BaseComponent*>& Object::GetComponents() const
+	{
+		return m_pComponents;
+	}
+	
+
+	const std::vector<Object*>& Object::GetChildren() const
+	{
+		return m_pChildren;
+	}
 }
