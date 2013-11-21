@@ -82,10 +82,7 @@ namespace star
 
 		for(auto object : m_Objects)
 		{
-			//if(CheckCulling(object))
-			//{
-				object->BaseUpdate(context);
-			//}
+			object->BaseUpdate(context);
 		}
 		Update(context);
 		//[COMMENT] Updating the collisionManager before the objects or here?
@@ -208,9 +205,6 @@ namespace star
 		int32 screenWidth = GraphicsManager::GetInstance()->GetScreenWidth();
 		int32 screenHeight = GraphicsManager::GetInstance()->GetScreenHeight();
 
-
-		if(sprite == nullptr && spritesheet == nullptr && text == nullptr)
-
 		const auto & objComponents = object->GetComponents();
 		for ( auto component : objComponents)
 		{
@@ -223,11 +217,6 @@ namespace star
 			{
 				return true;
 			}
-		}
-		else if(text != nullptr)
-		{
-			spriteWidth = int32(float32(text->GetMaxTextWidth()) * object->GetTransform()->GetWorldScale().x);
-			spriteHeight = int32(float32(text->GetTotalTextHeight()) * object->GetTransform()->GetWorldScale().y);
 		}
 
 		return false;
