@@ -196,7 +196,7 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			if(object->GetName() == name)
+			if(object->CompareName(name))
 			{
 				RemoveObject(object);
 				return;
@@ -212,11 +212,12 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			if(object->GetName() == name)
+			if(object->CompareName(name))
 			{
 				return object;
 			}
 		}
+		return nullptr;
 		Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("BaseScene::GetObjectByName: \
 				   Trying to get an unknown object '")
@@ -227,7 +228,7 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			if(object->GetName() == name)
+			if(object->CompareName(name))
 			{
 				object->Freeze(freeze);
 				return;
@@ -243,7 +244,7 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			if(object->GetName() == name)
+			if(object->CompareName(name))
 			{
 				object->SetDisabled(disabled);
 				return;
@@ -259,7 +260,7 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			if(object->GetName() == name)
+			if(object->CompareName(name))
 			{
 				object->SetVisible(visible);
 				return;
@@ -275,7 +276,7 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			if(object->GetGroupTag() == tag)
+			if(object->CompareGroupTag(tag))
 			{
 				object->Freeze(visible);
 			}
@@ -286,7 +287,7 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			if(object->GetGroupTag() == tag)
+			if(object->CompareGroupTag(tag))
 			{
 				object->SetDisabled(visible);
 			}
@@ -297,7 +298,7 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			if(object->GetGroupTag() == tag)
+			if(object->CompareGroupTag(tag))
 			{
 				object->SetVisible(visible);
 			}
@@ -309,7 +310,7 @@ namespace star
 		group.clear();
 		for(auto object : m_Objects)
 		{
-			if(object->GetGroupTag() == tag)
+			if(object->CompareGroupTag(tag))
 			{
 				group.push_back(object);
 			}

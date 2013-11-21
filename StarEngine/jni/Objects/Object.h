@@ -7,6 +7,7 @@
 #include "../Scenes/BaseScene.h"
 #include "../Components/TransformComponent.h"
 #include "../AI/Pathfinding/PathFindManager.h"
+#include "../Helpers/HashTag.h"
 
 namespace star
 {
@@ -28,9 +29,15 @@ namespace star
 
 		const tstring& GetName() const;
 		void SetName(const tstring& name);
+		bool CompareName(const tstring & name);
+
+		const tstring& GetPhysicsTag() const;
+		void SetPhysicsTag(const tstring& tag);
+		bool ComparePhysicsTag(const tstring & tag);
 
 		const tstring& GetGroupTag() const;
 		void SetGroupTag(const tstring& tag);
+		bool CompareGroupTag(const tstring & tag);
 
 		void AddComponent(BaseComponent* pComponent);
 
@@ -87,7 +94,7 @@ namespace star
 		std::vector<BaseComponent*> m_pGarbageComponents;
 		std::vector<Object*> m_pChildren;
 		std::vector<Object*> m_pGarbageChildren;
-		tstring m_Name, m_CollisionTag, m_GroupTag;
+		HashTag m_Name, m_GroupTag, m_PhysicsTag;
 
 	private:
 

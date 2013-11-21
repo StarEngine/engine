@@ -21,8 +21,8 @@ namespace star
 		, m_pChildren()
 		, m_pGarbageChildren()
 		, m_Name(_T("Default"))
-		, m_CollisionTag(_T("Default"))
 		, m_GroupTag(_T("Default"))
+		, m_PhysicsTag(_T("Default"))
 	{
 		m_pComponents.push_back(new TransformComponent(this));
 	}
@@ -140,22 +140,49 @@ namespace star
 
 	const tstring& Object::GetName() const
 	{
-		return m_Name;
+		return m_Name.GetTag();
 	}
 
 	void Object::SetName(const tstring& name)
 	{
-		m_Name = name;
+		m_Name.SetTag(name);
 	}
+	
+	bool Object::CompareName(const tstring & name)
+	{
+		return m_Name == name;
+	}
+
+	const tstring& Object::GetPhysicsTag() const
+	{
+		return m_PhysicsTag.GetTag();
+	}
+
+	void Object::SetPhysicsTag(const tstring& tag)
+	{
+		m_PhysicsTag.SetTag(tag);
+	}
+
+	bool Object::ComparePhysicsTag(const tstring & tag)
+	{
+		return m_PhysicsTag == tag;
+	}
+
+	bool CompareName(const tstring & name);
 
 	const tstring& Object::GetGroupTag() const
 	{
-		return m_GroupTag;
+		return m_GroupTag.GetTag();
 	}
 
 	void Object::SetGroupTag(const tstring& tag)
 	{
-		m_GroupTag = tag;
+		m_GroupTag.SetTag(tag);
+	}
+	
+	bool Object::CompareGroupTag(const tstring & tag)
+	{
+		return m_GroupTag == tag;
 	}
 
 	void Object::AddComponent(BaseComponent *pComponent)
