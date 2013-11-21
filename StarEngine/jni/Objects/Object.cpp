@@ -131,14 +131,6 @@ namespace star
 					component->BaseDraw();
 				} 
 			}
-
-			for(auto child : m_pChildren)
-			{
-				if(child)
-				{
-					child->BaseDraw();
-				}
-			}
 		}
 	}
 
@@ -222,6 +214,10 @@ namespace star
 	void Object::SetVisible(bool visible)
 	{
 		m_IsVisible = visible;
+		for(auto child : m_pChildren)
+		{
+			child->SetVisible(visible);
+		}
 	}
 
 	bool Object::IsVisible() const
@@ -232,6 +228,10 @@ namespace star
 	void Object::Freeze(bool freeze)
 	{
 		m_IsFrozen = freeze;
+		for(auto child : m_pChildren)
+		{
+			child->Freeze(freeze);
+		}
 	}
 
 	bool Object::IsFrozen() const
@@ -243,6 +243,11 @@ namespace star
 	{
 		m_IsVisible = !disabled;
 		m_IsFrozen = disabled;
+
+		for(auto child : m_pChildren)
+		{
+			child->SetDisabled(disabled);
+		}
 	}
 
 	bool Object::IsDisabled() const

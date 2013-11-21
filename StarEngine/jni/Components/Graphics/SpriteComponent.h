@@ -46,8 +46,8 @@ namespace star
 
 		const tstring& GetFilePath() const;
 		const tstring& GetName() const;
-		int32 GetWidth() const;
-		int32 GetHeight() const;
+		virtual int32 GetWidth() const;
+		virtual int32 GetHeight() const;
 		std::vector<GLfloat> GetVertices() const;
 		std::vector<GLfloat> GetUVCoords() const;
 		
