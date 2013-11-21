@@ -165,7 +165,8 @@ namespace star
 
 	bool BaseColliderComponent::RectangleCircleCollision(
 		const RectangleColliderComponent* rect, 
-		const CircleColliderComponent* circle) const
+		const CircleColliderComponent* circle
+) const
 	{
 		Rect realRect = rect->GetCollisionRect();
 		float32 radius = circle->GetRealRadius();
@@ -203,30 +204,20 @@ namespace star
 	{
 		//http://notmagi.me/closest-point-on-line-aabb-and-obb-to-point/
 		vec2 pos = oobb->GetCenterPoint();
+		Rect rect = oobb->GetCollisionRect();
 		vec2 distVec = point - pos;
-		vec2 u0 = oobb->GetOrientatedUnitVecX();
+		vec2 width = rect.GetRightBottom() - rect.GetLeftBottom();
+		vec2 height = rect.GetLeftTop() - rect.GetLeftBottom();
+		vec2 u0(0,0);
+		Normalize(width, u0);
 		vec2 u1(-u0.y , u0.x);
 		float32 distance = Dot(distVec, u0);
-		float32 halfWidth = oobb->GetCollisionRectWidth() / 2.0f;
-		if(distance > halfWidth)
-		{
-			distance = halfWidth;
-		}
-		else if(distance < -halfWidth)
-		{
-			distance = -halfWidth;
-		}
+		float32 halfWidth = Mag(width) / 2.0f;
+		Clamp(distance, -halfWidth, halfWidth);
 		pos += u0 * distance;
 		distance = Dot(distVec, u1);
-		float32 halfHeight = oobb->GetCollisionRectHeight() / 2.0f;
-		if(distance > halfHeight)
-		{
-			distance = halfHeight;
-		}
-		else if(distance < -halfHeight)
-		{
-			distance = -halfHeight;
-		}
+		float32 halfHeight = Mag(height) / 2.0f;
+		Clamp(distance, -halfHeight, halfHeight);
 		pos += u1 * distance;
 		return pos;
 	}
