@@ -54,8 +54,8 @@ namespace star
 		void SetActiveCamera(BaseCamera* pCamera);
 		BaseCamera* GetActiveCamera() const;
 
-		void SetCullingIsEnabled(bool enabled);
-		bool IsCullingEnabled() const;
+		static void SetCullingIsEnabled(bool enabled);
+		static bool IsCullingEnabled();
 
 		void SetCullingOffset(int32 offset);
 		void SetCullingOffset(int32 offsetX, int32 offsetY);
@@ -88,8 +88,8 @@ namespace star
 
 		int32 m_CullingOffsetX,
 			m_CullingOffsetY;
-		bool m_Initialized,
-			 m_CullingIsEnabled;
+		bool m_Initialized;
+		static bool CULLING_IS_ENABLED;
 		tstring m_Name;
 	
 		BaseScene(const BaseScene& t);

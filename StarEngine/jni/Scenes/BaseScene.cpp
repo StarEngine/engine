@@ -12,6 +12,8 @@
 
 namespace star 
 {
+	bool BaseScene::CULLING_IS_ENABLED = true;
+
 	BaseScene::BaseScene(const tstring & name)
 		: m_GestureManagerPtr(nullptr)
 		, m_CollisionManagerPtr(nullptr)
@@ -21,7 +23,6 @@ namespace star
 		, m_CullingOffsetX(0)
 		, m_CullingOffsetY(0)
 		, m_Initialized(false)
-		, m_CullingIsEnabled(true)
 		, m_Name(name)
 	{
 		m_pStopwatch = std::make_shared<Stopwatch>();
@@ -100,14 +101,14 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			if(!m_CullingIsEnabled ||
+			if(!CULLING_IS_ENABLED ||
 				(object->IsVisible() && CheckCulling(object)))
 			{
 				object->BaseDraw();
 			}
 			for(auto child : object->GetChildren())
 			{
-				if(!m_CullingIsEnabled ||
+				if(!CULLING_IS_ENABLED ||
 					child->IsVisible() && CheckCulling(child))
 				{
 					child->BaseDraw();
@@ -341,12 +342,12 @@ namespace star
 
 	void BaseScene::SetCullingIsEnabled(bool enabled)
 	{
-		m_CullingIsEnabled = enabled;
+		CULLING_IS_ENABLED = enabled;
 	}
 
-	bool BaseScene::IsCullingEnabled() const
+	bool BaseScene::IsCullingEnabled()
 	{
-		return m_CullingIsEnabled;
+		return CULLING_IS_ENABLED;
 	}
 	
 	std::shared_ptr<Stopwatch> BaseScene::GetStopwatch() const

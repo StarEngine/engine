@@ -27,8 +27,6 @@ namespace star
 		bool AddScene(const tstring & name, BaseScene* scene);
 		bool RemoveScene(const tstring & name);
 
-		void SetCullingEnabled(bool enabled);
-
 		void Update(const Context& context);
 		void Draw();
 
