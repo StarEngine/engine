@@ -5,12 +5,12 @@
 
 namespace star
 {
-	const tstring UIAnimatedButton::N_CLICK = _T("CLICK");
-	const tstring UIAnimatedButton::N_IDLE = _T("IDLE");
+	const tstring UIAnimatedButton::N_CLICK = _T("click");
+	const tstring UIAnimatedButton::N_IDLE = _T("idle");
 #ifdef DESKTOP
-	const tstring UIAnimatedButton::N_HOVER = _T("HOVER");
+	const tstring UIAnimatedButton::N_HOVER = _T("hover");
 #endif
-	const tstring UIAnimatedButton::N_DISABLED = _T("DISABLE");
+	const tstring UIAnimatedButton::N_DISABLED = _T("disable");
 
 	UIAnimatedButton::UIAnimatedButton(
 		const tstring & name,
@@ -84,6 +84,16 @@ namespace star
 		}
 	}
 
+	void UIAnimatedButton::EnableContiniousAnimation(bool enabled)
+	{
+		m_ContiniousAnimation = enabled;
+	}
+
+	bool UIAnimatedButton::IsContiniousAnimationEnabled() const
+	{
+		return m_ContiniousAnimation;
+	}
+
 	void UIAnimatedButton::Update(const Context& context)
 	{
 		UIUserElement::Update(context);
@@ -99,7 +109,14 @@ namespace star
 		UIUserElement::GoIdle();
 		if(m_pButtonSprite->GetCurrentAnimation() != N_IDLE)
 		{
-			m_pButtonSprite->PlayAnimation(N_IDLE);
+			if(m_ContiniousAnimation)
+			{
+				m_pButtonSprite->PlayAnimation(N_IDLE, m_pButtonSprite->GetCurrentFrame());
+			}
+			else
+			{
+				m_pButtonSprite->PlayAnimation(N_IDLE);
+			}
 		}
 	}
 
@@ -109,7 +126,14 @@ namespace star
 		UIUserElement::GoHover();
 		if(m_pButtonSprite->GetCurrentAnimation() != N_HOVER)
 		{
-			m_pButtonSprite->PlayAnimation(N_HOVER);
+			if(m_ContiniousAnimation)
+			{
+				m_pButtonSprite->PlayAnimation(N_HOVER, m_pButtonSprite->GetCurrentFrame());
+			}
+			else
+			{
+				m_pButtonSprite->PlayAnimation(N_HOVER);
+			}
 		}
 	}
 #endif
@@ -119,7 +143,14 @@ namespace star
 		UIUserElement::GoClick();
 		if(m_pButtonSprite->GetCurrentAnimation() != N_CLICK)
 		{
-			m_pButtonSprite->PlayAnimation(N_CLICK);
+			if(m_ContiniousAnimation)
+			{
+				m_pButtonSprite->PlayAnimation(N_CLICK, m_pButtonSprite->GetCurrentFrame());
+			}
+			else
+			{
+				m_pButtonSprite->PlayAnimation(N_CLICK);
+			}
 		}
 	}
 
@@ -128,7 +159,14 @@ namespace star
 		UIUserElement::GoDisable();
 		if(m_pButtonSprite->GetCurrentAnimation() != N_DISABLED)
 		{
-			m_pButtonSprite->PlayAnimation(N_DISABLED);
+			if(m_ContiniousAnimation)
+			{
+				m_pButtonSprite->PlayAnimation(N_DISABLED, m_pButtonSprite->GetCurrentFrame());
+			}
+			else
+			{
+				m_pButtonSprite->PlayAnimation(N_DISABLED);
+			}
 		}
 	}
 

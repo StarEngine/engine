@@ -29,31 +29,39 @@ namespace star
 	{
 		UIElement::Update(context);
 
-		if(m_ElementState != ElementStates::DISABLED
-			&& m_ElementState != ElementStates::CLICK)
+		if(m_ElementState != ElementStates::DISABLED)
 		{
 			if(IsFingerWithinRange())
 			{
-				if(InputManager::GetInstance()->IsFingerPressedCP(0))
+				if(m_ElementState != ElementStates::CLICK)
 				{
-					m_ElementState = ElementStates::CLICK;
-					GoClick();
-					GetScene()->GetStopwatch()->CreateTimer(
-						m_Name.GetTag() + _T("click_timer"),
-						0.25f, false, false, [&]() {
-#ifdef DESKTOP
-							GoHover();
-#else
-							GoIdle();
-#endif
-						});
+					if(InputManager::GetInstance()->IsFingerPressedCP(0))
+					{
+						if(m_ElementState != ElementStates::CLICK)
+						{
+							m_ElementState = ElementStates::CLICK;
+							GoClick();
+							GetScene()->GetStopwatch()->CreateTimer(
+								m_Name.GetTag() + _T("click_timer"),
+								0.25f, false, false, [&]() {
+								#ifdef DESKTOP
+									GoHover();
+									m_ElementState = ElementStates::HOVER;
+								#else
+									GoIdle();
+									m_ElementState = ElementStates::IDLE;
+								#endif
+								});
+						}
+					}
+				#ifdef DESKTOP
+					else if(m_ElementState != ElementStates::HOVER)
+					{
+						m_ElementState = ElementStates::HOVER;
+						GoHover();
+					}
+				#endif
 				}
-#ifdef DESKTOP
-				else if(m_ElementState != ElementStates::HOVER)
-				{
-					GoHover();
-				}
-#endif
 			}
 			else if(m_ElementState != ElementStates::IDLE)
 			{
@@ -83,7 +91,7 @@ namespace star
 	{
 		if(m_HoverCallback != nullptr)
 		{
-			GoHover();
+			m_HoverCallback();
 		}
 	}
 #endif

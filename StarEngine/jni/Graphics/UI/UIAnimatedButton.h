@@ -20,6 +20,9 @@ namespace star
 		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
 		virtual void SetVerticalAlignment(VerticalAlignment alignment);
 
+		void EnableContiniousAnimation(bool enabled);
+		bool IsContiniousAnimationEnabled() const;
+
 	protected:
 		virtual void Update(const Context& context);
 		virtual void Draw();
@@ -41,6 +44,7 @@ namespace star
 								N_DISABLED;
 
 		SpritesheetComponent *m_pButtonSprite;
+		bool m_ContiniousAnimation;
 
 	private:
 		UIAnimatedButton(const UIAnimatedButton &);

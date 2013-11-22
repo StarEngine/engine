@@ -57,13 +57,13 @@ namespace star
 		void SetChildDisabled(const tstring & name, bool disabled);
 		void SetChildVisible(const tstring & name, bool visible);
 
-		void SetVisible(bool visible);
+		virtual void SetVisible(bool visible);
 		bool IsVisible() const;
 
-		void Freeze(bool freeze);
+		virtual void Freeze(bool freeze);
 		bool IsFrozen() const;
 
-		void SetDisabled(bool disabled);
+		virtual void SetDisabled(bool disabled);
 		bool IsDisabled() const;
 
 		bool IsInitialized() const;
