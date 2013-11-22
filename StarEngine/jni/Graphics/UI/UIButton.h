@@ -17,9 +17,14 @@ namespace star
 
 		virtual void Initialize();
 
+		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
+		virtual void SetVerticalAlignment(VerticalAlignment alignment);
+
 	protected:
 		virtual void Update(const Context& context);
 		virtual void Draw();
+
+		virtual vec2 GetUserElementDimensions() const;
 
 		bool m_IsVertical;
 		SpriteComponent *m_pButtonSprite;

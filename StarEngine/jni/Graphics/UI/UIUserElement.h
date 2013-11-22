@@ -34,6 +34,10 @@ namespace star
 		virtual void Update(const Context& context);
 		virtual void Draw();
 
+		bool IsFingerWithinRange() const;
+		vec2 GetLeftCorner() const;
+		virtual vec2 GetUserElementDimensions() const = 0;
+
 		std::function<void()>
 			m_SelectCallback;
 
