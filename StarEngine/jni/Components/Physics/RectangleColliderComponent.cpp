@@ -76,11 +76,12 @@ namespace star
 			if(spriteComp)
 			{
 				ASSERT(spriteComp->IsInitialized(),_T("First add the spriteComponent and then the rectColliderComp"));
-				m_CollisionRect.SetPoints(vec2(0,0),
+				m_CollisionRect.SetPoints(
+					vec2(0, 0),
 					vec2(spriteComp->GetWidth(), 0), 
 					vec2(0, spriteComp->GetHeight()), 
-					vec2(spriteComp->GetWidth(), 
-						spriteComp->GetHeight()));
+					vec2(spriteComp->GetWidth(), spriteComp->GetHeight())
+					);
 			}
 			else
 			{

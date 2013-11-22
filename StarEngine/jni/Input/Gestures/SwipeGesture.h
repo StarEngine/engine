@@ -9,13 +9,22 @@ namespace star
 	class SwipeGesture : public BaseGesture
 	{
 	public:
-		SwipeGesture();
+		SwipeGesture(
+			int32 minSwipeDistance = 200, 
+			int32 minSwipeSpeed = 1000,
+			bool enableAngleFlex = true, 
+			int32 angleFlex = 20);
 		virtual ~SwipeGesture();
 
 		virtual void Update(const Context& context);
 		vec2 GetSwipeDirection() const;
 		float32 GetSwipeSpeed() const;
 		float32 GetSwipeLength() const;
+
+		void SetAngleCheck(bool angleCheck);
+		void SetAngleFlex(float32 degrees);
+		void SetMinSwipeSpeed(float32 speed);
+		void SetMinSwipeDistane(float32 distance);
 
 	private:
 	#ifdef _WIN32
@@ -31,9 +40,10 @@ namespace star
 		vec2 m_CurrentPos;
 		vec2 m_OldPos;
 		vec2 m_OldDirection;
-		static const int32 ANGLE_FLEX = 20;
-		static const int32 MIN_SWIPE_SPEED = 1000;
-		static const int32 MIN_SWIPE_DISTANCE = 200;
+		int32 m_AngleFlex;
+		int32 m_MinSwipeSpeed;
+		int32 m_MinSwipeDistance;
+		bool m_bEnableAngleFlex;
 		bool m_bIsGestureOk;
 		float32 m_TotalDistance;
 

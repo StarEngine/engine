@@ -260,34 +260,35 @@ namespace star
 #ifdef DESKTOP
 		glUseProgram(m_Shader->GetID());
 		
-		float32 scaleValue = ScaleSystem::GetInstance()->GetScale();
-		mat4 scaleMat = Scale(scaleValue, scaleValue, 1.0f);
+		float32 scaleValue(ScaleSystem::GetInstance()->GetScale());
+		mat4 scaleMat(Scale(scaleValue, scaleValue, 1.0f));
 
-		glUniformMatrix4fv(m_MVPLocation,
+		glUniformMatrix4fv(
+			m_MVPLocation,
 			1, GL_FALSE,
 			ToPointerValue(
 				scaleMat *
 				GraphicsManager::GetInstance()->GetViewProjectionMatrix()
-			)
-		);
+				)
+			);
 
 		glEnableVertexAttribArray(m_PositionLocation);
 		glVertexAttribPointer(m_PositionLocation, 2, GL_FLOAT, 
 			GL_FALSE, 0, (GLfloat*) m_Vertices);
 
-		if (primitiveTypes & Triangles)
+		if (primitiveTypes & Triangles != 0)
 		{
 			glUniform4f(m_ColorLocation, color.r, color.g, color.b, m_DrawOpTriangles);
 			glDrawArrays(GL_TRIANGLE_FAN, 0, count);
 		}
 
-		if (primitiveTypes & Lines)
+		if (primitiveTypes & Lines != 0)
 		{
 			glUniform4f(m_ColorLocation, color.r, color.g, color.b, m_DrawOpLines);
 			glDrawArrays(GL_LINE_LOOP, 0, count);
 		}
 
-		if (primitiveTypes & Points)
+		if (primitiveTypes & Points != 0)
 		{
 			glUniform4f(m_ColorLocation, color.r, color.g, color.b, m_DrawOpPoints);
 			//[TODO] only works for windows..

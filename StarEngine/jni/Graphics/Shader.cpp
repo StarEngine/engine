@@ -191,13 +191,13 @@ namespace star
 #ifdef ANDROID
 			else
 			{
-				//This is necessairy due to an android bug!
+				//This is necessary due to an Android bug!
 				schar* buf = new schar[ANDROID_ERROR_SIZE];
 				if (buf)
 				{
 					glGetShaderInfoLog(*shader, ANDROID_ERROR_SIZE, NULL, buf);
 					tstringstream buffer;
-					buffer buffer	<< _T("Shader::CompileShader: \
+					buffer 	<< _T("Shader::CompileShader: \
 								 Could not compile shader") 
 							<< int32(type) 
 							<< _T(": ")
