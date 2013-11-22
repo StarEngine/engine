@@ -12,9 +12,27 @@
 namespace star
 {
 	TextComponent::TextComponent(
-		const tstring& fileName,
-		const tstring& name,
-		int32 fontSize,
+		const tstring& fontName,
+		bool bInFront
+		)
+		: BaseComponent()
+		, m_FontSize(0)
+		, m_TextWidth(0)
+		, m_TextHeight(0)
+		, m_WrapWidth(NO_WRAPPING)
+		, m_FileName(EMPTY_STRING)
+		, m_FontName(fontName)
+		, m_OrigText(EMPTY_STRING)
+		, m_EditedText(EMPTY_STRING)
+		, m_TextColor(Color::Black)
+		, m_bInFront(bInFront)
+	{
+	}
+
+	TextComponent::TextComponent(
+		const tstring& fontPath,
+		const tstring& fontName,
+		float32 fontSize,
 		bool bInFront
 		)
 		: BaseComponent()
@@ -22,8 +40,8 @@ namespace star
 		, m_TextWidth(0)
 		, m_TextHeight(0)
 		, m_WrapWidth(NO_WRAPPING)
-		, m_FileName(fileName)
-		, m_FontName(name)
+		, m_FileName(fontPath)
+		, m_FontName(fontName)
 		, m_OrigText(EMPTY_STRING)
 		, m_EditedText(EMPTY_STRING)
 		, m_TextColor(Color::Black)
@@ -33,16 +51,25 @@ namespace star
 
 	void TextComponent::InitializeComponent()
 	{
-		if(!FontManager::GetInstance()->LoadFont(
-			m_FileName,
-			m_FontName,
-			m_FontSize
-			))
+		if(m_FileName == EMPTY_STRING)
+		{
+			const auto & font = 
+				FontManager::GetInstance()->
+					GetFont(m_FontName);
+			m_FileName = font.GetFontPath();
+			m_FontSize = font.GetSize();
+		}
+		else if(!FontManager::GetInstance()->LoadFont(
+				m_FileName,
+				m_FontName,
+				m_FontSize
+				))
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
 				_T("TextComponent : Could not load Font '")
 				+ m_FileName + _T("'."));
 		}
+
 		m_TextDesc.Fontname = m_FontName;
 		m_TextDesc.TextColor = m_TextColor;
 

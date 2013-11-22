@@ -68,7 +68,7 @@ namespace star
 		FT_Done_FreeType(mLibrary);
 	}
 
-	bool FontManager::LoadFont(const tstring& path, const tstring& name, int32 size)
+	bool FontManager::LoadFont(const tstring& path, const tstring& name, float32 size)
 	{
 		if(mFontManager == nullptr)
 		{

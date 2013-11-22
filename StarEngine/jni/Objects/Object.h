@@ -18,6 +18,11 @@ namespace star
 	{
 	public:
 		Object();
+		Object(const tstring & name);
+		Object(
+			const tstring & name,
+			const tstring & groupTag
+			);
 		virtual ~Object(void);
 
 		Object* GetParent() const;
@@ -43,7 +48,14 @@ namespace star
 
 		void AddChild(Object* pObject);
 		void RemoveChild(const Object* pObject);
+		void RemoveChild(const tstring & name);
+
 		const std::vector<Object*>& GetChildren() const;
+
+		Object * GetChildByName(const tstring & name);
+		void SetChildFrozen(const tstring & name, bool freeze);
+		void SetChildDisabled(const tstring & name, bool disabled);
+		void SetChildVisible(const tstring & name, bool visible);
 
 		void SetVisible(bool visible);
 		bool IsVisible() const;

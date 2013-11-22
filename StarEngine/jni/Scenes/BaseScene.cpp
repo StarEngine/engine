@@ -217,11 +217,11 @@ namespace star
 				return object;
 			}
 		}
-		return nullptr;
 		Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("BaseScene::GetObjectByName: \
 				   Trying to get an unknown object '")
 				   + name + _T("'."));
+		return nullptr;
 	}
 
 	void BaseScene::SetObjectFrozen(const tstring & name, bool freeze)

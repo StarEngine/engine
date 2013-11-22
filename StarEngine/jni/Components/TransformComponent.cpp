@@ -10,8 +10,6 @@ namespace star
 	TransformComponent::TransformComponent(star::Object* parent):
 		m_IsChanged(TransformChanged::ALL),
 		m_Invalidate(false),
-		m_bRotationCenterChanged(false),
-		m_bRotationIsLocal(false),
 	#ifdef STAR2D
 		m_WorldPosition(0,0),
 		m_LocalPosition(0,0),
@@ -116,31 +114,15 @@ namespace star
 
 	void TransformComponent::Rotate(float32 rotation)
 	{
-		m_bRotationCenterChanged = false;
-		m_bRotationIsLocal = false;
 		m_LocalRotation = rotation;
 		m_IsChanged |= TransformChanged::ROTATION;
 	}
 
 	void TransformComponent::Rotate(float32 rotation, const pos& centerPoint)
 	{
-		m_bRotationCenterChanged = true;
-		m_bRotationIsLocal = false;
 		m_LocalRotation = rotation;
-		m_CenterPosition = centerPoint;
+		SetCenterPoint(centerPoint);
 		m_IsChanged |= TransformChanged::ROTATION;
-	}
-
-	void TransformComponent::RotateLocal(float32 rotation)
-	{
-		Rotate(rotation);
-		m_bRotationIsLocal = m_pParentObject->GetParent() != nullptr;
-	}
-
-	void TransformComponent::RotateLocal(float32 rotation, const pos& centerPoint)
-	{
-		Rotate(rotation, centerPoint);
-		m_bRotationIsLocal = m_pParentObject->GetParent() != nullptr;
 	}
 
 	void TransformComponent::Scale(const vec2 & scale)
@@ -199,6 +181,27 @@ namespace star
 	const vec2 & TransformComponent::GetLocalScale()
 	{
 		return m_LocalScale;
+	}
+
+	void TransformComponent::SetCenterPoint(const pos & centerPoint)
+	{
+		m_CenterPosition = centerPoint;
+	}
+
+	void TransformComponent::SetCenterPoint(float32 x, float32 y)
+	{
+		m_CenterPosition.x = x;
+		m_CenterPosition.y = y;
+	}
+
+	void TransformComponent::SetCenterX(float32 x)
+	{
+		m_CenterPosition.x = x;
+	}
+
+	void TransformComponent::SetCenterY(float32 y)
+	{
+		m_CenterPosition.y = y;
 	}
 
 #else
@@ -439,20 +442,11 @@ namespace star
 		matTrans = star::Translate(m_LocalPosition.pos3D());
 		matRot   = ToMat4(quat(vec3(0, 0, m_LocalRotation)));
 		matScale = star::Scale(vec3(m_LocalScale.x, m_LocalScale.y, 1.0f));
-			
-		if(m_bRotationCenterChanged)
-		{
-			m_bRotationCenterChanged = true;
-			vec3 centerPos(m_CenterPosition.x, m_CenterPosition.y, 0);
-			matC = star::Translate(-centerPos);
-			matCI = star::Translate(centerPos);
+		
+		vec3 centerPos(m_CenterPosition.x, m_CenterPosition.y, 0);
+		matC = star::Translate(-centerPos);
 
-			world = matTrans * matCI * matRot * matScale * matC;
-		}
-		else
-		{
-			world = matTrans * matRot * matScale;
-		}
+		world = matTrans * matRot * matScale * matC;
 	}
 
 	void TransformComponent::Update(const Context& context)

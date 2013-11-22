@@ -43,8 +43,6 @@ namespace star
 
 		void Rotate(float32 rotation);
 		void Rotate(float32 rotation, const pos& centerPoint);
-		void RotateLocal(float32 rotation);
-		void RotateLocal(float32 rotation, const pos& centerPoint);
 
 		void Scale(const vec2& scale);
 		void Scale(float32 x, float32 y);
@@ -58,6 +56,11 @@ namespace star
 		float32 GetLocalRotation() const;
 		const vec2& GetWorldScale();
 		const vec2& GetLocalScale();
+
+		void SetCenterPoint(const pos & centerPoint);
+		void SetCenterPoint(float32 x, float32 y);
+		void SetCenterX(float32 x);
+		void SetCenterY(float32 y);
 #else
 		void Translate(const vec3& translation);
 		void Translate(float32 x, float32 y, float32 z);
@@ -106,10 +109,9 @@ namespace star
 
 		suchar m_IsChanged;
 		bool m_Invalidate;
-		bool m_bRotationCenterChanged, m_bRotationIsLocal;
 
 #ifdef STAR2D
-		pos m_WorldPosition, m_LocalPosition,m_CenterPosition;
+		pos m_WorldPosition, m_LocalPosition, m_CenterPosition;
 		float32 m_WorldRotation, m_LocalRotation;
 		vec2 m_WorldScale, m_LocalScale;
 #else

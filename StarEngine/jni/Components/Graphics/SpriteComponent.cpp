@@ -13,16 +13,16 @@ namespace star
 	SpriteComponent::SpriteComponent(
 		const tstring& filepath,
 		const tstring& spriteName,
-		int32 widthSegments,
-		int32 heightSegments
+		uint32 widthSegments,
+		uint32 heightSegments
 		)
 		: BaseComponent()
-		, m_Width(0)
 		, m_WidthSegments(widthSegments)
-		, m_CurrentWidthSegment(0)
-		, m_Heigth(0)
 		, m_HeightSegments(heightSegments)
+		, m_CurrentWidthSegment(0)
 		, m_CurrentHeightSegment(0)
+		, m_Width(0)
+		, m_Heigth(0)
 		, m_FilePath(filepath)
 		, m_SpriteName(spriteName)
 		, m_bIsHudElement(false)
@@ -66,14 +66,14 @@ namespace star
 
 	void SpriteComponent::CreateVertices()
 	{
-		m_Vertices[0] = (GLfloat)m_Width;
-		m_Vertices[1] = (GLfloat)m_Heigth;
+		m_Vertices[0] = GLfloat(m_Width);
+		m_Vertices[1] = GLfloat(m_Heigth);
 		m_Vertices[2] = 0;
-		m_Vertices[3] = (GLfloat)m_Width;
+		m_Vertices[3] = GLfloat(m_Width);
 		m_Vertices[4] = 0;
 		m_Vertices[5] = 0;
 		m_Vertices[6] = 0;
-		m_Vertices[7] = (GLfloat)m_Heigth;
+		m_Vertices[7] = GLfloat(m_Heigth);
 		m_Vertices[8] = 0;
 		m_Vertices[9] = 0;
 		m_Vertices[10] = 0;
@@ -176,12 +176,21 @@ namespace star
 		return uvCoords;
 	}
 
-	void SpriteComponent::SetCurrentSegment(int32 widthSegment, int32 heightSegment)
+	void SpriteComponent::SetCurrentSegment(uint32 widthSegment, uint32 heightSegment)
 	{
-		m_CurrentWidthSegment = widthSegment;
-		m_CurrentHeightSegment = m_HeightSegments - heightSegment - 1;
-
+		SetCurrentHorizontalSegment(widthSegment);
+		SetCurrentVerticalSegment(heightSegment);
 		CreateIndices();
+	}
+
+	void SpriteComponent::SetCurrentHorizontalSegment(uint32 segment)
+	{
+		m_CurrentWidthSegment = segment;
+	}
+
+	void SpriteComponent::SetCurrentVerticalSegment(uint32 segment)
+	{
+		m_CurrentHeightSegment = m_HeightSegments - segment - 1;
 	}
 
 	void SpriteComponent::SetHUDOptionEnabled(bool enabled)
@@ -197,8 +206,8 @@ namespace star
 	void SpriteComponent::SetTexture(
 		const tstring& filepath,
 		const tstring& spriteName,
-		int32 widthSegments,
-		int32 heightSegments
+		uint32 widthSegments,
+		uint32 heightSegments
 		)
 	{
 		m_Width = 0;

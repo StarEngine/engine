@@ -3,8 +3,7 @@
 namespace star
 {
 	UIElement::UIElement(const tstring & name)
-		: Object()
-		, m_Name(name)
+		: UIObject(name)
 	{
 
 	}
@@ -16,16 +15,16 @@ namespace star
 
 	void UIElement::Initialize()
 	{
-		Object::Initialize();
+		UIObject::Initialize();
 	}
 
 	void UIElement::Update(const Context& context)
 	{
-		Object::Update(context);
+		UIObject::Update(context);
 	}
 
 	void UIElement::Draw()
 	{
-		Object::Draw();
+		UIObject::Draw();
 	}
 }

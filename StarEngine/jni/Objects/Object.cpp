@@ -27,6 +27,45 @@ namespace star
 		m_pComponents.push_back(new TransformComponent(this));
 	}
 
+	Object::Object(const tstring & name)
+		: m_bIsInitialized(false)
+		, m_IsVisible(true)
+		, m_IsFrozen(false)
+		, m_pParentGameObject(nullptr)
+		, m_pPathFindComp(nullptr)
+		, m_pScene(nullptr)
+		, m_pComponents()
+		, m_pGarbageComponents()
+		, m_pChildren()
+		, m_pGarbageChildren()
+		, m_Name(name)
+		, m_GroupTag(_T("Default"))
+		, m_PhysicsTag(_T("Default"))
+	{
+		m_pComponents.push_back(new TransformComponent(this));
+	}
+
+	Object::Object(
+		const tstring & name,
+		const tstring & groupTag
+		)
+		: m_bIsInitialized(false)
+		, m_IsVisible(true)
+		, m_IsFrozen(false)
+		, m_pParentGameObject(nullptr)
+		, m_pPathFindComp(nullptr)
+		, m_pScene(nullptr)
+		, m_pComponents()
+		, m_pGarbageComponents()
+		, m_pChildren()
+		, m_pGarbageChildren()
+		, m_Name(name)
+		, m_GroupTag(groupTag)
+		, m_PhysicsTag(_T("Default"))
+	{
+		m_pComponents.push_back(new TransformComponent(this));
+	}
+
 	Object::~Object(void)
 	{
 		for(auto comp : m_pComponents)
@@ -191,7 +230,8 @@ namespace star
 		{
 			ASSERT(typeid(*comp) != typeid(*pComponent), 
 				_T("Object::AddComponent: \
-				   Adding 2 components of the same type to the same object is illegal."));
+Adding 2 components of the same type \
+to the same object is illegal."));
 		}
 
 		pComponent->SetParent(this);
@@ -221,14 +261,95 @@ namespace star
 	void Object::RemoveChild(const Object* pObject)
 	{
 		auto it = std::find(m_pChildren.begin(), m_pChildren.end(), pObject);
-		ASSERT(it != m_pChildren.end(), _T("Object::RemoveChild: \
-										   The object you tried to remove is not a child of this object!"));
+		ASSERT(it != m_pChildren.end(),
+			_T("Object::RemoveChild: The object you tried \
+to remove is not a child of this object!"));
 		m_pGarbageChildren.push_back(*it);
+	}
+	
+	void Object::RemoveChild(const tstring & name)
+	{
+		for(auto child : m_pChildren)
+		{
+			if(child->CompareName(name))
+			{
+				RemoveChild(child);
+				return;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Object::RemoveChild: \
+Trying to remove unknown child '")
+				   + name + _T("'."));
 	}
 
 	const std::vector<Object*>& Object::GetChildren() const
 	{
 		return m_pChildren;
+	}
+
+	Object * Object::GetChildByName(const tstring & name)
+	{
+		for(auto child : m_pChildren)
+		{
+			if(child->CompareName(name))
+			{
+				return child;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Object::GetChildByName: \
+Trying to get unknown child '")
+				   + name + _T("'."));
+		return nullptr;
+	}
+
+	void Object::SetChildFrozen(const tstring & name, bool freeze)
+	{
+		for(auto child : m_pChildren)
+		{
+			if(child->CompareName(name))
+			{
+				child->Freeze(freeze);
+				return;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Object::SetChildFrozen: \
+Trying to (un)freeze unknown child '")
+				   + name + _T("'."));
+	}
+
+	void Object::SetChildDisabled(const tstring & name, bool disabled)
+	{
+		for(auto child : m_pChildren)
+		{
+			if(child->CompareName(name))
+			{
+				child->SetDisabled(disabled);
+				return;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Object::SetChildDisabled: \
+Trying to enable/disable unknown child '")
+				   + name + _T("'."));
+	}
+
+	void Object::SetChildVisible(const tstring & name, bool visible)
+	{
+		for(auto child : m_pChildren)
+		{
+			if(child->CompareName(name))
+			{
+				child->SetVisible(visible);
+				return;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Object::SetChildVisible: \
+Trying to (un)hide unknown child '")
+				   + name + _T("'."));
 	}
 
 	void Object::SetVisible(bool visible)
@@ -310,8 +431,7 @@ namespace star
 		for(auto component : m_pGarbageComponents)
 		{
 			auto it = std::find(m_pComponents.begin(), m_pComponents.end(), component);
-			ASSERT(it != m_pComponents.end(), _T("Object::CollectGarbage: \
-												 trying to delete unknown object!"));
+			ASSERT(it != m_pComponents.end(), _T("Object::CollectGarbage: trying to delete unknown object!"));
 			m_pComponents.erase(it);
 			delete component;
 			Logger::GetInstance()->Log(LogLevel::Info, _T("Component Removed"));
@@ -321,8 +441,7 @@ namespace star
 		for(auto child : m_pGarbageChildren)
 		{
 			auto it = std::find(m_pChildren.begin(), m_pChildren.end(), child);
-			ASSERT(it != m_pChildren.end(), _T("Object::CollectGarbage: \
-												 trying to delete unknown child!"));
+			ASSERT(it != m_pChildren.end(), _T("Object::CollectGarbage: trying to delete unknown child!"));
 			m_pChildren.erase(it);
 			delete child;
 			Logger::GetInstance()->Log(LogLevel::Info, _T("Child Removed"));

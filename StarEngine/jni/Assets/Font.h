@@ -37,8 +37,10 @@ namespace star
 		Font();
 		~Font();
 
-		bool Init(const tstring& path, int32 size, FT_Library& library);
+		bool Init(const tstring& path, float32 size, FT_Library& library);
 		void DeleteFont();
+
+		const tstring & GetFontPath() const;
 
 		GLuint* GetTextures() const {return mTextures;}
 		float32 GetSize() const {return mSize;}
@@ -52,6 +54,7 @@ namespace star
 		void Make_D_List(FT_Face face, schar ch,GLuint * tex_base);
 		int32 NextPowerOfTwo(int32 a);
 
+		tstring m_FontPath;
 		FT_Face mFace;
 		GLuint* mTextures;
 		int32 mMaxLetterHeight;

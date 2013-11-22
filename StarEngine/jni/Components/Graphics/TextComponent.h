@@ -14,9 +14,14 @@ namespace star
 	{
 	public:
 		TextComponent(
-			const tstring& fileName,
-			const tstring& tag,
-			int32 fontSize,
+			const tstring& fontName,
+			bool bInFront = true
+			);
+
+		TextComponent(
+			const tstring& fontPath,
+			const tstring& fontName,
+			float32 fontSize,
 			bool bInFront = true
 			);
 
@@ -54,8 +59,8 @@ namespace star
 		void CalculateWrappedTextDimensions(uint8 lines);
 	
 	private:
-		int32	m_FontSize,
-				m_TextWidth,
+		float32	m_FontSize;
+		int32	m_TextWidth,
 				m_TextHeight;
 
 		int32 m_WrapWidth;

@@ -1,13 +1,11 @@
 #pragma once
-#include "../../defines.h"
-#include "../../Context.h"
-#include "../../Objects/Object.h"
 
+#include "UIObject.h"
 #include <functional>
 
 namespace star
 {
-	class UIElement : public Object
+	class UIElement : public UIObject
 	{
 	public:
 		UIElement(const tstring & name);
@@ -18,8 +16,6 @@ namespace star
 	protected:
 		virtual void Update(const Context& context);
 		virtual void Draw();
-
-		tstring m_Name;
 
 	private:
 		UIElement(const UIElement &);

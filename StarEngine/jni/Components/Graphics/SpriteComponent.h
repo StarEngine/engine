@@ -28,8 +28,8 @@ namespace star
 		SpriteComponent(
 			const tstring& filepath,
 			const tstring& spriteName,
-			int32 widthSegments = 1,
-			int32 heightSegments = 1
+			uint32 widthSegments = 1,
+			uint32 heightSegments = 1
 			);
 
 		virtual ~SpriteComponent();
@@ -51,12 +51,14 @@ namespace star
 		std::vector<GLfloat> GetVertices() const;
 		std::vector<GLfloat> GetUVCoords() const;
 		
-		void SetCurrentSegment(int32 widthSegment, int32 heightSegment);
+		void SetCurrentSegment(uint32 widthSegment, uint32 heightSegment);
+		void SetCurrentHorizontalSegment(uint32 segment);
+		void SetCurrentVerticalSegment(uint32 segment);
 
 		void SetHUDOptionEnabled(bool enabled);
 		bool IsHUDOptionEnabled() const;
 
-		void SetTexture(const tstring& filepath, const tstring& spriteName, int32 widthSegments = 1, int32 heightSegments = 1);
+		void SetTexture(const tstring& filepath, const tstring& spriteName, uint32 widthSegments = 1, uint32 heightSegments = 1);
 
 	protected:
 		virtual void InitializeComponent();
@@ -65,8 +67,13 @@ namespace star
 
 		GLfloat m_Vertices[12];
 		GLfloat m_UvCoords[8];
-		int32 m_Width, m_WidthSegments, m_CurrentWidthSegment;
-		int32 m_Heigth, m_HeightSegments, m_CurrentHeightSegment;
+
+		uint32	m_WidthSegments,
+				m_HeightSegments, 
+				m_CurrentWidthSegment,
+				m_CurrentHeightSegment;
+
+		int32 m_Width, m_Heigth;
 
 	private:
 		Filepath m_FilePath;
