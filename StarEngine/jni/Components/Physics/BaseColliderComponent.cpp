@@ -29,7 +29,9 @@ namespace star
 		SetVisible(false);
 	}
 
-	BaseColliderComponent::BaseColliderComponent(const tstring* layers, uint8 n)
+	BaseColliderComponent::BaseColliderComponent(
+		const tstring* layers, 
+		uint8 n)
 		: BaseComponent()
 		, m_bIsTrigger(false)
 		, m_bIsStatic(false)
@@ -51,7 +53,8 @@ namespace star
 
 	BaseColliderComponent::~BaseColliderComponent()
 	{
-		SceneManager::GetInstance()->GetActiveScene()->GetCollisionManager()->RemoveComponent(this);
+		SceneManager::GetInstance()->GetActiveScene()->
+			GetCollisionManager()->RemoveComponent(this);
 		delete[] m_Layers.elements;
 	}
 
@@ -167,7 +170,7 @@ namespace star
 	bool BaseColliderComponent::RectangleCircleCollision(
 		const RectangleColliderComponent* rect, 
 		const CircleColliderComponent* circle
-) const
+		) const
 	{
 		Rect realRect = rect->GetCollisionRect();
 		float32 radius = circle->GetRealRadius();
@@ -178,7 +181,8 @@ namespace star
 			// Find the closest point to the circle within the rectangle
 			vec2 closestPos(
 				Clamp(circleObjectPos.x, realRect.GetRealLeft(), realRect.GetRealRight()),
-				Clamp(circleObjectPos.y, realRect.GetRealBottom(), realRect.GetRealTop()));
+				Clamp(circleObjectPos.y, realRect.GetRealBottom(), realRect.GetRealTop())
+				);
 
 			// Calculate the distance between the circle's center and this closest point
 			vec2 distance(circleObjectPos - closestPos);
@@ -190,7 +194,8 @@ namespace star
 		{			
 			//Check with SAT
 			Logger::GetInstance()->
-				Log(LogLevel::Warning, _T("CollisionChecking between OOBB and Circle is not yet implemented"));
+				Log(LogLevel::Warning, 
+				_T("CollisionChecking between OOBB and Circle is not yet implemented"));
 			return false;
 			/*
 			vec2 closestPoint(FindClosestPointToOOBB(circleObjectPos,rect));

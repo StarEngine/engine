@@ -16,7 +16,9 @@ namespace star
 	{
 	public:
 		BaseColliderComponent();
-		BaseColliderComponent(const tstring* layers, uint8 n = 1);
+		BaseColliderComponent(
+			const tstring* layers, 
+			uint8 n = 1);
 		virtual ~BaseColliderComponent();
 
 		void Update(const Context& context);
@@ -44,7 +46,10 @@ namespace star
 		const PointerArray<tstring>& GetLayers() const;
 
 		virtual bool CollidesWithPoint(const vec2& point) const = 0;
-		virtual bool CollidesWithLine(const vec2& point1, const vec2& point2) const = 0;
+		virtual bool CollidesWithLine(
+			const vec2& point1, 
+			const vec2& point2
+			) const = 0;
 		virtual bool CollidesWith(const BaseColliderComponent* other) const = 0;
 
 	protected:
@@ -52,12 +57,14 @@ namespace star
 		virtual void Draw();
 		bool RectangleCircleCollision(
 			const RectangleColliderComponent* rect, 
-			const CircleColliderComponent* circle) const;
+			const CircleColliderComponent* circle
+			) const;
 		bool m_bIsTrigger;
 		bool m_bIsStatic;
 		vec2 FindClosestPointToOOBB(
 			const vec2& point, 
-			const RectangleColliderComponent* oobb) const;
+			const RectangleColliderComponent* oobb
+			) const;
 		PointerArray<tstring> m_Layers;
 		static const tstring DEFAULT_LAYER_NAME;
 

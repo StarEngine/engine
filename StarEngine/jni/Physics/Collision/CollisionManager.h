@@ -16,7 +16,10 @@ namespace star
 
 		CollisionManager();
 		~CollisionManager();
-		void AddComponent(BaseColliderComponent* component, const tstring* layers, uint8 n);
+		void AddComponent(
+			BaseColliderComponent* component, 
+			const tstring* layers, 
+			uint8 n);
 		void RemoveComponent(const BaseColliderComponent* component);
 		void Update(const Context& context);
 
