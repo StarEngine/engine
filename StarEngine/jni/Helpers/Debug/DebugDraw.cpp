@@ -276,19 +276,19 @@ namespace star
 		glVertexAttribPointer(m_PositionLocation, 2, GL_FLOAT, 
 			GL_FALSE, 0, (GLfloat*) m_Vertices);
 
-		if (primitiveTypes & Triangles != 0)
+		if ((primitiveTypes & Triangles) != 0)
 		{
 			glUniform4f(m_ColorLocation, color.r, color.g, color.b, m_DrawOpTriangles);
 			glDrawArrays(GL_TRIANGLE_FAN, 0, count);
 		}
 
-		if (primitiveTypes & Lines != 0)
+		if ((primitiveTypes & Lines) != 0)
 		{
 			glUniform4f(m_ColorLocation, color.r, color.g, color.b, m_DrawOpLines);
 			glDrawArrays(GL_LINE_LOOP, 0, count);
 		}
 
-		if (primitiveTypes & Points != 0)
+		if ((primitiveTypes & Points) != 0)
 		{
 			glUniform4f(m_ColorLocation, color.r, color.g, color.b, m_DrawOpPoints);
 			//[TODO] only works for windows..
