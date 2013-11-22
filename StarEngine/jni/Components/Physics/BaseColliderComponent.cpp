@@ -11,6 +11,7 @@
 namespace star
 {
 	const tstring BaseColliderComponent::DEFAULT_LAYER_NAME = _T("default");
+
 	BaseColliderComponent::BaseColliderComponent()
 		: BaseComponent()
 		, m_bIsTrigger(false)

@@ -6,47 +6,49 @@
 namespace star
 {
 	Shader::Shader()
-		: mShaderID(0),
-		mVertexShader(0),
-		mFragmentShader(0)
+		: m_ShaderID(0)
+		, m_VertexShader(0)
+		, m_FragmentShader(0)
 	{
 
 	}
 
 	Shader::Shader(const tstring& vsFile, const tstring& fsFile)
-		: mShaderID(0),
-		mVertexShader(0),
-		mFragmentShader(0)
+		: m_ShaderID(0)
+		, m_VertexShader(0)
+		, m_FragmentShader(0)
 	{
 		Init(vsFile, fsFile);
 	}
 
 	Shader::Shader(const GLchar* inLineVert, const GLchar* inLineFrag)
-		: mShaderID(0),
-		mVertexShader(0),
-		mFragmentShader(0)
+		: m_ShaderID(0)
+		, m_VertexShader(0)
+		, m_FragmentShader(0)
 	{
 		Init(inLineVert,inLineFrag);
 	}
 
 	Shader::~Shader()
 	{
-		glDeleteProgram(mShaderID);
+		glDeleteProgram(m_ShaderID);
 	}
 
 	bool Shader::Init(const tstring& vsFile, const tstring& fsFile)
 	{	
-		if(!CompileShader(&mVertexShader, GL_VERTEX_SHADER, vsFile ))
+		if(!CompileShader(&m_VertexShader, GL_VERTEX_SHADER, vsFile ))
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, 
-				_T("Failed To load Vertex Shader"));
+				_T("Shader::Init: \
+				   Failed To load Vertex Shader"));
 			return false;
 		}
 		
-		if(!CompileShader(&mFragmentShader, GL_FRAGMENT_SHADER, fsFile))
+		if(!CompileShader(&m_FragmentShader, GL_FRAGMENT_SHADER, fsFile))
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, 
-				 _T("Failed To load Fragment Shader"));
+				 _T("Shader::Init: \
+					Failed To load Fragment Shader"));
 			return false;
 		}
 		
@@ -55,17 +57,19 @@ namespace star
 
 	bool Shader::Init(const GLchar* inLineVert, const GLchar* inLineFrag)
 	{
-		if(!CompileShader(&mVertexShader, GL_VERTEX_SHADER, inLineVert ))
+		if(!CompileShader(&m_VertexShader, GL_VERTEX_SHADER, inLineVert ))
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, 
-				_T("Failed To load Vertex Shader"));
+				_T("Shader::Init: \
+					Failed To load Vertex Shader"));
 			return false;
 		}
 		
-		if(!CompileShader(&mFragmentShader, GL_FRAGMENT_SHADER, inLineFrag))
+		if(!CompileShader(&m_FragmentShader, GL_FRAGMENT_SHADER, inLineFrag))
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, 
-				 _T("Failed To load Fragment Shader"));
+				 _T("Shader::Init \
+					Failed To load Fragment Shader"));
 			return false;
 		}
 		return GLInit();
@@ -73,35 +77,39 @@ namespace star
 
 	bool Shader::GLInit()
 	{
-		mShaderID = glCreateProgram();
+		m_ShaderID = glCreateProgram();
 
-		if(mShaderID == 0)
+		if(m_ShaderID == 0)
 		{
-			Logger::GetInstance()->Log(LogLevel::Error, _T("Failed to create program!"));
+			Logger::GetInstance()->Log(LogLevel::Error, _T("Shader::GLInit: \
+														   Failed to create program!"));
 		}
 
-		glAttachShader(mShaderID, mVertexShader);
-		glAttachShader(mShaderID, mFragmentShader);
+		glAttachShader(m_ShaderID, m_VertexShader);
+		glAttachShader(m_ShaderID, m_FragmentShader);
 
 		//[TODO] Move outside of this class!
-		glBindAttribLocation(mShaderID, ATTRIB_VERTEX, "Position");
-		glBindAttribLocation(mShaderID, ATTRIB_UV, "TexCoord");
+		//[TODO] Write material class for more flexibility
+		glBindAttribLocation(m_ShaderID, ATTRIB_VERTEX, "Position");
+		glBindAttribLocation(m_ShaderID, ATTRIB_UV, "TexCoord");
 		//[TODO] end
 
-		glLinkProgram(mShaderID);
+		glLinkProgram(m_ShaderID);
 		GLint status;
-		glGetProgramiv(mShaderID, GL_LINK_STATUS, &status);
+		glGetProgramiv(m_ShaderID, GL_LINK_STATUS, &status);
 		if(!status)
 		{
 			GLint infoLen(0);
-			glGetProgramiv(mShaderID, GL_INFO_LOG_LENGTH, &infoLen);
+			glGetProgramiv(m_ShaderID, GL_INFO_LOG_LENGTH, &infoLen);
 			if(infoLen > 1)
 			{
 				schar* infoLog = new schar[infoLen];
-				glGetProgramInfoLog(mShaderID, infoLen, NULL, infoLog);
+				glGetProgramInfoLog(m_ShaderID, infoLen, NULL, infoLog);
 				tstringstream buffer;
-				buffer << _T("Failed to link program") << _T(" : "); 
-				buffer << std::endl << infoLog;
+				buffer	<< _T("Shader::GLInit: \
+							 Failed to link program: ") 
+						<< std::endl 
+						<< infoLog;
 				Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
 				delete infoLog;
 				
@@ -110,20 +118,22 @@ namespace star
 			else
 			{
 				schar* infoLog = new schar[ANDROID_ERROR_SIZE];
-				glGetProgramInfoLog(mShaderID, ANDROID_ERROR_SIZE, NULL, infoLog);
+				glGetProgramInfoLog(m_ShaderID, ANDROID_ERROR_SIZE, NULL, infoLog);
 				tstringstream buffer;
-				buffer << _T("Failed to link program") << _T(": "); 
-				buffer << std::endl << infoLog;
+				buffer << _T("Shader::GLInit: \
+							 Failed to link program: ") 
+						<< std::endl 
+						<< infoLog;
 				Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
 				delete infoLog;
 				
 			}
 #endif
-			glDeleteProgram(mShaderID);
+			glDeleteProgram(m_ShaderID);
 			return false;
 		}
-		glDeleteShader(mVertexShader);
-		glDeleteShader(mFragmentShader);
+		glDeleteShader(m_VertexShader);
+		glDeleteShader(m_FragmentShader);
 
 		return true;
 	}
@@ -157,7 +167,8 @@ namespace star
 		glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
 		if(status == 0)
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Shader: Failed Compile"));
+			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Shader::CompileShader:\
+																 Failed Compile"));
 			GLint infolength;
 			glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &infolength);
 			if (infolength > 1) 
@@ -167,8 +178,12 @@ namespace star
 				{
 					glGetShaderInfoLog(*shader, infolength, NULL, buf);
 					tstringstream buffer;
-					buffer << _T("Could not compile shader") << (int32)type << _T(": "); 
-					buffer << std::endl << buf;
+					buffer	<< _T("Shader::CompileShader: \
+								 Could not compile shader") 
+							<< int32(type) 
+							<< _T(": ")
+							<< std::endl 
+							<< buf;
 					Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
 					delete buf;
 				}
@@ -176,14 +191,18 @@ namespace star
 #ifdef ANDROID
 			else
 			{
-				//This is necessairy due to an android bug!
+				//This is necessary due to an Android bug!
 				schar* buf = new schar[ANDROID_ERROR_SIZE];
 				if (buf)
 				{
 					glGetShaderInfoLog(*shader, ANDROID_ERROR_SIZE, NULL, buf);
 					tstringstream buffer;
-					buffer << _T("Could not compile shader");
-					buffer << (int32)type << _T(" : ") << std::endl << buf;
+					buffer 	<< _T("Shader::CompileShader: \
+								 Could not compile shader") 
+							<< int32(type) 
+							<< _T(": ")
+							<< std::endl 
+							<< buf;
 					Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
 					delete buf;
 				}
@@ -198,7 +217,7 @@ namespace star
 
 	void Shader::Bind()
 	{
-		glUseProgram(mShaderID);
+		glUseProgram(m_ShaderID);
 	}
 
 	void Shader::Unbind()
@@ -208,17 +227,17 @@ namespace star
 
 	const GLuint Shader::GetID() const
 	{
-		return mShaderID;
+		return m_ShaderID;
 	}
 
 	GLuint Shader::GetUniformLocation(const GLchar* nameInShader) const
 	{
-		return glGetUniformLocation(mShaderID, nameInShader);
+		return glGetUniformLocation(m_ShaderID, nameInShader);
 	}
 
 	GLuint Shader::GetAttribLocation(const GLchar* nameInShader) const
 	{
-		return glGetAttribLocation(mShaderID, nameInShader);
+		return glGetAttribLocation(m_ShaderID, nameInShader);
 	}
 
 	void Shader::PrintActiveAttribs() const
@@ -226,8 +245,8 @@ namespace star
 		GLint nAttribs;
 		GLsizei maxLength;
 
-		glGetProgramiv(mShaderID, GL_ACTIVE_ATTRIBUTES, &nAttribs);
-		glGetProgramiv(mShaderID, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxLength);
+		glGetProgramiv(m_ShaderID, GL_ACTIVE_ATTRIBUTES, &nAttribs);
+		glGetProgramiv(m_ShaderID, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxLength);
 
 		GLchar* name = new GLchar[maxLength];
 
@@ -235,10 +254,10 @@ namespace star
 		GLenum type;
 		Logger::GetInstance()->Log(LogLevel::Debug,_T(" Location | Name"));
 		Logger::GetInstance()->Log(LogLevel::Debug,_T("------------------------------------------------"));
-		for(GLuint i = 0; i < GLuint(nAttribs); ++i )
+		for(GLuint i = 0; i < GLuint(nAttribs); ++i)
 		{
-			glGetActiveAttrib(mShaderID, i, maxLength, &written, &size, &type, name);
-			location = glGetAttribLocation(mShaderID, name);
+			glGetActiveAttrib(m_ShaderID, i, maxLength, &written, &size, &type, name);
+			location = glGetAttribLocation(m_ShaderID, name);
 			Logger::GetInstance()->
 				Log(LogLevel::Debug, string_cast<tstring>(location) + _T(" | ") + string_cast<tstring>(name));
 		}
@@ -250,8 +269,8 @@ namespace star
 		GLint nUniforms;
 		GLsizei maxLength;
 
-		glGetProgramiv(mShaderID, GL_ACTIVE_UNIFORMS, &nUniforms);
-		glGetProgramiv(mShaderID, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxLength);
+		glGetProgramiv(m_ShaderID, GL_ACTIVE_UNIFORMS, &nUniforms);
+		glGetProgramiv(m_ShaderID, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxLength);
 
 		GLchar* name = new GLchar[maxLength];
 
@@ -260,10 +279,10 @@ namespace star
 		GLenum type;
 		Logger::GetInstance()->Log(LogLevel::Debug,_T(" Location | Name"));
 		Logger::GetInstance()->Log(LogLevel::Debug,_T("------------------------------------------------"));
-		for(GLuint i = 0; i < GLuint(nUniforms); ++i )
+		for(GLuint i = 0; i < GLuint(nUniforms); ++i)
 		{
-			glGetActiveUniform(mShaderID, i, maxLength, &written, &size, &type, name);
-			location = glGetUniformLocation(mShaderID, name);
+			glGetActiveUniform(m_ShaderID, i, maxLength, &written, &size, &type, name);
+			location = glGetUniformLocation(m_ShaderID, name);
 			Logger::GetInstance()->
 				Log(LogLevel::Debug, string_cast<tstring>(location) + _T(" | ") + string_cast<tstring>(name));
 		}

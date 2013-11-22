@@ -14,9 +14,9 @@ namespace star
 
 	struct Context;
 
-    class Logger final 
+	class Logger final 
 	{
-    public:
+	public:
 		~Logger();
 		static Logger* GetInstance();
 
@@ -53,5 +53,5 @@ namespace star
 		Logger(Logger&& t);
 		Logger& operator=(const Logger& t);
 		Logger& operator=(Logger&& t);
-    };
+	};
 }

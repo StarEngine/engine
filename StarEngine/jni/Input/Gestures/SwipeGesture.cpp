@@ -9,16 +9,25 @@
 
 namespace star
 {
-	SwipeGesture::SwipeGesture(): 
-		star::BaseGesture(),
-		m_ElapsedTime(0),
-		m_Speed(0),
-		m_StartPos(),
-		m_CurrentPos(),
-		m_OldPos(),
-		m_OldDirection(),
-		m_bIsGestureOk(true),
-		m_TotalDistance(0)
+	SwipeGesture::SwipeGesture(
+			int32 minSwipeDistance,
+			int32 minSwipeSpeed,
+			bool enableAngleFlex, 
+			int32 angleFlex
+		)
+		: star::BaseGesture()
+		, m_ElapsedTime()
+		, m_Speed()
+		, m_StartPos()
+		, m_CurrentPos()
+		, m_OldPos()
+		, m_OldDirection()
+		, m_AngleFlex(angleFlex)
+		, m_MinSwipeDistance(minSwipeDistance)
+		, m_MinSwipeSpeed(minSwipeSpeed)
+		, m_bEnableAngleFlex(enableAngleFlex)
+		, m_bIsGestureOk(true)
+		, m_TotalDistance(0)
 	{
 	}
 
@@ -48,15 +57,23 @@ namespace star
 					dir = Normalize(dir);
 					if(m_OldDirection != vec2())
 					{
-						if(Dot(dir, m_OldDirection) >= cos(DegreesToRadians(float32(ANGLE_FLEX))))
+						if(m_bEnableAngleFlex)
 						{
-							m_OldPos = INPUT_MANAGER->GetCurrentMousePosition();
-							m_OldDirection = dir;
+							if(Dot(dir, m_OldDirection) >= cos(DegreesToRadians(float32(m_AngleFlex))))
+							{
+								m_OldPos = INPUT_MANAGER->GetCurrentMousePosition();
+								m_OldDirection = dir;
+							}
+							else
+							{
+								m_bIsGestureOk = false;
+							}
 						}
 						else
 						{
-							m_bIsGestureOk = false;
+							m_bIsGestureOk = true;
 						}
+						
 					}
 					else
 					{
@@ -76,8 +93,7 @@ namespace star
 			//div average dir by amount of times it was down, calc speed, dir and length :)
 			if(m_bIsGestureOk)
 			{
-				//[TODO] -- make distance in % of screen!
-				if(m_Speed >= MIN_SWIPE_SPEED && m_TotalDistance >= MIN_SWIPE_DISTANCE)
+				if(m_Speed >= m_MinSwipeSpeed && m_TotalDistance >= m_MinSwipeDistance)
 				{
 					m_bCompletedGesture = true;
 				}
@@ -106,14 +122,21 @@ namespace star
 					dir = Normalize(dir);
 					if(m_OldDirection != vec2())
 					{
-						if(Dot(dir, m_OldDirection) >= cos(DegreesToRadians(float32(ANGLE_FLEX))))
+						if(m_bEnableAngleFlex)
 						{
-							m_OldPos = INPUT_MANAGER->GetCurrentTouchPosANDR();
-							m_OldDirection = dir;
+							if(Dot(dir, m_OldDirection) >= cos(DegreesToRadians(float32(m_AngleFlex))))
+							{
+								m_OldPos = INPUT_MANAGER->GetCurrentTouchPosANDR();
+								m_OldDirection = dir;
+							}
+							else
+							{
+								m_bIsGestureOk = false;
+							}
 						}
 						else
 						{
-							m_bIsGestureOk = false;
+							m_bIsGestureOk = true;
 						}
 					}
 					else
@@ -132,7 +155,7 @@ namespace star
 			//div average dir by amount of times it was down, calc speed, dir and length :)
 			if(m_bIsGestureOk)
 			{
-				if(m_Speed >= MIN_SWIPE_SPEED && m_TotalDistance >= MIN_SWIPE_DISTANCE)
+				if(m_Speed >= m_MinSwipeSpeed && m_TotalDistance >= m_MinSwipeDistance)
 				{
 					m_bCompletedGesture = true;
 				}
@@ -181,5 +204,25 @@ namespace star
 	float32 SwipeGesture::GetSwipeLength() const
 	{
 		return m_TotalDistance;
+	}
+
+	void SwipeGesture::SetAngleCheck(bool angleCheck)
+	{
+
+	}
+
+	void SwipeGesture::SetAngleFlex(float32 degrees)
+	{
+
+	}
+
+	void SwipeGesture::SetMinSwipeSpeed(float32 speed)
+	{
+
+	}
+
+	void SwipeGesture::SetMinSwipeDistane(float32 distance)
+	{
+
 	}
 }

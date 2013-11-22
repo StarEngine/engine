@@ -50,9 +50,9 @@ namespace star
 		bool GLInit();
 		bool GLCompileShader();
 
-		GLuint mShaderID;
-		GLuint mVertexShader;
-		GLuint mFragmentShader;
+		GLuint m_ShaderID;
+		GLuint m_VertexShader;
+		GLuint m_FragmentShader;
 
 #ifdef ANDROID
 		static const int32 ANDROID_ERROR_SIZE = 4096;
