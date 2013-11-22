@@ -34,8 +34,6 @@ namespace star
 				{
 					ASSERT(false, _T("CollisionManager::AddComponent \n\
 						The component you tried to add is already in the CollisionManager"));
-					Logger::GetInstance()->Log(LogLevel::Error, _T("CollisionManager::AddComponent \n\
-						The component you tried to add is already in the CollisionManager"));
 				}			
 				else
 				{
@@ -74,26 +72,24 @@ namespace star
 				}
 				else
 				{
-					ASSERT(false, _T("CollisionManager::RemoveComponent \n\
+					ASSERT(false, _T("CollisionManager::RemoveComponent: \n\
 						The component you tried to remove is not in the CollisionManager"));
-					Logger::GetInstance()->Log(LogLevel::Error, _T("CollisionManager::RemoveComponent \n\
+					Logger::GetInstance()->Log(LogLevel::Error, _T("CollisionManager::RemoveComponent: \n\
 						The component you tried to remove is not in the CollisionManager"));
 				}
 			}
 			else
 			{
-				ASSERT(false, _T("CollisionManager::RemoveComponent \n\
+				ASSERT(false, _T("CollisionManager::RemoveComponent: \n\
 						The component you tried to remove is not in the CollisionManager"));
-				Logger::GetInstance()->Log(LogLevel::Error, _T("CollisionManager::RemoveComponent \n\
+				Logger::GetInstance()->Log(LogLevel::Error, _T("CollisionManager::RemoveComponent: \n\
 						The component you tried to remove is not in the CollisionManager"));
 			}
 		}
-	//	delete[] layers;
 	}
 
 	void CollisionManager::Update(const Context& context)
 	{
-		//All objects get checked only 1 time, 1 vs 2 but not 2 vs 1
 		for(auto& key : m_CollisionMap)
 		{
 
@@ -107,7 +103,6 @@ namespace star
 						{
 							if(!(*iter1)->GetEntered())
 							{
-								Logger::GetInstance()->Log(LogLevel::Info, _T("Enter"));
 								(*iter1)->SetEntered(true);
 								(*iter2)->SetEntered(true);
 								(*iter1)->SetExited(false);
@@ -118,7 +113,6 @@ namespace star
 							}
 							else
 							{
-								Logger::GetInstance()->Log(LogLevel::Info, _T("Stay"));
 								(*iter1)->TriggerOnStay();
 								(*iter2)->TriggerOnStay();
 							}
@@ -127,7 +121,6 @@ namespace star
 						{
 							if(!(*iter1)->GetExited())
 							{
-								Logger::GetInstance()->Log(LogLevel::Info, _T("Leave"));
 								(*iter1)->SetEntered(false);
 								(*iter2)->SetEntered(false);
 								(*iter1)->SetExited(true);

@@ -62,7 +62,6 @@ namespace star
 		static const tstring DEFAULT_LAYER_NAME;
 
 	private:
-
 		bool m_Entered;
 		bool m_Exited;
 

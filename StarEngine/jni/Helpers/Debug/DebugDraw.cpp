@@ -17,7 +17,6 @@ namespace star
 		, m_ColorLocation(0)
 		, m_MVPLocation(0)
 		, m_PositionLocation(0)
-		, m_CircleSegments(16)
 		, m_DrawOpTriangles(0.5f)
 		, m_DrawOpLines(1.0f)
 		, m_DrawOpPoints(1.0f)
@@ -59,7 +58,8 @@ namespace star
 		static const GLchar* vertexShader = "\
 			uniform mat4 MVP;\
 			attribute vec2 position;\
-			void main() {\
+			void main()\
+			{\
 			  vec4 NewPosition = vec4(position, 0.0, 1.0);\
 			  NewPosition *= MVP;\
 			  gl_Position = NewPosition;\
@@ -67,11 +67,12 @@ namespace star
 			";
 
 		static const GLchar* fragmentShader = "\
-			precision mediump float; \
+			precision mediump float;\
 			uniform vec4 color;\
-			void main() { \
-			  gl_FragColor = color; \
-			} \
+			void main()\
+			{\
+			  gl_FragColor = color;\
+			}\
 			";
 
 		// create program
@@ -83,67 +84,89 @@ namespace star
 		m_PositionLocation = m_Shader->GetAttribLocation("position");
 	}
 
-	void DebugDraw::DrawPolygon(const vec2* vertices, int32 vertexCount, const Color& color)
+	void DebugDraw::DrawPolygon(
+		const vec2* vertices, 
+		int32 vertexCount,
+		const Color& color)
 	{
 		CreatePolygonVertices(vertices, vertexCount);
 		DrawPrimitives(Lines, vertexCount, color);
 	}
 
-	void DebugDraw::DrawSolidPolygon(const vec2* vertices, int32 vertexCount, const Color& color)
+	void DebugDraw::DrawSolidPolygon(
+		const vec2* vertices, 
+		int32 vertexCount, 
+		const Color& color)
 	{
 		CreatePolygonVertices(vertices, vertexCount);
 		DrawPrimitives(Triangles + Lines, vertexCount, color);
 	}
 
-	void DebugDraw::DrawCircle(const vec2& center, float32 radius, const Color& color, uint32 segments)
+	void DebugDraw::DrawCircle(
+		const vec2& center, 
+		float32 radius, 
+		const Color& color, 
+		uint32 segments)
 	{
-		m_CircleSegments = segments;
-		CreateCircleVertices(center, radius);
-		DrawPrimitives(Lines, m_CircleSegments, color);
+		CreateCircleVertices(center, radius, segments);
+		DrawPrimitives(Lines, segments, color);
 	}
 
-	void DebugDraw::DrawSolidCircle(const vec2& center, float32 radius,
-			const Color& color, uint32 segments)
+	void DebugDraw::DrawSolidCircle(
+		const vec2& center, 
+		float32 radius,
+		const Color& color, 
+		uint32 segments)
 	{
-		m_CircleSegments = segments;
-		CreateCircleVertices(center, radius);
-		DrawPrimitives(Triangles + Lines, m_CircleSegments, color);
+		CreateCircleVertices(center, radius, segments);
+		DrawPrimitives(Triangles + Lines, segments, color);
 	}
 
-	void DebugDraw::DrawSegment(const vec2& pos1, const vec2& pos2, const Color& color)
+	void DebugDraw::DrawSegment(
+		const vec2& pos1, 
+		const vec2& pos2, 
+		const Color& color)
 	{
-		m_Vertices[0].x = pos1.x;
-		m_Vertices[0].x = pos1.y;
-		m_Vertices[1].y = pos2.x;
-		m_Vertices[1].y = pos2.y;
+		m_Vertices[0] = pos1;
+		m_Vertices[1] = pos2;
 		DrawPrimitives(Lines, 2, color);
 	}
 
-	void DebugDraw::DrawPoint(const vec2& pos, float32 size, const Color& color)
+	void DebugDraw::DrawPoint(
+		const vec2& pos, 
+		float32 size, 
+		const Color& color)
 	{
 		m_PointSize = size;
 
-		m_Vertices[0].x = pos.x;
-		m_Vertices[0].y = pos.y;
+		m_Vertices[0] = pos;
 		DrawPrimitives(Points, 1, color);
 	}
 
-	void DebugDraw::DrawLine(const vec2& pos1, const vec2& pos2, const Color& color)
+	void DebugDraw::DrawLine(
+		const vec2& pos1, 
+		const vec2& pos2, 
+		const Color& color)
 	{
-		m_Vertices[0].x = pos1.x;
-		m_Vertices[0].y = pos1.y;
-		m_Vertices[1].x = pos2.x;
-		m_Vertices[1].y = pos2.y;
+		m_Vertices[0] = pos1;
+		m_Vertices[1] = pos2;
 		DrawPrimitives(Lines,2,color);
 	}
 
-	void DebugDraw::DrawString(int32 aX, int32 aY, const tstring& text)
+	void DebugDraw::DrawString(
+		int32 aX,
+		int32 aY, 
+		const tstring& text)
 	{
-		//[TODO] Implement this through the font manager, draw text on screen on given pos.
-		Logger::GetInstance()->Log(LogLevel::Warning, _T("DebugDraw::DrawString is not yet implemented!"));
+		//[TODO] Implement this through the font manager, 
+		//draw text on screen on given pos.
+		Logger::GetInstance()->Log(LogLevel::Warning, 
+			_T("DebugDraw::DrawString is not yet implemented!"));
 	}
 
-	void DebugDraw::DrawRect(const AARect& rect, const Color& color)
+	void DebugDraw::DrawRect(
+		const AARect& rect, 
+		const Color& color)
 	{
 		m_Vertices[0].x = float32(rect.GetLeft());
 		m_Vertices[0].y = float32(rect.GetBottom());
@@ -156,7 +179,9 @@ namespace star
 		DrawPrimitives(Lines, 4, color);
 	}
 
-	void DebugDraw::DrawRect(const Rect& rect, const Color& color)
+	void DebugDraw::DrawRect(
+		const Rect& rect, 
+		const Color& color)
 	{
 		m_Vertices[0] = rect.GetLeftBottom();
 		m_Vertices[1] = rect.GetRightBottom();
@@ -165,7 +190,9 @@ namespace star
 		DrawPrimitives(Lines, 4, color);
 	}
 
-	void DebugDraw::DrawSolidRect(const AARect& rect, const Color& color)
+	void DebugDraw::DrawSolidRect(
+		const AARect& rect, 
+		const Color& color)
 	{
 		m_Vertices[0].x = float32(rect.GetLeft());
 		m_Vertices[0].y = float32(rect.GetBottom());
@@ -178,7 +205,9 @@ namespace star
 		DrawPrimitives(Triangles + Lines, 4, color);
 	}
 
-	void DebugDraw::DrawSolidRect(const Rect& rect, const Color& color)
+	void DebugDraw::DrawSolidRect(
+		const Rect& rect, 
+		const Color& color)
 	{
 		m_Vertices[0] = rect.GetLeftBottom();
 		m_Vertices[1] = rect.GetRightBottom();
@@ -187,37 +216,46 @@ namespace star
 		DrawPrimitives(Triangles + Lines, 4, color);
 	}
 
-	void DebugDraw::CreatePolygonVertices(const vec2* vertices, uint32 vertexCount)
+	void DebugDraw::CreatePolygonVertices(
+		const vec2* vertices, 
+		uint32 vertexCount)
 	{
-		ASSERT(vertexCount <= MAX_VERTICES, _T("more vertices than allocated space"));
-		//ASSERT(vertexCount <= MAX_VERTICES, _T("more vertices then allocated space"));
+		ASSERT(vertexCount <= MAX_VERTICES, 
+			_T("more vertices than allocated space"));
 
 		for (uint32 i = 0; i < vertexCount; ++i)
 		{
-			m_Vertices[i].x = vertices[i].x;
-			m_Vertices[i].y = vertices[i].y;
+			m_Vertices[i] = vertices[i];
 		}
 	}
 
-	void DebugDraw::CreateCircleVertices(const vec2& center, float32 radius)
+	void DebugDraw::CreateCircleVertices
+		(const vec2& center, 
+		float32 radius,
+		uint8 segments)
 	{
-		// [TODO] Fix this bug in eclipse: (undefined reference to 'star::DebugDraw::MAX_VERTICES')
-		//ASSERT(m_CircleSegments < MAX_VERTICES, tstring(_T("You can only draw ") 
-		//	+ string_cast<tstring>(MAX_VERTICES) + _T(" vertices per primitive")).c_str());
-		const float32 increment = float32(2.0 * PI / m_CircleSegments);
+		// [TODO] Fix this bug in eclipse: 
+		// (undefined reference to 'star::DebugDraw::MAX_VERTICES')
+		//ASSERT(m_CircleSegments < MAX_VERTICES, 
+		//	tstring(_T("You can only draw ") 
+		//	+ string_cast<tstring>(MAX_VERTICES) 
+		//	+ _T(" vertices per primitive")).c_str());
+		const float32 increment = float32(2.0 * PI / segments);
 		float32 theta = 0.0f;
 
-		for (uint32 i = 0; i < m_CircleSegments; ++i)
+		for (uint32 i = 0; i < segments; ++i)
 		{
-			vec2 v = center + radius * vec2(cos(theta), sin(theta));
+			vec2 vec = center + radius * vec2(cos(theta), sin(theta));
 
-			m_Vertices[i].x = v.x;
-			m_Vertices[i].y = v.y;
+			m_Vertices[i] = vec;
 			theta += increment;
 		}
 	}
 
-	void DebugDraw::DrawPrimitives(uint32 primitiveTypes, uint32 count, const Color& color)
+	void DebugDraw::DrawPrimitives(
+		uint32 primitiveTypes, 
+		uint32 count, 
+		const Color& color)
 	{
 #ifdef DESKTOP
 		glUseProgram(m_Shader->GetID());
@@ -234,7 +272,8 @@ namespace star
 		);
 
 		glEnableVertexAttribArray(m_PositionLocation);
-		glVertexAttribPointer(m_PositionLocation, 2, GL_FLOAT, GL_FALSE, 0, (GLfloat*) m_Vertices);
+		glVertexAttribPointer(m_PositionLocation, 2, GL_FLOAT, 
+			GL_FALSE, 0, (GLfloat*) m_Vertices);
 
 		if (primitiveTypes & Triangles)
 		{

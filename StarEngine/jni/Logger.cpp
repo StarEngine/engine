@@ -23,7 +23,7 @@ namespace star
 {
 	Logger* Logger::m_LoggerPtr = nullptr;
 
-	Logger::Logger(void)
+	Logger::Logger()
 #ifdef _WIN32
 		:m_ConsoleHandle(nullptr)
 		,m_UseConsole(false)
@@ -33,6 +33,7 @@ namespace star
 #endif
 		,m_TimeStamp(_T("00:00:00"))
 	{
+
 	}
 	
 	Logger::~Logger()
@@ -180,38 +181,38 @@ namespace star
 	{
 #if LOGGER_MIN_LEVEL > 0
 		GLenum err (glGetError());
-        while(err!= GL_NO_ERROR) 
+		while(err!= GL_NO_ERROR) 
 		{
-            tstring error;
+			tstring error;
 			switch(err) 
 			{
-                case GL_INVALID_OPERATION:      
+				case GL_INVALID_OPERATION:      
 					error = _T("INVALID_OPERATION");     
 					break;
-                case GL_INVALID_ENUM:
+				case GL_INVALID_ENUM:
 					error = _T("INVALID_ENUM");
 					break;
-                case GL_INVALID_VALUE:
+				case GL_INVALID_VALUE:
 					error = _T("INVALID_VALUE");
 					break;
-                case GL_OUT_OF_MEMORY:  
+				case GL_OUT_OF_MEMORY:  
 					error = _T("OUT_OF_MEMORY"); 
 					break;
-                case GL_INVALID_FRAMEBUFFER_OPERATION:
+				case GL_INVALID_FRAMEBUFFER_OPERATION:
 					error = _T("INVALID_FRAMEBUFFER_OPERATION");
 					break;
 				default:
 					error =_T("UNKNOWN_ERROR");
 					break;
-            }
+			}
 			tstringstream buffer;
-            buffer << "GL_" << error << " - " << file << ":" << line << std::endl;
+			buffer << "GL_" << error << " - " << file << ":" << line << std::endl;
 #ifndef NO_LOG_FILE
 			LogMessage(buffer.str());
 #endif
 			Logger::GetInstance()->Log(LogLevel::Error, buffer.str(), _T("OPENGL"));
 			err = glGetError();
-        }
+		}
 #endif
 	}
 
@@ -231,7 +232,7 @@ namespace star
 
 		m_LogStream << _T("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
 		m_LogStream << _T("	Star Engine version ") << STARENGINE_VERSION << std::endl << std::endl;
-		m_LogStream << _T("	Game is build in");
+		m_LogStream << _T("	Game is built in");
 
 	#ifdef _DEBUG
 		m_LogStream << _T(" debug mode.\n");
