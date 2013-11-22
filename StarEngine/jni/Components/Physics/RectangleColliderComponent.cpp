@@ -479,8 +479,8 @@ namespace star
 		m_CollisionRect.SetPoints
 			(vec2(0, 0), 
 			vec2(width, 0), 
-			vec2(0, height), v
-			ec2(width, height));
+			vec2(0, height), 
+			vec2(width, height));
 	}
 
 	void RectangleColliderComponent::SetCollisionRectSize(const vec2& size)
