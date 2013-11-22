@@ -80,6 +80,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="jni\Components\AI\index.h" />
     <ClInclude Include="jni\Components\Physics\BaseColliderComponent.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="jni\Assets\Font.h" />
@@ -91,6 +92,7 @@
     <ClInclude Include="jni\Components\CameraComponent.h" />
     <ClInclude Include="jni\Components\Physics\CircleColliderComponent.h" />
     <ClInclude Include="jni\Components\AI\PathFindNodeComponent.h" />
+    <ClInclude Include="jni\Components\Physics\index.h" />
     <ClInclude Include="jni\Components\Physics\RectangleColliderComponent.h" />
     <ClInclude Include="jni\Components\Graphics\SpritesheetComponent.h" />
     <ClInclude Include="jni\Components\Graphics\TextComponent.h" />
@@ -106,6 +108,7 @@
     <ClInclude Include="jni\Graphics\GraphicsManager.h" />
     <ClInclude Include="jni\Graphics\SpriteBatch.h" />
     <ClInclude Include="jni\Graphics\UI\Index.h" />
+    <ClInclude Include="jni\Graphics\UI\UIAnimatedImage.h" />
     <ClInclude Include="jni\Graphics\UI\UIButton.h" />
     <ClInclude Include="jni\Graphics\UI\UIDock.h" />
     <ClInclude Include="jni\Graphics\UI\UIElement.h" />
@@ -136,12 +139,15 @@
     <ClInclude Include="jni\Input\Gestures\BaseGesture.h" />
     <ClInclude Include="jni\Input\Gestures\DoubleTapGesture.h" />
     <ClInclude Include="jni\Input\Gestures\GestureManager.h" />
+    <ClInclude Include="jni\Input\Gestures\Index.h" />
     <ClInclude Include="jni\Input\Gestures\SwipeGesture.h" />
+    <ClInclude Include="jni\Input\Index.h" />
     <ClInclude Include="jni\Input\InputManager.h" />
     <ClInclude Include="jni\Input\Gestures\TapGesture.h" />
     <ClInclude Include="jni\Input\XMLContainer.h" />
     <ClInclude Include="jni\Input\XMLFileParser.h" />
     <ClInclude Include="jni\Input\XMLFileSerializer.h" />
+    <ClInclude Include="jni\Input\XMLIndex.h" />
     <ClInclude Include="jni\Logger.h" />
     <ClInclude Include="jni\Components\Graphics\SpriteComponent.h" />
     <ClInclude Include="jni\Objects\BaseCamera.h" />
@@ -187,6 +193,7 @@
     <ClCompile Include="jni\Graphics\Color.cpp" />
     <ClCompile Include="jni\Graphics\GraphicsManager.cpp" />
     <ClCompile Include="jni\Graphics\SpriteBatch.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UIAnimatedImage.cpp" />
     <ClCompile Include="jni\Graphics\UI\UIButton.cpp" />
     <ClCompile Include="jni\Graphics\UI\UIDock.cpp" />
     <ClCompile Include="jni\Graphics\UI\UIElement.cpp" />

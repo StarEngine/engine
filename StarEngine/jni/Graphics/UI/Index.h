@@ -6,6 +6,7 @@
 
 #include "UIElement.h"
 #include "UIImage.h"
+#include "UIAnimatedImage.h"
 #include "UITextField.h"
 
 #include "UIUserElement.h"
