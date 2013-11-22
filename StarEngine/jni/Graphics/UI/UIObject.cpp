@@ -9,6 +9,7 @@ namespace star
 		, m_Position()
 		, m_HorizontalAlignment(HorizontalAlignment::Left)
 		, m_VerticalAlignment(VerticalAlignment::Bottom)
+		, m_pDock(nullptr)
 	{
 
 	}

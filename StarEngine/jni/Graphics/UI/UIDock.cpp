@@ -6,7 +6,7 @@
 namespace star
 {
 	UIDock::UIDock(const tstring & name)
-		: UIElement(name)
+		: UIObject(name)
 		, m_Dimensions(
 			GraphicsManager::GetInstance()->GetScreenResolution().x,
 			GraphicsManager::GetInstance()->GetScreenResolution().y)
@@ -19,7 +19,7 @@ namespace star
 			float32 width,
 			float32 height
 			)
-		: UIElement(name)
+		: UIObject(name)
 		, m_Dimensions(width, height)
 	{
 
@@ -32,7 +32,52 @@ namespace star
 
 	void UIDock::Initialize()
 	{
-		UIElement::Initialize();
+		UIObject::Initialize();
+	}
+	
+	void UIDock::SetHorizontalAlignment(HorizontalAlignment alignment)
+	{
+		UIObject::SetHorizontalAlignment(alignment);
+
+		switch(m_HorizontalAlignment)
+		{
+			case HorizontalAlignment::Left:
+				GetTransform()->SetCenterX(0);
+				break;
+			case HorizontalAlignment::Center:
+				GetTransform()->SetCenterX(
+					m_Dimensions.x / 2.0f
+					);
+				break;
+			case HorizontalAlignment::Right:
+				GetTransform()->SetCenterX(
+					m_Dimensions.x
+					);
+				break;
+		}
+
+	}
+
+	void UIDock::SetVerticalAlignment(VerticalAlignment alignment)
+	{
+		UIObject::SetVerticalAlignment(alignment);
+
+		switch(m_VerticalAlignment)
+		{
+			case VerticalAlignment::Bottom:
+				GetTransform()->SetCenterY(0);
+				break;
+			case VerticalAlignment::Center:
+				GetTransform()->SetCenterY(
+					m_Dimensions.y / 2.0f
+					);
+				break;
+			case VerticalAlignment::Top:
+				GetTransform()->SetCenterY(
+					m_Dimensions.y
+					);
+				break;
+		}
 	}
 	
 	void UIDock::AddElement(UIObject * pElement)
@@ -69,11 +114,11 @@ namespace star
 
 	void UIDock::Update(const Context& context)
 	{
-		UIElement::Update(context);
+		UIObject::Update(context);
 	}
 
 	void UIDock::Draw()
 	{
-		UIElement::Draw();
+		UIObject::Draw();
 	}
 }

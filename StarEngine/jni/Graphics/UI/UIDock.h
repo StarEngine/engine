@@ -1,11 +1,9 @@
 #pragma once
-#include "UIElement.h"
+#include "UIObject.h"
 
 namespace star
 {
-	class UIObject;
-
-	class UIDock : public UIElement
+	class UIDock : public UIObject
 	{
 	public:
 		UIDock(const tstring & name);
@@ -18,6 +16,10 @@ namespace star
 		virtual ~UIDock(void);
 
 		virtual void Initialize();
+
+		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
+		virtual void SetVerticalAlignment(VerticalAlignment alignment);
+
 		void AddElement(UIObject * pElement);
 
 		void SetDimensions(const vec2 & dimensions);
