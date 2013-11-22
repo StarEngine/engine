@@ -106,6 +106,7 @@ namespace star
 		{
 			if(child && !child->m_bIsInitialized)
 			{
+				child->SetScene(GetScene());
 				child->BaseInitialize();
 			}
 		}
@@ -250,6 +251,7 @@ to the same object is illegal."));
 
 		if(m_bIsInitialized && !pChild->m_bIsInitialized)
 		{
+			pChild->SetScene(GetScene());
 			pChild->BaseInitialize();
 		}
 

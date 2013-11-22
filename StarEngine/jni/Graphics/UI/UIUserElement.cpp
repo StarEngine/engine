@@ -37,32 +37,28 @@ namespace star
 				if(InputManager::GetInstance()->IsFingerPressedCP(0))
 				{
 					m_ElementState = ElementStates::CLICK;
-					if(m_SelectCallback != nullptr)
-					{
-						m_SelectCallback();
-					}
+					GoClick();
 					GetScene()->GetStopwatch()->CreateTimer(
 						m_Name.GetTag() + _T("click_timer"),
-						0.5f, false, false, [&]() {
-							m_ElementState = ElementStates::HOVER;
+						0.25f, false, false, [&]() {
+#ifdef DESKTOP
+							GoHover();
+#else
+							GoIdle();
+#endif
 						});
 				}
+#ifdef DESKTOP
 				else if(m_ElementState != ElementStates::HOVER)
 				{
-					m_ElementState = ElementStates::HOVER;
-					if(m_HoverCallback != nullptr)
-					{
-						m_HoverCallback();
-					}
+					GoHover();
 				}
+#endif
 			}
 			else if(m_ElementState != ElementStates::IDLE)
 			{
 				m_ElementState = ElementStates::IDLE;
-				if(m_UnhoverCallback != nullptr)
-				{
-					m_UnhoverCallback();
-				}
+				GoIdle();
 			}
 		}
 	}
@@ -72,10 +68,43 @@ namespace star
 		UIElement::Draw();
 	}
 
+	void UIUserElement::GoIdle()
+	{
+#ifdef DESKTOP
+		if(m_UnhoverCallback != nullptr)
+		{
+			m_UnhoverCallback();
+		}
+#endif
+	}
+
+#ifdef DESKTOP
+	void UIUserElement::GoHover()
+	{
+		if(m_HoverCallback != nullptr)
+		{
+			GoHover();
+		}
+	}
+#endif
+
+	void UIUserElement::GoClick()
+	{
+		if(m_SelectCallback != nullptr)
+		{
+			m_SelectCallback();
+		}
+	}
+
+	void UIUserElement::GoDisable()
+	{
+
+	}
+
 	bool UIUserElement::IsFingerWithinRange() const
 	{
 		auto fingerPos = InputManager::GetInstance()->GetCurrentFingerPosCP(0);
-		auto buttonPos = GetLeftCorner();
+		auto buttonPos = GetTransform()->GetWorldPosition().pos2D();
 		auto dimensions = GetUserElementDimensions();
 		
 		return 
@@ -84,38 +113,31 @@ namespace star
 			fingerPos.y >= buttonPos.y &&
 			fingerPos.y <= buttonPos.y + dimensions.y;
 	}
-	
-	vec2 UIUserElement::GetLeftCorner() const
-	{
-		vec2 leftCorner = GetTransform()->GetWorldPosition().pos2D();
-		auto dimensions = GetUserElementDimensions();
-		
-		switch(m_HorizontalAlignment)
-		{
-			case HorizontalAlignment::Center:
-				leftCorner.x -= dimensions.x / 2.0f;
-				break;
-			case HorizontalAlignment::Right:
-				leftCorner.x -= dimensions.x;
-				break;
-		}
-
-		switch(m_VerticalAlignment)
-		{
-		case VerticalAlignment::Center:
-				leftCorner.y -= dimensions.y / 2.0f;
-				break;
-			case VerticalAlignment::Top:
-				leftCorner.y -= dimensions.y;
-				break;
-		}
-
-		return leftCorner;
-	}
 
 	bool UIUserElement::IsDisabled() const
 	{
 		return m_ElementState == ElementStates::DISABLED;
+	}
+	
+	void UIUserElement::SetDisabled(bool disabled)
+	{
+		if(disabled && m_ElementState != ElementStates::DISABLED)
+		{
+			GoDisable();
+		}
+		m_ElementState = disabled ?
+			ElementStates::DISABLED : ElementStates::IDLE;
+	}
+
+	void UIUserElement::Reset()
+	{
+		UIObject::Reset();
+
+		GetScene()->GetStopwatch()->RemoveTimer(
+			m_Name.GetTag() + _T("click_timer")
+			);
+
+		m_ElementState = ElementStates::IDLE;
 	}
 
 	void UIUserElement::SetSelectCallback(std::function<void()> callback)

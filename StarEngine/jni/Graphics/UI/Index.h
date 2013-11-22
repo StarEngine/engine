@@ -10,4 +10,6 @@
 #include "UITextField.h"
 
 #include "UIUserElement.h"
+#include "UIStaticButton.h"
 #include "UIButton.h"
+#include "UIAnimatedButton.h"

@@ -303,6 +303,12 @@
     <ClInclude Include="jni\Graphics\UI\UIAnimatedImage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Graphics\UI\UIAnimatedButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Graphics\UI\UIStaticButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -543,6 +549,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Graphics\UI\UIAnimatedImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Graphics\UI\UIAnimatedButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Graphics\UI\UIStaticButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

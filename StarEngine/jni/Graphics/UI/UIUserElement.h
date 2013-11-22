@@ -22,6 +22,9 @@ namespace star
 		virtual void Initialize();
 
 		bool IsDisabled() const;
+		void SetDisabled(bool disabled);
+
+		virtual void Reset();
 
 		void SetSelectCallback(std::function<void()> callback);
 
@@ -34,8 +37,14 @@ namespace star
 		virtual void Update(const Context& context);
 		virtual void Draw();
 
+		virtual void GoIdle();
+#ifdef DESKTOP
+		virtual void GoHover();
+#endif
+		virtual void GoClick();
+		virtual void GoDisable();
+
 		bool IsFingerWithinRange() const;
-		vec2 GetLeftCorner() const;
 		virtual vec2 GetUserElementDimensions() const = 0;
 
 		std::function<void()>

@@ -27,6 +27,8 @@ namespace star
 		void SetDimensionsX(float32 x);
 		void SetDimensionsY(float32 y);
 
+		virtual void Reset();
+
 		const vec2 & GetDimensions() const;
 
 	protected:

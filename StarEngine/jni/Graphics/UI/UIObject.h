@@ -46,6 +46,8 @@ namespace star
 
 		void SetAlignmentCentered();
 
+		virtual void Reset();
+
 	protected:
 		virtual void Update(const Context& context);
 		virtual void Draw();

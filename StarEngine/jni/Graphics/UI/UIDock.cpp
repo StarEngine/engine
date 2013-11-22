@@ -107,6 +107,24 @@ namespace star
 		m_Dimensions.y = y;
 	}
 
+	void UIDock::Reset()
+	{
+		for(auto child : m_pChildren)
+		{
+			auto element = dynamic_cast<UIObject*>(child);
+			if(element != nullptr)
+			{
+				element->Reset();
+			}
+			else
+			{
+				Logger::GetInstance()->Log(LogLevel::Warning,
+					_T("UIDock::Reset: Object '") +
+					child->GetName() + _T("' is not a UI Object."));
+			}
+		}
+	}
+
 	const vec2 & UIDock::GetDimensions() const
 	{
 		return m_Dimensions;

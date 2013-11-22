@@ -104,6 +104,10 @@ namespace star
 		SetVerticalAlignment(VerticalAlignment::Center);
 	}
 
+	void UIObject::Reset()
+	{
+	}
+
 	void UIObject::Update(const Context& context)
 	{
 		Object::Update(context);

@@ -1,11 +1,11 @@
 #pragma once
-#include "UIUserElement.h"
+#include "UIStaticButton.h"
 
 namespace star
 {
 	class SpriteComponent;
 
-	class UIButton : public UIUserElement
+	class UIButton : public UIStaticButton
 	{
 	public:
 		UIButton(
@@ -15,19 +15,10 @@ namespace star
 			);
 		virtual ~UIButton();
 
-		virtual void Initialize();
-
-		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
-		virtual void SetVerticalAlignment(VerticalAlignment alignment);
-
 	protected:
-		virtual void Update(const Context& context);
-		virtual void Draw();
-
-		virtual vec2 GetUserElementDimensions() const;
+		virtual void Update(const Context & context);
 
 		bool m_IsVertical;
-		SpriteComponent *m_pButtonSprite;
 
 	private:
 		UIButton(const UIButton &);

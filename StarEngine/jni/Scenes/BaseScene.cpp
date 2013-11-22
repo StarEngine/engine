@@ -109,7 +109,7 @@ namespace star
 			for(auto child : object->GetChildren())
 			{
 				if(!CULLING_IS_ENABLED ||
-					child->IsVisible() && CheckCulling(child))
+					(child->IsVisible() && CheckCulling(child)))
 				{
 					child->BaseDraw();
 				}
