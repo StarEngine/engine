@@ -32,7 +32,7 @@ namespace star
 		virtual void GoHover();
 #endif
 		virtual void GoClick();
-		virtual void GoDisable();
+		virtual void GoFreeze();
 
 		virtual vec2 GetUserElementDimensions() const;
 

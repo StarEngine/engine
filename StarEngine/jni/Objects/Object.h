@@ -64,7 +64,7 @@ namespace star
 		bool IsFrozen() const;
 
 		virtual void SetDisabled(bool disabled);
-		bool IsDisabled() const;
+		virtual bool IsDisabled() const;
 
 		bool IsInitialized() const;
 

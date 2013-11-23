@@ -12,8 +12,7 @@ namespace star
 #ifdef DESKTOP
 			HOVER = 1,
 #endif
-			CLICK = 2,
-			DISABLED = 4
+			CLICK = 2
 		};
 
 		UIUserElement(const tstring & name);
@@ -21,8 +20,8 @@ namespace star
 
 		virtual void Initialize();
 
-		bool IsDisabled() const;
-		void SetDisabled(bool disabled);
+		virtual bool IsDisabled() const;
+		virtual void SetDisabled(bool disabled);
 
 		virtual void Reset();
 
@@ -43,6 +42,7 @@ namespace star
 #endif
 		virtual void GoClick();
 		virtual void GoDisable();
+		virtual void GoFreeze();
 
 		bool IsFingerWithinRange() const;
 		virtual vec2 GetUserElementDimensions() const = 0;

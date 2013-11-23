@@ -29,7 +29,7 @@ namespace star
 	{
 		UIElement::Update(context);
 
-		if(m_ElementState != ElementStates::DISABLED)
+		if(!IsDisabled())
 		{
 			if(IsFingerWithinRange())
 			{
@@ -109,6 +109,11 @@ namespace star
 
 	}
 
+	void UIUserElement::GoFreeze()
+	{
+
+	}
+
 	bool UIUserElement::IsFingerWithinRange() const
 	{
 		auto fingerPos = InputManager::GetInstance()->GetCurrentFingerPosCP(0);
@@ -124,17 +129,17 @@ namespace star
 
 	bool UIUserElement::IsDisabled() const
 	{
-		return m_ElementState == ElementStates::DISABLED;
+		return UIElement::IsDisabled();
 	}
 	
 	void UIUserElement::SetDisabled(bool disabled)
 	{
-		if(disabled && m_ElementState != ElementStates::DISABLED)
+		if(disabled && !IsDisabled())
 		{
 			GoDisable();
 		}
-		m_ElementState = disabled ?
-			ElementStates::DISABLED : ElementStates::IDLE;
+
+		UIElement::SetDisabled(disabled);
 	}
 
 	void UIUserElement::Reset()

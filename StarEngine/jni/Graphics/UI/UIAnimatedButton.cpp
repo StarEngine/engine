@@ -154,9 +154,9 @@ namespace star
 		}
 	}
 
-	void UIAnimatedButton::GoDisable()
+	void UIAnimatedButton::GoFreeze()
 	{
-		UIUserElement::GoDisable();
+		UIUserElement::GoFreeze();
 		if(m_pButtonSprite->GetCurrentAnimation() != N_DISABLED)
 		{
 			if(m_ContiniousAnimation)
