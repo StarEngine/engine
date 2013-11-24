@@ -89,9 +89,9 @@ namespace star
 		bool mIsInitialized;
 
 #ifdef ANDROID
-        EGLDisplay mDisplay;
-        EGLSurface mSurface;
-        EGLContext mContext;
+		EGLDisplay mDisplay;
+		EGLSurface mSurface;
+		EGLContext mContext;
 #endif
 
 		GraphicsManager(const GraphicsManager& yRef);
