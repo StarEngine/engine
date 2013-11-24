@@ -43,7 +43,7 @@ namespace star
 			spriteSheetComp = new SpriteComponent(m_FilePath, 
 				m_SpriteName);
 		}
-		spriteSheetComp->SetHUDOptionEnabled(m_bIsHudElement);
+		//spriteSheetComp->SetHUDOptionEnabled(m_bIsHudElement);
 		AddComponent(spriteSheetComp);
 		/*
 		SpriteComponent::InitializeComponent();

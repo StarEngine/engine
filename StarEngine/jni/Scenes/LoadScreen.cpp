@@ -33,7 +33,7 @@ namespace star
 
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetAssetsPath(),m_SpriteName);
 		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x;
-		m_Heigth =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y;
+		m_Height =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y;
 
 		CreateSquare();
 	}

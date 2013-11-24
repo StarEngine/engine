@@ -29,7 +29,7 @@ namespace star
 		tstring m_SpriteName;
 		
 		int32 m_Width;
-		int32 m_Heigth;
+		int32 m_Height;
 
 		GLfloat m_Vertices[8];
 		GLfloat m_UvCoords[8];

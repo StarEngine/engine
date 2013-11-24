@@ -19,7 +19,7 @@ namespace star
 			horizontalSegements,
 			verticalSegments
 			);
-		m_pSprite->SetHUDOptionEnabled(true);
+		//m_pSprite->SetHUDOptionEnabled(true);
 		
 		AddComponent(m_pSprite);
 	}

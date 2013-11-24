@@ -25,7 +25,7 @@ namespace star
 			name + _T("_img"),
 			spritesheet
 			);
-		m_pButtonSprite->SetHUDOptionEnabled(true);
+		//m_pButtonSprite->SetHUDOptionEnabled(true);
 		AddComponent(m_pButtonSprite);
 	}
 

@@ -4,24 +4,11 @@
 #include "../../Graphics/Shader.h"
 #include "../BaseComponent.h"
 #include "../../Helpers/Filepath.h"
-#include <vector>
-#ifdef ANDROID
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#include <EGL/egl.h>
-#endif
+#include "../../Graphics/SpriteInfo.h"
+
 
 namespace star
 {
-	struct SpriteInfo
-	{
-		std::vector<GLfloat> vertices;
-		std::vector<GLfloat> uvCoords;
-		tstring spriteName;
-		mat4 transform;
-		bool bIsHUD;
-	};
-
 	class SpriteComponent : public BaseComponent
 	{
 	public:
@@ -48,32 +35,28 @@ namespace star
 		const tstring& GetName() const;
 		virtual int32 GetWidth() const;
 		virtual int32 GetHeight() const;
-		std::vector<GLfloat> GetVertices() const;
-		std::vector<GLfloat> GetUVCoords() const;
 		
 		void SetCurrentSegment(uint32 widthSegment, uint32 heightSegment);
 		void SetCurrentHorizontalSegment(uint32 segment);
 		void SetCurrentVerticalSegment(uint32 segment);
-
-		void SetHUDOptionEnabled(bool enabled);
-		bool IsHUDOptionEnabled() const;
 
 		void SetTexture(const tstring& filepath, const tstring& spriteName, uint32 widthSegments = 1, uint32 heightSegments = 1);
 
 	protected:
 		virtual void InitializeComponent();
 		virtual void CreateVertices();
-		virtual void CreateIndices();
+		virtual void CreateUVCoords();
+		virtual void FillSpriteInfo();
 
-		GLfloat m_Vertices[12];
-		GLfloat m_UvCoords[8];
+		float32 m_Vertices[12];
+		float32 m_UvCoords[8];
 
 		uint32	m_WidthSegments,
 				m_HeightSegments, 
 				m_CurrentWidthSegment,
 				m_CurrentHeightSegment;
 
-		int32 m_Width, m_Heigth;
+		int32 m_Width, m_Height;
 
 	private:
 		Filepath m_FilePath;
