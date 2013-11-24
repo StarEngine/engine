@@ -64,6 +64,12 @@ namespace star
 
 	}
 
+	void UIAnimatedTextButton::AfterInitialized()
+	{
+		SetTextCentered();
+		UIUserElement::AfterInitialized();
+	}
+
 	void UIAnimatedTextButton::SetIdleColor(const Color & color)
 	{
 		m_StateColors[uint8(ElementStates::IDLE)] = color;

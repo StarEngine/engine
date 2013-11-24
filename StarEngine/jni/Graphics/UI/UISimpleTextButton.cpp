@@ -128,6 +128,8 @@ namespace star
 			m_Dimensions.y = float32(m_pTextField->GetHeight());
 		}
 		GoIdle();
+		SetTextCentered();
+		UIUserElement::AfterInitialized();
 	}
 
 	void UISimpleTextButton::SetIdleColor(const Color & color)

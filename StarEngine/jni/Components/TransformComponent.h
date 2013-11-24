@@ -42,7 +42,7 @@ namespace star
 		void MoveY(float32 y);
 
 		void Rotate(float32 rotation);
-		void Rotate(float32 rotation, const pos& centerPoint);
+		void Rotate(float32 rotation, const vec2& centerPoint);
 
 		void Scale(const vec2& scale);
 		void Scale(float32 x, float32 y);
@@ -57,7 +57,7 @@ namespace star
 		const vec2& GetWorldScale();
 		const vec2& GetLocalScale();
 
-		void SetCenterPoint(const pos & centerPoint);
+		void SetCenterPoint(const vec2 & centerPoint);
 		void SetCenterPoint(float32 x, float32 y);
 		void SetCenterX(float32 x);
 		void SetCenterY(float32 y);
@@ -111,9 +111,9 @@ namespace star
 		bool m_Invalidate;
 
 #ifdef STAR2D
-		pos m_WorldPosition, m_LocalPosition, m_CenterPosition;
+		pos m_WorldPosition, m_LocalPosition;
 		float32 m_WorldRotation, m_LocalRotation;
-		vec2 m_WorldScale, m_LocalScale;
+		vec2 m_WorldScale, m_LocalScale, m_CenterPosition;
 #else
 		vec3 m_WorldPosition, m_LocalPosition;
 		quat m_WorldRotation, m_LocalRotation;

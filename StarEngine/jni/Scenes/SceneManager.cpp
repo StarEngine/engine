@@ -7,6 +7,7 @@
 #include "../Sound/AudioManager.h"
 #include "../Graphics/SpriteBatch.h"
 #include "../Input/InputManager.h"
+#include "../Graphics/UI/UICursor.h"
 
 #define INPUT_MANAGER (InputManager::GetInstance())
 
@@ -21,7 +22,9 @@ namespace star
 		, m_bSwitchingScene(false)
 		, m_bInitialized(false)
 		, m_bDestroyRequested(false)
+		, m_bCursorHiddenByDefault(false)
 		, m_CurrentSceneName(EMPTY_STRING)
+		, m_pDefaultCursor(nullptr)
 #ifdef ANDROID
 		, mApplicationPtr(nullptr)
 #endif
@@ -33,10 +36,10 @@ namespace star
 	{
 		for(auto scene : m_SceneList)
 		{
-			delete(scene.second);
-			scene.second = nullptr;
+			SafeDelete(scene.second);
 		}
 		m_SceneList.clear();
+		SafeDelete(m_pDefaultCursor);
 	}
 
 
@@ -94,9 +97,10 @@ namespace star
 
 	bool SceneManager::AddScene(const tstring & name, BaseScene* scene)
 	{
-		if ( m_SceneList.find(name) == m_SceneList.end() )
+		if (m_SceneList.find(name) == m_SceneList.end())
 		{
 			m_SceneList[name] = scene;
+			scene->SetSystemCursorHidden(m_bCursorHiddenByDefault);
 			Logger::GetInstance()->Log(LogLevel::Info, _T("Adding scene"));
 		}
 		else
@@ -169,7 +173,6 @@ namespace star
 		}
 	}
 
-
 	void SceneManager::Draw()
 	{
 		if(m_bDestroyRequested)
@@ -181,6 +184,66 @@ namespace star
 			m_ActiveScene->BaseDraw();
 			SpriteBatch::GetInstance()->Flush();
 		}
+	}
+
+	void SceneManager::DrawDefaultCursor()
+	{
+		if(m_pDefaultCursor)
+		{
+			m_pDefaultCursor->BaseDraw();
+		}
+	}
+
+	void SceneManager::UpdateDefaultCursor(const Context & context)
+	{
+		if(m_pDefaultCursor)
+		{
+			m_pDefaultCursor->BaseUpdate(context);
+		}
+	}
+
+	void SceneManager::SetDefaultCursor(UICursor * cursor)
+	{
+		SafeDelete(m_pDefaultCursor);
+		SetSystemCursorHiddenByDefault(true);
+		m_pDefaultCursor = cursor;
+		m_pDefaultCursor->BaseInitialize();
+#ifdef MOBILE
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			tstring(_T("SceneManager::SetDefaultCursor: Cursor isn't supported on mobile device."))
+			+ _T(" For optimialisation reasons it's better to disable the code related to\
+the custom cursor code in your game project."));
+#endif
+	}
+
+	void SceneManager::UnsetDefaultCursor()
+	{
+		SafeDelete(m_pDefaultCursor);
+		SetSystemCursorHiddenByDefault(false);
+#ifdef MOBILE
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			tstring(_T("SceneManager::UnsetDefaultCursor: Cursor isn't supported on mobile device."))
+			+ _T(" For optimialisation reasons it's better to disable the code related to\
+the custom cursor code in your game project."));
+#endif
+	}
+
+	void SceneManager::SetDefaultCursorState(const tstring & state)
+	{
+		if(m_pDefaultCursor)
+		{
+			m_pDefaultCursor->SetState(state);
+		}
+	}
+
+	bool SceneManager::IsDefaultCursorDefined() const
+	{
+		return m_pDefaultCursor != nullptr;
+	}
+
+	void SceneManager::SetSystemCursorHiddenByDefault(bool hidden)
+	{
+		m_bCursorHiddenByDefault = hidden;
 	}
 
 	std::shared_ptr<Stopwatch> SceneManager::GetStopwatch() const

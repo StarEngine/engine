@@ -33,6 +33,7 @@ namespace star
 			);
 
 		virtual ~UIStaticTextButton();
+		virtual void AfterInitialized();
 
 		void SetTextColor(const Color & color);
 

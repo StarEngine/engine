@@ -63,6 +63,12 @@ namespace star
 	{
 
 	}
+	
+	void UITextButton::AfterInitialized()
+	{
+		SetTextCentered();
+		UIButton::AfterInitialized();
+	}
 
 	void UITextButton::SetIdleColor(const Color & color)
 	{

@@ -38,3 +38,16 @@ enum class DirectoryMode : byte
 	external,
 	custom
 };
+
+namespace star
+{
+	template <typename T>
+	__forceinline void SafeDelete(T * pointer)
+	{
+		if(pointer != nullptr)
+		{
+			delete pointer;
+			pointer = nullptr;
+		}
+	}
+}

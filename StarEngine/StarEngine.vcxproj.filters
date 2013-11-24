@@ -321,6 +321,9 @@
     <ClInclude Include="jni\Graphics\UI\UISimpleTextButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Graphics\UI\UICursor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -579,6 +582,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Graphics\UI\UISimpleTextButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Graphics\UI\UICursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

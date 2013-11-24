@@ -31,6 +31,7 @@ namespace star
 			);
 
 		virtual ~UITextButton();
+		virtual void AfterInitialized();
 
 		void SetIdleColor(const Color & color);
 		void SetHoverColor(const Color & color);

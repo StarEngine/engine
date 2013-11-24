@@ -71,16 +71,6 @@ namespace star
 		UIElement::SetVerticalAlignment(alignment);
 	}
 
-	void UIStaticButton::SetCurrentHorizontalSegement(uint32 segment)
-	{
-		m_pButtonSprite->SetCurrentHorizontalSegment(segment);
-	}
-
-	void UIStaticButton::SetCurrentVerticalSegement(uint32 segment)
-	{
-		m_pButtonSprite->SetCurrentVerticalSegment(segment);
-	}
-
 	void UIStaticButton::SetCurrentSegement(uint32 segmentX, uint32 segmentY)
 	{
 		m_pButtonSprite->SetCurrentSegment(segmentX, segmentY);

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "UICursor.h"
+
 #include "UIObject.h"
 
 #include "UIDock.h"

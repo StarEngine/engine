@@ -70,13 +70,13 @@ namespace star
 	{
 		for(auto comp : m_pComponents)
 		{
-			delete comp;
+			SafeDelete(comp);
 		}
 		m_pComponents.clear();
 
 		for(auto child : m_pChildren)
 		{
-			delete child;
+			SafeDelete(child);
 		}
 		m_pChildren.clear();
 	}

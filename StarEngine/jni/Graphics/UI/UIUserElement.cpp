@@ -77,6 +77,7 @@ namespace star
 			m_UnhoverCallback();
 		}
 #endif
+		GetScene()->SetStateActiveCursor(_T("idle"));
 	}
 
 #ifdef DESKTOP
@@ -86,6 +87,7 @@ namespace star
 		{
 			m_HoverCallback();
 		}
+		GetScene()->SetStateActiveCursor(_T("hover"));
 	}
 #endif
 
@@ -95,6 +97,7 @@ namespace star
 		{
 			m_SelectCallback();
 		}
+		GetScene()->SetStateActiveCursor(_T("click"));
 	}
 
 	void UIUserElement::GoDisable()

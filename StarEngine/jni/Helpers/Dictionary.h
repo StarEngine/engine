@@ -51,7 +51,7 @@ namespace star
 		const_interator cbegin() const;
 		const_interator cend() const;
 
-		iterator find(const TKey & key) const;
+		const_interator find(const TKey & key) const;
 		size_type count(const TKey & key) const;
 
 		const_interator lower_bound(const TKey & key) const;
@@ -211,7 +211,7 @@ namespace star
 	}
 
 	template < typename TKey, typename TValue >
-	typename Dictionary<TKey, TValue>::iterator Dictionary<TKey, TValue>::find
+	typename Dictionary<TKey, TValue>::const_interator Dictionary<TKey, TValue>::find
 		(const TKey & key) const
 	{
 		return (m_MultiMap.find(key));

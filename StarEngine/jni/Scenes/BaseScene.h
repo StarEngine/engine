@@ -15,6 +15,7 @@ namespace star
 	class CollisionManager;
 	class GestureManager;
 	class BaseCamera;
+	class UICursor;
 
 	class BaseScene
 	{
@@ -57,6 +58,14 @@ namespace star
 		static void SetCullingIsEnabled(bool enabled);
 		static bool IsCullingEnabled();
 
+		void SetCursorHidden(bool hidden);
+		void SetSystemCursorHidden(bool hidden);
+
+		void SetCursor(UICursor * cursor);
+		void UnsetCursor(bool showSystemCursor = true);
+
+		void SetStateActiveCursor(const tstring & state);
+
 		void SetCullingOffset(int32 offset);
 		void SetCullingOffset(int32 offsetX, int32 offsetY);
 
@@ -73,6 +82,8 @@ namespace star
 		virtual void Update(const Context& context) = 0;
 		virtual void Draw() = 0;
 
+		void SetOSCursorHidden(bool hidden);
+
 		std::shared_ptr<GestureManager> m_GestureManagerPtr;
 		std::shared_ptr<CollisionManager> m_CollisionManagerPtr;
 
@@ -80,15 +91,16 @@ namespace star
 		std::vector<Object*> m_Garbage;
 		BaseCamera* m_pDefaultCamera;
 		std::shared_ptr<Stopwatch> m_pStopwatch;
+		UICursor *m_pCursor;
 
 	private:
-
 		void CollectGarbage();
 
 		int32 m_CullingOffsetX,
 			m_CullingOffsetY;
 		bool m_Initialized;
 		static bool CULLING_IS_ENABLED;
+		bool m_CursorIsHidden, m_SystemCursorIsHidden;
 		tstring m_Name;
 	
 		BaseScene(const BaseScene& t);

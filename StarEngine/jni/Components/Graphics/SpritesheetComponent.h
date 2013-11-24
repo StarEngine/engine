@@ -23,6 +23,11 @@ namespace star
 		void PushAnimation(const tstring & animation);
 		void PlayAnimation(const tstring & animation);
 		void PlayAnimation(const tstring & animation, int32 startFrame);
+
+		bool PushAnimationSafe(const tstring & animation);
+		bool PlayAnimationSafe(const tstring & animation);
+		bool PlayAnimationSafe(const tstring & animation, int32 startFrame);
+
 		void PlayNextAnimation();
 		void PlayNextAnimation(int32 startFrame);
 		void Reset();

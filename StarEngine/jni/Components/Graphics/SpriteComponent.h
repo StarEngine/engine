@@ -52,13 +52,16 @@ namespace star
 		std::vector<GLfloat> GetUVCoords() const;
 		
 		void SetCurrentSegment(uint32 widthSegment, uint32 heightSegment);
-		void SetCurrentHorizontalSegment(uint32 segment);
-		void SetCurrentVerticalSegment(uint32 segment);
 
 		void SetHUDOptionEnabled(bool enabled);
 		bool IsHUDOptionEnabled() const;
 
-		void SetTexture(const tstring& filepath, const tstring& spriteName, uint32 widthSegments = 1, uint32 heightSegments = 1);
+		void SetTexture(
+			const tstring& filepath,
+			const tstring& spriteName,
+			uint32 widthSegments = 1,
+			uint32 heightSegments = 1
+			);
 
 	protected:
 		virtual void InitializeComponent();
@@ -76,6 +79,9 @@ namespace star
 		int32 m_Width, m_Heigth;
 
 	private:
+		void SetCurrentHorizontalSegment(uint32 segment);
+		void SetCurrentVerticalSegment(uint32 segment);
+
 		Filepath m_FilePath;
 		tstring m_SpriteName;
 		bool m_bIsHudElement;

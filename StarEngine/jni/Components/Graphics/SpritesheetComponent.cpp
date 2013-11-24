@@ -124,6 +124,39 @@ namespace star
 
 	}
 
+	bool SpritesheetComponent::PushAnimationSafe(const tstring & animation)
+	{
+		auto it = m_Spritesheet.find(animation);
+		if(it != m_Spritesheet.end())
+		{
+			PushAnimation(animation);
+			return true;
+		}
+		return false;
+	}
+
+	bool SpritesheetComponent::PlayAnimationSafe(const tstring & animation)
+	{
+		auto it = m_Spritesheet.find(animation);
+		if(it != m_Spritesheet.end())
+		{
+			PlayAnimation(animation);
+			return true;
+		}
+		return false;
+	}
+
+	bool SpritesheetComponent::PlayAnimationSafe(const tstring & animation, int32 startFrame)
+	{
+		auto it = m_Spritesheet.find(animation);
+		if(it != m_Spritesheet.end())
+		{
+			PlayAnimation(animation, startFrame);
+			return true;
+		}
+		return false;
+	}
+
 	void SpritesheetComponent::PlayNextAnimation()
 	{
 		if(m_Animations.size() > 1)

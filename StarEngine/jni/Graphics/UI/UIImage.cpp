@@ -73,16 +73,6 @@ namespace star
 		UIElement::SetVerticalAlignment(alignment);
 	}
 
-	void UIImage::SetCurrentHorizontalSegement(uint32 segment)
-	{
-		m_pSprite->SetCurrentHorizontalSegment(segment);
-	}
-
-	void UIImage::SetCurrentVerticalSegement(uint32 segment)
-	{
-		m_pSprite->SetCurrentVerticalSegment(segment);
-	}
-
 	void UIImage::SetCurrentSegement(uint32 segmentX, uint32 segmentY)
 	{
 		m_pSprite->SetCurrentSegment(segmentX, segmentY);

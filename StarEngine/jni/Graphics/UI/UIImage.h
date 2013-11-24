@@ -21,8 +21,6 @@ namespace star
 		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
 		virtual void SetVerticalAlignment(VerticalAlignment alignment);
 
-		void SetCurrentHorizontalSegement(uint32 segment);
-		void SetCurrentVerticalSegement(uint32 segment);
 		void SetCurrentSegement(uint32 segmentX, uint32 segmentY);
 
 		virtual vec2 GetDimensions() const;

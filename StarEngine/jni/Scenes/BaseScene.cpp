@@ -9,6 +9,8 @@
 #include "../Helpers/Debug/DebugDraw.h"
 #include "../Physics/Collision/CollisionManager.h"
 #include "../Input/Gestures/GestureManager.h"
+#include "../Graphics/UI/UICursor.h"
+#include "SceneManager.h"
 
 namespace star 
 {
@@ -20,9 +22,12 @@ namespace star
 		, m_Objects()
 		, m_Garbage()
 		, m_pDefaultCamera(nullptr)
+		, m_pCursor(nullptr)
 		, m_CullingOffsetX(0)
 		, m_CullingOffsetY(0)
 		, m_Initialized(false)
+		, m_CursorIsHidden(false)
+		, m_SystemCursorIsHidden(false)
 		, m_Name(name)
 	{
 		m_pStopwatch = std::make_shared<Stopwatch>();
@@ -34,11 +39,14 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			delete object;
+			SafeDelete(object);
 		}
 		m_Objects.clear();
+		// [COMMENT] Don't we have to delete them?
 		m_GestureManagerPtr = nullptr;
+		// [COMMENT] Don't we have to delete them?
 		m_CollisionManagerPtr = nullptr;
+		SafeDelete(m_pCursor);
 	}
 
 	void BaseScene::BaseInitialize()
@@ -71,6 +79,7 @@ namespace star
 	void BaseScene::BaseOnActivate()
 	{
 		InputManager::GetInstance()->SetGestureManager(m_GestureManagerPtr);
+		SetOSCursorHidden(m_CursorIsHidden || m_SystemCursorIsHidden);
 		return OnActivate();
 	}
 
@@ -84,6 +93,20 @@ namespace star
 		CollectGarbage();
 
 		m_pStopwatch->Update(context);
+		
+#ifdef DESKTOP
+		if(m_SystemCursorIsHidden && !m_CursorIsHidden)
+		{
+			if(m_pCursor)
+			{
+				m_pCursor->BaseUpdate(context);
+			}
+			else
+			{
+				SceneManager::GetInstance()->UpdateDefaultCursor(context);
+			}
+		}
+#endif
 		
 		Update(context);
 
@@ -132,6 +155,20 @@ namespace star
 		}
 	
 		Draw(); 
+
+#ifdef DESKTOP
+		if(m_SystemCursorIsHidden && !m_CursorIsHidden)
+		{
+			if(m_pCursor)
+			{
+				m_pCursor->BaseDraw();
+			}
+			else
+			{
+				SceneManager::GetInstance()->DrawDefaultCursor();
+			}
+		}
+#endif
 	}
 
 	void BaseScene::OnSaveState(void** pData, size_t* pSize)
@@ -364,6 +401,75 @@ namespace star
 	bool BaseScene::IsCullingEnabled()
 	{
 		return CULLING_IS_ENABLED;
+	}
+
+	void BaseScene::SetCursorHidden(bool hidden)
+	{
+		m_CursorIsHidden = hidden;
+		if(hidden)
+		{
+			SetOSCursorHidden(true);
+		}
+	}
+	
+	void BaseScene::SetSystemCursorHidden(bool hidden)
+	{
+		m_SystemCursorIsHidden = hidden;
+		SetOSCursorHidden(hidden);
+	}
+
+	void BaseScene::SetOSCursorHidden(bool hidden)
+	{
+#ifdef _WIN32
+		ShowCursor(BOOL(!hidden));
+#endif
+	}
+
+	void BaseScene::SetCursor(UICursor * cursor)
+	{
+		SafeDelete(m_pCursor);
+		m_pCursor = cursor;
+		m_pCursor->BaseInitialize();
+		SetSystemCursorHidden(true);
+#ifdef MOBILE
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			tstring(_T("BaseScene::SetCursor: Cursor isn't supported on mobile device."))
+			+ _T(" For optimialisation reasons it's better to disable the code related to\
+the custom cursor code in your game project."));
+#endif
+	}
+
+	void BaseScene::UnsetCursor(bool showSystemCursor)
+	{
+		SafeDelete(m_pCursor);
+		if(SceneManager::GetInstance()->IsDefaultCursorDefined())
+		{
+			SetSystemCursorHidden(!showSystemCursor);
+		}
+#ifdef MOBILE
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			tstring(_T("BaseScene::UnsetCursor: Cursor isn't supported on mobile device."))
+			+ _T(" For optimialisation reasons it's better to disable the code related to\
+the custom cursor code in your game project."));
+#endif
+	}
+
+	void BaseScene::SetStateActiveCursor(const tstring & state)
+	{
+		if(m_pCursor)
+		{
+			m_pCursor->SetState(state);
+		}
+		else
+		{
+			SceneManager::GetInstance()->SetDefaultCursorState(state);
+		}
+#ifdef MOBILE
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			tstring(_T("BaseScene::SetStateActiveCursor: Cursor isn't supported on mobile device."))
+			+ _T(" For optimialisation reasons it's better to disable the code related to\
+the custom cursor code in your game project."));
+#endif
 	}
 	
 	std::shared_ptr<Stopwatch> BaseScene::GetStopwatch() const
