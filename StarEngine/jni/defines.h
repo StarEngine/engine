@@ -42,7 +42,7 @@ enum class DirectoryMode : byte
 namespace star
 {
 	template <typename T>
-	__forceinline void SafeDelete(T * pointer)
+	inline void SafeDelete(T * pointer)
 	{
 		if(pointer != nullptr)
 		{

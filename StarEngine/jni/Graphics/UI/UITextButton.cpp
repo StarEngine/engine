@@ -75,10 +75,12 @@ namespace star
 		m_StateColors[uint8(ElementStates::IDLE)] = color;
 	}
 
+#ifdef DESKTOP
 	void UITextButton::SetHoverColor(const Color & color)
 	{
 		m_StateColors[uint8(ElementStates::HOVER)] = color;
 	}
+#endif
 
 	void UITextButton::SetClickColor(const Color & color)
 	{

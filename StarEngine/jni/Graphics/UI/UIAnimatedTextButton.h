@@ -34,7 +34,9 @@ namespace star
 		virtual void AfterInitialized();
 
 		void SetIdleColor(const Color & color);
+#ifdef DESKTOP
 		void SetHoverColor(const Color & color);
+#endif
 		void SetClickColor(const Color & color);
 		void SetDisableColor(const Color & color);
 
