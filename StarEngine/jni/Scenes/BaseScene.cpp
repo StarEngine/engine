@@ -85,11 +85,13 @@ namespace star
 
 		m_pStopwatch->Update(context);
 		
+		Update(context);
+
 		for(auto object : m_Objects)
 		{
 			object->BaseUpdate(context);
 		}
-		Update(context);
+
 		//[COMMENT] Updating the collisionManager before the objects or here?
 		//			If i do it before the objects, there is the problem that
 		//			the objects won't be translated correctly...
@@ -99,22 +101,36 @@ namespace star
 
 	void BaseScene::BaseDraw()
 	{
-		for(auto object : m_Objects)
+		if(!CULLING_IS_ENABLED)
 		{
-			if(!CULLING_IS_ENABLED ||
-				(object->IsVisible() && CheckCulling(object)))
+			for(auto object : m_Objects)
 			{
 				object->BaseDraw();
 			}
-			for(auto child : object->GetChildren())
+		}
+		else
+		{
+			pos camPos = m_pDefaultCamera->GetTransform()->GetWorldPosition();
+
+			float32 xPos = camPos.pos2D().x *
+				((star::ScaleSystem::GetInstance()->GetWorkingResolution().x) / 2.0f);
+			float32 yPos = camPos.pos2D().y *
+				((star::ScaleSystem::GetInstance()->GetWorkingResolution().y) / 2.0f); 
+
+			int32 screenWidth = GraphicsManager::GetInstance()->GetScreenWidth();
+			int32 screenHeight = GraphicsManager::GetInstance()->GetScreenHeight();
+
+			float32 left = xPos - m_CullingOffsetX;
+			float32 right = xPos + screenWidth + m_CullingOffsetX;
+			float32 top = yPos + screenHeight + m_CullingOffsetY;
+			float32 bottom = yPos - m_CullingOffsetY;
+
+			for(auto object : m_Objects)
 			{
-				if(!CULLING_IS_ENABLED ||
-					(child->IsVisible() && CheckCulling(child)))
-				{
-					child->BaseDraw();
-				}
+				object->BaseDrawWithCulling(left, right, top, bottom);
 			}
 		}
+	
 		Draw(); 
 	}
 
@@ -363,35 +379,6 @@ namespace star
 	std::shared_ptr<CollisionManager> BaseScene::GetCollisionManager() const
 	{
 		return m_CollisionManagerPtr;
-	}
-
-	bool BaseScene::CheckCulling(Object* object)
-	{
-		pos camPos = m_pDefaultCamera->GetTransform()->GetWorldPosition();
-
-		float32 xPos = camPos.pos2D().x *
-			((star::ScaleSystem::GetInstance()->GetWorkingResolution().x) / 2.0f);
-		float32 yPos = camPos.pos2D().y *
-			((star::ScaleSystem::GetInstance()->GetWorkingResolution().y) / 2.0f); 
-
-		int32 screenWidth = GraphicsManager::GetInstance()->GetScreenWidth();
-		int32 screenHeight = GraphicsManager::GetInstance()->GetScreenHeight();
-
-		const auto & objComponents = object->GetComponents();
-		for ( auto component : objComponents)
-		{
-			if(component->CheckCulling(
-				xPos - m_CullingOffsetX,
-				xPos + screenWidth + m_CullingOffsetX,
-				yPos + screenHeight + m_CullingOffsetY,
-				yPos - m_CullingOffsetY
-				))
-			{
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	void BaseScene::SetCullingOffset(int32 offset)

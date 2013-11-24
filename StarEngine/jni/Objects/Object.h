@@ -31,6 +31,12 @@ namespace star
 		void BaseAfterInitialized();
 		void BaseUpdate(const Context& context);
 		void BaseDraw();
+		void BaseDrawWithCulling(
+			float32 left,
+			float32 right,
+			float32 top,
+			float32 bottom
+			);
 
 		const tstring& GetName() const;
 		void SetName(const tstring& name);
@@ -94,6 +100,17 @@ namespace star
 		virtual void AfterInitialized();
 		virtual void Update(const Context & context);
 		virtual void Draw();
+
+		bool BaseCheckCulling(
+			float32 left, float32 right, float32 top, float32 bottom
+			);
+
+		virtual bool CheckCulling(
+			float32 left,
+			float32 right,
+			float32 top,
+			float32 bottom
+			);
 
 		bool m_bIsInitialized;
 		bool m_IsVisible;

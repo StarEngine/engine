@@ -72,7 +72,6 @@ namespace star
 		virtual void OnDeactivate() = 0;
 		virtual void Update(const Context& context) = 0;
 		virtual void Draw() = 0;
-		bool CheckCulling(Object* object);
 
 		std::shared_ptr<GestureManager> m_GestureManagerPtr;
 		std::shared_ptr<CollisionManager> m_CollisionManagerPtr;

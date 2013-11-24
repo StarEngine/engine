@@ -146,6 +146,12 @@ namespace star
 				{
 					component->BaseUpdate(context);
 				}
+				else
+				{
+					Logger::GetInstance()->Log(LogLevel::Warning,
+						_T("Trying to update nullptr component from object '")
+						+ GetName() + _T("'."));
+				}
 			}
 
 			for(auto child : m_pChildren)
@@ -154,13 +160,43 @@ namespace star
 				{
 					child->BaseUpdate(context);
 				}
+				else
+				{
+					Logger::GetInstance()->Log(LogLevel::Warning,
+						_T("Trying to update nullptr object child from object '")
+						+ GetName() + _T("'."));
+				}
 			}
 		}
 	}
 
 	void Object::Draw()
 	{
-		//DO nothing, unless a derived class overrides this
+	}
+
+	bool Object::BaseCheckCulling(
+		float32 left, float32 right, float32 top, float32 bottom
+		)
+	{
+		for ( auto component : m_pComponents)
+		{
+			if(component->CheckCulling(left, right, top, bottom))
+			{
+				return true;
+			}
+		}
+
+		return CheckCulling(left, right, top, bottom);
+	}
+
+	bool Object::CheckCulling(
+		float32 left,
+		float32 right,
+		float32 top,
+		float32 bottom
+		)
+	{
+		return false;
 	}
 
 	void Object::BaseDraw()
@@ -168,12 +204,77 @@ namespace star
 		if(m_IsVisible)
 		{
 			Draw();
+
 			for(auto component : m_pComponents)
 			{
 				if(component)
 				{
 					component->BaseDraw();
 				} 
+				else
+				{
+					Logger::GetInstance()->Log(LogLevel::Warning,
+						_T("Trying to draw nullptr component from object '")
+						+ GetName() + _T("'."));
+				}
+			}
+
+			for(auto child : m_pChildren)
+			{
+				if(child)
+				{
+					child->BaseDraw();
+				}
+				else
+				{
+					Logger::GetInstance()->Log(LogLevel::Warning,
+						_T("Trying to draw nullptr object child from object '")
+						+ GetName() + _T("'."));
+				}
+			}
+		}
+	}
+
+	void Object::BaseDrawWithCulling(
+		float32 left,
+		float32 right,
+		float32 top,
+		float32 bottom
+		)
+	{
+		if(m_IsVisible)
+		{
+			if(BaseCheckCulling(left, right, top, bottom))
+			{
+				Draw();
+
+				for(auto component : m_pComponents)
+				{
+					if(component)
+					{
+						component->BaseDraw();
+					} 
+					else
+					{
+						Logger::GetInstance()->Log(LogLevel::Warning,
+							_T("Trying to draw nullptr component from object '")
+							+ GetName() + _T("'."));
+					}
+				}
+			}
+
+			for(auto child : m_pChildren)
+			{
+				if(child)
+				{
+					child->BaseDrawWithCulling(left, right, top, bottom);
+				}
+				else
+				{
+					Logger::GetInstance()->Log(LogLevel::Warning,
+						_T("Trying to draw nullptr object child from object '")
+						+ GetName() + _T("'."));
+				}
 			}
 		}
 	}
