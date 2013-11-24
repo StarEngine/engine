@@ -109,13 +109,18 @@ namespace star
 		m_pTextComponent->SetColor(color);
 	}
 
-	void UITextField::Update(const Context& context)
+	vec2 UITextField::GetDimensions() const
 	{
-		UIElement::Update(context);
+		return vec2(GetWidth(), GetHeight());
 	}
 
-	void UITextField::Draw()
+	int32 UITextField::GetWidth() const
 	{
-		UIElement::Draw();
+		return m_pTextComponent->GetTextWidth();
+	}
+
+	int32 UITextField::GetHeight() const
+	{
+		return m_pTextComponent->GetTextHeight();
 	}
 }

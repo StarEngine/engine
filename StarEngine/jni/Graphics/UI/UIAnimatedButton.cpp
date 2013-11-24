@@ -37,6 +37,7 @@ namespace star
 	void UIAnimatedButton::Initialize()
 	{
 		UIUserElement::Initialize();
+		GoIdle();
 	}
 	
 	void UIAnimatedButton::SetHorizontalAlignment(HorizontalAlignment alignment)
@@ -92,6 +93,11 @@ namespace star
 	bool UIAnimatedButton::IsContiniousAnimationEnabled() const
 	{
 		return m_ContiniousAnimation;
+	}
+
+	vec2 UIAnimatedButton::GetDimensions() const
+	{
+		return vec2(m_pButtonSprite->GetWidth(), m_pButtonSprite->GetHeight());
 	}
 
 	void UIAnimatedButton::Update(const Context& context)

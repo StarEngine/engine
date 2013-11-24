@@ -15,6 +15,8 @@ namespace star
 			CLICK = 2
 		};
 
+		static const byte DISABLE_STATE_ID = 3;
+
 		UIUserElement(const tstring & name);
 		virtual ~UIUserElement();
 

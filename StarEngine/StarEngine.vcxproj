@@ -108,6 +108,10 @@
     <ClInclude Include="jni\Graphics\GraphicsManager.h" />
     <ClInclude Include="jni\Graphics\SpriteBatch.h" />
     <ClInclude Include="jni\Graphics\UI\Index.h" />
+    <ClInclude Include="jni\Graphics\UI\UIAnimatedTextButton.h" />
+    <ClInclude Include="jni\Graphics\UI\UISimpleTextButton.h" />
+    <ClInclude Include="jni\Graphics\UI\UIStaticTextButton.h" />
+    <ClInclude Include="jni\Graphics\UI\UITextButton.h" />
     <ClInclude Include="jni\Graphics\UI\UIAnimatedButton.h" />
     <ClInclude Include="jni\Graphics\UI\UIAnimatedImage.h" />
     <ClInclude Include="jni\Graphics\UI\UIButton.h" />
@@ -195,6 +199,10 @@
     <ClCompile Include="jni\Graphics\Color.cpp" />
     <ClCompile Include="jni\Graphics\GraphicsManager.cpp" />
     <ClCompile Include="jni\Graphics\SpriteBatch.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UISimpleTextButton.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UIStaticTextButton.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UIAnimatedTextButton.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UITextButton.cpp" />
     <ClCompile Include="jni\Graphics\UI\UIAnimatedButton.cpp" />
     <ClCompile Include="jni\Graphics\UI\UIAnimatedImage.cpp" />
     <ClCompile Include="jni\Graphics\UI\UIButton.cpp" />

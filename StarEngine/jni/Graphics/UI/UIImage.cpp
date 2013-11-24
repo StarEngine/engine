@@ -94,13 +94,8 @@ namespace star
 		m_pSprite->SetCurrentSegment(segmentX, segmentY);
 	}
 
-	void UIImage::Update(const Context& context)
+	vec2 UIImage::GetDimensions() const
 	{
-		UIElement::Update(context);
-	}
-
-	void UIImage::Draw()
-	{
-		UIElement::Draw();
+		return vec2(m_pSprite->GetWidth(), m_pSprite->GetHeight());
 	}
 }

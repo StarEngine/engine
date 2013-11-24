@@ -11,12 +11,6 @@ namespace star
 		UIElement(const tstring & name);
 		virtual ~UIElement();
 
-		virtual void Initialize();
-
-	protected:
-		virtual void Update(const Context& context);
-		virtual void Draw();
-
 	private:
 		UIElement(const UIElement &);
 		UIElement(UIElement &&);

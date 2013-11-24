@@ -25,10 +25,9 @@ namespace star
 		void SetCurrentVerticalSegement(uint32 segment);
 		void SetCurrentSegement(uint32 segmentX, uint32 segmentY);
 
-	protected:
-		virtual void Update(const Context& context);
-		virtual void Draw();
+		virtual vec2 GetDimensions() const;
 
+	protected:
 		virtual vec2 GetUserElementDimensions() const;
 
 		SpriteComponent *m_pButtonSprite;

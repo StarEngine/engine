@@ -79,64 +79,52 @@ namespace star
 				break;
 		}
 	}
-	
-	void UIDock::AddElement(UIObject * pElement)
-	{
-		pElement->SetUIDock(this);
-		AddChild(pElement);
-	}
 
 	void UIDock::SetDimensions(const vec2 & dimensions)
 	{
 		m_Dimensions = dimensions;
+		RepositionChildren();
 	}
 
 	void UIDock::SetDimensions(float32 x, float32 y)
 	{
 		m_Dimensions.x = x;
 		m_Dimensions.y = y;
+		RepositionChildren();
 	}
 
 	void UIDock::SetDimensionsX(float32 x)
 	{
 		m_Dimensions.x = x;
+		RepositionChildren();
 	}
 
 	void UIDock::SetDimensionsY(float32 y)
 	{
 		m_Dimensions.y = y;
+		RepositionChildren();
 	}
 
-	void UIDock::Reset()
+	vec2 UIDock::GetDimensions() const
+	{
+		return m_Dimensions;
+	}
+
+	void UIDock::RepositionChildren()
 	{
 		for(auto child : m_pChildren)
 		{
 			auto element = dynamic_cast<UIObject*>(child);
 			if(element != nullptr)
 			{
-				element->Reset();
+				element->Reposition();
 			}
 			else
 			{
 				Logger::GetInstance()->Log(LogLevel::Warning,
-					_T("UIDock::Reset: Object '") +
+					_T("UIDock::RepositionChildren: Object '") +
 					child->GetName() + _T("' is not a UI Object."));
 			}
 		}
-	}
-
-	const vec2 & UIDock::GetDimensions() const
-	{
-		return m_Dimensions;
-	}
-
-	void UIDock::Update(const Context& context)
-	{
-		UIObject::Update(context);
-	}
-
-	void UIDock::Draw()
-	{
-		UIObject::Draw();
 	}
 }

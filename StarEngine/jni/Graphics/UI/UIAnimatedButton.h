@@ -23,6 +23,8 @@ namespace star
 		void EnableContiniousAnimation(bool enabled);
 		bool IsContiniousAnimationEnabled() const;
 
+		virtual vec2 GetDimensions() const;
+
 	protected:
 		virtual void Update(const Context& context);
 		virtual void Draw();

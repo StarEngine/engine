@@ -9,7 +9,7 @@ namespace star
 		, m_Position()
 		, m_HorizontalAlignment(HorizontalAlignment::Left)
 		, m_VerticalAlignment(VerticalAlignment::Bottom)
-		, m_pDock(nullptr)
+		, m_pParent(nullptr)
 	{
 
 	}
@@ -76,14 +76,14 @@ namespace star
 		UITranslate();
 	}
 
-	void UIObject::SetUIDock(UIDock * pDock)
+	void UIObject::SetUIParent(UIObject * pParent)
 	{
-		m_pDock = pDock;
+		m_pParent = pParent;
 	}
 	
-	UIDock * UIObject::GetUIDock() const
+	UIObject * UIObject::GetUIParent() const
 	{
-		return m_pDock;
+		return m_pParent;
 	}
 
 	void UIObject::SetHorizontalAlignment(HorizontalAlignment alignment)
@@ -106,6 +106,32 @@ namespace star
 
 	void UIObject::Reset()
 	{
+		for(auto child : m_pChildren)
+		{
+			auto element = dynamic_cast<UIObject*>(child);
+			if(element != nullptr)
+			{
+				element->Reset();
+			}
+			else
+			{
+				Logger::GetInstance()->Log(LogLevel::Warning,
+					_T("UIObject::Reset: Object '") +
+					child->GetName() + _T("' is not a UI Object."));
+			}
+		}
+	}
+
+	void UIObject::Reposition()
+	{
+		UITranslate();
+	}
+	
+	void UIObject::AddElement(UIObject * pElement)
+	{
+		pElement->SetUIParent(this);
+		pElement->Reposition();
+		AddChild(pElement);
 	}
 
 	void UIObject::Update(const Context& context)
@@ -118,25 +144,35 @@ namespace star
 		Object::Draw();
 	}
 
-	UIDock * UIObject::GetRootDock() const
+	vec2 UIObject::GetDimensions() const
 	{
-		UIDock *pDock(nullptr);
+		return vec2(0,0);
+	}
+
+	UIObject * UIObject::GetRootParent() const
+	{
+		UIObject *pParent(nullptr);
+		UIObject *pChild = const_cast<UIObject*>(this);
 
 		do
 		{
-			pDock = GetUIDock();
-		} while(pDock != nullptr);
+			pChild = pChild->GetUIParent();
+			if(pChild != nullptr)
+			{
+				pParent = pChild;
+			}
+		} while(pChild != nullptr);
 
-		return pDock;
+		return pParent;
 	}
 
 	vec2 UIObject::GetDockDimensions() const
 	{
 		vec2 dimensions;
 		
-		if(m_pDock != nullptr)
+		if(m_pParent != nullptr)
 		{
-			dimensions = m_pDock->GetDimensions();
+			dimensions = m_pParent->GetDimensions();
 		}
 		else
 		{

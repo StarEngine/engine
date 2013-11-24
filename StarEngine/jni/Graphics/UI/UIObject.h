@@ -38,8 +38,8 @@ namespace star
 		void TranslateY(float32 y);
 		void TranslateL(lay l);
 
-		void SetUIDock(UIDock * pDock);
-		UIDock * GetUIDock() const;
+		void SetUIParent(UIObject * pParent);
+		UIObject * GetUIParent() const;
 
 		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
 		virtual void SetVerticalAlignment(VerticalAlignment alignment);
@@ -47,12 +47,17 @@ namespace star
 		void SetAlignmentCentered();
 
 		virtual void Reset();
+		void Reposition();
+
+		void AddElement(UIObject * pElement);
 
 	protected:
 		virtual void Update(const Context& context);
 		virtual void Draw();
 
-		UIDock * GetRootDock() const;
+		virtual vec2 GetDimensions() const;
+
+		UIObject * GetRootParent() const;
 
 		vec2 GetDockDimensions() const;
 
@@ -64,7 +69,7 @@ namespace star
 		HorizontalAlignment m_HorizontalAlignment;
 		VerticalAlignment m_VerticalAlignment;
 
-		UIDock *m_pDock;
+		UIObject *m_pParent;
 
 	private:
 		UIObject(const UIObject &);

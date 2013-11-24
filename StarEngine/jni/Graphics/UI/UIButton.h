@@ -3,8 +3,6 @@
 
 namespace star
 {
-	class SpriteComponent;
-
 	class UIButton : public UIStaticButton
 	{
 	public:
@@ -15,8 +13,15 @@ namespace star
 			);
 		virtual ~UIButton();
 
+		virtual void Initialize();
+
 	protected:
-		virtual void Update(const Context & context);
+		virtual void GoIdle();
+#ifdef DESKTOP
+		virtual void GoHover();
+#endif
+		virtual void GoClick();
+		virtual void GoFreeze();
 
 		bool m_IsVertical;
 

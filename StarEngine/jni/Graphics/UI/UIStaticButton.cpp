@@ -92,14 +92,9 @@ namespace star
 		m_pButtonSprite->SetCurrentSegment(segmentX, segmentY);
 	}
 
-	void UIStaticButton::Update(const Context& context)
+	vec2 UIStaticButton::GetDimensions() const
 	{
-		UIUserElement::Update(context);
-	}
-
-	void UIStaticButton::Draw()
-	{
-		UIUserElement::Draw();
+		return vec2(m_pButtonSprite->GetWidth(), m_pButtonSprite->GetHeight());
 	}
 
 	vec2 UIStaticButton::GetUserElementDimensions() const
