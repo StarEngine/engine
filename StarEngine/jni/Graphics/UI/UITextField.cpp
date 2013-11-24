@@ -18,6 +18,7 @@ namespace star
 
 		m_pTextComponent->SetColor(color);
 		m_pTextComponent->SetText(text);
+		m_pTextComponent->SetHUDOptionEnabled(true);
 	}
 
 	UITextField::UITextField(
@@ -51,9 +52,7 @@ namespace star
 	
 	void UITextField::SetHorizontalAlignment(HorizontalAlignment alignment)
 	{
-		UIElement::SetHorizontalAlignment(alignment);
-
-		switch(m_HorizontalAlignment)
+		switch(alignment)
 		{
 			case HorizontalAlignment::Left:
 				GetTransform()->SetCenterX(0);
@@ -70,28 +69,29 @@ namespace star
 				break;
 		}
 
+		UIElement::SetHorizontalAlignment(alignment);
 	}
 
 	void UITextField::SetVerticalAlignment(VerticalAlignment alignment)
 	{
-		UIElement::SetVerticalAlignment(alignment);
-
-		switch(m_VerticalAlignment)
+		switch(alignment)
 		{
 			case VerticalAlignment::Bottom:
 				GetTransform()->SetCenterY(0);
 				break;
 			case VerticalAlignment::Center:
 				GetTransform()->SetCenterY(
-					float32(m_pTextComponent->GetTextHeight()) / -2.0f
+					float32(m_pTextComponent->GetTextHeight()) / 2.0f
 					);
 				break;
 			case VerticalAlignment::Top:
 				GetTransform()->SetCenterY(
-					float32(-m_pTextComponent->GetTextHeight())
+					float32(m_pTextComponent->GetTextHeight())
 					);
 				break;
 		}
+
+		UIElement::SetVerticalAlignment(alignment);
 	}
 
 	void UITextField::SetText(const tstring & text)

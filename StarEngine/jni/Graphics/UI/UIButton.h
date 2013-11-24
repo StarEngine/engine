@@ -13,7 +13,7 @@ namespace star
 			);
 		virtual ~UIButton();
 
-		virtual void Initialize();
+		virtual void AfterInitialized();
 
 	protected:
 		virtual void GoIdle();

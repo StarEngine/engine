@@ -220,7 +220,8 @@ namespace star
 			textDesc.Fontname,
 			textDesc.VerticalSpacing, 
 			textDesc.TransformComp,
-			textDesc.TextColor);
+			textDesc.TextColor,
+			textDesc.IsHUDText);
 	}
 
 	void SpriteBatch::FlushText(
@@ -228,7 +229,8 @@ namespace star
 		const tstring& fontname,
 		int32 spacing, 
 		TransformComponent* transform,
-		const Color& color
+		const Color& color,
+			bool isHUD
 		)
 	{
 		if(text.size() == 0)
@@ -288,9 +290,13 @@ namespace star
 				
 				if(start_line[i] != 0)
 				{
-					int32 offset = curfont.GetMaxLetterHeight() - tempsizes[start_line[i]].y;
 					offsetTrans = Translate(
-						vec3(offsetX, offsetY - curfont.GetMaxLetterHeight() - offset, 0));
+						vec3(
+							offsetX,
+							offsetY + tempsizes[start_line[i]].y,
+							0
+							)
+						);
 					offsetX += tempsizes[start_line[i]].x;
 				}
 				else
@@ -304,7 +310,10 @@ namespace star
 					ToPointerValue(
 						Transpose(world) *
 						scaleMat *
-						GraphicsManager::GetInstance()->GetViewProjectionMatrix()
+						(isHUD ?
+							GraphicsManager::GetInstance()->GetProjectionMatrix() :
+							GraphicsManager::GetInstance()->GetViewProjectionMatrix()
+							)
 						)
 					);
 				glDrawArrays(GL_TRIANGLE_STRIP,0,4);

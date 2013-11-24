@@ -47,8 +47,8 @@ namespace star
 			);
 
 		virtual ~UISimpleTextButton();
-
-		virtual void Initialize();
+		
+		virtual void AfterInitialized();
 
 		void SetIdleColor(const Color & color);
 		void SetHoverColor(const Color & color);
@@ -74,7 +74,6 @@ namespace star
 		virtual vec2 GetDimensions() const;
 
 	protected:
-		void RepositionChildren();
 		virtual void GoIdle();
 #ifdef DESKTOP
 		virtual void GoHover();

@@ -26,17 +26,10 @@ namespace star
 	{
 
 	}
-
-	void UIAnimatedImage::Initialize()
-	{
-		UIElement::Initialize();
-	}
 	
 	void UIAnimatedImage::SetHorizontalAlignment(HorizontalAlignment alignment)
 	{
-		UIElement::SetHorizontalAlignment(alignment);
-
-		switch(m_HorizontalAlignment)
+		switch(alignment)
 		{
 			case HorizontalAlignment::Left:
 				GetTransform()->SetCenterX(0);
@@ -52,14 +45,12 @@ namespace star
 					);
 				break;
 		}
-
+		UIElement::SetHorizontalAlignment(alignment);
 	}
 
 	void UIAnimatedImage::SetVerticalAlignment(VerticalAlignment alignment)
 	{
-		UIElement::SetVerticalAlignment(alignment);
-
-		switch(m_VerticalAlignment)
+		switch(alignment)
 		{
 			case VerticalAlignment::Bottom:
 				GetTransform()->SetCenterY(0);
@@ -75,6 +66,7 @@ namespace star
 					);
 				break;
 		}
+		UIElement::SetVerticalAlignment(alignment);
 	}
 
 	void UIAnimatedImage::Play()
@@ -175,15 +167,5 @@ namespace star
 	bool UIAnimatedImage::IsPlaying()
 	{
 		return m_pSprite->IsPlaying();
-	}
-
-	void UIAnimatedImage::Update(const Context& context)
-	{
-		UIElement::Update(context);
-	}
-
-	void UIAnimatedImage::Draw()
-	{
-		UIElement::Draw();
 	}
 }

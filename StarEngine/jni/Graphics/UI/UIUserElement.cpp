@@ -20,15 +20,8 @@ namespace star
 
 	}
 
-	void UIUserElement::Initialize()
-	{
-		UIElement::Initialize();
-	}
-
 	void UIUserElement::Update(const Context& context)
 	{
-		UIElement::Update(context);
-
 		if(!IsDisabled())
 		{
 			if(IsFingerWithinRange())
@@ -41,8 +34,11 @@ namespace star
 						{
 							m_ElementState = ElementStates::CLICK;
 							GoClick();
+							GetScene()->GetStopwatch()->RemoveTimer(
+								m_Name.GetTag() + _T("_click_timer")
+								);
 							GetScene()->GetStopwatch()->CreateTimer(
-								m_Name.GetTag() + _T("click_timer"),
+								m_Name.GetTag() + _T("_click_timer"),
 								0.25f, false, false, [&]() {
 								#ifdef DESKTOP
 									GoHover();
@@ -68,12 +64,9 @@ namespace star
 				m_ElementState = ElementStates::IDLE;
 				GoIdle();
 			}
-		}
-	}
 
-	void UIUserElement::Draw()
-	{
-		UIElement::Draw();
+			UIElement::Update(context);
+		}
 	}
 
 	void UIUserElement::GoIdle()
@@ -118,18 +111,13 @@ namespace star
 	{
 		auto fingerPos = InputManager::GetInstance()->GetCurrentFingerPosCP(0);
 		auto buttonPos = GetTransform()->GetWorldPosition().pos2D();
-		auto dimensions = GetUserElementDimensions();
+		auto dimensions = GetDimensions();
 		
 		return 
 			fingerPos.x >= buttonPos.x &&
 			fingerPos.x <= buttonPos.x + dimensions.x &&
 			fingerPos.y >= buttonPos.y &&
 			fingerPos.y <= buttonPos.y + dimensions.y;
-	}
-
-	bool UIUserElement::IsDisabled() const
-	{
-		return UIElement::IsDisabled();
 	}
 	
 	void UIUserElement::SetDisabled(bool disabled)
@@ -144,13 +132,13 @@ namespace star
 
 	void UIUserElement::Reset()
 	{
-		UIObject::Reset();
-
 		GetScene()->GetStopwatch()->RemoveTimer(
-			m_Name.GetTag() + _T("click_timer")
+			m_Name.GetTag() + _T("_click_timer")
 			);
 
 		m_ElementState = ElementStates::IDLE;
+
+		UIObject::Reset();
 	}
 
 	void UIUserElement::SetSelectCallback(std::function<void()> callback)

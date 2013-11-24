@@ -20,9 +20,6 @@ namespace star
 		UIUserElement(const tstring & name);
 		virtual ~UIUserElement();
 
-		virtual void Initialize();
-
-		virtual bool IsDisabled() const;
 		virtual void SetDisabled(bool disabled);
 
 		virtual void Reset();
@@ -36,7 +33,6 @@ namespace star
 
 	protected:
 		virtual void Update(const Context& context);
-		virtual void Draw();
 
 		virtual void GoIdle();
 #ifdef DESKTOP
@@ -47,7 +43,6 @@ namespace star
 		virtual void GoFreeze();
 
 		bool IsFingerWithinRange() const;
-		virtual vec2 GetUserElementDimensions() const = 0;
 
 		std::function<void()>
 			m_SelectCallback;

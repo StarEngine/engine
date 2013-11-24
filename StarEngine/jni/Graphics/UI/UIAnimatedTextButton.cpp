@@ -131,31 +131,27 @@ namespace star
 	
 	void UIAnimatedTextButton::GoIdle()
 	{
-		UIAnimatedButton::GoIdle();
-
 		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
+		UIAnimatedButton::GoIdle();
 	}
 
 #ifdef DESKTOP
 	void UIAnimatedTextButton::GoHover()
 	{
-		UIAnimatedButton::GoHover();
-
 		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
+		UIAnimatedButton::GoHover();
 	}
 #endif
 
 	void UIAnimatedTextButton::GoClick()
 	{
-		UIAnimatedButton::GoClick();
-
 		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
+		UIAnimatedButton::GoClick();
 	}
 
 	void UIAnimatedTextButton::GoFreeze()
 	{
-		UIAnimatedButton::GoFreeze();
-
 		m_pTextField->SetColor(m_StateColors[DISABLE_STATE_ID]);
+		UIAnimatedButton::GoFreeze();
 	}
 }

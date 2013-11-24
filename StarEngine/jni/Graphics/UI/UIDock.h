@@ -15,8 +15,6 @@ namespace star
 			);
 		virtual ~UIDock(void);
 
-		virtual void Initialize();
-
 		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
 		virtual void SetVerticalAlignment(VerticalAlignment alignment);
 
@@ -28,8 +26,6 @@ namespace star
 		virtual vec2 GetDimensions() const;
 
 	protected:
-		void RepositionChildren();
-
 		vec2 m_Dimensions;
 
 	private:

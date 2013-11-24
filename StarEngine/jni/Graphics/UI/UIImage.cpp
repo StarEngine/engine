@@ -28,17 +28,10 @@ namespace star
 	{
 
 	}
-
-	void UIImage::Initialize()
-	{
-		UIElement::Initialize();
-	}
 	
 	void UIImage::SetHorizontalAlignment(HorizontalAlignment alignment)
 	{
-		UIElement::SetHorizontalAlignment(alignment);
-
-		switch(m_HorizontalAlignment)
+		switch(alignment)
 		{
 			case HorizontalAlignment::Left:
 				GetTransform()->SetCenterX(0);
@@ -55,13 +48,12 @@ namespace star
 				break;
 		}
 
+		UIElement::SetHorizontalAlignment(alignment);
 	}
 
 	void UIImage::SetVerticalAlignment(VerticalAlignment alignment)
 	{
-		UIElement::SetVerticalAlignment(alignment);
-
-		switch(m_VerticalAlignment)
+		switch(alignment)
 		{
 			case VerticalAlignment::Bottom:
 				GetTransform()->SetCenterY(0);
@@ -77,6 +69,8 @@ namespace star
 					);
 				break;
 		}
+
+		UIElement::SetVerticalAlignment(alignment);
 	}
 
 	void UIImage::SetCurrentHorizontalSegement(uint32 segment)
@@ -96,6 +90,9 @@ namespace star
 
 	vec2 UIImage::GetDimensions() const
 	{
-		return vec2(m_pSprite->GetWidth(), m_pSprite->GetHeight());
+		return vec2(
+			m_pSprite->GetWidth(),
+			m_pSprite->GetHeight()
+			);
 	}
 }

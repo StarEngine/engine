@@ -17,8 +17,6 @@ namespace star
 
 		virtual ~UIAnimatedImage(void);
 
-		virtual void Initialize();
-
 		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
 		virtual void SetVerticalAlignment(VerticalAlignment alignment);
 
@@ -51,9 +49,6 @@ namespace star
 		bool IsPlaying();
 
 	protected:
-		virtual void Update(const Context& context);
-		virtual void Draw();
-
 		SpritesheetComponent * m_pSprite;
 
 	private:

@@ -131,31 +131,27 @@ namespace star
 	
 	void UITextButton::GoIdle()
 	{
-		UIButton::GoIdle();
-
 		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
+		UIButton::GoIdle();
 	}
 
 #ifdef DESKTOP
 	void UITextButton::GoHover()
 	{
-		UIButton::GoHover();
-
 		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
+		UIButton::GoHover();
 	}
 #endif
 
 	void UITextButton::GoClick()
 	{
-		UIButton::GoClick();
-
 		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
+		UIButton::GoClick();
 	}
 
 	void UITextButton::GoFreeze()
 	{
-		UIButton::GoFreeze();
-
 		m_pTextField->SetColor(m_StateColors[DISABLE_STATE_ID]);
+		UIButton::GoFreeze();
 	}
 }

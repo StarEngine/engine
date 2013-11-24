@@ -23,6 +23,13 @@ namespace star
 	{
 		Object::Initialize();
 	}
+
+	void UIObject::AfterInitialized()
+	{
+		Object::AfterInitialized();
+		Reposition();
+		RepositionChildren();
+	}
 		
 	void UIObject::Translate(const vec2& translation)
 	{
@@ -217,5 +224,23 @@ namespace star
 		}
 
 		GetTransform()->TranslateY(y);
+	}
+
+	void UIObject::RepositionChildren()
+	{
+		for(auto child : m_pChildren)
+		{
+			auto element = dynamic_cast<UIObject*>(child);
+			if(element != nullptr)
+			{
+				element->Reposition();
+			}
+			else
+			{
+				Logger::GetInstance()->Log(LogLevel::Warning,
+					_T("UIObject::RepositionChildren: Object '") +
+					child->GetName() + _T("' is not a UI Object."));
+			}
+		}
 	}
 }

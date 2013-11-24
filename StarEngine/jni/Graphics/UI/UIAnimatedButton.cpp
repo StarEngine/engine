@@ -34,17 +34,16 @@ namespace star
 		
 	}
 
-	void UIAnimatedButton::Initialize()
+	void UIAnimatedButton::AfterInitialized()
 	{
-		UIUserElement::Initialize();
 		GoIdle();
+
+		UIUserElement::AfterInitialized();
 	}
 	
 	void UIAnimatedButton::SetHorizontalAlignment(HorizontalAlignment alignment)
 	{
-		UIElement::SetHorizontalAlignment(alignment);
-
-		switch(m_HorizontalAlignment)
+		switch(alignment)
 		{
 			case HorizontalAlignment::Left:
 				GetTransform()->SetCenterX(0);
@@ -61,13 +60,12 @@ namespace star
 				break;
 		}
 
+		UIElement::SetHorizontalAlignment(alignment);
 	}
 
 	void UIAnimatedButton::SetVerticalAlignment(VerticalAlignment alignment)
 	{
-		UIElement::SetVerticalAlignment(alignment);
-
-		switch(m_VerticalAlignment)
+		switch(alignment)
 		{
 			case VerticalAlignment::Bottom:
 				GetTransform()->SetCenterY(0);
@@ -83,6 +81,8 @@ namespace star
 					);
 				break;
 		}
+
+		UIElement::SetVerticalAlignment(alignment);
 	}
 
 	void UIAnimatedButton::EnableContiniousAnimation(bool enabled)
@@ -100,19 +100,8 @@ namespace star
 		return vec2(m_pButtonSprite->GetWidth(), m_pButtonSprite->GetHeight());
 	}
 
-	void UIAnimatedButton::Update(const Context& context)
-	{
-		UIUserElement::Update(context);
-	}
-
-	void UIAnimatedButton::Draw()
-	{
-		UIUserElement::Draw();
-	}
-
 	void UIAnimatedButton::GoIdle()
 	{
-		UIUserElement::GoIdle();
 		if(m_pButtonSprite->GetCurrentAnimation() != N_IDLE)
 		{
 			if(m_ContiniousAnimation)
@@ -124,12 +113,13 @@ namespace star
 				m_pButtonSprite->PlayAnimation(N_IDLE);
 			}
 		}
+
+		UIUserElement::GoIdle();
 	}
 
 #ifdef DESKTOP
 	void UIAnimatedButton::GoHover()
 	{
-		UIUserElement::GoHover();
 		if(m_pButtonSprite->GetCurrentAnimation() != N_HOVER)
 		{
 			if(m_ContiniousAnimation)
@@ -141,12 +131,12 @@ namespace star
 				m_pButtonSprite->PlayAnimation(N_HOVER);
 			}
 		}
+		UIUserElement::GoHover();
 	}
 #endif
 
 	void UIAnimatedButton::GoClick()
 	{
-		UIUserElement::GoClick();
 		if(m_pButtonSprite->GetCurrentAnimation() != N_CLICK)
 		{
 			if(m_ContiniousAnimation)
@@ -158,11 +148,11 @@ namespace star
 				m_pButtonSprite->PlayAnimation(N_CLICK);
 			}
 		}
+		UIUserElement::GoClick();
 	}
 
 	void UIAnimatedButton::GoFreeze()
 	{
-		UIUserElement::GoFreeze();
 		if(m_pButtonSprite->GetCurrentAnimation() != N_DISABLED)
 		{
 			if(m_ContiniousAnimation)
@@ -174,14 +164,6 @@ namespace star
 				m_pButtonSprite->PlayAnimation(N_DISABLED);
 			}
 		}
-	}
-
-	vec2 UIAnimatedButton::GetUserElementDimensions() const
-	{
-		vec2 dimensions(
-			float32(m_pButtonSprite->GetWidth()),
-			float32(m_pButtonSprite->GetHeight())
-			);
-		return dimensions;
+		UIUserElement::GoFreeze();
 	}
 }

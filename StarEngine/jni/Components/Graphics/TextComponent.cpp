@@ -305,4 +305,14 @@ namespace star
 						);
 		}
 	}
+
+	void TextComponent::SetHUDOptionEnabled(bool enabled)
+	{
+		m_TextDesc.IsHUDText = enabled;
+	}
+
+	bool TextComponent::IsHUDOptionEnabled() const
+	{
+		return m_TextDesc.IsHUDText;
+	}
 }

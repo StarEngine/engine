@@ -120,15 +120,14 @@ namespace star
 
 	}
 
-	void UISimpleTextButton::Initialize()
+	void UISimpleTextButton::AfterInitialized()
 	{
-		UIUserElement::Initialize();
-
 		if(m_Dimensions.x == 1)
 		{
 			m_Dimensions.x = float32(m_pTextField->GetWidth());
 			m_Dimensions.y = float32(m_pTextField->GetHeight());
 		}
+		GoIdle();
 	}
 
 	void UISimpleTextButton::SetIdleColor(const Color & color)
@@ -226,51 +225,33 @@ namespace star
 		return m_Dimensions;
 	}
 
-	void UISimpleTextButton::RepositionChildren()
-	{
-		for(auto child : m_pChildren)
-		{
-			auto element = dynamic_cast<UIObject*>(child);
-			if(element != nullptr)
-			{
-				element->Reposition();
-			}
-			else
-			{
-				Logger::GetInstance()->Log(LogLevel::Warning,
-					_T("UIDock::RepositionChildren: Object '") +
-					child->GetName() + _T("' is not a UI Object."));
-			}
-		}
-	}
-	
 	void UISimpleTextButton::GoIdle()
 	{
-		UIUserElement::GoIdle();
-
 		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
+
+		UIUserElement::GoIdle();
 	}
 
 #ifdef DESKTOP
 	void UISimpleTextButton::GoHover()
 	{
-		UIUserElement::GoHover();
-
 		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
+
+		UIUserElement::GoHover();
 	}
 #endif
 
 	void UISimpleTextButton::GoClick()
 	{
-		UIUserElement::GoClick();
-
 		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
+
+		UIUserElement::GoClick();
 	}
 
 	void UISimpleTextButton::GoFreeze()
 	{
-		UIUserElement::GoFreeze();
-
 		m_pTextField->SetColor(m_StateColors[DISABLE_STATE_ID]);
+
+		UIUserElement::GoFreeze();
 	}
 }

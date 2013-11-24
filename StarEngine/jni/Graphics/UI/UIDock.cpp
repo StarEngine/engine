@@ -29,17 +29,10 @@ namespace star
 	{
 
 	}
-
-	void UIDock::Initialize()
-	{
-		UIObject::Initialize();
-	}
 	
 	void UIDock::SetHorizontalAlignment(HorizontalAlignment alignment)
 	{
-		UIObject::SetHorizontalAlignment(alignment);
-
-		switch(m_HorizontalAlignment)
+		switch(alignment)
 		{
 			case HorizontalAlignment::Left:
 				GetTransform()->SetCenterX(0);
@@ -56,13 +49,12 @@ namespace star
 				break;
 		}
 
+		UIObject::SetHorizontalAlignment(alignment);
 	}
 
 	void UIDock::SetVerticalAlignment(VerticalAlignment alignment)
 	{
-		UIObject::SetVerticalAlignment(alignment);
-
-		switch(m_VerticalAlignment)
+		switch(alignment)
 		{
 			case VerticalAlignment::Bottom:
 				GetTransform()->SetCenterY(0);
@@ -77,7 +69,9 @@ namespace star
 					m_Dimensions.y
 					);
 				break;
+
 		}
+		UIObject::SetVerticalAlignment(alignment);
 	}
 
 	void UIDock::SetDimensions(const vec2 & dimensions)
@@ -108,23 +102,5 @@ namespace star
 	vec2 UIDock::GetDimensions() const
 	{
 		return m_Dimensions;
-	}
-
-	void UIDock::RepositionChildren()
-	{
-		for(auto child : m_pChildren)
-		{
-			auto element = dynamic_cast<UIObject*>(child);
-			if(element != nullptr)
-			{
-				element->Reposition();
-			}
-			else
-			{
-				Logger::GetInstance()->Log(LogLevel::Warning,
-					_T("UIDock::RepositionChildren: Object '") +
-					child->GetName() + _T("' is not a UI Object."));
-			}
-		}
 	}
 }

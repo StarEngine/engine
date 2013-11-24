@@ -51,6 +51,9 @@ namespace star
 		int32 GetTextHeight() const;
 
 		void SetVerticalSpacing(uint32 spacing);
+
+		void SetHUDOptionEnabled(bool enabled);
+		bool IsHUDOptionEnabled() const;
 		
 	protected:
 		virtual void InitializeComponent();

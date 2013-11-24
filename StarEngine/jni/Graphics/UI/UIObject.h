@@ -28,6 +28,7 @@ namespace star
 		virtual ~UIObject();
 
 		virtual void Initialize();
+		virtual void AfterInitialized();
 		
 		void Translate(const vec2& translation);
 		void Translate(float32 x, float32 y);
@@ -64,6 +65,8 @@ namespace star
 		void UITranslate();
 		void UITranslateX(float32 x, const vec2 & dimensions);
 		void UITranslateY(float32 y, const vec2 & dimensions);
+
+		void RepositionChildren();
 
 		pos m_Position;
 		HorizontalAlignment m_HorizontalAlignment;

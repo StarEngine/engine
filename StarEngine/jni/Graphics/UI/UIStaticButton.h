@@ -16,8 +16,6 @@ namespace star
 			);
 		virtual ~UIStaticButton();
 
-		virtual void Initialize();
-
 		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
 		virtual void SetVerticalAlignment(VerticalAlignment alignment);
 
@@ -28,8 +26,6 @@ namespace star
 		virtual vec2 GetDimensions() const;
 
 	protected:
-		virtual vec2 GetUserElementDimensions() const;
-
 		SpriteComponent *m_pButtonSprite;
 
 	private:

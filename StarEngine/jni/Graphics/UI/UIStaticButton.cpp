@@ -26,17 +26,10 @@ namespace star
 	{
 		
 	}
-
-	void UIStaticButton::Initialize()
-	{
-		UIUserElement::Initialize();
-	}
 	
 	void UIStaticButton::SetHorizontalAlignment(HorizontalAlignment alignment)
 	{
-		UIElement::SetHorizontalAlignment(alignment);
-
-		switch(m_HorizontalAlignment)
+		switch(alignment)
 		{
 			case HorizontalAlignment::Left:
 				GetTransform()->SetCenterX(0);
@@ -52,14 +45,13 @@ namespace star
 					);
 				break;
 		}
-
+		
+		UIElement::SetHorizontalAlignment(alignment);
 	}
 
 	void UIStaticButton::SetVerticalAlignment(VerticalAlignment alignment)
 	{
-		UIElement::SetVerticalAlignment(alignment);
-
-		switch(m_VerticalAlignment)
+		switch(alignment)
 		{
 			case VerticalAlignment::Bottom:
 				GetTransform()->SetCenterY(0);
@@ -75,6 +67,8 @@ namespace star
 					);
 				break;
 		}
+		
+		UIElement::SetVerticalAlignment(alignment);
 	}
 
 	void UIStaticButton::SetCurrentHorizontalSegement(uint32 segment)
@@ -94,15 +88,9 @@ namespace star
 
 	vec2 UIStaticButton::GetDimensions() const
 	{
-		return vec2(m_pButtonSprite->GetWidth(), m_pButtonSprite->GetHeight());
-	}
-
-	vec2 UIStaticButton::GetUserElementDimensions() const
-	{
-		vec2 dimensions(
-			float32(m_pButtonSprite->GetWidth()),
-			float32(m_pButtonSprite->GetHeight())
+		return vec2(
+			m_pButtonSprite->GetWidth(),
+			m_pButtonSprite->GetHeight()
 			);
-		return dimensions;
 	}
 }
