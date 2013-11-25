@@ -93,14 +93,21 @@ namespace star
 		}
 	}
 
-	void SpritesheetComponent::PushAnimation(const tstring & animation)
+	void SpritesheetComponent::PushAnimation(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
 	{
 		auto ani = m_Spritesheet[animation];
 		ani.SetCallback([&]() { PlayNextAnimation(); });
+		ani.SetUserCallback(callback);
 		m_Animations.push_back(ani);
 	}
 
-	void SpritesheetComponent::PlayAnimation(const tstring & animation)
+	void SpritesheetComponent::PlayAnimation(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
 	{
 		if(m_Animations.size() > 0)
 		{
@@ -108,10 +115,15 @@ namespace star
 		}
 		auto ani = m_Spritesheet[animation];
 		ani.SetCallback([&]() { PlayNextAnimation(); });
+		ani.SetUserCallback(callback);
 		m_Animations.push_front(ani);
 	}
 
-	void SpritesheetComponent::PlayAnimation(const tstring & animation, int32 startFrame)
+	void SpritesheetComponent::PlayAnimation(
+		const tstring & animation,
+		int32 startFrame,
+		const std::function<void()> & callback
+		)
 	{
 		if(m_Animations.size() > 0)
 		{
@@ -119,41 +131,61 @@ namespace star
 		}
 		auto ani = m_Spritesheet[animation];
 		ani.SetCallback([&]() { PlayNextAnimation(); });
+		ani.SetUserCallback(callback);
 		m_Animations.push_front(ani);
 		m_Animations.front().PlayAtFrame(startFrame);
 
 	}
 
-	bool SpritesheetComponent::PushAnimationSafe(const tstring & animation)
+	bool SpritesheetComponent::PushAnimationSafe(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
 	{
 		auto it = m_Spritesheet.find(animation);
 		if(it != m_Spritesheet.end())
 		{
-			PushAnimation(animation);
+			PushAnimation(animation, callback);
 			return true;
 		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("SpritesheetComponent::PushAnimationSafe: Couldn't find animation '")
+			+ animation + _T("'."));
 		return false;
 	}
 
-	bool SpritesheetComponent::PlayAnimationSafe(const tstring & animation)
+	bool SpritesheetComponent::PlayAnimationSafe(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
 	{
 		auto it = m_Spritesheet.find(animation);
 		if(it != m_Spritesheet.end())
 		{
-			PlayAnimation(animation);
+			PlayAnimation(animation, callback);
 			return true;
 		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("SpritesheetComponent::PlayAnimationSafe: Couldn't find animation '")
+			+ animation + _T("'."));
 		return false;
 	}
 
-	bool SpritesheetComponent::PlayAnimationSafe(const tstring & animation, int32 startFrame)
+	bool SpritesheetComponent::PlayAnimationSafe(
+		const tstring & animation,
+		int32 startFrame,
+		const std::function<void()> & callback
+		)
 	{
 		auto it = m_Spritesheet.find(animation);
 		if(it != m_Spritesheet.end())
 		{
-			PlayAnimation(animation, startFrame);
+			PlayAnimation(animation, startFrame, callback);
 			return true;
 		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("SpritesheetComponent::PlayAnimationSafe: Couldn't find animation '")
+			+ animation + _T("'."));
 		return false;
 	}
 

@@ -89,19 +89,54 @@ namespace star
 		m_pSprite->Stop();
 	}
 
-	void UIAnimatedImage::PushAnimation(const tstring & animation)
+	void UIAnimatedImage::PushAnimation(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
 	{
-		m_pSprite->PushAnimation(animation);
+		m_pSprite->PushAnimation(animation, callback);
 	}
 
-	void UIAnimatedImage::PlayAnimation(const tstring & animation)
+	void UIAnimatedImage::PlayAnimation(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
 	{
-		m_pSprite->PlayAnimation(animation);
+		m_pSprite->PlayAnimation(animation, callback);
 	}
 
-	void UIAnimatedImage::PlayAnimation(const tstring & animation, int32 startFrame)
+	void UIAnimatedImage::PlayAnimation(
+		const tstring & animation,
+		int32 startFrame,
+		const std::function<void()> & callback
+		)
 	{
-		m_pSprite->PlayAnimation(animation, startFrame);
+		m_pSprite->PlayAnimation(animation, startFrame, callback);
+	}
+
+	bool UIAnimatedImage::PushAnimationSafe(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
+	{
+		m_pSprite->PushAnimationSafe(animation, callback);
+	}
+
+	bool UIAnimatedImage::PlayAnimationSafe(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
+	{
+		m_pSprite->PlayAnimationSafe(animation, callback);
+	}
+
+	bool UIAnimatedImage::PlayAnimationSafe(
+		const tstring & animation,
+		int32 startFrame,
+		const std::function<void()> & callback
+		)
+	{
+		m_pSprite->PlayAnimationSafe(animation, startFrame, callback);
 	}
 
 	void UIAnimatedImage::PlayNextAnimation()

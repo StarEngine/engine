@@ -35,6 +35,7 @@ namespace star
 		bool IsPlaying() const;
 
 		void SetCallback(const std::function<void()> & callback);
+		void SetUserCallback(const std::function<void()> & callback);
 
 		int32 GetCurrentFrame() const;
 
@@ -50,6 +51,7 @@ namespace star
 		vec2 m_UVScale;
 
 		std::function<void()> m_Callback;
+		std::function<void()> m_UserCallback;
 
 		std::vector<vec2> m_Frames;
 		bool m_IsPlaying;
