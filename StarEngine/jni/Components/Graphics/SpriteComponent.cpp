@@ -136,10 +136,16 @@ namespace star
 
 		spriteWidth = float32(GetWidth()) * GetTransform()->GetWorldScale().x;
 		spriteHeight = float32(GetHeight()) * GetTransform()->GetWorldScale().y;
+		float32 objRight = objectPos.x + spriteWidth;
+		float32 objTop = objectPos.y + spriteHeight;
 
 		return
-			(objectPos.x >= left || objectPos.x + spriteWidth <= right) &&
-			(objectPos.y >= bottom || objectPos.y + spriteHeight <= top);
+			(	(objectPos.x > left && objectPos.x < right) ||
+				(objRight > left && objRight < right)
+			) &&
+			(	(objectPos.y > bottom && objectPos.y < top) ||
+				(objTop > bottom && objTop < top)
+			);
 	}
 
 	const tstring& SpriteComponent::GetFilePath() const
