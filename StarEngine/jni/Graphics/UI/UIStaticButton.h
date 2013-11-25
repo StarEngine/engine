@@ -1,5 +1,6 @@
 #pragma once
 #include "UIUserElement.h"
+#include "../Color.h"
 
 namespace star
 {
@@ -20,6 +21,8 @@ namespace star
 		virtual void SetVerticalAlignment(VerticalAlignment alignment);
 
 		void SetCurrentSegement(uint32 segmentX, uint32 segmentY);
+
+		void SetColorMultiplier(const Color & color);
 
 		virtual vec2 GetDimensions() const;
 

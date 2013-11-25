@@ -174,30 +174,34 @@ namespace star
 		
 			for(int32 j = 0; j < ((batchSize/4)); ++j)
 			{
+				const auto & sprite = spriteQueue[m_CurrentSprite + j];
+
 				//Set attributes and buffers
 				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, 
 					reinterpret_cast<GLvoid*>(&m_VertexBuffer[12*j]));
 				glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, 
 					reinterpret_cast<GLvoid*>(&m_UvCoordBuffer[8*j]));
+
+				GLint s_colorId = glGetUniformLocation(m_Shader.GetID(), "colorMultiplier");
+				glUniform4f(
+					s_colorId,
+					sprite.colorMultiplier.r,
+					sprite.colorMultiplier.g,
+					sprite.colorMultiplier.b,
+					sprite.colorMultiplier.a
+					);
 			
-				if(spriteQueue[m_CurrentSprite + j].bIsHUD)
-				{
-					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
-						1, GL_FALSE, ToPointerValue(
-							Transpose(spriteQueue[m_CurrentSprite + j].transform) * 
-							scaleMat *
-							GraphicsManager::GetInstance()->GetProjectionMatrix()
+				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
+					1, GL_FALSE, ToPointerValue(
+						Transpose(sprite.transform) * 
+						scaleMat *
+						(sprite.bIsHUD ?
+							GraphicsManager::GetInstance()->GetProjectionMatrix() :
+							GraphicsManager::GetInstance()->GetViewProjectionMatrix()
 							)
-						);
-				}
-				else
-				{
-					glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
-						1, GL_FALSE, ToPointerValue(
-							Transpose(spriteQueue[m_CurrentSprite + j].transform) *
-							scaleMat *
-							GraphicsManager::GetInstance()->GetViewProjectionMatrix()));
-				}
+						)
+					);
+
 				glDrawArrays(GL_TRIANGLE_STRIP,batchStart,4);
 			}			
 		

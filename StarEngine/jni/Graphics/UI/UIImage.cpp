@@ -78,6 +78,11 @@ namespace star
 		m_pSprite->SetCurrentSegment(segmentX, segmentY);
 	}
 
+	void UIImage::SetColorMultiplier(const Color & color)
+	{
+		m_pSprite->SetColorMultiplier(color);
+	}
+
 	vec2 UIImage::GetDimensions() const
 	{
 		return vec2(

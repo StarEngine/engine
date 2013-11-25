@@ -2,6 +2,7 @@
 #include "../../defines.h"
 #include "../../Context.h"
 #include "../../Objects/Object.h"
+#include "../Color.h"
 
 #include <unordered_map>
 
@@ -41,6 +42,8 @@ namespace star
 			float32 x,
 			float32 y
 			);
+
+		void SetColorMultiplier(const Color & color);
 
 	protected:
 		virtual void Update(const Context & context);

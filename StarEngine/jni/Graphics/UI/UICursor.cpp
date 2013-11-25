@@ -115,6 +115,11 @@ namespace star
 			 vec2(x, y)
 			 );
 	}
+
+	void UICursor::SetColorMultiplier(const Color & color)
+	{
+		m_pCursorSprite->SetColorMultiplier(color);
+	}
 	
 	void UICursor::Update(const Context & context)
 	{

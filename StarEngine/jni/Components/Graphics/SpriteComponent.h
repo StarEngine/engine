@@ -4,6 +4,7 @@
 #include "../../Graphics/Shader.h"
 #include "../BaseComponent.h"
 #include "../../Helpers/Filepath.h"
+#include "../../Graphics/Color.h"
 #include <vector>
 #ifdef ANDROID
 #include <GLES2/gl2.h>
@@ -15,10 +16,20 @@ namespace star
 {
 	struct SpriteInfo
 	{
+		SpriteInfo()
+			: vertices()
+			, uvCoords()
+			, spriteName(EMPTY_STRING)
+			, transform()
+			, colorMultiplier(Color::White)
+			, bIsHUD(false)
+		{}
+
 		std::vector<GLfloat> vertices;
 		std::vector<GLfloat> uvCoords;
 		tstring spriteName;
 		mat4 transform;
+		Color colorMultiplier;
 		bool bIsHUD;
 	};
 
@@ -52,6 +63,7 @@ namespace star
 		std::vector<GLfloat> GetUVCoords() const;
 		
 		void SetCurrentSegment(uint32 widthSegment, uint32 heightSegment);
+		void SetColorMultiplier(const Color & color);
 
 		void SetHUDOptionEnabled(bool enabled);
 		bool IsHUDOptionEnabled() const;

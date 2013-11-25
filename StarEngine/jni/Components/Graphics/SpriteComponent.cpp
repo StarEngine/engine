@@ -101,6 +101,16 @@ namespace star
 		m_UvCoords[7] = startY;
 	}
 
+	void SpriteComponent::SetCurrentHorizontalSegment(uint32 segment)
+	{
+		m_CurrentWidthSegment = segment;
+	}
+
+	void SpriteComponent::SetCurrentVerticalSegment(uint32 segment)
+	{
+		m_CurrentHeightSegment = m_HeightSegments - segment - 1;
+	}
+
 	void SpriteComponent::Draw()
 	{
 		m_SpriteInfo.transform = GetTransform()->GetWorldMatrix();
@@ -182,15 +192,10 @@ namespace star
 		SetCurrentVerticalSegment(heightSegment);
 		CreateIndices();
 	}
-
-	void SpriteComponent::SetCurrentHorizontalSegment(uint32 segment)
+	
+	void SpriteComponent::SetColorMultiplier(const Color & color)
 	{
-		m_CurrentWidthSegment = segment;
-	}
-
-	void SpriteComponent::SetCurrentVerticalSegment(uint32 segment)
-	{
-		m_CurrentHeightSegment = m_HeightSegments - segment - 1;
+		m_SpriteInfo.colorMultiplier = color;
 	}
 
 	void SpriteComponent::SetHUDOptionEnabled(bool enabled)

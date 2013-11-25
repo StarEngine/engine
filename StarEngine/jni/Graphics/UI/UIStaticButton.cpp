@@ -76,6 +76,11 @@ namespace star
 		m_pButtonSprite->SetCurrentSegment(segmentX, segmentY);
 	}
 
+	void UIStaticButton::SetColorMultiplier(const Color & color)
+	{
+		m_pButtonSprite->SetColorMultiplier(color);
+	}
+
 	vec2 UIStaticButton::GetDimensions() const
 	{
 		return vec2(

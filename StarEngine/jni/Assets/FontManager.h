@@ -30,7 +30,7 @@ namespace star
 			:Text()
 			,Fontname(EMPTY_STRING)
 			,TransformComp(nullptr)
-			,TextColor(Color::Black)
+			,TextColor(Color::White)
 			,VerticalSpacing(5)
 			,IsHUDText(false)
 		{}
