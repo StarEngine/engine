@@ -242,7 +242,7 @@ namespace star
 		uint8 channel
 		)
 	{
-		ASSERT(mSoundService != nullptr,
+		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
 		if(mMusicList.find(name) != mMusicList.end())
@@ -289,7 +289,8 @@ namespace star
 		uint8 channel
 		)
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		Logger::GetInstance()->Log(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
 
 		if(mEffectsList.find(name) != mEffectsList.end())
 		{
@@ -332,7 +333,8 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		Logger::GetInstance()->Log(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
 
 		if(mMusicList.find(name) == mMusicList.end())
 		{
@@ -346,7 +348,8 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		Logger::GetInstance()->Log(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
 
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -373,7 +376,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT(mSoundService != nullptr,
+		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
 		if(mEffectsList.find(name) == mEffectsList.end())
@@ -388,7 +391,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT(mSoundService != nullptr,
+		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
 		auto it = mEffectsList.find(name);
@@ -414,7 +417,8 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		Logger::GetInstance()->Log(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
 
 		if(mMusicList.find(name) == mMusicList.end())
 		{
@@ -429,7 +433,8 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT(mSoundService != nullptr, _T("Sound Service is invalid."));
+		Logger::GetInstance()->Log(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
 
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -458,7 +463,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT(mSoundService != nullptr,
+		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
 		if(mEffectsList.find(name) == mEffectsList.end())
@@ -474,7 +479,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT(mSoundService != nullptr,
+		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
 		auto it = mEffectsList.find(name);
@@ -495,7 +500,7 @@ namespace star
 
 	void AudioManager::AddToBackgroundQueue(const tstring& name)
 	{
-		ASSERT(mSoundService != nullptr,
+		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
 		auto it = mMusicList.find(name);
@@ -514,7 +519,7 @@ namespace star
 
 	void AudioManager::PlayBackgroundQueue()
 	{
-		ASSERT(mSoundService != nullptr,
+		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
 		mQueueIterator = mBackgroundQueue.begin();
@@ -531,7 +536,7 @@ namespace star
 
 	void AudioManager::PlayNextSongInQueue()
 	{
-		ASSERT(mSoundService != nullptr,
+		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
 		if(mBackgroundQueue.size() == 0)
@@ -1324,7 +1329,7 @@ namespace star
 
 	void AudioManager::StopAllSounds()
 	{
-		ASSERT(mSoundService != nullptr,
+		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
 		for(auto & song : mMusicList)
@@ -1340,7 +1345,7 @@ namespace star
 
 	void AudioManager::PauseAllSounds()
 	{
-		ASSERT(mSoundService != nullptr,
+		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
 		for(auto & song : mMusicList)
@@ -1356,7 +1361,7 @@ namespace star
 
 	void AudioManager::ResumeAllSounds()
 	{
-		ASSERT(mSoundService != nullptr,
+		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
 		for(auto & song : mMusicList)
@@ -1372,7 +1377,7 @@ namespace star
 
 	void AudioManager::DeleteAllSounds()
 	{
-		ASSERT(mSoundService != nullptr,
+		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
 		for(auto & song : mMusicList)

@@ -487,7 +487,8 @@ the custom cursor code in your game project."));
 		for(auto elem : m_Garbage)
 		{
 			auto it = std::find(m_Objects.begin(), m_Objects.end(), elem);
-			ASSERT(it != m_Objects.end(), _T("BaseScene::CollectGarbage: Trying to delete unknown object"));
+			Logger::GetInstance()->Log(it != m_Objects.end(),
+				_T("BaseScene::CollectGarbage: Trying to delete unknown object"));
 			m_Objects.erase(it);
 			delete elem;
 		}

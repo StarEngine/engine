@@ -77,7 +77,8 @@ namespace star
 
 	void Window::Initialize(HINSTANCE instance, BaseGame * pBaseGame, bool useConsole)
 	{
-		ASSERT(!m_IsInitialized, _T("Engine is already initialized!"));
+		Logger::GetInstance()->Log(!m_IsInitialized,
+			_T("Engine is already initialized!"));
 		if(!m_IsInitialized)
 		{
 			mGamePtr = pBaseGame;
@@ -125,7 +126,8 @@ namespace star
 			{
 				Logger::GetInstance()->Log(LogLevel::Warning, _T("Internal directory '") + iPath + _T("' already exists."));
 			}
-			ASSERT(cdReturn != ERROR_PATH_NOT_FOUND, _T("Couldn't create the internal directory!"));
+			Logger::GetInstance()->Log(cdReturn != ERROR_PATH_NOT_FOUND,
+				_T("Couldn't create the internal directory!"));
 
 			//Set the external root that will be used for DirectoryMode::external
 			LPWSTR wszPath = NULL;
@@ -135,7 +137,8 @@ namespace star
 				NULL,
 				&wszPath
 			);
-			ASSERT(SUCCEEDED(mdReturn), _T("An error has occured, while trying to open 'my documents'!"));
+			Logger::GetInstance()->Log(SUCCEEDED(mdReturn),
+				_T("An error has occured, while trying to open 'my documents'!"));
 			tstring ePath = string_cast<tstring>(wszPath);
 			ePath += _T("/");
 			ePath += winManifest[_T("title")]->GetValue();
@@ -147,7 +150,8 @@ namespace star
 			{
 				Logger::GetInstance()->Log(LogLevel::Warning, _T("External directory '") + ePath + _T("' already exists."));
 			}
-			ASSERT(cdReturn != ERROR_PATH_NOT_FOUND, _T("Couldn't create the external directory!"));
+			Logger::GetInstance()->Log(cdReturn != ERROR_PATH_NOT_FOUND,
+				_T("Couldn't create the external directory!"));
 
 
 			wndClass.style = 0;
@@ -184,7 +188,8 @@ namespace star
 			while(win_style_it != win_style_end_it);
 
 	#pragma warning ( disable : 4800 )
-			ASSERT(RegisterClassEx(&wndClass), _T("Couldn't register the Windows Class!"));
+			Logger::GetInstance()->Log(RegisterClassEx(&wndClass),
+				_T("Couldn't register the Windows Class!"));
 	#pragma warning ( default : 4800 )
 
 			m_CanGoFullScreen =
@@ -226,7 +231,8 @@ namespace star
 									position_height,
 									NULL, NULL, instance, NULL);
 
-			ASSERT(mHandle != NULL, _T("Couldn't create the window."));
+			Logger::GetInstance()->Log(mHandle != NULL,
+				_T("Couldn't create the window."));
 
 			SetResolution(position_width, position_height, false);
 
@@ -250,19 +256,24 @@ namespace star
 			};
 	
 			mHDC = GetDC(mHandle); // Gets the display context
-			ASSERT(mHDC != NULL, _T("Couldn't create the Display Context!"));
+			Logger::GetInstance()->Log(mHDC != NULL,
+				_T("Couldn't create the Display Context!"));
 
 			int32 pixelFormat = ChoosePixelFormat(mHDC, &pixelFormatDesc); // Chooses the pixel format
-			ASSERT(pixelFormat != 0, _T("Invalid pixel format!"));
+			Logger::GetInstance()->Log(pixelFormat != 0,
+				_T("Invalid pixel format!"));
 
 			// Sets the pixel format
-			ASSERT(SetPixelFormat(mHDC, pixelFormat, &pixelFormatDesc) != 0, _T("Couldn't set the pixel format!"));
+			Logger::GetInstance()->Log(SetPixelFormat(mHDC, pixelFormat, &pixelFormatDesc) != 0,
+				_T("Couldn't set the pixel format!"));
 
 			HGLRC hglrc = wglCreateContext(mHDC); // Creates the rendering context
-			ASSERT(hglrc != NULL, _T("Couldn't create the rendering context!"));
+			Logger::GetInstance()->Log(hglrc != NULL,
+				_T("Couldn't create the rendering context!"));
 
 			// Attaches the rendering context
-			ASSERT(wglMakeCurrent(mHDC, hglrc) != 0, _T("Action couldn't be completed!"));
+			Logger::GetInstance()->Log(wglMakeCurrent(mHDC, hglrc) != 0,
+				_T("Action couldn't be completed!"));
 
 			MSG msg ={};
 
@@ -474,7 +485,7 @@ namespace star
 			SetWindowLongPtr(hWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
 			SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, screenWidth, screenHeight, SWP_SHOWWINDOW);
 			bool isChangeSuccessful = ChangeDisplaySettings(&fullscreenSettings, CDS_FULLSCREEN) == DISP_CHANGE_SUCCESSFUL;
-			//ASSERT(isChangeSuccessful, _T("Couldn't put the screen into fullscreen mode..."));
+			//Logger::GetInstance()->Log(isChangeSuccessful, _T("Couldn't put the screen into fullscreen mode..."));
 			ShowWindow(hWnd, SW_MAXIMIZE);
 		}
 		else
@@ -482,7 +493,7 @@ namespace star
 			SetWindowLongPtr(hWnd, GWL_EXSTYLE, m_SavedWindowState.ExStyle);
 			SetWindowLongPtr(hWnd, GWL_STYLE, m_SavedWindowState.Style);
 			bool isChangeSuccessful = ChangeDisplaySettings(NULL, CDS_RESET) == DISP_CHANGE_SUCCESSFUL;
-			//ASSERT(isChangeSuccessful, _T("Couldn't put the screen into windowed mode..."));
+			//Logger::GetInstance()->Log(isChangeSuccessful, _T("Couldn't put the screen into windowed mode..."));
 			SetWindowPos(hWnd, HWND_NOTOPMOST, 
 				m_SavedWindowState.WinRect.left,
 				m_SavedWindowState.WinRect.top,
@@ -537,7 +548,7 @@ namespace star
 			SetWindowLongPtr(mHandle, GWL_EXSTYLE, m_SavedWindowState.ExStyle);
 			SetWindowLongPtr(mHandle, GWL_STYLE, m_SavedWindowState.Style);
 			bool isChangeSuccessful = ChangeDisplaySettings(NULL, CDS_RESET) == DISP_CHANGE_SUCCESSFUL;
-			//ASSERT(isChangeSuccessful, _T("Couldn't put the screen into windowed mode..."));
+			//Logger::GetInstance()->Log(isChangeSuccessful, _T("Couldn't put the screen into windowed mode..."));
 		}
 		SetWindowPos(mHandle, HWND_NOTOPMOST, 
 			m_SavedWindowState.WinRect.left,
@@ -758,7 +769,8 @@ namespace star
 				return CLASS_STYLES[i].second;
 			}
 		}
-		ASSERT(false, _T("Invalid class style found in Win32Manifest.xml"));
+		Logger::GetInstance()->Log(false,
+			_T("Invalid class style found in Win32Manifest.xml"));
 		return NULL;
 	}
 
@@ -771,7 +783,8 @@ namespace star
 				return WINDOW_STYLES[i].second;
 			}
 		}
-		ASSERT(false, _T("Invalid window style found in Win32Manifest.xml"));
+		Logger::GetInstance()->Log(false,
+			_T("Invalid window style found in Win32Manifest.xml"));
 		return NULL;
 	}
 

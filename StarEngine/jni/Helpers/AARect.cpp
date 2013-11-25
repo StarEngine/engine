@@ -16,8 +16,8 @@ namespace star
 		m_Width(width),
 		m_Height(height)
 	{
-		ASSERT(m_Width >= 0, _T("Width can't be negative!"));
-		ASSERT(m_Height >= 0, _T("Height can't be negative!"));
+		Logger::GetInstance()->Log(m_Width >= 0, _T("Width can't be negative!"));
+		Logger::GetInstance()->Log(m_Height >= 0, _T("Height can't be negative!"));
 	}
 
 	AARect::AARect(const vec2& location,const vec2& size)

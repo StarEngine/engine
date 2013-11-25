@@ -59,7 +59,8 @@ namespace star
 	void GestureManager::RemoveGesture(BaseGesture* gesture)
 	{
 		Logger::GetInstance()->Log(LogLevel::Warning, 
-			_T("Please use the method RemoveGesture(const tstring& tag) to remove gestures. \nthis method is much slower, use with care!"));
+			_T("Please use the method RemoveGesture(const tstring& tag) to remove gestures.")
+			+ tstring(_T("this method is much slower, use with care!")));
 		auto it = m_GestureMap.begin();
 		for (it ; it != m_GestureMap.end(); ++it )
 		{
@@ -68,7 +69,8 @@ namespace star
 				return;
 			}
 		}
-		ASSERT(it != m_GestureMap.end(),_T("Gesture not found!"));
+		Logger::GetInstance()->Log(it != m_GestureMap.end(),
+			_T("Gesture not found!"));
 		m_GestureMap.erase(it);
 	}
 
@@ -76,7 +78,8 @@ namespace star
 	{
 		auto it = m_GestureMap.find(tag);
 		bool can_delete = it != m_GestureMap.end();
-		ASSERT(can_delete,_T("Gesture not found!"));
+		Logger::GetInstance()->Log(can_delete,
+			_T("Gesture not found!"));
 		if(can_delete)
 		{
 			m_GestureMap.erase(it);

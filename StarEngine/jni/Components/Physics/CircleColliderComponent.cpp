@@ -76,7 +76,8 @@ namespace star
 			SpriteComponent* spriteComp = GetParent()->GetComponent<SpriteComponent>();
 			if(spriteComp)
 			{
-				ASSERT(spriteComp->IsInitialized(),_T("First add the spriteComponent and then the rectColliderComp"));
+				Logger::GetInstance()->Log(spriteComp->IsInitialized(),
+					_T("First add the spriteComponent and then the rectColliderComp"));
 				if(spriteComp->GetWidth() > spriteComp->GetHeight())
 				{
 					m_Radius = float32(spriteComp->GetWidth() / 2.0f);
@@ -90,13 +91,14 @@ namespace star
 			}
 			else
 			{
-				ASSERT(false, _T("If you use the default constructor of the CircleColliderComponent()\n\
-								, make sure to also add a SpriteComponent or SpriteSheetComponent. \n\
-								If you don't need this, please specify a radius in the constructor of \n\
-								the CircleColliderComponent."));
+				Logger::GetInstance()->Log(false,
+					_T("If you use the default constructor of the CircleColliderComponent()\
+, make sure to also add a SpriteComponent or SpriteSheetComponent. \
+If you don't need this, please specify a radius in the constructor of \
+the CircleColliderComponent."));
 			}
 		}
-		ASSERT(m_Radius > 0, _T("Invalid Radius: Radius has to be > 0"));
+		Logger::GetInstance()->Log(m_Radius > 0, _T("Invalid Radius: Radius has to be > 0"));
 
 		COLLISION_MANAGER->AddComponent(this, m_Layers.elements, m_Layers.amount);
 	}
@@ -170,9 +172,9 @@ namespace star
 
 	bool CircleColliderComponent::CollidesWith(const BaseColliderComponent* other) const
 	{
-		ASSERT(other != nullptr, 
+		Logger::GetInstance()->Log(other != nullptr, 
 			_T("CircleColliderComponent::CollidesWith: \
-			   The collierComponent to check is a nullptr"));
+The collierComponent to check is a nullptr"));
 
 		auto otherCircleComp = dynamic_cast<const CircleColliderComponent*>(other);
 		auto otherRectComp = dynamic_cast<const RectangleColliderComponent*>(other);

@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <string>
 #include <functional>
+#include "../Logger.h"
 
 namespace star
 {
@@ -49,7 +50,8 @@ namespace star
 	template < typename TReturnValue, typename TValue>
 	TReturnValue string_cast(const TValue * value)
 	{
-		ASSERT(false, _T("Invalid String cast: No implementation found that match these parameters!"));
+		Logger::GetInstance()->Log(false,
+			_T("Invalid String cast: No implementation found that match these parameters!"));
 		return TReturnValue();
 	}
 

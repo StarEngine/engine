@@ -330,7 +330,7 @@ namespace star
 	{
 		for(auto comp : m_pComponents)
 		{
-			ASSERT(typeid(*comp) != typeid(*pComponent), 
+			Logger::GetInstance()->Log(typeid(*comp) != typeid(*pComponent), 
 				_T("Object::AddComponent: \
 Adding 2 components of the same type \
 to the same object is illegal."));
@@ -364,7 +364,7 @@ to the same object is illegal."));
 	void Object::RemoveChild(const Object* pObject)
 	{
 		auto it = std::find(m_pChildren.begin(), m_pChildren.end(), pObject);
-		ASSERT(it != m_pChildren.end(),
+		Logger::GetInstance()->Log(it != m_pChildren.end(),
 			_T("Object::RemoveChild: The object you tried \
 to remove is not a child of this object!"));
 		m_pGarbageChildren.push_back(*it);
@@ -518,7 +518,8 @@ Trying to (un)hide unknown child '")
 		for(auto component : m_pGarbageComponents)
 		{
 			auto it = std::find(m_pComponents.begin(), m_pComponents.end(), component);
-			ASSERT(it != m_pComponents.end(), _T("Object::CollectGarbage: trying to delete unknown object!"));
+			Logger::GetInstance()->Log(it != m_pComponents.end(),
+				_T("Object::CollectGarbage: trying to delete unknown object!"));
 			m_pComponents.erase(it);
 			delete component;
 			Logger::GetInstance()->Log(LogLevel::Info, _T("Component Removed"));
@@ -528,7 +529,8 @@ Trying to (un)hide unknown child '")
 		for(auto child : m_pGarbageChildren)
 		{
 			auto it = std::find(m_pChildren.begin(), m_pChildren.end(), child);
-			ASSERT(it != m_pChildren.end(), _T("Object::CollectGarbage: trying to delete unknown child!"));
+			Logger::GetInstance()->Log(it != m_pChildren.end(),
+				_T("Object::CollectGarbage: trying to delete unknown child!"));
 			m_pChildren.erase(it);
 			delete child;
 			Logger::GetInstance()->Log(LogLevel::Info, _T("Child Removed"));

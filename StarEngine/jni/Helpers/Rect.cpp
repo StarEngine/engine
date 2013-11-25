@@ -33,7 +33,7 @@ namespace star
 		float32 dot3 = Dot(rightTop - rightBottom, leftBottom - rightBottom);
 		
 		float32 tolerance = 0.1f;
-		ASSERT((abs(dot1) < 0 + tolerance
+		Logger::GetInstance()->Log((abs(dot1) < 0 + tolerance
 			|| abs(dot2) < 0 + tolerance
 			|| abs(dot3) < 0 + tolerance)
 			, _T("The Rect is not a rectangle!!"));*/
