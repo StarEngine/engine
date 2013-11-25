@@ -1,5 +1,6 @@
 #include "UIUserElement.h"
 #include "../../Input/InputManager.h"
+#include "../../Scenes/BaseScene.h"
 
 namespace star
 {

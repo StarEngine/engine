@@ -3,6 +3,7 @@
 #include "../defines.h"
 
 #include "../Helpers/Stopwatch.h"
+#include "../Objects/Object.h"
 
 #include <vector>
 #include <memory>
@@ -10,7 +11,6 @@
 namespace star 
 {
 	struct Context;
-	class Object;
 	class CameraComponent;
 	class CollisionManager;
 	class GestureManager;

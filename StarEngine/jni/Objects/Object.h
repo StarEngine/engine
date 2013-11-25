@@ -4,7 +4,6 @@
 #include "../defines.h"
 #include "../Logger.h"
 #include "../Context.h"
-#include "../Scenes/BaseScene.h"
 #include "../Components/TransformComponent.h"
 #include "../AI/Pathfinding/PathFindManager.h"
 #include "../Helpers/HashTag.h"
@@ -13,6 +12,7 @@ namespace star
 {
 	class BaseComponent;
 	class PathFindNodeComponent;
+	class BaseScene;
 
 	class Object
 	{

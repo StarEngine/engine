@@ -1,7 +1,6 @@
 #include "BaseScene.h"
 #include "../Context.h"
 #include "../Input/InputManager.h"
-#include "../Objects/Object.h"
 #include "../StarComponents.h"
 #include "../Objects/BaseCamera.h"
 #include "../Graphics/GraphicsManager.h"

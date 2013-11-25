@@ -2,6 +2,7 @@
 #include "../Logger.h"
 #include "SpriteBatch.h"
 #include "../Scenes/SceneManager.h"
+#include "../Scenes/BaseScene.h"
 #include "../Objects/BaseCamera.h"
 #include "../Components/CameraComponent.h"
 #include "ScaleSystem.h"
@@ -46,7 +47,7 @@ namespace star
 	{
 		vec2 screenRes = GetWindowResolution();
 		vec2 workingRes = ScaleSystem::GetInstance()->GetWorkingResolution();
-                
+				
 		float32 width = screenRes.x / workingRes.x;
 		float32 height = screenRes.y / workingRes.y;
 
@@ -222,28 +223,28 @@ namespace star
 	void GraphicsManager::Destroy()
 	{
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Destroy"));
-        // Destroys OpenGL context.
-        if (mDisplay != EGL_NO_DISPLAY)
-        {
-            eglMakeCurrent(mDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE,EGL_NO_CONTEXT);
-            if (mContext != EGL_NO_CONTEXT)
-            {
-                eglDestroyContext(mDisplay, mContext);
-                mContext = EGL_NO_CONTEXT;
-            }
-            if (mSurface != EGL_NO_SURFACE)
-            {
-                eglDestroySurface(mDisplay, mSurface);
-                mSurface = EGL_NO_SURFACE;	
-            }
-            eglTerminate(mDisplay);
-            mDisplay = EGL_NO_DISPLAY;
-            star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Destroyed"));
+		// Destroys OpenGL context.
+		if (mDisplay != EGL_NO_DISPLAY)
+		{
+			eglMakeCurrent(mDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE,EGL_NO_CONTEXT);
+			if (mContext != EGL_NO_CONTEXT)
+			{
+				eglDestroyContext(mDisplay, mContext);
+				mContext = EGL_NO_CONTEXT;
+			}
+			if (mSurface != EGL_NO_SURFACE)
+			{
+				eglDestroySurface(mDisplay, mSurface);
+				mSurface = EGL_NO_SURFACE;	
+			}
+			eglTerminate(mDisplay);
+			mDisplay = EGL_NO_DISPLAY;
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Destroyed"));
 
-            SpriteBatch::GetInstance()->CleanUp();
+			SpriteBatch::GetInstance()->CleanUp();
 
-            mIsInitialized = false;
-        }
+			mIsInitialized = false;
+		}
 	}
 #endif
 

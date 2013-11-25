@@ -9,7 +9,7 @@
 #include "Helpers\SerializedData.h"
 #include "definesTypes.h"
 
-#define STARENGINE_VERSION _T("0.0.1")
+#define STARENGINE_VERSION _T("0.0.3")
 
 #include <algorithm>
 

@@ -8,7 +8,7 @@ namespace star
 	struct Context;
 	class Object;
 
-	class TransformComponent final: public star::BaseComponent
+	class TransformComponent final: public BaseComponent
 	{
 	public:
 		enum TransformChanged : byte
