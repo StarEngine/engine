@@ -119,7 +119,7 @@ namespace star
 		const std::function<void()> & callback
 		)
 	{
-		m_pSprite->PushAnimationSafe(animation, callback);
+		return m_pSprite->PushAnimationSafe(animation, callback);
 	}
 
 	bool UIAnimatedImage::PlayAnimationSafe(
@@ -127,7 +127,7 @@ namespace star
 		const std::function<void()> & callback
 		)
 	{
-		m_pSprite->PlayAnimationSafe(animation, callback);
+		return m_pSprite->PlayAnimationSafe(animation, callback);
 	}
 
 	bool UIAnimatedImage::PlayAnimationSafe(
@@ -136,7 +136,7 @@ namespace star
 		const std::function<void()> & callback
 		)
 	{
-		m_pSprite->PlayAnimationSafe(animation, startFrame, callback);
+		return m_pSprite->PlayAnimationSafe(animation, startFrame, callback);
 	}
 
 	void UIAnimatedImage::PlayNextAnimation()
