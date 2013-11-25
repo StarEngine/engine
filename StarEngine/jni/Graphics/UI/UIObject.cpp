@@ -133,12 +133,30 @@ namespace star
 	{
 		UITranslate();
 	}
+		
+	void UIObject::AddChild(Object* pObject)
+	{
+		auto uiobject = dynamic_cast<UIObject*>(pObject);
+		if(uiobject)
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				tstring(_T("UIObject::AddChild: ")) +
+				_T("UIObjects should be added via the AddElement(UIObject*) function."));
+			AddElement(uiobject);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				tstring(_T("UIObject::AddChild: ")) +
+				_T("Adding a non-UIObject to a UIObject is an illegal action."));
+		}
+	}
 	
 	void UIObject::AddElement(UIObject * pElement)
 	{
 		pElement->SetUIParent(this);
 		pElement->Reposition();
-		AddChild(pElement);
+		Object::AddChild(pElement);
 	}
 
 	void UIObject::Update(const Context& context)

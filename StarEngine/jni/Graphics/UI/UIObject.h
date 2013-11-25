@@ -42,6 +42,7 @@ namespace star
 		void SetUIParent(UIObject * pParent);
 		UIObject * GetUIParent() const;
 
+
 		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
 		virtual void SetVerticalAlignment(VerticalAlignment alignment);
 
@@ -49,7 +50,8 @@ namespace star
 
 		virtual void Reset();
 		void Reposition();
-
+		
+		void AddChild(Object* pObject);
 		void AddElement(UIObject * pElement);
 
 	protected:

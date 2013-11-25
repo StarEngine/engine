@@ -52,16 +52,18 @@ namespace star
 
 		void AddComponent(BaseComponent* pComponent);
 
-		void AddChild(Object* pObject);
+		virtual void AddChild(Object* pObject);
 		void RemoveChild(const Object* pObject);
 		void RemoveChild(const tstring & name);
 
 		const std::vector<Object*>& GetChildren() const;
 
-		Object * GetChildByName(const tstring & name);
 		void SetChildFrozen(const tstring & name, bool freeze);
 		void SetChildDisabled(const tstring & name, bool disabled);
 		void SetChildVisible(const tstring & name, bool visible);
+
+		template <typename T>
+		T * GetChildByName(const tstring & name);
 
 		virtual void SetVisible(bool visible);
 		bool IsVisible() const;
@@ -126,7 +128,6 @@ namespace star
 		HashTag m_Name, m_GroupTag, m_PhysicsTag;
 
 	private:
-
 		void CollectGarbage();
 
 		Object(const Object& t);
@@ -134,6 +135,30 @@ namespace star
 		Object& operator=(const Object& t);
 		Object& operator=(Object&& t);
 	};
+
+	template <typename T>
+	T * Object::GetChildByName(const tstring & name)
+	{
+		for(auto child : m_pChildren)
+		{
+			if(child->CompareName(name))
+			{
+				auto returnobject = dynamic_cast<T*>(child);
+				if(returnobject == nullptr)
+				{
+					Logger::GetInstance()->Log(LogLevel::Error,
+						_T("Object::GetChildByName: couldn't convert object '")
+						+ name + _T("' to the requested type. Returning nullptr..."));
+				}
+				return returnobject;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Object::GetChildByName: \
+Trying to get unknown child '")
+				   + name + _T("'."));
+		return nullptr;
+	}
 
 	template<class T>
 	void Object::RemoveComponent()

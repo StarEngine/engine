@@ -391,22 +391,6 @@ Trying to remove unknown child '")
 		return m_pChildren;
 	}
 
-	Object * Object::GetChildByName(const tstring & name)
-	{
-		for(auto child : m_pChildren)
-		{
-			if(child->CompareName(name))
-			{
-				return child;
-			}
-		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("Object::GetChildByName: \
-Trying to get unknown child '")
-				   + name + _T("'."));
-		return nullptr;
-	}
-
 	void Object::SetChildFrozen(const tstring & name, bool freeze)
 	{
 		for(auto child : m_pChildren)
