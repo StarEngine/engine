@@ -39,6 +39,7 @@ Patch Notes:
   * Bugfix for Swipe Gesture + made it customizable;
   * Font colors work (again) and sprites can now be multiplied with a color;
   * StarEngine has now a Quit function that can be used to exit the application;
+  * Logger::Log replaces ASSERT from now on;
   
 ## License
 The Star 2D Game Engine is licensed under the MIT License.
