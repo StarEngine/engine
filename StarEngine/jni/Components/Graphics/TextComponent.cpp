@@ -147,11 +147,11 @@ namespace star
 		float32 texTop = objectPos.y + textHeight;
 
 		return
-			(	(objectPos.x > left && objectPos.x < right) ||
-				(teRight > left && teRight < right)
+			(	(objectPos.x >= left && objectPos.x <= right) ||
+				(teRight >= left && teRight <= right)
 			) &&
-			(	(objectPos.y > bottom && objectPos.y < top) ||
-				(texTop > bottom && texTop < top)
+			(	(objectPos.y >= bottom && objectPos.y <= top) ||
+				(texTop >= bottom && texTop <= top)
 			);
 	}
 

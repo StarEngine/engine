@@ -140,11 +140,11 @@ namespace star
 		float32 objTop = objectPos.y + spriteHeight;
 
 		return
-			(	(objectPos.x > left && objectPos.x < right) ||
-				(objRight > left && objRight < right)
+			(	(objectPos.x >= left && objectPos.x <= right) ||
+				(objRight >= left && objRight <= right)
 			) &&
-			(	(objectPos.y > bottom && objectPos.y < top) ||
-				(objTop > bottom && objTop < top)
+			(	(objectPos.y >= bottom && objectPos.y <= top) ||
+				(objTop >= bottom && objTop <= top)
 			);
 	}
 
