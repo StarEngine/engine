@@ -262,22 +262,6 @@ namespace star
 				   + name + _T("'."));
 	}
 
-	Object * BaseScene::GetObjectByName(const tstring & name)
-	{
-		for(auto object : m_Objects)
-		{
-			if(object->CompareName(name))
-			{
-				return object;
-			}
-		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("BaseScene::GetObjectByName: \
-				   Trying to get an unknown object '")
-				   + name + _T("'."));
-		return nullptr;
-	}
-
 	void BaseScene::SetObjectFrozen(const tstring & name, bool freeze)
 	{
 		for(auto object : m_Objects)

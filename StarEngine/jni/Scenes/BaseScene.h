@@ -42,7 +42,9 @@ namespace star
 		void RemoveObject(Object * object);
 		void RemoveObject(const tstring & name);
 
-		Object * GetObjectByName(const tstring & name);
+		template <typename T>
+		T * GetObjectByName(const tstring & name);
+
 		void SetObjectFrozen(const tstring & name, bool freeze);
 		void SetObjectDisabled(const tstring & name, bool disabled);
 		void SetObjectVisible(const tstring & name, bool visible);
@@ -108,4 +110,27 @@ namespace star
 		BaseScene& operator=(const BaseScene& t);
 		BaseScene& operator=(BaseScene&& t);
 	};
+
+	template <typename T>
+	T * BaseScene::GetObjectByName(const tstring & name)
+	{
+		for(auto object : m_Objects)
+		{
+			if(object->CompareName(name))
+			{
+				auto returnObject = dynamic_cast<T*>(object);
+				if(returnObject == nullptr)
+				{
+					Logger::GetInstance()->Log(LogLevel::Error,
+						_T("BaseScene::GetObjectByName: couldn't convert object '")
+						+ name + _T("' to the requested type. Returning nullptr..."));
+				}
+				return returnObject;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("BaseScene::GetObjectByName: Trying to get an unknown object '")
+				+ name + _T("'."));
+		return nullptr;
+	}
 }
