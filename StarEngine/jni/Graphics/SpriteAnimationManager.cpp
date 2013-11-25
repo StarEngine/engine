@@ -21,11 +21,15 @@ namespace star
 		tstring name = container.GetAttributes()[_T("name")];
 		auto it = m_Spritesheets.find(name);
 		bool isValid = it == m_Spritesheets.end();
-		Logger::GetInstance()->Log(isValid, _T("This spritesheet already exists!"));
 		if(isValid)
 		{
 			Spritesheet spritesheet(container);
 			m_Spritesheets.insert(std::pair<tstring, Spritesheet>(name, spritesheet));
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("SpriteAnimationManager::AddSpritesheet: This spritesheet already exists!"));
 		}
 	}
 	
@@ -39,11 +43,15 @@ namespace star
 		tstring name = container.GetAttributes()[_T("name")];
 		auto it = m_Spritesheets.find(name);
 		bool isValid = it == m_Spritesheets.end();
-		Logger::GetInstance()->Log(isValid, _T("This spritesheet already exists!"));
 		if(isValid)
 		{
 			Spritesheet spritesheet(container);
 			m_Spritesheets.insert(std::pair<tstring, Spritesheet>(name, spritesheet));
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("SpriteAnimationManager::AddSpritesheet: This spritesheet already exists!"));
 		}
 	}
 
