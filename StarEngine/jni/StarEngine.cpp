@@ -139,6 +139,13 @@ namespace star
 		return m_RandomEngine;
 	}
 
+	void StarEngine::Quit()
+	{
+#ifdef _WIN32
+		PostQuitMessage(0);
+#endif
+	}
+
 #ifdef ANDROID
 	void StarEngine::SetAndroidApp(android_app * app)
 	{
