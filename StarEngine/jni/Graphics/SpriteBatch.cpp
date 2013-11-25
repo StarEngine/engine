@@ -230,7 +230,7 @@ namespace star
 		int32 spacing, 
 		TransformComponent* transform,
 		const Color& color,
-			bool isHUD
+		bool isHUD
 		)
 	{
 		if(text.size() == 0)
