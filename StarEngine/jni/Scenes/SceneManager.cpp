@@ -233,6 +233,12 @@ the custom cursor code in your game project."));
 		if(m_pDefaultCursor)
 		{
 			m_pDefaultCursor->SetState(state);
+#ifdef MOBILE
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			tstring(_T("SceneManager::SetDefaultCursorState: Cursor isn't supported on mobile device."))
+			+ _T(" For optimialisation reasons it's better to disable the code related to\
+the custom cursor code in your game project."));
+#endif
 		}
 	}
 

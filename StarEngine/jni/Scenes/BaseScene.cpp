@@ -447,17 +447,19 @@ the custom cursor code in your game project."));
 		if(m_pCursor)
 		{
 			m_pCursor->SetState(state);
-		}
-		else
-		{
-			SceneManager::GetInstance()->SetDefaultCursorState(state);
-		}
 #ifdef MOBILE
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			tstring(_T("BaseScene::SetStateActiveCursor: Cursor isn't supported on mobile device."))
 			+ _T(" For optimialisation reasons it's better to disable the code related to\
 the custom cursor code in your game project."));
 #endif
+			return;
+		}
+		else
+		{
+			SceneManager::GetInstance()->SetDefaultCursorState(state);
+			return;
+		}
 	}
 	
 	std::shared_ptr<Stopwatch> BaseScene::GetStopwatch() const
