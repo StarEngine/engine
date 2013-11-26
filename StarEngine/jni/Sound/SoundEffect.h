@@ -4,9 +4,9 @@
 
 namespace star
 {
-	const int32 MAX_SAMPLES = 10;
+	const int32 MAX_SAMPLES = 2;
 
-	class SoundEffect final : public BaseSound
+	class SoundEffect : public BaseSound
 	{
 	public:
 		SoundEffect(const tstring& path, uint8 channel = 0);
@@ -32,8 +32,8 @@ namespace star
 #ifdef DESKTOP
 		void SetSoundVolume(int32 volume);
 
-		static int32 PLAY_CHANNELS;
-		int32 mPlayChannel;
+		//static int32 PLAY_CHANNELS;
+		std::vector<int32> mPlayChannels;
 		Mix_Chunk * mpSound;
 #else
 		void RegisterCallback(SLPlayItf & player);
@@ -45,6 +45,7 @@ namespace star
 			);
 
 		std::vector<SLObjectItf> mPlayerObjs;
+		//SLObjectItf mPlayerObj;
 		std::vector<SLPlayItf> mPlayers;
 		std::vector<int32> mLoopTimes;
 #endif	

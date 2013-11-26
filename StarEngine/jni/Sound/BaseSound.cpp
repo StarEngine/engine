@@ -155,6 +155,8 @@ namespace star
 #ifdef DESKTOP
 		, mIsMuted(false)
 		, mVolume(0)
+#else
+		, mPath(EMPTY_STRING)
 #endif
 		, mChannel(0)
 		, mSoundVolume()

@@ -93,6 +93,7 @@ namespace star
 			Stop();
 			return;
 		}
+		Mix_AllocateChannels(16);
 
 		//check What we got
 		int32 actual_rate, actual_channels;
