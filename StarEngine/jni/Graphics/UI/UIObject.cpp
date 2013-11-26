@@ -127,6 +127,8 @@ namespace star
 					child->GetName() + _T("' is not a UI Object."));
 			}
 		}
+
+		Object::Reset();
 	}
 
 	void UIObject::Reposition()

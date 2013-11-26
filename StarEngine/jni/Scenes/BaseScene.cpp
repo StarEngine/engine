@@ -84,6 +84,11 @@ namespace star
 
 	void BaseScene::BaseOnDeactivate()
 	{
+		SetStateActiveCursor(_T("idle"));
+		for(auto object : m_Objects)
+		{
+			object->Reset();
+		}
 		OnDeactivate();
 	}
 

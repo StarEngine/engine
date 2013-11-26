@@ -151,10 +151,10 @@ namespace star
 	}
 #endif
 
-	void UITextButton::GoClick()
+	void UITextButton::GoDown()
 	{
 		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
-		UIButton::GoClick();
+		UIButton::GoDown();
 	}
 
 	void UITextButton::GoFreeze()

@@ -79,6 +79,8 @@ namespace star
 		void SetScene(BaseScene * pScene);
 		void UnsetScene(); 
 
+		virtual void Reset();
+
 		TransformComponent * GetTransform() const;
 
 		BaseScene * GetScene() const;

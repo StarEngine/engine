@@ -50,13 +50,13 @@ namespace star
 	}
 #endif
 
-	void UIButton::GoClick()
+	void UIButton::GoDown()
 	{
 		m_pButtonSprite->SetCurrentSegment(
 			m_IsVertical ? 0 : int8(m_ElementState),
 			m_IsVertical ? int8(m_ElementState) : 0
 			);
-		UIUserElement::GoClick();
+		UIUserElement::GoDown();
 	}
 
 	void UIButton::GoFreeze()

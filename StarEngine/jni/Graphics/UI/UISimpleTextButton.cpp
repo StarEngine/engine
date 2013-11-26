@@ -245,11 +245,11 @@ namespace star
 	}
 #endif
 
-	void UISimpleTextButton::GoClick()
+	void UISimpleTextButton::GoDown()
 	{
 		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
 
-		UIUserElement::GoClick();
+		UIUserElement::GoDown();
 	}
 
 	void UISimpleTextButton::GoFreeze()

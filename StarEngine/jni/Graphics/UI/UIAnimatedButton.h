@@ -30,7 +30,7 @@ namespace star
 #ifdef DESKTOP
 		virtual void GoHover();
 #endif
-		virtual void GoClick();
+		virtual void GoDown();
 		virtual void GoFreeze();
 
 		const static tstring	N_CLICK,

@@ -151,10 +151,10 @@ namespace star
 	}
 #endif
 
-	void UIAnimatedTextButton::GoClick()
+	void UIAnimatedTextButton::GoDown()
 	{
 		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
-		UIAnimatedButton::GoClick();
+		UIAnimatedButton::GoDown();
 	}
 
 	void UIAnimatedTextButton::GoFreeze()

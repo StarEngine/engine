@@ -497,6 +497,14 @@ Trying to (un)hide unknown child '")
 	{
 		m_pScene = nullptr;
 	}
+
+	void Object::Reset()
+	{
+		for(auto child : m_pChildren)
+		{
+			child->Reset();
+		}
+	}
 	
 	TransformComponent * Object::GetTransform() const
 	{

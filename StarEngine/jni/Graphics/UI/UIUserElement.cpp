@@ -27,45 +27,35 @@ namespace star
 		{
 			if(IsFingerWithinRange())
 			{
-				if(m_ElementState != ElementStates::CLICK)
+				if(m_ElementState != ElementStates::CLICK
+					&& InputManager::GetInstance()->IsFingerDownCP(0))
 				{
-					if(InputManager::GetInstance()->IsFingerPressedCP(0))
-					{
-						if(m_ElementState != ElementStates::CLICK)
-						{
-							m_ElementState = ElementStates::CLICK;
-							GoClick();
-							GetScene()->GetStopwatch()->RemoveTimer(
-								m_Name.GetTag() + _T("_click_timer")
-								);
-							GetScene()->GetStopwatch()->CreateTimer(
-								m_Name.GetTag() + _T("_click_timer"),
-								0.25f, false, false, [&]() {
-								#ifdef DESKTOP
-									GoHover();
-									m_ElementState = ElementStates::HOVER;
-								#else
-									GoIdle();
-									m_ElementState = ElementStates::IDLE;
-								#endif
-								});
-						}
-					}
+					m_ElementState = ElementStates::CLICK;
+					GoDown();
+				}
+				else if(m_ElementState == ElementStates::CLICK
+					&& InputManager::GetInstance()->IsFingerReleasedCP(0))
+				{
+					GoUp();
 				#ifdef DESKTOP
-					else if(m_ElementState != ElementStates::HOVER)
-					{
-						m_ElementState = ElementStates::HOVER;
-						GoHover();
-					}
+					m_ElementState = ElementStates::HOVER;
+				#else
+					m_ElementState = ElementStates::IDLE;
 				#endif
 				}
+			#ifdef DESKTOP
+				else if(m_ElementState == ElementStates::IDLE)
+				{
+					m_ElementState = ElementStates::HOVER;
+					GoHover();
+				}
+			#endif
 			}
 			else if(m_ElementState != ElementStates::IDLE)
 			{
 				m_ElementState = ElementStates::IDLE;
 				GoIdle();
 			}
-
 			UIElement::Update(context);
 		}
 	}
@@ -91,14 +81,18 @@ namespace star
 		GetScene()->SetStateActiveCursor(_T("hover"));
 	}
 #endif
+	void UIUserElement::GoDown()
+	{
+		GetScene()->SetStateActiveCursor(_T("click"));
+	}
 
-	void UIUserElement::GoClick()
+	void UIUserElement::GoUp()
 	{
 		if(m_SelectCallback != nullptr)
 		{
 			m_SelectCallback();
 		}
-		GetScene()->SetStateActiveCursor(_T("click"));
+		GetScene()->SetStateActiveCursor(_T("hover"));
 	}
 
 	void UIUserElement::GoDisable()
@@ -136,12 +130,8 @@ namespace star
 
 	void UIUserElement::Reset()
 	{
-		GetScene()->GetStopwatch()->RemoveTimer(
-			m_Name.GetTag() + _T("_click_timer")
-			);
-
+		GoIdle();
 		m_ElementState = ElementStates::IDLE;
-
 		UIObject::Reset();
 	}
 

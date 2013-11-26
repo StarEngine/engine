@@ -38,7 +38,8 @@ namespace star
 #ifdef DESKTOP
 		virtual void GoHover();
 #endif
-		virtual void GoClick();
+		virtual void GoDown();
+		virtual void GoUp();
 		virtual void GoDisable();
 		virtual void GoFreeze();
 

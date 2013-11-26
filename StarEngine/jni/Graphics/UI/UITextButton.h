@@ -56,7 +56,7 @@ namespace star
 #ifdef DESKTOP
 		virtual void GoHover();
 #endif
-		virtual void GoClick();
+		virtual void GoDown();
 		virtual void GoFreeze();
 		
 		UITextField * m_pTextField;

@@ -159,7 +159,7 @@ namespace star
 	}
 #endif
 
-	void UIAnimatedButton::GoClick()
+	void UIAnimatedButton::GoDown()
 	{
 		if(m_pButtonSprite->GetCurrentAnimation() != N_CLICK)
 		{
@@ -169,7 +169,7 @@ namespace star
 					N_CLICK, m_pButtonSprite->GetCurrentFrame()))
 				{
 					Logger::GetInstance()->Log(LogLevel::Warning,
-						_T("UIAnimatedButton::GoClick: Animation '")
+						_T("UIAnimatedButton::GoDown: Animation '")
 						+ N_CLICK + _T("' is not defined in the used spritesheet."));
 				}
 			}
@@ -179,12 +179,12 @@ namespace star
 					N_CLICK))
 				{
 					Logger::GetInstance()->Log(LogLevel::Warning,
-						_T("UIAnimatedButton::GoClick: Animation '")
+						_T("UIAnimatedButton::GoDown: Animation '")
 						+ N_CLICK + _T("' is not defined in the used spritesheet."));
 				}
 			}
 		}
-		UIUserElement::GoClick();
+		UIUserElement::GoDown();
 	}
 
 	void UIAnimatedButton::GoFreeze()
