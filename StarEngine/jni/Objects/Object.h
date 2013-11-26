@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <typeinfo>
-#include "../defines.h"
+#include "../Entity.h"
 #include "../Logger.h"
 #include "../Context.h"
 #include "../Components/TransformComponent.h"
@@ -14,7 +14,7 @@ namespace star
 	class PathFindNodeComponent;
 	class BaseScene;
 
-	class Object
+	class Object : public Entity
 	{
 	public:
 		Object();
@@ -37,10 +37,6 @@ namespace star
 			float32 top,
 			float32 bottom
 			);
-
-		const tstring& GetName() const;
-		void SetName(const tstring& name);
-		bool CompareName(const tstring & name);
 
 		const tstring& GetPhysicsTag() const;
 		void SetPhysicsTag(const tstring& tag);
@@ -127,7 +123,7 @@ namespace star
 		std::vector<BaseComponent*> m_pGarbageComponents;
 		std::vector<Object*> m_pChildren;
 		std::vector<Object*> m_pGarbageChildren;
-		HashTag m_Name, m_GroupTag, m_PhysicsTag;
+		HashTag m_GroupTag, m_PhysicsTag;
 
 	private:
 		void CollectGarbage();

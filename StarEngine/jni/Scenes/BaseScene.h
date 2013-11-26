@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../defines.h"
+#include "../Entity.h"
 
 #include "../Helpers/Stopwatch.h"
 #include "../Objects/Object.h"
@@ -17,7 +17,7 @@ namespace star
 	class BaseCamera;
 	class UIBaseCursor;
 
-	class BaseScene
+	class BaseScene : public Entity
 	{
 	public:
 		BaseScene(const tstring & name);
@@ -34,7 +34,6 @@ namespace star
 		virtual void OnConfigurationChanged();
 		virtual void OnLowMemory();
 
-		const tstring & GetName() const;
 		bool IsInitialized() const;
 
 		void AddObject(Object * object); 
@@ -105,7 +104,6 @@ namespace star
 		bool m_Initialized;
 		static bool CULLING_IS_ENABLED;
 		bool m_CursorIsHidden, m_SystemCursorIsHidden;
-		tstring m_Name;
 	
 		BaseScene(const BaseScene& t);
 		BaseScene(BaseScene&& t);

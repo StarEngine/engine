@@ -17,7 +17,8 @@ namespace star
 	bool BaseScene::CULLING_IS_ENABLED = true;
 
 	BaseScene::BaseScene(const tstring & name)
-		: m_GestureManagerPtr(nullptr)
+		: Entity(name)
+		, m_GestureManagerPtr(nullptr)
 		, m_CollisionManagerPtr(nullptr)
 		, m_Objects()
 		, m_Garbage()
@@ -28,7 +29,6 @@ namespace star
 		, m_Initialized(false)
 		, m_CursorIsHidden(false)
 		, m_SystemCursorIsHidden(false)
-		, m_Name(name)
 	{
 		m_pStopwatch = std::make_shared<Stopwatch>();
 		m_GestureManagerPtr = std::make_shared<GestureManager>();
@@ -190,11 +190,6 @@ namespace star
 	void BaseScene::OnLowMemory()
 	{
 
-	}
-
-	const tstring & BaseScene::GetName() const
-	{
-		return m_Name;
 	}
 
 	bool BaseScene::IsInitialized() const

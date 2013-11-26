@@ -10,7 +10,8 @@
 namespace star
 {
 	Object::Object(void)
-		: m_bIsInitialized(false)
+		: Entity()
+		, m_bIsInitialized(false)
 		, m_IsVisible(true)
 		, m_IsFrozen(false)
 		, m_pParentGameObject(nullptr)
@@ -20,7 +21,6 @@ namespace star
 		, m_pGarbageComponents()
 		, m_pChildren()
 		, m_pGarbageChildren()
-		, m_Name(_T("Default"))
 		, m_GroupTag(_T("Default"))
 		, m_PhysicsTag(_T("Default"))
 	{
@@ -28,7 +28,8 @@ namespace star
 	}
 
 	Object::Object(const tstring & name)
-		: m_bIsInitialized(false)
+		: Entity(name)
+		, m_bIsInitialized(false)
 		, m_IsVisible(true)
 		, m_IsFrozen(false)
 		, m_pParentGameObject(nullptr)
@@ -38,7 +39,6 @@ namespace star
 		, m_pGarbageComponents()
 		, m_pChildren()
 		, m_pGarbageChildren()
-		, m_Name(name)
 		, m_GroupTag(_T("Default"))
 		, m_PhysicsTag(_T("Default"))
 	{
@@ -49,7 +49,8 @@ namespace star
 		const tstring & name,
 		const tstring & groupTag
 		)
-		: m_bIsInitialized(false)
+		: Entity(name)
+		, m_bIsInitialized(false)
 		, m_IsVisible(true)
 		, m_IsFrozen(false)
 		, m_pParentGameObject(nullptr)
@@ -59,7 +60,6 @@ namespace star
 		, m_pGarbageComponents()
 		, m_pChildren()
 		, m_pGarbageChildren()
-		, m_Name(name)
 		, m_GroupTag(groupTag)
 		, m_PhysicsTag(_T("Default"))
 	{
@@ -277,21 +277,6 @@ namespace star
 				}
 			}
 		}
-	}
-
-	const tstring& Object::GetName() const
-	{
-		return m_Name.GetTag();
-	}
-
-	void Object::SetName(const tstring& name)
-	{
-		m_Name.SetTag(name);
-	}
-	
-	bool Object::CompareName(const tstring & name)
-	{
-		return m_Name == name;
 	}
 
 	const tstring& Object::GetPhysicsTag() const

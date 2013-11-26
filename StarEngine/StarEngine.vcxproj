@@ -103,6 +103,7 @@
     <ClInclude Include="jni\definesMath.h" />
     <ClInclude Include="jni\definesTypes.h" />
     <ClInclude Include="jni\definesWindows.h" />
+    <ClInclude Include="jni\Entity.h" />
     <ClInclude Include="jni\EventLoop.h" />
     <ClInclude Include="jni\Graphics\Color.h" />
     <ClInclude Include="jni\Graphics\GraphicsManager.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="jni\Components\Graphics\SpritesheetComponent.cpp" />
     <ClCompile Include="jni\Components\Graphics\TextComponent.cpp" />
     <ClCompile Include="jni\Components\TransformComponent.cpp" />
+    <ClCompile Include="jni\Entity.cpp" />
     <ClCompile Include="jni\EventLoop.cpp" />
     <ClCompile Include="jni\Graphics\Color.cpp" />
     <ClCompile Include="jni\Graphics\GraphicsManager.cpp" />
