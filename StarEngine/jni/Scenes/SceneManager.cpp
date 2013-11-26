@@ -2,12 +2,14 @@
 #include "../Logger.h"
 #include "../Context.h"
 #include "BaseScene.h"
+#include "../Objects/Object.h"
 #include "../Graphics/GraphicsManager.h"
 #include "../Assets/TextureManager.h"
 #include "../Sound/AudioManager.h"
 #include "../Graphics/SpriteBatch.h"
 #include "../Input/InputManager.h"
 #include "../Graphics/UI/UICursor.h"
+#include "../Graphics/UI/UIBaseCursor.h"
 
 #define INPUT_MANAGER (InputManager::GetInstance())
 
@@ -23,6 +25,7 @@ namespace star
 		, m_bInitialized(false)
 		, m_bDestroyRequested(false)
 		, m_bCursorHiddenByDefault(false)
+		, m_bCustomCursorDefined(false)
 		, m_CurrentSceneName(EMPTY_STRING)
 		, m_pDefaultCursor(nullptr)
 #ifdef ANDROID
@@ -30,6 +33,14 @@ namespace star
 #endif
 	{
 		m_Stopwatch = std::make_shared<Stopwatch>();
+		CreateDefaultCursor();
+	}
+
+	void SceneManager::CreateDefaultCursor()
+	{
+		m_pDefaultCursor = new UIBaseCursor(_T("DefaultCursor"));
+		m_pDefaultCursor->BaseInitialize();
+		m_bCustomCursorDefined = false;
 	}
 
 	SceneManager::~SceneManager()
@@ -188,26 +199,21 @@ namespace star
 
 	void SceneManager::DrawDefaultCursor()
 	{
-		if(m_pDefaultCursor)
-		{
-			m_pDefaultCursor->BaseDraw();
-		}
+		m_pDefaultCursor->BaseDraw();
 	}
 
 	void SceneManager::UpdateDefaultCursor(const Context & context)
 	{
-		if(m_pDefaultCursor)
-		{
-			m_pDefaultCursor->BaseUpdate(context);
-		}
+		m_pDefaultCursor->BaseUpdate(context);
 	}
 
-	void SceneManager::SetDefaultCursor(UICursor * cursor)
+	void SceneManager::SetDefaultCursor(UIBaseCursor * cursor)
 	{
 		SafeDelete(m_pDefaultCursor);
 		SetSystemCursorHiddenByDefault(true);
 		m_pDefaultCursor = cursor;
 		m_pDefaultCursor->BaseInitialize();
+		m_bCustomCursorDefined = true;
 #ifdef MOBILE
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			tstring(_T("SceneManager::SetDefaultCursor: Cursor isn't supported on mobile device."))
@@ -226,25 +232,27 @@ the custom cursor code in your game project."));
 			+ _T(" For optimialisation reasons it's better to disable the code related to\
 the custom cursor code in your game project."));
 #endif
+		CreateDefaultCursor();
 	}
 
 	void SceneManager::SetDefaultCursorState(const tstring & state)
 	{
-		if(m_pDefaultCursor)
-		{
-			m_pDefaultCursor->SetState(state);
-#ifdef MOBILE
-		Logger::GetInstance()->Log(LogLevel::Warning,
-			tstring(_T("SceneManager::SetDefaultCursorState: Cursor isn't supported on mobile device."))
-			+ _T(" For optimialisation reasons it's better to disable the code related to\
-the custom cursor code in your game project."));
-#endif
-		}
+		m_pDefaultCursor->SetState(state);
+	}
+	
+	void SceneManager::SetDefaultCursorLocked(bool locked)
+	{
+		m_pDefaultCursor->SetLocked(locked);
+	}
+	
+	bool SceneManager::IsDefaultCursorLocked() const
+	{
+		return m_pDefaultCursor->IsLocked();
 	}
 
 	bool SceneManager::IsDefaultCursorDefined() const
 	{
-		return m_pDefaultCursor != nullptr;
+		return m_bCustomCursorDefined;
 	}
 
 	void SceneManager::SetSystemCursorHiddenByDefault(bool hidden)

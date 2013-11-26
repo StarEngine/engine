@@ -33,13 +33,6 @@ namespace star
 		virtual void GoDown();
 		virtual void GoFreeze();
 
-		const static tstring	N_CLICK,
-								N_IDLE,
-#ifdef DESKTOP
-								N_HOVER,
-#endif
-								N_DISABLED;
-
 		SpritesheetComponent *m_pButtonSprite;
 		bool m_ContiniousAnimation;
 

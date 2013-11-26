@@ -1,7 +1,5 @@
 #pragma once
-#include "../../defines.h"
-#include "../../Context.h"
-#include "../../Objects/Object.h"
+#include "UIBaseCursor.h"
 #include "../Color.h"
 
 #include <unordered_map>
@@ -10,7 +8,7 @@ namespace star
 {
 	class SpritesheetComponent;
 
-	class UICursor : public Object
+	class UICursor : public UIBaseCursor
 	{
 	public:
 		UICursor(
@@ -19,8 +17,6 @@ namespace star
 			const tstring & spritesheetName
 			);
 		virtual ~UICursor();
-
-		virtual void AfterInitialized();
 
 		void SetCenterPoint(const vec2 & center);
 		void SetCenterPoint(float32 x, float32 y);

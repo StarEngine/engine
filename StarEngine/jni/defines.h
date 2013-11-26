@@ -39,6 +39,11 @@ enum class DirectoryMode : byte
 	custom
 };
 
+#define UI_STATE_IDLE _T("idle")
+#define UI_STATE_HOVER _T("hover")
+#define UI_STATE_CLICK _T("click")
+#define UI_STATE_DISABLE _T("disable")
+
 namespace star
 {
 	template <typename T>

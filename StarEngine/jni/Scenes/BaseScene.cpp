@@ -9,6 +9,7 @@
 #include "../Physics/Collision/CollisionManager.h"
 #include "../Input/Gestures/GestureManager.h"
 #include "../Graphics/UI/UICursor.h"
+#include "../Graphics/UI/UIBaseCursor.h"
 #include "SceneManager.h"
 
 namespace star 
@@ -79,6 +80,7 @@ namespace star
 	{
 		InputManager::GetInstance()->SetGestureManager(m_GestureManagerPtr);
 		SetOSCursorHidden(m_CursorIsHidden || m_SystemCursorIsHidden);
+		SetActiveCursorLocked(false);
 		return OnActivate();
 	}
 
@@ -413,7 +415,7 @@ namespace star
 #endif
 	}
 
-	void BaseScene::SetCursor(UICursor * cursor)
+	void BaseScene::SetCursor(UIBaseCursor * cursor)
 	{
 		SafeDelete(m_pCursor);
 		m_pCursor = cursor;
@@ -459,6 +461,38 @@ the custom cursor code in your game project."));
 		{
 			SceneManager::GetInstance()->SetDefaultCursorState(state);
 			return;
+		}
+	}
+	
+	void BaseScene::SetActiveCursorLocked(bool locked)
+	{
+		if(m_pCursor)
+		{
+			m_pCursor->SetLocked(locked);
+#ifdef MOBILE
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			tstring(_T("BaseScene::SetActiveCursorLocked: Cursor isn't supported on mobile device."))
+			+ _T(" For optimialisation reasons it's better to disable the code related to\
+the custom cursor code in your game project."));
+#endif
+			return;
+		}
+		else
+		{
+			SceneManager::GetInstance()->SetDefaultCursorLocked(locked);
+			return;
+		}
+	}
+	
+	bool BaseScene::IsActiveCursorLocked() const
+	{
+		if(m_pCursor)
+		{
+			return m_pCursor->IsLocked();
+		}
+		else
+		{
+			return SceneManager::GetInstance()->IsDefaultCursorLocked();
 		}
 	}
 	

@@ -5,13 +5,6 @@
 
 namespace star
 {
-	const tstring UIAnimatedButton::N_CLICK = _T("click");
-	const tstring UIAnimatedButton::N_IDLE = _T("idle");
-#ifdef DESKTOP
-	const tstring UIAnimatedButton::N_HOVER = _T("hover");
-#endif
-	const tstring UIAnimatedButton::N_DISABLED = _T("disable");
-
 	UIAnimatedButton::UIAnimatedButton(
 		const tstring & name,
 		const tstring & file,
@@ -102,26 +95,28 @@ namespace star
 
 	void UIAnimatedButton::GoIdle()
 	{
-		if(m_pButtonSprite->GetCurrentAnimation() != N_IDLE)
+		if(m_pButtonSprite->GetCurrentAnimation() != UI_STATE_IDLE)
 		{
 			if(m_ContiniousAnimation)
 			{
 				if(!m_pButtonSprite->PlayAnimationSafe(
-					N_IDLE, m_pButtonSprite->GetCurrentFrame()))
+					UI_STATE_IDLE, m_pButtonSprite->GetCurrentFrame()))
 				{
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoIdle: Animation '")
-						+ N_IDLE + _T("' is not defined in the used spritesheet."));
+						+ tstring(UI_STATE_IDLE) +
+						_T("' is not defined in the used spritesheet."));
 				}
 			}
 			else
 			{
 				if(!m_pButtonSprite->PlayAnimationSafe(
-					N_IDLE))
+					UI_STATE_IDLE))
 				{
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoIdle: Animation '")
-						+ N_IDLE + _T("' is not defined in the used spritesheet."));
+						+ tstring(UI_STATE_IDLE) +
+						_T("' is not defined in the used spritesheet."));
 				}
 			}
 		}
@@ -132,26 +127,28 @@ namespace star
 #ifdef DESKTOP
 	void UIAnimatedButton::GoHover()
 	{
-		if(m_pButtonSprite->GetCurrentAnimation() != N_HOVER)
+		if(m_pButtonSprite->GetCurrentAnimation() != UI_STATE_HOVER)
 		{
 			if(m_ContiniousAnimation)
 			{
 				if(!m_pButtonSprite->PlayAnimationSafe(
-					N_HOVER, m_pButtonSprite->GetCurrentFrame()))
+					UI_STATE_HOVER, m_pButtonSprite->GetCurrentFrame()))
 				{
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoHover: Animation '")
-						+ N_HOVER + _T("' is not defined in the used spritesheet."));
+						+ tstring(UI_STATE_HOVER) +
+						_T("' is not defined in the used spritesheet."));
 				}
 			}
 			else
 			{
 				if(!m_pButtonSprite->PlayAnimationSafe(
-					N_HOVER))
+					UI_STATE_HOVER))
 				{
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoHover: Animation '")
-						+ N_HOVER + _T("' is not defined in the used spritesheet."));
+						+ tstring(UI_STATE_HOVER) +
+						_T("' is not defined in the used spritesheet."));
 				}
 			}
 		}
@@ -161,26 +158,28 @@ namespace star
 
 	void UIAnimatedButton::GoDown()
 	{
-		if(m_pButtonSprite->GetCurrentAnimation() != N_CLICK)
+		if(m_pButtonSprite->GetCurrentAnimation() != UI_STATE_CLICK)
 		{
 			if(m_ContiniousAnimation)
 			{
 				if(!m_pButtonSprite->PlayAnimationSafe(
-					N_CLICK, m_pButtonSprite->GetCurrentFrame()))
+					UI_STATE_CLICK, m_pButtonSprite->GetCurrentFrame()))
 				{
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoDown: Animation '")
-						+ N_CLICK + _T("' is not defined in the used spritesheet."));
+						+ tstring(UI_STATE_CLICK) +
+						_T("' is not defined in the used spritesheet."));
 				}
 			}
 			else
 			{
 				if(!m_pButtonSprite->PlayAnimationSafe(
-					N_CLICK))
+					UI_STATE_CLICK))
 				{
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoDown: Animation '")
-						+ N_CLICK + _T("' is not defined in the used spritesheet."));
+						+ tstring(UI_STATE_CLICK) +
+						_T("' is not defined in the used spritesheet."));
 				}
 			}
 		}
@@ -189,26 +188,28 @@ namespace star
 
 	void UIAnimatedButton::GoFreeze()
 	{
-		if(m_pButtonSprite->GetCurrentAnimation() != N_DISABLED)
+		if(m_pButtonSprite->GetCurrentAnimation() != UI_STATE_DISABLE)
 		{
 			if(m_ContiniousAnimation)
 			{
 				if(!m_pButtonSprite->PlayAnimationSafe(
-					N_DISABLED, m_pButtonSprite->GetCurrentFrame()))
+					UI_STATE_DISABLE, m_pButtonSprite->GetCurrentFrame()))
 				{
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoFreeze: Animation '")
-						+ N_DISABLED + _T("' is not defined in the used spritesheet."));
+						+ tstring(UI_STATE_DISABLE) +
+						_T("' is not defined in the used spritesheet."));
 				}
 			}
 			else
 			{
 				if(!m_pButtonSprite->PlayAnimationSafe(
-					N_DISABLED))
+					UI_STATE_DISABLE))
 				{
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoFreeze: Animation '")
-						+ N_DISABLED + _T("' is not defined in the used spritesheet."));
+						+ tstring(UI_STATE_DISABLE) +
+						_T("' is not defined in the used spritesheet."));
 				}
 			}
 		}

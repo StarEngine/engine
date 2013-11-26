@@ -1,6 +1,7 @@
 #include "UIObject.h"
 #include "../GraphicsManager.h"
 #include "UIDock.h"
+#include "../../Scenes/BaseScene.h"
 
 namespace star
 {
@@ -16,7 +17,6 @@ namespace star
 
 	UIObject::~UIObject()
 	{
-
 	}
 
 	void UIObject::Initialize()

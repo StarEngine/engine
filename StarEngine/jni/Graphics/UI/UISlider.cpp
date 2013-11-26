@@ -2,6 +2,7 @@
 #include "UIButton.h"
 #include "../../Helpers/Math.h"
 #include "../../Input/InputManager.h"
+#include "../../Scenes/BaseScene.h"
 
 namespace star
 {
@@ -44,7 +45,12 @@ namespace star
 			);
 		SetPositionAccordingToPercent();
 		m_pSlider->SetDownCallback(
-			[&] () { m_SliderIsDown = true; }
+			[&] ()
+			{
+				m_SliderIsDown = true;
+				GetScene()->SetStateActiveCursor(UI_STATE_CLICK);
+				GetScene()->SetActiveCursorLocked(true);
+			}
 		);
 		UIImage::AfterInitialized();
 	}
@@ -71,6 +77,13 @@ namespace star
 			if(InputManager::GetInstance()->IsFingerReleasedCP(0))
 			{
 				m_SliderIsDown = false;
+				GetScene()->GetStopwatch()->CreateTimer(
+					GetName() + _T("_locked_timer"),
+					0.1f, false, false, [&] ()
+					{
+						GetScene()->SetActiveCursorLocked(false);
+						GetScene()->SetStateActiveCursor(UI_STATE_IDLE);
+					}, false);
 			}
 		}
 		UIImage::Update(context);

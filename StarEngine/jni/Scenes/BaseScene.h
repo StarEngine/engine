@@ -15,7 +15,7 @@ namespace star
 	class CollisionManager;
 	class GestureManager;
 	class BaseCamera;
-	class UICursor;
+	class UIBaseCursor;
 
 	class BaseScene
 	{
@@ -63,10 +63,12 @@ namespace star
 		void SetCursorHidden(bool hidden);
 		void SetSystemCursorHidden(bool hidden);
 
-		void SetCursor(UICursor * cursor);
+		void SetCursor(UIBaseCursor * cursor);
 		void UnsetCursor(bool showSystemCursor = true);
 
 		void SetStateActiveCursor(const tstring & state);
+		void SetActiveCursorLocked(bool locked);
+		bool IsActiveCursorLocked() const;
 
 		void SetCullingOffset(int32 offset);
 		void SetCullingOffset(int32 offsetX, int32 offsetY);
@@ -93,7 +95,7 @@ namespace star
 		std::vector<Object*> m_Garbage;
 		BaseCamera* m_pDefaultCamera;
 		std::shared_ptr<Stopwatch> m_pStopwatch;
-		UICursor *m_pCursor;
+		UIBaseCursor *m_pCursor;
 
 	private:
 		void CollectGarbage();

@@ -13,7 +13,8 @@ namespace star
 {
 	struct Context;
 	class BaseScene;
-	class UICursor;
+	class UIBaseCursor;
+	class Object;
 
 	class SceneManager final
 	{
@@ -34,11 +35,12 @@ namespace star
 		void DrawDefaultCursor();
 		void UpdateDefaultCursor(const Context & context);
 
-		void SetDefaultCursor(UICursor * cursor);
+		void SetDefaultCursor(UIBaseCursor * cursor);
 		void UnsetDefaultCursor();
 
 		void SetDefaultCursorState(const tstring & state);
-
+		void SetDefaultCursorLocked(bool locked);
+		bool IsDefaultCursorLocked() const;
 		bool IsDefaultCursorDefined() const;
 
 		void SetSystemCursorHiddenByDefault(bool hidden);
@@ -64,13 +66,15 @@ namespace star
 		bool m_bSwitchingScene,
 			 m_bInitialized,
 			 m_bDestroyRequested,
-			 m_bCursorHiddenByDefault;
+			 m_bCursorHiddenByDefault,
+			 m_bCustomCursorDefined;
 		tstring m_CurrentSceneName;
-		UICursor *m_pDefaultCursor;
+		UIBaseCursor *m_pDefaultCursor;
 
 		bool InitializeCurScene(const Context& context);
 
 		SceneManager();
+		void CreateDefaultCursor();
 
 		SceneManager(const SceneManager& yRef);
 		SceneManager(SceneManager&& yRef);

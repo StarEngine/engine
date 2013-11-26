@@ -9,7 +9,7 @@ namespace star
 		const tstring & spriteFile,
 		const tstring & spritesheetName
 		)
-		: Object(name)
+		: UIBaseCursor(name)
 		, m_pCursorSprite(nullptr)
 		, m_Offsets()
 		, m_DefaultOffset(0, 0)
@@ -25,11 +25,6 @@ namespace star
 
 	UICursor::~UICursor()
 	{
-	}
-
-	void UICursor::AfterInitialized()
-	{
-		Object::AfterInitialized();
 	}
 
 	void UICursor::SetCenterPoint(const vec2 & center)
@@ -69,24 +64,28 @@ namespace star
 
 	void UICursor::SetState(const tstring & state)
 	{
-		if(!m_pCursorSprite->PlayAnimationSafe(
-			state,
-			m_pCursorSprite->GetCurrentFrame()
-			))
+		if(!m_IsLocked)
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("UICursor::SetState: State '")
-				+ state + _T("' is not defined in the used spritesheet."));
-		}
+			if(!m_pCursorSprite->PlayAnimationSafe(
+				state,
+				m_pCursorSprite->GetCurrentFrame()
+				))
+			{
+				Logger::GetInstance()->Log(LogLevel::Warning,
+					_T("UICursor::SetState: State '")
+					+ state + _T("' is not defined in the used spritesheet."));
+			}
 
-		auto it = m_Offsets.find(state);
-		if(it != m_Offsets.end())
-		{
-			SetCenterPoint(it->second);
-		}
-		else
-		{
-			SetCenterPoint(m_DefaultOffset);
+			auto it = m_Offsets.find(state);
+			if(it != m_Offsets.end())
+			{
+				SetCenterPoint(it->second);
+			}
+			else
+			{
+				SetCenterPoint(m_DefaultOffset);
+			}
+			UIBaseCursor::SetState(state);
 		}
 	}
 
@@ -119,5 +118,7 @@ namespace star
 	{
 		auto pos = InputManager::GetInstance()->GetCurrentFingerPosCP(0);
 		GetTransform()->Translate(pos);
+
+		UIBaseCursor::Update(context);
 	}
 }

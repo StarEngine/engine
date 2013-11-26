@@ -31,11 +31,14 @@ namespace star
 				if(m_ElementState != ElementStates::CLICK
 					&& InputManager::GetInstance()->IsFingerDownCP(0))
 				{
-					m_ElementState = ElementStates::CLICK;
-					GoDown();
+					if(!GetScene()->IsActiveCursorLocked())
+					{
+						m_ElementState = ElementStates::CLICK;
+						GoDown();
+					}
 				}
 				else if(m_ElementState == ElementStates::CLICK
-					&& InputManager::GetInstance()->IsFingerReleasedCP(0))
+				&& InputManager::GetInstance()->IsFingerReleasedCP(0))
 				{
 					GoUp();
 				#ifdef DESKTOP
@@ -45,7 +48,8 @@ namespace star
 				#endif
 				}
 			#ifdef DESKTOP
-				else if(m_ElementState == ElementStates::IDLE)
+				else if(m_ElementState == ElementStates::IDLE
+					&& !GetScene()->IsActiveCursorLocked())
 				{
 					m_ElementState = ElementStates::HOVER;
 					GoHover();
@@ -57,6 +61,7 @@ namespace star
 				m_ElementState = ElementStates::IDLE;
 				GoIdle();
 			}
+			
 			UIElement::Update(context);
 		}
 	}
@@ -69,7 +74,7 @@ namespace star
 			m_UnhoverCallback();
 		}
 #endif
-		GetScene()->SetStateActiveCursor(_T("idle"));
+		GetScene()->SetStateActiveCursor(UI_STATE_IDLE);
 	}
 
 #ifdef DESKTOP
@@ -79,12 +84,29 @@ namespace star
 		{
 			m_HoverCallback();
 		}
-		GetScene()->SetStateActiveCursor(_T("hover"));
+
+		GetScene()->GetStopwatch()->CreateTimer(
+			_T("HCT"),
+			0.1f,
+			false,
+			false,
+			[&] ()
+			{
+				GetScene()->SetStateActiveCursor(UI_STATE_HOVER);
+			}, false);
 	}
 #endif
 	void UIUserElement::GoDown()
 	{
-		GetScene()->SetStateActiveCursor(_T("click"));
+		GetScene()->GetStopwatch()->CreateTimer(
+			_T("HCT"),
+			0.1f,
+			false,
+			false,
+			[&] ()
+			{
+				GetScene()->SetStateActiveCursor(UI_STATE_CLICK);
+			}, false);
 		if(m_DownCallback != nullptr)
 		{
 			m_DownCallback();
@@ -97,7 +119,15 @@ namespace star
 		{
 			m_SelectCallback();
 		}
-		GetScene()->SetStateActiveCursor(_T("hover"));
+		GetScene()->GetStopwatch()->CreateTimer(
+			_T("HCT"),
+			0.1f,
+			false,
+			false,
+			[&] ()
+			{
+				GetScene()->SetStateActiveCursor(UI_STATE_HOVER);
+			}, false);
 	}
 
 	void UIUserElement::GoDisable()
