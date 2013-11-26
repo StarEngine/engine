@@ -5,8 +5,6 @@
 
 namespace star
 {
-	class Object;
-
 	class TimedAction : public Action
 	{
 	public:
@@ -26,11 +24,11 @@ namespace star
 
 	protected:
 		std::function<void()> m_Callback;
+		float32 m_Seconds;
 
 	private:
 		static uint64 ID_COUNTER;
 		tstring m_UniqueID;
-		float32 m_Seconds;
 
 		TimedAction & operator=(const TimedAction&);
 		TimedAction & operator=(TimedAction&&);

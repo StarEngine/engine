@@ -342,6 +342,9 @@
     <ClInclude Include="jni\Actions\LoopedAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Actions\TimedMoveAction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -620,7 +623,10 @@
     <ClCompile Include="jni\Actions\DelayedAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\Actions\LoopedActon.cpp">
+    <ClCompile Include="jni\Actions\TimedMoveAction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Actions\LoopedAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

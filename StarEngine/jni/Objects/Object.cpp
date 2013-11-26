@@ -112,6 +112,14 @@ namespace star
 		}
 
 		Initialize();
+		for(auto action : m_pActions)
+		{
+			if(action)
+			{
+				action->BaseInitialize();
+			}
+		}
+
 		for(auto comp : m_pComponents)
 		{
 			if(comp && !comp->IsInitialized())
@@ -403,8 +411,8 @@ to the same object is illegal."));
 to remove is not a child of this object!"));
 		if(isOK)
 		{
-			m_pChildren.erase(it);
 			m_pGarbageContainer.push_back(*it);
+			m_pChildren.erase(it);
 		}
 	}
 	
@@ -489,6 +497,11 @@ Trying to (un)hide unknown child '")
 			}
 		}
 		m_pActions.push_back(pAction);
+		pAction->SetParent(this);
+		if(m_bIsInitialized)
+		{
+			pAction->BaseInitialize();
+		}
 	}
 
 	void Object::RemoveAction(Action *pAction)
@@ -500,8 +513,8 @@ Trying to (un)hide unknown child '")
 to remove could not be found."));
 		if(isOK)
 		{
-			m_pActions.erase(it);
 			m_pGarbageContainer.push_back(*it);
+			m_pActions.erase(it);
 		}
 	}
 
@@ -574,8 +587,8 @@ to remove could not be found."));
 to remove could not be found."));
 		if(isOK)
 		{
-			m_pComponents.erase(it);
 			m_pGarbageContainer.push_back(*it);
+			m_pComponents.erase(it);
 		}
 	}
 
@@ -666,7 +679,7 @@ to remove could not be found."));
 		for(auto entity : m_pGarbageContainer)
 		{
 			Logger::GetInstance()->Log(LogLevel::Info,
-				_T("Object::CollectGarbag: Removed entity '")
+				_T("Object::CollectGarbage: Removed entity '")
 				+ entity->GetName() + _T("'."));
 			SafeDelete(entity);
 		}
