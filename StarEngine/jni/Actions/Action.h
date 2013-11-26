@@ -12,7 +12,7 @@ namespace star
 		Action();
 		Action(const tstring & name);
 
-		~Action();
+		virtual ~Action();
 
 		void Destroy();
 
@@ -21,15 +21,18 @@ namespace star
 		virtual void Resume();
 
 		void BaseUpdate(const Context & context);
+		void BaseInitialize();
 
 		void SetParent(Object * parent);
 		Object * GetParent() const;
 
 	protected:
+		virtual void Initialize() = 0;
 		virtual void Update(const Context & context) = 0;
 
 		Object *m_pParent;
 		bool m_IsPaused;
+		bool m_IsInitialized;
 
 	private:
 		Action & operator=(const Action&);

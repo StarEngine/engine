@@ -155,6 +155,27 @@ namespace star
 		if(!m_IsFrozen)
 		{
 			Update(context);
+
+			for(auto action : m_pActions)
+			{
+				if(action)
+				{
+					action->BaseUpdate(context);
+				}
+				else
+				{
+					m_pActions.erase(
+						std::find(
+						m_pActions.begin(),
+						m_pActions.end(),
+						action)
+						);
+					Logger::GetInstance()->Log(LogLevel::Warning,
+						_T("Trying to update nullptr action from object '")
+						+ GetName() + _T("'."));
+				}
+			}
+
 			for(auto component : m_pComponents)
 			{
 				if(component)
@@ -163,6 +184,12 @@ namespace star
 				}
 				else
 				{
+					m_pComponents.erase(
+						std::find(
+						m_pComponents.begin(),
+						m_pComponents.end(),
+						component)
+						);
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("Trying to update nullptr component from object '")
 						+ GetName() + _T("'."));
@@ -177,8 +204,14 @@ namespace star
 				}
 				else
 				{
+					m_pChildren.erase(
+						std::find(
+						m_pChildren.begin(),
+						m_pChildren.end(),
+						child)
+						);
 					Logger::GetInstance()->Log(LogLevel::Warning,
-						_T("Trying to update nullptr object child from object '")
+						_T("Trying to update nullptr child from object '")
 						+ GetName() + _T("'."));
 				}
 			}

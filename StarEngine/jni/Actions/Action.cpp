@@ -7,6 +7,7 @@ namespace star
 		: Entity()
 		, m_pParent(nullptr)
 		, m_IsPaused(false)
+		, m_IsInitialized(false)
 	{
 
 	}
@@ -15,6 +16,7 @@ namespace star
 		: Entity(name)
 		, m_pParent(nullptr)
 		, m_IsPaused(false)
+		, m_IsInitialized(false)
 	{
 
 	}
@@ -49,6 +51,15 @@ namespace star
 		if(!m_IsPaused)
 		{
 			Update(context);
+		}
+	}
+
+	void Action::BaseInitialize()
+	{
+		if(!m_IsInitialized)
+		{
+			m_IsInitialized = true;
+			Initialize();
 		}
 	}
 

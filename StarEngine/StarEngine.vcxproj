@@ -80,6 +80,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="jni\Actions\Action.h" />
+    <ClInclude Include="jni\Actions\DelayedAction.h" />
+    <ClInclude Include="jni\Actions\LoopedAction.h" />
+    <ClInclude Include="jni\Actions\TimedAction.h" />
     <ClInclude Include="jni\Components\AI\index.h" />
     <ClInclude Include="jni\Components\Physics\BaseColliderComponent.h" />
     <ClInclude Include="Console.h" />
@@ -185,6 +189,10 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="jni\Actions\Action.cpp" />
+    <ClCompile Include="jni\Actions\DelayedAction.cpp" />
+    <ClCompile Include="jni\Actions\LoopedActon.cpp" />
+    <ClCompile Include="jni\Actions\TimedAction.cpp" />
     <ClCompile Include="jni\Components\Physics\BaseColliderComponent.cpp" />
     <ClCompile Include="jni\Assets\Font.cpp" />
     <ClCompile Include="jni\Assets\FontManager.cpp" />
