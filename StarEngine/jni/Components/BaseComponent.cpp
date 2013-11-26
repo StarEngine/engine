@@ -6,7 +6,8 @@
 namespace star
 {
 	BaseComponent::BaseComponent()
-		: m_pParentObject(nullptr)
+		: Entity()
+		, m_pParentObject(nullptr)
 		, m_bInitialized(false)
 		, m_bIsEnabled(true)
 		, m_bIsVisible(true)
@@ -14,7 +15,8 @@ namespace star
 	}
 
 	BaseComponent::BaseComponent(Object* parent)
-		: m_pParentObject(parent)
+		: Entity()
+		, m_pParentObject(parent)
 		, m_bInitialized(false)
 		, m_bIsEnabled(true)
 		, m_bIsVisible(true)
@@ -23,6 +25,11 @@ namespace star
 
 	BaseComponent::~BaseComponent(void)
 	{
+	}
+
+	void BaseComponent::Destroy()
+	{
+		m_pParentObject->RemoveComponent(this);
 	}
 
 	void BaseComponent::Initialize()

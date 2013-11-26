@@ -21,6 +21,7 @@ namespace star
 		: m_ActiveScene(nullptr)
 		, m_NewActiveScene(nullptr)
 		, m_Stopwatch(nullptr)
+		, m_GarbageList()
 		, m_bSwitchingScene(false)
 		, m_bInitialized(false)
 		, m_bDestroyRequested(false)
@@ -45,6 +46,11 @@ namespace star
 
 	SceneManager::~SceneManager()
 	{
+		for(auto scene : m_GarbageList)
+		{
+			SafeDelete(scene);
+		}
+		m_GarbageList.clear();
 		for(auto scene : m_SceneList)
 		{
 			SafeDelete(scene.second);
@@ -127,6 +133,7 @@ namespace star
 		auto it = m_SceneList.find(name);
 		if(it != m_SceneList.end())
 		{
+			m_GarbageList.push_back(it->second);
 			m_SceneList.erase(it);
 			return true;
 		}
@@ -157,6 +164,12 @@ namespace star
 		{
 			return;
 		}
+
+		for(auto scene : m_GarbageList)
+		{
+			SafeDelete(scene);
+		}
+		m_GarbageList.clear();
 
 		m_Stopwatch->Update(context);
 

@@ -13,17 +13,20 @@ namespace star
 	class BaseComponent;
 	class PathFindNodeComponent;
 	class BaseScene;
+	class Action;
 
 	class Object : public Entity
 	{
 	public:
 		Object();
-		Object(const tstring & name);
+		explicit Object(const tstring & name);
 		Object(
 			const tstring & name,
 			const tstring & groupTag
 			);
 		virtual ~Object(void);
+
+		void Destroy();
 
 		Object* GetParent() const;
 
@@ -57,6 +60,15 @@ namespace star
 		void SetChildFrozen(const tstring & name, bool freeze);
 		void SetChildDisabled(const tstring & name, bool disabled);
 		void SetChildVisible(const tstring & name, bool visible);
+
+		void AddAction(Action * pAction);
+		void RemoveAction(Action *pAction);
+		void RemoveAction(const tstring & name);
+		void RestartAction(const tstring & name);
+		void PauseAction(const tstring & name);
+		void ResumeAction(const tstring & name);
+
+		void RemoveComponent(BaseComponent * pComponent);
 
 		template <typename T>
 		T * GetChildByName(const tstring & name);
@@ -118,11 +130,13 @@ namespace star
 		Object* m_pParentGameObject;
 		PathFindNodeComponent* m_pPathFindComp;
 		BaseScene *m_pScene;
+		
+		std::vector<Entity*> m_pGarbageContainer;
 
 		std::vector<BaseComponent*> m_pComponents;
-		std::vector<BaseComponent*> m_pGarbageComponents;
 		std::vector<Object*> m_pChildren;
-		std::vector<Object*> m_pGarbageChildren;
+		std::vector<Action*> m_pActions;
+
 		HashTag m_GroupTag, m_PhysicsTag;
 
 	private:
@@ -166,7 +180,9 @@ Trying to get unknown child '")
 		{
 			if(component && typeid(*component) == ti)
 			{
-				m_pGarbageComponents.push_back(component);
+				auto it = std::find(m_pComponents.begin(), m_pComponents.end(), component);
+				m_pComponents.erase(it);
+				m_pGarbageContainer.push_back(component);
 			}
 		}	
 	}

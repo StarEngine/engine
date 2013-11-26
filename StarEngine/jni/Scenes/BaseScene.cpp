@@ -42,11 +42,14 @@ namespace star
 			SafeDelete(object);
 		}
 		m_Objects.clear();
-		// [COMMENT] Don't we have to delete them?
 		m_GestureManagerPtr = nullptr;
-		// [COMMENT] Don't we have to delete them?
 		m_CollisionManagerPtr = nullptr;
 		SafeDelete(m_pCursor);
+	}
+
+	void BaseScene::Destroy()
+	{
+		SceneManager::GetInstance()->RemoveScene(GetName());
 	}
 
 	void BaseScene::BaseInitialize()

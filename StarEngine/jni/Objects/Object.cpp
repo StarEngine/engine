@@ -1,4 +1,5 @@
 #include "Object.h"
+#include "../Actions/Action.h"
 #include "../StarComponents.h"
 #include "../Components/TransformComponent.h"
 #include "../Graphics/GraphicsManager.h"
@@ -17,10 +18,10 @@ namespace star
 		, m_pParentGameObject(nullptr)
 		, m_pPathFindComp(nullptr)
 		, m_pScene(nullptr)
+		, m_pGarbageContainer()
 		, m_pComponents()
-		, m_pGarbageComponents()
 		, m_pChildren()
-		, m_pGarbageChildren()
+		, m_pActions()
 		, m_GroupTag(_T("Default"))
 		, m_PhysicsTag(_T("Default"))
 	{
@@ -35,10 +36,10 @@ namespace star
 		, m_pParentGameObject(nullptr)
 		, m_pPathFindComp(nullptr)
 		, m_pScene(nullptr)
+		, m_pGarbageContainer()
 		, m_pComponents()
-		, m_pGarbageComponents()
 		, m_pChildren()
-		, m_pGarbageChildren()
+		, m_pActions()
 		, m_GroupTag(_T("Default"))
 		, m_PhysicsTag(_T("Default"))
 	{
@@ -56,10 +57,10 @@ namespace star
 		, m_pParentGameObject(nullptr)
 		, m_pPathFindComp(nullptr)
 		, m_pScene(nullptr)
+		, m_pGarbageContainer()
 		, m_pComponents()
-		, m_pGarbageComponents()
 		, m_pChildren()
-		, m_pGarbageChildren()
+		, m_pActions()
 		, m_GroupTag(groupTag)
 		, m_PhysicsTag(_T("Default"))
 	{
@@ -68,6 +69,12 @@ namespace star
 
 	Object::~Object(void)
 	{
+		for(auto entity : m_pGarbageContainer)
+		{
+			SafeDelete(entity);
+		}
+		m_pGarbageContainer.clear();
+
 		for(auto comp : m_pComponents)
 		{
 			SafeDelete(comp);
@@ -79,6 +86,17 @@ namespace star
 			SafeDelete(child);
 		}
 		m_pChildren.clear();
+
+		for(auto action : m_pActions)
+		{
+			SafeDelete(action);
+		}
+		m_pActions.clear();
+	}
+
+	void Object::Destroy()
+	{
+		m_pScene->RemoveObject(this);
 	}
 	
 	Object* Object::GetParent() const
@@ -116,7 +134,6 @@ namespace star
 
 	void Object::Initialize()
 	{
-		//DO nothing, unless a derived class overrides this
 	}
 
 	void Object::BaseAfterInitialized()
@@ -126,12 +143,10 @@ namespace star
 
 	void Object::AfterInitialized()
 	{
-		//DO nothing, unless a derived class overrides this
 	}
 
 	void Object::Update(const Context& context)
 	{
-		//DO nothing, unless a derived class overrides this
 	}
 	
 	void Object::BaseUpdate(const Context & context)
@@ -349,10 +364,15 @@ to the same object is illegal."));
 	void Object::RemoveChild(const Object* pObject)
 	{
 		auto it = std::find(m_pChildren.begin(), m_pChildren.end(), pObject);
-		Logger::GetInstance()->Log(it != m_pChildren.end(),
+		bool isOK = it != m_pChildren.end();
+		Logger::GetInstance()->Log(isOK,
 			_T("Object::RemoveChild: The object you tried \
 to remove is not a child of this object!"));
-		m_pGarbageChildren.push_back(*it);
+		if(isOK)
+		{
+			m_pChildren.erase(it);
+			m_pGarbageContainer.push_back(*it);
+		}
 	}
 	
 	void Object::RemoveChild(const tstring & name)
@@ -422,6 +442,108 @@ Trying to enable/disable unknown child '")
 				_T("Object::SetChildVisible: \
 Trying to (un)hide unknown child '")
 				   + name + _T("'."));
+	}
+
+	void Object::AddAction(Action * pAction)
+	{
+		for(auto action : m_pActions)
+		{
+			if(action == pAction)
+			{
+				Logger::GetInstance()->Log(LogLevel::Warning,
+					_T("Object::AddAction: Trying to add a duplicate action."));
+				return;
+			}
+		}
+		m_pActions.push_back(pAction);
+	}
+
+	void Object::RemoveAction(Action *pAction)
+	{
+		auto it = std::find(m_pActions.begin(), m_pActions.end(), pAction);
+		bool isOK = it != m_pActions.end();
+		Logger::GetInstance()->Log(isOK,
+			_T("Object::RemoveAction: The action you tried \
+to remove could not be found."));
+		if(isOK)
+		{
+			m_pActions.erase(it);
+			m_pGarbageContainer.push_back(*it);
+		}
+	}
+
+	void Object::RemoveAction(const tstring & name)
+	{
+		for(auto action : m_pActions)
+		{
+			if(action->CompareName(name))
+			{
+				RemoveAction(action);
+				return;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Object::RemoveAction: Action '")
+			+ name + _T("' could not be found."));
+	}
+
+	void Object::RestartAction(const tstring & name)
+	{
+		for(auto action : m_pActions)
+		{
+			if(action->CompareName(name))
+			{
+				action->Restart();
+				return;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Object::RestartAction: Action '")
+			+ name + _T("' could not be found."));
+	}
+
+	void Object::PauseAction(const tstring & name)
+	{
+		for(auto action : m_pActions)
+		{
+			if(action->CompareName(name))
+			{
+				action->Pause();
+				return;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Object::PauseAction: Action '")
+			+ name + _T("' could not be found."));
+	}
+
+	void Object::ResumeAction(const tstring & name)
+	{
+		for(auto action : m_pActions)
+		{
+			if(action->CompareName(name))
+			{
+				action->Resume();
+				return;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Object::ResumeAction: Action '")
+			+ name + _T("' could not be found."));
+	}
+
+	void Object::RemoveComponent(BaseComponent * pComponent)
+	{
+		auto it = std::find(m_pComponents.begin(), m_pComponents.end(), pComponent);
+		bool isOK = it != m_pComponents.end();
+		Logger::GetInstance()->Log(isOK,
+			_T("Object::RemoveComponent: The component you tried \
+to remove could not be found."));
+		if(isOK)
+		{
+			m_pComponents.erase(it);
+			m_pGarbageContainer.push_back(*it);
+		}
 	}
 
 	void Object::SetVisible(bool visible)
@@ -508,26 +630,13 @@ Trying to (un)hide unknown child '")
 
 	void Object::CollectGarbage()
 	{
-		for(auto component : m_pGarbageComponents)
+		for(auto entity : m_pGarbageContainer)
 		{
-			auto it = std::find(m_pComponents.begin(), m_pComponents.end(), component);
-			Logger::GetInstance()->Log(it != m_pComponents.end(),
-				_T("Object::CollectGarbage: trying to delete unknown object!"));
-			m_pComponents.erase(it);
-			delete component;
-			Logger::GetInstance()->Log(LogLevel::Info, _T("Component Removed"));
+			Logger::GetInstance()->Log(LogLevel::Info,
+				_T("Object::CollectGarbag: Removed entity '")
+				+ entity->GetName() + _T("'."));
+			SafeDelete(entity);
 		}
-		m_pGarbageComponents.clear();		
-
-		for(auto child : m_pGarbageChildren)
-		{
-			auto it = std::find(m_pChildren.begin(), m_pChildren.end(), child);
-			Logger::GetInstance()->Log(it != m_pChildren.end(),
-				_T("Object::CollectGarbage: trying to delete unknown child!"));
-			m_pChildren.erase(it);
-			delete child;
-			Logger::GetInstance()->Log(LogLevel::Info, _T("Child Removed"));
-		}
-		m_pGarbageChildren.clear();
+		m_pGarbageContainer.clear();
 	}
 }

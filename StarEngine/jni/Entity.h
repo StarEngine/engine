@@ -16,6 +16,8 @@ namespace star
 		void SetName(const tstring & name);
 		bool CompareName(const tstring & name);
 
+		virtual void Destroy() = 0;
+
 	protected:
 		HashTag m_Name;
 

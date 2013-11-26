@@ -20,8 +20,10 @@ namespace star
 	class BaseScene : public Entity
 	{
 	public:
-		BaseScene(const tstring & name);
+		explicit BaseScene(const tstring & name);
 		virtual ~BaseScene();
+
+		void Destroy();
 		
 		void	BaseInitialize();
 		void	BaseAfterInitializedObjects();

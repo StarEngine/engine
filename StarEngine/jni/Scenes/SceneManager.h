@@ -4,6 +4,7 @@
 #include "../Helpers/Stopwatch.h"
 #include <memory>
 #include <map>
+#include <vector>
 
 #ifdef ANDROID
 #include <android_native_app_glue.h>
@@ -62,6 +63,7 @@ namespace star
 
 		std::shared_ptr<Stopwatch> m_Stopwatch;
 
+		std::vector<BaseScene*> m_GarbageList;
 		std::map<tstring, BaseScene*> m_SceneList;
 		bool m_bSwitchingScene,
 			 m_bInitialized,
