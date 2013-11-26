@@ -29,12 +29,6 @@ namespace star
 
 	void UICursor::AfterInitialized()
 	{
-		SetDefaultCenterPosition(
-			0.0f, float32(m_pCursorSprite->GetHeight())
-			);
-
-		SetCenterPoint(m_DefaultOffset);
-
 		Object::AfterInitialized();
 	}
 

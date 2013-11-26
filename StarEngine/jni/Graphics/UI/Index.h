@@ -11,6 +11,8 @@
 #include "UIImage.h"
 #include "UIAnimatedImage.h"
 
+#include "UISlider.h"
+
 #include "UITextField.h"
 
 #include "UIUserElement.h"

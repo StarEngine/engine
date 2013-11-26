@@ -111,6 +111,7 @@
     <ClInclude Include="jni\Graphics\UI\UIAnimatedTextButton.h" />
     <ClInclude Include="jni\Graphics\UI\UICursor.h" />
     <ClInclude Include="jni\Graphics\UI\UISimpleTextButton.h" />
+    <ClInclude Include="jni\Graphics\UI\UISlider.h" />
     <ClInclude Include="jni\Graphics\UI\UIStaticTextButton.h" />
     <ClInclude Include="jni\Graphics\UI\UITextButton.h" />
     <ClInclude Include="jni\Graphics\UI\UIAnimatedButton.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="jni\Graphics\SpriteBatch.cpp" />
     <ClCompile Include="jni\Graphics\UI\UICursor.cpp" />
     <ClCompile Include="jni\Graphics\UI\UISimpleTextButton.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UISlider.cpp" />
     <ClCompile Include="jni\Graphics\UI\UIStaticTextButton.cpp" />
     <ClCompile Include="jni\Graphics\UI\UIAnimatedTextButton.cpp" />
     <ClCompile Include="jni\Graphics\UI\UITextButton.cpp" />

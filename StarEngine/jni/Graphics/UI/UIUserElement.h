@@ -25,11 +25,18 @@ namespace star
 		virtual void Reset();
 
 		void SetSelectCallback(std::function<void()> callback);
+		void SetDownCallback(std::function<void()> callback);
 
 #ifdef DESKTOP
 		void SetHoverCallback(std::function<void()> callback);
 		void SetUnhoverCallback(std::function<void()> callback);
 #endif
+
+		bool IsIdle() const;
+#ifdef DESKTOP
+		bool IsHover() const;
+#endif
+		bool IsDown() const;
 
 	protected:
 		virtual void Update(const Context& context);
@@ -47,6 +54,8 @@ namespace star
 
 		std::function<void()>
 			m_SelectCallback;
+		std::function<void()>
+			m_DownCallback;
 
 #ifdef DESKTOP
 		std::function<void()>

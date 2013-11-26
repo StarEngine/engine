@@ -7,6 +7,7 @@ namespace star
 	UIUserElement::UIUserElement(const tstring & name)
 		: UIElement(name)
 		, m_SelectCallback(nullptr)
+		, m_DownCallback(nullptr)
 #ifdef DESKTOP
 		, m_HoverCallback(nullptr)
 		, m_UnhoverCallback(nullptr)
@@ -84,6 +85,10 @@ namespace star
 	void UIUserElement::GoDown()
 	{
 		GetScene()->SetStateActiveCursor(_T("click"));
+		if(m_DownCallback != nullptr)
+		{
+			m_DownCallback();
+		}
 	}
 
 	void UIUserElement::GoUp()
@@ -140,6 +145,11 @@ namespace star
 		m_SelectCallback = callback;
 	}
 
+	void UIUserElement::SetDownCallback(std::function<void()> callback)
+	{
+		m_DownCallback = callback;
+	}
+
 #ifdef DESKTOP
 	void UIUserElement::SetHoverCallback(std::function<void()> callback)
 	{
@@ -151,4 +161,21 @@ namespace star
 		m_UnhoverCallback = callback;
 	}
 #endif
+
+	bool UIUserElement::IsIdle() const
+	{
+		return m_ElementState == ElementStates::IDLE;
+	}
+
+#ifdef DESKTOP
+	bool UIUserElement::IsHover() const
+	{
+		return m_ElementState == ElementStates::HOVER;
+	}
+
+#endif
+	bool UIUserElement::IsDown() const
+	{
+		return m_ElementState == ElementStates::CLICK;
+	}
 }
