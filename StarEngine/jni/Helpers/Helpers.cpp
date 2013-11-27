@@ -481,6 +481,18 @@ namespace star
 	}
 
 	template <>
+	tstring string_cast<tstring, Color>
+		(const Color & value)
+	{
+		tstringstream strstr;
+		strstr << value.r << _T(";");
+		strstr << value.g << _T(";");
+		strstr << value.b << _T(";");
+		strstr << value.a;
+		return strstr.str();
+	}
+
+	template <>
 	bool string_cast<bool, tstring>
 		(const tstring & value)
 	{
@@ -721,6 +733,21 @@ namespace star
 		vec.z = string_cast<uint32>(value.substr(index2, index - index2));
 		vec.w = string_cast<uint32>(value.substr(++index, value.size() - index));
 		return vec;
+	}
+
+	template <>
+	Color string_cast<Color, tstring>
+		(const tstring & value)
+	{
+		Color color;
+		int32 index = value.find(';', 0);
+		color.r = string_cast<float32>(value.substr(0, index));
+		int32 index2 = value.find(';', ++index);
+		color.g = string_cast<float32>(value.substr(index, index2 - index));
+		index = value.find(';', ++index2);
+		color.b = string_cast<float32>(value.substr(index2, index - index2));
+		color.a = string_cast<float32>(value.substr(++index, value.size() - index));
+		return color;
 	}
 
 	void ReadTextFile(const tstring & file, tstring & text,

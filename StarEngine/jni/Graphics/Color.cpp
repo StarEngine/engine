@@ -331,110 +331,96 @@ namespace star
 
 	Color & Color::operator+=(const Color & yRef)
 	{
-		r = std::min(r + yRef.r, 1.0f);
-		g = std::min(g + yRef.g, 1.0f);
-		b = std::min(b + yRef.b, 1.0f);
-		a = std::min(a + yRef.a, 1.0f);
+		r += yRef.r;
+		g += yRef.g;
+		b += yRef.b;
+		a += yRef.a;
 
 		return *this;
 	}
 
 	Color & Color::operator+=(const vec3 & yRef)
 	{
-		r = std::min(r + yRef.x, 1.0f);
-		g = std::min(g + yRef.y, 1.0f);
-		b = std::min(b + yRef.z, 1.0f);
+		r += yRef.x;
+		g += yRef.y;
+		b += yRef.z;
 
 		return *this;
 	}
 
 	Color & Color::operator+=(const vec4 & yRef)
 	{
-		r = std::min(r + yRef.x, 1.0f);
-		g = std::min(g + yRef.y, 1.0f);
-		b = std::min(b + yRef.z, 1.0f);
-		a = std::min(a + yRef.w, 1.0f);
+		r += yRef.x;
+		g += yRef.y;
+		b += yRef.z;
+		a += yRef.w;
 
 		return *this;
 	}
 
 	Color & Color::operator+=(const ivec3 & yRef)
 	{
-		r = std::min( r + 
-			IntegerToFloat<float32, int32>(yRef.x), 1.0f);
-		g = std::min( g + 
-			IntegerToFloat<float32, int32>(yRef.y), 1.0f);
-		b = std::min( b + 
-			IntegerToFloat<float32, int32>(yRef.z), 1.0f);
+		r += IntegerToFloat<float32, int32>(yRef.x); 
+		g += IntegerToFloat<float32, int32>(yRef.y);
+		b += IntegerToFloat<float32, int32>(yRef.z);
 
 		return *this;
 	}
 
 	Color & Color::operator+=(const ivec4 & yRef)
 	{
-		r = std::min( r + 
-			IntegerToFloat<float32, int32>(yRef.x), 1.0f);
-		g = std::min( g + 
-			IntegerToFloat<float32, int32>(yRef.y), 1.0f);
-		b = std::min( b + 
-			IntegerToFloat<float32, int32>(yRef.z), 1.0f);
-		a = std::min( a + 
-			IntegerToFloat<float32, int32>(yRef.w), 1.0f);
+		r += IntegerToFloat<float32, int32>(yRef.x); 
+		g += IntegerToFloat<float32, int32>(yRef.y);
+		b += IntegerToFloat<float32, int32>(yRef.z);
+		a += IntegerToFloat<float32, int32>(yRef.w);
 
 		return *this;
 	}
 
 	Color & Color::operator-=(const Color & yRef)
 	{
-		r = std::max(r - yRef.r, 0.0f);
-		g = std::max(g - yRef.g, 0.0f);
-		b = std::max(b - yRef.b, 0.0f);
-		a = std::max(a - yRef.a, 0.0f);
+		r -= yRef.r;
+		g -= yRef.g;
+		b -= yRef.b;
+		a -= yRef.a;
 
 		return *this;
 	}
 
 	Color & Color::operator-=(const vec3 & yRef)
 	{
-		r = std::max(r - yRef.x, 0.0f);
-		g = std::max(g - yRef.y, 0.0f);
-		b = std::max(b - yRef.z, 0.0f);
+		r -= yRef.x;
+		g -= yRef.y;
+		b -= yRef.z;
 
 		return *this;
 	}
 
 	Color & Color::operator-=(const vec4 & yRef)
 	{
-		r = std::max(r - yRef.x, 0.0f);
-		g = std::max(g - yRef.y, 0.0f);
-		b = std::max(b - yRef.z, 0.0f);
-		a = std::max(a - yRef.w, 0.0f);
+		r -= yRef.x;
+		g -= yRef.y;
+		b -= yRef.z;
+		a -= yRef.w;
 
 		return *this;
 	}
 
 	Color & Color::operator-=(const ivec3 & yRef)
 	{
-		r = std::max(r - 
-			IntegerToFloat<float32, int32>(yRef.x), 0.0f);
-		g = std::max(g - 
-			IntegerToFloat<float32, int32>(yRef.y), 0.0f);
-		b = std::max(b - 
-			IntegerToFloat<float32, int32>(yRef.z), 0.0f);
+		r -= IntegerToFloat<float32, int32>(yRef.x);
+		g -= IntegerToFloat<float32, int32>(yRef.y);
+		b -= IntegerToFloat<float32, int32>(yRef.z);
 
 		return *this;
 	}
 
 	Color & Color::operator-=(const ivec4 & yRef)
 	{
-		r = std::max(r - 
-			IntegerToFloat<float32, int32>(yRef.x), 0.0f);
-		g = std::max(g - 
-			IntegerToFloat<float32, int32>(yRef.y), 0.0f);
-		b = std::max(b - 
-			IntegerToFloat<float32, int32>(yRef.z), 0.0f);
-		a = std::max(a - 
-			IntegerToFloat<float32, int32>(yRef.w), 0.0f);
+		r -= IntegerToFloat<float32, int32>(yRef.x);
+		g -= IntegerToFloat<float32, int32>(yRef.y);
+		b -= IntegerToFloat<float32, int32>(yRef.z);
+		a -= IntegerToFloat<float32, int32>(yRef.w);
 
 		return *this;
 	}

@@ -82,6 +82,7 @@
   <ItemGroup>
     <ClInclude Include="jni\Actions\Action.h" />
     <ClInclude Include="jni\Actions\DelayedAction.h" />
+    <ClInclude Include="jni\Actions\Index.h" />
     <ClInclude Include="jni\Actions\LoopedAction.h" />
     <ClInclude Include="jni\Actions\TimedAction.h" />
     <ClInclude Include="jni\Actions\TimedFadeAction.h" />

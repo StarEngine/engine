@@ -348,6 +348,9 @@
     <ClInclude Include="jni\Actions\TimedFadeAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Actions\Index.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">

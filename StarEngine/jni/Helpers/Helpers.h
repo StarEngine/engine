@@ -5,6 +5,7 @@
 #include <string>
 #include <functional>
 #include "../Logger.h"
+#include "../Graphics/Color.h"
 
 namespace star
 {
@@ -190,6 +191,10 @@ namespace star
 		(const uvec4 & value);
 
 	template <>
+	tstring string_cast<tstring, Color>
+		(const Color & value);
+
+	template <>
 	bool string_cast<bool, tstring>
 		(const tstring & value);
 
@@ -271,6 +276,10 @@ namespace star
 
 	template <>
 	uvec4 string_cast<uvec4, tstring>
+		(const tstring & value);
+
+	template <>
+	Color string_cast<Color, tstring>
 		(const tstring & value);
 
 	void ReadTextFile(const tstring & file, tstring & text,
