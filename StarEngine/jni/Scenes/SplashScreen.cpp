@@ -25,5 +25,9 @@ namespace star
 			star::Color(0,0,0,0),
 			0.75f
 			);
+
+		m_pSlideMenu->
+			GetChildByName<UIImage>(m_Slides[0])
+				->SetAlignmentCentered();
 	}
 }

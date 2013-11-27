@@ -50,12 +50,14 @@ namespace star
 		void SetKeyboardInputEnabled(bool enable);
 		void SetFingerInputEnabled(bool enable);
 
+	protected:
+		star::UIDock * m_pSlideMenu;
+		std::vector<tstring> m_Slides;
+
 	private:
 		void GoNextSlide();
 
-		star::UIDock * m_pSlideMenu;
 		uint8 m_CurrentSlide;
-		std::vector<tstring> m_Slides;
 		float32 m_TotalTime;
 		tstring m_NextScene;
 
