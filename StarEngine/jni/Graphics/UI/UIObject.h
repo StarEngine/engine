@@ -42,6 +42,7 @@ namespace star
 		void SetUIParent(UIObject * pParent);
 		UIObject * GetUIParent() const;
 
+		const pos & GetPosition() const;
 
 		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
 		virtual void SetVerticalAlignment(VerticalAlignment alignment);

@@ -93,6 +93,11 @@ namespace star
 		return m_pParent;
 	}
 
+	const pos & UIObject::GetPosition() const
+	{
+		return m_Position;
+	}
+
 	void UIObject::SetHorizontalAlignment(HorizontalAlignment alignment)
 	{
 		m_HorizontalAlignment = alignment;

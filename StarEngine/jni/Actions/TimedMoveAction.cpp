@@ -1,6 +1,7 @@
 #include "TimedMoveAction.h"
 #include "../Objects/Object.h"
 #include "../Helpers/Math.h"
+#include "../Graphics/UI/UIObject.h"
 
 namespace star
 {
@@ -75,38 +76,79 @@ namespace star
 
 	void TimedMoveAction::Initialize()
 	{
-		if(!m_StartPosSet)
+		auto parent = dynamic_cast<UIObject*>(m_pParent);
+		if(parent == nullptr)
 		{
-			m_StartPosition = m_pParent->GetTransform()->GetWorldPosition().pos2D();
-			m_StartPosSet = true;
-		}
-		m_Callback = [&] () 
-		{
-			if(m_Speed == 0.0f)
+			if(!m_StartPosSet)
 			{
-				m_pParent->GetTransform()->Translate(m_Target);
+				m_StartPosition = m_pParent->GetTransform()->GetWorldPosition().pos2D();
+				m_StartPosSet = true;
 			}
-		};
+			m_Callback = [&] () 
+			{
+				if(m_Speed == 0.0f)
+				{
+					m_pParent->GetTransform()->Translate(m_Target);
+				}
+			};
+		}
+		else
+		{
+			if(!m_StartPosSet)
+			{
+				m_StartPosition = parent->GetPosition().pos2D();
+				m_StartPosSet = true;
+			}
+			m_Callback = [&] () 
+			{
+				if(m_Speed == 0.0f)
+				{
+					parent->Translate(m_Target);
+				}
+			};
+		}
 
 		TimedAction::Initialize();
 	}
 
 	void TimedMoveAction::Update(const Context & context)
 	{
-		vec2 curPos = m_pParent->GetTransform()->GetWorldPosition().pos2D();
-		float32 dt = float32(context.mTimeManager->GetSeconds());
-		if(m_Speed == 0.0f)
+		auto parent = dynamic_cast<UIObject*>(m_pParent);
+		if(parent == nullptr)
 		{
-			m_CurrentSeconds += dt;
-			m_pParent->GetTransform()->Translate(
-				Lerp<vec2>(m_StartPosition, m_Target, m_CurrentSeconds / m_Seconds)
-				);
+			vec2 curPos = m_pParent->GetTransform()->GetWorldPosition().pos2D();
+			float32 dt = float32(context.mTimeManager->GetSeconds());
+			if(m_Speed == 0.0f)
+			{
+				m_CurrentSeconds += dt;
+				m_pParent->GetTransform()->Translate(
+					Lerp<vec2>(m_StartPosition, m_Target, m_CurrentSeconds / m_Seconds)
+					);
+			}
+			else
+			{
+				m_pParent->GetTransform()->Translate(
+					curPos + m_Direction * m_Speed * dt
+					);
+			}
 		}
 		else
 		{
-			m_pParent->GetTransform()->Translate(
-				curPos + m_Direction * m_Speed * dt
-				);
+			vec2 curPos = parent->GetPosition().pos2D();
+			float32 dt = float32(context.mTimeManager->GetSeconds());
+			if(m_Speed == 0.0f)
+			{
+				m_CurrentSeconds += dt;
+				parent->Translate(
+					Lerp<vec2>(m_StartPosition, m_Target, m_CurrentSeconds / m_Seconds)
+					);
+			}
+			else
+			{
+				parent->Translate(
+					curPos + m_Direction * m_Speed * dt
+					);
+			}
 		}
 	}
 
@@ -118,7 +160,15 @@ namespace star
 
 	void TimedMoveAction::Restart()
 	{
-		m_pParent->GetTransform()->Translate(m_StartPosition);
+		auto parent = dynamic_cast<UIObject*>(m_pParent);
+		if(parent == nullptr)
+		{
+			m_pParent->GetTransform()->Translate(m_StartPosition);
+		}
+		else
+		{
+			parent->Translate(m_StartPosition);
+		}
 		m_CurrentSeconds = 0;
 	}
 }
