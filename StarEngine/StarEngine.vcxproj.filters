@@ -351,6 +351,12 @@
     <ClInclude Include="jni\Actions\Index.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Scenes\SlideScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Scenes\SplashScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -636,6 +642,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Actions\TimedFadeAction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Scenes\SlideScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Scenes\SplashScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -117,6 +117,7 @@ namespace star
 		if (m_SceneList.find(name) == m_SceneList.end())
 		{
 			m_SceneList[name] = scene;
+			scene->BaseInitialize();
 			scene->SetSystemCursorHidden(m_bCursorHiddenByDefault);
 			Logger::GetInstance()->Log(LogLevel::Info, _T("Adding scene"));
 		}
