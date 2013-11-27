@@ -12,10 +12,6 @@
 
 namespace star
 {
-	/*#ifdef DESKTOP
-	int32 SoundEffect::PLAY_CHANNELS = 0;
-	#endif*/
-
 	SoundEffect::SoundEffect(const tstring& path, uint8 channel)
 		: BaseSound(channel)
 	#ifdef DESKTOP
