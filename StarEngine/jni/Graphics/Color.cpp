@@ -439,7 +439,7 @@ namespace star
 		return *this;
 	}
 
-	Color Color::operator+(const Color & yRef)
+	Color Color::operator+(const Color & yRef) const
 	{
 		Color color(*this);
 		color += yRef;
@@ -447,7 +447,7 @@ namespace star
 		return color;
 	}
 
-	Color Color::operator+(const vec3 & yRef)
+	Color Color::operator+(const vec3 & yRef) const
 	{
 		Color color(*this);
 		color += yRef;
@@ -455,7 +455,7 @@ namespace star
 		return color;
 	}
 
-	Color Color::operator+(const vec4 & yRef)
+	Color Color::operator+(const vec4 & yRef) const
 	{
 		Color color(*this);
 		color += yRef;
@@ -463,7 +463,7 @@ namespace star
 		return color;
 	}
 
-	Color Color::operator+(const ivec3 & yRef)
+	Color Color::operator+(const ivec3 & yRef) const
 	{
 		Color color(*this);
 		color += yRef;
@@ -471,7 +471,7 @@ namespace star
 		return color;
 	}
 
-	Color Color::operator+(const ivec4 & yRef)
+	Color Color::operator+(const ivec4 & yRef) const
 	{
 		Color color(*this);
 		color += yRef;
@@ -479,7 +479,7 @@ namespace star
 		return color;
 	}
 
-	Color Color::operator-(const Color & yRef)
+	Color Color::operator-(const Color & yRef) const
 	{
 		Color color(*this);
 		color -= yRef;
@@ -487,7 +487,7 @@ namespace star
 		return color;
 	}
 
-	Color Color::operator-(const vec3 & yRef)
+	Color Color::operator-(const vec3 & yRef) const
 	{
 		Color color(*this);
 		color -= yRef;
@@ -495,7 +495,7 @@ namespace star
 		return color;
 	}
 
-	Color Color::operator-(const vec4 & yRef)
+	Color Color::operator-(const vec4 & yRef) const
 	{
 		Color color(*this);
 		color -= yRef;
@@ -503,7 +503,7 @@ namespace star
 		return color;
 	}
 
-	Color Color::operator-(const ivec3 & yRef)
+	Color Color::operator-(const ivec3 & yRef) const
 	{
 		Color color(*this);
 		color -= yRef;
@@ -511,7 +511,7 @@ namespace star
 		return color;
 	}
 
-	Color Color::operator-(const ivec4 & yRef)
+	Color Color::operator-(const ivec4 & yRef) const
 	{
 		Color color(*this);
 		color -= yRef;
@@ -519,7 +519,7 @@ namespace star
 		return color;
 	}
 
-	bool Color::operator==(const Color & yRef)
+	bool Color::operator==(const Color & yRef) const
 	{
 		return r == yRef.r
 			&& g == yRef.g
@@ -527,14 +527,14 @@ namespace star
 			&& a == yRef.a;
 	}
 
-	bool Color::operator==(const vec3 & yRef)
+	bool Color::operator==(const vec3 & yRef) const
 	{
 		return r == yRef.x
 			&& g == yRef.y
 			&& b == yRef.z;
 	}
 
-	bool Color::operator==(const vec4 & yRef)
+	bool Color::operator==(const vec4 & yRef) const
 	{
 		return r == yRef.x
 			&& g == yRef.y
@@ -542,14 +542,14 @@ namespace star
 			&& a == yRef.w;
 	}
 
-	bool Color::operator==(const ivec3 & yRef)
+	bool Color::operator==(const ivec3 & yRef) const
 	{
 		return r == IntegerToFloat<float32, int32>(yRef.x)
 			&& g == IntegerToFloat<float32, int32>(yRef.y)
 			&& b == IntegerToFloat<float32, int32>(yRef.z);
 	}
 
-	bool Color::operator==(const ivec4 & yRef)
+	bool Color::operator==(const ivec4 & yRef) const
 	{
 		return r == IntegerToFloat<float32, int32>(yRef.x)
 			&& g == IntegerToFloat<float32, int32>(yRef.y)
@@ -557,27 +557,27 @@ namespace star
 			&& a == IntegerToFloat<float32, int32>(yRef.w);
 	}
 
-	bool Color::operator!=(const Color & yRef)
+	bool Color::operator!=(const Color & yRef) const
 	{
 		return !(*this == yRef);
 	}
 
-	bool Color::operator!=(const vec3 & yRef)
+	bool Color::operator!=(const vec3 & yRef) const
 	{
 		return !(*this == yRef);
 	}
 
-	bool Color::operator!=(const vec4 & yRef)
+	bool Color::operator!=(const vec4 & yRef) const
 	{
 		return !(*this == yRef);
 	}
 
-	bool Color::operator!=(const ivec3 & yRef)
+	bool Color::operator!=(const ivec3 & yRef) const
 	{
 		return !(*this == yRef);
 	}
 
-	bool Color::operator!=(const ivec4 & yRef)
+	bool Color::operator!=(const ivec4 & yRef) const
 	{
 		return !(*this == yRef);
 	}

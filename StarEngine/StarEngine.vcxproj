@@ -84,6 +84,7 @@
     <ClInclude Include="jni\Actions\DelayedAction.h" />
     <ClInclude Include="jni\Actions\LoopedAction.h" />
     <ClInclude Include="jni\Actions\TimedAction.h" />
+    <ClInclude Include="jni\Actions\TimedFadeAction.h" />
     <ClInclude Include="jni\Actions\TimedMoveAction.h" />
     <ClInclude Include="jni\Components\AI\index.h" />
     <ClInclude Include="jni\Components\Physics\BaseColliderComponent.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="jni\Actions\DelayedAction.cpp" />
     <ClCompile Include="jni\Actions\LoopedAction.cpp" />
     <ClCompile Include="jni\Actions\TimedAction.cpp" />
+    <ClCompile Include="jni\Actions\TimedFadeAction.cpp" />
     <ClCompile Include="jni\Actions\TimedMoveAction.cpp" />
     <ClCompile Include="jni\Components\Physics\BaseColliderComponent.cpp" />
     <ClCompile Include="jni\Assets\Font.cpp" />
