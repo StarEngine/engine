@@ -630,4 +630,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="jni\Helpers\Math.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="jni\Helpers\Helpers.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="jni\Graphics\Color.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="jni\Objects\Object.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="jni\Scenes\BaseScene.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="jni\Helpers\Dictionary.inl">
+      <Filter>Header Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

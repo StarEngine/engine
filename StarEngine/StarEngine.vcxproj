@@ -282,6 +282,14 @@
     <ClCompile Include="jni\Graphics\ScaleSystem.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="jni\Graphics\Color.inl" />
+    <None Include="jni\Helpers\Dictionary.inl" />
+    <None Include="jni\Helpers\Helpers.inl" />
+    <None Include="jni\Helpers\Math.inl" />
+    <None Include="jni\Objects\Object.inl" />
+    <None Include="jni\Scenes\BaseScene.inl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
