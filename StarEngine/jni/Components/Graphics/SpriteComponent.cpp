@@ -24,6 +24,12 @@ namespace star
 		, m_bIsHudElement(false)
 		, m_SpriteInfo()
 	{
+		for(uint32 i = 0; i < VERTEX_AMOUNT; ++i)
+		{
+			m_Vertices[i] = 0;
+		}
+
+		
 	}
 
 	void SpriteComponent::InitializeComponent()
@@ -49,7 +55,14 @@ namespace star
 	void SpriteComponent::FillSpriteInfo()
 	{
 		m_SpriteInfo.spriteName = m_SpriteName;
-		m_SpriteInfo.dimensions = vec2(m_Width, m_Height);
+		//m_SpriteInfo.dimensions = vec2(m_Width, m_Height);
+		m_SpriteInfo.vertices.clear();
+		for(uint32 i = 0; i < VERTEX_AMOUNT; ++i)
+		{
+			
+			m_SpriteInfo.vertices.push_back(m_Vertices[i]); 
+		}
+		
 	}
 
 	SpriteComponent::~SpriteComponent()
@@ -72,24 +85,16 @@ namespace star
 		*/
 
 		//0
-		m_Vertices[0] = 0;
 		m_Vertices[1] = float32(m_Height);
-		m_Vertices[2] = 0;
 
 		//1
 		m_Vertices[3] = float32(m_Width);
 		m_Vertices[4] = float32(m_Height);
-		m_Vertices[5] = 0;
 
 		//2
-		m_Vertices[6] = 0;
-		m_Vertices[7] = 0;
-		m_Vertices[8] = 0;
 
 		//3
 		m_Vertices[9] = float32(m_Width);
-		m_Vertices[10] = 0;
-		m_Vertices[11] = 0;
 	}
 
 	void SpriteComponent::CreateUVCoords()
@@ -130,6 +135,8 @@ namespace star
 		m_UvCoords[6] = startX + endX;
 		m_UvCoords[7] = startY;
 
+		//[TODO] Change to this much simpler implementation
+		/*
 		//left
 		m_SpriteInfo.uvCoords[0]   = m_UvCoords[0];
 		//bottom
@@ -137,13 +144,20 @@ namespace star
 		//right
 		m_SpriteInfo.uvCoords[2]   = m_UvCoords[2];
 		//top
-		m_SpriteInfo.uvCoords[3]   = m_UvCoords[1];
+		m_SpriteInfo.uvCoords[3]   = m_UvCoords[1];*/
+
+		m_SpriteInfo.uvCoords.clear();
+		for(uint32 i = 0; i < UV_AMOUNT; ++i)
+		{
+			
+			m_SpriteInfo.uvCoords.push_back(m_UvCoords[i]); 
+		}
 	}
 
 	void SpriteComponent::Draw()
 	{
 		m_SpriteInfo.transform = GetTransform()->GetWorldMatrix();
-		SpriteBatch::GetInstance()->Draw(m_SpriteInfo);
+		SpriteBatch::GetInstance()->AddSpriteToQueue(m_SpriteInfo, m_bIsHudElement);
 	}
 
 	void SpriteComponent::Update(const Context & context)
@@ -207,6 +221,21 @@ namespace star
 	{
 		m_CurrentHeightSegment = m_HeightSegments - segment - 1;
 		CreateUVCoords();
+	}
+
+	void SpriteComponent::SetColorMultiplier(const Color & color)
+	{
+		m_SpriteInfo.colorMultiplier = color;
+	}
+
+	void SpriteComponent::SetHUDOptionEnabled(bool enabled)
+	{
+		m_bIsHudElement = enabled;
+	}
+
+	bool SpriteComponent::IsHUDOptionEnabled() const
+	{
+		return m_bIsHudElement;
 	}
 
 	void SpriteComponent::SetTexture(

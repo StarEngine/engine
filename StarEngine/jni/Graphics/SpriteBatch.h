@@ -1,43 +1,60 @@
 #pragma once
+#include <vector>
 #include "../defines.h"
+#include <memory>
 #include "Shader.h"
+#include "../Components/Graphics/SpriteComponent.h"
+#include "../Assets/FontManager.h"
+
 namespace star
 {
-	enum SpriteSortMode;
-	struct SpriteInfo;
-
-	class Shader;
-
 	class SpriteBatch final
 	{
 	public:
-		~SpriteBatch();
+		~SpriteBatch(void);
 		static SpriteBatch * GetInstance();
 
-		void Begin();
-		//[TODO] Make blendstate class. now only alphablending is supported
-		//[TODO] Make SamplerState class. now only nearest neighbour is supported
-		//[TODO] Make DepthStencilState class. now only the one we set in the graphicsManager is supported
-		//[TODO] Make RasterizerState class. now only the default is supported
-		//[TODO] Allow to pass a custom material. Now only the default material is supported
-
-		//[TODO] How does monogame pass the positions to the shader?? 
-		void Begin(SpriteSortMode spriteSortMode);
-
-		void Draw(const SpriteInfo& spriteInfo);
-
-		void End();
-
 		void Initialize();
+		void Flush();
+		void AddSpriteToQueue(
+			const SpriteInfo& spriteInfo,
+			bool bIsHud
+			);
+		void AddTextToQueue(const TextDesc& text, bool bInFrontOfSprites);
 		void CleanUp();
 
 	private:
-		SpriteBatch();
-		void Setup();
-		
+		SpriteBatch(void);
+		void Begin();
+		void End();
+		void CreateSpriteQuad(const std::vector<SpriteInfo>& spriteQueue);
+		void FlushSprites(const std::vector<SpriteInfo>& spriteQueue);
+		void FlushText(const TextDesc& textDesc);
+		void FlushText(
+			const tstring & text,
+			const tstring& fontname,
+			int32 spacing,
+			TransformComponent* transform,
+			const Color& color,
+			bool isHUD
+			);
+
 		static SpriteBatch * m_pSpriteBatch;
+		static const int32 BATCHSIZE = 50;
+
+		std::vector<SpriteInfo> m_SpriteQueue,
+								m_HudSpriteQueue;
+		std::vector<TextDesc> m_TextBackQueue,
+							  m_TextFrontQueue,
+							  m_HUDTextQueue;
+		std::vector<GLfloat> m_VertexBuffer,
+							 m_HUDVertexBuffer;
+		std::vector<GLfloat> m_UvCoordBuffer,
+							 m_HUDUvCoordBuffer;
+		std::vector<mat4> m_WorldMatBuffer;
+		int32 m_CurrentSprite,
+			m_CurrentHudSprite;
 		Shader m_Shader;	
-		SpriteSortMode m_SpriteSortMode;
 
 		SpriteBatch(const SpriteBatch& yRef);
 		SpriteBatch(SpriteBatch&& yRef);

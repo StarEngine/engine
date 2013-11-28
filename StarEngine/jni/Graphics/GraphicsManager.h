@@ -67,7 +67,7 @@ namespace star
 
 	private:
 		GraphicsManager();
-
+		void InitializeOpenGLStates();
 #ifdef DESKTOP
 		bool WGLExtensionSupported(const schar* extension_name);
 		bool InitializeOpenGLFunctors();

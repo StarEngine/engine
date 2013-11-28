@@ -18,7 +18,7 @@ namespace star
 			widthSegements,
 			heightSegements
 			);
-		//m_pButtonSprite->SetHUDOptionEnabled(true);
+		m_pButtonSprite->SetHUDOptionEnabled(true);
 		AddComponent(m_pButtonSprite);
 	}
 

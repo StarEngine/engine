@@ -34,6 +34,8 @@ namespace star
 		GLfloat m_Vertices[8];
 		GLfloat m_UvCoords[8];
 
+		GLint m_TextureId;
+
 	private:
 		LoadScreen(const LoadScreen &);
 		LoadScreen(LoadScreen &&);

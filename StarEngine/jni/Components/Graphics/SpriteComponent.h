@@ -4,11 +4,31 @@
 #include "../../Graphics/Shader.h"
 #include "../BaseComponent.h"
 #include "../../Helpers/Filepath.h"
-#include "../../Graphics/SpriteInfo.h"
-
+#include "../../Graphics/Color.h"
+#include <vector>
 
 namespace star
 {
+	struct SpriteInfo
+	{
+		SpriteInfo()
+			//Change to width & height
+			: vertices()
+			, uvCoords()
+			, spriteName(EMPTY_STRING)
+			, transform()
+			, colorMultiplier(Color::White)
+			, bIsHUD(false)
+		{}
+
+		std::vector<GLfloat> vertices;
+		std::vector<GLfloat> uvCoords;
+		tstring spriteName;
+		mat4 transform;
+		Color colorMultiplier;
+		bool bIsHUD;
+	};
+
 	class SpriteComponent : public BaseComponent
 	{
 	public:
@@ -39,8 +59,17 @@ namespace star
 		void SetCurrentSegment(uint32 widthSegment, uint32 heightSegment);
 		void SetCurrentHorizontalSegment(uint32 segment);
 		void SetCurrentVerticalSegment(uint32 segment);
+		void SetColorMultiplier(const Color & color);
 
-		void SetTexture(const tstring& filepath, const tstring& spriteName, uint32 widthSegments = 1, uint32 heightSegments = 1);
+		void SetHUDOptionEnabled(bool enabled);
+		bool IsHUDOptionEnabled() const;
+
+		void SetTexture(
+			const tstring& filepath, 
+			const tstring& spriteName, 
+			uint32 widthSegments = 1, 
+			uint32 heightSegments = 1
+			);
 
 	protected:
 		virtual void InitializeComponent();
@@ -48,8 +77,11 @@ namespace star
 		virtual void CreateUVCoords();
 		virtual void FillSpriteInfo();
 
-		float32 m_Vertices[12];
-		float32 m_UvCoords[8];
+		static const int VERTEX_AMOUNT = 12;
+		static const int UV_AMOUNT = 8;
+
+		float32 m_Vertices[VERTEX_AMOUNT];
+		float32 m_UvCoords[UV_AMOUNT];
 
 		uint32	m_WidthSegments,
 				m_HeightSegments, 

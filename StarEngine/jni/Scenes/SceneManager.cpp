@@ -178,9 +178,8 @@ namespace star
 		}
 		if(m_ActiveScene != nullptr)
 		{
-			SpriteBatch::GetInstance()->Begin();
 			m_ActiveScene->BaseDraw();
-			SpriteBatch::GetInstance()->End();
+			SpriteBatch::GetInstance()->Flush();
 		}
 	}
 

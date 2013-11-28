@@ -17,7 +17,7 @@ namespace star
 			imageName,
 			spritesheet
 			);
-		//m_pSprite->SetHUDOptionEnabled(true);
+		m_pSprite->SetHUDOptionEnabled(true);
 		
 		AddComponent(m_pSprite);
 	}

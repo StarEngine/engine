@@ -32,12 +32,14 @@ namespace star
 			,TransformComp(nullptr)
 			,TextColor(Color::Black)
 			,VerticalSpacing(5)
+			,IsHUDText(false)
 		{}
 		tstring Text;
 		tstring Fontname;
 		Color TextColor;
 		TransformComponent* TransformComp; 
 		int32 VerticalSpacing;
+		bool IsHUDText;
 	};
 
 	class FontManager final

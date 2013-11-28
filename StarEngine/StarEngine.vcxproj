@@ -106,8 +106,6 @@
     <ClInclude Include="jni\EventLoop.h" />
     <ClInclude Include="jni\Graphics\Color.h" />
     <ClInclude Include="jni\Graphics\GraphicsManager.h" />
-    <ClInclude Include="jni\Graphics\SpriteInfo.h" />
-    <ClInclude Include="jni\Graphics\SpriteSortMode.h" />
     <ClInclude Include="jni\Graphics\SpriteBatch.h" />
     <ClInclude Include="jni\Graphics\UI\Index.h" />
     <ClInclude Include="jni\Graphics\UI\UIAnimatedButton.h" />
@@ -177,9 +175,6 @@
     <ClInclude Include="jni\TimeManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="jni\Graphics\ScaleSystem.h" />
-    <ClInclude Include="jni\Graphics\SpriteBatcher.h" />
-    <ClInclude Include="jni\Graphics\SpriteBatchItem.h" />
-    <ClInclude Include="jni\Graphics\VertexPosColTex.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -261,8 +256,6 @@
     <ClCompile Include="jni\StarEngine.cpp" />
     <ClCompile Include="jni\TimeManager.cpp" />
     <ClCompile Include="jni\Graphics\ScaleSystem.cpp" />
-    <ClCompile Include="jni\Graphics\SpriteBatcher.cpp" />
-    <ClCompile Include="jni\Graphics\SpriteBatchItem.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

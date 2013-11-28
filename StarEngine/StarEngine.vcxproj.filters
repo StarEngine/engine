@@ -309,21 +309,6 @@
     <ClInclude Include="jni\Graphics\UI\UIStaticButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Graphics\SpriteBatcher.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\Graphics\SpriteBatchItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\Graphics\VertexPosColTex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\Graphics\SpriteSortMode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\Graphics\SpriteInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -570,12 +555,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Graphics\UI\UIStaticButton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="jni\Graphics\SpriteBatcher.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="jni\Graphics\SpriteBatchItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

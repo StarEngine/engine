@@ -13,6 +13,7 @@ namespace star
 		:m_Shader()
 		, m_FilePath(filePath)
 		, m_SpriteName(spriteName)
+		,m_TextureId()
 	{
 	}
 
@@ -34,7 +35,7 @@ namespace star
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetAssetsPath(),m_SpriteName);
 		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x;
 		m_Height =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y;
-
+		m_TextureId = glGetUniformLocation(m_Shader.GetID(), "textureSampler");
 		CreateSquare();
 	}
 
@@ -71,8 +72,8 @@ namespace star
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, star::TextureManager::GetInstance()->GetTextureID(m_SpriteName));
-		GLint s_textureId = glGetUniformLocation(m_Shader.GetID(), "textureSampler");
-		glUniform1i(s_textureId, 0);
+		
+		glUniform1i(m_TextureId, 0);
 
 		//Set attributes and buffers
 		glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT,0,0, m_Vertices);

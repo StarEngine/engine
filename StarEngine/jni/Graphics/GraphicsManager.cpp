@@ -46,7 +46,7 @@ namespace star
 	{
 		vec2 screenRes = GetWindowResolution();
 		vec2 workingRes = ScaleSystem::GetInstance()->GetWorkingResolution();
-                
+				
 		float32 width = screenRes.x / workingRes.x;
 		float32 height = screenRes.y / workingRes.y;
 
@@ -75,6 +75,8 @@ namespace star
 
 		mViewportResolution.x = width;
 		mViewportResolution.y = height;
+
+		
 
 		ScaleSystem::GetInstance()->CalculateScale();
 	}
@@ -137,11 +139,8 @@ namespace star
 			SetVSync(true);
 
 			//Initializes base GL state.
-			// In a simple 2D game, we have control over the third
-			// dimension. So we do not really need a Z-buffer.
-			glDisable(GL_DEPTH_TEST);
-			//[COMMENT] is this necessairy?
-			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			//DEPTH_TEST is default disabled
+			InitializeOpenGLStates();
 			mIsInitialized = true;
 		}
 	}
@@ -208,11 +207,12 @@ namespace star
 				star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Graphics Manager : Could not activate display"));
 				return;
 			}
+			//[COMMENT] This might be redundant!
 			mViewportResolution.x = sX;
 			mViewportResolution.y = sY;
 			mScreenResolution = mViewportResolution;
 			glViewport(0, 0, mViewportResolution.x, mViewportResolution.y);
-
+			InitializeOpenGLStates();
 			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Initialized"));
 
 			mIsInitialized = true;
@@ -222,52 +222,47 @@ namespace star
 	void GraphicsManager::Destroy()
 	{
 		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Destroy"));
-        // Destroys OpenGL context.
-        if (mDisplay != EGL_NO_DISPLAY)
-        {
-            eglMakeCurrent(mDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE,EGL_NO_CONTEXT);
-            if (mContext != EGL_NO_CONTEXT)
-            {
-                eglDestroyContext(mDisplay, mContext);
-                mContext = EGL_NO_CONTEXT;
-            }
-            if (mSurface != EGL_NO_SURFACE)
-            {
-                eglDestroySurface(mDisplay, mSurface);
-                mSurface = EGL_NO_SURFACE;	
-            }
-            eglTerminate(mDisplay);
-            mDisplay = EGL_NO_DISPLAY;
-            star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Destroyed"));
+		// Destroys OpenGL context.
+		if (mDisplay != EGL_NO_DISPLAY)
+		{
+			eglMakeCurrent(mDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE,EGL_NO_CONTEXT);
+			if (mContext != EGL_NO_CONTEXT)
+			{
+				eglDestroyContext(mDisplay, mContext);
+				mContext = EGL_NO_CONTEXT;
+			}
+			if (mSurface != EGL_NO_SURFACE)
+			{
+				eglDestroySurface(mDisplay, mSurface);
+				mSurface = EGL_NO_SURFACE;	
+			}
+			eglTerminate(mDisplay);
+			mDisplay = EGL_NO_DISPLAY;
+			star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : Destroyed"));
 
-            SpriteBatch::GetInstance()->CleanUp();
-
-            mIsInitialized = false;
-        }
+			mIsInitialized = false;
+		}
 	}
 #endif
+
+	void GraphicsManager::InitializeOpenGLStates()
+	{
+		//glDisable(GL_DEPTH_TEST);
+		glClearColor(0.f, 0.f, 0.f, 1.0f);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
+	}
 
 	void GraphicsManager::StartDraw()
 	{
 		//star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : StartDraw"));
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		/*
-		GLint temp[4];
-		glGetIntegerv(GL_VIEWPORT, temp);
-
-		tstringstream buffer;
-		buffer << _T("Viewport Width: ") << temp[2] << _T(" Viewport Height: ") << temp[3];
-		Logger::GetInstance()->Log(LogLevel::Info, buffer.str());*/
+		
 	}
 
 	void GraphicsManager::StopDraw()
 	{
 		//star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Graphics Manager : StopDraw"));
-		 glDisable(GL_BLEND);
 #ifdef ANDROID
 		 if (eglSwapBuffers(mDisplay, mSurface) != EGL_TRUE)
 		 {
