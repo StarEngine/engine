@@ -809,6 +809,7 @@ namespace star
 			myfile.close();
 		}
 #endif
+		text += _T('\0');
 	}
 
 	tstring ReadTextFile(const tstring & file, DirectoryMode directory)
