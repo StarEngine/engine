@@ -48,8 +48,10 @@ namespace star
 
 	void SlideScene::Update(const star::Context& context)
 	{
-		if(	(m_AllowFingerInput && InputManager::GetInstance()->IsFingerReleasedCP(0)) ||
-			(m_AllowKeyboardInput && InputManager::GetInstance()->IsAnyKeyDown())
+		if(	(m_AllowFingerInput && InputManager::GetInstance()->IsFingerReleasedCP(0))
+			#ifdef DESKTOP
+				|| (m_AllowKeyboardInput && InputManager::GetInstance()->IsAnyKeyDown())
+			#endif
 			)
 		{
 			GoNextSlide();

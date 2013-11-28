@@ -99,7 +99,7 @@ namespace star
 				m_StartPosition = parent->GetPosition().pos2D();
 				m_StartPosSet = true;
 			}
-			m_Callback = [&] () 
+			m_Callback = [&, parent] () 
 			{
 				if(m_Speed == 0.0f)
 				{
