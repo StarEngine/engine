@@ -221,14 +221,6 @@ namespace star
 		m_CurrentHeightSegment = m_HeightSegments - heightSegment - 1;
 		CreateUVCoords();
 	}
-	
-	void SpriteComponent::SetColorMultiplier(const Color & color)
-	{
-		m_CurrentHeightSegment = m_HeightSegments - segment - 1;
-		CreateUVCoords();
-		m_CurrentWidthSegment = segment;
-		CreateUVCoords();
-	}
 
 	void SpriteComponent::SetColorMultiplier(const Color & color)
 	{

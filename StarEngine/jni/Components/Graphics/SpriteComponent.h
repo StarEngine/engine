@@ -63,6 +63,9 @@ namespace star
 		bool IsHUDOptionEnabled() const;
 
 		void SetTexture(
+			const tstring& filepath,
+			const tstring& spriteName,
+			uint32 widthSegments = 1,
 			uint32 heightSegments = 1
 			);
 
