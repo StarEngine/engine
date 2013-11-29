@@ -13,7 +13,8 @@
 
 namespace star
 {
-#define COLLISION_MANAGER (SceneManager::GetInstance()->GetActiveScene()->GetCollisionManager())
+#define COLLISION_MANAGER (SceneManager::GetInstance()->\
+	GetActiveScene()->GetCollisionManager())
 
 	RectangleColliderComponent::RectangleColliderComponent()
 		: BaseColliderComponent()
@@ -24,21 +25,35 @@ namespace star
 	
 	RectangleColliderComponent::RectangleColliderComponent(const vec2& size)
 		: BaseColliderComponent()
-		, m_CollisionRect(vec2(),vec2(size.x, 0),vec2(0, size.y), vec2(size.x, size.y))
+		, m_CollisionRect(
+			vec2(),
+			vec2(size.x, 0),
+			vec2(0, size.y), 
+			vec2(size.x, size.y)
+		)
 		, m_bDefaultInitialized(false)
 	{
 
 	}
 
-	RectangleColliderComponent::RectangleColliderComponent(float32 width, float32 height)
+	RectangleColliderComponent::RectangleColliderComponent(
+		float32 width, 
+		float32 height)
 		: BaseColliderComponent()
-		, m_CollisionRect(vec2(),vec2(width, 0),vec2(0, height), vec2(width, height))
+		, m_CollisionRect
+			(vec2(),
+			vec2(width, 0),
+			vec2(0, height), 
+			vec2(width, height)
+		)
 		, m_bDefaultInitialized(false)
 	{
 
 	}
 
-	RectangleColliderComponent::RectangleColliderComponent(const tstring* layers, uint8 n)
+	RectangleColliderComponent::RectangleColliderComponent(
+		const tstring* layers, 
+		uint8 n)
 		: BaseColliderComponent(layers, n)
 		, m_CollisionRect()
 		, m_bDefaultInitialized(true)
@@ -46,21 +61,35 @@ namespace star
 
 	}
 
-	RectangleColliderComponent::RectangleColliderComponent(const vec2& size, 
-		const tstring* layers, uint8 n)
+	RectangleColliderComponent::RectangleColliderComponent(
+		const vec2& size, 
+		const tstring* layers, 
+		uint8 n)
 		: BaseColliderComponent(layers, n)
-		, m_CollisionRect(vec2(),vec2(size.x, 0),vec2(0, size.y), vec2(size.x, size.y))
+		, m_CollisionRect(
+			vec2(),
+			vec2(size.x, 0),
+			vec2(0, size.y), 
+			vec2(size.x, size.y)
+		)
 		, m_bDefaultInitialized(false)
 	{
 
 	}
-	RectangleColliderComponent::RectangleColliderComponent(float32 width, float32 height, 
-		const tstring* layers, uint8 n)
+	RectangleColliderComponent::RectangleColliderComponent(
+		float32 width, 
+		float32 height, 
+		const tstring* layers, 
+		uint8 n)
 		: BaseColliderComponent(layers, n)
-		, m_CollisionRect(vec2(),vec2(width, 0),vec2(0, height), vec2(width, height))
+		, m_CollisionRect(
+			vec2(),
+			vec2(width, 0),
+			vec2(0, height), 
+			vec2(width, height))
 		, m_bDefaultInitialized(false)
 	{
-
+		
 	}
 
 	RectangleColliderComponent::~RectangleColliderComponent()
@@ -77,6 +106,7 @@ namespace star
 			{
 				Logger::GetInstance()->Log(spriteComp->IsInitialized(),
 					_T("First add the spriteComponent and then the rectColliderComp"));
+					First add the spriteComponent and then the rectColliderComp"));
 				m_CollisionRect.SetPoints(
 					vec2(0, 0),
 					vec2(spriteComp->GetWidth(), 0), 
@@ -90,6 +120,8 @@ namespace star
 					_T("If you use the default constructor of the RectangleColliderComponent()\
 , make sure to also add a SpriteComponent or SpriteSheetComponent. \
 If you don't need this, please specify a width and height in the constructor of \
+								If you don't need this, please specify a width \
+								and height in the constructor of \n\
 the RectangleColliderComponent."));
 			}
 		}
@@ -102,8 +134,10 @@ the RectangleColliderComponent."));
 		if(GetTransform()->GetWorldRotation() == 0.0f)
 		{
 			Rect rect(GetCollisionRect());
-			return !(rect.GetLeftTop().x > point.x || rect.GetRightTop().x < point.x
-					|| rect.GetLeftTop().y < point.y || rect.GetLeftBottom().y > point.y);
+			return !(rect.GetLeftTop().x > point.x 
+					|| rect.GetRightTop().x < point.x
+					|| rect.GetLeftTop().y < point.y 
+					|| rect.GetLeftBottom().y > point.y);
 		}
 		else
 		{
@@ -127,7 +161,10 @@ the RectangleColliderComponent."));
 		
 	}
 
-	bool RectangleColliderComponent::CollidesWithLine(const vec2& point1, const vec2& point2) const
+	bool RectangleColliderComponent::CollidesWithLine(
+		const vec2& point1, 
+		const vec2& point2
+		) const
 	{
 		Logger::GetInstance()->Log(point1 != point2,
 			_T("Please provide 2 different points to make a line!"));
@@ -144,13 +181,17 @@ the RectangleColliderComponent."));
 				//if highest point of line is smaller than lowest point of rect
 				if(point1.y < point2.y)
 				{
-					returnValue = !(rect.GetLeftTop().x > point1.x || rect.GetRightTop().x < point1.x 
-						|| rect.GetLeftTop().y < point1.y || rect.GetLeftBottom().y > point2.y);
+					returnValue = !(rect.GetLeftTop().x > point1.x 
+								|| rect.GetRightTop().x < point1.x 
+								|| rect.GetLeftTop().y < point1.y 
+								|| rect.GetLeftBottom().y > point2.y);
 				}
 				else
 				{
-					returnValue = !(rect.GetLeftTop().x > point1.x || rect.GetRightTop().x < point1.x 
-						|| rect.GetLeftTop().y < point2.y || rect.GetLeftBottom().y > point1.y);
+					returnValue = !(rect.GetLeftTop().x > point1.x 
+								|| rect.GetRightTop().x < point1.x 
+								|| rect.GetLeftTop().y < point2.y 
+								|| rect.GetLeftBottom().y > point1.y);
 				}
 				return returnValue;;
 			}
@@ -158,13 +199,17 @@ the RectangleColliderComponent."));
 			{
 				if(point1.x < point2.x)
 				{
-					returnValue = !(rect.GetLeftTop().y < point1.y || rect.GetLeftBottom().y > point1.y 
-						|| rect.GetRightBottom().x < point1.x || rect.GetLeftBottom().x > point2.x);
+					returnValue = !(rect.GetLeftTop().y < point1.y 
+								|| rect.GetLeftBottom().y > point1.y 
+								|| rect.GetRightBottom().x < point1.x 
+								|| rect.GetLeftBottom().x > point2.x);
 				}
 				else
 				{
-					returnValue = !(rect.GetLeftTop().y < point1.y || rect.GetLeftBottom().y > point1.y 
-						|| rect.GetRightBottom().x < point2.x || rect.GetLeftBottom().x > point1.x);
+					returnValue = !(rect.GetLeftTop().y < point1.y 
+								|| rect.GetLeftBottom().y > point1.y 
+								|| rect.GetRightBottom().x < point2.x 
+								|| rect.GetLeftBottom().x > point1.x);
 				}
 				return returnValue;;
 			}
@@ -226,7 +271,8 @@ The collierComponent to check is a nullptr"));
 		else
 		{
 			Logger::GetInstance()->
-				Log(LogLevel::Warning, _T("Checking collision with an unknown collider type!"));
+				Log(LogLevel::Warning, 
+				_T("Checking collision with an unknown collider type!"));
 			return false;
 		}
 	}
@@ -234,16 +280,20 @@ The collierComponent to check is a nullptr"));
 	bool RectangleColliderComponent::AABBRectangleRectangleCollision(const Rect& rect1,
 		const Rect& rect2) const
 	{
-		return !(rect1.GetLeftTop().x > rect2.GetRightTop().x || rect1.GetRightTop().x < rect2.GetLeftTop().x 
-			|| rect1.GetLeftTop().y < rect2.GetLeftBottom().y || rect1.GetLeftBottom().y > rect2.GetLeftTop().y);
+		return !(  rect1.GetLeftTop().x > rect2.GetRightTop().x 
+				|| rect1.GetRightTop().x < rect2.GetLeftTop().x 
+				|| rect1.GetLeftTop().y < rect2.GetLeftBottom().y 
+				|| rect1.GetLeftBottom().y > rect2.GetLeftTop().y);
 	}
 
 	bool RectangleColliderComponent::OOBBRectangleRectangleCollision(const Rect& rect1, 
 		const Rect& rect2) const
 	{
 		//First check if the rects are colliding as aabb
-		if(rect1.GetRealLeft() > rect2.GetRealRight() || rect1.GetRealRight() < rect2.GetRealLeft() 
-			|| rect1.GetRealTop() < rect2.GetRealBottom() || rect1.GetRealBottom() > rect2.GetRealTop())
+		if(	   rect1.GetRealLeft() > rect2.GetRealRight() 
+			|| rect1.GetRealRight() < rect2.GetRealLeft() 
+			|| rect1.GetRealTop() < rect2.GetRealBottom() 
+			|| rect1.GetRealBottom() > rect2.GetRealTop())
 		{
 			return false;
 		}
@@ -310,8 +360,11 @@ The collierComponent to check is a nullptr"));
 		return (BMinimum <= AMaximum && BMaximum >= AMinimum);
 	}
 
-	bool RectangleColliderComponent::CalculateAxisSpecificCollision(const Rect& rect,
-		const vec2& point, const vec2& axis) const
+	bool RectangleColliderComponent::CalculateAxisSpecificCollision(
+		const Rect& rect,
+		const vec2& point, 
+		const vec2& axis
+		) const
 	{
 		float32 AvecPosOnAxis1 = Dot(rect.GetLeftTop(), axis);
 		float32 AvecPosOnAxis2 = Dot(rect.GetLeftBottom(), axis);
@@ -368,7 +421,10 @@ The collierComponent to check is a nullptr"));
 		return BMinimum <= AMaximum && BMaximum >= AMinimum;
 	}
 
-	float32 RectangleColliderComponent::CalculateMinimum(const float32* vec, uint8 size) const
+	float32 RectangleColliderComponent::CalculateMinimum(
+		const float32* vec, 
+		uint8 size
+		) const
 	{
 		Logger::GetInstance()->Log(size != 0,
 			_T("You can't calculate the minimum of 0 elements!"));
@@ -383,7 +439,10 @@ The collierComponent to check is a nullptr"));
 		return minimum;
 	}
 
-	float32 RectangleColliderComponent::CalculateMaximum(const float32* vec, uint8 size) const
+	float32 RectangleColliderComponent::CalculateMaximum(
+		const float32* vec, 
+		uint8 size
+		) const
 	{
 		Logger::GetInstance()->Log(size != 0, 
 			_T("You can't calculate the maximum of 0 elements!"));
@@ -414,14 +473,24 @@ The collierComponent to check is a nullptr"));
 		outputVec.y = GetCollisionRectHeight();
 	}
 
-	void RectangleColliderComponent::SetCollisionRectSize(float32 width, float32 height)
+	void RectangleColliderComponent::SetCollisionRectSize(
+		float32 width, 
+		float32 height)
 	{
-		m_CollisionRect.SetPoints(vec2(0, 0), vec2(width, 0), vec2(0, height), vec2(width, height));
+		m_CollisionRect.SetPoints
+			(vec2(0, 0), 
+			vec2(width, 0), 
+			vec2(0, height), 
+			vec2(width, height));
 	}
 
 	void RectangleColliderComponent::SetCollisionRectSize(const vec2& size)
 	{
-		m_CollisionRect.SetPoints(vec2(0, 0), vec2(size.x, 0), vec2(0, size.y), vec2(size.x, size.y));
+		m_CollisionRect.SetPoints(
+			vec2(0, 0), 
+			vec2(size.x, 0), 
+			vec2(0, size.y), 
+			vec2(size.x, size.y));
 	}
 
 	Rect RectangleColliderComponent::GetCollisionRect() const

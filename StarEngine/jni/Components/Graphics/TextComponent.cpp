@@ -117,7 +117,7 @@ namespace star
 		m_TextDesc.Text = m_EditedText;
 		m_TextDesc.TransformComp = m_pParentObject->GetTransform();
 
-		SpriteBatch::GetInstance()->AddTextToQueue(m_TextDesc, m_bInFront);
+		//SpriteBatch::GetInstance()->AddTextToQueue(m_TextDesc, m_bInFront);
 	}
 
 	void TextComponent::Update(const Context& context)

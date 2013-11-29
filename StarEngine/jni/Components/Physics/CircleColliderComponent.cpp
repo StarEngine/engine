@@ -10,7 +10,8 @@
 
 namespace star
 {
-#define COLLISION_MANAGER (SceneManager::GetInstance()->GetActiveScene()->GetCollisionManager())
+#define COLLISION_MANAGER (SceneManager::GetInstance()->\
+	GetActiveScene()->GetCollisionManager())
 
 	CircleColliderComponent::CircleColliderComponent()
 		: BaseColliderComponent()
@@ -21,7 +22,9 @@ namespace star
 
 	}
 
-	CircleColliderComponent::CircleColliderComponent(const tstring* layers, uint8 n)
+	CircleColliderComponent::CircleColliderComponent(
+		const tstring* layers, 
+		uint8 n)
 		: BaseColliderComponent(layers, n)
 		, m_Radius(0)
 		, m_Offset()
@@ -38,7 +41,10 @@ namespace star
 	{
 	}
 
-	CircleColliderComponent::CircleColliderComponent(float32 radius, const tstring* layers, uint8 tag)
+	CircleColliderComponent::CircleColliderComponent(
+		float32 radius, 
+		const tstring* layers, 
+		uint8 tag)
 		: BaseColliderComponent(layers, tag)
 		, m_Radius(radius)
 		, m_Offset()
@@ -46,7 +52,9 @@ namespace star
 	{
 	}
 
-	CircleColliderComponent::CircleColliderComponent(float32 radius, const vec2& offset)
+	CircleColliderComponent::CircleColliderComponent
+		(float32 radius, 
+		const vec2& offset)
 		: BaseColliderComponent()
 		, m_Radius(radius)
 		, m_Offset(offset)
@@ -54,12 +62,15 @@ namespace star
 	{
 	}
 
-	CircleColliderComponent::CircleColliderComponent(float32 radius, const vec2& offset,
-		const tstring* layers, uint8 tag)
-			: BaseColliderComponent(layers, tag)
-			, m_Radius(radius)
-			, m_Offset(offset)
-			, m_bDefaultInitialized(false)
+	CircleColliderComponent::CircleColliderComponent(
+		float32 radius, 
+		const vec2& offset,
+		const tstring* layers, 
+		uint8 tag)
+		: BaseColliderComponent(layers, tag)
+		, m_Radius(radius)
+		, m_Offset(offset)
+		, m_bDefaultInitialized(false)
 	{
 	}
 
@@ -109,7 +120,10 @@ the CircleColliderComponent."));
 		return (Mag(point - GetPosition()) <= GetRealRadius());
 	}
 
-	bool CircleColliderComponent::CollidesWithLine(const vec2& point1, const vec2& point2) const
+	bool CircleColliderComponent::CollidesWithLine(
+		const vec2& point1,
+		const vec2& point2
+		) const
 	{
 		//Check if circle is inside of boundaries of the line.
 		vec2 circlePos(GetPosition());
@@ -195,8 +209,10 @@ The collierComponent to check is a nullptr"));
 		}
 	}
 
-	bool CircleColliderComponent::CircleCircleCollision(const CircleColliderComponent* collider1, 
-		const CircleColliderComponent* collider2) const
+	bool CircleColliderComponent::CircleCircleCollision(
+		const CircleColliderComponent* collider1, 
+		const CircleColliderComponent* collider2
+		) const
 	{
 		float32 radius1 = collider1->GetRealRadius();
 		float32 radius2 = collider2->GetRealRadius();

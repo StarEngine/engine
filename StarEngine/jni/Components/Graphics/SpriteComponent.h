@@ -6,11 +6,6 @@
 #include "../../Helpers/Filepath.h"
 #include "../../Graphics/Color.h"
 #include <vector>
-#ifdef ANDROID
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#include <EGL/egl.h>
-#endif
 
 namespace star
 {
@@ -24,6 +19,7 @@ namespace star
 			, colorMultiplier(Color::White)
 			, bIsHUD(false)
 		{}
+
 
 		std::vector<GLfloat> vertices;
 		std::vector<GLfloat> uvCoords;
@@ -59,10 +55,9 @@ namespace star
 		const tstring& GetName() const;
 		virtual int32 GetWidth() const;
 		virtual int32 GetHeight() const;
-		std::vector<GLfloat> GetVertices() const;
-		std::vector<GLfloat> GetUVCoords() const;
 		
 		void SetCurrentSegment(uint32 widthSegment, uint32 heightSegment);
+		void SetColorMultiplier(const Color & color);
 		void SetColorMultiplier(const Color & color);
 
 		void SetHUDOptionEnabled(bool enabled);
@@ -78,17 +73,21 @@ namespace star
 	protected:
 		virtual void InitializeComponent();
 		virtual void CreateVertices();
-		virtual void CreateIndices();
+		virtual void CreateUVCoords();
+		virtual void FillSpriteInfo();
 
-		GLfloat m_Vertices[12];
-		GLfloat m_UvCoords[8];
+		static const int VERTEX_AMOUNT = 12;
+		static const int UV_AMOUNT = 8;
+
+		float32 m_Vertices[VERTEX_AMOUNT];
+		float32 m_UvCoords[UV_AMOUNT];
 
 		uint32	m_WidthSegments,
 				m_HeightSegments, 
 				m_CurrentWidthSegment,
 				m_CurrentHeightSegment;
 
-		int32 m_Width, m_Heigth;
+		int32 m_Width, m_Height;
 
 	private:
 		void SetCurrentHorizontalSegment(uint32 segment);

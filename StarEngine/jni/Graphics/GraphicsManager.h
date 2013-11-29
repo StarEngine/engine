@@ -67,7 +67,7 @@ namespace star
 
 	private:
 		GraphicsManager();
-
+		void InitializeOpenGLStates();
 #ifdef DESKTOP
 		bool WGLExtensionSupported(const schar* extension_name);
 		bool InitializeOpenGLFunctors();
@@ -89,9 +89,9 @@ namespace star
 		bool mIsInitialized;
 
 #ifdef ANDROID
-        EGLDisplay mDisplay;
-        EGLSurface mSurface;
-        EGLContext mContext;
+		EGLDisplay mDisplay;
+		EGLSurface mSurface;
+		EGLContext mContext;
 #endif
 
 		GraphicsManager(const GraphicsManager& yRef);

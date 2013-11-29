@@ -11,16 +11,29 @@ namespace star
 	{
 	public:
 		CircleColliderComponent();
-		CircleColliderComponent(const tstring* layers, uint8 n = 1);
+		CircleColliderComponent(
+			const tstring* layers, 
+			uint8 n = 1);
 		CircleColliderComponent(float32 radius);
-		CircleColliderComponent(float32 radius, const tstring* layers, uint8 n = 1);
-		CircleColliderComponent(float32 radius, const vec2& offset);
-		CircleColliderComponent(float32 radius, const vec2& offset, 
-			const tstring* layers, uint8 n = 1);
-		~CircleColliderComponent(void);
+		CircleColliderComponent(
+			float32 radius, 
+			const tstring* layers, 
+			uint8 n = 1);
+		CircleColliderComponent(
+			float32 radius, 
+			const vec2& offset);
+		CircleColliderComponent(
+			float32 radius, 
+			const vec2& offset, 
+			const tstring* layers, 
+			uint8 n = 1);
+		~CircleColliderComponent();
 
 		bool CollidesWithPoint(const vec2& point) const;
-		bool CollidesWithLine(const vec2& point1, const vec2& point2) const;
+		bool CollidesWithLine(
+			const vec2& point1, 
+			const vec2& point2
+			) const;
 		bool CollidesWith(const BaseColliderComponent* other) const;
 
 		float32 GetRadius() const;
@@ -32,8 +45,10 @@ namespace star
 	protected:
 		void InitializeColliderComponent();
 		void Draw();
-		bool CircleCircleCollision(const CircleColliderComponent* collider1, 
-		const CircleColliderComponent* collider2) const;
+		bool CircleCircleCollision(
+			const CircleColliderComponent* collider1, 
+			const CircleColliderComponent* collider2
+			) const;
 
 		float32 m_Radius;
 		vec2 m_Offset;
