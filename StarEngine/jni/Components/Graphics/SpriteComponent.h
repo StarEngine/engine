@@ -60,7 +60,6 @@ namespace star
 		void SetColorMultiplier(const Color & color);
 		void SetCurrentHorizontalSegment(uint32 segment);
 		void SetCurrentVerticalSegment(uint32 segment);
-		void SetColorMultiplier(const Color & color);
 
 		void SetHUDOptionEnabled(bool enabled);
 		bool IsHUDOptionEnabled() const;

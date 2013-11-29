@@ -13,9 +13,6 @@
 
 namespace star
 {
-#define COLLISION_MANAGER (SceneManager::GetInstance()->\
-	GetActiveScene()->GetCollisionManager())
-
 	RectangleColliderComponent::RectangleColliderComponent()
 		: BaseColliderComponent()
 		, m_CollisionRect()
@@ -106,7 +103,6 @@ namespace star
 			{
 				Logger::GetInstance()->Log(spriteComp->IsInitialized(),
 					_T("First add the spriteComponent and then the rectColliderComp"));
-					First add the spriteComponent and then the rectColliderComp"));
 				m_CollisionRect.SetPoints(
 					vec2(0, 0),
 					vec2(spriteComp->GetWidth(), 0), 
@@ -122,11 +118,11 @@ namespace star
 If you don't need this, please specify a width and height in the constructor of \
 								If you don't need this, please specify a width \
 								and height in the constructor of \n\
-the RectangleColliderComponent."));
+								the RectangleColliderComponent."));
 			}
 		}
 
-		COLLISION_MANAGER->AddComponent(this, m_Layers.elements, m_Layers.amount);
+		GetParent()->GetScene()->GetCollisionManager()->AddComponent(this, m_Layers.elements, m_Layers.amount);
 	}
 
 	bool RectangleColliderComponent::CollidesWithPoint(const vec2& point) const

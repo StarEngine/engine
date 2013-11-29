@@ -154,16 +154,6 @@ namespace star
 		}
 	}
 
-	void SpriteComponent::SetCurrentHorizontalSegment(uint32 segment)
-	{
-		m_CurrentWidthSegment = segment;
-	}
-
-	void SpriteComponent::SetCurrentVerticalSegment(uint32 segment)
-	{
-		m_CurrentHeightSegment = m_HeightSegments - segment - 1;
-	}
-
 	void SpriteComponent::Draw()
 	{
 		m_SpriteInfo.transform = GetTransform()->GetWorldMatrix();
@@ -226,11 +216,16 @@ namespace star
 		m_CurrentHeightSegment = m_HeightSegments - heightSegment - 1;
 		CreateUVCoords();
 	}
-	
-	void SpriteComponent::SetColorMultiplier(const Color & color)
+
+	void SpriteComponent::SetCurrentHorizontalSegment(uint32 segment)
 	{
-		m_SpriteInfo.colorMultiplier = color;
+		m_CurrentHeightSegment = m_HeightSegments - segment - 1;
 		CreateUVCoords();
+	}
+
+	void SpriteComponent::SetCurrentVerticalSegment(uint32 segment)
+	{
+		m_CurrentWidthSegment = segment;
 		CreateUVCoords();
 	}
 
