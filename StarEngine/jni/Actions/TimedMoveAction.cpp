@@ -7,9 +7,10 @@ namespace star
 {
 	TimedMoveAction::TimedMoveAction(
 		float32 seconds,
-		const vec2 & target
+		const vec2 & target,
+		const std::function<void()> & callback
 		)
-		: TimedAction(seconds)
+		: TimedAction(seconds, callback)
 		, m_Direction(0, 0)
 		, m_Target(target)
 		, m_StartPosition(0,0)
@@ -23,9 +24,10 @@ namespace star
 	TimedMoveAction::TimedMoveAction(
 		const tstring & name,
 		float32 seconds,
-		const vec2 & target
+		const vec2 & target,
+		const std::function<void()> & callback
 		)
-		: TimedAction(name, seconds)
+		: TimedAction(name, seconds, callback)
 		, m_Direction(0, 0)
 		, m_Target(target)
 		, m_StartPosition(0,0)
@@ -39,9 +41,10 @@ namespace star
 	TimedMoveAction::TimedMoveAction(
 		float32 seconds,
 		const vec2 & direction,
-		float32 speed
+		float32 speed,
+		const std::function<void()> & callback
 		)
-		: TimedAction(seconds)
+		: TimedAction(seconds, callback)
 		, m_Direction(direction)
 		, m_Target(0, 0)
 		, m_StartPosition(0,0)
@@ -56,9 +59,10 @@ namespace star
 		const tstring & name,
 		float32 seconds,
 		const vec2 & direction,
-		float32 speed
+		float32 speed,
+		const std::function<void()> & callback
 		)
-		: TimedAction(name, seconds)
+		: TimedAction(name, seconds, callback)
 		, m_Direction(direction)
 		, m_Target(0, 0)
 		, m_StartPosition(0,0)

@@ -9,26 +9,30 @@ namespace star
 	public:
 		TimedMoveAction(
 			float32 seconds,
-			const vec2 & target
+			const vec2 & target,
+			const std::function<void()> & callback = nullptr
 			);
 
 		TimedMoveAction(
 			const tstring & name,
 			float32 seconds,
-			const vec2 & target
+			const vec2 & target,
+			const std::function<void()> & callback = nullptr
 			);
 
 		TimedMoveAction(
 			float32 seconds,
 			const vec2 & direction,
-			float32 speed
+			float32 speed,
+			const std::function<void()> & callback = nullptr
 			);
 
 		TimedMoveAction(
 			const tstring & name,
 			float32 seconds,
 			const vec2 & direction,
-			float32 speed
+			float32 speed,
+			const std::function<void()> & callback = nullptr
 			);
 
 		virtual ~TimedMoveAction();

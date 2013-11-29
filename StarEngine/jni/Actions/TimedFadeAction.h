@@ -13,14 +13,16 @@ namespace star
 		TimedFadeAction(
 			float32 seconds,
 			const Color & begin,
-			const Color & end
+			const Color & end,
+			const std::function<void()> & callback = nullptr
 			);
 
 		TimedFadeAction(
 			const tstring & name,
 			float32 seconds,
 			const Color & begin,
-			const Color & end
+			const Color & end,
+			const std::function<void()> & callback = nullptr
 			);
 
 		virtual ~TimedFadeAction();

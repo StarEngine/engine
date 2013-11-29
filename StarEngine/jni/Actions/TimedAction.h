@@ -8,10 +8,14 @@ namespace star
 	class TimedAction : public Action
 	{
 	public:
-		TimedAction(float32 seconds);
+		TimedAction(
+			float32 seconds,
+			const std::function<void()> & callback = nullptr
+			);
 		TimedAction(
 			const tstring & name,
-			float32 seconds
+			float32 seconds,
+			 const std::function<void()> & callback = nullptr
 			);
 
 		virtual ~TimedAction();
@@ -21,6 +25,8 @@ namespace star
 		virtual void Restart();
 		virtual void Pause();
 		virtual void Resume();
+		
+		void SetCallback(const std::function<void()> & callback);
 
 	protected:
 		std::function<void()> m_Callback;

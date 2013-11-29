@@ -8,9 +8,10 @@ namespace star
 	TimedFadeAction::TimedFadeAction(
 		float32 seconds,
 		const Color & begin,
-		const Color & end
+		const Color & end,
+		const std::function<void()> & callback
 		)
-		: TimedAction(seconds)
+		: TimedAction(seconds, callback)
 		, m_StartColor(begin)
 		, m_EndColor(end)
 		, m_CurrentSeconds(0)
@@ -23,9 +24,10 @@ namespace star
 		const tstring & name,
 		float32 seconds,
 		const Color & begin,
-		const Color & end
+		const Color & end,
+		const std::function<void()> & callback
 		)
-		: TimedAction(name, seconds)
+		: TimedAction(name, seconds, callback)
 		, m_StartColor(begin)
 		, m_EndColor(end)
 		, m_CurrentSeconds(0)

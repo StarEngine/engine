@@ -163,7 +163,7 @@ namespace star
 			+ name + _T("'."));
 	}
 
-	void Stopwatch::SetFunctionTimer(const tstring & name, std::function<void ()> func)
+	void Stopwatch::SetFunctionTimer(const tstring & name, const std::function<void ()> & func)
 	{
 		for(auto& it : m_TimerContainer)
 		{

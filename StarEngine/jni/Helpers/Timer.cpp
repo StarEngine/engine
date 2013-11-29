@@ -146,7 +146,7 @@ namespace star
 		}
 	}
 
-	void Timer::SetFunction(std::function<void ()> func)
+	void Timer::SetFunction(const std::function<void ()> & func)
 	{
 		m_ExcecutingFunction = func;
 	}

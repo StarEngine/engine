@@ -7,23 +7,27 @@ namespace star
 {
 	uint64 TimedAction::ID_COUNTER = 0;
 
-	TimedAction::TimedAction(float32 seconds)
+	TimedAction::TimedAction(
+		float32 seconds,
+		const std::function<void()> & callback
+		)
 		: Action()
 		, m_UniqueID(_T("TA_"))
 		, m_Seconds(seconds)
-		, m_Callback(nullptr)
+		, m_Callback(callback)
 	{
 		m_UniqueID += string_cast<tstring>(ID_COUNTER++);
 	}
 
 	TimedAction::TimedAction(
 		const tstring & name,
-		float32 seconds
+		float32 seconds,
+		const std::function<void()> & callback
 		)
 		: Action(name)
 		, m_UniqueID(_T("TA_"))
 		, m_Seconds(seconds)
-		, m_Callback(nullptr)
+		, m_Callback(callback)
 	{
 		m_UniqueID += string_cast<tstring>(ID_COUNTER++);
 	}
@@ -41,7 +45,7 @@ namespace star
 				if(m_Callback)
 				{
 					m_Callback();
-				}
+					}
 				Destroy();
 			});
 	}
@@ -68,5 +72,17 @@ namespace star
 			m_UniqueID,
 			false
 			);
+	}
+		
+	void TimedAction::SetCallback(const std::function<void()> & callback)
+	{
+		m_Callback = callback;
+		if(m_pParent && m_pParent->GetScene())
+		{
+			m_pParent->GetScene()->GetStopwatch()->SetFunctionTimer(
+				m_UniqueID,
+				m_Callback
+				);
+		}
 	}
 }
