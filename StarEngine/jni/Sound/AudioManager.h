@@ -122,9 +122,11 @@ namespace star
 		void IncreaseEffectVolume(const tstring& name, float32 volume);
 		void DecreaseEffectVolume(const tstring& name, float32 volume);
 
+		void MuteAllMusic(bool mute);
 		void SetMusicMuted(const tstring& name, bool muted);
 		bool IsMusicMuted(const tstring& name) const;
 
+		void MuteAllSoundEffects(bool mute);
 		void SetEffectMuted(const tstring& name, bool muted);
 		bool IsEffectMuted(const tstring& name) const;
 
@@ -226,6 +228,8 @@ namespace star
 		SoundEffect* mCurrentSoundEffect;
 
 		float32 mVolume;
+
+		bool mbMusicMuted,mbSoundEffectsMuted;
 
 #ifdef ANDROID
 		SLObjectItf mEngineObj;

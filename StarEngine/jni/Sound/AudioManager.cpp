@@ -33,6 +33,8 @@ namespace star
 		, mCurrentSoundFile(nullptr)
 		, mCurrentSoundEffect(nullptr)
 		, mVolume(1.0f)
+		, mbMusicMuted(false)
+		, mbSoundEffectsMuted(false)
 #ifdef ANDROID
 		, mEngineObj(nullptr)
 		, mEngine(nullptr)
@@ -337,6 +339,8 @@ namespace star
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
+		if(mbMusicMuted)return;
+
 		if(mMusicList.find(name) == mMusicList.end())
 		{
 			LoadMusic(path, name, channel);
@@ -351,6 +355,8 @@ namespace star
 	{
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
+
+		if(mbMusicMuted)return;
 
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -380,6 +386,8 @@ namespace star
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
+		if(mbSoundEffectsMuted)return;
+
 		if(mEffectsList.find(name) == mEffectsList.end())
 		{
 			LoadSoundEffect(path, name, channel);
@@ -394,6 +402,8 @@ namespace star
 	{
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
+
+		if(mbSoundEffectsMuted)return;
 
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
@@ -421,6 +431,8 @@ namespace star
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
+		if(mbMusicMuted)return;
+
 		if(mMusicList.find(name) == mMusicList.end())
 		{
 			LoadMusic(path, name, channel);
@@ -436,6 +448,8 @@ namespace star
 	{
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
+
+		if(mbMusicMuted)return;
 
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
@@ -467,6 +481,8 @@ namespace star
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
+		if(mbSoundEffectsMuted)return;
+
 		if(mEffectsList.find(name) == mEffectsList.end())
 		{
 			LoadSoundEffect(path, name, channel);
@@ -482,6 +498,8 @@ namespace star
 	{
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
+
+		if(mbSoundEffectsMuted)return;
 
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
@@ -523,6 +541,8 @@ namespace star
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
+		if(mbMusicMuted)return;
+
 		mQueueIterator = mBackgroundQueue.begin();
 		if(mQueueIterator != mBackgroundQueue.end())
 		{
@@ -539,6 +559,8 @@ namespace star
 	{
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
+
+		if(mbMusicMuted)return;
 
 		if(mBackgroundQueue.size() == 0)
 		{
@@ -574,6 +596,9 @@ namespace star
 
 	void AudioManager::ResumeMusic(const tstring & name)
 	{
+
+		if(mbMusicMuted)return;
+
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
@@ -683,6 +708,9 @@ namespace star
 
 	void AudioManager::ResumeEffect(const tstring & name)
 	{
+
+		if(mbSoundEffectsMuted)return;
+
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
@@ -896,6 +924,15 @@ namespace star
 		}
 	}
 
+	void AudioManager::MuteAllMusic( bool mute )
+	{
+		mbMusicMuted=mute;
+		for(auto& it : mMusicList)
+		{
+			it.second->SetMuted(mute);
+		}
+	}
+
 	void AudioManager::SetMusicMuted(const tstring& name, bool muted)
 	{
 		auto it = mMusicList.find(name);
@@ -924,6 +961,15 @@ namespace star
 				_T("AudioManager::IsMusicMuted: Couldn't find '") +
 				name + _T("'."));
 			return false;
+		}
+	}
+
+	void AudioManager::MuteAllSoundEffects( bool mute )
+	{
+		mbSoundEffectsMuted=mute;
+		for(auto& it : mEffectsList)
+		{
+			it.second->SetMuted(mute);
 		}
 	}
 
@@ -1460,6 +1506,8 @@ namespace star
 	{
 		return mOutputMixObj;
 	}
+
+
 #endif
 
 	AudioManager::SoundChannel::SoundChannel()
