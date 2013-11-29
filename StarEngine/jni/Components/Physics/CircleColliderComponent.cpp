@@ -10,9 +10,6 @@
 
 namespace star
 {
-#define COLLISION_MANAGER (SceneManager::GetInstance()->\
-	GetActiveScene()->GetCollisionManager())
-
 	CircleColliderComponent::CircleColliderComponent()
 		: BaseColliderComponent()
 		, m_Radius(0)
@@ -111,7 +108,8 @@ the CircleColliderComponent."));
 		}
 		Logger::GetInstance()->Log(m_Radius > 0, _T("Invalid Radius: Radius has to be > 0"));
 
-		COLLISION_MANAGER->AddComponent(this, m_Layers.elements, m_Layers.amount);
+		GetParent()->GetScene()->GetCollisionManager()->
+			AddComponent(this, m_Layers.elements, m_Layers.amount);
 	}
 
 	bool CircleColliderComponent::CollidesWithPoint(const vec2& point) const

@@ -58,15 +58,11 @@ namespace star
 		
 		void SetCurrentSegment(uint32 widthSegment, uint32 heightSegment);
 		void SetColorMultiplier(const Color & color);
-		void SetColorMultiplier(const Color & color);
 
 		void SetHUDOptionEnabled(bool enabled);
 		bool IsHUDOptionEnabled() const;
 
 		void SetTexture(
-			const tstring& filepath,
-			const tstring& spriteName,
-			uint32 widthSegments = 1,
 			uint32 heightSegments = 1
 			);
 
@@ -74,6 +70,7 @@ namespace star
 		virtual void InitializeComponent();
 		virtual void CreateVertices();
 		virtual void CreateUVCoords();
+		void SetUVCoords(const vec4& coords);
 		virtual void FillSpriteInfo();
 
 		static const int VERTEX_AMOUNT = 12;
@@ -90,8 +87,6 @@ namespace star
 		int32 m_Width, m_Height;
 
 	private:
-		void SetCurrentHorizontalSegment(uint32 segment);
-		void SetCurrentVerticalSegment(uint32 segment);
 
 		Filepath m_FilePath;
 		tstring m_SpriteName;

@@ -28,15 +28,18 @@ namespace star
 			m_Animations.front().Update(context);
 			auto uvInfo = m_Animations.front().GetCurrentUV();
 
-			m_UvCoords[0] = uvInfo.x + uvInfo.z;
-			m_UvCoords[1] = uvInfo.y + uvInfo.w;
-			m_UvCoords[2] = uvInfo.x + uvInfo.z;
-			m_UvCoords[3] = uvInfo.y;
-			m_UvCoords[4] = uvInfo.x;
-			m_UvCoords[5] = uvInfo.y + uvInfo.w;
-			m_UvCoords[6] = uvInfo.x;
-			m_UvCoords[7] = uvInfo.y;
+			/*
+			*  TL    TR
+			*   0----1 
+			*   |   /| 
+			*   |  / |
+			*   | /  |
+			*   |/   |
+			*   2----3
+			*  BL    BR
+			*/
 
+			SetUVCoords(uvInfo);
 		}
 		SpriteComponent::Update(context);
 	}
@@ -280,18 +283,17 @@ namespace star
 
 	void SpritesheetComponent::CreateVertices()
 	{
-		m_Vertices[0] = (GLfloat)m_Width / GetFramesHorizontal();
-		m_Vertices[1] = (GLfloat)m_Height / GetFramesVertical();
-		m_Vertices[2] = 0;
-		m_Vertices[3] = (GLfloat)m_Width / GetFramesHorizontal();
-		m_Vertices[4] = 0;
-		m_Vertices[5] = 0;
-		m_Vertices[6] = 0;
-		m_Vertices[7] = (GLfloat)m_Height / GetFramesVertical();
-		m_Vertices[8] = 0;
-		m_Vertices[9] = 0;
-		m_Vertices[10] = 0;
-		m_Vertices[11] = 0;
+		//0
+		m_Vertices[1] = float32(m_Height / GetFramesVertical());
+
+		//1
+		m_Vertices[3] = float32(m_Width / GetFramesHorizontal());
+		m_Vertices[4] = float32(m_Height / GetFramesVertical());
+
+		//2
+
+		//3
+		m_Vertices[9] = float32(m_Width / GetFramesHorizontal());
 	}
 
 	void SpritesheetComponent::SetCallbackAnimations( const std::function<void()> & callback )

@@ -108,6 +108,11 @@ namespace star
 			float32(m_HeightSegments);
 		float32 endY = 1.0f / m_HeightSegments;
 
+		SetUVCoords(vec4(startX, startY, endX, endY));
+	}
+
+	void SpriteComponent::SetUVCoords(const vec4& coords)
+	{
 		/*
 		*  TL    TR
 		*   0----1 
@@ -120,20 +125,20 @@ namespace star
 		*/
 
 		//0
-		m_UvCoords[0] = startX;
-		m_UvCoords[1] = startY + endY;
+		m_UvCoords[0] = coords.x;
+		m_UvCoords[1] = coords.y + coords.w;
 
 		//1
-		m_UvCoords[2] = startX + endX;
-		m_UvCoords[3] = startY + endY;
+		m_UvCoords[2] = coords.x + coords.z;
+		m_UvCoords[3] = coords.y + coords.w;
 
 		//2
-		m_UvCoords[4] = startX;
-		m_UvCoords[5] = startY;
+		m_UvCoords[4] = coords.x;
+		m_UvCoords[5] = coords.y;
 
 		//3
-		m_UvCoords[6] = startX + endX;
-		m_UvCoords[7] = startY;
+		m_UvCoords[6] = coords.x + coords.z;
+		m_UvCoords[7] = coords.y;
 
 		//[TODO] Change to this much simpler implementation
 		/*
@@ -152,16 +157,6 @@ namespace star
 			
 			m_SpriteInfo.uvCoords.push_back(m_UvCoords[i]); 
 		}
-	}
-
-	void SpriteComponent::SetCurrentHorizontalSegment(uint32 segment)
-	{
-		m_CurrentWidthSegment = segment;
-	}
-
-	void SpriteComponent::SetCurrentVerticalSegment(uint32 segment)
-	{
-		m_CurrentHeightSegment = m_HeightSegments - segment - 1;
 	}
 
 	void SpriteComponent::Draw()
@@ -229,8 +224,9 @@ namespace star
 	
 	void SpriteComponent::SetColorMultiplier(const Color & color)
 	{
-		m_SpriteInfo.colorMultiplier = color;
+		m_CurrentHeightSegment = m_HeightSegments - segment - 1;
 		CreateUVCoords();
+		m_CurrentWidthSegment = segment;
 		CreateUVCoords();
 	}
 

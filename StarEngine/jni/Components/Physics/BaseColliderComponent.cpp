@@ -53,7 +53,7 @@ namespace star
 
 	BaseColliderComponent::~BaseColliderComponent()
 	{
-		SceneManager::GetInstance()->GetActiveScene()->
+		GetParent()->GetScene()->
 			GetCollisionManager()->RemoveComponent(this);
 		delete[] m_Layers.elements;
 	}
