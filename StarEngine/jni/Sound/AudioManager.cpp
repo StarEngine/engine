@@ -34,7 +34,7 @@ namespace star
 		, mCurrentSoundEffect(nullptr)
 		, mVolume(1.0f)
 		, mbMusicMuted(false)
-		, mbSoundEffectsMuted(false)
+		, mbEffectsMuted(false)
 #ifdef ANDROID
 		, mEngineObj(nullptr)
 		, mEngine(nullptr)
@@ -233,9 +233,9 @@ namespace star
 		LoadMusic(path, name, 1.0f, channel);
 	}
 
-	void AudioManager::LoadSoundEffect(const tstring& path, const tstring& name, uint8 channel)
+	void AudioManager::LoadEffect(const tstring& path, const tstring& name, uint8 channel)
 	{
-		LoadSoundEffect(path, name, 1.0f, channel);
+		LoadEffect(path, name, 1.0f, channel);
 	}
 
 	void AudioManager::LoadMusic(
@@ -285,7 +285,7 @@ namespace star
 		return;
 	}
 
-	void AudioManager::LoadSoundEffect(
+	void AudioManager::LoadEffect(
 		const tstring& path,
 		const tstring& name,
 		float32 volume,
@@ -339,8 +339,6 @@ namespace star
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
-		if(mbMusicMuted)return;
-
 		if(mMusicList.find(name) == mMusicList.end())
 		{
 			LoadMusic(path, name, channel);
@@ -356,13 +354,12 @@ namespace star
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
-		if(mbMusicMuted)return;
-
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
 			if(mCurrentSoundFile != nullptr) mCurrentSoundFile->Stop();
 			mCurrentSoundFile = mMusicList[name];
+			mCurrentSoundFile->SetMuted(mbMusicMuted);
 			mCurrentSoundFile->Play(loopTimes);
 			return;
 		}
@@ -376,7 +373,7 @@ namespace star
 		}
 	}
 
-	void AudioManager::PlaySoundEffect(
+	void AudioManager::PlayEffect(
 		const tstring& path,
 		const tstring& name,
 		uint8 channel,
@@ -386,16 +383,14 @@ namespace star
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
-		if(mbSoundEffectsMuted)return;
-
 		if(mEffectsList.find(name) == mEffectsList.end())
 		{
-			LoadSoundEffect(path, name, channel);
+			LoadEffect(path, name, channel);
 		}
-		PlaySoundEffect(name, loopTimes);
+		PlayEffect(name, loopTimes);
 	}
 
-	void AudioManager::PlaySoundEffect(
+	void AudioManager::PlayEffect(
 		const tstring& name,
 		int32 loopTimes
 		)
@@ -403,19 +398,18 @@ namespace star
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
-		if(mbSoundEffectsMuted)return;
-
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
 			mCurrentSoundEffect = mEffectsList[name];
+			mCurrentSoundEffect->SetMuted(mbEffectsMuted);
 			mCurrentSoundEffect->Play(loopTimes);
 		}
 		else
 		{
 			star::Logger::GetInstance()->
 				Log(LogLevel::Warning,
-				_T("AudioManager::PlaySoundEffect: Couldn't find effect '") + name +
+				_T("AudioManager::PlayEffect: Couldn't find effect '") + name +
 				_T("'."));
 		}
 	}
@@ -430,8 +424,6 @@ namespace star
 	{
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
-
-		if(mbMusicMuted)return;
 
 		if(mMusicList.find(name) == mMusicList.end())
 		{
@@ -449,14 +441,13 @@ namespace star
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
-		if(mbMusicMuted)return;
-
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
 			if(mCurrentSoundFile != nullptr) mCurrentSoundFile->Stop();
 			mCurrentSoundFile = mMusicList[name];
 			mCurrentSoundFile->Play(loopTimes);
+			mCurrentSoundFile->SetMuted(mbMusicMuted);
 			mCurrentSoundFile->SetBaseVolume(volume);
 			return;
 		}
@@ -470,7 +461,7 @@ namespace star
 		}
 	}
 
-	void AudioManager::PlaySoundEffect(
+	void AudioManager::PlayEffect(
 		const tstring& path,
 		const tstring& name,
 		float32 volume,
@@ -481,16 +472,14 @@ namespace star
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
-		if(mbSoundEffectsMuted)return;
-
 		if(mEffectsList.find(name) == mEffectsList.end())
 		{
-			LoadSoundEffect(path, name, channel);
+			LoadEffect(path, name, channel);
 		}
-		PlaySoundEffect(name, volume, loopTimes);
+		PlayEffect(name, volume, loopTimes);
 	}
 
-	void AudioManager::PlaySoundEffect(
+	void AudioManager::PlayEffect(
 		const tstring& name,
 		float32 volume,
 		int32 loopTimes
@@ -499,20 +488,19 @@ namespace star
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
-		if(mbSoundEffectsMuted)return;
-
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
 			mCurrentSoundEffect = mEffectsList[name];
 			mCurrentSoundEffect->Play(loopTimes);
+			mCurrentSoundEffect->SetMuted(mbEffectsMuted);
 			mCurrentSoundEffect->SetBaseVolume(volume);
 		}
 		else
 		{
 			star::Logger::GetInstance()->
 				Log(LogLevel::Warning,
-				_T("AudioManager::PlaySoundEffect: Couldn't find effect '") + name +
+				_T("AudioManager::PlayEffect: Couldn't find effect '") + name +
 				_T("'."));
 		}
 	}
@@ -525,7 +513,9 @@ namespace star
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
-			mBackgroundQueue.push_back(mMusicList[name]);
+			auto music = mMusicList[name];
+			music->SetMuted(mbMusicMuted);
+			mBackgroundQueue.push_back(music);
 		}
 		else
 		{
@@ -541,11 +531,10 @@ namespace star
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
-		if(mbMusicMuted)return;
-
 		mQueueIterator = mBackgroundQueue.begin();
 		if(mQueueIterator != mBackgroundQueue.end())
 		{
+			(*mQueueIterator)->SetMuted(mbMusicMuted);
 			(*mQueueIterator)->PlayQueued(0);
 		}
 		else
@@ -560,8 +549,6 @@ namespace star
 		Logger::GetInstance()->Log(mSoundService != nullptr,
 			_T("Sound Service is invalid."));
 
-		if(mbMusicMuted)return;
-
 		if(mBackgroundQueue.size() == 0)
 		{
 			return;
@@ -570,11 +557,7 @@ namespace star
 		++mQueueIterator;
 		if(mQueueIterator != mBackgroundQueue.end())
 		{
-			(*mQueueIterator)->PlayQueued(0);
-		}
-		else
-		{
-			mQueueIterator == mBackgroundQueue.begin();
+			(*mQueueIterator)->SetMuted(mbMusicMuted);
 			(*mQueueIterator)->PlayQueued(0);
 		}
 	}
@@ -596,12 +579,10 @@ namespace star
 
 	void AudioManager::ResumeMusic(const tstring & name)
 	{
-
-		if(mbMusicMuted)return;
-
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
+			it->second->SetMuted(mbMusicMuted);
 			it->second->Resume();
 		}
 		else
@@ -708,12 +689,10 @@ namespace star
 
 	void AudioManager::ResumeEffect(const tstring & name)
 	{
-
-		if(mbSoundEffectsMuted)return;
-
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
+			it->second->SetMuted(mbEffectsMuted);
 			it->second->Resume();
 		}
 		else
@@ -924,10 +903,10 @@ namespace star
 		}
 	}
 
-	void AudioManager::MuteAllMusic( bool mute )
+	void AudioManager::MuteAllMusic(bool mute)
 	{
-		mbMusicMuted=mute;
-		for(auto& it : mMusicList)
+		mbMusicMuted = mute;
+		for(auto & it : mMusicList)
 		{
 			it.second->SetMuted(mute);
 		}
@@ -935,6 +914,11 @@ namespace star
 
 	void AudioManager::SetMusicMuted(const tstring& name, bool muted)
 	{
+		if(mbMusicMuted && !muted)
+		{
+			mbMusicMuted = false;
+			MuteAllMusic(false);
+		}
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
@@ -964,10 +948,10 @@ namespace star
 		}
 	}
 
-	void AudioManager::MuteAllSoundEffects( bool mute )
+	void AudioManager::MuteAllEffects(bool mute)
 	{
-		mbSoundEffectsMuted=mute;
-		for(auto& it : mEffectsList)
+		mbEffectsMuted = mute;
+		for(auto & it : mEffectsList)
 		{
 			it.second->SetMuted(mute);
 		}
@@ -975,6 +959,11 @@ namespace star
 
 	void AudioManager::SetEffectMuted(const tstring& name, bool muted)
 	{
+		if(mbEffectsMuted && !muted)
+		{
+			mbEffectsMuted = false;
+			MuteAllEffects(false);
+		}
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{

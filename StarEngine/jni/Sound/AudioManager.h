@@ -22,7 +22,7 @@ namespace star
 			const tstring& name,
 			uint8 channel = 0
 			);
-		void LoadSoundEffect(
+		void LoadEffect(
 			const tstring& path,
 			const tstring& name,
 			uint8 channel = 0
@@ -34,7 +34,7 @@ namespace star
 			float32 volume,
 			uint8 channel = 0
 			);
-		void LoadSoundEffect(
+		void LoadEffect(
 			const tstring& path,
 			const tstring& name,
 			float32 volume,
@@ -51,13 +51,13 @@ namespace star
 			const tstring& name,
 			int32 loopTimes = 0
 			);
-		void PlaySoundEffect(
+		void PlayEffect(
 			const tstring& path,
 			const tstring& name,
 			uint8 channel = 0,
 			int32 loopTimes = 0
 			);
-		void PlaySoundEffect(
+		void PlayEffect(
 			const tstring& name,
 			int32 loopTimes = 0.0f
 			);
@@ -74,14 +74,14 @@ namespace star
 			float32 volume,
 			int32 loopTimes = 0
 			);
-		void PlaySoundEffect(
+		void PlayEffect(
 			const tstring& path,
 			const tstring& name,
 			float32 volume,
 			uint8 channel = 0,
 			int32 loopTimes = 0
 			);
-		void PlaySoundEffect(
+		void PlayEffect(
 			const tstring& name,
 			float32 volume,
 			int32 loopTimes = 0.0f
@@ -126,7 +126,7 @@ namespace star
 		void SetMusicMuted(const tstring& name, bool muted);
 		bool IsMusicMuted(const tstring& name) const;
 
-		void MuteAllSoundEffects(bool mute);
+		void MuteAllEffects(bool mute);
 		void SetEffectMuted(const tstring& name, bool muted);
 		bool IsEffectMuted(const tstring& name) const;
 
@@ -229,7 +229,8 @@ namespace star
 
 		float32 mVolume;
 
-		bool mbMusicMuted,mbSoundEffectsMuted;
+		bool	mbMusicMuted,
+				mbEffectsMuted;
 
 #ifdef ANDROID
 		SLObjectItf mEngineObj;
