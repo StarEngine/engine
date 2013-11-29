@@ -34,7 +34,7 @@ namespace star
 
 	bool TextureManager::LoadTexture(const tstring& path, const tstring& name)
 	{
-		ASSERT(mTextureManager != nullptr, _T("Texture manager is invalid."));
+		Logger::GetInstance()->Log(mTextureManager != nullptr, _T("Texture manager is invalid."));
 
 
 		if(mTextureMap.find(name) != mTextureMap.end())
@@ -74,7 +74,7 @@ namespace star
 
 	bool TextureManager::DeleteTexture(const tstring& name)
 	{
-		ASSERT(mTextureManager != nullptr, _T("Texture manager is invalid."));
+		Logger::GetInstance()->Log(mTextureManager != nullptr, _T("Texture manager is invalid."));
 
 		auto it = mTextureMap.find(name);
 		if(it != mTextureMap.end())
@@ -87,7 +87,7 @@ namespace star
 
 	GLuint TextureManager::GetTextureID(const tstring& name)
 	{
-		ASSERT(mTextureManager != nullptr, _T("Texture manager is invalid."));
+		Logger::GetInstance()->Log(mTextureManager != nullptr, _T("Texture manager is invalid."));
 
 		if(mTextureMap.find(name) != mTextureMap.end())
 		{
@@ -98,7 +98,7 @@ namespace star
 
 	ivec2 TextureManager::GetTextureDimensions(const tstring& name)
 	{
-		ASSERT(mTextureManager != nullptr, _T("Texture manager is invalid."));
+		Logger::GetInstance()->Log(mTextureManager != nullptr, _T("Texture manager is invalid."));
 
 		auto it = mTextureMap.find(name);
 		if(it != mTextureMap.end())

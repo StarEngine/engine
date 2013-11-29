@@ -26,7 +26,9 @@ namespace star
 		void SetLoop(bool looping);
 		void Reset(bool paused = false);
 		void SetTargetTime(float64 targetTime, bool reset = true, bool paused = false);
-		void SetFunction(std::function<void ()> func);
+		void SetFunction(const std::function<void ()> & func);
+		float64 ForceEnd();
+		void Forward(float64 time);
 
 		int32 GetCurrentMinutes() const;
 		int32 GetCurrentSeconds() const;

@@ -38,10 +38,12 @@ namespace star
 
 		void SetColor(const Color & color);
 
-	protected:
-		virtual void Update(const Context& context);
-		virtual void Draw();
+		virtual vec2 GetDimensions() const;
 
+		int32 GetWidth() const;
+		int32 GetHeight() const;
+
+	protected:
 		TextComponent * m_pTextComponent;
 
 	private:

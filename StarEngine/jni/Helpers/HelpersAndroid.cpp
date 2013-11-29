@@ -6,6 +6,7 @@
 #include <android_native_app_glue.h>
 #include "../StarEngine.h"
 #include "Helpers.h"
+#include "../Logger.h"
 
 namespace star_a
 {
@@ -18,7 +19,8 @@ namespace star_a
 				star::string_cast<sstring>(path.c_str()).c_str(),
 				AASSET_MODE_UNKNOWN
 				);
-		ASSERT(asset != NULL, (_T("Couldn't find '") + path + _T("'.")).c_str());
+		star::Logger::GetInstance()->Log(asset != NULL,
+			_T("Couldn't find '") + path + _T("'."));
 		data.size = AAsset_getLength(asset);
 		data.data = new schar[sizeof(schar) * data.size];
 		AAsset_read(asset, data.data, data.size);

@@ -24,13 +24,47 @@ namespace star
 		
 	}
 
-	void UIButton::Update(const Context& context)
+	void UIButton::AfterInitialized()
 	{
-		UIStaticButton::Update(context);
+		GoIdle();
+		UIStaticButton::AfterInitialized();
+	}
 
+	void UIButton::GoIdle()
+	{
 		m_pButtonSprite->SetCurrentSegment(
-			m_IsVertical ? 0 : int32(m_ElementState),
-			m_IsVertical ? int32(m_ElementState) : 0
+			m_IsVertical ? 0 : int8(m_ElementState),
+			m_IsVertical ? int8(m_ElementState) : 0
 			);
+		UIUserElement::GoIdle();
+	}
+
+#ifdef DESKTOP
+	void UIButton::GoHover()
+	{
+		m_pButtonSprite->SetCurrentSegment(
+			m_IsVertical ? 0 : int8(m_ElementState),
+			m_IsVertical ? int8(m_ElementState) : 0
+			);
+		UIUserElement::GoHover();
+	}
+#endif
+
+	void UIButton::GoDown()
+	{
+		m_pButtonSprite->SetCurrentSegment(
+			m_IsVertical ? 0 : int8(m_ElementState),
+			m_IsVertical ? int8(m_ElementState) : 0
+			);
+		UIUserElement::GoDown();
+	}
+
+	void UIButton::GoFreeze()
+	{
+		m_pButtonSprite->SetCurrentSegment(
+			m_IsVertical ? 0 : DISABLE_STATE_ID,
+			m_IsVertical ? DISABLE_STATE_ID : 0
+			);
+		UIUserElement::GoFreeze();
 	}
 }

@@ -5,13 +5,6 @@
 
 namespace star
 {
-	const tstring UIAnimatedButton::N_CLICK = _T("click");
-	const tstring UIAnimatedButton::N_IDLE = _T("idle");
-#ifdef DESKTOP
-	const tstring UIAnimatedButton::N_HOVER = _T("hover");
-#endif
-	const tstring UIAnimatedButton::N_DISABLED = _T("disable");
-
 	UIAnimatedButton::UIAnimatedButton(
 		const tstring & name,
 		const tstring & file,
@@ -34,16 +27,16 @@ namespace star
 		
 	}
 
-	void UIAnimatedButton::Initialize()
+	void UIAnimatedButton::AfterInitialized()
 	{
-		UIUserElement::Initialize();
+		GoIdle();
+
+		UIUserElement::AfterInitialized();
 	}
 	
 	void UIAnimatedButton::SetHorizontalAlignment(HorizontalAlignment alignment)
 	{
-		UIElement::SetHorizontalAlignment(alignment);
-
-		switch(m_HorizontalAlignment)
+		switch(alignment)
 		{
 			case HorizontalAlignment::Left:
 				GetTransform()->SetCenterX(0);
@@ -60,13 +53,12 @@ namespace star
 				break;
 		}
 
+		UIElement::SetHorizontalAlignment(alignment);
 	}
 
 	void UIAnimatedButton::SetVerticalAlignment(VerticalAlignment alignment)
 	{
-		UIElement::SetVerticalAlignment(alignment);
-
-		switch(m_VerticalAlignment)
+		switch(alignment)
 		{
 			case VerticalAlignment::Bottom:
 				GetTransform()->SetCenterY(0);
@@ -82,6 +74,8 @@ namespace star
 					);
 				break;
 		}
+
+		UIElement::SetVerticalAlignment(alignment);
 	}
 
 	void UIAnimatedButton::EnableContiniousAnimation(bool enabled)
@@ -94,88 +88,131 @@ namespace star
 		return m_ContiniousAnimation;
 	}
 
-	void UIAnimatedButton::Update(const Context& context)
+	vec2 UIAnimatedButton::GetDimensions() const
 	{
-		UIUserElement::Update(context);
-	}
-
-	void UIAnimatedButton::Draw()
-	{
-		UIUserElement::Draw();
+		return vec2(m_pButtonSprite->GetWidth(), m_pButtonSprite->GetHeight());
 	}
 
 	void UIAnimatedButton::GoIdle()
 	{
-		UIUserElement::GoIdle();
-		if(m_pButtonSprite->GetCurrentAnimation() != N_IDLE)
+		if(m_pButtonSprite->GetCurrentAnimation() != UI_STATE_IDLE)
 		{
 			if(m_ContiniousAnimation)
 			{
-				m_pButtonSprite->PlayAnimation(N_IDLE, m_pButtonSprite->GetCurrentFrame());
+				if(!m_pButtonSprite->PlayAnimationSafe(
+					UI_STATE_IDLE, m_pButtonSprite->GetCurrentFrame()))
+				{
+					Logger::GetInstance()->Log(LogLevel::Warning,
+						_T("UIAnimatedButton::GoIdle: Animation '")
+						+ tstring(UI_STATE_IDLE) +
+						_T("' is not defined in the used spritesheet."));
+				}
 			}
 			else
 			{
-				m_pButtonSprite->PlayAnimation(N_IDLE);
+				if(!m_pButtonSprite->PlayAnimationSafe(
+					UI_STATE_IDLE))
+				{
+					Logger::GetInstance()->Log(LogLevel::Warning,
+						_T("UIAnimatedButton::GoIdle: Animation '")
+						+ tstring(UI_STATE_IDLE) +
+						_T("' is not defined in the used spritesheet."));
+				}
 			}
 		}
+
+		UIUserElement::GoIdle();
 	}
 
 #ifdef DESKTOP
 	void UIAnimatedButton::GoHover()
 	{
-		UIUserElement::GoHover();
-		if(m_pButtonSprite->GetCurrentAnimation() != N_HOVER)
+		if(m_pButtonSprite->GetCurrentAnimation() != UI_STATE_HOVER)
 		{
 			if(m_ContiniousAnimation)
 			{
-				m_pButtonSprite->PlayAnimation(N_HOVER, m_pButtonSprite->GetCurrentFrame());
+				if(!m_pButtonSprite->PlayAnimationSafe(
+					UI_STATE_HOVER, m_pButtonSprite->GetCurrentFrame()))
+				{
+					Logger::GetInstance()->Log(LogLevel::Warning,
+						_T("UIAnimatedButton::GoHover: Animation '")
+						+ tstring(UI_STATE_HOVER) +
+						_T("' is not defined in the used spritesheet."));
+				}
 			}
 			else
 			{
-				m_pButtonSprite->PlayAnimation(N_HOVER);
+				if(!m_pButtonSprite->PlayAnimationSafe(
+					UI_STATE_HOVER))
+				{
+					Logger::GetInstance()->Log(LogLevel::Warning,
+						_T("UIAnimatedButton::GoHover: Animation '")
+						+ tstring(UI_STATE_HOVER) +
+						_T("' is not defined in the used spritesheet."));
+				}
 			}
 		}
+		UIUserElement::GoHover();
 	}
 #endif
 
-	void UIAnimatedButton::GoClick()
+	void UIAnimatedButton::GoDown()
 	{
-		UIUserElement::GoClick();
-		if(m_pButtonSprite->GetCurrentAnimation() != N_CLICK)
+		if(m_pButtonSprite->GetCurrentAnimation() != UI_STATE_CLICK)
 		{
 			if(m_ContiniousAnimation)
 			{
-				m_pButtonSprite->PlayAnimation(N_CLICK, m_pButtonSprite->GetCurrentFrame());
+				if(!m_pButtonSprite->PlayAnimationSafe(
+					UI_STATE_CLICK, m_pButtonSprite->GetCurrentFrame()))
+				{
+					Logger::GetInstance()->Log(LogLevel::Warning,
+						_T("UIAnimatedButton::GoDown: Animation '")
+						+ tstring(UI_STATE_CLICK) +
+						_T("' is not defined in the used spritesheet."));
+				}
 			}
 			else
 			{
-				m_pButtonSprite->PlayAnimation(N_CLICK);
+				if(!m_pButtonSprite->PlayAnimationSafe(
+					UI_STATE_CLICK))
+				{
+					Logger::GetInstance()->Log(LogLevel::Warning,
+						_T("UIAnimatedButton::GoDown: Animation '")
+						+ tstring(UI_STATE_CLICK) +
+						_T("' is not defined in the used spritesheet."));
+				}
 			}
 		}
+		UIUserElement::GoDown();
 	}
 
 	void UIAnimatedButton::GoFreeze()
 	{
-		UIUserElement::GoFreeze();
-		if(m_pButtonSprite->GetCurrentAnimation() != N_DISABLED)
+		if(m_pButtonSprite->GetCurrentAnimation() != UI_STATE_DISABLE)
 		{
 			if(m_ContiniousAnimation)
 			{
-				m_pButtonSprite->PlayAnimation(N_DISABLED, m_pButtonSprite->GetCurrentFrame());
+				if(!m_pButtonSprite->PlayAnimationSafe(
+					UI_STATE_DISABLE, m_pButtonSprite->GetCurrentFrame()))
+				{
+					Logger::GetInstance()->Log(LogLevel::Warning,
+						_T("UIAnimatedButton::GoFreeze: Animation '")
+						+ tstring(UI_STATE_DISABLE) +
+						_T("' is not defined in the used spritesheet."));
+				}
 			}
 			else
 			{
-				m_pButtonSprite->PlayAnimation(N_DISABLED);
+				if(!m_pButtonSprite->PlayAnimationSafe(
+					UI_STATE_DISABLE))
+				{
+					Logger::GetInstance()->Log(LogLevel::Warning,
+						_T("UIAnimatedButton::GoFreeze: Animation '")
+						+ tstring(UI_STATE_DISABLE) +
+						_T("' is not defined in the used spritesheet."));
+				}
 			}
 		}
-	}
-
-	vec2 UIAnimatedButton::GetUserElementDimensions() const
-	{
-		vec2 dimensions(
-			float32(m_pButtonSprite->GetWidth()),
-			float32(m_pButtonSprite->GetHeight())
-			);
-		return dimensions;
+		UIUserElement::GoFreeze();
 	}
 }

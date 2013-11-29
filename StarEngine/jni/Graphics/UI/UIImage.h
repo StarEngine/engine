@@ -1,5 +1,6 @@
 #pragma once
 #include "UIElement.h"
+#include "../Color.h"
 
 namespace star
 {
@@ -18,19 +19,16 @@ namespace star
 
 		virtual ~UIImage(void);
 
-		virtual void Initialize();
-
 		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
 		virtual void SetVerticalAlignment(VerticalAlignment alignment);
 
-		void SetCurrentHorizontalSegement(uint32 segment);
-		void SetCurrentVerticalSegement(uint32 segment);
 		void SetCurrentSegement(uint32 segmentX, uint32 segmentY);
 
-	protected:
-		virtual void Update(const Context& context);
-		virtual void Draw();
+		void SetColorMultiplier(const Color & color);
 
+		virtual vec2 GetDimensions() const;
+
+	protected:
 		SpriteComponent * m_pSprite;
 
 	private:

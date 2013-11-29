@@ -13,6 +13,7 @@ namespace star
 		, m_CurrentRepeats(0)
 		, m_UVScale(0,0)
 		, m_Callback(nullptr)
+		, m_UserCallback(nullptr)
 		, m_Frames()
 		, m_IsPlaying(true)
 	{
@@ -28,6 +29,7 @@ namespace star
 		, m_CurrentRepeats(0)
 		, m_UVScale(uv_scale)
 		, m_Callback(nullptr)
+		, m_UserCallback(nullptr)
 		, m_Frames()
 		, m_IsPlaying(true)
 	{
@@ -42,6 +44,7 @@ namespace star
 		, m_CurrentRepeats(yRef.m_CurrentRepeats)
 		, m_UVScale(yRef.m_UVScale)
 		, m_Callback(yRef.m_Callback)
+		, m_UserCallback(yRef.m_UserCallback)
 		, m_Frames(yRef.m_Frames)
 		, m_IsPlaying(yRef.m_IsPlaying)
 	{
@@ -55,6 +58,7 @@ namespace star
 		, m_CurrentRepeats(yRef.m_CurrentRepeats)
 		, m_UVScale(yRef.m_UVScale)
 		, m_Callback(yRef.m_Callback)
+		, m_UserCallback(yRef.m_UserCallback)
 		, m_Frames(yRef.m_Frames)
 		, m_IsPlaying(yRef.m_IsPlaying)
 	{
@@ -74,6 +78,7 @@ namespace star
 		m_CurrentRepeats = yRef.m_CurrentRepeats;
 		m_UVScale = yRef.m_UVScale;
 		m_Callback = yRef.m_Callback;
+		m_UserCallback = yRef.m_UserCallback;
 		m_Frames = yRef.m_Frames;
 		m_IsPlaying = yRef.m_IsPlaying;
 
@@ -89,6 +94,7 @@ namespace star
 		m_CurrentRepeats = yRef.m_CurrentRepeats;
 		m_UVScale = yRef.m_UVScale;
 		m_Callback = yRef.m_Callback;
+		m_UserCallback = yRef.m_UserCallback;
 		m_Frames = yRef.m_Frames;
 		m_IsPlaying = yRef.m_IsPlaying;
 
@@ -123,6 +129,10 @@ namespace star
 					if(m_Callback != nullptr)
 					{
 						m_Callback();
+					}
+					if(m_UserCallback != nullptr)
+					{
+						m_UserCallback();
 					}
 				}
 			}
@@ -198,6 +208,11 @@ namespace star
 		m_Callback = callback;
 	}
 	
+	void SpriteAnimation::SetUserCallback(const std::function<void()> & callback)
+	{
+		m_UserCallback = callback;
+	}
+	
 	int32 SpriteAnimation::GetCurrentFrame() const
 	{
 		return int32(m_CurrentFrame);
@@ -260,7 +275,8 @@ namespace star
 	
 	void SpriteAnimation::ParseFrame(int32 frame, int32 frames_x, int32 frames_y, int32 amount)
 	{
-		ASSERT(frame < amount && frame > -1, _T("Invalid frame index."));
+		Logger::GetInstance()->Log(frame < amount && frame > -1,
+			_T("Invalid frame index."));
 		int32 x = frame % frames_x;
 		int32 y = frame / frames_x;
 		

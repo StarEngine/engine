@@ -28,6 +28,7 @@ namespace star
 		virtual ~UIObject();
 
 		virtual void Initialize();
+		virtual void AfterInitialized();
 		
 		void Translate(const vec2& translation);
 		void Translate(float32 x, float32 y);
@@ -38,8 +39,10 @@ namespace star
 		void TranslateY(float32 y);
 		void TranslateL(lay l);
 
-		void SetUIDock(UIDock * pDock);
-		UIDock * GetUIDock() const;
+		void SetUIParent(UIObject * pParent);
+		UIObject * GetUIParent() const;
+
+		const pos & GetPosition() const;
 
 		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
 		virtual void SetVerticalAlignment(VerticalAlignment alignment);
@@ -47,12 +50,18 @@ namespace star
 		void SetAlignmentCentered();
 
 		virtual void Reset();
+		void Reposition();
+		
+		void AddChild(Object* pObject);
+		void AddElement(UIObject * pElement);
 
 	protected:
 		virtual void Update(const Context& context);
 		virtual void Draw();
 
-		UIDock * GetRootDock() const;
+		virtual vec2 GetDimensions() const;
+
+		UIObject * GetRootParent() const;
 
 		vec2 GetDockDimensions() const;
 
@@ -60,11 +69,13 @@ namespace star
 		void UITranslateX(float32 x, const vec2 & dimensions);
 		void UITranslateY(float32 y, const vec2 & dimensions);
 
+		void RepositionChildren();
+
 		pos m_Position;
 		HorizontalAlignment m_HorizontalAlignment;
 		VerticalAlignment m_VerticalAlignment;
 
-		UIDock *m_pDock;
+		UIObject *m_pParent;
 
 	private:
 		UIObject(const UIObject &);

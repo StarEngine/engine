@@ -72,6 +72,8 @@ namespace star
 		static const SLInterfaceID PLAYER_ID_ARR[];
 		static const SLboolean PLAYER_REQ_ARR[];
 
+		tstring mPath;
+
 		virtual void CreateSoundDetails();
 		virtual void RegisterCallback(SLPlayItf & player) = 0;
 

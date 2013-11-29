@@ -57,6 +57,7 @@ namespace star
 		virtual int32 GetHeight() const;
 		
 		void SetCurrentSegment(uint32 widthSegment, uint32 heightSegment);
+		void SetColorMultiplier(const Color & color);
 		void SetCurrentHorizontalSegment(uint32 segment);
 		void SetCurrentVerticalSegment(uint32 segment);
 		void SetColorMultiplier(const Color & color);
@@ -91,6 +92,7 @@ namespace star
 		int32 m_Width, m_Height;
 
 	private:
+
 		Filepath m_FilePath;
 		tstring m_SpriteName;
 		bool m_bIsHudElement;

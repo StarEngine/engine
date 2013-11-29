@@ -15,40 +15,47 @@ namespace star
 			CLICK = 2
 		};
 
+		static const byte DISABLE_STATE_ID = 3;
+
 		UIUserElement(const tstring & name);
 		virtual ~UIUserElement();
 
-		virtual void Initialize();
-
-		virtual bool IsDisabled() const;
 		virtual void SetDisabled(bool disabled);
 
 		virtual void Reset();
 
 		void SetSelectCallback(std::function<void()> callback);
+		void SetDownCallback(std::function<void()> callback);
 
 #ifdef DESKTOP
 		void SetHoverCallback(std::function<void()> callback);
 		void SetUnhoverCallback(std::function<void()> callback);
 #endif
 
+		bool IsIdle() const;
+#ifdef DESKTOP
+		bool IsHover() const;
+#endif
+		bool IsDown() const;
+
 	protected:
 		virtual void Update(const Context& context);
-		virtual void Draw();
 
 		virtual void GoIdle();
 #ifdef DESKTOP
 		virtual void GoHover();
 #endif
-		virtual void GoClick();
+		virtual void GoDown();
+		virtual void GoUp();
 		virtual void GoDisable();
 		virtual void GoFreeze();
 
 		bool IsFingerWithinRange() const;
-		virtual vec2 GetUserElementDimensions() const = 0;
 
 		std::function<void()>
 			m_SelectCallback;
+		std::function<void()>
+			m_DownCallback;
 
 #ifdef DESKTOP
 		std::function<void()>

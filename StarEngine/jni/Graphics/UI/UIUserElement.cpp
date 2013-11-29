@@ -1,11 +1,13 @@
 #include "UIUserElement.h"
 #include "../../Input/InputManager.h"
+#include "../../Scenes/BaseScene.h"
 
 namespace star
 {
 	UIUserElement::UIUserElement(const tstring & name)
 		: UIElement(name)
 		, m_SelectCallback(nullptr)
+		, m_DownCallback(nullptr)
 #ifdef DESKTOP
 		, m_HoverCallback(nullptr)
 		, m_UnhoverCallback(nullptr)
@@ -20,60 +22,48 @@ namespace star
 
 	}
 
-	void UIUserElement::Initialize()
-	{
-		UIElement::Initialize();
-	}
-
 	void UIUserElement::Update(const Context& context)
 	{
-		UIElement::Update(context);
-
 		if(!IsDisabled())
 		{
 			if(IsFingerWithinRange())
 			{
-				if(m_ElementState != ElementStates::CLICK)
+				if(m_ElementState != ElementStates::CLICK
+					&& InputManager::GetInstance()->IsFingerDownCP(0))
 				{
-					if(InputManager::GetInstance()->IsFingerPressedCP(0))
+					if(!GetScene()->IsActiveCursorLocked())
 					{
-						if(m_ElementState != ElementStates::CLICK)
-						{
-							m_ElementState = ElementStates::CLICK;
-							GoClick();
-							GetScene()->GetStopwatch()->CreateTimer(
-								m_Name.GetTag() + _T("click_timer"),
-								0.25f, false, false, [&]() {
-								#ifdef DESKTOP
-									GoHover();
-									m_ElementState = ElementStates::HOVER;
-								#else
-									GoIdle();
-									m_ElementState = ElementStates::IDLE;
-								#endif
-								});
-						}
+						m_ElementState = ElementStates::CLICK;
+						GoDown();
 					}
+				}
+				else if(m_ElementState == ElementStates::CLICK
+				&& InputManager::GetInstance()->IsFingerReleasedCP(0))
+				{
+					GoUp();
 				#ifdef DESKTOP
-					else if(m_ElementState != ElementStates::HOVER)
-					{
-						m_ElementState = ElementStates::HOVER;
-						GoHover();
-					}
+					m_ElementState = ElementStates::HOVER;
+				#else
+					m_ElementState = ElementStates::IDLE;
 				#endif
 				}
+			#ifdef DESKTOP
+				else if(m_ElementState == ElementStates::IDLE
+					&& !GetScene()->IsActiveCursorLocked())
+				{
+					m_ElementState = ElementStates::HOVER;
+					GoHover();
+				}
+			#endif
 			}
 			else if(m_ElementState != ElementStates::IDLE)
 			{
 				m_ElementState = ElementStates::IDLE;
 				GoIdle();
 			}
+			
+			UIElement::Update(context);
 		}
-	}
-
-	void UIUserElement::Draw()
-	{
-		UIElement::Draw();
 	}
 
 	void UIUserElement::GoIdle()
@@ -84,6 +74,7 @@ namespace star
 			m_UnhoverCallback();
 		}
 #endif
+		GetScene()->SetStateActiveCursor(UI_STATE_IDLE);
 	}
 
 #ifdef DESKTOP
@@ -93,15 +84,50 @@ namespace star
 		{
 			m_HoverCallback();
 		}
+
+		GetScene()->GetStopwatch()->CreateTimer(
+			_T("HCT"),
+			0.1f,
+			false,
+			false,
+			[&] ()
+			{
+				GetScene()->SetStateActiveCursor(UI_STATE_HOVER);
+			}, false);
 	}
 #endif
+	void UIUserElement::GoDown()
+	{
+		GetScene()->GetStopwatch()->CreateTimer(
+			_T("HCT"),
+			0.1f,
+			false,
+			false,
+			[&] ()
+			{
+				GetScene()->SetStateActiveCursor(UI_STATE_CLICK);
+			}, false);
+		if(m_DownCallback != nullptr)
+		{
+			m_DownCallback();
+		}
+	}
 
-	void UIUserElement::GoClick()
+	void UIUserElement::GoUp()
 	{
 		if(m_SelectCallback != nullptr)
 		{
 			m_SelectCallback();
 		}
+		GetScene()->GetStopwatch()->CreateTimer(
+			_T("HCT"),
+			0.1f,
+			false,
+			false,
+			[&] ()
+			{
+				GetScene()->SetStateActiveCursor(UI_STATE_HOVER);
+			}, false);
 	}
 
 	void UIUserElement::GoDisable()
@@ -118,18 +144,13 @@ namespace star
 	{
 		auto fingerPos = InputManager::GetInstance()->GetCurrentFingerPosCP(0);
 		auto buttonPos = GetTransform()->GetWorldPosition().pos2D();
-		auto dimensions = GetUserElementDimensions();
+		auto dimensions = GetDimensions();
 		
 		return 
 			fingerPos.x >= buttonPos.x &&
 			fingerPos.x <= buttonPos.x + dimensions.x &&
 			fingerPos.y >= buttonPos.y &&
 			fingerPos.y <= buttonPos.y + dimensions.y;
-	}
-
-	bool UIUserElement::IsDisabled() const
-	{
-		return UIElement::IsDisabled();
 	}
 	
 	void UIUserElement::SetDisabled(bool disabled)
@@ -144,18 +165,19 @@ namespace star
 
 	void UIUserElement::Reset()
 	{
-		UIObject::Reset();
-
-		GetScene()->GetStopwatch()->RemoveTimer(
-			m_Name.GetTag() + _T("click_timer")
-			);
-
+		GoIdle();
 		m_ElementState = ElementStates::IDLE;
+		UIObject::Reset();
 	}
 
 	void UIUserElement::SetSelectCallback(std::function<void()> callback)
 	{
 		m_SelectCallback = callback;
+	}
+
+	void UIUserElement::SetDownCallback(std::function<void()> callback)
+	{
+		m_DownCallback = callback;
 	}
 
 #ifdef DESKTOP
@@ -169,4 +191,21 @@ namespace star
 		m_UnhoverCallback = callback;
 	}
 #endif
+
+	bool UIUserElement::IsIdle() const
+	{
+		return m_ElementState == ElementStates::IDLE;
+	}
+
+#ifdef DESKTOP
+	bool UIUserElement::IsHover() const
+	{
+		return m_ElementState == ElementStates::HOVER;
+	}
+
+#endif
+	bool UIUserElement::IsDown() const
+	{
+		return m_ElementState == ElementStates::CLICK;
+	}
 }

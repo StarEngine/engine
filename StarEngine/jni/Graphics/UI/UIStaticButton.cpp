@@ -26,17 +26,10 @@ namespace star
 	{
 		
 	}
-
-	void UIStaticButton::Initialize()
-	{
-		UIUserElement::Initialize();
-	}
 	
 	void UIStaticButton::SetHorizontalAlignment(HorizontalAlignment alignment)
 	{
-		UIElement::SetHorizontalAlignment(alignment);
-
-		switch(m_HorizontalAlignment)
+		switch(alignment)
 		{
 			case HorizontalAlignment::Left:
 				GetTransform()->SetCenterX(0);
@@ -52,14 +45,13 @@ namespace star
 					);
 				break;
 		}
-
+		
+		UIElement::SetHorizontalAlignment(alignment);
 	}
 
 	void UIStaticButton::SetVerticalAlignment(VerticalAlignment alignment)
 	{
-		UIElement::SetVerticalAlignment(alignment);
-
-		switch(m_VerticalAlignment)
+		switch(alignment)
 		{
 			case VerticalAlignment::Bottom:
 				GetTransform()->SetCenterY(0);
@@ -75,16 +67,8 @@ namespace star
 					);
 				break;
 		}
-	}
-
-	void UIStaticButton::SetCurrentHorizontalSegement(uint32 segment)
-	{
-		m_pButtonSprite->SetCurrentHorizontalSegment(segment);
-	}
-
-	void UIStaticButton::SetCurrentVerticalSegement(uint32 segment)
-	{
-		m_pButtonSprite->SetCurrentVerticalSegment(segment);
+		
+		UIElement::SetVerticalAlignment(alignment);
 	}
 
 	void UIStaticButton::SetCurrentSegement(uint32 segmentX, uint32 segmentY)
@@ -92,22 +76,16 @@ namespace star
 		m_pButtonSprite->SetCurrentSegment(segmentX, segmentY);
 	}
 
-	void UIStaticButton::Update(const Context& context)
+	void UIStaticButton::SetColorMultiplier(const Color & color)
 	{
-		UIUserElement::Update(context);
+		m_pButtonSprite->SetColorMultiplier(color);
 	}
 
-	void UIStaticButton::Draw()
+	vec2 UIStaticButton::GetDimensions() const
 	{
-		UIUserElement::Draw();
-	}
-
-	vec2 UIStaticButton::GetUserElementDimensions() const
-	{
-		vec2 dimensions(
-			float32(m_pButtonSprite->GetWidth()),
-			float32(m_pButtonSprite->GetHeight())
+		return vec2(
+			m_pButtonSprite->GetWidth(),
+			m_pButtonSprite->GetHeight()
 			);
-		return dimensions;
 	}
 }

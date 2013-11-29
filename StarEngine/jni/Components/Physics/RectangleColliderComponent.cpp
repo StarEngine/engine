@@ -104,8 +104,8 @@ namespace star
 			SpriteComponent* spriteComp = GetParent()->GetComponent<SpriteComponent>();
 			if(spriteComp)
 			{
-				ASSERT(spriteComp->IsInitialized(),
-					_T("RectangleColliderComponent::InitializeColliderComponent:\
+				Logger::GetInstance()->Log(spriteComp->IsInitialized(),
+					_T("First add the spriteComponent and then the rectColliderComp"));
 					First add the spriteComponent and then the rectColliderComp"));
 				m_CollisionRect.SetPoints(
 					vec2(0, 0),
@@ -116,13 +116,13 @@ namespace star
 			}
 			else
 			{
-				ASSERT(false, _T("If you use the default constructor \
-								 of the RectangleColliderComponent()\
-								, make sure to also add a SpriteComponent \
-								or SpriteSheetComponent. \
+				Logger::GetInstance()->Log(false, 
+					_T("If you use the default constructor of the RectangleColliderComponent()\
+, make sure to also add a SpriteComponent or SpriteSheetComponent. \
+If you don't need this, please specify a width and height in the constructor of \
 								If you don't need this, please specify a width \
 								and height in the constructor of \n\
-								the RectangleColliderComponent."));
+the RectangleColliderComponent."));
 			}
 		}
 
@@ -166,7 +166,8 @@ namespace star
 		const vec2& point2
 		) const
 	{
-		ASSERT(point1 != point2, _T("Please provide 2 different points to make a line!"));
+		Logger::GetInstance()->Log(point1 != point2,
+			_T("Please provide 2 different points to make a line!"));
 
 		if(GetTransform()->GetWorldRotation() == 0.0f && (point1.x == point2.x || point1.y == point2.y))
 		{
@@ -239,8 +240,8 @@ namespace star
 
 	bool RectangleColliderComponent::CollidesWith(const BaseColliderComponent* other) const
 	{
-		ASSERT(other != nullptr, _T("RectangleColliderComponent::CollidesWith: \
-			   The collierComponent to check is a nullptr"));
+		Logger::GetInstance()->Log(other != nullptr, _T("RectangleColliderComponent::CollidesWith: \
+The collierComponent to check is a nullptr"));
 		const CircleColliderComponent* otherCircleComp = 
 			dynamic_cast<const CircleColliderComponent*>(other);
 		const RectangleColliderComponent* otherRectComp = 
@@ -425,7 +426,7 @@ namespace star
 		uint8 size
 		) const
 	{
-		ASSERT(size != 0, 
+		Logger::GetInstance()->Log(size != 0,
 			_T("You can't calculate the minimum of 0 elements!"));
 		float32 minimum = vec[0];
 		for(int32 i = 1; i < size; ++i)
@@ -443,7 +444,7 @@ namespace star
 		uint8 size
 		) const
 	{
-		ASSERT(size != 0, 
+		Logger::GetInstance()->Log(size != 0, 
 			_T("You can't calculate the maximum of 0 elements!"));
 		float32 maximum = vec[0];
 		for(int32 i = 1; i < size; ++i)

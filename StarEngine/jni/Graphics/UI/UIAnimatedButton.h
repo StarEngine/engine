@@ -15,7 +15,7 @@ namespace star
 			);
 		virtual ~UIAnimatedButton();
 
-		virtual void Initialize();
+		virtual void AfterInitialized();
 
 		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
 		virtual void SetVerticalAlignment(VerticalAlignment alignment);
@@ -23,25 +23,15 @@ namespace star
 		void EnableContiniousAnimation(bool enabled);
 		bool IsContiniousAnimationEnabled() const;
 
-	protected:
-		virtual void Update(const Context& context);
-		virtual void Draw();
+		virtual vec2 GetDimensions() const;
 
+	protected:
 		virtual void GoIdle();
 #ifdef DESKTOP
 		virtual void GoHover();
 #endif
-		virtual void GoClick();
+		virtual void GoDown();
 		virtual void GoFreeze();
-
-		virtual vec2 GetUserElementDimensions() const;
-
-		const static tstring	N_CLICK,
-								N_IDLE,
-#ifdef DESKTOP
-								N_HOVER,
-#endif
-								N_DISABLED;
 
 		SpritesheetComponent *m_pButtonSprite;
 		bool m_ContiniousAnimation;

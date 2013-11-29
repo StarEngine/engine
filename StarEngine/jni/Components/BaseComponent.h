@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\defines.h"
+#include "../Entity.h"
 
 namespace star
 {
@@ -9,12 +9,14 @@ namespace star
 	class TransformComponent;
 	class Object;
 
-	class BaseComponent
+	class BaseComponent : public Entity
 	{
 	public:
 		BaseComponent();
 		BaseComponent(Object* parent);
 		virtual ~BaseComponent();
+
+		void Destroy();
 
 		void Initialize();
 		void BaseUpdate(const Context& context);

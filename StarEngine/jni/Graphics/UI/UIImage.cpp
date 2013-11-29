@@ -28,17 +28,10 @@ namespace star
 	{
 
 	}
-
-	void UIImage::Initialize()
-	{
-		UIElement::Initialize();
-	}
 	
 	void UIImage::SetHorizontalAlignment(HorizontalAlignment alignment)
 	{
-		UIElement::SetHorizontalAlignment(alignment);
-
-		switch(m_HorizontalAlignment)
+		switch(alignment)
 		{
 			case HorizontalAlignment::Left:
 				GetTransform()->SetCenterX(0);
@@ -55,13 +48,12 @@ namespace star
 				break;
 		}
 
+		UIElement::SetHorizontalAlignment(alignment);
 	}
 
 	void UIImage::SetVerticalAlignment(VerticalAlignment alignment)
 	{
-		UIElement::SetVerticalAlignment(alignment);
-
-		switch(m_VerticalAlignment)
+		switch(alignment)
 		{
 			case VerticalAlignment::Bottom:
 				GetTransform()->SetCenterY(0);
@@ -77,16 +69,8 @@ namespace star
 					);
 				break;
 		}
-	}
 
-	void UIImage::SetCurrentHorizontalSegement(uint32 segment)
-	{
-		m_pSprite->SetCurrentHorizontalSegment(segment);
-	}
-
-	void UIImage::SetCurrentVerticalSegement(uint32 segment)
-	{
-		m_pSprite->SetCurrentVerticalSegment(segment);
+		UIElement::SetVerticalAlignment(alignment);
 	}
 
 	void UIImage::SetCurrentSegement(uint32 segmentX, uint32 segmentY)
@@ -94,13 +78,16 @@ namespace star
 		m_pSprite->SetCurrentSegment(segmentX, segmentY);
 	}
 
-	void UIImage::Update(const Context& context)
+	void UIImage::SetColorMultiplier(const Color & color)
 	{
-		UIElement::Update(context);
+		m_pSprite->SetColorMultiplier(color);
 	}
 
-	void UIImage::Draw()
+	vec2 UIImage::GetDimensions() const
 	{
-		UIElement::Draw();
+		return vec2(
+			m_pSprite->GetWidth(),
+			m_pSprite->GetHeight()
+			);
 	}
 }

@@ -26,17 +26,10 @@ namespace star
 	{
 
 	}
-
-	void UIAnimatedImage::Initialize()
-	{
-		UIElement::Initialize();
-	}
 	
 	void UIAnimatedImage::SetHorizontalAlignment(HorizontalAlignment alignment)
 	{
-		UIElement::SetHorizontalAlignment(alignment);
-
-		switch(m_HorizontalAlignment)
+		switch(alignment)
 		{
 			case HorizontalAlignment::Left:
 				GetTransform()->SetCenterX(0);
@@ -52,14 +45,12 @@ namespace star
 					);
 				break;
 		}
-
+		UIElement::SetHorizontalAlignment(alignment);
 	}
 
 	void UIAnimatedImage::SetVerticalAlignment(VerticalAlignment alignment)
 	{
-		UIElement::SetVerticalAlignment(alignment);
-
-		switch(m_VerticalAlignment)
+		switch(alignment)
 		{
 			case VerticalAlignment::Bottom:
 				GetTransform()->SetCenterY(0);
@@ -75,6 +66,7 @@ namespace star
 					);
 				break;
 		}
+		UIElement::SetVerticalAlignment(alignment);
 	}
 
 	void UIAnimatedImage::Play()
@@ -97,19 +89,54 @@ namespace star
 		m_pSprite->Stop();
 	}
 
-	void UIAnimatedImage::PushAnimation(const tstring & animation)
+	void UIAnimatedImage::PushAnimation(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
 	{
-		m_pSprite->PushAnimation(animation);
+		m_pSprite->PushAnimation(animation, callback);
 	}
 
-	void UIAnimatedImage::PlayAnimation(const tstring & animation)
+	void UIAnimatedImage::PlayAnimation(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
 	{
-		m_pSprite->PlayAnimation(animation);
+		m_pSprite->PlayAnimation(animation, callback);
 	}
 
-	void UIAnimatedImage::PlayAnimation(const tstring & animation, int32 startFrame)
+	void UIAnimatedImage::PlayAnimation(
+		const tstring & animation,
+		int32 startFrame,
+		const std::function<void()> & callback
+		)
 	{
-		m_pSprite->PlayAnimation(animation, startFrame);
+		m_pSprite->PlayAnimation(animation, startFrame, callback);
+	}
+
+	bool UIAnimatedImage::PushAnimationSafe(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
+	{
+		return m_pSprite->PushAnimationSafe(animation, callback);
+	}
+
+	bool UIAnimatedImage::PlayAnimationSafe(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
+	{
+		return m_pSprite->PlayAnimationSafe(animation, callback);
+	}
+
+	bool UIAnimatedImage::PlayAnimationSafe(
+		const tstring & animation,
+		int32 startFrame,
+		const std::function<void()> & callback
+		)
+	{
+		return m_pSprite->PlayAnimationSafe(animation, startFrame, callback);
 	}
 
 	void UIAnimatedImage::PlayNextAnimation()
@@ -175,15 +202,5 @@ namespace star
 	bool UIAnimatedImage::IsPlaying()
 	{
 		return m_pSprite->IsPlaying();
-	}
-
-	void UIAnimatedImage::Update(const Context& context)
-	{
-		UIElement::Update(context);
-	}
-
-	void UIAnimatedImage::Draw()
-	{
-		UIElement::Draw();
 	}
 }

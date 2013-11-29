@@ -2,11 +2,14 @@
 #include "../Logger.h"
 #include "../Context.h"
 #include "BaseScene.h"
+#include "../Objects/Object.h"
 #include "../Graphics/GraphicsManager.h"
 #include "../Assets/TextureManager.h"
 #include "../Sound/AudioManager.h"
 #include "../Graphics/SpriteBatch.h"
 #include "../Input/InputManager.h"
+#include "../Graphics/UI/UICursor.h"
+#include "../Graphics/UI/UIBaseCursor.h"
 
 #define INPUT_MANAGER (InputManager::GetInstance())
 
@@ -18,25 +21,42 @@ namespace star
 		: m_ActiveScene(nullptr)
 		, m_NewActiveScene(nullptr)
 		, m_Stopwatch(nullptr)
+		, m_GarbageList()
 		, m_bSwitchingScene(false)
 		, m_bInitialized(false)
 		, m_bDestroyRequested(false)
+		, m_bCursorHiddenByDefault(false)
+		, m_bCustomCursorDefined(false)
 		, m_CurrentSceneName(EMPTY_STRING)
+		, m_pDefaultCursor(nullptr)
 #ifdef ANDROID
 		, mApplicationPtr(nullptr)
 #endif
 	{
 		m_Stopwatch = std::make_shared<Stopwatch>();
+		CreateDefaultCursor();
+	}
+
+	void SceneManager::CreateDefaultCursor()
+	{
+		m_pDefaultCursor = new UIBaseCursor(_T("DefaultCursor"));
+		m_pDefaultCursor->BaseInitialize();
+		m_bCustomCursorDefined = false;
 	}
 
 	SceneManager::~SceneManager()
 	{
+		for(auto scene : m_GarbageList)
+		{
+			SafeDelete(scene);
+		}
+		m_GarbageList.clear();
 		for(auto scene : m_SceneList)
 		{
-			delete(scene.second);
-			scene.second = nullptr;
+			SafeDelete(scene.second);
 		}
 		m_SceneList.clear();
+		SafeDelete(m_pDefaultCursor);
 	}
 
 
@@ -94,9 +114,11 @@ namespace star
 
 	bool SceneManager::AddScene(const tstring & name, BaseScene* scene)
 	{
-		if ( m_SceneList.find(name) == m_SceneList.end() )
+		if (m_SceneList.find(name) == m_SceneList.end())
 		{
 			m_SceneList[name] = scene;
+			scene->BaseInitialize();
+			scene->SetSystemCursorHidden(m_bCursorHiddenByDefault);
 			Logger::GetInstance()->Log(LogLevel::Info, _T("Adding scene"));
 		}
 		else
@@ -112,6 +134,7 @@ namespace star
 		auto it = m_SceneList.find(name);
 		if(it != m_SceneList.end())
 		{
+			m_GarbageList.push_back(it->second);
 			m_SceneList.erase(it);
 			return true;
 		}
@@ -143,6 +166,12 @@ namespace star
 			return;
 		}
 
+		for(auto scene : m_GarbageList)
+		{
+			SafeDelete(scene);
+		}
+		m_GarbageList.clear();
+
 		m_Stopwatch->Update(context);
 
 		if(m_bSwitchingScene)
@@ -169,7 +198,6 @@ namespace star
 		}
 	}
 
-
 	void SceneManager::Draw()
 	{
 		if(m_bDestroyRequested)
@@ -181,6 +209,69 @@ namespace star
 			m_ActiveScene->BaseDraw();
 			SpriteBatch::GetInstance()->Flush();
 		}
+	}
+
+	void SceneManager::DrawDefaultCursor()
+	{
+		m_pDefaultCursor->BaseDraw();
+	}
+
+	void SceneManager::UpdateDefaultCursor(const Context & context)
+	{
+		m_pDefaultCursor->BaseUpdate(context);
+	}
+
+	void SceneManager::SetDefaultCursor(UIBaseCursor * cursor)
+	{
+		SafeDelete(m_pDefaultCursor);
+		SetSystemCursorHiddenByDefault(true);
+		m_pDefaultCursor = cursor;
+		m_pDefaultCursor->BaseInitialize();
+		m_bCustomCursorDefined = true;
+#ifdef MOBILE
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			tstring(_T("SceneManager::SetDefaultCursor: Cursor isn't supported on mobile device."))
+			+ _T(" For optimialisation reasons it's better to disable the code related to\
+the custom cursor code in your game project."));
+#endif
+	}
+
+	void SceneManager::UnsetDefaultCursor()
+	{
+		SafeDelete(m_pDefaultCursor);
+		SetSystemCursorHiddenByDefault(false);
+#ifdef MOBILE
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			tstring(_T("SceneManager::UnsetDefaultCursor: Cursor isn't supported on mobile device."))
+			+ _T(" For optimialisation reasons it's better to disable the code related to\
+the custom cursor code in your game project."));
+#endif
+		CreateDefaultCursor();
+	}
+
+	void SceneManager::SetDefaultCursorState(const tstring & state)
+	{
+		m_pDefaultCursor->SetState(state);
+	}
+	
+	void SceneManager::SetDefaultCursorLocked(bool locked)
+	{
+		m_pDefaultCursor->SetLocked(locked);
+	}
+	
+	bool SceneManager::IsDefaultCursorLocked() const
+	{
+		return m_pDefaultCursor->IsLocked();
+	}
+
+	bool SceneManager::IsDefaultCursorDefined() const
+	{
+		return m_bCustomCursorDefined;
+	}
+
+	void SceneManager::SetSystemCursorHiddenByDefault(bool hidden)
+	{
+		m_bCursorHiddenByDefault = hidden;
 	}
 
 	std::shared_ptr<Stopwatch> SceneManager::GetStopwatch() const

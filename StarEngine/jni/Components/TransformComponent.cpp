@@ -13,7 +13,6 @@ namespace star
 	#ifdef STAR2D
 		m_WorldPosition(0,0),
 		m_LocalPosition(0,0),
-		m_CenterPosition(0,0),
 	#else
 		m_WorldPosition(0,0,0),
 		m_LocalPosition(0,0,0),
@@ -23,6 +22,7 @@ namespace star
 	#ifdef STAR2D
 		m_WorldScale(1,1),
 		m_LocalScale(1,1),
+		m_CenterPosition(0,0),
 	#else
 		m_WorldScale(1,1,1),
 		m_LocalScale(1,1,1),
@@ -118,7 +118,7 @@ namespace star
 		m_IsChanged |= TransformChanged::ROTATION;
 	}
 
-	void TransformComponent::Rotate(float32 rotation, const pos& centerPoint)
+	void TransformComponent::Rotate(float32 rotation, const vec2& centerPoint)
 	{
 		m_LocalRotation = rotation;
 		SetCenterPoint(centerPoint);
@@ -183,7 +183,7 @@ namespace star
 		return m_LocalScale;
 	}
 
-	void TransformComponent::SetCenterPoint(const pos & centerPoint)
+	void TransformComponent::SetCenterPoint(const vec2 & centerPoint)
 	{
 		m_CenterPosition = centerPoint;
 	}

@@ -1,10 +1,9 @@
 #pragma once
 #include <vector>
 #include <typeinfo>
-#include "../defines.h"
+#include "../Entity.h"
 #include "../Logger.h"
 #include "../Context.h"
-#include "../Scenes/BaseScene.h"
 #include "../Components/TransformComponent.h"
 #include "../AI/Pathfinding/PathFindManager.h"
 #include "../Helpers/HashTag.h"
@@ -13,17 +12,21 @@ namespace star
 {
 	class BaseComponent;
 	class PathFindNodeComponent;
+	class BaseScene;
+	class Action;
 
-	class Object
+	class Object : public Entity
 	{
 	public:
 		Object();
-		Object(const tstring & name);
+		explicit Object(const tstring & name);
 		Object(
 			const tstring & name,
 			const tstring & groupTag
 			);
 		virtual ~Object(void);
+
+		void Destroy();
 
 		Object* GetParent() const;
 
@@ -38,10 +41,6 @@ namespace star
 			float32 bottom
 			);
 
-		const tstring& GetName() const;
-		void SetName(const tstring& name);
-		bool CompareName(const tstring & name);
-
 		const tstring& GetPhysicsTag() const;
 		void SetPhysicsTag(const tstring& tag);
 		bool ComparePhysicsTag(const tstring & tag);
@@ -52,16 +51,27 @@ namespace star
 
 		void AddComponent(BaseComponent* pComponent);
 
-		void AddChild(Object* pObject);
+		virtual void AddChild(Object* pObject);
 		void RemoveChild(const Object* pObject);
 		void RemoveChild(const tstring & name);
 
 		const std::vector<Object*>& GetChildren() const;
 
-		Object * GetChildByName(const tstring & name);
 		void SetChildFrozen(const tstring & name, bool freeze);
 		void SetChildDisabled(const tstring & name, bool disabled);
 		void SetChildVisible(const tstring & name, bool visible);
+
+		void AddAction(Action * pAction);
+		void RemoveAction(Action *pAction);
+		void RemoveAction(const tstring & name);
+		void RestartAction(const tstring & name);
+		void PauseAction(const tstring & name);
+		void ResumeAction(const tstring & name);
+
+		void RemoveComponent(BaseComponent * pComponent);
+
+		template <typename T>
+		T * GetChildByName(const tstring & name);
 
 		virtual void SetVisible(bool visible);
 		bool IsVisible() const;
@@ -76,6 +86,8 @@ namespace star
 
 		void SetScene(BaseScene * pScene);
 		void UnsetScene(); 
+
+		virtual void Reset();
 
 		TransformComponent * GetTransform() const;
 
@@ -118,15 +130,16 @@ namespace star
 		Object* m_pParentGameObject;
 		PathFindNodeComponent* m_pPathFindComp;
 		BaseScene *m_pScene;
+		
+		std::vector<Entity*> m_pGarbageContainer;
 
 		std::vector<BaseComponent*> m_pComponents;
-		std::vector<BaseComponent*> m_pGarbageComponents;
 		std::vector<Object*> m_pChildren;
-		std::vector<Object*> m_pGarbageChildren;
-		HashTag m_Name, m_GroupTag, m_PhysicsTag;
+		std::vector<Action*> m_pActions;
+
+		HashTag m_GroupTag, m_PhysicsTag;
 
 	private:
-
 		void CollectGarbage();
 
 		Object(const Object& t);
@@ -134,70 +147,6 @@ namespace star
 		Object& operator=(const Object& t);
 		Object& operator=(Object&& t);
 	};
-
-	template<class T>
-	void Object::RemoveComponent()
-	{
-		const std::type_info& ti = typeid(T);
-		for(auto component : m_pComponents)
-		{
-			if(component && typeid(*component) == ti)
-			{
-				m_pGarbageComponents.push_back(component);
-			}
-		}	
-	}
-
-	template<class T>
-	T* Object::GetComponent(bool searchChildren) const
-	{
-		const std::type_info& ti = typeid(T);
-		for(auto component : m_pComponents)
-		{
-			if(component && typeid(*component) == ti)
-			{
-				return ((T*)component);
-			}
-		}
-
-		if(searchChildren)
-		{
-			for(auto child : m_pChildren)
-			{
-				return (child->GetComponent<T>(searchChildren));
-			}
-		}
-		return (nullptr);
-	}
-
-	template<class T>
-	T* Object::GetChild() const
-	{
-		const std::type_info& ti = typeid(T);
-		for(auto child : m_pChildren)
-		{
-			if(child && typeid(*child) == ti)
-			{
-				return (dynamic_cast<T*>(child));
-			}
-		}
-		return (nullptr);
-	}
-
-	template<class T>
-	T* Object::GetChild(const tstring & name) const
-	{
-		const std::type_info& ti = typeid(T);
-		for(auto child : m_pChildren)
-		{
-			if(child && typeid(*child) == ti
-				&& child->GetName() == name)
-			{
-				return (dynamic_cast<T*>(child));
-			}
-		}
-		return (nullptr);
-	}
-
-	
 }
+
+#include "Object.inl"

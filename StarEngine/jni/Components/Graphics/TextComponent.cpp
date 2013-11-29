@@ -142,10 +142,17 @@ namespace star
 
 		textWidth = textW * GetTransform()->GetWorldScale().x;
 		textHeight = textH * GetTransform()->GetWorldScale().y;
+		
+		float32 teRight = objectPos.x + textWidth;
+		float32 texTop = objectPos.y + textHeight;
 
 		return
-			(objectPos.x >= left || objectPos.x + textWidth <= right) &&
-			(objectPos.y >= bottom || objectPos.y + textHeight <= top);
+			(	(objectPos.x >= left && objectPos.x <= right) ||
+				(teRight >= left && teRight <= right)
+			) &&
+			(	(objectPos.y >= bottom && objectPos.y <= top) ||
+				(texTop >= bottom && texTop <= top)
+			);
 	}
 
 	void TextComponent::SetText(const tstring& text)
@@ -304,5 +311,15 @@ namespace star
 						m_WrapWidth
 						);
 		}
+	}
+
+	void TextComponent::SetHUDOptionEnabled(bool enabled)
+	{
+		m_TextDesc.IsHUDText = enabled;
+	}
+
+	bool TextComponent::IsHUDOptionEnabled() const
+	{
+		return m_TextDesc.IsHUDText;
 	}
 }

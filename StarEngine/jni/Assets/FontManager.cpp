@@ -127,7 +127,7 @@ namespace star
 
 	const Font& FontManager::GetFont(const tstring& name)
 	{
-		ASSERT(mFontList.find(name) != mFontList.end(),_T("No such font"));
+		Logger::GetInstance()->Log(mFontList.find(name) != mFontList.end(),_T("No such font"));
 		return mFontList[name];
 	}
 }

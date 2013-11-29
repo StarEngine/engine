@@ -2,6 +2,7 @@
 #include "../Logger.h"
 #include "SpriteBatch.h"
 #include "../Scenes/SceneManager.h"
+#include "../Scenes/BaseScene.h"
 #include "../Objects/BaseCamera.h"
 #include "../Components/CameraComponent.h"
 #include "ScaleSystem.h"

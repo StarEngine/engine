@@ -4,18 +4,15 @@
 #include <algorithm>
 #include <string>
 #include <functional>
+#include "../Logger.h"
+#include "../Graphics/Color.h"
 
 namespace star
 {
 	const uint32 GenerateHash(const tstring & str);
 
 	template < typename TReturnValue, typename TValue>
-	TReturnValue string_cast(const TValue & value)
-	{
-		tstringstream strstr;
-		strstr << value;
-		return strstr.str();
-	}
+	TReturnValue string_cast(const TValue & value);
 
 	template <>
 	sstring_16 string_cast<sstring_16, sstring_16>
@@ -47,11 +44,7 @@ namespace star
 		(const sstring & value);
 
 	template < typename TReturnValue, typename TValue>
-	TReturnValue string_cast(const TValue * value)
-	{
-		ASSERT(false, _T("Invalid String cast: No implementation found that match these parameters!"));
-		return TReturnValue();
-	}
+	TReturnValue string_cast(const TValue * value);
 
 	template <>
 	sstring_16 string_cast<sstring_16, schar_16>
@@ -198,6 +191,10 @@ namespace star
 		(const uvec4 & value);
 
 	template <>
+	tstring string_cast<tstring, Color>
+		(const Color & value);
+
+	template <>
 	bool string_cast<bool, tstring>
 		(const tstring & value);
 
@@ -281,6 +278,10 @@ namespace star
 	uvec4 string_cast<uvec4, tstring>
 		(const tstring & value);
 
+	template <>
+	Color string_cast<Color, tstring>
+		(const tstring & value);
+
 	void ReadTextFile(const tstring & file, tstring & text,
 			DirectoryMode directory = DirectoryMode::assets);
 	tstring ReadTextFile(const tstring & file,
@@ -306,144 +307,43 @@ namespace star
 		DirectoryMode directory = DirectoryMode::assets);
 
 	template<class To, class From>
-	To cast(From v)
-	{
-		return static_cast<To>(static_cast<void*>(v));
-	}
+	To cast(From v);
 
 	template <typename T>
 	void WriteData(const tstring & file, T * buffer,
-			DirectoryMode directory = DirectoryMode::assets)
-	{
-		auto dataSize = sizeof(T);
-		schar * dataBuffer = new schar[dataSize];
-		memcpy(dataBuffer, buffer, dataSize);
-		WriteBinaryFile(file, dataBuffer, dataSize, directory);
-		delete [] dataBuffer;
-	}
+			DirectoryMode directory = DirectoryMode::assets);
 
 	template <typename T>
 	void ReadData(const tstring & file, T * buffer,
-			DirectoryMode directory = DirectoryMode::assets)
-	{
-		uint32 dataSize = sizeof(T);
-		schar * dataBuffer = ReadBinaryFile(file, dataSize, directory);
-		memcpy(buffer, dataBuffer, dataSize);
-		delete [] dataBuffer;
-	}
+			DirectoryMode directory = DirectoryMode::assets);
 
 	template <typename T>
 	void WriteDataArray(const tstring & file, T * buffer, uint32 size,
-			DirectoryMode directory = DirectoryMode::assets)
-	{
-		auto dataSize = sizeof(T);
-		schar * dataBuffer = new schar[size * dataSize];
-		for(uint32 i = 0 ; i < size ; ++i)
-		{
-			schar * data = new schar[dataSize];
-			memcpy(data, buffer[i], dataSize);
-			for(uint32 u = 0 ; u < dataSize ; ++u)
-			{
-				dataBuffer[(i * dataSize) + u] = data[u];
-			}
-			delete [] data;
-		}
-		uint32 totalSize = sizeof(T) * size;
-		WriteBinaryFile(file, dataBuffer, totalSize, directory);
-		delete [] dataBuffer;
-	}
+			DirectoryMode directory = DirectoryMode::assets);
 
 	template <typename T>
 	T * ReadDataArray(const tstring & file, uint32 size,
-			DirectoryMode directory = DirectoryMode::assets)
-	{
-		uint32 dataSize = sizeof(T);
-		uint32 totalSize = dataSize * size;
-		schar * dataBuffer = ReadBinaryFile(file, totalSize, directory);
-		T * buffer = new T[size];
-		for(uint32 i = 0 ; i < size ; ++i)
-		{
-			schar * data = new schar[dataSize];
-			for(uint32 u = 0 ; u < dataSize ; ++u)
-			{
-				data[u] = dataBuffer[(i * dataSize) + u];
-			}
-			T temp;
-			memcpy(&temp, data, dataSize);
-			buffer[i] = temp;
-			delete [] data;
-		}
-		delete [] dataBuffer;
-		return buffer;
-	}
+			DirectoryMode directory = DirectoryMode::assets);
 
 	template <typename T>
 	void EncryptData(const tstring & file, T * buffer,
 		const std::function<schar*(const schar*, uint32&)> & encrypter, 
-		DirectoryMode directory = DirectoryMode::assets)
-	{
-		auto dataSize = sizeof(T);
-		schar * dataBuffer = new schar[dataSize];
-		memcpy(dataBuffer, buffer, dataSize);
-		EncryptBinaryFile(file, dataBuffer, dataSize, encrypter, directory);
-		delete [] dataBuffer;
-	}
+		DirectoryMode directory = DirectoryMode::assets);
 
 	template <typename T>
 	void DecryptData(const tstring & file, T * buffer,
 		const std::function<schar*(const schar*, uint32&)> & decrypter, 
-		DirectoryMode directory = DirectoryMode::assets)
-	{
-		uint32 dataSize = sizeof(T);
-		schar * dataBuffer = DecryptBinaryFile(file, dataSize, decrypter, directory);
-		memcpy(buffer, dataBuffer, dataSize);
-		delete [] dataBuffer;
-	}
+		DirectoryMode directory = DirectoryMode::assets);
 
 	template <typename T>
 	void EncryptDataArray(const tstring & file, T * buffer, uint32 size,
 		const std::function<schar*(const schar*, uint32&)> & encrypter,
-		DirectoryMode directory = DirectoryMode::assets)
-	{
-		auto dataSize = sizeof(T);
-		schar * dataBuffer = new schar[size * dataSize];
-		for(uint32 i = 0 ; i < size ; ++i)
-		{
-			schar * data = new schar[dataSize];
-			memcpy(data, buffer[i], dataSize);
-			for(uint32 u = 0 ; u < dataSize ; ++u)
-			{
-				dataBuffer[(i * dataSize) + u] = data[u];
-			}
-			delete [] data;
-		}
-		uint32 totalSize = sizeof(T) * size;
-		EncryptBinaryFile(file, dataBuffer, totalSize, encrypter, directory);
-		delete [] dataBuffer;
-	}
+		DirectoryMode directory = DirectoryMode::assets);
 
 	template <typename T>
 	T * DecryptDataArray(const tstring & file, uint32 size,
 		const std::function<schar*(const schar*, uint32&)> & decrypter,
-		DirectoryMode directory = DirectoryMode::assets)
-	{
-		uint32 dataSize = sizeof(T);
-		uint32 totalSize = dataSize * size;
-		schar * dataBuffer = DecryptBinaryFile(file, totalSize, decrypter, directory);
-		T * buffer = new T[size];
-		for(uint32 i = 0 ; i < size ; ++i)
-		{
-			schar * data = new schar[dataSize];
-			for(uint32 u = 0 ; u < dataSize ; ++u)
-			{
-				data[u] = dataBuffer[(i * dataSize) + u];
-			}
-			T temp;
-			memcpy(&temp, data, dataSize);
-			buffer[i] = temp;
-			delete [] data;
-		}
-		delete [] dataBuffer;
-		return buffer;
-	}
+		DirectoryMode directory = DirectoryMode::assets);
 }
+
+#include "Helpers.inl"

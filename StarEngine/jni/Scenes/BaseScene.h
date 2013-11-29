@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../defines.h"
+#include "../Entity.h"
 
 #include "../Helpers/Stopwatch.h"
+#include "../Objects/Object.h"
 
 #include <vector>
 #include <memory>
@@ -10,17 +11,19 @@
 namespace star 
 {
 	struct Context;
-	class Object;
 	class CameraComponent;
 	class CollisionManager;
 	class GestureManager;
 	class BaseCamera;
+	class UIBaseCursor;
 
-	class BaseScene
+	class BaseScene : public Entity
 	{
 	public:
-		BaseScene(const tstring & name);
+		explicit BaseScene(const tstring & name);
 		virtual ~BaseScene();
+
+		void Destroy();
 		
 		void	BaseInitialize();
 		void	BaseAfterInitializedObjects();
@@ -33,7 +36,6 @@ namespace star
 		virtual void OnConfigurationChanged();
 		virtual void OnLowMemory();
 
-		const tstring & GetName() const;
 		bool IsInitialized() const;
 
 		void AddObject(Object * object); 
@@ -41,7 +43,9 @@ namespace star
 		void RemoveObject(Object * object);
 		void RemoveObject(const tstring & name);
 
-		Object * GetObjectByName(const tstring & name);
+		template <typename T>
+		T * GetObjectByName(const tstring & name);
+
 		void SetObjectFrozen(const tstring & name, bool freeze);
 		void SetObjectDisabled(const tstring & name, bool disabled);
 		void SetObjectVisible(const tstring & name, bool visible);
@@ -56,6 +60,16 @@ namespace star
 
 		static void SetCullingIsEnabled(bool enabled);
 		static bool IsCullingEnabled();
+
+		void SetCursorHidden(bool hidden);
+		void SetSystemCursorHidden(bool hidden);
+
+		void SetCursor(UIBaseCursor * cursor);
+		void UnsetCursor(bool showSystemCursor = true);
+
+		void SetStateActiveCursor(const tstring & state);
+		void SetActiveCursorLocked(bool locked);
+		bool IsActiveCursorLocked() const;
 
 		void SetCullingOffset(int32 offset);
 		void SetCullingOffset(int32 offsetX, int32 offsetY);
@@ -73,6 +87,8 @@ namespace star
 		virtual void Update(const Context& context) = 0;
 		virtual void Draw() = 0;
 
+		void SetOSCursorHidden(bool hidden);
+
 		std::shared_ptr<GestureManager> m_GestureManagerPtr;
 		std::shared_ptr<CollisionManager> m_CollisionManagerPtr;
 
@@ -80,16 +96,16 @@ namespace star
 		std::vector<Object*> m_Garbage;
 		BaseCamera* m_pDefaultCamera;
 		std::shared_ptr<Stopwatch> m_pStopwatch;
+		UIBaseCursor *m_pCursor;
 
 	private:
-
 		void CollectGarbage();
 
 		int32 m_CullingOffsetX,
 			m_CullingOffsetY;
 		bool m_Initialized;
 		static bool CULLING_IS_ENABLED;
-		tstring m_Name;
+		bool m_CursorIsHidden, m_SystemCursorIsHidden;
 	
 		BaseScene(const BaseScene& t);
 		BaseScene(BaseScene&& t);
@@ -97,3 +113,5 @@ namespace star
 		BaseScene& operator=(BaseScene&& t);
 	};
 }
+
+#include "BaseScene.inl"

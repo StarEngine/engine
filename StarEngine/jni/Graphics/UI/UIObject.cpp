@@ -1,6 +1,7 @@
 #include "UIObject.h"
 #include "../GraphicsManager.h"
 #include "UIDock.h"
+#include "../../Scenes/BaseScene.h"
 
 namespace star
 {
@@ -9,19 +10,25 @@ namespace star
 		, m_Position()
 		, m_HorizontalAlignment(HorizontalAlignment::Left)
 		, m_VerticalAlignment(VerticalAlignment::Bottom)
-		, m_pDock(nullptr)
+		, m_pParent(nullptr)
 	{
 
 	}
 
 	UIObject::~UIObject()
 	{
-
 	}
 
 	void UIObject::Initialize()
 	{
 		Object::Initialize();
+	}
+
+	void UIObject::AfterInitialized()
+	{
+		Object::AfterInitialized();
+		Reposition();
+		RepositionChildren();
 	}
 		
 	void UIObject::Translate(const vec2& translation)
@@ -76,14 +83,19 @@ namespace star
 		UITranslate();
 	}
 
-	void UIObject::SetUIDock(UIDock * pDock)
+	void UIObject::SetUIParent(UIObject * pParent)
 	{
-		m_pDock = pDock;
+		m_pParent = pParent;
 	}
 	
-	UIDock * UIObject::GetUIDock() const
+	UIObject * UIObject::GetUIParent() const
 	{
-		return m_pDock;
+		return m_pParent;
+	}
+
+	const pos & UIObject::GetPosition() const
+	{
+		return m_Position;
 	}
 
 	void UIObject::SetHorizontalAlignment(HorizontalAlignment alignment)
@@ -106,6 +118,52 @@ namespace star
 
 	void UIObject::Reset()
 	{
+		for(auto child : m_pChildren)
+		{
+			auto element = dynamic_cast<UIObject*>(child);
+			if(element != nullptr)
+			{
+				element->Reset();
+			}
+			else
+			{
+				Logger::GetInstance()->Log(LogLevel::Warning,
+					_T("UIObject::Reset: Object '") +
+					child->GetName() + _T("' is not a UI Object."));
+			}
+		}
+
+		Object::Reset();
+	}
+
+	void UIObject::Reposition()
+	{
+		UITranslate();
+	}
+		
+	void UIObject::AddChild(Object* pObject)
+	{
+		auto uiobject = dynamic_cast<UIObject*>(pObject);
+		if(uiobject)
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				tstring(_T("UIObject::AddChild: ")) +
+				_T("UIObjects should be added via the AddElement(UIObject*) function."));
+			AddElement(uiobject);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				tstring(_T("UIObject::AddChild: ")) +
+				_T("Adding a non-UIObject to a UIObject is an illegal action."));
+		}
+	}
+	
+	void UIObject::AddElement(UIObject * pElement)
+	{
+		pElement->SetUIParent(this);
+		pElement->Reposition();
+		Object::AddChild(pElement);
 	}
 
 	void UIObject::Update(const Context& context)
@@ -118,25 +176,35 @@ namespace star
 		Object::Draw();
 	}
 
-	UIDock * UIObject::GetRootDock() const
+	vec2 UIObject::GetDimensions() const
 	{
-		UIDock *pDock(nullptr);
+		return vec2(0,0);
+	}
+
+	UIObject * UIObject::GetRootParent() const
+	{
+		UIObject *pParent(nullptr);
+		UIObject *pChild = const_cast<UIObject*>(this);
 
 		do
 		{
-			pDock = GetUIDock();
-		} while(pDock != nullptr);
+			pChild = pChild->GetUIParent();
+			if(pChild != nullptr)
+			{
+				pParent = pChild;
+			}
+		} while(pChild != nullptr);
 
-		return pDock;
+		return pParent;
 	}
 
 	vec2 UIObject::GetDockDimensions() const
 	{
 		vec2 dimensions;
 		
-		if(m_pDock != nullptr)
+		if(m_pParent != nullptr)
 		{
-			dimensions = m_pDock->GetDimensions();
+			dimensions = m_pParent->GetDimensions();
 		}
 		else
 		{
@@ -181,5 +249,23 @@ namespace star
 		}
 
 		GetTransform()->TranslateY(y);
+	}
+
+	void UIObject::RepositionChildren()
+	{
+		for(auto child : m_pChildren)
+		{
+			auto element = dynamic_cast<UIObject*>(child);
+			if(element != nullptr)
+			{
+				element->Reposition();
+			}
+			else
+			{
+				Logger::GetInstance()->Log(LogLevel::Warning,
+					_T("UIObject::RepositionChildren: Object '") +
+					child->GetName() + _T("' is not a UI Object."));
+			}
+		}
 	}
 }

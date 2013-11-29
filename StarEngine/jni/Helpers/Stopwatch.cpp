@@ -82,6 +82,9 @@ namespace star
 				return true;
 			}
 		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Stopwatch::RemoveTimer: trying to remove unknown timer '")
+			+ name + _T("'."));
 		return false;
 	}
 
@@ -95,6 +98,9 @@ namespace star
 				return;
 			}
 		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Stopwatch::PauseTimer: trying to pause unknown timer '")
+			+ name + _T("'."));
 	}
 
 	void Stopwatch::SetCountingDownTimer(const tstring & name, bool countingDown)
@@ -107,6 +113,9 @@ namespace star
 				return;
 			}
 		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Stopwatch::SetCountingDownTimer: trying to adjust unknown timer '")
+			+ name + _T("'."));
 	}
 
 	void Stopwatch::SetLoopTimer(const tstring & name, bool looping)
@@ -119,6 +128,9 @@ namespace star
 				return;
 			}
 		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Stopwatch::SetLoopTimer: trying to adjust unknown timer '")
+			+ name + _T("'."));
 	}
 
 	void Stopwatch::ResetTimer(const tstring & name, bool paused)
@@ -131,6 +143,9 @@ namespace star
 				return;
 			}
 		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Stopwatch::ResetTimer: trying to reset unknown timer '")
+			+ name + _T("'."));
 	}
 
 	void Stopwatch::SetTargetTimeTimer(const tstring & name, float32 targetTime, bool reset, bool paused)
@@ -143,9 +158,12 @@ namespace star
 				return;
 			}
 		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Stopwatch::SetTargetTimeTimer: trying to adjust unknown timer '")
+			+ name + _T("'."));
 	}
 
-	void Stopwatch::SetFunctionTimer(const tstring & name, std::function<void ()> func)
+	void Stopwatch::SetFunctionTimer(const tstring & name, const std::function<void ()> & func)
 	{
 		for(auto& it : m_TimerContainer)
 		{
@@ -154,6 +172,47 @@ namespace star
 				it.second.SetFunction(func);
 				return;
 			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Stopwatch::SetFunctionTimer: trying to adjust unknown timer '")
+			+ name + _T("'."));
+	}
+
+	float64 Stopwatch::ForceEndTimer(const tstring & name)
+	{
+		for(auto& it : m_TimerContainer)
+		{
+			if(it.first == name)
+			{
+				return it.second.ForceEnd();
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Stopwatch::ForceEndTimer: trying to end unknown timer '")
+			+ name + _T("'."));
+		return 0;
+	}
+	
+	void Stopwatch::ForwardTimer(const tstring & name, float64 time)
+	{
+		for(auto& it : m_TimerContainer)
+		{
+			if(it.first == name)
+			{
+				it.second.Forward(time);
+				return;
+			}
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Stopwatch::ForwardTimer: trying to forward unknown timer '")
+			+ name + _T("'."));
+	}
+
+	void Stopwatch::ForwardAllTimers(float64 time)
+	{
+		for(auto& it : m_TimerContainer)
+		{
+			it.second.Forward(time);
 		}
 	}
 
@@ -208,6 +267,9 @@ namespace star
 				return it.second.GetTargetTime();
 			}
 		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Stopwatch::GetTimerTargetTime: trying to access unknown timer '")
+			+ name + _T("'."));
 		return 0;
 	}
 

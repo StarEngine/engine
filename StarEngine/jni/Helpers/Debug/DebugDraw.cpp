@@ -220,7 +220,7 @@ namespace star
 		const vec2* vertices, 
 		uint32 vertexCount)
 	{
-		ASSERT(vertexCount <= MAX_VERTICES, 
+		Logger::GetInstance()->Log(vertexCount <= MAX_VERTICES, 
 			_T("more vertices than allocated space"));
 
 		for (uint32 i = 0; i < vertexCount; ++i)
@@ -236,7 +236,7 @@ namespace star
 	{
 		// [TODO] Fix this bug in eclipse: 
 		// (undefined reference to 'star::DebugDraw::MAX_VERTICES')
-		//ASSERT(m_CircleSegments < MAX_VERTICES, 
+		//Logger::GetInstance()->Log(m_CircleSegments < MAX_VERTICES, 
 		//	tstring(_T("You can only draw ") 
 		//	+ string_cast<tstring>(MAX_VERTICES) 
 		//	+ _T(" vertices per primitive")).c_str());

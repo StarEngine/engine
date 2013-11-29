@@ -80,6 +80,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="jni\Actions\Action.h" />
+    <ClInclude Include="jni\Actions\DelayedAction.h" />
+    <ClInclude Include="jni\Actions\Index.h" />
+    <ClInclude Include="jni\Actions\LoopedAction.h" />
+    <ClInclude Include="jni\Actions\TimedAction.h" />
+    <ClInclude Include="jni\Actions\TimedFadeAction.h" />
+    <ClInclude Include="jni\Actions\TimedMoveAction.h" />
     <ClInclude Include="jni\Components\AI\index.h" />
     <ClInclude Include="jni\Components\Physics\BaseColliderComponent.h" />
     <ClInclude Include="Console.h" />
@@ -103,11 +110,19 @@
     <ClInclude Include="jni\definesMath.h" />
     <ClInclude Include="jni\definesTypes.h" />
     <ClInclude Include="jni\definesWindows.h" />
+    <ClInclude Include="jni\Entity.h" />
     <ClInclude Include="jni\EventLoop.h" />
     <ClInclude Include="jni\Graphics\Color.h" />
     <ClInclude Include="jni\Graphics\GraphicsManager.h" />
     <ClInclude Include="jni\Graphics\SpriteBatch.h" />
     <ClInclude Include="jni\Graphics\UI\Index.h" />
+    <ClInclude Include="jni\Graphics\UI\UIAnimatedTextButton.h" />
+    <ClInclude Include="jni\Graphics\UI\UIBaseCursor.h" />
+    <ClInclude Include="jni\Graphics\UI\UICursor.h" />
+    <ClInclude Include="jni\Graphics\UI\UISimpleTextButton.h" />
+    <ClInclude Include="jni\Graphics\UI\UISlider.h" />
+    <ClInclude Include="jni\Graphics\UI\UIStaticTextButton.h" />
+    <ClInclude Include="jni\Graphics\UI\UITextButton.h" />
     <ClInclude Include="jni\Graphics\UI\UIAnimatedButton.h" />
     <ClInclude Include="jni\Graphics\UI\UIAnimatedImage.h" />
     <ClInclude Include="jni\Graphics\UI\UIButton.h" />
@@ -153,16 +168,17 @@
     <ClInclude Include="jni\Logger.h" />
     <ClInclude Include="jni\Components\Graphics\SpriteComponent.h" />
     <ClInclude Include="jni\Objects\BaseCamera.h" />
-    <ClInclude Include="jni\Objects\Button.h" />
     <ClInclude Include="jni\Objects\FreeCamera.h" />
     <ClInclude Include="jni\Objects\Object.h" />
     <ClInclude Include="jni\Graphics\SpriteAnimationManager.h" />
     <ClInclude Include="jni\Scenes\BaseScene.h" />
     <ClInclude Include="jni\Physics\Collision\CollisionManager.h" />
     <ClInclude Include="jni\AI\Pathfinding\PathFindManager.h" />
+    <ClInclude Include="jni\Scenes\SplashScreen.h" />
     <ClInclude Include="jni\Scenes\LoadScreen.h" />
     <ClInclude Include="jni\Scenes\SceneManager.h" />
     <ClInclude Include="jni\AI\Pathfinding\SearchCell.h" />
+    <ClInclude Include="jni\Scenes\SlideScene.h" />
     <ClInclude Include="jni\Scenes\TiledScene.h" />
     <ClInclude Include="jni\Graphics\Shader.h" />
     <ClInclude Include="jni\defines2D.h" />
@@ -178,6 +194,12 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="jni\Actions\Action.cpp" />
+    <ClCompile Include="jni\Actions\DelayedAction.cpp" />
+    <ClCompile Include="jni\Actions\LoopedAction.cpp" />
+    <ClCompile Include="jni\Actions\TimedAction.cpp" />
+    <ClCompile Include="jni\Actions\TimedFadeAction.cpp" />
+    <ClCompile Include="jni\Actions\TimedMoveAction.cpp" />
     <ClCompile Include="jni\Components\Physics\BaseColliderComponent.cpp" />
     <ClCompile Include="jni\Assets\Font.cpp" />
     <ClCompile Include="jni\Assets\FontManager.cpp" />
@@ -191,10 +213,18 @@
     <ClCompile Include="jni\Components\Graphics\SpritesheetComponent.cpp" />
     <ClCompile Include="jni\Components\Graphics\TextComponent.cpp" />
     <ClCompile Include="jni\Components\TransformComponent.cpp" />
+    <ClCompile Include="jni\Entity.cpp" />
     <ClCompile Include="jni\EventLoop.cpp" />
     <ClCompile Include="jni\Graphics\Color.cpp" />
     <ClCompile Include="jni\Graphics\GraphicsManager.cpp" />
     <ClCompile Include="jni\Graphics\SpriteBatch.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UIBaseCursor.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UICursor.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UISimpleTextButton.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UISlider.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UIStaticTextButton.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UIAnimatedTextButton.cpp" />
+    <ClCompile Include="jni\Graphics\UI\UITextButton.cpp" />
     <ClCompile Include="jni\Graphics\UI\UIAnimatedButton.cpp" />
     <ClCompile Include="jni\Graphics\UI\UIAnimatedImage.cpp" />
     <ClCompile Include="jni\Graphics\UI\UIButton.cpp" />
@@ -237,16 +267,17 @@
     <ClCompile Include="jni\Logger.cpp" />
     <ClCompile Include="jni\Components\Graphics\SpriteComponent.cpp" />
     <ClCompile Include="jni\Objects\BaseCamera.cpp" />
-    <ClCompile Include="jni\Objects\Button.cpp" />
     <ClCompile Include="jni\Objects\FreeCamera.cpp" />
     <ClCompile Include="jni\Objects\Object.cpp" />
     <ClCompile Include="jni\Graphics\SpriteAnimationManager.cpp" />
     <ClCompile Include="jni\Scenes\BaseScene.cpp" />
     <ClCompile Include="jni\Physics\Collision\CollisionManager.cpp" />
     <ClCompile Include="jni\AI\Pathfinding\PathFindManager.cpp" />
+    <ClCompile Include="jni\Scenes\SplashScreen.cpp" />
     <ClCompile Include="jni\Scenes\LoadScreen.cpp" />
     <ClCompile Include="jni\Scenes\SceneManager.cpp" />
     <ClCompile Include="jni\AI\Pathfinding\SearchCell.cpp" />
+    <ClCompile Include="jni\Scenes\SlideScene.cpp" />
     <ClCompile Include="jni\Scenes\TiledScene.cpp" />
     <ClCompile Include="jni\Graphics\Shader.cpp" />
     <ClCompile Include="jni\Sound\BaseSound.cpp" />
@@ -257,6 +288,14 @@
     <ClCompile Include="jni\TimeManager.cpp" />
     <ClCompile Include="jni\Graphics\ScaleSystem.cpp" />
     <ClCompile Include="Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="jni\Graphics\Color.inl" />
+    <None Include="jni\Helpers\Dictionary.inl" />
+    <None Include="jni\Helpers\Helpers.inl" />
+    <None Include="jni\Helpers\Math.inl" />
+    <None Include="jni\Objects\Object.inl" />
+    <None Include="jni\Scenes\BaseScene.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

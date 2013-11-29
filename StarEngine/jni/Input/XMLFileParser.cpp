@@ -3,6 +3,7 @@
 #include "PugiXML\src\pugiconfig.hpp"
 #include "XMLContainer.h"
 #include "..\Helpers\Helpers.h"
+#include "..\Logger.h"
 
 #ifdef ANDROID
 #include "../Helpers/HelpersAndroid.h"
@@ -30,8 +31,8 @@ namespace star
 		data.data = ReadBinaryFile(m_File.GetLocalPath(), data.size, mode);
 		result = XMLDocument.load_buffer_inplace_own(data.data, data.size);
 
-		ASSERT (result,
-			star::string_cast<tstring>(result.description()).c_str());
+		Logger::GetInstance()->Log(result,
+			star::string_cast<tstring>(result.description()));
 		if (result)
 		{
 			auto root = XMLDocument.first_child();

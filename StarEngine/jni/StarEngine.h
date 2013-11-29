@@ -48,6 +48,8 @@ namespace star
 
 		std::mt19937& GetMt19937Engine();
 
+		void Quit();
+
 #ifdef ANDROID
 		void SetAndroidApp(android_app * app);
 		android_app * GetAndroidApp() const;

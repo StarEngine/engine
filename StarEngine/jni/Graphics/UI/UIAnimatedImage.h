@@ -17,8 +17,6 @@ namespace star
 
 		virtual ~UIAnimatedImage(void);
 
-		virtual void Initialize();
-
 		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
 		virtual void SetVerticalAlignment(VerticalAlignment alignment);
 
@@ -27,9 +25,34 @@ namespace star
 		void Pause();
 		void Stop();
 
-		void PushAnimation(const tstring & animation);
-		void PlayAnimation(const tstring & animation);
-		void PlayAnimation(const tstring & animation, int32 startFrame);
+		void PushAnimation(
+			const tstring & animation,
+			const std::function<void()> & callback = nullptr
+			);
+		void PlayAnimation(
+			const tstring & animation,
+			const std::function<void()> & callback = nullptr
+			);
+		void PlayAnimation(
+			const tstring & animation,
+			int32 startFrame,
+			const std::function<void()> & callback = nullptr
+			);
+
+		bool PushAnimationSafe(
+			const tstring & animation,
+			const std::function<void()> & callback = nullptr
+			);
+		bool PlayAnimationSafe(
+			const tstring & animation,
+			const std::function<void()> & callback = nullptr
+			);
+		bool PlayAnimationSafe(
+			const tstring & animation,
+			int32 startFrame,
+			const std::function<void()> & callback = nullptr
+			);
+
 		void PlayNextAnimation();
 		void PlayNextAnimation(int32 startFrame);
 		void Reset();
@@ -51,9 +74,6 @@ namespace star
 		bool IsPlaying();
 
 	protected:
-		virtual void Update(const Context& context);
-		virtual void Draw();
-
 		SpritesheetComponent * m_pSprite;
 
 	private:

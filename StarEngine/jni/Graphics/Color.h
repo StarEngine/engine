@@ -185,49 +185,67 @@ namespace star
 		Color & operator-=(const ivec3 & yRef);
 		Color & operator-=(const ivec4 & yRef);
 
-		Color operator+(const Color & yRef);
-		Color operator+(const vec3 & yRef);
-		Color operator+(const vec4 & yRef);
-		Color operator+(const ivec3 & yRef);
-		Color operator+(const ivec4 & yRef);
+		template <typename T>
+		Color & operator*=(T x);
 
-		Color operator-(const Color & yRef);
-		Color operator-(const vec3 & yRef);
-		Color operator-(const vec4 & yRef);
-		Color operator-(const ivec3 & yRef);
-		Color operator-(const ivec4 & yRef);
+		template <typename T>
+		Color & operator/=(T x);
 
-		bool operator==(const Color & yRef);
-		bool operator==(const vec3 & yRef);
-		bool operator==(const vec4 & yRef);
-		bool operator==(const ivec3 & yRef);
-		bool operator==(const ivec4 & yRef);
+		template <typename T>
+		Color operator*(T x);
 
-		bool operator!=(const Color & yRef);
-		bool operator!=(const vec3 & yRef);
-		bool operator!=(const vec4 & yRef);
-		bool operator!=(const ivec3 & yRef);
-		bool operator!=(const ivec4 & yRef);
+		template <typename T>
+		Color operator/(T x);
+		
+		Color operator+(const Color & yRef) const;
+		Color operator+(const vec3 & yRef) const;
+		Color operator+(const vec4 & yRef) const;
+		Color operator+(const ivec3 & yRef) const;
+		Color operator+(const ivec4 & yRef) const;
 
-		friend Color operator+(const vec3 & yRef, const Color & op2); 
-		friend Color operator+(const vec4 & yRef, const Color & op2); 
-		friend Color operator+(const ivec3 & yRef, const Color & op2); 
-		friend Color operator+(const ivec4 & yRef, const Color & op2); 
+		Color operator-(const Color & yRef) const;
+		Color operator-(const vec3 & yRef) const;
+		Color operator-(const vec4 & yRef) const;
+		Color operator-(const ivec3 & yRef) const;
+		Color operator-(const ivec4 & yRef) const;
 
-		friend Color operator-(const vec3 & yRef, const Color & op2); 
-		friend Color operator-(const vec4 & yRef, const Color & op2); 
-		friend Color operator-(const ivec3 & yRef, const Color & op2); 
-		friend Color operator-(const ivec4 & yRef, const Color & op2); 
+		bool operator==(const Color & yRef) const;
+		bool operator==(const vec3 & yRef) const;
+		bool operator==(const vec4 & yRef) const;
+		bool operator==(const ivec3 & yRef) const;
+		bool operator==(const ivec4 & yRef) const;
 
-		friend bool operator==(const vec3 & yRef, const Color & op2); 
-		friend bool operator==(const vec4 & yRef, const Color & op2); 
-		friend bool operator==(const ivec3 & yRef, const Color & op2); 
-		friend bool operator==(const ivec4 & yRef, const Color & op2); 
+		bool operator!=(const Color & yRef) const;
+		bool operator!=(const vec3 & yRef) const;
+		bool operator!=(const vec4 & yRef) const;
+		bool operator!=(const ivec3 & yRef) const;
+		bool operator!=(const ivec4 & yRef) const;
 
-		friend bool operator!=(const vec3 & yRef, const Color & op2); 
-		friend bool operator!=(const vec4 & yRef, const Color & op2); 
-		friend bool operator!=(const ivec3 & yRef, const Color & op2); 
-		friend bool operator!=(const ivec4 & yRef, const Color & op2); 
+		friend Color operator+(const vec3 & yRef, const Color & op2);
+		friend Color operator+(const vec4 & yRef, const Color & op2);
+		friend Color operator+(const ivec3 & yRef, const Color & op2);
+		friend Color operator+(const ivec4 & yRef, const Color & op2);
+
+		friend Color operator-(const vec3 & yRef, const Color & op2);
+		friend Color operator-(const vec4 & yRef, const Color & op2);
+		friend Color operator-(const ivec3 & yRef, const Color & op2);
+		friend Color operator-(const ivec4 & yRef, const Color & op2);
+
+		friend bool operator==(const vec3 & yRef, const Color & op2);
+		friend bool operator==(const vec4 & yRef, const Color & op2);
+		friend bool operator==(const ivec3 & yRef, const Color & op2);
+		friend bool operator==(const ivec4 & yRef, const Color & op2);
+
+		friend bool operator!=(const vec3 & yRef, const Color & op2);
+		friend bool operator!=(const vec4 & yRef, const Color & op2);
+		friend bool operator!=(const ivec3 & yRef, const Color & op2);
+		friend bool operator!=(const ivec4 & yRef, const Color & op2);
+
+		template <typename T>
+		friend Color operator*(T x, const Color & op2);
+
+		template <typename T>
+		friend Color operator/(T x, const Color & op2);
 
 		template <typename T, typename U>
 		T FloatToInteger(U yRef) const;
@@ -235,16 +253,6 @@ namespace star
 		template <typename T, typename U>
 		T IntegerToFloat(U yRef) const;
 	};
-
-	template <typename T, typename U>
-	T Color::FloatToInteger(U yRef) const
-	{
-		return T( 255 * yRef );
-	}
-
-	template <typename T, typename U>
-	T Color::IntegerToFloat(U yRef) const
-	{
-		return T(yRef) / T(255);
-	}
 }
+
+#include "Color.inl"

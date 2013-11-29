@@ -80,6 +80,15 @@ namespace star
 		m_TimeStamp = context.mTimeManager->GetTimeStamp();
 	}
 
+	void Logger::Log(bool assert, const tstring& pMessage, const tstring& tag)
+	{
+		if(!assert)
+		{
+			Log(LogLevel::Error, pMessage, tag);
+		}
+		ASSERT(assert, pMessage.c_str());
+	}
+
 	void Logger::Log(LogLevel level, const tstring& pMessage, const tstring& tag)
 	{
 #if LOGGER_MIN_LEVEL > 0

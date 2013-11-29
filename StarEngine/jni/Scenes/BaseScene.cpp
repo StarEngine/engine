@@ -1,7 +1,6 @@
 #include "BaseScene.h"
 #include "../Context.h"
 #include "../Input/InputManager.h"
-#include "../Objects/Object.h"
 #include "../StarComponents.h"
 #include "../Objects/BaseCamera.h"
 #include "../Graphics/GraphicsManager.h"
@@ -9,21 +8,27 @@
 #include "../Helpers/Debug/DebugDraw.h"
 #include "../Physics/Collision/CollisionManager.h"
 #include "../Input/Gestures/GestureManager.h"
+#include "../Graphics/UI/UICursor.h"
+#include "../Graphics/UI/UIBaseCursor.h"
+#include "SceneManager.h"
 
 namespace star 
 {
 	bool BaseScene::CULLING_IS_ENABLED = true;
 
 	BaseScene::BaseScene(const tstring & name)
-		: m_GestureManagerPtr(nullptr)
+		: Entity(name)
+		, m_GestureManagerPtr(nullptr)
 		, m_CollisionManagerPtr(nullptr)
 		, m_Objects()
 		, m_Garbage()
 		, m_pDefaultCamera(nullptr)
+		, m_pCursor(nullptr)
 		, m_CullingOffsetX(0)
 		, m_CullingOffsetY(0)
 		, m_Initialized(false)
-		, m_Name(name)
+		, m_CursorIsHidden(false)
+		, m_SystemCursorIsHidden(false)
 	{
 		m_pStopwatch = std::make_shared<Stopwatch>();
 		m_GestureManagerPtr = std::make_shared<GestureManager>();
@@ -34,11 +39,17 @@ namespace star
 	{
 		for(auto object : m_Objects)
 		{
-			delete object;
+			SafeDelete(object);
 		}
 		m_Objects.clear();
 		m_GestureManagerPtr = nullptr;
 		m_CollisionManagerPtr = nullptr;
+		SafeDelete(m_pCursor);
+	}
+
+	void BaseScene::Destroy()
+	{
+		SceneManager::GetInstance()->RemoveScene(GetName());
 	}
 
 	void BaseScene::BaseInitialize()
@@ -71,11 +82,18 @@ namespace star
 	void BaseScene::BaseOnActivate()
 	{
 		InputManager::GetInstance()->SetGestureManager(m_GestureManagerPtr);
+		SetOSCursorHidden(m_CursorIsHidden || m_SystemCursorIsHidden);
+		SetActiveCursorLocked(false);
 		return OnActivate();
 	}
 
 	void BaseScene::BaseOnDeactivate()
 	{
+		SetStateActiveCursor(_T("idle"));
+		for(auto object : m_Objects)
+		{
+			object->Reset();
+		}
 		OnDeactivate();
 	}
 
@@ -84,6 +102,20 @@ namespace star
 		CollectGarbage();
 
 		m_pStopwatch->Update(context);
+		
+#ifdef DESKTOP
+		if(m_SystemCursorIsHidden && !m_CursorIsHidden)
+		{
+			if(m_pCursor)
+			{
+				m_pCursor->BaseUpdate(context);
+			}
+			else
+			{
+				SceneManager::GetInstance()->UpdateDefaultCursor(context);
+			}
+		}
+#endif
 		
 		Update(context);
 
@@ -132,6 +164,20 @@ namespace star
 		}
 	
 		Draw(); 
+
+#ifdef DESKTOP
+		if(m_SystemCursorIsHidden && !m_CursorIsHidden)
+		{
+			if(m_pCursor)
+			{
+				m_pCursor->BaseDraw();
+			}
+			else
+			{
+				SceneManager::GetInstance()->DrawDefaultCursor();
+			}
+		}
+#endif
 	}
 
 	void BaseScene::OnSaveState(void** pData, size_t* pSize)
@@ -147,11 +193,6 @@ namespace star
 	void BaseScene::OnLowMemory()
 	{
 
-	}
-
-	const tstring & BaseScene::GetName() const
-	{
-		return m_Name;
 	}
 
 	bool BaseScene::IsInitialized() const
@@ -223,22 +264,6 @@ namespace star
 				_T("BaseScene::RemoveObject: \
 				   Trying to remove an unknown object '")
 				   + name + _T("'."));
-	}
-
-	Object * BaseScene::GetObjectByName(const tstring & name)
-	{
-		for(auto object : m_Objects)
-		{
-			if(object->CompareName(name))
-			{
-				return object;
-			}
-		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("BaseScene::GetObjectByName: \
-				   Trying to get an unknown object '")
-				   + name + _T("'."));
-		return nullptr;
 	}
 
 	void BaseScene::SetObjectFrozen(const tstring & name, bool freeze)
@@ -365,6 +390,109 @@ namespace star
 	{
 		return CULLING_IS_ENABLED;
 	}
+
+	void BaseScene::SetCursorHidden(bool hidden)
+	{
+		m_CursorIsHidden = hidden;
+		if(hidden)
+		{
+			SetOSCursorHidden(true);
+		}
+	}
+	
+	void BaseScene::SetSystemCursorHidden(bool hidden)
+	{
+		m_SystemCursorIsHidden = hidden;
+		SetOSCursorHidden(hidden);
+	}
+
+	void BaseScene::SetOSCursorHidden(bool hidden)
+	{
+#ifdef _WIN32
+		ShowCursor(BOOL(!hidden));
+#endif
+	}
+
+	void BaseScene::SetCursor(UIBaseCursor * cursor)
+	{
+		SafeDelete(m_pCursor);
+		m_pCursor = cursor;
+		m_pCursor->BaseInitialize();
+		SetSystemCursorHidden(true);
+#ifdef MOBILE
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			tstring(_T("BaseScene::SetCursor: Cursor isn't supported on mobile device."))
+			+ _T(" For optimialisation reasons it's better to disable the code related to\
+the custom cursor code in your game project."));
+#endif
+	}
+
+	void BaseScene::UnsetCursor(bool showSystemCursor)
+	{
+		SafeDelete(m_pCursor);
+		if(SceneManager::GetInstance()->IsDefaultCursorDefined())
+		{
+			SetSystemCursorHidden(!showSystemCursor);
+		}
+#ifdef MOBILE
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			tstring(_T("BaseScene::UnsetCursor: Cursor isn't supported on mobile device."))
+			+ _T(" For optimialisation reasons it's better to disable the code related to\
+the custom cursor code in your game project."));
+#endif
+	}
+
+	void BaseScene::SetStateActiveCursor(const tstring & state)
+	{
+		if(m_pCursor)
+		{
+			m_pCursor->SetState(state);
+#ifdef MOBILE
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			tstring(_T("BaseScene::SetStateActiveCursor: Cursor isn't supported on mobile device."))
+			+ _T(" For optimialisation reasons it's better to disable the code related to\
+the custom cursor code in your game project."));
+#endif
+			return;
+		}
+		else
+		{
+			SceneManager::GetInstance()->SetDefaultCursorState(state);
+			return;
+		}
+	}
+	
+	void BaseScene::SetActiveCursorLocked(bool locked)
+	{
+		if(m_pCursor)
+		{
+			m_pCursor->SetLocked(locked);
+#ifdef MOBILE
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			tstring(_T("BaseScene::SetActiveCursorLocked: Cursor isn't supported on mobile device."))
+			+ _T(" For optimialisation reasons it's better to disable the code related to\
+the custom cursor code in your game project."));
+#endif
+			return;
+		}
+		else
+		{
+			SceneManager::GetInstance()->SetDefaultCursorLocked(locked);
+			return;
+		}
+	}
+	
+	bool BaseScene::IsActiveCursorLocked() const
+	{
+		if(m_pCursor)
+		{
+			return m_pCursor->IsLocked();
+		}
+		else
+		{
+			return SceneManager::GetInstance()->IsDefaultCursorLocked();
+		}
+	}
 	
 	std::shared_ptr<Stopwatch> BaseScene::GetStopwatch() const
 	{
@@ -398,7 +526,8 @@ namespace star
 		for(auto elem : m_Garbage)
 		{
 			auto it = std::find(m_Objects.begin(), m_Objects.end(), elem);
-			ASSERT(it != m_Objects.end(), _T("BaseScene::CollectGarbage: Trying to delete unknown object"));
+			Logger::GetInstance()->Log(it != m_Objects.end(),
+				_T("BaseScene::CollectGarbage: Trying to delete unknown object"));
 			m_Objects.erase(it);
 			delete elem;
 		}
