@@ -75,6 +75,7 @@ namespace star
 		virtual void InitializeComponent();
 		virtual void CreateVertices();
 		virtual void CreateUVCoords();
+		void SetUVCoords(const vec4& coords);
 		virtual void FillSpriteInfo();
 
 		static const int VERTEX_AMOUNT = 12;
