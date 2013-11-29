@@ -49,7 +49,7 @@ namespace star
 			);
 		void PlayMusic(
 			const tstring& name,
-			int32 loopTimes
+			int32 loopTimes = 0
 			);
 		void PlayEffect(
 			const tstring& path,
@@ -59,7 +59,7 @@ namespace star
 			);
 		void PlayEffect(
 			const tstring& name,
-			int32 loopTimes
+			int32 loopTimes = 0
 			);
 
 		void PlayMusic(
