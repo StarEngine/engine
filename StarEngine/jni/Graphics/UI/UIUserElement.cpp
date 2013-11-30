@@ -1,6 +1,7 @@
 #include "UIUserElement.h"
 #include "../../Input/InputManager.h"
 #include "../../Scenes/BaseScene.h"
+#include "../../Sound/AudioManager.h"
 
 namespace star
 {
@@ -8,13 +9,15 @@ namespace star
 		: UIElement(name)
 		, m_SelectCallback(nullptr)
 		, m_DownCallback(nullptr)
-#ifdef DESKTOP
 		, m_HoverCallback(nullptr)
 		, m_UnhoverCallback(nullptr)
-#endif
 		, m_ElementState(ElementStates::IDLE)
 	{
+		m_Effects[HOVER_EFFECT].Name = EMPTY_STRING;
+		m_Effects[HOVER_EFFECT].Volume = 1.0f;
 
+		m_Effects[CLICK_EFFECT].Name = EMPTY_STRING;
+		m_Effects[CLICK_EFFECT].Volume = 1.0f;
 	}
 
 	UIUserElement::~UIUserElement()
@@ -75,6 +78,28 @@ namespace star
 			},
 			false
 			);
+	}
+
+	void UIUserElement::SetHoverSoundEffect(const tstring & name)
+	{
+		m_Effects[HOVER_EFFECT].Name = name;
+	}
+
+	void UIUserElement::SetHoverSoundEffect(const tstring & name, float32 volume)
+	{
+		m_Effects[HOVER_EFFECT].Name = name;
+		m_Effects[HOVER_EFFECT].Volume = volume;
+	}
+
+	void UIUserElement::SetClickSoundEffect(const tstring & name)
+	{
+		m_Effects[CLICK_EFFECT].Name = name;
+	}
+
+	void UIUserElement::SetClickSoundEffect(const tstring & name, float32 volume)
+	{
+		m_Effects[CLICK_EFFECT].Name = name;
+		m_Effects[CLICK_EFFECT].Volume = volume;
 	}
 
 	void UIUserElement::Update(const Context& context)
@@ -140,6 +165,15 @@ namespace star
 		{
 			m_HoverCallback();
 		}
+		
+		if(m_Effects[HOVER_EFFECT].Name != EMPTY_STRING)
+		{
+			AudioManager::GetInstance()->PlayEffect(
+				m_Effects[HOVER_EFFECT].Name,
+				m_Effects[HOVER_EFFECT].Volume,
+				0
+				);
+		}
 
 		GetScene()->GetStopwatch()->CreateTimer(
 			_T("HCT"),
@@ -152,6 +186,7 @@ namespace star
 			}, false);
 	}
 #endif
+
 	void UIUserElement::GoDown()
 	{
 		GetScene()->GetStopwatch()->CreateTimer(
@@ -163,6 +198,7 @@ namespace star
 			{
 				GetScene()->SetStateActiveCursor(UI_STATE_CLICK);
 			}, false);
+
 		if(m_DownCallback != nullptr)
 		{
 			m_DownCallback();
@@ -175,6 +211,16 @@ namespace star
 		{
 			m_SelectCallback();
 		}
+
+		if(m_Effects[CLICK_EFFECT].Name != EMPTY_STRING)
+		{
+			AudioManager::GetInstance()->PlayEffect(
+				m_Effects[CLICK_EFFECT].Name,
+				m_Effects[CLICK_EFFECT].Volume,
+				0
+				);
+		}
+
 		GetScene()->GetStopwatch()->CreateTimer(
 			_T("HCT"),
 			0.1f,
@@ -224,7 +270,6 @@ namespace star
 		m_DownCallback = callback;
 	}
 
-#ifdef DESKTOP
 	void UIUserElement::SetHoverCallback(std::function<void()> callback)
 	{
 		m_HoverCallback = callback;
@@ -234,20 +279,17 @@ namespace star
 	{
 		m_UnhoverCallback = callback;
 	}
-#endif
 
 	bool UIUserElement::IsIdle() const
 	{
 		return m_ElementState == ElementStates::IDLE;
 	}
 
-#ifdef DESKTOP
 	bool UIUserElement::IsHover() const
 	{
 		return m_ElementState == ElementStates::HOVER;
 	}
 
-#endif
 	bool UIUserElement::IsDown() const
 	{
 		return m_ElementState == ElementStates::CLICK;

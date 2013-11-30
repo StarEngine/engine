@@ -25,21 +25,29 @@ namespace star
 		void SetSelectCallback(std::function<void()> callback);
 		void SetDownCallback(std::function<void()> callback);
 
-#ifdef DESKTOP
 		void SetHoverCallback(std::function<void()> callback);
 		void SetUnhoverCallback(std::function<void()> callback);
-#endif
 
 		bool IsIdle() const;
-#ifdef DESKTOP
 		bool IsHover() const;
-#endif
 		bool IsDown() const;
 
 		void SetLocked(bool locked);
 		void SetUIDisabled(bool disable);
 
+		void SetHoverSoundEffect(const tstring & name);
+		void SetHoverSoundEffect(const tstring & name, float32 volume);
+
+		void SetClickSoundEffect(const tstring & name);
+		void SetClickSoundEffect(const tstring & name, float32 volume);
+
 	protected:
+		struct EffectInfo
+		{
+			tstring Name;
+			float32 Volume;
+		};
+
 		virtual void Update(const Context& context);
 
 		virtual void GoIdle();
@@ -56,16 +64,18 @@ namespace star
 			m_SelectCallback;
 		std::function<void()>
 			m_DownCallback;
-
-#ifdef DESKTOP
 		std::function<void()>
 			m_HoverCallback,
 			m_UnhoverCallback;
-#endif
 
 		ElementStates m_ElementState;
 
+		EffectInfo m_Effects[2];
+
 	private:
+		static const uint8 HOVER_EFFECT = 0;
+		static const uint8 CLICK_EFFECT = 1;
+
 		UIUserElement(const UIUserElement &);
 		UIUserElement(UIUserElement &&);
 		UIUserElement & operator=(const UIUserElement &);
