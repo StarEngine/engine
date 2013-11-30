@@ -47,10 +47,6 @@ namespace star
 		Logger::GetInstance()->Log(m_pSpriteComponent != nullptr,
 			_T("TimedFadeAction::Initialize: TimedFadeAction needs a SpriteComponent to work!"));
 		m_pSpriteComponent->SetColorMultiplier(m_StartColor);
-		m_Callback = [&] () 
-		{
-			m_pSpriteComponent->SetColorMultiplier(m_EndColor);
-		};
 
 		TimedAction::Initialize();
 	}

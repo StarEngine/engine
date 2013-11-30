@@ -168,8 +168,7 @@ namespace star
 						m_Slides[id] + _T("_fade_in"),
 						fade_in_time,
 						fade_in_start_color,
-						fade_in_end_color
-						);
+						fade_in_end_color);
 					slide->AddAction(fadeAction);
 				},
 				false

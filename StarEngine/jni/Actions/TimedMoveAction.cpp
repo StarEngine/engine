@@ -88,13 +88,6 @@ namespace star
 				m_StartPosition = m_pParent->GetTransform()->GetWorldPosition().pos2D();
 				m_StartPosSet = true;
 			}
-			m_Callback = [&] () 
-			{
-				if(m_Speed == 0.0f)
-				{
-					m_pParent->GetTransform()->Translate(m_Target);
-				}
-			};
 		}
 		else
 		{

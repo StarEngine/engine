@@ -27,12 +27,12 @@ namespace star
 
 		virtual ~TimedFadeAction();
 
-		virtual void Initialize();
-		virtual void Update(const Context & context);
-
 		virtual void Restart();
 
 	protected:
+		virtual void Initialize();
+		virtual void Update(const Context & context);
+
 		Color m_StartColor, m_EndColor;
 		float32 m_CurrentSeconds;
 		SpriteComponent * m_pSpriteComponent;
