@@ -21,10 +21,29 @@ namespace star
 	{
 
 	}
+	
+	void UIUserElement::SetLocked(bool locked)
+	{
+		bool isUnlocking =
+			!locked && m_ElementState == ElementStates::LOCKED;
+		m_ElementState = 
+			locked ?
+			ElementStates::LOCKED :
+			ElementStates::IDLE;
+		if(isUnlocking)
+		{
+			if(m_SelectCallback)
+			{
+				m_SelectCallback();
+			}
+			GoIdle();
+		}
+	}
 
 	void UIUserElement::Update(const Context& context)
 	{
-		if(!IsDisabled())
+		if(!IsDisabled() &&
+			m_ElementState != ElementStates::LOCKED)
 		{
 			if(IsFingerWithinRange())
 			{

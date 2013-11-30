@@ -12,7 +12,8 @@ namespace star
 #ifdef DESKTOP
 			HOVER = 1,
 #endif
-			CLICK = 2
+			CLICK = 2,
+			LOCKED = 4
 		};
 
 		static const byte DISABLE_STATE_ID = 3;
@@ -37,6 +38,8 @@ namespace star
 		bool IsHover() const;
 #endif
 		bool IsDown() const;
+
+		void SetLocked(bool locked);
 
 	protected:
 		virtual void Update(const Context& context);

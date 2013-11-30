@@ -48,6 +48,7 @@ namespace star
 			[&] ()
 			{
 				m_SliderIsDown = true;
+				m_pSlider->SetLocked(true);
 				GetScene()->SetStateActiveCursor(UI_STATE_CLICK);
 				GetScene()->SetActiveCursorLocked(true);
 			}
@@ -77,6 +78,7 @@ namespace star
 			if(InputManager::GetInstance()->IsFingerReleasedCP(0))
 			{
 				m_SliderIsDown = false;
+				m_pSlider->SetLocked(false);
 				GetScene()->GetStopwatch()->CreateTimer(
 					GetName() + _T("_locked_timer"),
 					0.1f, false, false, [&] ()
