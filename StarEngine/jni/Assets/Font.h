@@ -47,7 +47,7 @@ namespace star
 		const std::vector<fontUvCoords>& GetUvCoords() const;
 		const std::vector<fontVertices>& GetVetrices() const;
 		const std::vector<ivec2>& GetLetterDimensions() const;
-		uint32 GetMaxLetterHeight() const;
+		int32 GetMaxLetterHeight() const;
 		uint32 GetStringLength(const tstring& string) const;
 
 	private:
@@ -57,7 +57,7 @@ namespace star
 		tstring m_FontPath;
 		FT_Face mFace;
 		GLuint* mTextures;
-		uint32 mMaxLetterHeight;
+		int32 mMaxLetterHeight;
 #ifdef ANDROID
 		BYTE* mFontBuffer;
 #endif

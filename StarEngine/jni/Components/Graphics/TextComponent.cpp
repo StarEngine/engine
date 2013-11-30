@@ -114,8 +114,8 @@ namespace star
 		auto count = std::count(m_EditText.begin(), m_EditText.end(), _T('\n'));
 		++count;
 		auto font = FontManager::GetInstance()->GetFont(m_FontName);
-		m_TextHeight = int32(m_TextHeight = (font.GetMaxLetterHeight() * count)
-				+ (m_TextDesc.VerticalSpacing * (count - 1)));
+		m_TextHeight = (font.GetMaxLetterHeight() * count)
+			+ (m_TextDesc.VerticalSpacing * (count - 1));
 	}
 	
 	void TextComponent::CleanTextUp(const tstring & str)

@@ -145,9 +145,9 @@ namespace star
 		ivec2 tempdim(dimx, dimy);
 		//[COMMENT] bitmap_top returns an int. Is this for a reason?
 		// For now i casted it to an uint. please change if not appropriate
-		if(mMaxLetterHeight < uint32(face->glyph->bitmap_top))
+		if(mMaxLetterHeight < int32(face->glyph->bitmap_top))
 		{
-			mMaxLetterHeight = uint32(face->glyph->bitmap_top);
+			mMaxLetterHeight = int32(face->glyph->bitmap_top);
 		}
 		mLetterSizeList.push_back(tempdim);	
 
@@ -222,7 +222,7 @@ namespace star
 		return mLetterSizeList;
 	}
 
-	uint32 Font::GetMaxLetterHeight() const 
+	int32 Font::GetMaxLetterHeight() const 
 	{
 		return mMaxLetterHeight;
 	}
