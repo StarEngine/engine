@@ -60,6 +60,9 @@ namespace star
 
 		void CalculateTextDimensions();
 		void CalculateWrappedTextDimensions(uint8 lines);
+
+		void CalculateTextHeight();
+		void CleanTextUp(const tstring & str);
 	
 	private:
 		float32	m_FontSize;
@@ -70,8 +73,7 @@ namespace star
 
 		tstring m_FileName,
 				m_FontName,
-				m_OrigText,
-				m_EditedText;
+				m_OrigText;
 
 		Color m_TextColor;
 		TextDesc m_TextDesc;

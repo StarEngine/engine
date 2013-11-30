@@ -23,7 +23,6 @@ namespace star
 		, m_FileName(EMPTY_STRING)
 		, m_FontName(fontName)
 		, m_OrigText(EMPTY_STRING)
-		, m_EditedText(EMPTY_STRING)
 		, m_TextColor(Color::Black)
 		, m_bInFront(bInFront)
 	{
@@ -43,7 +42,6 @@ namespace star
 		, m_FileName(fontPath)
 		, m_FontName(fontName)
 		, m_OrigText(EMPTY_STRING)
-		, m_EditedText(EMPTY_STRING)
 		, m_TextColor(Color::Black)
 		, m_bInFront(bInFront)
 	{
@@ -75,16 +73,16 @@ namespace star
 
 		if(m_WrapWidth == NO_WRAPPING)
 		{
-			m_EditedText = m_OrigText;
+			CleanTextUp(m_OrigText);
 			CalculateTextDimensions();
 		}
 		else
 		{
-			m_EditedText = CheckWrapping(
+			CleanTextUp(CheckWrapping(
 						FontManager::GetInstance()->GetFont(m_FontName),
 						m_OrigText,
 						m_WrapWidth
-						);
+						));
 		}
 	}
 
@@ -93,8 +91,8 @@ namespace star
 		if(m_bInitialized)
 		{
 			auto font = FontManager::GetInstance()->GetFont(m_FontName);
-			m_TextWidth = font.GetStringLength(m_EditedText);
-			m_TextHeight = font.GetMaxLetterHeight();
+			m_TextWidth = font.GetStringLength(m_TextDesc.Text);
+			CalculateTextHeight();
 		}
 	}
 	
@@ -108,13 +106,39 @@ namespace star
 		}
 	}
 
+	void TextComponent::CalculateTextHeight()
+	{
+		auto count = std::count(m_TextDesc.Text.begin(), m_TextDesc.Text.end(), _T('\n'));
+		++count;
+		auto font = FontManager::GetInstance()->GetFont(m_FontName);
+		m_TextHeight = int32(m_TextHeight = (font.GetMaxLetterHeight() * count)
+				+ (m_TextDesc.VerticalSpacing * (count - 1)));
+	}
+	
+	void TextComponent::CleanTextUp(const tstring & str)
+	{
+		size_t length = str.length();
+		m_TextDesc.Text = EMPTY_STRING;
+		for(size_t i = 0 ; i < length ; ++i)
+		{
+			if(str[i] == _T('\t'))
+			{
+				m_TextDesc.Text += _T("    ");
+			}
+			else
+			{
+				m_TextDesc.Text += str[i];
+			}
+		}
+	}
+
 	TextComponent::~TextComponent()
 	{
 	}
 
 	void TextComponent::Draw()
 	{	
-		m_TextDesc.Text = m_EditedText;
+		m_TextDesc.Text = m_TextDesc.Text;
 		m_TextDesc.TransformComp = m_pParentObject->GetTransform();
 
 		SpriteBatch::GetInstance()->AddTextToQueue(m_TextDesc, m_bInFront);
@@ -162,17 +186,16 @@ namespace star
 		{
 			if(m_bInitialized)
 			{
-				m_EditedText = CheckWrapping(
+				CleanTextUp(CheckWrapping(
 						FontManager::GetInstance()->GetFont(m_FontName),
 						m_OrigText,
 						int32(m_WrapWidth)
-						);
+						));
 			}
 		}
 		else
 		{
-			m_EditedText = m_OrigText;
-			
+			CleanTextUp(m_OrigText);
 			CalculateTextDimensions();
 		}
 	}
@@ -197,7 +220,6 @@ namespace star
 		m_WrapWidth = width;
 		if(width == NO_WRAPPING)
 		{
-			m_EditedText = m_OrigText;
 			CalculateTextDimensions();
 		}
 		else
@@ -205,11 +227,11 @@ namespace star
 			m_TextWidth = 0;
 			if(m_bInitialized)
 			{
-				m_EditedText = CheckWrapping(
+				CleanTextUp(CheckWrapping(
 							FontManager::GetInstance()->GetFont(m_FontName),
 							m_OrigText,
 							m_WrapWidth
-							);
+							));
 			}
 		}
 	}
@@ -305,11 +327,11 @@ namespace star
 		m_TextDesc.VerticalSpacing = spacing;
 		if(m_bInitialized && m_WrapWidth != NO_WRAPPING)
 		{
-			m_EditedText = CheckWrapping(
+			CleanTextUp(CheckWrapping(
 						FontManager::GetInstance()->GetFont(m_FontName),
 						m_OrigText,
 						m_WrapWidth
-						);
+						));
 		}
 	}
 

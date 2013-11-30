@@ -280,7 +280,7 @@ namespace star
 				offsetY -= curfont.GetMaxLetterHeight() + spacing;
 				offsetX = 0;	
 			}
-			else
+			else if(start_line[i] > 31) // is printable
 			{
 				glBindTexture(GL_TEXTURE_2D, textures[start_line[i]]);
 
