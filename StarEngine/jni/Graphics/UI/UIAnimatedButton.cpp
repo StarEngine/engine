@@ -186,7 +186,7 @@ namespace star
 		UIUserElement::GoDown();
 	}
 
-	void UIAnimatedButton::GoFreeze()
+	void UIAnimatedButton::GoDisable()
 	{
 		if(m_pButtonSprite->GetCurrentAnimation() != UI_STATE_DISABLE)
 		{
@@ -196,7 +196,7 @@ namespace star
 					UI_STATE_DISABLE, m_pButtonSprite->GetCurrentFrame()))
 				{
 					Logger::GetInstance()->Log(LogLevel::Warning,
-						_T("UIAnimatedButton::GoFreeze: Animation '")
+						_T("UIAnimatedButton::GoDisable: Animation '")
 						+ tstring(UI_STATE_DISABLE) +
 						_T("' is not defined in the used spritesheet."));
 				}
@@ -213,6 +213,6 @@ namespace star
 				}
 			}
 		}
-		UIUserElement::GoFreeze();
+		UIUserElement::GoDisable();
 	}
 }

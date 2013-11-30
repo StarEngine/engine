@@ -252,10 +252,10 @@ namespace star
 		UIUserElement::GoDown();
 	}
 
-	void UISimpleTextButton::GoFreeze()
+	void UISimpleTextButton::GoDisable()
 	{
-		m_pTextField->SetColor(m_StateColors[DISABLE_STATE_ID]);
+		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
 
-		UIUserElement::GoFreeze();
+		UIUserElement::GoDisable();
 	}
 }

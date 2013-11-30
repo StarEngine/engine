@@ -157,9 +157,9 @@ namespace star
 		UIButton::GoDown();
 	}
 
-	void UITextButton::GoFreeze()
+	void UITextButton::GoDisable()
 	{
-		m_pTextField->SetColor(m_StateColors[DISABLE_STATE_ID]);
-		UIButton::GoFreeze();
+		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
+		UIButton::GoDisable();
 	}
 }

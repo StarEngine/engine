@@ -21,7 +21,7 @@ namespace star
 		virtual void GoHover();
 #endif
 		virtual void GoDown();
-		virtual void GoFreeze();
+		virtual void GoDisable();
 
 		bool m_IsVertical;
 

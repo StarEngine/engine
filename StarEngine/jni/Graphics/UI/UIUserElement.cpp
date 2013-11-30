@@ -24,26 +24,63 @@ namespace star
 	
 	void UIUserElement::SetLocked(bool locked)
 	{
-		bool isUnlocking =
-			!locked && m_ElementState == ElementStates::LOCKED;
-		m_ElementState = 
-			locked ?
-			ElementStates::LOCKED :
-			ElementStates::IDLE;
-		if(isUnlocking)
-		{
-			if(m_SelectCallback)
+		GetScene()->GetStopwatch()->CreateTimer(
+			_T("LockTimer"),
+			0.2f,
+			false,
+			false,
+			[&]()
 			{
-				m_SelectCallback();
-			}
-			GoIdle();
-		}
+				bool isUnlocking =
+					!locked && m_ElementState == ElementStates::LOCKED;
+				m_ElementState = 
+					locked ?
+					ElementStates::LOCKED :
+					ElementStates::IDLE;
+				if(isUnlocking)
+				{
+					if(m_SelectCallback)
+					{
+						m_SelectCallback();
+					}
+					GoIdle();
+				}
+			},
+			false
+			);
+	}
+	
+	void UIUserElement::SetUIDisabled(bool disable)
+	{
+		GetScene()->GetStopwatch()->CreateTimer(
+			_T("DisableTimer"),
+			0.2f,
+			false,
+			false,
+			[&]()
+			{
+				bool isEnabling =
+					!disable && m_ElementState == ElementStates::DISABLED;
+				auto elementAdress = &m_ElementState;
+				m_ElementState = 
+					disable ?
+					ElementStates::DISABLED :
+					ElementStates::IDLE;
+				if(isEnabling)
+				{
+					GoIdle();
+					return;
+				}
+				GoDisable();
+			},
+			false
+			);
 	}
 
 	void UIUserElement::Update(const Context& context)
 	{
-		if(!IsDisabled() &&
-			m_ElementState != ElementStates::LOCKED)
+		if(m_ElementState != ElementStates::DISABLED
+			&& m_ElementState != ElementStates::LOCKED)
 		{
 			if(IsFingerWithinRange())
 			{
@@ -154,11 +191,6 @@ namespace star
 
 	}
 
-	void UIUserElement::GoFreeze()
-	{
-
-	}
-
 	bool UIUserElement::IsFingerWithinRange() const
 	{
 		auto fingerPos = InputManager::GetInstance()->GetCurrentFingerPosCP(0);
@@ -171,21 +203,14 @@ namespace star
 			fingerPos.y >= buttonPos.y &&
 			fingerPos.y <= buttonPos.y + dimensions.y;
 	}
-	
-	void UIUserElement::SetDisabled(bool disabled)
-	{
-		if(disabled && !IsDisabled())
-		{
-			GoDisable();
-		}
-
-		UIElement::SetDisabled(disabled);
-	}
 
 	void UIUserElement::Reset()
 	{
-		GoIdle();
-		m_ElementState = ElementStates::IDLE;
+		if(m_ElementState != ElementStates::DISABLED)
+		{
+			GoIdle();
+			m_ElementState = ElementStates::IDLE;
+		}
 		UIObject::Reset();
 	}
 

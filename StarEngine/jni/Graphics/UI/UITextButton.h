@@ -57,7 +57,7 @@ namespace star
 		virtual void GoHover();
 #endif
 		virtual void GoDown();
-		virtual void GoFreeze();
+		virtual void GoDisable();
 		
 		UITextField * m_pTextField;
 		Color m_StateColors[4];

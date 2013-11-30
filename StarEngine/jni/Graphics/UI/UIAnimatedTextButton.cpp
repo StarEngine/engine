@@ -157,9 +157,9 @@ namespace star
 		UIAnimatedButton::GoDown();
 	}
 
-	void UIAnimatedTextButton::GoFreeze()
+	void UIAnimatedTextButton::GoDisable()
 	{
-		m_pTextField->SetColor(m_StateColors[DISABLE_STATE_ID]);
-		UIAnimatedButton::GoFreeze();
+		m_pTextField->SetColor(m_StateColors[int8(m_ElementState)]);
+		UIAnimatedButton::GoDisable();
 	}
 }

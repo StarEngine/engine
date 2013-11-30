@@ -81,7 +81,7 @@ namespace star
 		virtual void GoHover();
 #endif
 		virtual void GoDown();
-		virtual void GoFreeze();
+		virtual void GoDisable();
 
 		UITextField * m_pTextField;
 		vec2 m_Dimensions;

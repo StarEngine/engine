@@ -59,12 +59,12 @@ namespace star
 		UIUserElement::GoDown();
 	}
 
-	void UIButton::GoFreeze()
+	void UIButton::GoDisable()
 	{
 		m_pButtonSprite->SetCurrentSegment(
-			m_IsVertical ? 0 : DISABLE_STATE_ID,
-			m_IsVertical ? DISABLE_STATE_ID : 0
+			m_IsVertical ? 0 : int8(m_ElementState),
+			m_IsVertical ? int8(m_ElementState) : 0
 			);
-		UIUserElement::GoFreeze();
+		UIUserElement::GoDisable();
 	}
 }

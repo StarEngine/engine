@@ -13,15 +13,12 @@ namespace star
 			HOVER = 1,
 #endif
 			CLICK = 2,
+			DISABLED = 3,
 			LOCKED = 4
 		};
 
-		static const byte DISABLE_STATE_ID = 3;
-
 		UIUserElement(const tstring & name);
 		virtual ~UIUserElement();
-
-		virtual void SetDisabled(bool disabled);
 
 		virtual void Reset();
 
@@ -40,6 +37,7 @@ namespace star
 		bool IsDown() const;
 
 		void SetLocked(bool locked);
+		void SetUIDisabled(bool disable);
 
 	protected:
 		virtual void Update(const Context& context);
@@ -51,7 +49,6 @@ namespace star
 		virtual void GoDown();
 		virtual void GoUp();
 		virtual void GoDisable();
-		virtual void GoFreeze();
 
 		bool IsFingerWithinRange() const;
 

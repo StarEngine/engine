@@ -31,7 +31,7 @@ namespace star
 		virtual void GoHover();
 #endif
 		virtual void GoDown();
-		virtual void GoFreeze();
+		virtual void GoDisable();
 
 		SpritesheetComponent *m_pButtonSprite;
 		bool m_ContiniousAnimation;
