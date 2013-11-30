@@ -7,9 +7,7 @@
 #include <locale>
 #include <clocale>
 #include <vector>
-#ifdef _WIN32
 #include <windows.h>
-#endif
 
 #include "HelpersCrossplatform.h"
 
