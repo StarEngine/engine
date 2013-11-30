@@ -21,7 +21,7 @@ namespace star
 		TextComponent(
 			const tstring& fontPath,
 			const tstring& fontName,
-			float32 fontSize,
+			uint32 fontSize,
 			bool bInFront = true
 			);
 
@@ -80,7 +80,7 @@ namespace star
 		void AddSpacesToText(tstring & str, uint32 n);
 	
 	private:
-		float32	m_FontSize;
+		uint32	m_FontSize;
 		int32	m_TextWidth,
 				m_TextHeight;
 

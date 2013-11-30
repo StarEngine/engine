@@ -50,7 +50,7 @@ namespace star
 
 		static FontManager * GetInstance();
 
-		bool LoadFont(const tstring& path, const tstring& name, float32 size);
+		bool LoadFont(const tstring& path, const tstring& name, uint32 size);
 		const Font& GetFont(const tstring& name);
 		bool DeleteFont(const tstring& name);
 		void EraseFonts();

@@ -24,7 +24,7 @@ namespace star
 	{
 	}
 
-	bool Font::Init(const tstring& path, float32 size, FT_Library& library)
+	bool Font::Init(const tstring& path, uint32 size, FT_Library& library)
 	{
 		mSize = size;
 		mTextures = new GLuint[FONT_TEXTURES];
@@ -143,9 +143,15 @@ namespace star
 		int32 dimx = (face->glyph->metrics.horiAdvance / 64);
 		int32 dimy = ((face->glyph->metrics.horiBearingY) - (face->glyph->metrics.height)) / 64;
 		ivec2 tempdim(dimx, dimy);
-		if(mMaxLetterHeight<face->glyph->bitmap_top)mMaxLetterHeight = face->glyph->bitmap_top;
+		//[COMMENT] bitmap_top returns an int. Is this for a reason?
+		// For now i casted it to an uint. please change if not appropriate
+		if(mMaxLetterHeight < uint32(face->glyph->bitmap_top))
+		{
+			mMaxLetterHeight = uint32(face->glyph->bitmap_top);
+		}
 		mLetterSizeList.push_back(tempdim);	
 
+		//[TODO] Change this! Too much data for only 4 filled numbers....
 		fontVertices tempVertices;
 		tempVertices.ver[0] = (GLfloat)bitmap.width;
 		tempVertices.ver[1] = (GLfloat)bitmap.rows;
@@ -162,6 +168,7 @@ namespace star
 
 		mVecticesList.push_back(tempVertices);
 
+		//[TODO] Idem
 		fontUvCoords tempCoords;
 		tempCoords.uv[0] = x;
 		tempCoords.uv[1] = 0;
@@ -178,6 +185,16 @@ namespace star
 	const tstring & Font::GetFontPath() const
 	{
 		return m_FontPath;
+	}
+
+	GLuint* Font::GetTextures() const
+	{
+		return mTextures;
+	}
+
+	uint32 Font::GetSize() const 
+	{
+		return mSize;
 	}
 
 	int32 Font::NextPowerOfTwo(int32 a)
@@ -205,17 +222,17 @@ namespace star
 		return mLetterSizeList;
 	}
 
-	int32 Font::GetMaxLetterHeight() const 
+	uint32 Font::GetMaxLetterHeight() const 
 	{
 		return mMaxLetterHeight;
 	}
 
-	int32 Font::GetStringLength(const tstring& string) const
+	uint32 Font::GetStringLength(const tstring& string) const
 	{
 		int32 length = 0;
 		sstring conv_text = star::string_cast<sstring>(string);
 		const schar *line = conv_text.c_str();
-		for(int32 i = 0; line[i] != 0; ++i) 
+		for(uint32 i = 0; line[i] != 0; ++i) 
 		{
 			length += mLetterSizeList[line[i]].x;
 		}

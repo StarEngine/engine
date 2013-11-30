@@ -33,7 +33,7 @@ namespace star
 	TextComponent::TextComponent(
 		const tstring& fontPath,
 		const tstring& fontName,
-		float32 fontSize,
+		uint32 fontSize,
 		bool bInFront
 		)
 		: BaseComponent()

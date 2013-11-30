@@ -68,7 +68,7 @@ namespace star
 		FT_Done_FreeType(mLibrary);
 	}
 
-	bool FontManager::LoadFont(const tstring& path, const tstring& name, float32 size)
+	bool FontManager::LoadFont(const tstring& path, const tstring& name, uint32 size)
 	{
 		if(mFontManager == nullptr)
 		{
@@ -110,7 +110,8 @@ namespace star
 	{
 		sstringstream stream(string);
 		sstring line;
-		while (std::getline(stream,line)){
+		while (std::getline(stream,line))
+		{
 			list.push_back(line);
 		}
 	}

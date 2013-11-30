@@ -37,18 +37,18 @@ namespace star
 		Font();
 		~Font();
 
-		bool Init(const tstring& path, float32 size, FT_Library& library);
+		bool Init(const tstring& path, uint32 size, FT_Library& library);
 		void DeleteFont();
 
 		const tstring & GetFontPath() const;
 
-		GLuint* GetTextures() const {return mTextures;}
-		float32 GetSize() const {return mSize;}
+		GLuint* GetTextures() const;
+		uint32 GetSize() const;
 		const std::vector<fontUvCoords>& GetUvCoords() const;
 		const std::vector<fontVertices>& GetVetrices() const;
 		const std::vector<ivec2>& GetLetterDimensions() const;
-		int32 GetMaxLetterHeight() const;
-		int32 GetStringLength(const tstring& string) const;
+		uint32 GetMaxLetterHeight() const;
+		uint32 GetStringLength(const tstring& string) const;
 
 	private:
 		void Make_D_List(FT_Face face, schar ch,GLuint * tex_base);
@@ -57,14 +57,14 @@ namespace star
 		tstring m_FontPath;
 		FT_Face mFace;
 		GLuint* mTextures;
-		int32 mMaxLetterHeight;
+		uint32 mMaxLetterHeight;
 #ifdef ANDROID
 		BYTE* mFontBuffer;
 #endif
 
-		std::vector< fontUvCoords > mUVcoordsList;
-		std::vector< fontVertices > mVecticesList;
-		std::vector< ivec2 > mLetterSizeList;
-		float32 mSize;
+		std::vector<fontUvCoords> mUVcoordsList;
+		std::vector<fontVertices> mVecticesList;
+		std::vector<ivec2> mLetterSizeList;
+		uint32 mSize;
 	};
 }
