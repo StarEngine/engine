@@ -7,6 +7,7 @@
 #include <locale>
 #include <clocale>
 #include <vector>
+#include <windows.h>
 
 #include "HelpersCrossplatform.h"
 
@@ -25,6 +26,14 @@ namespace star
 			hash = 65599 * hash + str[i];
 		}
 		return hash ^ (hash >> 16);
+	}
+
+	void LaunchWebpage(const tstring & page)
+	{
+#ifdef _WIN32
+		ShellExecute(NULL, _T("open"), page.c_str(),
+			NULL, NULL, SW_SHOWNORMAL);
+#endif
 	}
 
 	template <>

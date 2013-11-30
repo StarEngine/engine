@@ -11,6 +11,8 @@ namespace star
 {
 	const uint32 GenerateHash(const tstring & str);
 
+	void LaunchWebpage(const tstring & page);
+
 	template < typename TReturnValue, typename TValue>
 	TReturnValue string_cast(const TValue & value);
 
