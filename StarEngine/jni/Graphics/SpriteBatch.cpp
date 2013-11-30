@@ -16,31 +16,21 @@ namespace star
 
 	SpriteBatch::SpriteBatch(void):
 		m_SpriteQueue(),
-		m_HudSpriteQueue(),
 		m_TextBackQueue(),
 		m_TextFrontQueue(),
 		m_HUDTextQueue(),
 		m_VertexBuffer(),
 		m_UvCoordBuffer(),
-		m_WorldMatBuffer(),
-		m_CurrentSprite(0),
-		m_CurrentHudSprite(0),
-		m_Shader()
+		m_TextureSamplerID(0),
+		m_ColorID(0),
+		m_ShaderPtr(nullptr)
 	{
-		m_SpriteQueue.clear();
-		
-		for(auto& vertex : m_VertexBuffer)
-		{
-			vertex = 0;
-		}
-		for(auto& uv : m_UvCoordBuffer)
-		{
-			uv = 0;
-		}
+
 	}
 	
 	SpriteBatch::~SpriteBatch(void)
 	{
+		delete m_ShaderPtr;
 	}
 
 	SpriteBatch * SpriteBatch::GetInstance()
@@ -63,160 +53,120 @@ namespace star
 		tstring vShader(_T("AndroidShaders/BatchTexShader.vert")),
 				fShader(_T("AndroidShaders/BatchTexShader.frag"));
 #endif
-		if(!m_Shader.Init(vShader, fShader))
+		m_ShaderPtr = new Shader();
+		if(!m_ShaderPtr->Init(vShader, fShader))
 		{
 			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Initialization of Spritebatch Shader has Failed!"));
 		}
+
+		m_TextureSamplerID = m_ShaderPtr->GetUniformLocation("textureSampler");
+		m_ColorID = m_ShaderPtr->GetUniformLocation("colorMultiplier");
 	}
 
-	void SpriteBatch::Begin()
-	{
-		
-	}
-	
-	void SpriteBatch::End()
-	{
-		m_SpriteQueue.clear();
-		m_HudSpriteQueue.clear();
-		m_TextBackQueue.clear();
-		m_TextFrontQueue.clear();
-		m_HUDTextQueue.clear();
-		m_WorldMatBuffer.clear();
-		m_VertexBuffer.clear();
-		m_HUDVertexBuffer.clear();
-		m_UvCoordBuffer.clear();
-		m_HUDUvCoordBuffer.clear();
-		m_CurrentSprite = 0;
-		m_CurrentHudSprite = 0;
-	}
-	
 	void SpriteBatch::Flush()
 	{
 		//Game drawn in negative
 		//Game hUD drawn in positive
 		Begin();
 		//Sprites
-		FlushSprites(m_SpriteQueue);
+		DrawSprites();
 		//First background text
-		for(auto& textDesc : m_TextBackQueue)
-		{
-			FlushText(textDesc);
-		}
-		
-		//Clean all variables again
-		m_WorldMatBuffer.clear();
-		m_VertexBuffer.clear();
-		m_UvCoordBuffer.clear();
-		m_CurrentSprite = 0;
-		m_CurrentHudSprite = 0;
-		
-		//HUD
-		FlushSprites(m_HudSpriteQueue);
-
-		//Front text
 		for(auto& textDesc : m_TextFrontQueue)
 		{
 			FlushText(textDesc);
 		}
-
-		//Clean all variables again
-		m_WorldMatBuffer.clear();
-		m_VertexBuffer.clear();
-		m_UvCoordBuffer.clear();
-		m_CurrentSprite = 0;
-		m_CurrentHudSprite = 0;
-
+		
 		End();
 	}
 	
-	void SpriteBatch::FlushSprites(const std::vector<SpriteInfo>& spriteQueue)
+	void SpriteBatch::Begin()
 	{
-		m_Shader.Bind();
+		m_ShaderPtr->Bind();
 		
-		//enable vertexAttribs
+		//[TODO] Test android!
 		glEnableVertexAttribArray(ATTRIB_VERTEX);
 		glEnableVertexAttribArray(ATTRIB_UV);
-		
+
 		//Create Vertexbuffer
-		CreateSpriteQuad(spriteQueue);
-		
-		//DRAW
-		int32 batchStart = 0;
-		int32 batchSize = 0;
-		for(uint32 i = 0; i < spriteQueue.size(); ++i)
-		{
-			GLuint currTexture = star::TextureManager::GetInstance()
-				->GetTextureID(spriteQueue[i].spriteName);
-			GLuint nextTexture;
-		
-			//Are the following sprites from the same texture?
-			if(i + 1 < spriteQueue.size() && i != spriteQueue.size())
+		CreateSpriteQuads();
+
+		//Set uniforms
+		glUniform1i(m_TextureSamplerID, 0);
+
+		//more?
+	}
+	
+	void SpriteBatch::DrawSprites()
+	{			
+		uint32 batchStart(0);
+		uint32 batchSize(0);
+		GLuint texture(0);
+		for(auto& currentSprite : m_SpriteQueue)
+		{	
+			//If != -> Flush
+			if(texture != currentSprite.textureID)
 			{
-				nextTexture = star::TextureManager::GetInstance()
-					->GetTextureID(spriteQueue[i+1].spriteName);
-				if(currTexture == nextTexture)
-				{
-					batchSize+=4;
-					continue;
-				}
+				FlushSprites(batchStart, batchSize, texture);
+
+				batchStart += batchSize;
+				batchSize = 0;
+
+				texture = currentSprite.textureID;
 			}
-			//if No
+
+			++batchSize;
+		}	
+		FlushSprites(batchStart, batchSize, texture);
+	}
+
+	void SpriteBatch::FlushSprites(uint32 start, uint32 size, uint32 texture)
+	{
+		if(size > 0)
+		{					
+			//[TODO] Check if this can be optimized
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, currTexture);
+			glBindTexture(GL_TEXTURE_2D, texture);
 		
-			GLint s_textureId = glGetUniformLocation(m_Shader.GetID(), "textureSampler");
-			glUniform1i(s_textureId, 0);
-		
-			batchSize += 4;
-
-			float32 scaleValue = ScaleSystem::GetInstance()->GetScale();
-			mat4 scaleMat = Scale(scaleValue, scaleValue, 1.0f);
-		
-			for(int32 j = 0; j < ((batchSize/4)); ++j)
-			{
-				const auto & sprite = spriteQueue[m_CurrentSprite + j];
-
-				//Set attributes and buffers
-				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, 
-					reinterpret_cast<GLvoid*>(&m_VertexBuffer[12*j]));
-				glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, 
-					reinterpret_cast<GLvoid*>(&m_UvCoordBuffer[8*j]));
-
-				GLint s_colorId = glGetUniformLocation(m_Shader.GetID(), "colorMultiplier");
-				glUniform4f(
-					s_colorId,
-					sprite.colorMultiplier.r,
-					sprite.colorMultiplier.g,
-					sprite.colorMultiplier.b,
-					sprite.colorMultiplier.a
-					);
 			
-				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
-					1, GL_FALSE, ToPointerValue(
-						Transpose(sprite.transform) * 
-						scaleMat *
-						(sprite.bIsHUD ?
-							GraphicsManager::GetInstance()->GetProjectionMatrix() :
-							GraphicsManager::GetInstance()->GetViewProjectionMatrix()
-							)
-						)
-					);
+			//Set attributes and buffers
+			glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, 
+				reinterpret_cast<GLvoid*>(&m_VertexBuffer.at(0)));
+			glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, 
+				reinterpret_cast<GLvoid*>(&m_UvCoordBuffer.at(0)));
 
-				glDrawArrays(GL_TRIANGLE_STRIP,batchStart,4);
-			}			
-		
-			batchStart += batchSize;
-			m_CurrentSprite += batchSize/4;
-			batchSize = 0;
+			
+
+			//[TODO] Change this, shouldn't be a uniform
+			glUniform4f(
+				m_ColorID,
+				1.f,
+				1.f,
+				1.f,
+				1.f
+				);
+
+			glDrawArrays(GL_TRIANGLES, start * 6, size * 6);		
 		}
-		
-		m_Shader.Unbind();
-		
+	}
+	
+	void SpriteBatch::End()
+	{
 		//Unbind attributes and buffers
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
 		glDisableVertexAttribArray(ATTRIB_UV);
+
+		m_ShaderPtr->Unbind();
+
+		m_SpriteQueue.clear();
+
+		m_TextBackQueue.clear();
+		m_TextFrontQueue.clear();
+		m_HUDTextQueue.clear();
+
+		m_VertexBuffer.clear();
+		m_UvCoordBuffer.clear();
 	}
-	
+
 	void SpriteBatch::FlushText(const TextDesc& textDesc)
 	{
 		FlushText(
@@ -256,16 +206,16 @@ namespace star
 		const std::vector<fontVertices>& tempverts = curfont.GetVetrices();
 		const std::vector<ivec2>& tempsizes = curfont.GetLetterDimensions();
 
-		m_Shader.Bind();
+		m_ShaderPtr->Bind();
 		
 		//Enable the attributes
 		glEnableVertexAttribArray(ATTRIB_VERTEX);
 		glEnableVertexAttribArray(ATTRIB_UV);
 
 		glActiveTexture(GL_TEXTURE0);
-		GLint s_textureId = glGetUniformLocation(m_Shader.GetID(), "textureSampler");
+		GLint s_textureId = glGetUniformLocation(m_ShaderPtr->GetID(), "textureSampler");
 		glUniform1i(s_textureId, 0);
-		GLint s_colorId = glGetUniformLocation(m_Shader.GetID(), "colorMultiplier");
+		GLint s_colorId = glGetUniformLocation(m_ShaderPtr->GetID(), "colorMultiplier");
 		glUniform4f(s_colorId,color.r,color.g,color.b,color.a);
 	
 		float32 scaleValue = ScaleSystem::GetInstance()->GetScale();
@@ -313,7 +263,7 @@ namespace star
 				}
 				const mat4& world = transform->GetWorldMatrix() * offsetTrans;
 
-				glUniformMatrix4fv(glGetUniformLocation(m_Shader.GetID(),"MVP"),
+				glUniformMatrix4fv(glGetUniformLocation(m_ShaderPtr->GetID(),"MVP"),
 					1,GL_FALSE,
 					ToPointerValue(
 						Transpose(world) *
@@ -331,43 +281,115 @@ namespace star
 		//Unbind attributes and buffers
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
 		glDisableVertexAttribArray(ATTRIB_UV);
-		m_Shader.Unbind();
+		m_ShaderPtr->Unbind();
 	}
 
-	void SpriteBatch::CreateSpriteQuad(const std::vector<SpriteInfo>& spriteQueue)
+	void SpriteBatch::CreateSpriteQuads()
 	{	
 		//for every sprite that has to be drawn, push back all vertices 
-		//(12 per sprite) into the vertexbuffer and all uvcoords (8 per
-		//sprite) into the uvbuffer
+		//(VERTEX_AMOUNT per sprite) into the vertexbuffer and all uvcoords 
+		//(UV_AMOUNT per sprite) into the uvbuffer
 
-		int32 vertexIndex(0);
-		int32 uvIndex(0);
+		/*
+		*  TL    TR
+		*   0----1 
+		*   |   /| 
+		*   |  / |
+		*   | /  |
+		*   |/   |
+		*   2----3
+		*  BL    BR
+		*/
 
-		for(auto& sprite : spriteQueue)
+		float32 scaleValue = ScaleSystem::GetInstance()->GetScale();
+		mat4 scaleMat = Scale(scaleValue, scaleValue, 1.0f);
+
+		for(auto& sprite : m_SpriteQueue)
 		{
-			for(auto& vertex : sprite.vertices)
-			{
-				m_VertexBuffer.push_back(vertex);
-			}
+			//Push back all vertices
+			
+			mat4 transformMat = Transpose(sprite.transformPtr->GetWorldMatrix())
+								* scaleMat
+								* (sprite.bIsHud ?
+									GraphicsManager::GetInstance()->GetProjectionMatrix() :
+									GraphicsManager::GetInstance()->GetViewProjectionMatrix());
 
-			for(auto& uvCoord : sprite.uvCoords)
-			{
-				m_UvCoordBuffer.push_back(uvCoord);
-			}
+			//[TODO] Add depth!
+			//[TODO] Check if this can be changed :(
+
+			vec4 TL = vec4(0, sprite.vertices.y, 0, 1);
+			Mul(TL, transformMat, TL);
+
+			vec4 TR = vec4(sprite.vertices.x, sprite.vertices.y, 0, 1);
+			Mul(TR, transformMat, TR);
+
+			vec4 BL = vec4(0, 0, 0, 1);
+			Mul(BL, transformMat, BL);
+
+			vec4 BR = vec4(sprite.vertices.x, 0, 0, 1);
+			Mul(BR, transformMat, BR);
+
+			//0
+			m_VertexBuffer.push_back(TL.x);
+			m_VertexBuffer.push_back(TL.y);
+			m_VertexBuffer.push_back(0);
+
+			//1
+			m_VertexBuffer.push_back(TR.x);
+			m_VertexBuffer.push_back(TR.y);
+			m_VertexBuffer.push_back(0);
+
+			//2
+			m_VertexBuffer.push_back(BL.x);
+			m_VertexBuffer.push_back(BL.y);
+			m_VertexBuffer.push_back(0);
+
+			//1
+			m_VertexBuffer.push_back(TR.x);
+			m_VertexBuffer.push_back(TR.y);
+			m_VertexBuffer.push_back(0);
+
+			//3
+			m_VertexBuffer.push_back(BR.x);
+			m_VertexBuffer.push_back(BR.y);
+			m_VertexBuffer.push_back(0);
+
+			//2
+			m_VertexBuffer.push_back(BL.x);
+			m_VertexBuffer.push_back(BL.y);
+			m_VertexBuffer.push_back(0);
+
+			//Push back all uv's
+
+			//0
+			m_UvCoordBuffer.push_back(sprite.uvCoords.x);
+			m_UvCoordBuffer.push_back(sprite.uvCoords.y + sprite.uvCoords.w);
+
+			//1
+			m_UvCoordBuffer.push_back(sprite.uvCoords.x + sprite.uvCoords.z);
+			m_UvCoordBuffer.push_back(sprite.uvCoords.y + sprite.uvCoords.w);
+
+			//2
+			m_UvCoordBuffer.push_back(sprite.uvCoords.x);
+			m_UvCoordBuffer.push_back(sprite.uvCoords.y);
+
+			//1
+			m_UvCoordBuffer.push_back(sprite.uvCoords.x + sprite.uvCoords.z);
+			m_UvCoordBuffer.push_back(sprite.uvCoords.y + sprite.uvCoords.w);
+
+			//3
+			m_UvCoordBuffer.push_back(sprite.uvCoords.x + sprite.uvCoords.z);
+			m_UvCoordBuffer.push_back(sprite.uvCoords.y);
+
+			//2
+			m_UvCoordBuffer.push_back(sprite.uvCoords.x);
+			m_UvCoordBuffer.push_back(sprite.uvCoords.y);
 		}
 	}
 
-	void SpriteBatch::AddSpriteToQueue(const SpriteInfo& spriteInfo, bool bIsHud)
+	void SpriteBatch::AddSpriteToQueue(const SpriteInfo& spriteInfo)
 	{
-		if(bIsHud)
-		{
-			m_HudSpriteQueue.push_back(spriteInfo);
-		}
-		else 
-		{
-			m_SpriteQueue.push_back(spriteInfo);
-		}
-		
+		m_SpriteQueue.push_back(spriteInfo);		
 	}
 
 	void SpriteBatch::AddTextToQueue(const TextDesc& text, bool bInFrontOfSprites)
@@ -380,22 +402,5 @@ namespace star
 		{
 			m_TextFrontQueue.push_back(text);
 		}
-	}
-
-	void SpriteBatch::CleanUp()
-	{
-		m_Shader.Unbind();
-
-		m_WorldMatBuffer.clear();
-		m_VertexBuffer.clear();
-		m_UvCoordBuffer.clear();
-		m_SpriteQueue.clear();
-
-		//Unbind attributes and buffers
-		glDisableVertexAttribArray(ATTRIB_VERTEX);
-		glDisableVertexAttribArray(ATTRIB_UV);
-
-		delete m_pSpriteBatch;
-		m_pSpriteBatch = nullptr;
 	}
 }

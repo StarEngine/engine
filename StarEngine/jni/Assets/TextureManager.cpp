@@ -32,34 +32,26 @@ namespace star
 		return (mTextureManager);
 	}
 
-	bool TextureManager::LoadTexture(const tstring& path, const tstring& name)
+	void TextureManager::LoadTexture(const tstring& path, const tstring& name)
 	{
-		Logger::GetInstance()->Log(mTextureManager != nullptr, _T("Texture manager is invalid."));
-
-
 		if(mTextureMap.find(name) != mTextureMap.end())
 		{
-			//star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Texture Already Exists"));
-			return (false);
+			return;
 		}
 
 		auto pathit = mPathList.find(path);
 		if(pathit != mPathList.end())
 		{
-			//star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Texture Path Already Exists"));
-			tstring nameold = pathit->second;
-			auto nameit = mTextureMap.find(nameold);
-			if(nameit!= mTextureMap.end())
+			tstring nameOld = pathit->second;
+			auto nameit = mTextureMap.find(nameOld);
+			if(nameit != mTextureMap.end())
 			{
-				//star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Found texture old path, making copy for new name"));
-				mTextureMap[name]=nameit->second;
-				return (true);
+				mTextureMap[name] = nameit->second;
+				return;
 			}
 			mPathList.erase(pathit);
-			return (false);
+			return;
 		}
-
-
 
 #ifdef DESKTOP
 		mTextureMap[name] = std::make_shared<Texture2D>(path);
@@ -67,28 +59,22 @@ namespace star
 		mTextureMap[name] = std::make_shared<Texture2D>(path, star::StarEngine::GetInstance()->GetAndroidApp());
 #endif
 		
-		mPathList[path]=name;
-
-		return (true);
+		mPathList[path] = name;
 	}
 
 	bool TextureManager::DeleteTexture(const tstring& name)
 	{
-		Logger::GetInstance()->Log(mTextureManager != nullptr, _T("Texture manager is invalid."));
-
 		auto it = mTextureMap.find(name);
 		if(it != mTextureMap.end())
 		{
 			mTextureMap.erase(it);
-			return (true);
+			return true;
 		}
-		return (false);
+		return false;
 	}
 
 	GLuint TextureManager::GetTextureID(const tstring& name)
 	{
-		Logger::GetInstance()->Log(mTextureManager != nullptr, _T("Texture manager is invalid."));
-
 		if(mTextureMap.find(name) != mTextureMap.end())
 		{
 			return mTextureMap[name]->GetTextureID();
@@ -98,8 +84,6 @@ namespace star
 
 	ivec2 TextureManager::GetTextureDimensions(const tstring& name)
 	{
-		Logger::GetInstance()->Log(mTextureManager != nullptr, _T("Texture manager is invalid."));
-
 		auto it = mTextureMap.find(name);
 		if(it != mTextureMap.end())
 		{
@@ -125,6 +109,6 @@ namespace star
 			mTextureMap[it->second] = std::make_shared<Texture2D>(it->first, star::StarEngine::GetInstance()->GetAndroidApp());
 #endif
 		}
-		return (true);
+		return true;
 	}
 }

@@ -70,7 +70,6 @@ namespace star
 
 	protected:
 		void InitializeComponent();
-		void CreateVertices();
 		tstring m_SpritesheetName;
 		Spritesheet m_Spritesheet;
 

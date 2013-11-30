@@ -16,19 +16,16 @@ namespace star
 
 		void Initialize();
 		void Flush();
-		void AddSpriteToQueue(
-			const SpriteInfo& spriteInfo,
-			bool bIsHud
-			);
+		void AddSpriteToQueue(const SpriteInfo& spriteInfo);
 		void AddTextToQueue(const TextDesc& text, bool bInFrontOfSprites);
-		void CleanUp();
 
 	private:
 		SpriteBatch(void);
 		void Begin();
 		void End();
-		void CreateSpriteQuad(const std::vector<SpriteInfo>& spriteQueue);
-		void FlushSprites(const std::vector<SpriteInfo>& spriteQueue);
+		void CreateSpriteQuads();
+		void DrawSprites();
+		void FlushSprites(uint32 start, uint32 size, uint32 texture);
 		void FlushText(const TextDesc& textDesc);
 		void FlushText(
 			const tstring & text,
@@ -41,21 +38,25 @@ namespace star
 			);
 
 		static SpriteBatch * m_pSpriteBatch;
-		static const int32 BATCHSIZE = 50;
+		static const uint32 BATCHSIZE = 50;
+		static const uint32 VERTEX_AMOUNT = 18;
+		static const uint32 UV_AMOUNT = 12;
 
-		std::vector<SpriteInfo> m_SpriteQueue,
-								m_HudSpriteQueue;
+		//[COMMENT] Sadly can't change that to const SpriteInfo&
+		std::vector<SpriteInfo> m_SpriteQueue;
+		//[TODO] Change
 		std::vector<TextDesc> m_TextBackQueue,
 							  m_TextFrontQueue,
 							  m_HUDTextQueue;
-		std::vector<GLfloat> m_VertexBuffer,
-							 m_HUDVertexBuffer;
-		std::vector<GLfloat> m_UvCoordBuffer,
-							 m_HUDUvCoordBuffer;
-		std::vector<mat4> m_WorldMatBuffer;
-		int32 m_CurrentSprite,
-			m_CurrentHudSprite;
-		Shader m_Shader;	
+
+		//[TODO] Check if can be changed to vector<vec4 or vec2>
+		std::vector<float32> m_VertexBuffer,
+							 m_UvCoordBuffer;
+
+		GLuint	m_TextureSamplerID,
+				m_ColorID;
+
+		Shader* m_ShaderPtr;	
 
 		SpriteBatch(const SpriteBatch& yRef);
 		SpriteBatch(SpriteBatch&& yRef);

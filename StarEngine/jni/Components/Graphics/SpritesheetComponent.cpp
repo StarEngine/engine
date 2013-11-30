@@ -28,17 +28,6 @@ namespace star
 			m_Animations.front().Update(context);
 			auto uvInfo = m_Animations.front().GetCurrentUV();
 
-			/*
-			*  TL    TR
-			*   0----1 
-			*   |   /| 
-			*   |  / |
-			*   | /  |
-			*   |/   |
-			*   2----3
-			*  BL    BR
-			*/
-
 			SetUVCoords(uvInfo);
 		}
 		SpriteComponent::Update(context);
@@ -279,21 +268,6 @@ namespace star
 		SpriteComponent::InitializeComponent();
 		m_Width /= GetFramesHorizontal();
 		m_Height /= GetFramesVertical();
-	}
-
-	void SpritesheetComponent::CreateVertices()
-	{
-		//0
-		m_Vertices[1] = float32(m_Height / GetFramesVertical());
-
-		//1
-		m_Vertices[3] = float32(m_Width / GetFramesHorizontal());
-		m_Vertices[4] = float32(m_Height / GetFramesVertical());
-
-		//2
-
-		//3
-		m_Vertices[9] = float32(m_Width / GetFramesHorizontal());
 	}
 
 	void SpritesheetComponent::SetCallbackAnimations( const std::function<void()> & callback )
