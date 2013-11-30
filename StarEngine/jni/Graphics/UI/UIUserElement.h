@@ -9,9 +9,7 @@ namespace star
 		enum class ElementStates : byte
 		{
 			IDLE = 0,
-#ifdef DESKTOP
 			HOVER = 1,
-#endif
 			CLICK = 2,
 			DISABLED = 3,
 			LOCKED = 4
