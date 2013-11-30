@@ -54,8 +54,19 @@ namespace star
 
 		void SetHUDOptionEnabled(bool enabled);
 		bool IsHUDOptionEnabled() const;
+
+		void AlignTextLeft();
+		void AlignTextCenter();
+		void AlignTextRight();
 		
 	protected:
+		enum class HorizontalAlignment : byte
+		{
+			left = 0,
+			center,
+			right
+		};
+
 		virtual void InitializeComponent();
 
 		void CalculateTextDimensions();
@@ -63,6 +74,10 @@ namespace star
 
 		void CalculateTextHeight();
 		void CleanTextUp(const tstring & str);
+
+		void CalculateHorizontalTextOffset();
+		int32 GetLongestLine(const tstring & str);
+		void AddSpacesToText(tstring & str, uint32 n);
 	
 	private:
 		float32	m_FontSize;
@@ -73,10 +88,13 @@ namespace star
 
 		tstring m_FileName,
 				m_FontName,
-				m_OrigText;
+				m_OrigText,
+				m_EditText;
 
 		Color m_TextColor;
 		TextDesc m_TextDesc;
+
+		HorizontalAlignment m_TextAlignment;
 
 		bool m_bInFront;
 

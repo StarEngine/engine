@@ -223,6 +223,7 @@ namespace star
 			textDesc.Text,
 			textDesc.Fontname,
 			textDesc.VerticalSpacing, 
+			textDesc.HorizontalTextOffset,
 			textDesc.TransformComp,
 			textDesc.TextColor,
 			textDesc.IsHUDText);
@@ -232,6 +233,7 @@ namespace star
 		const tstring & text, 
 		const tstring& fontname,
 		int32 spacing, 
+		const std::vector<int32> & horOffset,
 		TransformComponent* transform,
 		const Color& color,
 		bool isHUD
@@ -269,7 +271,8 @@ namespace star
 		float32 scaleValue = ScaleSystem::GetInstance()->GetScale();
 		mat4 scaleMat = Scale(scaleValue, scaleValue, 1.0f);
 
-		int32 offsetX(0);
+		int32 line_counter(0);
+		int32 offsetX(horOffset[line_counter]);
 		int32 offsetY(0);
 
 		const tchar *start_line = text.c_str();
@@ -278,7 +281,8 @@ namespace star
 			if(start_line[i] == _T('\n'))
 			{
 				offsetY -= curfont.GetMaxLetterHeight() + spacing;
-				offsetX = 0;	
+				++line_counter;
+				offsetX = horOffset[line_counter];
 			}
 			else if(start_line[i] > 31) // is printable
 			{

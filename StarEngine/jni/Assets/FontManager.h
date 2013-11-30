@@ -39,6 +39,7 @@ namespace star
 		Color TextColor;
 		TransformComponent* TransformComp; 
 		int32 VerticalSpacing;
+		std::vector<int32> HorizontalTextOffset;
 		bool IsHUDText;
 	};
 

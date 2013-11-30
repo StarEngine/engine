@@ -56,16 +56,19 @@ namespace star
 		{
 			case HorizontalAlignment::Left:
 				GetTransform()->SetCenterX(0);
+				m_pTextComponent->AlignTextLeft();
 				break;
 			case HorizontalAlignment::Center:
 				GetTransform()->SetCenterX(
 					float32(m_pTextComponent->GetTextWidth()) / 2.0f
 					);
+				m_pTextComponent->AlignTextCenter();
 				break;
 			case HorizontalAlignment::Right:
 				GetTransform()->SetCenterX(
 					float32(m_pTextComponent->GetTextWidth())
 					);
+				m_pTextComponent->AlignTextRight();
 				break;
 		}
 

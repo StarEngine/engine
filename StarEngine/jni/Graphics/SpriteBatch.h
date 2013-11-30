@@ -34,6 +34,7 @@ namespace star
 			const tstring & text,
 			const tstring& fontname,
 			int32 spacing,
+			const std::vector<int32> & horOffset,
 			TransformComponent* transform,
 			const Color& color,
 			bool isHUD
