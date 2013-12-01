@@ -92,7 +92,6 @@ namespace star
 
 		//Set uniforms
 		glUniform1i(m_TextureSamplerID, 0);
-
 		//more?
 	}
 	
