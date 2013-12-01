@@ -51,7 +51,12 @@ namespace star
 
 		//[TODO] Check if can be changed to vector<vec4 or vec2>
 		std::vector<float32> m_VertexBuffer,
-							 m_UvCoordBuffer;
+							 m_UvCoordBuffer,
+							 m_IsHUDBuffer;
+		
+		GLuint m_VertexID,
+			   m_UVID,
+			   m_IsHUDID;
 
 		GLuint	m_TextureSamplerID,
 				m_ColorID,

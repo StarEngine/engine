@@ -93,6 +93,12 @@ namespace star
 		float bottom
 		) const
 	{
+		//Always draw hudObjects
+		if(m_SpriteInfo.bIsHud)
+		{
+			return true;
+		}
+
 		float32 spriteWidth, spriteHeight;
 
 		pos objectPos = GetTransform()->GetWorldPosition();

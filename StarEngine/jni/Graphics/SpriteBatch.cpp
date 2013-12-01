@@ -21,6 +21,7 @@ namespace star
 		m_HUDTextQueue(),
 		m_VertexBuffer(),
 		m_UvCoordBuffer(),
+		m_IsHUDBuffer(),
 		m_TextureSamplerID(0),
 		m_ColorID(0),
 		m_ScalingID(0),
@@ -62,6 +63,10 @@ namespace star
 			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Initialization of Spritebatch Shader has Failed!"));
 		}
 
+		m_VertexID = m_ShaderPtr->GetAttribLocation("position");
+		m_UVID = m_ShaderPtr->GetAttribLocation("texCoord");
+		m_IsHUDID = m_ShaderPtr->GetAttribLocation("isHUD");
+
 		m_TextureSamplerID = m_ShaderPtr->GetUniformLocation("textureSampler");
 		m_ColorID = m_ShaderPtr->GetUniformLocation("colorMultiplier");
 		m_ScalingID = m_ShaderPtr->GetUniformLocation("scaleMatrix");
@@ -80,8 +85,7 @@ namespace star
 		for(auto& textDesc : m_TextFrontQueue)
 		{
 			FlushText(textDesc);
-		}
-		
+		}	
 		End();
 	}
 	
@@ -90,8 +94,9 @@ namespace star
 		m_ShaderPtr->Bind();
 		
 		//[TODO] Test android!
-		glEnableVertexAttribArray(ATTRIB_VERTEX);
-		glEnableVertexAttribArray(ATTRIB_UV);
+		glEnableVertexAttribArray(m_VertexID);
+		glEnableVertexAttribArray(m_UVID);
+		glEnableVertexAttribArray(m_IsHUDID);
 
 		//Create Vertexbuffer
 		CreateSpriteQuads();
@@ -108,8 +113,6 @@ namespace star
 
 		mat4 projectionMat = GraphicsManager::GetInstance()->GetProjectionMatrix();
 		glUniformMatrix4fv(m_ProjectionID, 1, GL_FALSE, ToPointerValue(projectionMat));
-
-		//more?
 	}
 	
 	void SpriteBatch::DrawSprites()
@@ -129,7 +132,6 @@ namespace star
 
 				texture = currentSprite.textureID;
 			}
-
 			++batchSize;
 		}	
 		FlushSprites(batchStart, batchSize, texture);
@@ -142,14 +144,13 @@ namespace star
 			//[TODO] Check if this can be optimized
 			glBindTexture(GL_TEXTURE_2D, texture);
 		
-			
 			//Set attributes and buffers
-			glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, 
+			glVertexAttribPointer(m_VertexID, 3, GL_FLOAT, 0, 0, 
 				reinterpret_cast<GLvoid*>(&m_VertexBuffer.at(0)));
-			glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, 
+			glVertexAttribPointer(m_UVID, 2, GL_FLOAT, 0, 0, 
 				reinterpret_cast<GLvoid*>(&m_UvCoordBuffer.at(0)));
-
-			
+			glVertexAttribPointer(m_IsHUDID, 1, GL_FLOAT, 0, 0,
+				reinterpret_cast<GLvoid*>(&m_IsHUDBuffer.at(0)));
 
 			//[TODO] Change this, shouldn't be a uniform
 			glUniform4f(
@@ -167,8 +168,9 @@ namespace star
 	void SpriteBatch::End()
 	{
 		//Unbind attributes and buffers
-		glDisableVertexAttribArray(ATTRIB_VERTEX);
-		glDisableVertexAttribArray(ATTRIB_UV);
+		glDisableVertexAttribArray(m_VertexID);
+		glDisableVertexAttribArray(m_UVID);
+		glDisableVertexAttribArray(m_IsHUDID);
 
 		m_ShaderPtr->Unbind();
 
@@ -180,6 +182,7 @@ namespace star
 
 		m_VertexBuffer.clear();
 		m_UvCoordBuffer.clear();
+		m_IsHUDBuffer.clear();
 	}
 
 	void SpriteBatch::FlushText(const TextDesc& textDesc)
@@ -324,10 +327,6 @@ namespace star
 			//Push back all vertices
 			
 			mat4 transformMat = Transpose(sprite.transformPtr->GetWorldMatrix());
-			if(sprite.bIsHud)
-			{
-				transformMat *= GraphicsManager::GetInstance()->GetViewMatrix();
-			}
 
 			//[TODO] Add depth!
 			//[TODO] Check if this can be changed :(
@@ -347,32 +346,32 @@ namespace star
 			//0
 			m_VertexBuffer.push_back(TL.x);
 			m_VertexBuffer.push_back(TL.y);
-			m_VertexBuffer.push_back(0);
+			m_VertexBuffer.push_back(TL.z);
 
 			//1
 			m_VertexBuffer.push_back(TR.x);
 			m_VertexBuffer.push_back(TR.y);
-			m_VertexBuffer.push_back(0);
+			m_VertexBuffer.push_back(TR.z);
 
 			//2
 			m_VertexBuffer.push_back(BL.x);
 			m_VertexBuffer.push_back(BL.y);
-			m_VertexBuffer.push_back(0);
+			m_VertexBuffer.push_back(BL.z);
 
 			//1
 			m_VertexBuffer.push_back(TR.x);
 			m_VertexBuffer.push_back(TR.y);
-			m_VertexBuffer.push_back(0);
+			m_VertexBuffer.push_back(TR.z);
 
 			//3
 			m_VertexBuffer.push_back(BR.x);
 			m_VertexBuffer.push_back(BR.y);
-			m_VertexBuffer.push_back(0);
+			m_VertexBuffer.push_back(BR.z);
 
 			//2
 			m_VertexBuffer.push_back(BL.x);
 			m_VertexBuffer.push_back(BL.y);
-			m_VertexBuffer.push_back(0);
+			m_VertexBuffer.push_back(BL.z);
 
 			//Push back all uv's
 
@@ -399,6 +398,12 @@ namespace star
 			//2
 			m_UvCoordBuffer.push_back(sprite.uvCoords.x);
 			m_UvCoordBuffer.push_back(sprite.uvCoords.y);
+
+			//bool buffer
+			for(uint32 i = 0; i < 6; ++i)
+			{
+				m_IsHUDBuffer.push_back(float32(sprite.bIsHud));
+			}
 		}
 	}
 

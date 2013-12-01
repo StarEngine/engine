@@ -22,7 +22,7 @@ namespace star
 	{
 		ATTRIB_VERTEX,
 		ATTRIB_UV,
-		NUM_ATTRIBUTES
+		ATTRIB_HUD
 	};
 
 	class Shader {
