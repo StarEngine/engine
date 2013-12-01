@@ -77,7 +77,9 @@ namespace star
 
 		if(mFontList.find(name) != mFontList.end())
 		{
-			return false;
+			star::Logger::GetInstance()->Log(star::LogLevel::Info,
+				_T("Font Manager : Font ")+name+_T(" already exist, using that"));
+			return true;
 		}
 
 		star::Filepath filepath(mFontPath, path);

@@ -562,6 +562,65 @@ namespace star
 		}
 	}
 
+	void AudioManager::PauseBackgroundQueue()
+	{
+		Logger::GetInstance()->Log(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
+
+		if(mBackgroundQueue.size() == 0)
+		{
+			return;
+		}
+
+		if(mQueueIterator != mBackgroundQueue.end())
+		{
+			(*mQueueIterator)->Pause();
+		}
+	}
+
+	void AudioManager::ResumeBackgroundQueue()
+	{
+		Logger::GetInstance()->Log(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
+
+		if(mBackgroundQueue.size() == 0)
+		{
+			return;
+		}
+
+		if(mQueueIterator != mBackgroundQueue.end())
+		{
+			(*mQueueIterator)->Resume();
+		}
+		else
+		{
+			star::Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Sound Service : No song in background queue."));
+		}
+	}
+
+	void AudioManager::StopBackgroundQueue()
+	{
+		Logger::GetInstance()->Log(mSoundService != nullptr,
+			_T("Sound Service is invalid."));
+
+		if(mBackgroundQueue.size() == 0)
+		{
+			return;
+		}
+
+		if(mQueueIterator != mBackgroundQueue.end())
+		{
+			(*mQueueIterator)->Stop();
+			mQueueIterator = mBackgroundQueue.begin();
+		}
+		else
+		{
+			star::Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Sound Service : No song in background queue."));
+		}
+	}
+
 	void AudioManager::PauseMusic(const tstring & name)
 	{
 		auto it = mMusicList.find(name);
