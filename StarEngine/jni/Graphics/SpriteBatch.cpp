@@ -82,7 +82,7 @@ namespace star
 	void SpriteBatch::Begin()
 	{
 		m_ShaderPtr->Bind();
-		
+
 		//[TODO] Test android!
 		glEnableVertexAttribArray(ATTRIB_VERTEX);
 		glEnableVertexAttribArray(ATTRIB_UV);
@@ -127,14 +127,12 @@ namespace star
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texture);
 		
-			
+
 			//Set attributes and buffers
 			glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0, 
 				reinterpret_cast<GLvoid*>(&m_VertexBuffer.at(0)));
 			glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, 
 				reinterpret_cast<GLvoid*>(&m_UvCoordBuffer.at(0)));
-
-			
 
 			//[TODO] Change this, shouldn't be a uniform
 			glUniform4f(
