@@ -66,7 +66,10 @@ namespace star
 
 	void AudioManager::Start()
 	{
-		if(mbIsInitialized) return;
+		if(mbIsInitialized)
+		{
+			return;
+		}
 
 		mbIsInitialized = true;
 		star::Logger::GetInstance()->Log(star::LogLevel::Info,
