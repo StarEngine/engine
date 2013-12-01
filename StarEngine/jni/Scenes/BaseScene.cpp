@@ -212,7 +212,7 @@ namespace star
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("BaseScene::AddObject: \
-				   Trying to add a duplicate object."));
+				   Trying to add a duplicate object."), STARENGINE_LOG_TAG);
 		}
 	}
 
@@ -230,7 +230,7 @@ namespace star
 			Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("BaseScene::AddObject: \
 				   Trying to add a duplicate object '")
-				   + name + _T("'."));
+				   + name + _T("'."), STARENGINE_LOG_TAG);
 		}
 	}
 
@@ -246,7 +246,7 @@ namespace star
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("BaseScene::RemoveObject: \
-				   Trying to remove an unknown object."));
+				   Trying to remove an unknown object."), STARENGINE_LOG_TAG);
 		}
 	}
 	
@@ -263,7 +263,7 @@ namespace star
 		Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("BaseScene::RemoveObject: \
 				   Trying to remove an unknown object '")
-				   + name + _T("'."));
+				   + name + _T("'."), STARENGINE_LOG_TAG);
 	}
 
 	void BaseScene::SetObjectFrozen(const tstring & name, bool freeze)
@@ -279,7 +279,7 @@ namespace star
 		Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("BaseScene::SetObjectFrozen: \
 				   Trying to (un)freeze an unknown object '")
-				   + name + _T("'."));
+				   + name + _T("'."), STARENGINE_LOG_TAG);
 	}
 
 	void BaseScene::SetObjectDisabled(const tstring & name, bool disabled)
@@ -295,7 +295,7 @@ namespace star
 		Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("BaseScene::SetObjectDisabled: \
 				   Trying to enable/disable an unknown object '")
-				   + name + _T("'."));
+				   + name + _T("'."), STARENGINE_LOG_TAG);
 	}
 
 	void BaseScene::SetObjectVisible(const tstring & name, bool visible)
@@ -311,7 +311,7 @@ namespace star
 		Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("BaseScene::SetObjectVisible: \
 				   Trying to (un)hide an unknown object '")
-				   + name + _T("'."));
+				   + name + _T("'."), STARENGINE_LOG_TAG);
 	}
 
 	void BaseScene::SetGroupFrozen(const tstring & tag, bool visible)
@@ -423,7 +423,7 @@ namespace star
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			tstring(_T("BaseScene::SetCursor: Cursor isn't supported on mobile device."))
 			+ _T(" For optimialisation reasons it's better to disable the code related to\
-the custom cursor code in your game project."));
+the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 #endif
 	}
 
@@ -438,7 +438,7 @@ the custom cursor code in your game project."));
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			tstring(_T("BaseScene::UnsetCursor: Cursor isn't supported on mobile device."))
 			+ _T(" For optimialisation reasons it's better to disable the code related to\
-the custom cursor code in your game project."));
+the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 #endif
 	}
 
@@ -451,7 +451,7 @@ the custom cursor code in your game project."));
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			tstring(_T("BaseScene::SetStateActiveCursor: Cursor isn't supported on mobile device."))
 			+ _T(" For optimialisation reasons it's better to disable the code related to\
-the custom cursor code in your game project."));
+the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 #endif
 			return;
 		}
@@ -471,7 +471,7 @@ the custom cursor code in your game project."));
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			tstring(_T("BaseScene::SetActiveCursorLocked: Cursor isn't supported on mobile device."))
 			+ _T(" For optimialisation reasons it's better to disable the code related to\
-the custom cursor code in your game project."));
+the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 #endif
 			return;
 		}
@@ -527,7 +527,8 @@ the custom cursor code in your game project."));
 		{
 			auto it = std::find(m_Objects.begin(), m_Objects.end(), elem);
 			Logger::GetInstance()->Log(it != m_Objects.end(),
-				_T("BaseScene::CollectGarbage: Trying to delete unknown object"));
+				_T("BaseScene::CollectGarbage: Trying to delete unknown object"),
+				STARENGINE_LOG_TAG);
 			m_Objects.erase(it);
 			delete elem;
 		}

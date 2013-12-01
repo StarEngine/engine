@@ -28,7 +28,7 @@ typedef struct myPoint
 		if ( !isOK ) { \
 		tstringstream buffer; \
 		buffer << _T("ERROR!! Assert failed on line ") << LocalAssert().mLine << _T(" in file '") << __FILE__ << std::endl << _T("Message: \"") << message << _T("\"\n"); \
-		__android_log_assert(_T("ASSERT"), ANDROID_LOG_TAG, "%s", buffer.str().c_str()); \
+		__android_log_assert(_T("ASSERT"), STARENGINE_LOG_TAG, "%s", buffer.str().c_str()); \
 		} \
 	} \
 	} myAsserter = LocalAssert
@@ -42,7 +42,7 @@ typedef struct myPoint
 		if ( !isOK ) { \
 		sstringstream buffer; \
 		buffer << "ERROR!! Assert failed on line " << LocalAssert().mLine << " in file '" << __FILE__ << std::endl << "Message: \"" << message << "\"\n"; \
-		__android_log_assert("ASSERT", ANDROID_LOG_TAG, "%s", buffer.str().c_str()); \
+		__android_log_assert("ASSERT", STARENGINE_LOG_TAG, "%s", buffer.str().c_str()); \
 		} \
 	} \
 	} myAsserter = LocalAssert

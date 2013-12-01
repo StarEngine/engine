@@ -73,7 +73,8 @@ namespace star
 			{
 				Logger::GetInstance()->Log(LogLevel::Warning,
 					_T("UICursor::SetState: State '")
-					+ state + _T("' is not defined in the used spritesheet."));
+					+ state + _T("' is not defined in the used spritesheet."),
+					STARENGINE_LOG_TAG);
 			}
 
 			auto it = m_Offsets.find(state);

@@ -9,15 +9,16 @@
 #include "Helpers\SerializedData.h"
 #include "definesTypes.h"
 
-#define STARENGINE_VERSION _T("0.0.3")
+#define STARENGINE_VERSION _T("0.0.4")
 
 #include <algorithm>
 
 #include "definesMath.h"
 
 #define EMPTY_STRING _T("")
-#define ANDROID_LOG_TAG _T("STAR_ENGINE")
 #define NO_WRAPPING -1
+#define STARENGINE_LOG_TAG _T("STARENGINE")
+#define GAME_LOG_TAG _T("GAME")
 
 #ifdef STAR2D
 #include "defines2D.h" 

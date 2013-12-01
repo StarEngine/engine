@@ -20,7 +20,8 @@ namespace star
 				{
 					Logger::GetInstance()->Log(LogLevel::Error,
 						_T("Object::GetChildByName: couldn't convert object '")
-						+ name + _T("' to the requested type. Returning nullptr..."));
+						+ name + _T("' to the requested type. Returning nullptr..."),
+						STARENGINE_LOG_TAG);
 				}
 				return returnobject;
 			}
@@ -28,7 +29,7 @@ namespace star
 		Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("Object::GetChildByName: \
 Trying to get unknown child '")
-				   + name + _T("'."));
+				+ name + _T("'."), STARENGINE_LOG_TAG);
 		return nullptr;
 	}
 

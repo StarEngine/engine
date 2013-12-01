@@ -132,7 +132,9 @@ namespace star
 		XMLContainer container;
 		XMLFileParser parser(file);
 
-		Logger::GetInstance()->Log(parser.Read(container, mode), _T("An error occured while trying to read the level."));
+		Logger::GetInstance()->Log(parser.Read(container, mode),
+			_T("An error occured while trying to read the level."),
+			STARENGINE_LOG_TAG);
 
 		BaseCreateLevel(container);
 	}
@@ -144,7 +146,8 @@ namespace star
 		XMLFileParser parser(file);
 
 		Logger::GetInstance()->Log(parser.Read(container, binary_file, mode),
-			_T("An error occured while trying to read the level."));
+			_T("An error occured while trying to read the level."),
+			STARENGINE_LOG_TAG);
 
 		BaseCreateLevel(container);
 	}
@@ -206,7 +209,8 @@ namespace star
 			auto lpIT = layerProperties->lower_bound(_T("property"));
 			auto lpEnd = layerProperties->upper_bound(_T("property"));
 			Logger::GetInstance()->Log(lpIT != lpEnd,
-				_T("This layer has no properties. Make sure to define all necacary properties!"));
+				_T("This layer has no properties. Make sure to define all necacary properties!"),
+				STARENGINE_LOG_TAG);
 			do
 			{
 				auto attributes = lpIT->second->GetAttributes();
@@ -277,7 +281,8 @@ namespace star
 			auto opIT = objectProperties->lower_bound(_T("property"));
 			auto opEnd = objectProperties->upper_bound(_T("property"));
 			Logger::GetInstance()->Log(opIT != opEnd,
-				_T("[TILED] This Object Group has no properties. Make sure to define all necacary properties!"));
+				_T("[TILED] This Object Group has no properties. Make sure to define all necacary properties!"),
+				STARENGINE_LOG_TAG);
 			do
 			{
 				auto attributes = opIT->second->GetAttributes();
@@ -345,7 +350,8 @@ namespace star
 				const auto rType = objAttributes.lower_bound(_T("type"));
 				bool foundType = rType != objAttributes.end();
 				Logger::GetInstance()->Log(foundType,
-					_T("[TILED] Couldn't find the type of the object. Please define this!"));
+					_T("[TILED] Couldn't find the type of the object. Please define this!"),
+					STARENGINE_LOG_TAG);
 				if(foundType)
 				{
 					tObj.type = rType->second;
@@ -375,7 +381,8 @@ namespace star
 				else
 				{
 					Logger::GetInstance()->Log(LogLevel::Error, 
-						_T("[TILED] Object with type '") + tObj.type + _T("' wasn't defined!"));
+						_T("[TILED] Object with type '") + tObj.type + _T("' wasn't defined!"),
+						STARENGINE_LOG_TAG);
 				}
 				++OIT;
 			}

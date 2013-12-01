@@ -69,7 +69,7 @@ namespace star
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
 				_T("TextComponent : Could not load Font '")
-				+ m_FileName + _T("'."));
+				+ m_FileName + _T("'."), STARENGINE_LOG_TAG);
 		}
 
 		m_TextDesc.Fontname = m_FontName;

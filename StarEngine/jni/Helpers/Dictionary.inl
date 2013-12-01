@@ -73,7 +73,7 @@ namespace star
 	{
 		auto it = m_MultiMap.find(key);
 		Logger::GetInstance()->Log( it != m_MultiMap.end(), _T("Couldn't find key '") +
-				string_cast<tstring>(key) + _T("'."));
+				string_cast<tstring>(key) + _T("'."), STARENGINE_LOG_TAG);
 		return ((*it).second);
 	}
 
@@ -96,7 +96,8 @@ namespace star
 			++it;
 			Logger::GetInstance()->Log(it != range.second, _T("The value with key '") +
 					string_cast<tstring>(key) + _T("' and index '") +
-					string_cast<tstring>(index) + _T("' couldn't be found."));
+					string_cast<tstring>(index) + _T("' couldn't be found."),
+					STARENGINE_LOG_TAG);
 		}
 		return ((*it).second);
 	}

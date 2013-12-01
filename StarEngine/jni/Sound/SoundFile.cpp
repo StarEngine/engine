@@ -34,7 +34,8 @@ namespace star
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error,
 				_T("SoundFile: Could not load sound, reason : ")
-				+ string_cast<tstring>(Mix_GetError()));
+				+ string_cast<tstring>(Mix_GetError()),
+				STARENGINE_LOG_TAG);
 		}
 #endif
 		SetChannel(channel);
@@ -63,7 +64,8 @@ namespace star
 		mLoopTimes = looptimes;
 		star::Logger::GetInstance()->Log(star::LogLevel::Info,
 			_T("Sound File: Playing File , Looptimes = ") +
-			star::string_cast<tstring>(mLoopTimes));
+			star::string_cast<tstring>(mLoopTimes),
+			STARENGINE_LOG_TAG);
 #ifdef DESKTOP
 		Mix_HookMusicFinished(NULL);
 		Mix_PlayMusic(mpSound, mLoopTimes);
@@ -82,7 +84,8 @@ namespace star
 			{
 				star::Logger::GetInstance()->Log(
 					star::LogLevel::Error,
-					_T("Sound File: Can't set audio loop")
+					_T("Sound File: Can't set audio loop"),
+					STARENGINE_LOG_TAG
 					);
 				Stop();
 				return;
@@ -93,7 +96,7 @@ namespace star
 		if (lRes != SL_RESULT_SUCCESS)
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error,
-				_T("Sound File: Can't play audio"));
+				_T("Sound File: Can't play audio"), STARENGINE_LOG_TAG);
 			Stop();
 			return;
 		};
@@ -220,7 +223,8 @@ namespace star
 		if (lRes != SL_RESULT_SUCCESS)
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error,
-					_T("SoundFile : Can't get audio seek interface"));
+					_T("SoundFile : Can't get audio seek interface"),
+					STARENGINE_LOG_TAG);
 			Stop();
 			return;
 		}
@@ -233,7 +237,7 @@ namespace star
 			&player) != SL_RESULT_SUCCESS)
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error,
-				_T("SoundFile: Can't set callback"));
+				_T("SoundFile: Can't set callback"), STARENGINE_LOG_TAG);
 		}
 	}
 
@@ -247,7 +251,8 @@ namespace star
 
 		star::Logger::GetInstance()->Log(star::LogLevel::Info,
 			_T("Sound File: Callback Entered, Looptimes = ") +
-			star::string_cast<tstring>(file->mLoopTimes)
+			star::string_cast<tstring>(file->mLoopTimes),
+			STARENGINE_LOG_TAG
 			);
 
 		if(file->mLoopTimes == 0)

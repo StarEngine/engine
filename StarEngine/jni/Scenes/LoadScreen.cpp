@@ -29,7 +29,8 @@ namespace star
 #endif
 		if(!m_Shader.Init(vShader, fShader))
 		{
-			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Initialization of the Loadscreen Shader has failed!"));
+			Logger::GetInstance()->Log(star::LogLevel::Info,
+				_T("Initialization of the Loadscreen Shader has failed!"), STARENGINE_LOG_TAG);
 		}
 
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetAssetsPath(),m_SpriteName);

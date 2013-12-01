@@ -34,10 +34,10 @@ namespace star
 				{
 					Logger::GetInstance()->Log(false, _T("CollisionManager::AddComponent \
 The component you tried to add is already in the CollisionManager"));
-				}			
+				}
 				else
 				{
-					(*it).second.push_back(component);					
+					(*it).second.push_back(component);
 				}
 			}
 			//make a new layer!
@@ -73,17 +73,17 @@ The component you tried to add is already in the CollisionManager"));
 				else
 				{
 					Logger::GetInstance()->Log(false, _T("CollisionManager::RemoveComponent: \
-The component you tried to remove is not in the CollisionManager"));
+The component you tried to remove is not in the CollisionManager"), STARENGINE_LOG_TAG);
 					Logger::GetInstance()->Log(LogLevel::Error, _T("CollisionManager::RemoveComponent: \
-The component you tried to remove is not in the CollisionManager"));
+The component you tried to remove is not in the CollisionManager"), STARENGINE_LOG_TAG);
 				}
 			}
 			else
 			{
 				Logger::GetInstance()->Log(false, _T("CollisionManager::RemoveComponent: \
-The component you tried to remove is not in the CollisionManager"));
+The component you tried to remove is not in the CollisionManager"), STARENGINE_LOG_TAG);
 				Logger::GetInstance()->Log(LogLevel::Error, _T("CollisionManager::RemoveComponent: \
-The component you tried to remove is not in the CollisionManager"));
+The component you tried to remove is not in the CollisionManager"), STARENGINE_LOG_TAG);
 			}
 		}
 	}

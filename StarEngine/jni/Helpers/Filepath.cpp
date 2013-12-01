@@ -40,7 +40,8 @@ tstring Filepath::m_ExternalRoot = EMPTY_STRING;
 		if(dotCounter > 1)
 		{
 			Logger::GetInstance()->Log(LogLevel::Error, 
-				_T("Please don't use . in your filename (except for the file extension)"));
+				_T("Please don't use . in your filename (except for the file extension)"),
+				STARENGINE_LOG_TAG);
 		}
 
 		auto index = full_path.find_last_of('/');
@@ -238,7 +239,8 @@ tstring Filepath::m_ExternalRoot = EMPTY_STRING;
 			{
 				tstringstream message;
 				message << _T("The path \" ") << path << _T(" \" Is Invalid!");
-				Logger::GetInstance()->Log(LogLevel::Error,message.str());
+				Logger::GetInstance()->Log(LogLevel::Error,
+					message.str(), STARENGINE_LOG_TAG);
 				break;
 			}
 

@@ -57,7 +57,8 @@ namespace star {
 
 		app_dummy();
 
-		Logger::GetInstance()->Log(LogLevel::Info, _T("Starting EventLoop"));
+		Logger::GetInstance()->Log(LogLevel::Info,
+			_T("Starting EventLoop"), STARENGINE_LOG_TAG);
 
 		while (true)
 		{
@@ -72,7 +73,8 @@ namespace star {
 
 				if (mApplicationPtr->destroyRequested)
 				{
-					Logger::GetInstance()->Log(LogLevel::Info, _T("Exiting Event"));
+					Logger::GetInstance()->Log(LogLevel::Info,
+						_T("Exiting Event"), STARENGINE_LOG_TAG);
 					mQuit = true;
 					mEnabled = false;
 					mTimeManager->StopMonitoring();
@@ -94,7 +96,7 @@ namespace star {
 	void EventLoop::End()
 	{
 		//[COMMENT] This "delete this" looks very unsafe... 
-		Logger::GetInstance()->Log(LogLevel::Info, _T("Ending App"));
+		Logger::GetInstance()->Log(LogLevel::Info, _T("Ending App"), STARENGINE_LOG_TAG);
 		mMainGame->End();
 		delete InputManager::GetInstance();
 		delete this;
@@ -113,7 +115,7 @@ namespace star {
 			if (pApplication->window != nullptr)
 			{
 				Logger::GetInstance()->Log(LogLevel::Info,
-						_T("Eventloop : APP CMD INIT WINDOW"));
+						_T("Eventloop : APP CMD INIT WINDOW"), STARENGINE_LOG_TAG);
 				GraphicsManager::GetInstance()->Initialize(pApplication);
 				lEventLoop.mQuit = false;
 			}
@@ -135,7 +137,8 @@ namespace star {
 			lEventLoop.mMainGameInitialized = true;
 			lEventLoop.mEnabled = true;
 			Logger::GetInstance()->Log(LogLevel::Info,
-					_T("Eventloop : APP CMD GAINED FOXUS, Initited MainGame"));
+					_T("Eventloop : APP CMD GAINED FOXUS, Initited MainGame"),
+					STARENGINE_LOG_TAG);
 			TextureManager::GetInstance()->ReloadAllTextures();
 			SceneManager::GetInstance()->processActivityEvent(pCommand,
 					pApplication);
@@ -144,7 +147,8 @@ namespace star {
 
 		case APP_CMD_LOST_FOCUS:
 			Logger::GetInstance()->Log(LogLevel::Info,
-					_T("Eventloop : APP_CMD_LOST_FOCUS"));
+					_T("Eventloop : APP_CMD_LOST_FOCUS"),
+					STARENGINE_LOG_TAG);
 			AudioManager::GetInstance()->PauseAllSounds();
 			break;
 
@@ -152,50 +156,52 @@ namespace star {
 			//After this the Save State gets called in the scene manager
 		case APP_CMD_PAUSE:
 			Logger::GetInstance()->Log(LogLevel::Info,
-					_T("Eventloop : APP CMD PAUSE"));
+					_T("Eventloop : APP CMD PAUSE"),
+					STARENGINE_LOG_TAG);
 			lEventLoop.mEnabled = false;
 			AudioManager::GetInstance()->PauseAllSounds();
 			break;
 
 		case APP_CMD_RESUME:
 			Logger::GetInstance()->Log(LogLevel::Info,
-					_T("Eventloop : APP_CMD_RESUME"));
+					_T("Eventloop : APP_CMD_RESUME"),
+					STARENGINE_LOG_TAG);
 			break;
 
 			//Gets called after the pause command
 		case APP_CMD_STOP:
 			Logger::GetInstance()->Log(LogLevel::Info,
-					_T("Eventloop : APP_CMD_STOP"));
+					_T("Eventloop : APP_CMD_STOP"), STARENGINE_LOG_TAG);
 			SceneManager::GetInstance()->processActivityEvent(pCommand,
 					pApplication);
 			break;
 
 		case APP_CMD_START:
 			Logger::GetInstance()->Log(LogLevel::Info,
-					_T("Eventloop : APP_CMD_START"));
+					_T("Eventloop : APP_CMD_START"), STARENGINE_LOG_TAG);
 			break;
 
 		case APP_CMD_TERM_WINDOW:
 			Logger::GetInstance()->Log(LogLevel::Info,
-					_T("Eventloop : APP_CMD_TERM_WINDOW"));
+					_T("Eventloop : APP_CMD_TERM_WINDOW"), STARENGINE_LOG_TAG);
 			TextureManager::GetInstance()->EraseAllTextures();
 			break;
 
 		case APP_CMD_DESTROY:
 			Logger::GetInstance()->Log(LogLevel::Info,
-					_T("Eventloop : APP_CMD_DESTROY"));
+					_T("Eventloop : APP_CMD_DESTROY"), STARENGINE_LOG_TAG);
 			GraphicsManager::GetInstance()->Destroy();
 
 			break;
 
 		case APP_CMD_LOW_MEMORY:
 			Logger::GetInstance()->Log(LogLevel::Info,
-					_T("Eventloop : APP_CMD_LOW_MEMORY"));
+					_T("Eventloop : APP_CMD_LOW_MEMORY"), STARENGINE_LOG_TAG);
 			break;
 
 		case APP_CMD_CONFIG_CHANGED:
 			Logger::GetInstance()->Log(LogLevel::Info,
-					_T("Eventloop : APP_CMD_CONFIG_CHANGED"));
+					_T("Eventloop : APP_CMD_CONFIG_CHANGED"), STARENGINE_LOG_TAG);
 			break;
 
 		default:

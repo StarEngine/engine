@@ -180,7 +180,7 @@ namespace star
 						);
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("Trying to update nullptr action from object '")
-						+ GetName() + _T("'."));
+						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
 			}
 
@@ -200,7 +200,7 @@ namespace star
 						);
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("Trying to update nullptr component from object '")
-						+ GetName() + _T("'."));
+						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
 			}
 
@@ -220,7 +220,7 @@ namespace star
 						);
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("Trying to update nullptr child from object '")
-						+ GetName() + _T("'."));
+						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
 			}
 		}
@@ -271,7 +271,7 @@ namespace star
 				{
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("Trying to draw nullptr component from object '")
-						+ GetName() + _T("'."));
+						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
 			}
 
@@ -285,7 +285,7 @@ namespace star
 				{
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("Trying to draw nullptr object child from object '")
-						+ GetName() + _T("'."));
+						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
 			}
 		}
@@ -314,7 +314,7 @@ namespace star
 					{
 						Logger::GetInstance()->Log(LogLevel::Warning,
 							_T("Trying to draw nullptr component from object '")
-							+ GetName() + _T("'."));
+							+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 					}
 				}
 			}
@@ -329,7 +329,7 @@ namespace star
 				{
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("Trying to draw nullptr object child from object '")
-						+ GetName() + _T("'."));
+						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
 			}
 		}
@@ -374,7 +374,7 @@ namespace star
 			Logger::GetInstance()->Log(typeid(*comp) != typeid(*pComponent), 
 				_T("Object::AddComponent: \
 Adding 2 components of the same type \
-to the same object is illegal."));
+to the same object is illegal."), STARENGINE_LOG_TAG);
 		}
 
 		pComponent->SetParent(this);
@@ -399,7 +399,7 @@ to the same object is illegal."));
 
 		m_pChildren.push_back(pChild);
 
-		//Logger::GetInstance()->Log(LogLevel::Info, _T("Child Added"));
+		//Logger::GetInstance()->Log(LogLevel::Info, _T("Child Added"), STARENGINE_LOG_TAG);
 	}
 
 	void Object::RemoveChild(const Object* pObject)
@@ -408,7 +408,7 @@ to the same object is illegal."));
 		bool isOK = it != m_pChildren.end();
 		Logger::GetInstance()->Log(isOK,
 			_T("Object::RemoveChild: The object you tried \
-to remove is not a child of this object!"));
+to remove is not a child of this object!"), STARENGINE_LOG_TAG);
 		if(isOK)
 		{
 			m_pGarbageContainer.push_back(*it);
@@ -429,7 +429,7 @@ to remove is not a child of this object!"));
 		Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("Object::RemoveChild: \
 Trying to remove unknown child '")
-				   + name + _T("'."));
+				+ name + _T("'."), STARENGINE_LOG_TAG);
 	}
 
 	const std::vector<Object*>& Object::GetChildren() const
@@ -450,7 +450,7 @@ Trying to remove unknown child '")
 		Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("Object::SetChildFrozen: \
 Trying to (un)freeze unknown child '")
-				   + name + _T("'."));
+				   + name + _T("'."), STARENGINE_LOG_TAG);
 	}
 
 	void Object::SetChildDisabled(const tstring & name, bool disabled)
@@ -466,7 +466,7 @@ Trying to (un)freeze unknown child '")
 		Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("Object::SetChildDisabled: \
 Trying to enable/disable unknown child '")
-				   + name + _T("'."));
+				   + name + _T("'."), STARENGINE_LOG_TAG);
 	}
 
 	void Object::SetChildVisible(const tstring & name, bool visible)
@@ -482,7 +482,7 @@ Trying to enable/disable unknown child '")
 		Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("Object::SetChildVisible: \
 Trying to (un)hide unknown child '")
-				   + name + _T("'."));
+				+ name + _T("'."), STARENGINE_LOG_TAG);
 	}
 
 	void Object::AddAction(Action * pAction)
@@ -492,7 +492,8 @@ Trying to (un)hide unknown child '")
 			if(action == pAction)
 			{
 				Logger::GetInstance()->Log(LogLevel::Warning,
-					_T("Object::AddAction: Trying to add a duplicate action."));
+					_T("Object::AddAction: Trying to add a duplicate action."),
+					STARENGINE_LOG_TAG);
 				return;
 			}
 		}
@@ -510,7 +511,7 @@ Trying to (un)hide unknown child '")
 		bool isOK = it != m_pActions.end();
 		Logger::GetInstance()->Log(isOK,
 			_T("Object::RemoveAction: The action you tried \
-to remove could not be found."));
+to remove could not be found."), STARENGINE_LOG_TAG);
 		if(isOK)
 		{
 			m_pGarbageContainer.push_back(*it);
@@ -530,7 +531,7 @@ to remove could not be found."));
 		}
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			_T("Object::RemoveAction: Action '")
-			+ name + _T("' could not be found."));
+			+ name + _T("' could not be found."), STARENGINE_LOG_TAG);
 	}
 
 	void Object::RestartAction(const tstring & name)
@@ -545,7 +546,7 @@ to remove could not be found."));
 		}
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			_T("Object::RestartAction: Action '")
-			+ name + _T("' could not be found."));
+			+ name + _T("' could not be found."), STARENGINE_LOG_TAG);
 	}
 
 	void Object::PauseAction(const tstring & name)
@@ -560,7 +561,7 @@ to remove could not be found."));
 		}
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			_T("Object::PauseAction: Action '")
-			+ name + _T("' could not be found."));
+			+ name + _T("' could not be found."), STARENGINE_LOG_TAG);
 	}
 
 	void Object::ResumeAction(const tstring & name)
@@ -575,7 +576,7 @@ to remove could not be found."));
 		}
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			_T("Object::ResumeAction: Action '")
-			+ name + _T("' could not be found."));
+			+ name + _T("' could not be found."), STARENGINE_LOG_TAG);
 	}
 
 	void Object::RemoveComponent(BaseComponent * pComponent)
@@ -680,7 +681,7 @@ to remove could not be found."));
 		{
 			Logger::GetInstance()->Log(LogLevel::Info,
 				_T("Object::CollectGarbage: Removed entity '")
-				+ entity->GetName() + _T("'."));
+				+ entity->GetName() + _T("'."), STARENGINE_LOG_TAG);
 			SafeDelete(entity);
 		}
 		m_pGarbageContainer.clear();

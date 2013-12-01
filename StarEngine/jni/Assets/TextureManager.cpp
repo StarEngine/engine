@@ -34,25 +34,23 @@ namespace star
 
 	bool TextureManager::LoadTexture(const tstring& path, const tstring& name)
 	{
-		Logger::GetInstance()->Log(mTextureManager != nullptr, _T("Texture manager is invalid."));
+		Logger::GetInstance()->Log(mTextureManager != nullptr,
+			_T("Texture manager is invalid."), STARENGINE_LOG_TAG);
 
 
 		if(mTextureMap.find(name) != mTextureMap.end())
 		{
-			//star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Texture Already Exists"));
 			return (false);
 		}
 
 		auto pathit = mPathList.find(path);
 		if(pathit != mPathList.end())
 		{
-			//star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Texture Path Already Exists"));
 			tstring nameold = pathit->second;
 			auto nameit = mTextureMap.find(nameold);
 			if(nameit!= mTextureMap.end())
 			{
-				//star::Logger::GetInstance()->Log(LogLevel::Warning,_T("Texture Manager : Found texture old path, making copy for new name"));
-				mTextureMap[name]=nameit->second;
+				mTextureMap[name] = nameit->second;
 				return (true);
 			}
 			mPathList.erase(pathit);
@@ -74,7 +72,8 @@ namespace star
 
 	bool TextureManager::DeleteTexture(const tstring& name)
 	{
-		Logger::GetInstance()->Log(mTextureManager != nullptr, _T("Texture manager is invalid."));
+		Logger::GetInstance()->Log(mTextureManager != nullptr,
+			_T("Texture manager is invalid."), STARENGINE_LOG_TAG);
 
 		auto it = mTextureMap.find(name);
 		if(it != mTextureMap.end())
@@ -87,7 +86,8 @@ namespace star
 
 	GLuint TextureManager::GetTextureID(const tstring& name)
 	{
-		Logger::GetInstance()->Log(mTextureManager != nullptr, _T("Texture manager is invalid."));
+		Logger::GetInstance()->Log(mTextureManager != nullptr,
+			_T("Texture manager is invalid."), STARENGINE_LOG_TAG);
 
 		if(mTextureMap.find(name) != mTextureMap.end())
 		{
@@ -98,7 +98,8 @@ namespace star
 
 	ivec2 TextureManager::GetTextureDimensions(const tstring& name)
 	{
-		Logger::GetInstance()->Log(mTextureManager != nullptr, _T("Texture manager is invalid."));
+		Logger::GetInstance()->Log(mTextureManager != nullptr,
+			_T("Texture manager is invalid."), STARENGINE_LOG_TAG);
 
 		auto it = mTextureMap.find(name);
 		if(it != mTextureMap.end())

@@ -177,7 +177,8 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("SlideScene::AddSlide: fade_im_time should be longer then 0 seconds.")
+				_T("SlideScene::AddSlide: fade_im_time should be longer then 0 seconds."),
+				STARENGINE_LOG_TAG
 				);
 		}
 
@@ -229,7 +230,8 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("SlideScene::AddSlide: fade_out_time should be longer then 0 seconds.")
+				_T("SlideScene::AddSlide: fade_out_time should be longer then 0 seconds."),
+				STARENGINE_LOG_TAG
 				);
 		}
 

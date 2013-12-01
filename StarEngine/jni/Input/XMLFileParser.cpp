@@ -32,7 +32,7 @@ namespace star
 		result = XMLDocument.load_buffer_inplace_own(data.data, data.size);
 
 		Logger::GetInstance()->Log(result,
-			star::string_cast<tstring>(result.description()));
+			star::string_cast<tstring>(result.description()), STARENGINE_LOG_TAG);
 		if (result)
 		{
 			auto root = XMLDocument.first_child();

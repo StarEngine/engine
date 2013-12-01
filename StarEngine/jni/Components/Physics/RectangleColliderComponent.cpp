@@ -102,7 +102,8 @@ namespace star
 			if(spriteComp)
 			{
 				Logger::GetInstance()->Log(spriteComp->IsInitialized(),
-					_T("First add the spriteComponent and then the rectColliderComp"));
+					_T("First add the spriteComponent and then the rectColliderComp"),
+					STARENGINE_LOG_TAG);
 				m_CollisionRect.SetPoints(
 					vec2(0, 0),
 					vec2(spriteComp->GetWidth(), 0), 
@@ -118,7 +119,8 @@ namespace star
 If you don't need this, please specify a width and height in the constructor of \
 								If you don't need this, please specify a width \
 								and height in the constructor of \n\
-								the RectangleColliderComponent."));
+								the RectangleColliderComponent."),
+								STARENGINE_LOG_TAG);
 			}
 		}
 
@@ -163,7 +165,8 @@ If you don't need this, please specify a width and height in the constructor of 
 		) const
 	{
 		Logger::GetInstance()->Log(point1 != point2,
-			_T("Please provide 2 different points to make a line!"));
+			_T("Please provide 2 different points to make a line!"),
+			STARENGINE_LOG_TAG);
 
 		if(GetTransform()->GetWorldRotation() == 0.0f && (point1.x == point2.x || point1.y == point2.y))
 		{
@@ -236,8 +239,9 @@ If you don't need this, please specify a width and height in the constructor of 
 
 	bool RectangleColliderComponent::CollidesWith(const BaseColliderComponent* other) const
 	{
-		Logger::GetInstance()->Log(other != nullptr, _T("RectangleColliderComponent::CollidesWith: \
-The collierComponent to check is a nullptr"));
+		Logger::GetInstance()->Log(other != nullptr,
+			_T("RectangleColliderComponent::CollidesWith: \
+The collierComponent to check is a nullptr"), STARENGINE_LOG_TAG);
 		const CircleColliderComponent* otherCircleComp = 
 			dynamic_cast<const CircleColliderComponent*>(other);
 		const RectangleColliderComponent* otherRectComp = 
@@ -423,7 +427,8 @@ The collierComponent to check is a nullptr"));
 		) const
 	{
 		Logger::GetInstance()->Log(size != 0,
-			_T("You can't calculate the minimum of 0 elements!"));
+			_T("You can't calculate the minimum of 0 elements!"),
+			STARENGINE_LOG_TAG);
 		float32 minimum = vec[0];
 		for(int32 i = 1; i < size; ++i)
 		{
@@ -441,7 +446,8 @@ The collierComponent to check is a nullptr"));
 		) const
 	{
 		Logger::GetInstance()->Log(size != 0, 
-			_T("You can't calculate the maximum of 0 elements!"));
+			_T("You can't calculate the maximum of 0 elements!"),
+			STARENGINE_LOG_TAG);
 		float32 maximum = vec[0];
 		for(int32 i = 1; i < size; ++i)
 		{

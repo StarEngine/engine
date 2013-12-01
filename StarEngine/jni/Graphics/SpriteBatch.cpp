@@ -242,7 +242,8 @@ namespace star
 		if(text.size() == 0)
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("FontManager::DrawText: Drawing an empty string..."));
+				_T("FontManager::DrawText: Drawing an empty string..."),
+				STARENGINE_LOG_TAG);
 			return;
 		}
 		
