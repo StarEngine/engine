@@ -138,128 +138,133 @@ namespace star
 
 	void TextComponent::CalculateHorizontalTextOffset()
 	{
-		m_TextDesc.HorizontalTextOffset.clear();
-		auto font = FontManager::GetInstance()->GetFont(m_FontName);
-		if(m_TextAlignment == HorizontalAlignment::center)
+		if(m_bInitialized)
 		{
-			uint32 counter(0);
-			uint32 length = GetLongestLine(m_EditText);
-			if(length == 0)
+			m_TextDesc.HorizontalTextOffset.clear();
+			auto font = FontManager::GetInstance()->GetFont(m_FontName);
+			if(m_TextAlignment == HorizontalAlignment::center)
 			{
-				m_TextDesc.Text = m_EditText;
-			}
-			else
-			{
-				m_TextDesc.Text = EMPTY_STRING;
-				tstring substr(EMPTY_STRING);
-				for(size_t i = 0 ; i < m_EditText.length() ; ++i)
+				uint32 counter(0);
+				uint32 length = GetLongestLine(m_EditText);
+				if(length == 0)
 				{
-					if(m_EditText[i] == _T('\n'))
+					m_TextDesc.Text = m_EditText;
+				}
+				else
+				{
+					m_TextDesc.Text = EMPTY_STRING;
+					tstring substr(EMPTY_STRING);
+					for(size_t i = 0 ; i < m_EditText.length() ; ++i)
 					{
-						m_TextDesc.Text += substr + _T('\n');
-
-						uint32 diff = length - font.GetStringLength(substr);
-						if(diff > 0)
+						if(m_EditText[i] == _T('\n'))
 						{
-							diff /= 2;
-						}
-						m_TextDesc.HorizontalTextOffset.push_back(diff);
-							
-						substr = EMPTY_STRING;
-						counter = 0;
-					}
-					else
-					{
-						substr += m_EditText[i];
-						++counter;
-					}
-				}
-			
-				m_TextDesc.Text += substr;
+							m_TextDesc.Text += substr + _T('\n');
 
-				uint32 diff = length - font.GetStringLength(substr);
-				if(diff > 0)
-				{
-					diff /= 2;
+							uint32 diff = length - font.GetStringLength(substr);
+							if(diff > 0)
+							{
+								diff /= 2;
+							}
+							m_TextDesc.HorizontalTextOffset.push_back(diff);
+							
+							substr = EMPTY_STRING;
+							counter = 0;
+						}
+						else
+						{
+							substr += m_EditText[i];
+							++counter;
+						}
+					}
+			
+					m_TextDesc.Text += substr;
+
+					uint32 diff = length - font.GetStringLength(substr);
+					if(diff > 0)
+					{
+						diff /= 2;
+					}
+					m_TextDesc.HorizontalTextOffset.push_back(diff);
 				}
-				m_TextDesc.HorizontalTextOffset.push_back(diff);
 			}
-		}
-		else if(m_TextAlignment == HorizontalAlignment::right)
-		{
-			uint32 counter(0);
-			uint32 length = GetLongestLine(m_EditText);
-			if(length == 0)
+			else if(m_TextAlignment == HorizontalAlignment::right)
 			{
-				m_TextDesc.Text = m_EditText;
+				uint32 counter(0);
+				uint32 length = GetLongestLine(m_EditText);
+				if(length == 0)
+				{
+					m_TextDesc.Text = m_EditText;
+				}
+				else
+				{
+					m_TextDesc.Text = EMPTY_STRING;
+					tstring substr(EMPTY_STRING);
+					for(size_t i = 0 ; i < m_EditText.length() ; ++i)
+					{
+						if(m_EditText[i] == _T('\n'))
+						{
+							m_TextDesc.Text += substr + _T('\n');
+
+							uint32 diff = length - font.GetStringLength(substr);
+							m_TextDesc.HorizontalTextOffset.push_back(diff);
+
+							substr = EMPTY_STRING;
+							counter = 0;
+						}
+						else
+						{
+							substr += m_EditText[i];
+							++counter;
+						}
+					}
+				
+					m_TextDesc.Text += substr;
+
+					uint32 diff = length - font.GetStringLength(substr);
+					m_TextDesc.HorizontalTextOffset.push_back(diff);
+				}
 			}
 			else
-			{
-				m_TextDesc.Text = EMPTY_STRING;
-				tstring substr(EMPTY_STRING);
-				for(size_t i = 0 ; i < m_EditText.length() ; ++i)
-				{
-					if(m_EditText[i] == _T('\n'))
-					{
-						m_TextDesc.Text += substr + _T('\n');
-
-						uint32 diff = length - font.GetStringLength(substr);
-						m_TextDesc.HorizontalTextOffset.push_back(diff);
-
-						substr = EMPTY_STRING;
-						counter = 0;
-					}
-					else
-					{
-						substr += m_EditText[i];
-						++counter;
-					}
-				}
-				
-				m_TextDesc.Text += substr;
-
-				uint32 diff = length - font.GetStringLength(substr);
-				m_TextDesc.HorizontalTextOffset.push_back(diff);
+			{	
+				GetLongestLine(m_EditText);
+				m_TextDesc.Text = m_EditText;
+				m_TextDesc.HorizontalTextOffset.push_back(0);
 			}
-		}
-		else
-		{	
-			GetLongestLine(m_EditText);
-			m_TextDesc.Text = m_EditText;
-			m_TextDesc.HorizontalTextOffset.push_back(0);
 		}
 	}
 	
 	int32 TextComponent::GetLongestLine(const tstring & str)
 	{
 		int32 length(0);
-		tstring substr(EMPTY_STRING);
-		auto font = FontManager::GetInstance()->GetFont(m_FontName);
-		for(size_t i = 0 ; i < str.length() ; ++i)
+		if(m_bInitialized)
 		{
-			if(str[i] == _T('\n'))
+			tstring substr(EMPTY_STRING);
+			auto font = FontManager::GetInstance()->GetFont(m_FontName);
+			for(size_t i = 0 ; i < str.length() ; ++i)
 			{
-				int32 strLength = font.GetStringLength(substr);
-				if(strLength > length)
+				if(str[i] == _T('\n'))
 				{
-					length = strLength;
-					m_TextWidth = strLength;
+					int32 strLength = font.GetStringLength(substr);
+					if(strLength > length)
+					{
+						length = strLength;
+						m_TextWidth = strLength;
+					}
+					substr = EMPTY_STRING;
 				}
-				substr = EMPTY_STRING;
+				else
+				{
+					substr += str[i];
+				}
 			}
-			else
+
+			int32 strLength = font.GetStringLength(substr);
+			if(strLength > length)
 			{
-				substr += str[i];
+				length = strLength;
+				m_TextWidth = strLength;
 			}
 		}
-
-		int32 strLength = font.GetStringLength(substr);
-		if(strLength > length)
-		{
-			length = strLength;
-			m_TextWidth = strLength;
-		}
-
 		return length;
 	}
 	
