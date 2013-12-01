@@ -54,7 +54,10 @@ namespace star
 							 m_UvCoordBuffer;
 
 		GLuint	m_TextureSamplerID,
-				m_ColorID;
+				m_ColorID,
+				m_ScalingID,
+				m_ViewInverseID,
+				m_ProjectionID;
 
 		Shader* m_ShaderPtr;	
 

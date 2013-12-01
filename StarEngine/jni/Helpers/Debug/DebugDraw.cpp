@@ -268,7 +268,7 @@ namespace star
 			1, GL_FALSE,
 			ToPointerValue(
 				scaleMat *
-				GraphicsManager::GetInstance()->GetViewProjectionMatrix()
+				GraphicsManager::GetInstance()->GetViewInverseProjectionMatrix()
 				)
 			);
 

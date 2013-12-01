@@ -23,6 +23,9 @@ namespace star
 		m_UvCoordBuffer(),
 		m_TextureSamplerID(0),
 		m_ColorID(0),
+		m_ScalingID(0),
+		m_ViewInverseID(0),
+		m_ProjectionID(0),
 		m_ShaderPtr(nullptr)
 	{
 
@@ -61,6 +64,9 @@ namespace star
 
 		m_TextureSamplerID = m_ShaderPtr->GetUniformLocation("textureSampler");
 		m_ColorID = m_ShaderPtr->GetUniformLocation("colorMultiplier");
+		m_ScalingID = m_ShaderPtr->GetUniformLocation("scaleMatrix");
+		m_ViewInverseID = m_ShaderPtr->GetUniformLocation("viewInverseMatrix");
+		m_ProjectionID = m_ShaderPtr->GetUniformLocation("projectionMatrix");
 	}
 
 	void SpriteBatch::Flush()
@@ -92,6 +98,16 @@ namespace star
 
 		//Set uniforms
 		glUniform1i(m_TextureSamplerID, 0);
+
+		float scaleValue = ScaleSystem::GetInstance()->GetScale();
+		mat4 scaleMat = Scale(scaleValue, scaleValue, 1.0f);
+		glUniformMatrix4fv(m_ScalingID, 1, GL_FALSE, ToPointerValue(scaleMat));
+
+		mat4 viewInverseMat = GraphicsManager::GetInstance()->GetViewInverseMatrix();
+		glUniformMatrix4fv(m_ViewInverseID, 1, GL_FALSE, ToPointerValue(viewInverseMat));
+
+		mat4 projectionMat = GraphicsManager::GetInstance()->GetProjectionMatrix();
+		glUniformMatrix4fv(m_ProjectionID, 1, GL_FALSE, ToPointerValue(projectionMat));
 
 		//more?
 	}
@@ -269,7 +285,7 @@ namespace star
 						scaleMat *
 						(isHUD ?
 							GraphicsManager::GetInstance()->GetProjectionMatrix() :
-							GraphicsManager::GetInstance()->GetViewProjectionMatrix()
+							GraphicsManager::GetInstance()->GetViewInverseProjectionMatrix()
 							)
 						)
 					);
@@ -307,11 +323,11 @@ namespace star
 		{
 			//Push back all vertices
 			
-			mat4 transformMat = Transpose(sprite.transformPtr->GetWorldMatrix())
-								* scaleMat
-								* (sprite.bIsHud ?
-									GraphicsManager::GetInstance()->GetProjectionMatrix() :
-									GraphicsManager::GetInstance()->GetViewProjectionMatrix());
+			mat4 transformMat = Transpose(sprite.transformPtr->GetWorldMatrix());
+			if(sprite.bIsHud)
+			{
+				transformMat *= GraphicsManager::GetInstance()->GetViewMatrix();
+			}
 
 			//[TODO] Add depth!
 			//[TODO] Check if this can be changed :(
