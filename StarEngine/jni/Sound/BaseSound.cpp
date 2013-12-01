@@ -154,7 +154,7 @@ namespace star
 		, mNoChannelAssigned(true)
 #ifdef DESKTOP
 		, mIsMuted(false)
-		, mVolume(0)
+		, mVolume(1)
 #else
 		, mPath(EMPTY_STRING)
 #endif
@@ -305,6 +305,8 @@ namespace star
 		SLVolumeItf volumeItf;
 		if(GetVolumeInterface(sound, player, &volumeItf))
 		{
+			volume /= 10.0f;
+			volume += 0.9f;
 			volume = Clamp(volume, 0.0f, 1.0f);
 			SLmillibel actualMillibelLevel, maxMillibelLevel;
 			SLresult result = (*volumeItf)->GetMaxVolumeLevel(
