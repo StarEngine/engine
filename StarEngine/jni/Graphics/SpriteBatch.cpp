@@ -124,7 +124,6 @@ namespace star
 		if(size > 0)
 		{					
 			//[TODO] Check if this can be optimized
-			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texture);
 		
 			

@@ -266,9 +266,14 @@ namespace star
 	{
 		SetSpritesheet(m_SpritesheetName);
 		SpriteComponent::InitializeComponent();
+
 		m_Width /= GetFramesHorizontal();
 		m_Height /= GetFramesVertical();
+
+		CreateUVCoords();
+		FillSpriteInfo();
 	}
+
 
 	void SpritesheetComponent::SetCallbackAnimations( const std::function<void()> & callback )
 	{
