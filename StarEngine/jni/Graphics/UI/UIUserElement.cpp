@@ -27,30 +27,20 @@ namespace star
 	
 	void UIUserElement::SetLocked(bool locked)
 	{
-		GetScene()->GetStopwatch()->CreateTimer(
-			_T("LockTimer"),
-			0.2f,
-			false,
-			false,
-			[&]()
+		bool isUnlocking =
+			!locked && m_ElementState == ElementStates::LOCKED;
+		m_ElementState = 
+			locked ?
+			ElementStates::LOCKED :
+			ElementStates::IDLE;
+		if(isUnlocking)
+		{
+			if(m_SelectCallback)
 			{
-				bool isUnlocking =
-					!locked && m_ElementState == ElementStates::LOCKED;
-				m_ElementState = 
-					locked ?
-					ElementStates::LOCKED :
-					ElementStates::IDLE;
-				if(isUnlocking)
-				{
-					if(m_SelectCallback)
-					{
-						m_SelectCallback();
-					}
-					GoIdle();
-				}
-			},
-			false
-			);
+				m_SelectCallback();
+			}
+			Reset();
+		}
 	}
 	
 	void UIUserElement::SetUIDisabled(bool disable)
