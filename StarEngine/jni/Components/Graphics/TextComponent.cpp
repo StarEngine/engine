@@ -126,7 +126,7 @@ namespace star
 		{
 			if(str[i] == _T('\t'))
 			{
-				m_EditText += _T("    ");
+				m_EditText += TAB;
 			}
 			else
 			{
@@ -266,14 +266,6 @@ namespace star
 			}
 		}
 		return length;
-	}
-	
-	void TextComponent::AddSpacesToText(tstring & str, uint32 n)
-	{
-		for(uint32 i = 0 ; i < n ; ++i)
-		{
-			str += _T(' ');
-		}
 	}
 
 	TextComponent::~TextComponent()

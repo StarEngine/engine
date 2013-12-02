@@ -47,6 +47,8 @@ static const DirectoryMode DEFAULT_DIRECTORY_MODE = DirectoryMode::assets;
 #define UI_STATE_CLICK _T("click")
 #define UI_STATE_DISABLE _T("disable")
 
+#define TAB _T("    ")
+
 namespace star
 {
 	template <typename T>

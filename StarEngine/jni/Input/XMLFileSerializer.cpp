@@ -12,17 +12,32 @@ namespace star
 
 	XMLFileSerializer::~XMLFileSerializer() {}
 
-	void XMLFileSerializer::Write(XMLContainer & container)
+	void XMLFileSerializer::Write(
+		XMLContainer & container,
+		DirectoryMode mode
+		)
+	{
+		tstring buffer = WriteFile(container);
+		WriteTextFile(m_File, buffer, mode);
+	}
+
+	void XMLFileSerializer::Write(
+			XMLContainer & container,
+			const tstring & binaryPath,
+			DirectoryMode mode
+			)
+	{
+		container.Serialize(binaryPath, mode);
+	}
+
+	tstring XMLFileSerializer::WriteFile(XMLContainer & container)
 	{
 		tstringstream strstrResult;
 		strstrResult << _T("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") << std::endl;
 		uint32 tabs(0);
 		WriteChild(strstrResult, container, tabs);
 
-		tofstream resultFile;
-		resultFile.open(m_File.GetAssetsPath());
-		resultFile << strstrResult.str();
-		resultFile.close();
+		return strstrResult.str();
 	}
 
 	void XMLFileSerializer::WriteAtributes(tstringstream & strstr, XMLContainer & element)

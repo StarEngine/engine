@@ -77,7 +77,6 @@ namespace star
 
 		void CalculateHorizontalTextOffset();
 		int32 GetLongestLine(const tstring & str);
-		void AddSpacesToText(tstring & str, uint32 n);
 	
 	private:
 		uint32	m_FontSize;

@@ -153,12 +153,11 @@ namespace star
 		XMLFileSerializer serializer(m_File);
 		if(m_BinaryFile != EMPTY_STRING)
 		{
-			// [TODO-G] Fix Write To binary File support in XMLFileSerializer
-			//serializer.Write(m_Data);
+			serializer.Write(m_Data, m_BinaryFile, m_DirectoryMode);
 		}
 		else
 		{
-			//serializer.Write(m_Data);
+			serializer.Write(m_Data, m_DirectoryMode);
 		}
 	}
 
