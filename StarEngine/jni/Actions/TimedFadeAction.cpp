@@ -45,12 +45,9 @@ namespace star
 	{
 		m_pSpriteComponent = m_pParent->GetComponent<SpriteComponent>();
 		Logger::GetInstance()->Log(m_pSpriteComponent != nullptr,
-			_T("TimedFadeAction::Initialize: TimedFadeAction needs a SpriteComponent to work!"));
+			_T("TimedFadeAction::Initialize: TimedFadeAction needs a SpriteComponent to work!"),
+			STARENGINE_LOG_TAG);
 		m_pSpriteComponent->SetColorMultiplier(m_StartColor);
-		m_Callback = [&] () 
-		{
-			m_pSpriteComponent->SetColorMultiplier(m_EndColor);
-		};
 
 		TimedAction::Initialize();
 	}

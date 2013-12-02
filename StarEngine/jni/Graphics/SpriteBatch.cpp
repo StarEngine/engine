@@ -170,6 +170,7 @@ namespace star
 		glDisableVertexAttribArray(m_VertexID);
 		glDisableVertexAttribArray(m_UVID);
 		glDisableVertexAttribArray(m_IsHUDID);
+				STARENGINE_LOG_TAG);
 
 		m_ShaderPtr->Unbind();
 

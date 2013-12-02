@@ -129,7 +129,8 @@ namespace star
 			{
 				Logger::GetInstance()->Log(LogLevel::Warning,
 					_T("UIObject::Reset: Object '") +
-					child->GetName() + _T("' is not a UI Object."));
+					child->GetName() + _T("' is not a UI Object."),
+					STARENGINE_LOG_TAG);
 			}
 		}
 
@@ -148,14 +149,16 @@ namespace star
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
 				tstring(_T("UIObject::AddChild: ")) +
-				_T("UIObjects should be added via the AddElement(UIObject*) function."));
+				_T("UIObjects should be added via the AddElement(UIObject*) function."),
+				STARENGINE_LOG_TAG);
 			AddElement(uiobject);
 		}
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
 				tstring(_T("UIObject::AddChild: ")) +
-				_T("Adding a non-UIObject to a UIObject is an illegal action."));
+				_T("Adding a non-UIObject to a UIObject is an illegal action."),
+				STARENGINE_LOG_TAG);
 		}
 	}
 	
@@ -264,7 +267,8 @@ namespace star
 			{
 				Logger::GetInstance()->Log(LogLevel::Warning,
 					_T("UIObject::RepositionChildren: Object '") +
-					child->GetName() + _T("' is not a UI Object."));
+					child->GetName() + _T("' is not a UI Object."),
+					STARENGINE_LOG_TAG);
 			}
 		}
 	}

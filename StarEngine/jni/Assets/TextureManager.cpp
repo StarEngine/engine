@@ -34,6 +34,7 @@ namespace star
 
 	void TextureManager::LoadTexture(const tstring& path, const tstring& name)
 	{
+
 		if(mTextureMap.find(name) != mTextureMap.end())
 		{
 			return;
@@ -64,6 +65,7 @@ namespace star
 
 	bool TextureManager::DeleteTexture(const tstring& name)
 	{
+			_T("Texture manager is invalid."), STARENGINE_LOG_TAG);
 		auto it = mTextureMap.find(name);
 		if(it != mTextureMap.end())
 		{
@@ -75,6 +77,7 @@ namespace star
 
 	GLuint TextureManager::GetTextureID(const tstring& name)
 	{
+			_T("Texture manager is invalid."), STARENGINE_LOG_TAG);
 		if(mTextureMap.find(name) != mTextureMap.end())
 		{
 			return mTextureMap[name]->GetTextureID();
@@ -84,6 +87,7 @@ namespace star
 
 	ivec2 TextureManager::GetTextureDimensions(const tstring& name)
 	{
+			_T("Texture manager is invalid."), STARENGINE_LOG_TAG);
 		auto it = mTextureMap.find(name);
 		if(it != mTextureMap.end())
 		{

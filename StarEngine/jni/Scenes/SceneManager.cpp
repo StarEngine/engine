@@ -87,7 +87,9 @@ namespace star
 	{
 		if(m_CurrentSceneName == name)
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning, _T("SceneManager::SetActiveScene: Scene is already active!"));
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("SceneManager::SetActiveScene: Scene is already active!"),
+				STARENGINE_LOG_TAG);
 			return true;
 		}
 		if(m_SceneList.find(name) != m_SceneList.end())
@@ -101,7 +103,9 @@ namespace star
 			m_bSwitchingScene = true;
 			m_bInitialized = m_NewActiveScene->IsInitialized();
 			m_CurrentSceneName = name;
-			Logger::GetInstance()->Log(LogLevel::Info, _T("Scene ") + name + _T(" is now Active"));
+			Logger::GetInstance()->Log(LogLevel::Info,
+				_T("Scene ") + name + _T(" is now Active"),
+				STARENGINE_LOG_TAG);
 			return true;
 		}
 		else
@@ -119,11 +123,13 @@ namespace star
 			m_SceneList[name] = scene;
 			scene->BaseInitialize();
 			scene->SetSystemCursorHidden(m_bCursorHiddenByDefault);
-			Logger::GetInstance()->Log(LogLevel::Info, _T("Adding scene"));
+			Logger::GetInstance()->Log(LogLevel::Info,
+				_T("Adding scene"), STARENGINE_LOG_TAG);
 		}
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Info, _T("Scene Already Exists"));
+			Logger::GetInstance()->Log(LogLevel::Info,
+				_T("Scene Already Exists"), STARENGINE_LOG_TAG);
 			return false;
 		}
 		return true;
@@ -152,7 +158,7 @@ namespace star
 			return false;
 		}
 		Logger::GetInstance()->Log(LogLevel::Info,
-			_T("Initializing Scene :") + m_CurrentSceneName);
+			_T("Initializing Scene :") + m_CurrentSceneName, STARENGINE_LOG_TAG);
 		m_NewActiveScene->BaseInitialize();
 		m_bInitialized = m_NewActiveScene->IsInitialized();
 		return m_bInitialized;
@@ -232,7 +238,7 @@ namespace star
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			tstring(_T("SceneManager::SetDefaultCursor: Cursor isn't supported on mobile device."))
 			+ _T(" For optimialisation reasons it's better to disable the code related to\
-the custom cursor code in your game project."));
+the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 #endif
 	}
 
@@ -244,7 +250,7 @@ the custom cursor code in your game project."));
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			tstring(_T("SceneManager::UnsetDefaultCursor: Cursor isn't supported on mobile device."))
 			+ _T(" For optimialisation reasons it's better to disable the code related to\
-the custom cursor code in your game project."));
+the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 #endif
 		CreateDefaultCursor();
 	}
@@ -294,16 +300,19 @@ the custom cursor code in your game project."));
 		//First save state - then Stop - then Start - then Resume - then gained focus
 
 		case APP_CMD_STOP:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_STOP"));
+			Logger::GetInstance()->Log(LogLevel::Info,
+				_T("SceneManager : APP_CMD_STOP"), STARENGINE_LOG_TAG);
 			break;
 
 		case APP_CMD_GAINED_FOCUS:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_START"));
+			Logger::GetInstance()->Log(LogLevel::Info,
+				_T("SceneManager : APP_CMD_START"), STARENGINE_LOG_TAG);
 			break;
 
 
 		case APP_CMD_SAVE_STATE:
-			Logger::GetInstance()->Log(LogLevel::Info, _T("SceneManager : APP_CMD_SAVE_STATE"));
+			Logger::GetInstance()->Log(LogLevel::Info,
+				_T("SceneManager : APP_CMD_SAVE_STATE"), STARENGINE_LOG_TAG);
 			m_ActiveScene->OnSaveState(&mApplicationPtr->savedState,&mApplicationPtr->savedStateSize);
 			break;
 

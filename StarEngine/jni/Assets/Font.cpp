@@ -39,17 +39,21 @@ namespace star
 		Resource resource(StarEngine::GetInstance()->GetAndroidApp(), path);
 		if(!resource.Open())
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Font : Failed to open file"));
+			star::Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Font : Failed to open file"), STARENGINE_LOG_TAG);
 			return false;
 		}
 
 		int32 length = resource.GetLength();
-		star::Logger::GetInstance()->Log(LogLevel::Info, _T("Font : File size :")+star::string_cast<tstring>(length));
+		star::Logger::GetInstance()->Log(LogLevel::Info,
+			_T("Font : File size :") + star::string_cast<tstring>(length),
+			STARENGINE_LOG_TAG);
 		mFontBuffer = new BYTE[length]();
 
 		if(!resource.Read(mFontBuffer,length))
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Font : Failed to read file"));
+			star::Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Font : Failed to read file"), STARENGINE_LOG_TAG);
 			resource.Close();
 			return false;
 		}
@@ -59,15 +63,24 @@ namespace star
 #endif
 		if(error == FT_Err_Unknown_File_Format)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Font Manager : Font : ") + path + _T(" ,could be opened but its in unsuported format"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error,
+				_T("Font Manager : Font : ") + path +
+				_T(" ,could be opened but its in unsuported format"),
+				STARENGINE_LOG_TAG);
 			return (false);
 		}
 		else if(error)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Font Manager : Font : ") + path + _T(" ,is invalid and cant be opened or read or its broken"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error,
+				_T("Font Manager : Font : ") + path +
+				_T(" ,is invalid and cant be opened or read or its broken"),
+				STARENGINE_LOG_TAG);
 			return (false);
 		}
-		star::Logger::GetInstance()->Log(star::LogLevel::Info, _T("Font Manager : Font : ") + path + _T(" ,loaded and ready for use"));
+		star::Logger::GetInstance()->Log(star::LogLevel::Info,
+			_T("Font Manager : Font : ") + path + 
+			_T(" ,loaded and ready for use"),
+			STARENGINE_LOG_TAG);
 
 		int32 iSize = int32(size);
 		FT_Set_Char_Size(mFace, iSize << 6, iSize << 6, FONT_DPI, FONT_DPI);
@@ -96,14 +109,16 @@ namespace star
 		auto error = FT_Load_Char(face, ch, FT_LOAD_DEFAULT);
 		if(error)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Font : could not load Glyph"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error, 
+				_T("Font : could not load Glyph"), STARENGINE_LOG_TAG);
 			return;
 		}
 
 		error = FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL);
 		if(error)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Error, _T("Font : could not load Glyph"));
+			star::Logger::GetInstance()->Log(star::LogLevel::Error,
+				_T("Font : could not load Glyph"), STARENGINE_LOG_TAG);
 			return;
 		}
 

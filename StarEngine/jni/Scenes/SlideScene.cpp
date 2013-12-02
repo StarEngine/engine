@@ -168,8 +168,7 @@ namespace star
 						m_Slides[id] + _T("_fade_in"),
 						fade_in_time,
 						fade_in_start_color,
-						fade_in_end_color
-						);
+						fade_in_end_color);
 					slide->AddAction(fadeAction);
 				},
 				false
@@ -178,7 +177,8 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("SlideScene::AddSlide: fade_im_time should be longer then 0 seconds.")
+				_T("SlideScene::AddSlide: fade_im_time should be longer then 0 seconds."),
+				STARENGINE_LOG_TAG
 				);
 		}
 
@@ -230,7 +230,8 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("SlideScene::AddSlide: fade_out_time should be longer then 0 seconds.")
+				_T("SlideScene::AddSlide: fade_out_time should be longer then 0 seconds."),
+				STARENGINE_LOG_TAG
 				);
 		}
 

@@ -161,7 +161,8 @@ namespace star
 		//[TODO] Implement this through the font manager, 
 		//draw text on screen on given pos.
 		Logger::GetInstance()->Log(LogLevel::Warning, 
-			_T("DebugDraw::DrawString is not yet implemented!"));
+			_T("DebugDraw::DrawString is not yet implemented!"),
+			STARENGINE_LOG_TAG);
 	}
 
 	void DebugDraw::DrawRect(
@@ -221,7 +222,8 @@ namespace star
 		uint32 vertexCount)
 	{
 		Logger::GetInstance()->Log(vertexCount <= MAX_VERTICES, 
-			_T("more vertices than allocated space"));
+			_T("more vertices than allocated space"),
+			STARENGINE_LOG_TAG);
 
 		for (uint32 i = 0; i < vertexCount; ++i)
 		{
@@ -239,7 +241,7 @@ namespace star
 		//Logger::GetInstance()->Log(m_CircleSegments < MAX_VERTICES, 
 		//	tstring(_T("You can only draw ") 
 		//	+ string_cast<tstring>(MAX_VERTICES) 
-		//	+ _T(" vertices per primitive")).c_str());
+		//	+ _T(" vertices per primitive")).c_str(), STARENGINE_LOG_TAG);
 		const float32 increment = float32(2.0 * PI / segments);
 		float32 theta = 0.0f;
 

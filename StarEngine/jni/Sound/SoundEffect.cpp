@@ -36,7 +36,8 @@ namespace star
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error,
 				_T("SoundEffect: Could not load sound, reason : ")
-				+ string_cast<tstring>(Mix_GetError()));
+				+ string_cast<tstring>(Mix_GetError()),
+				STARENGINE_LOG_TAG);
 		}
 	#endif
 		SetChannel(channel);
@@ -79,7 +80,7 @@ namespace star
 				if (lRes != SL_RESULT_SUCCESS)
 				{
 					star::Logger::GetInstance()->Log(star::LogLevel::Error,
-						_T("SoundEffect: Can't play audio!"));
+						_T("SoundEffect: Can't play audio!"), STARENGINE_LOG_TAG);
 					Stop();
 					return;
 				};
@@ -227,7 +228,8 @@ namespace star
 			this) != SL_RESULT_SUCCESS)
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Error,
-				_T("SoundEffect::RegisterCallback: unable to register the class-defined callback function."));
+				_T("SoundEffect::RegisterCallback: unable to register the class-defined callback function."),
+				STARENGINE_LOG_TAG);
 		}
 	}
 

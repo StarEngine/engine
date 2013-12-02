@@ -91,6 +91,9 @@ namespace star
 
 		void PlayBackgroundQueue();
 		void PlayNextSongInQueue();
+		void ResumeBackgroundQueue();
+		void PauseBackgroundQueue();
+		void StopBackgroundQueue();
 
 		void PauseMusic(const tstring & name);
 		void ResumeMusic(const tstring & name);

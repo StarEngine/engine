@@ -42,7 +42,8 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("SpritesheetComponent::Restart: There is no animation."));
+				_T("SpritesheetComponent::Restart: There is no animation."),
+				STARENGINE_LOG_TAG);
 		}
 	}
 
@@ -55,7 +56,8 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("SpritesheetComponent::Restart: There is no animation."));
+				_T("SpritesheetComponent::Restart: There is no animation."),
+				STARENGINE_LOG_TAG);
 		}
 	}
 
@@ -68,7 +70,8 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("SpritesheetComponent::Pause: There is no animation."));
+				_T("SpritesheetComponent::Pause: There is no animation."),
+				STARENGINE_LOG_TAG);
 		}
 	}
 
@@ -81,7 +84,8 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("SpritesheetComponent::Stop: There is no animation."));
+				_T("SpritesheetComponent::Stop: There is no animation."),
+				STARENGINE_LOG_TAG);
 		}
 	}
 
@@ -142,7 +146,7 @@ namespace star
 		}
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			_T("SpritesheetComponent::PushAnimationSafe: Couldn't find animation '")
-			+ animation + _T("'."));
+			+ animation + _T("'."), STARENGINE_LOG_TAG);
 		return false;
 	}
 
@@ -159,7 +163,7 @@ namespace star
 		}
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			_T("SpritesheetComponent::PlayAnimationSafe: Couldn't find animation '")
-			+ animation + _T("'."));
+			+ animation + _T("'."), STARENGINE_LOG_TAG);
 		return false;
 	}
 
@@ -177,7 +181,7 @@ namespace star
 		}
 		Logger::GetInstance()->Log(LogLevel::Warning,
 			_T("SpritesheetComponent::PlayAnimationSafe: Couldn't find animation '")
-			+ animation + _T("'."));
+			+ animation + _T("'."), STARENGINE_LOG_TAG);
 		return false;
 	}
 
@@ -237,7 +241,8 @@ namespace star
 		int32 nrOfFrames = m_Spritesheet.GetFramesHorizontal();
 		if(nrOfFrames == 0)
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning, _T("GetFramesHorizontal() -- nrOfFrames = 0!"));
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("GetFramesHorizontal() -- nrOfFrames = 0!"), STARENGINE_LOG_TAG);
 		}
 		return nrOfFrames;
 	}
@@ -247,7 +252,8 @@ namespace star
 		int32 nrOfFrames = m_Spritesheet.GetFramesVertical();
 		if(nrOfFrames == 0)
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning, _T("GetFramesVertical() -- nrOfFrames = 0!"));
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("GetFramesVertical() -- nrOfFrames = 0!"), STARENGINE_LOG_TAG);
 		}
 		return nrOfFrames;
 	}

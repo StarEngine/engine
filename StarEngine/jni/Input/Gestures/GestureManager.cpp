@@ -51,7 +51,8 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning, 
-				_T("The gesture manager already contains ") + tag);
+				_T("The gesture manager already contains ") + tag,
+				STARENGINE_LOG_TAG);
 		}
 	}
 
@@ -60,7 +61,8 @@ namespace star
 	{
 		Logger::GetInstance()->Log(LogLevel::Warning, 
 			_T("Please use the method RemoveGesture(const tstring& tag) to remove gestures.")
-			+ tstring(_T("this method is much slower, use with care!")));
+			+ tstring(_T("this method is much slower, use with care!")),
+			STARENGINE_LOG_TAG);
 		auto it = m_GestureMap.begin();
 		for (it ; it != m_GestureMap.end(); ++it )
 		{
@@ -70,7 +72,7 @@ namespace star
 			}
 		}
 		Logger::GetInstance()->Log(it != m_GestureMap.end(),
-			_T("Gesture not found!"));
+			_T("Gesture not found!"), STARENGINE_LOG_TAG);
 		m_GestureMap.erase(it);
 	}
 
@@ -79,7 +81,7 @@ namespace star
 		auto it = m_GestureMap.find(tag);
 		bool can_delete = it != m_GestureMap.end();
 		Logger::GetInstance()->Log(can_delete,
-			_T("Gesture not found!"));
+			_T("Gesture not found!"), STARENGINE_LOG_TAG);
 		if(can_delete)
 		{
 			m_GestureMap.erase(it);

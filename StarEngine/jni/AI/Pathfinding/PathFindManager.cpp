@@ -206,7 +206,9 @@ namespace star
 			if(find(m_PositionList.begin(), m_PositionList.end(),pos(nextCell->X, nextCell->Y)) 
 				== m_PositionList.end())
 			{
-				Logger::GetInstance()->Log(LogLevel::Info, _T("Position not accessible (GetNextCell())"));
+				Logger::GetInstance()->Log(LogLevel::Info,
+					_T("Position not accessible (GetNextCell())"),
+					STARENGINE_LOG_TAG);
 				return nullptr;
 			}
 			
@@ -472,7 +474,9 @@ namespace star
 	{
 		if(m_PathToGoal.size() == 0)
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning, _T("There is no path availble."));
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("There is no path availble."),
+				STARENGINE_LOG_TAG);
 			return NO_PATH_AVAILBLE;
 		}
 
@@ -504,7 +508,8 @@ namespace star
 	{
 		if(m_PathToGoal.size() == 0)
 		{
-			Logger::GetInstance()->Log(LogLevel::Info, _T("There is no path availble."));
+			Logger::GetInstance()->Log(LogLevel::Info,
+				_T("There is no path availble."), STARENGINE_LOG_TAG);
 			return NO_PATH_AVAILBLE;
 		}
 

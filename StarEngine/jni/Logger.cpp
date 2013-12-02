@@ -219,7 +219,7 @@ namespace star
 #ifndef NO_LOG_FILE
 			LogMessage(buffer.str());
 #endif
-			Logger::GetInstance()->Log(LogLevel::Error, buffer.str(), _T("OPENGL"));
+			Logger::GetInstance()->Log(LogLevel::Error, buffer.str(),_T("OPENGL"));
 			err = glGetError();
 		}
 #endif
@@ -261,7 +261,7 @@ namespace star
 	#endif
 		m_LogStream << std::endl;
 		m_LogStream << _T("	The Star Engine is licensed under the MIT License. \n");
-		m_LogStream << _T("	For more information you can go to http://www.starengine.com/ \n\n");
+		m_LogStream << _T("	For more information you can go to http://www.starengine.eu/ \n\n");
 		m_LogStream << _T("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
 	}
 	

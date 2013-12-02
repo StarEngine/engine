@@ -50,7 +50,7 @@ namespace star
 	}
 
 	void TextComponent::InitializeComponent()
-	{
+	{	
 		if(m_FileName == EMPTY_STRING)
 		{
 			const auto & font = 
@@ -67,7 +67,7 @@ namespace star
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
 				_T("TextComponent : Could not load Font '")
-				+ m_FileName + _T("'."));
+				+ m_FileName + _T("'."), STARENGINE_LOG_TAG);
 		}
 
 		if(m_WrapWidth == NO_WRAPPING)
@@ -118,7 +118,7 @@ namespace star
 		auto count = std::count(m_EditText.begin(), m_EditText.end(), _T('\n'));
 		++count;
 		auto font = FontManager::GetInstance()->GetFont(m_FontName);
-		m_TextHeight = int32(m_TextHeight = (font.GetMaxLetterHeight() * count)
+		m_TextHeight = (font.GetMaxLetterHeight() * count)
 				+ (m_TextInfo.verticalSpacing * (count - 1)));
 	}
 	
@@ -130,7 +130,7 @@ namespace star
 		{
 			if(str[i] == _T('\t'))
 			{
-				m_EditText += _T("    ");
+				m_EditText += TAB;
 			}
 			else
 			{
@@ -142,136 +142,134 @@ namespace star
 
 	void TextComponent::CalculateHorizontalTextOffset()
 	{
-		m_TextInfo.horizontalTextOffset.clear();
-		auto font = FontManager::GetInstance()->GetFont(m_FontName);
-		if(m_TextAlignment == HorizontalAlignment::center)
+	
+		if(m_bInitialized)
 		{
-			uint32 counter(0);
-			uint32 length = GetLongestLine(m_EditText);
-			if(length == 0)
+			m_TextDesc.HorizontalTextOffset.clear();
+			auto font = FontManager::GetInstance()->GetFont(m_FontName);
+			if(m_TextAlignment == HorizontalAlignment::center)
 			{
-				m_TextInfo.text = m_EditText;
-			}
-			else
-			{
-				m_TextInfo.text = EMPTY_STRING;
-				tstring substr(EMPTY_STRING);
-				for(size_t i = 0 ; i < m_EditText.length() ; ++i)
+				uint32 counter(0);
+				uint32 length = GetLongestLine(m_EditText);
+				if(length == 0)
 				{
-					if(m_EditText[i] == _T('\n'))
+				m_TextInfo.text = m_EditText;
+				}
+				else
+				{
+				m_TextInfo.text = EMPTY_STRING;
+					tstring substr(EMPTY_STRING);
+					for(size_t i = 0 ; i < m_EditText.length() ; ++i)
 					{
+						if(m_EditText[i] == _T('\n'))
+						{
 						m_TextInfo.text += substr + _T('\n');
 
-						uint32 diff = length - font.GetStringLength(substr);
-						if(diff > 0)
-						{
-							diff /= 2;
-						}
+							uint32 diff = length - font.GetStringLength(substr);
+							if(diff > 0)
+							{
+								diff /= 2;
+							}
 						m_TextInfo.horizontalTextOffset.push_back(diff);
 							
-						substr = EMPTY_STRING;
-						counter = 0;
+							substr = EMPTY_STRING;
+							counter = 0;
+						}
+						else
+						{
+							substr += m_EditText[i];
+							++counter;
+						}
 					}
-					else
-					{
-						substr += m_EditText[i];
-						++counter;
-					}
-				}
 				m_TextInfo.text += substr;
 
-				uint32 diff = length - font.GetStringLength(substr);
-				if(diff > 0)
-				{
-					diff /= 2;
-				}
-				m_TextInfo.horizontalTextOffset.push_back(diff);
-			}
-		}
-		else if(m_TextAlignment == HorizontalAlignment::right)
-		{
-			uint32 counter(0);
-			uint32 length = GetLongestLine(m_EditText);
-			if(length == 0)
-			{
-				m_TextInfo.text = m_EditText;
-			}
-			else
-			{
-				m_TextInfo.text = EMPTY_STRING;
-				tstring substr(EMPTY_STRING);
-				for(size_t i = 0 ; i < m_EditText.length() ; ++i)
-				{
-					if(m_EditText[i] == _T('\n'))
+					uint32 diff = length - font.GetStringLength(substr);
+					if(diff > 0)
 					{
+						diff /= 2;
+					}
+				m_TextInfo.horizontalTextOffset.push_back(diff);
+				}
+			}
+			else if(m_TextAlignment == HorizontalAlignment::right)
+			{
+				uint32 counter(0);
+				uint32 length = GetLongestLine(m_EditText);
+				if(length == 0)
+				{
+				m_TextInfo.text = m_EditText;
+				}
+				else
+				{
+				m_TextInfo.text = EMPTY_STRING;
+					tstring substr(EMPTY_STRING);
+					for(size_t i = 0 ; i < m_EditText.length() ; ++i)
+					{
+						if(m_EditText[i] == _T('\n'))
+						{
 						m_TextInfo.text += substr + _T('\n');
 
-						uint32 diff = length - font.GetStringLength(substr);
+							uint32 diff = length - font.GetStringLength(substr);
 						m_TextInfo.horizontalTextOffset.push_back(diff);
 
-						substr = EMPTY_STRING;
-						counter = 0;
+							substr = EMPTY_STRING;
+							counter = 0;
+						}
+						else
+						{
+							substr += m_EditText[i];
+							++counter;
+						}
 					}
-					else
-					{
-						substr += m_EditText[i];
-						++counter;
-					}
-				}
 				
 				m_TextInfo.text += substr;
 
-				uint32 diff = length - font.GetStringLength(substr);
+					uint32 diff = length - font.GetStringLength(substr);
 				m_TextInfo.horizontalTextOffset.push_back(diff);
+				}
 			}
-		}
-		else
-		{	
-			GetLongestLine(m_EditText);
+			else
+			{	
+				GetLongestLine(m_EditText);
 			m_TextInfo.text = m_EditText;
 			m_TextInfo.horizontalTextOffset.push_back(0);
+			}
 		}
 	}
 	
 	int32 TextComponent::GetLongestLine(const tstring & str)
 	{
 		int32 length(0);
-		tstring substr(EMPTY_STRING);
-		auto font = FontManager::GetInstance()->GetFont(m_FontName);
-		for(size_t i = 0 ; i < str.length() ; ++i)
+		if(m_bInitialized)
 		{
-			if(str[i] == _T('\n'))
+			tstring substr(EMPTY_STRING);
+			auto font = FontManager::GetInstance()->GetFont(m_FontName);
+			for(size_t i = 0 ; i < str.length() ; ++i)
 			{
-				int32 strLength = font.GetStringLength(substr);
-				if(strLength > length)
+				if(str[i] == _T('\n'))
 				{
-					length = strLength;
-					m_TextWidth = strLength;
+					int32 strLength = font.GetStringLength(substr);
+					if(strLength > length)
+					{
+						length = strLength;
+						m_TextWidth = strLength;
+					}
+					substr = EMPTY_STRING;
 				}
-				substr = EMPTY_STRING;
+				else
+				{
+					substr += str[i];
+				}
 			}
-			else
+
+			int32 strLength = font.GetStringLength(substr);
+			if(strLength > length)
 			{
-				substr += str[i];
+				length = strLength;
+				m_TextWidth = strLength;
 			}
 		}
-
-		int32 strLength = font.GetStringLength(substr);
-		if(strLength > length)
-		{
-			length = strLength;
-			m_TextWidth = strLength;
-		}
-
 		return length;
-	}
-	
-	void TextComponent::AddSpacesToText(tstring & str, uint32 n)
-	{
-		for(uint32 i = 0 ; i < n ; ++i)
-		{
-			str += _T(' ');
-		}
 	}
 
 	TextComponent::~TextComponent()
