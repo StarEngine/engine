@@ -21,15 +21,22 @@ namespace star
 {
 #define FONT_DPI 96
 #define FONT_TEXTURES 128
-	typedef struct
-	{
-		GLfloat ver[12];
-	} fontVertices;
 
-	typedef struct
+	struct CharacterInfo
 	{
-		GLfloat uv[8];
-	} fontUvCoords;
+		CharacterInfo()
+			: vertexDimensions()
+			, uvDimensions()
+			, letterDimensions() 
+		{
+
+		}
+
+		vec2	vertexDimensions,
+				uvDimensions;
+		ivec2	letterDimensions;
+
+	};
 
 	class Font
 	{
@@ -43,28 +50,26 @@ namespace star
 		const tstring & GetFontPath() const;
 
 		GLuint* GetTextures() const;
-		uint32 GetSize() const;
-		const std::vector<fontUvCoords>& GetUvCoords() const;
-		const std::vector<fontVertices>& GetVetrices() const;
-		const std::vector<ivec2>& GetLetterDimensions() const;
-		uint32 GetMaxLetterHeight() const;
+		uint32 GetFontSize() const;
+		
+		const std::map<suchar, CharacterInfo>& GetCharacterInfoMap() const;
+		const CharacterInfo& GetCharacterInfo(suchar character) const;
+		int32 GetMaxLetterHeight() const;
 		uint32 GetStringLength(const tstring& string) const;
 
 	private:
-		void Make_D_List(FT_Face face, schar ch,GLuint * tex_base);
-		int32 NextPowerOfTwo(int32 a);
+		void Make_D_List(FT_Face face, suchar ch,GLuint * tex_base);
+		int32 NextPowerOfTwo(int32 number) const;
 
 		tstring m_FontPath;
 		FT_Face mFace;
 		GLuint* mTextures;
-		uint32 mMaxLetterHeight;
+		int32 mMaxLetterHeight;
+
 #ifdef ANDROID
 		BYTE* mFontBuffer;
 #endif
-
-		std::vector<fontUvCoords> mUVcoordsList;
-		std::vector<fontVertices> mVecticesList;
-		std::vector<ivec2> mLetterSizeList;
+		std::map<suchar, CharacterInfo> mCharacterInfoMap;
 		uint32 mSize;
 	};
 }

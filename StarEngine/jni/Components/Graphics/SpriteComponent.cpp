@@ -23,7 +23,6 @@ namespace star
 		, m_SpriteName(spriteName)
 		, m_SpriteInfo()
 	{
-	
 	}
 
 	void SpriteComponent::InitializeComponent()

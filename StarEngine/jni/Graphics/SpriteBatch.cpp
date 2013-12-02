@@ -16,9 +16,7 @@ namespace star
 
 	SpriteBatch::SpriteBatch(void):
 		m_SpriteQueue(),
-		m_TextBackQueue(),
-		m_TextFrontQueue(),
-		m_HUDTextQueue(),
+		m_TextQueue(),
 		m_VertexBuffer(),
 		m_UvCoordBuffer(),
 		m_IsHUDBuffer(),
@@ -76,16 +74,17 @@ namespace star
 
 	void SpriteBatch::Flush()
 	{
-		//Game drawn in negative
-		//Game hUD drawn in positive
 		Begin();
-		//Sprites
+
 		DrawSprites();
-		//First background text
-		for(auto& textDesc : m_TextFrontQueue)
-		{
-			FlushText(textDesc);
-		}	
+
+		//Clear vertex, uv, color and isHud buffer
+		m_VertexBuffer.clear();
+		m_UvCoordBuffer.clear();
+		m_IsHUDBuffer.clear();
+
+		DrawTextSprites();
+
 		End();
 	}
 	
@@ -175,139 +174,65 @@ namespace star
 		m_ShaderPtr->Unbind();
 
 		m_SpriteQueue.clear();
-
-		m_TextBackQueue.clear();
-		m_TextFrontQueue.clear();
-		m_HUDTextQueue.clear();
+		m_TextQueue.clear();
 
 		m_VertexBuffer.clear();
 		m_UvCoordBuffer.clear();
 		m_IsHUDBuffer.clear();
 	}
 
-	void SpriteBatch::FlushText(const TextDesc& textDesc)
-	{
-		FlushText(
-			textDesc.Text,
-			textDesc.Fontname,
-			textDesc.VerticalSpacing, 
-			textDesc.HorizontalTextOffset,
-			textDesc.TransformComp,
-			textDesc.TextColor,
-			textDesc.IsHUDText);
-	}
+	void SpriteBatch::DrawTextSprites()
+	{	
+		CreateTextQuads();
 
-	void SpriteBatch::FlushText(
-		const tstring & text, 
-		const tstring& fontname,
-		int32 spacing, 
-		const std::vector<int32> & horOffset,
-		TransformComponent* transform,
-		const Color& color,
-		bool isHUD
-		)
-	{
-		if(text.size() == 0)
+		//FlushText once per TextComponent (same font)
+		//Check per text how many characters -> Forloop drawing
+		for(auto text : m_TextQueue)
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("FontManager::DrawText: Drawing an empty string..."));
-			return;
-		}
-		
-		auto curfont = FontManager::GetInstance()->GetFont(fontname);
-		float32 h = curfont.GetSize()/0.63f;
-		const vec2& position = transform->GetWorldPosition().pos2D();
-		const vec2& origposition = position;
+			auto curFont = text.font;		
+			GLuint* textures = curFont.GetTextures();
+			glUniform4f(
+				m_ColorID,
+				1.f,
+				1.f,
+				1.f,
+				1.f
+				);
 
-		GLuint* textures = curfont.GetTextures();
-		const std::vector<fontUvCoords>& tempuvs = curfont.GetUvCoords();
-		const std::vector<fontVertices>& tempverts = curfont.GetVetrices();
-		const std::vector<ivec2>& tempsizes = curfont.GetLetterDimensions();
+			int32 line_counter(0);
+			int32 offsetX(text.horizontalTextOffset[line_counter]);
+			int32 offsetY(0);
 
-		m_ShaderPtr->Bind();
-		
-		//Enable the attributes
-		glEnableVertexAttribArray(ATTRIB_VERTEX);
-		glEnableVertexAttribArray(ATTRIB_UV);
-
-		glActiveTexture(GL_TEXTURE0);
-		GLint s_textureId = glGetUniformLocation(m_ShaderPtr->GetID(), "textureSampler");
-		glUniform1i(s_textureId, 0);
-		GLint s_colorId = glGetUniformLocation(m_ShaderPtr->GetID(), "colorMultiplier");
-		glUniform4f(s_colorId,color.r,color.g,color.b,color.a);
-	
-		float32 scaleValue = ScaleSystem::GetInstance()->GetScale();
-		mat4 scaleMat = Scale(scaleValue, scaleValue, 1.0f);
-
-		int32 line_counter(0);
-		int32 offsetX(horOffset[line_counter]);
-		int32 offsetY(0);
-
-		const tchar *start_line = text.c_str();
-		for(int32 i = 0 ; start_line[i] != 0 ; ++i) 
-		{
-			if(start_line[i] == _T('\n'))
+			const tchar *start_line = text.text.c_str();
+			for(int32 i = 0 ; start_line[i] != 0 ; ++i) 
 			{
-				offsetY -= curfont.GetMaxLetterHeight() + spacing;
-				++line_counter;
-				offsetX = horOffset[line_counter];
-			}
-			else if(start_line[i] > 31) // is printable
-			{
-				glBindTexture(GL_TEXTURE_2D, textures[start_line[i]]);
-
-				//Set attributes and buffers
-				glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0,
-					tempverts[start_line[i]].ver);
-				glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, 
-					tempuvs[start_line[i]].uv);
-
-				mat4 offsetTrans;
-				
-				if(start_line[i] != 0)
+				if(start_line[i] == _T('\n'))
 				{
-					offsetTrans = Translate(
-						vec3(
-							offsetX,
-							offsetY + tempsizes[start_line[i]].y,
-							0
-							)
-						);
-					offsetX += tempsizes[start_line[i]].x;
+					offsetY -= curFont.GetMaxLetterHeight() + text.verticalSpacing;
+					++line_counter;
+					offsetX = text.horizontalTextOffset[line_counter];
 				}
-				else
+				else if(start_line[i] > 31)
 				{
-					offsetTrans = Translate(0.0f, 0.0f, 0.0f);
+					glBindTexture(GL_TEXTURE_2D, textures[start_line[i]]);
+					//Set attributes and buffers
+					glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0,
+						reinterpret_cast<GLvoid*>(&m_VertexBuffer.at(0)));
+					glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, 
+						reinterpret_cast<GLvoid*>(&m_UvCoordBuffer.at(0)));		
+					glVertexAttribPointer(m_IsHUDID, 1, GL_FLOAT, 0, 0,
+						reinterpret_cast<GLvoid*>(&m_IsHUDBuffer.at(0)));
+					glDrawArrays(GL_TRIANGLES, i * 6, 6);
 				}
-				const mat4& world = transform->GetWorldMatrix() * offsetTrans;
-
-				glUniformMatrix4fv(glGetUniformLocation(m_ShaderPtr->GetID(),"MVP"),
-					1,GL_FALSE,
-					ToPointerValue(
-						Transpose(world) *
-						scaleMat *
-						(isHUD ?
-							GraphicsManager::GetInstance()->GetProjectionMatrix() :
-							GraphicsManager::GetInstance()->GetViewInverseProjectionMatrix()
-							)
-						)
-					);
-				glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 			}
 		}
-
-		//Unbind attributes and buffers
-		glDisableVertexAttribArray(ATTRIB_VERTEX);
-		glDisableVertexAttribArray(ATTRIB_UV);
-		m_ShaderPtr->Unbind();
 	}
 
 	void SpriteBatch::CreateSpriteQuads()
 	{	
 		//for every sprite that has to be drawn, push back all vertices 
 		//(VERTEX_AMOUNT per sprite) into the vertexbuffer and all uvcoords 
-		//(UV_AMOUNT per sprite) into the uvbuffer
-
+		//(UV_AMOUNT per sprite) into the uvbuffer and the isHUD bool
 		/*
 		*  TL    TR
 		*   0----1 
@@ -318,9 +243,6 @@ namespace star
 		*   2----3
 		*  BL    BR
 		*/
-
-		float32 scaleValue = ScaleSystem::GetInstance()->GetScale();
-		mat4 scaleMat = Scale(scaleValue, scaleValue, 1.0f);
 
 		for(auto& sprite : m_SpriteQueue)
 		{
@@ -407,20 +329,125 @@ namespace star
 		}
 	}
 
+	void SpriteBatch::CreateTextQuads()
+	{
+		//for every sprite that has to be drawn, push back all vertices 
+		//(VERTEX_AMOUNT per sprite) into the vertexbuffer and all uvcoords 
+		//(UV_AMOUNT per sprite) into the uvbuffer and the isHUD bool
+		/*
+		*  TL    TR
+		*   0----1 
+		*   |   /| 
+		*   |  / |
+		*   | /  |
+		*   |/   |
+		*   2----3
+		*  BL    BR
+		*/
+		for(auto& text : m_TextQueue)
+		{
+			//Variables per word
+			mat4 transformMat, offsetMatrix; 
+			
+
+			int32 offsetX(0);
+			int32 offsetY(0);
+			for(auto it : text.text)
+			{
+				//[COMMENT] is this safe?
+				auto& charInfo = text.font.GetCharacterInfo(static_cast<suchar>(it));
+				int32 offset = text.font.GetMaxLetterHeight() - charInfo.letterDimensions.y;
+				offsetMatrix = Translate(vec3(offsetX, offsetY - offset, 0));
+				offsetX += charInfo.letterDimensions.x;
+
+				transformMat = Transpose(text.transformPtr->GetWorldMatrix() * offsetMatrix);
+
+				vec4 TL = vec4(0, charInfo.vertexDimensions.y, 0, 1);
+				Mul(TL, transformMat, TL);
+
+				vec4 TR = vec4(charInfo.vertexDimensions.x, charInfo.vertexDimensions.y, 0, 1);
+				Mul(TR, transformMat, TR);
+
+				vec4 BL = vec4(0, 0, 0, 1);
+				Mul(BL, transformMat, BL);
+
+				vec4 BR = vec4(charInfo.vertexDimensions.x, 0, 0, 1);
+				Mul(BR, transformMat, BR);
+
+				//0
+				m_VertexBuffer.push_back(TL.x);
+				m_VertexBuffer.push_back(TL.y);
+				m_VertexBuffer.push_back(TL.z);
+
+				//1
+				m_VertexBuffer.push_back(TR.x);
+				m_VertexBuffer.push_back(TR.y);
+				m_VertexBuffer.push_back(TR.z);
+
+				//2
+				m_VertexBuffer.push_back(BL.x);
+				m_VertexBuffer.push_back(BL.y);
+				m_VertexBuffer.push_back(BL.z);
+
+				//1
+				m_VertexBuffer.push_back(TR.x);
+				m_VertexBuffer.push_back(TR.y);
+				m_VertexBuffer.push_back(TR.z);
+
+				//3
+				m_VertexBuffer.push_back(BR.x);
+				m_VertexBuffer.push_back(BR.y);
+				m_VertexBuffer.push_back(BR.z);
+
+				//2
+				m_VertexBuffer.push_back(BL.x);
+				m_VertexBuffer.push_back(BL.y);
+				m_VertexBuffer.push_back(BL.z);
+
+				//Push back all uv's
+
+				//0
+				m_UvCoordBuffer.push_back(0);
+				m_UvCoordBuffer.push_back(0);
+
+				//1
+				m_UvCoordBuffer.push_back(charInfo.uvDimensions.x);
+				m_UvCoordBuffer.push_back(0);
+
+				//2
+				m_UvCoordBuffer.push_back(0);
+				m_UvCoordBuffer.push_back(charInfo.uvDimensions.y);
+
+				//1
+				m_UvCoordBuffer.push_back(charInfo.uvDimensions.x);
+				m_UvCoordBuffer.push_back(0);
+
+				//3
+				m_UvCoordBuffer.push_back(charInfo.uvDimensions.x);
+				m_UvCoordBuffer.push_back(charInfo.uvDimensions.y);
+
+				//2
+				m_UvCoordBuffer.push_back(0);
+				m_UvCoordBuffer.push_back(charInfo.uvDimensions.y);
+
+				//bool buffer
+				for(uint32 i = 0; i < 6; ++i)
+				{
+					m_IsHUDBuffer.push_back(float32(text.bIsHud));
+				}
+			}
+			//offsetY -= text.font.GetMaxLetterHeight();
+			offsetX = 0;
+		}
+	}
+
 	void SpriteBatch::AddSpriteToQueue(const SpriteInfo& spriteInfo)
 	{
 		m_SpriteQueue.push_back(spriteInfo);		
 	}
 
-	void SpriteBatch::AddTextToQueue(const TextDesc& text, bool bInFrontOfSprites)
+	void SpriteBatch::AddTextToQueue(const TextInfo& text)
 	{
-		if(!bInFrontOfSprites)
-		{
-			m_TextBackQueue.push_back(text);
-		}
-		else
-		{
-			m_TextFrontQueue.push_back(text);
-		}
+		m_TextQueue.push_back(text);
 	}
 }
