@@ -210,7 +210,7 @@ namespace star
 			mContext = eglCreateContext(mDisplay, lConfig, EGL_NO_CONTEXT, contextAttrs);
 			if (mContext == EGL_NO_CONTEXT)
 			{
-				star::Logger::GetInstance()->Log(star::LogLevel::Error
+				star::Logger::GetInstance()->Log(star::LogLevel::Error,
 					_T("Graphics Manager : Could not create context"), STARENGINE_LOG_TAG);
 				return;
 			}
