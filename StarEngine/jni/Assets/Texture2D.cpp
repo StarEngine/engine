@@ -85,7 +85,7 @@ namespace star
 			mResource.Close();
 			Logger::GetInstance()->Log(LogLevel::Error,
 				_T("PNG : Could Not Read"),
-				STARENGINE_LOG_TAG, STARENGINE_LOG_TAG);
+				STARENGINE_LOG_TAG);
 			return NULL;
 		}
 #endif
