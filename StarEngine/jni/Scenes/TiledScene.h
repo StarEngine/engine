@@ -41,9 +41,9 @@ namespace star
 		virtual void Draw();
 
 		void CreateLevel(const tstring & file,
-			DirectoryMode mode = DirectoryMode::assets);
+			DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
 		void CreateLevel(const tstring & file, const tstring & binary_file,
-			DirectoryMode mode = DirectoryMode::assets);
+			DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
 		void BaseCreateLevel(XMLContainer & container);
 
 		void DefineSpecialObject(const tstring & object_id,

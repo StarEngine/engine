@@ -285,67 +285,67 @@ namespace star
 		(const tstring & value);
 
 	void ReadTextFile(const tstring & file, tstring & text,
-			DirectoryMode directory = DirectoryMode::assets);
+			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 	tstring ReadTextFile(const tstring & file,
-			DirectoryMode directory = DirectoryMode::assets);
+			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 
 	void WriteTextFile(const tstring & file, const tstring & text,
-			DirectoryMode directory = DirectoryMode::assets);
+			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 	void AppendTextFile(const tstring & file, const tstring & text,
-			DirectoryMode directory = DirectoryMode::assets);
+			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 
 	schar * ReadBinaryFile(const tstring & file, uint32 & size,
-			DirectoryMode directory = DirectoryMode::assets);
+			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 	void WriteBinaryFile(const tstring & file, schar * buffer, uint32 size,
-			DirectoryMode directory = DirectoryMode::assets);
+			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 	void AppendBinaryFile(const tstring & file, schar * buffer, uint32 size,
-			DirectoryMode directory = DirectoryMode::assets);
+			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 
 	schar * DecryptBinaryFile(const tstring & file, uint32 & size,
 		const std::function<schar*(const schar*, uint32&)> & decrypter, 
-		DirectoryMode directory = DirectoryMode::assets);
+		DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 	void EncryptBinaryFile(const tstring & file, schar * buffer, uint32 size,
 		const std::function<schar*(const schar*, uint32&)> & encrypter, 
-		DirectoryMode directory = DirectoryMode::assets);
+		DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 
 	template<class To, class From>
 	To cast(From v);
 
 	template <typename T>
 	void WriteData(const tstring & file, T * buffer,
-			DirectoryMode directory = DirectoryMode::assets);
+			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 
 	template <typename T>
 	void ReadData(const tstring & file, T * buffer,
-			DirectoryMode directory = DirectoryMode::assets);
+			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 
 	template <typename T>
 	void WriteDataArray(const tstring & file, T * buffer, uint32 size,
-			DirectoryMode directory = DirectoryMode::assets);
+			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 
 	template <typename T>
 	T * ReadDataArray(const tstring & file, uint32 size,
-			DirectoryMode directory = DirectoryMode::assets);
+			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 
 	template <typename T>
 	void EncryptData(const tstring & file, T * buffer,
 		const std::function<schar*(const schar*, uint32&)> & encrypter, 
-		DirectoryMode directory = DirectoryMode::assets);
+		DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 
 	template <typename T>
 	void DecryptData(const tstring & file, T * buffer,
 		const std::function<schar*(const schar*, uint32&)> & decrypter, 
-		DirectoryMode directory = DirectoryMode::assets);
+		DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 
 	template <typename T>
 	void EncryptDataArray(const tstring & file, T * buffer, uint32 size,
 		const std::function<schar*(const schar*, uint32&)> & encrypter,
-		DirectoryMode directory = DirectoryMode::assets);
+		DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 
 	template <typename T>
 	T * DecryptDataArray(const tstring & file, uint32 size,
 		const std::function<schar*(const schar*, uint32&)> & decrypter,
-		DirectoryMode directory = DirectoryMode::assets);
+		DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 }
 
 #include "Helpers.inl"

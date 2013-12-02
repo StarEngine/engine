@@ -40,6 +40,8 @@ enum class DirectoryMode : byte
 	custom
 };
 
+static const DirectoryMode DEFAULT_DIRECTORY_MODE = DirectoryMode::assets;
+
 #define UI_STATE_IDLE _T("idle")
 #define UI_STATE_HOVER _T("hover")
 #define UI_STATE_CLICK _T("click")
