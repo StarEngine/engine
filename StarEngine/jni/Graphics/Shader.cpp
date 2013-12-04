@@ -97,6 +97,7 @@ namespace star
 		//[TODO] Write material class for more flexibility
 		glBindAttribLocation(m_ShaderID, ATTRIB_VERTEX, "position");
 		glBindAttribLocation(m_ShaderID, ATTRIB_UV, "texCoord");
+		glBindAttribLocation(m_ShaderID, ATTRIB_COLOR, "colorMultiplier");
 		glBindAttribLocation(m_ShaderID, ATTRIB_HUD, "isHUD");
 		//[TODO] end
 

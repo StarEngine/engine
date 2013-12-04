@@ -26,14 +26,22 @@ namespace star
 	class FontManager final
 	{
 	public:
-		~FontManager() {}
+		~FontManager();
 		static FontManager * GetInstance();
 
-		bool LoadFont(const tstring& path, const tstring& name, uint32 size);
+		bool LoadFont(
+			const tstring& path, 
+			const tstring& name, 
+			uint32 size
+			);
+
 		const Font& GetFont(const tstring& name);
 		bool DeleteFont(const tstring& name);
 		void EraseFonts();
-		void SplitIntoLines(std::vector<sstring> &list, const sstring &string);
+		void SplitIntoLines(
+			std::vector<sstring> &list, 
+			const sstring &string
+			);
 		void SetFontPath(const tstring & path);
 		const tstring & GetFontPath() const;
 	private:
@@ -46,11 +54,19 @@ namespace star
 		std::vector<tstring> mPathList;
 
 		tstring mFontPath;
-		Shader m_Shader;
 
-		FontManager(void);
-		tstring CheckWrapping(Font& font, const tstring& stringIn,const int32& wrapWidth);
-		void SplitString(std::vector<tstring>& wordArrayIn,const tstring& stringIn, const tstring& delimiter);
+		FontManager();
+		tstring CheckWrapping(
+			Font& font, 
+			const tstring& stringIn,
+			const int32& wrapWidth
+			);
+
+		void SplitString(
+			std::vector<tstring>& wordArrayIn, 
+			const tstring& stringIn, 
+			const tstring& delimiter
+			);
 
 		FontManager(const FontManager& yRef);
 		FontManager(FontManager&& yRef);

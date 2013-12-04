@@ -20,6 +20,7 @@ namespace star
 		m_VertexBuffer(),
 		m_UvCoordBuffer(),
 		m_IsHUDBuffer(),
+		m_ColorBuffer(),
 		m_TextureSamplerID(0),
 		m_ColorID(0),
 		m_ScalingID(0),
@@ -48,25 +49,24 @@ namespace star
 	void SpriteBatch::Initialize()
 	{
 		//Set Shader and shader variables
-#ifdef DESKTOP
-		tstring vShader(_T("WinShaders/Texture_Batch_Shader.vert")),
-				fShader(_T("WinShaders/Texture_Batch_Shader.frag"));
-#else
-		tstring vShader(_T("AndroidShaders/BatchTexShader.vert")),
-				fShader(_T("AndroidShaders/BatchTexShader.frag"));
-#endif
+		tstring vShader(_T("Shaders/VertexPosColTexShader.vert")),
+				fShader(_T("Shaders/VertexPosColTexShader.frag"));
+
 		m_ShaderPtr = new Shader();
 		if(!m_ShaderPtr->Init(vShader, fShader))
 		{
-			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Initialization of Spritebatch Shader has Failed!"));
+			Logger::GetInstance()->
+				Log(star::LogLevel::Info, 
+				_T("Initialization of Spritebatch Shader has Failed!"), 
+				STARENGINE_LOG_TAG);
 		}
 
 		m_VertexID = m_ShaderPtr->GetAttribLocation("position");
 		m_UVID = m_ShaderPtr->GetAttribLocation("texCoord");
 		m_IsHUDID = m_ShaderPtr->GetAttribLocation("isHUD");
+		m_ColorID = m_ShaderPtr->GetAttribLocation("colorMultiplier");
 
 		m_TextureSamplerID = m_ShaderPtr->GetUniformLocation("textureSampler");
-		m_ColorID = m_ShaderPtr->GetUniformLocation("colorMultiplier");
 		m_ScalingID = m_ShaderPtr->GetUniformLocation("scaleMatrix");
 		m_ViewInverseID = m_ShaderPtr->GetUniformLocation("viewInverseMatrix");
 		m_ProjectionID = m_ShaderPtr->GetUniformLocation("projectionMatrix");
@@ -75,13 +75,13 @@ namespace star
 	void SpriteBatch::Flush()
 	{
 		Begin();
-
 		DrawSprites();
 
 		//Clear vertex, uv, color and isHud buffer
 		m_VertexBuffer.clear();
 		m_UvCoordBuffer.clear();
 		m_IsHUDBuffer.clear();
+		m_ColorBuffer.clear();
 
 		DrawTextSprites();
 
@@ -96,6 +96,7 @@ namespace star
 		glEnableVertexAttribArray(m_VertexID);
 		glEnableVertexAttribArray(m_UVID);
 		glEnableVertexAttribArray(m_IsHUDID);
+		glEnableVertexAttribArray(m_ColorID);
 
 		//Create Vertexbuffer
 		CreateSpriteQuads();
@@ -139,28 +140,21 @@ namespace star
 	void SpriteBatch::FlushSprites(uint32 start, uint32 size, uint32 texture)
 	{
 		if(size > 0)
-		{					
+		{	
 			//[TODO] Check if this can be optimized
 			glBindTexture(GL_TEXTURE_2D, texture);
 		
 			//Set attributes and buffers
-			glVertexAttribPointer(m_VertexID, 3, GL_FLOAT, 0, 0, 
+			glVertexAttribPointer(m_VertexID, 4, GL_FLOAT, 0, 0, 
 				reinterpret_cast<GLvoid*>(&m_VertexBuffer.at(0)));
 			glVertexAttribPointer(m_UVID, 2, GL_FLOAT, 0, 0, 
 				reinterpret_cast<GLvoid*>(&m_UvCoordBuffer.at(0)));
 			glVertexAttribPointer(m_IsHUDID, 1, GL_FLOAT, 0, 0,
 				reinterpret_cast<GLvoid*>(&m_IsHUDBuffer.at(0)));
+			glVertexAttribPointer(m_ColorID, 4, GL_FLOAT, 0, 0,
+				reinterpret_cast<GLvoid*>(&m_ColorBuffer.at(0)));
 
-			//[TODO] Change this, shouldn't be a uniform
-			glUniform4f(
-				m_ColorID,
-				1.f,
-				1.f,
-				1.f,
-				1.f
-				);
-
-			glDrawArrays(GL_TRIANGLES, start * 6, size * 6);		
+			glDrawArrays(GL_TRIANGLES, start * 6, size * 6);	
 		}
 	}
 	
@@ -170,7 +164,7 @@ namespace star
 		glDisableVertexAttribArray(m_VertexID);
 		glDisableVertexAttribArray(m_UVID);
 		glDisableVertexAttribArray(m_IsHUDID);
-				STARENGINE_LOG_TAG);
+		glDisableVertexAttribArray(m_ColorID);
 
 		m_ShaderPtr->Unbind();
 
@@ -180,6 +174,7 @@ namespace star
 		m_VertexBuffer.clear();
 		m_UvCoordBuffer.clear();
 		m_IsHUDBuffer.clear();
+		m_ColorBuffer.clear();
 	}
 
 	void SpriteBatch::DrawTextSprites()
@@ -190,39 +185,26 @@ namespace star
 		//Check per text how many characters -> Forloop drawing
 		for(auto text : m_TextQueue)
 		{
-			auto curFont = text.font;		
-			GLuint* textures = curFont.GetTextures();
-			glUniform4f(
-				m_ColorID,
-				1.f,
-				1.f,
-				1.f,
-				1.f
-				);
+			auto curFont = text.font;	
 
-			int32 line_counter(0);
-			int32 offsetX(text.horizontalTextOffset[line_counter]);
-			int32 offsetY(0);
+			GLuint* textures = curFont.GetTextures();
 
 			const tchar *start_line = text.text.c_str();
 			for(int32 i = 0 ; start_line[i] != 0 ; ++i) 
 			{
-				if(start_line[i] == _T('\n'))
-				{
-					offsetY -= curFont.GetMaxLetterHeight() + text.verticalSpacing;
-					++line_counter;
-					offsetX = text.horizontalTextOffset[line_counter];
-				}
-				else if(start_line[i] > 31)
+				if(start_line[i] > FIRST_REAL_ASCII_CHAR)
 				{
 					glBindTexture(GL_TEXTURE_2D, textures[start_line[i]]);
+
 					//Set attributes and buffers
-					glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT,0,0,
+					glVertexAttribPointer(m_VertexID, 4, GL_FLOAT, 0, 0,
 						reinterpret_cast<GLvoid*>(&m_VertexBuffer.at(0)));
-					glVertexAttribPointer(ATTRIB_UV, 2, GL_FLOAT, 0, 0, 
+					glVertexAttribPointer(m_UVID, 2, GL_FLOAT, 0, 0, 
 						reinterpret_cast<GLvoid*>(&m_UvCoordBuffer.at(0)));		
 					glVertexAttribPointer(m_IsHUDID, 1, GL_FLOAT, 0, 0,
 						reinterpret_cast<GLvoid*>(&m_IsHUDBuffer.at(0)));
+					glVertexAttribPointer(m_ColorID, 4, GL_FLOAT, 0, 0,
+						reinterpret_cast<GLvoid*>(&m_ColorBuffer.at(0)));
 					glDrawArrays(GL_TRIANGLES, i * 6, 6);
 				}
 			}
@@ -267,34 +249,22 @@ namespace star
 			Mul(BR, transformMat, BR);
 
 			//0
-			m_VertexBuffer.push_back(TL.x);
-			m_VertexBuffer.push_back(TL.y);
-			m_VertexBuffer.push_back(TL.z);
+			m_VertexBuffer.push_back(TL);
 
 			//1
-			m_VertexBuffer.push_back(TR.x);
-			m_VertexBuffer.push_back(TR.y);
-			m_VertexBuffer.push_back(TR.z);
+			m_VertexBuffer.push_back(TR);
 
 			//2
-			m_VertexBuffer.push_back(BL.x);
-			m_VertexBuffer.push_back(BL.y);
-			m_VertexBuffer.push_back(BL.z);
+			m_VertexBuffer.push_back(BL);
 
 			//1
-			m_VertexBuffer.push_back(TR.x);
-			m_VertexBuffer.push_back(TR.y);
-			m_VertexBuffer.push_back(TR.z);
+			m_VertexBuffer.push_back(TR);
 
 			//3
-			m_VertexBuffer.push_back(BR.x);
-			m_VertexBuffer.push_back(BR.y);
-			m_VertexBuffer.push_back(BR.z);
+			m_VertexBuffer.push_back(BR);
 
 			//2
-			m_VertexBuffer.push_back(BL.x);
-			m_VertexBuffer.push_back(BL.y);
-			m_VertexBuffer.push_back(BL.z);
+			m_VertexBuffer.push_back(BL);
 
 			//Push back all uv's
 
@@ -322,10 +292,12 @@ namespace star
 			m_UvCoordBuffer.push_back(sprite.uvCoords.x);
 			m_UvCoordBuffer.push_back(sprite.uvCoords.y);
 
-			//bool buffer
+			//bool & color buffer
 			for(uint32 i = 0; i < 6; ++i)
 			{
 				m_IsHUDBuffer.push_back(float32(sprite.bIsHud));
+				//rgba
+				m_ColorBuffer.push_back(sprite.colorMultiplier);
 			}
 		}
 	}
@@ -347,21 +319,19 @@ namespace star
 		*/
 		for(auto& text : m_TextQueue)
 		{
-			//Variables per word
+			//Variables per textcomponent
 			mat4 transformMat, offsetMatrix; 
-			
-
-			int32 offsetX(0);
+			const mat4& worldMat = text.transformPtr->GetWorldMatrix();
+			int32 line_counter(0);
+			int32 offsetX(text.horizontalTextOffset.at(line_counter));
 			int32 offsetY(0);
 			for(auto it : text.text)
 			{
-				//[COMMENT] is this safe?
 				auto& charInfo = text.font.GetCharacterInfo(static_cast<suchar>(it));
-				int32 offset = text.font.GetMaxLetterHeight() - charInfo.letterDimensions.y;
-				offsetMatrix = Translate(vec3(offsetX, offsetY - offset, 0));
+				offsetMatrix = Translate(vec3(offsetX, offsetY + charInfo.letterDimensions.y + text.textHeight - text.font.GetMaxLetterHeight() - text.font.GetMinLetterHeight(), 0));
 				offsetX += charInfo.letterDimensions.x;
 
-				transformMat = Transpose(text.transformPtr->GetWorldMatrix() * offsetMatrix);
+				transformMat = Transpose(worldMat * offsetMatrix);
 
 				vec4 TL = vec4(0, charInfo.vertexDimensions.y, 0, 1);
 				Mul(TL, transformMat, TL);
@@ -376,34 +346,22 @@ namespace star
 				Mul(BR, transformMat, BR);
 
 				//0
-				m_VertexBuffer.push_back(TL.x);
-				m_VertexBuffer.push_back(TL.y);
-				m_VertexBuffer.push_back(TL.z);
+				m_VertexBuffer.push_back(TL);
 
 				//1
-				m_VertexBuffer.push_back(TR.x);
-				m_VertexBuffer.push_back(TR.y);
-				m_VertexBuffer.push_back(TR.z);
+				m_VertexBuffer.push_back(TR);
 
 				//2
-				m_VertexBuffer.push_back(BL.x);
-				m_VertexBuffer.push_back(BL.y);
-				m_VertexBuffer.push_back(BL.z);
+				m_VertexBuffer.push_back(BL);
 
 				//1
-				m_VertexBuffer.push_back(TR.x);
-				m_VertexBuffer.push_back(TR.y);
-				m_VertexBuffer.push_back(TR.z);
+				m_VertexBuffer.push_back(TR);
 
 				//3
-				m_VertexBuffer.push_back(BR.x);
-				m_VertexBuffer.push_back(BR.y);
-				m_VertexBuffer.push_back(BR.z);
+				m_VertexBuffer.push_back(BR);
 
 				//2
-				m_VertexBuffer.push_back(BL.x);
-				m_VertexBuffer.push_back(BL.y);
-				m_VertexBuffer.push_back(BL.z);
+				m_VertexBuffer.push_back(BL);
 
 				//Push back all uv's
 
@@ -431,14 +389,21 @@ namespace star
 				m_UvCoordBuffer.push_back(0);
 				m_UvCoordBuffer.push_back(charInfo.uvDimensions.y);
 
-				//bool buffer
+				//bool & color buffer
 				for(uint32 i = 0; i < 6; ++i)
 				{
 					m_IsHUDBuffer.push_back(float32(text.bIsHud));
+					//rgba
+					m_ColorBuffer.push_back(text.colorMultiplier);
+				}
+
+				if(it == _T('\n'))
+				{
+					offsetY -= text.font.GetMaxLetterHeight() + text.verticalSpacing;
+					++line_counter;
+					offsetX = text.horizontalTextOffset.at(line_counter);
 				}
 			}
-			//offsetY -= text.font.GetMaxLetterHeight();
-			offsetX = 0;
 		}
 	}
 

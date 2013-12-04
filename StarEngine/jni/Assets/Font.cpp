@@ -12,7 +12,8 @@ namespace star
 		m_FontPath(EMPTY_STRING),
 		mFace(0),
 		mTextures(nullptr),
-		mMaxLetterHeight(0),
+		mMaxLetterHeight(),
+		mMinLetterHeight(),
 		mCharacterInfoMap(),
 		mSize(0)
 	{
@@ -27,16 +28,14 @@ namespace star
 	{
 		mSize = size;
 		mTextures = new GLuint[FONT_TEXTURES];
-		mMaxLetterHeight = 0;
-
 		m_FontPath = path;
 
 #ifdef DESKTOP
 		//Convert from wstring to const schar* trough sstring
 		sstring font_path = string_cast<sstring>(path);
-		auto error = FT_New_Face(library,font_path.c_str(),0,&mFace);
+		FT_Error error = FT_New_Face(library,font_path.c_str(),0,&mFace);
 #else
-		Resource resource(StarEngine::GetInstance()->GetAndroidApp(), path);
+		Resource resource(path);
 		if(!resource.Open())
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error,
@@ -155,16 +154,17 @@ namespace star
 		float32 x = static_cast<float32>(bitmap.width) / static_cast<float32>(width);
 		float32 y = static_cast<float32>(bitmap.rows) / static_cast<float32>(height);
 		//letterheight
-		int32 dimx = (face->glyph->metrics.horiAdvance / 64);
-		int32 dimy = ((face->glyph->metrics.horiBearingY) - (face->glyph->metrics.height)) / 64;
-		ivec2 tempdim(dimx, dimy);
-		//[COMMENT] bitmap_top returns an int. Is this for a reason?
-		// For now i casted it to an uint. please change if not appropriate
+		int32 dimX = (face->glyph->metrics.horiAdvance / 64);
+		int32 dimY = ((face->glyph->metrics.horiBearingY) - (face->glyph->metrics.height)) / 64;		
 		if(mMaxLetterHeight < face->glyph->bitmap_top)
 		{
 			mMaxLetterHeight = face->glyph->bitmap_top;
 		}
-		mCharacterInfoMap.at(ch).letterDimensions = ivec2(dimx, dimy);
+		if(mMinLetterHeight > dimY)
+		{
+			mMinLetterHeight = dimY;
+		}
+		mCharacterInfoMap.at(ch).letterDimensions = ivec2(dimX, dimY);
 		mCharacterInfoMap.at(ch).vertexDimensions = vec2(bitmap.width, bitmap.rows);
 		mCharacterInfoMap.at(ch).uvDimensions = vec2(x, y);
 	}
@@ -194,22 +194,27 @@ namespace star
 		return rval;
 	}
 
-	const std::map<suchar, CharacterInfo>& Font::GetCharacterInfoMap() const 
+	const std::unordered_map<suchar, CharacterInfo>& Font::GetCharacterInfoMap() const 
 	{
 		return mCharacterInfoMap;
 	}
 
 	const CharacterInfo& Font::GetCharacterInfo(suchar character) const 
 	{
-		auto it = mCharacterInfoMap.find(character);
-		Logger::GetInstance()->Log(it != mCharacterInfoMap.end(), _T("Font::GetCharacterInfo:\
-The character was not found in the character map.")/*STARENGINE_LOG_TAG*/);
-		return it->second;
+		//[COMMENT] Performing a good check here 
+		//with std::find will only slow things down
+		//If the map.at has an unknown value, it will throw an exception anyway
+		return mCharacterInfoMap.at(character);
 	}
 
 	int32 Font::GetMaxLetterHeight() const 
 	{
 		return mMaxLetterHeight;
+	}
+
+	int32 Font::GetMinLetterHeight() const 
+	{
+		return mMinLetterHeight;
 	}
 
 	uint32 Font::GetStringLength(const tstring& string) const

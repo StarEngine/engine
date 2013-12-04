@@ -82,7 +82,10 @@ namespace star
 
 	void SpriteComponent::Update(const Context & context)
 	{
-
+		//[COMMENT] Temp hotfix!
+#ifdef ANDROID
+		FillSpriteInfo();
+#endif
 	}
 	
 	bool SpriteComponent::CheckCulling(

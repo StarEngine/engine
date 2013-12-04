@@ -39,23 +39,14 @@ namespace star
 				STARENGINE_LOG_TAG);
 		}
 
-#ifdef _WIN32
-		tstring vShader(_T("WinShaders/Font_Shader.vert")),
-				fShader(_T("WinShaders/Font_Shader.frag"));
-#else
-		tstring vShader(_T("AndroidShaders/Font_Shader.vert")),
-				fShader(_T("AndroidShaders/Font_Shader.frag"));
-#endif
-		if(!m_Shader.Init(vShader, fShader))
-		{
-			Logger::GetInstance()->Log(star::LogLevel::Error,
-				_T("Font Manager : Making Shader Failed"),
-				STARENGINE_LOG_TAG);
-		}
-
 		star::Logger::GetInstance()->Log(star::LogLevel::Info,
 			_T("Font Manager : Initialized FreeType library"),
 			STARENGINE_LOG_TAG);
+	}
+
+	FontManager::~FontManager()
+	{
+
 	}
 
 	void FontManager::EraseFonts()

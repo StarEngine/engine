@@ -34,15 +34,17 @@ namespace star
 		static const uint32 BATCHSIZE = 50;
 		static const uint32 VERTEX_AMOUNT = 18;
 		static const uint32 UV_AMOUNT = 12;
+		static const uint32 FIRST_REAL_ASCII_CHAR = 31;
 
 		//[COMMENT] Sadly can't change that to const SpriteInfo&
 		std::vector<SpriteInfo> m_SpriteQueue;
 		std::vector<TextInfo> m_TextQueue;
 
 		//[TODO] Check if can be changed to vector<vec4 or vec2>
-		std::vector<float32> m_VertexBuffer,
-							 m_UvCoordBuffer,
-							 m_IsHUDBuffer;
+		std::vector<vec4> m_VertexBuffer;
+		std::vector<float32> m_UvCoordBuffer;
+		std::vector<float32> m_IsHUDBuffer;
+		std::vector<Color> m_ColorBuffer;
 		
 		GLuint m_VertexID,
 			   m_UVID,

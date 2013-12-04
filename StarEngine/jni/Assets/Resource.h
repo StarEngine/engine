@@ -11,7 +11,7 @@ namespace star
 {
 	struct ResourceDescriptor
 	{
-		int32_t mDescriptor;
+		int32 mDescriptor;
 		off_t mStart;
 		off_t mLength;
 	};
@@ -19,9 +19,9 @@ namespace star
 	class Resource
 	{
 	public:
-		Resource(android_app* pApplication, const tstring & pPath);
+		Resource(const tstring & pPath);
 
-		const tstring  & GetPath() const;
+		const tstring & GetPath() const;
 
 		bool Open();
 		void Close();
@@ -33,7 +33,6 @@ namespace star
 
 	private:
 		tstring mPath;
-		AAssetManager* mAssetManager;
 		AAsset* mAsset;
 	};
 }

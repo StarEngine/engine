@@ -1,8 +1,6 @@
 #pragma once
 
-#include <map>
-#include <vector>
-#include <array>
+#include <unordered_map>
 #include "../defines.h"
 #include "../Helpers/Filepath.h"
 #include "../Helpers/Helpers.h"
@@ -52,9 +50,10 @@ namespace star
 		GLuint* GetTextures() const;
 		uint32 GetFontSize() const;
 		
-		const std::map<suchar, CharacterInfo>& GetCharacterInfoMap() const;
+		const std::unordered_map<suchar, CharacterInfo>& GetCharacterInfoMap() const;
 		const CharacterInfo& GetCharacterInfo(suchar character) const;
 		int32 GetMaxLetterHeight() const;
+		int32 GetMinLetterHeight() const;
 		uint32 GetStringLength(const tstring& string) const;
 
 	private:
@@ -64,12 +63,13 @@ namespace star
 		tstring m_FontPath;
 		FT_Face mFace;
 		GLuint* mTextures;
-		int32 mMaxLetterHeight;
+		int32	mMaxLetterHeight,
+				mMinLetterHeight;
 
 #ifdef ANDROID
 		BYTE* mFontBuffer;
 #endif
-		std::map<suchar, CharacterInfo> mCharacterInfoMap;
+		std::unordered_map<suchar, CharacterInfo> mCharacterInfoMap;
 		uint32 mSize;
 	};
 }

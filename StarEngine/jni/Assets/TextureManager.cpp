@@ -54,18 +54,13 @@ namespace star
 			return;
 		}
 
-#ifdef DESKTOP
 		mTextureMap[name] = std::make_shared<Texture2D>(path);
-#else
-		mTextureMap[name] = std::make_shared<Texture2D>(path, star::StarEngine::GetInstance()->GetAndroidApp());
-#endif
 		
 		mPathList[path] = name;
 	}
 
 	bool TextureManager::DeleteTexture(const tstring& name)
 	{
-			_T("Texture manager is invalid."), STARENGINE_LOG_TAG);
 		auto it = mTextureMap.find(name);
 		if(it != mTextureMap.end())
 		{
@@ -77,7 +72,6 @@ namespace star
 
 	GLuint TextureManager::GetTextureID(const tstring& name)
 	{
-			_T("Texture manager is invalid."), STARENGINE_LOG_TAG);
 		if(mTextureMap.find(name) != mTextureMap.end())
 		{
 			return mTextureMap[name]->GetTextureID();
@@ -87,7 +81,6 @@ namespace star
 
 	ivec2 TextureManager::GetTextureDimensions(const tstring& name)
 	{
-			_T("Texture manager is invalid."), STARENGINE_LOG_TAG);
 		auto it = mTextureMap.find(name);
 		if(it != mTextureMap.end())
 		{
@@ -107,11 +100,7 @@ namespace star
 		mTextureMap.clear();
 		for(auto it = mPathList.begin(); it != mPathList.end(); ++it)
 		{
-#ifdef DESKTOP
 			mTextureMap[it->second] = std::make_shared<Texture2D>(it->first);
-#else
-			mTextureMap[it->second] = std::make_shared<Texture2D>(it->first, star::StarEngine::GetInstance()->GetAndroidApp());
-#endif
 		}
 		return true;
 	}

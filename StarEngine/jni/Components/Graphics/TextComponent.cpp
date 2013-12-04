@@ -119,7 +119,8 @@ namespace star
 		++count;
 		auto font = FontManager::GetInstance()->GetFont(m_FontName);
 		m_TextHeight = (font.GetMaxLetterHeight() * count)
-				+ (m_TextInfo.verticalSpacing * (count - 1)));
+				+ (m_TextInfo.verticalSpacing * (count - 1));
+		m_TextInfo.textHeight = m_TextHeight;
 	}
 	
 	void TextComponent::CleanTextUp(const tstring & str)
@@ -145,7 +146,7 @@ namespace star
 	
 		if(m_bInitialized)
 		{
-			m_TextDesc.HorizontalTextOffset.clear();
+			m_TextInfo.horizontalTextOffset.clear();
 			auto font = FontManager::GetInstance()->GetFont(m_FontName);
 			if(m_TextAlignment == HorizontalAlignment::center)
 			{
@@ -153,24 +154,24 @@ namespace star
 				uint32 length = GetLongestLine(m_EditText);
 				if(length == 0)
 				{
-				m_TextInfo.text = m_EditText;
+					m_TextInfo.text = m_EditText;
 				}
 				else
 				{
-				m_TextInfo.text = EMPTY_STRING;
+					m_TextInfo.text = EMPTY_STRING;
 					tstring substr(EMPTY_STRING);
 					for(size_t i = 0 ; i < m_EditText.length() ; ++i)
 					{
 						if(m_EditText[i] == _T('\n'))
 						{
-						m_TextInfo.text += substr + _T('\n');
+							m_TextInfo.text += substr + _T('\n');
 
 							uint32 diff = length - font.GetStringLength(substr);
 							if(diff > 0)
 							{
 								diff /= 2;
 							}
-						m_TextInfo.horizontalTextOffset.push_back(diff);
+							m_TextInfo.horizontalTextOffset.push_back(diff);
 							
 							substr = EMPTY_STRING;
 							counter = 0;
@@ -181,14 +182,14 @@ namespace star
 							++counter;
 						}
 					}
-				m_TextInfo.text += substr;
+					m_TextInfo.text += substr;
 
 					uint32 diff = length - font.GetStringLength(substr);
 					if(diff > 0)
 					{
 						diff /= 2;
 					}
-				m_TextInfo.horizontalTextOffset.push_back(diff);
+					m_TextInfo.horizontalTextOffset.push_back(diff);
 				}
 			}
 			else if(m_TextAlignment == HorizontalAlignment::right)
@@ -197,20 +198,20 @@ namespace star
 				uint32 length = GetLongestLine(m_EditText);
 				if(length == 0)
 				{
-				m_TextInfo.text = m_EditText;
+					m_TextInfo.text = m_EditText;
 				}
 				else
 				{
-				m_TextInfo.text = EMPTY_STRING;
+					m_TextInfo.text = EMPTY_STRING;
 					tstring substr(EMPTY_STRING);
 					for(size_t i = 0 ; i < m_EditText.length() ; ++i)
 					{
 						if(m_EditText[i] == _T('\n'))
 						{
-						m_TextInfo.text += substr + _T('\n');
+							m_TextInfo.text += substr + _T('\n');
 
 							uint32 diff = length - font.GetStringLength(substr);
-						m_TextInfo.horizontalTextOffset.push_back(diff);
+							m_TextInfo.horizontalTextOffset.push_back(diff);
 
 							substr = EMPTY_STRING;
 							counter = 0;
@@ -222,17 +223,22 @@ namespace star
 						}
 					}
 				
-				m_TextInfo.text += substr;
+					m_TextInfo.text += substr;
 
 					uint32 diff = length - font.GetStringLength(substr);
-				m_TextInfo.horizontalTextOffset.push_back(diff);
+					m_TextInfo.horizontalTextOffset.push_back(diff);
 				}
 			}
 			else
 			{	
 				GetLongestLine(m_EditText);
-			m_TextInfo.text = m_EditText;
-			m_TextInfo.horizontalTextOffset.push_back(0);
+				m_TextInfo.text = m_EditText;
+				m_TextInfo.horizontalTextOffset.push_back(0);
+				auto n = std::count(m_EditText.begin(), m_EditText.end(), _T('\n'));
+				for( ; n > 0 ; --n)
+				{
+					m_TextInfo.horizontalTextOffset.push_back(0);
+				}
 			}
 		}
 	}
@@ -300,6 +306,10 @@ namespace star
 		float bottom
 		) const
 	{
+		if(m_TextInfo.bIsHud)
+		{
+			return true;
+		}
 		float32 textWidth, textHeight, textW, textH;
 
 		pos objectPos = GetTransform()->GetWorldPosition();

@@ -18,8 +18,9 @@ namespace star
 			, colorMultiplier(Color::White)
 			, bIsHud(false)
 			, horizontalTextOffset()
-			, verticalSpacing(5)
+			, verticalSpacing(10)
 			, text()
+			, textHeight()
 		{}
 		Font font;
 		TransformComponent* transformPtr;
@@ -28,6 +29,7 @@ namespace star
 		std::vector<int32> horizontalTextOffset;
 		int32 verticalSpacing;
 		tstring text;	
+		int32 textHeight;
 	};
 
 	class TextComponent : public BaseComponent
