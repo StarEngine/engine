@@ -103,7 +103,6 @@ namespace star
 
 		//Set uniforms
 		glUniform1i(m_TextureSamplerID, 0);
-
 		float scaleValue = ScaleSystem::GetInstance()->GetScale();
 		mat4 scaleMat = Scale(scaleValue, scaleValue, 1.0f);
 		glUniformMatrix4fv(m_ScalingID, 1, GL_FALSE, ToPointerValue(scaleMat));
