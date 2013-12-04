@@ -357,6 +357,9 @@
     <ClInclude Include="jni\Scenes\SplashScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Helpers\GameData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -650,6 +653,9 @@
     <ClCompile Include="jni\Scenes\SplashScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="jni\Helpers\GameData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="jni\Helpers\Math.inl">
@@ -668,6 +674,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="jni\Helpers\Dictionary.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="jni\Helpers\GameData.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

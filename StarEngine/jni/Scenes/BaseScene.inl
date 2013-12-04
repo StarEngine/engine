@@ -15,14 +15,15 @@ namespace star
 				{
 					Logger::GetInstance()->Log(LogLevel::Error,
 						_T("BaseScene::GetObjectByName: couldn't convert object '")
-						+ name + _T("' to the requested type. Returning nullptr..."));
+						+ name + _T("' to the requested type. Returning nullptr..."),
+						STARENGINE_LOG_TAG);
 				}
 				return returnObject;
 			}
 		}
 		Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("BaseScene::GetObjectByName: Trying to get an unknown object '")
-				+ name + _T("'."));
+				+ name + _T("'."), STARENGINE_LOG_TAG);
 		return nullptr;
 	}
 }

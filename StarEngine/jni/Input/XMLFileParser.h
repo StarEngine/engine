@@ -18,9 +18,9 @@ namespace star
 		XMLFileParser(const tstring & path);
 		~XMLFileParser();
 
-		bool Read(XMLContainer & container, DirectoryMode mode = DirectoryMode::assets);
+		bool Read(XMLContainer & container, DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
 		bool Read(XMLContainer & container, const tstring & binary_path,
-			DirectoryMode mode = DirectoryMode::assets);
+			DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
 
 	private:
 		Filepath m_File;

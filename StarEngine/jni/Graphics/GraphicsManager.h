@@ -42,7 +42,8 @@ namespace star
 		int32 GetScreenWidth() const;
 		int32 GetScreenHeight() const;
 
-		const mat4& GetViewProjectionMatrix() const;
+		const mat4& GetViewInverseProjectionMatrix() const;
+		const mat4& GetViewMatrix() const;
 		const mat4& GetViewInverseMatrix() const;
 		const mat4& GetProjectionMatrix() const;
 
@@ -82,6 +83,7 @@ namespace star
 			mVerticalViewportOffset;
 
 		mat4 mViewProjectionMatrix;
+		mat4 mViewMatrix;
 		mat4 mViewInverseMatrix;
 		mat4 mProjectionMatrix;
 		vec2 mScreenResolution, mViewportResolution;

@@ -4,7 +4,7 @@
 #include <memory>
 #include "Shader.h"
 #include "../Components/Graphics/SpriteComponent.h"
-#include "../Assets/FontManager.h"
+#include "../Components/Graphics/TextComponent.h"
 
 namespace star
 {
@@ -17,44 +17,44 @@ namespace star
 		void Initialize();
 		void Flush();
 		void AddSpriteToQueue(const SpriteInfo& spriteInfo);
-		void AddTextToQueue(const TextDesc& text, bool bInFrontOfSprites);
+		void AddTextToQueue(const TextInfo& text);
 
 	private:
 		SpriteBatch(void);
 		void Begin();
 		void End();
 		void CreateSpriteQuads();
+		void CreateTextQuads();
 		void DrawSprites();
 		void FlushSprites(uint32 start, uint32 size, uint32 texture);
-		void FlushText(const TextDesc& textDesc);
-		void FlushText(
-			const tstring & text,
-			const tstring& fontname,
-			int32 spacing,
-			const std::vector<int32> & horOffset,
-			TransformComponent* transform,
-			const Color& color,
-			bool isHUD
-			);
+		void DrawTextSprites();
+		//void FlushTextSprites();
 
 		static SpriteBatch * m_pSpriteBatch;
 		static const uint32 BATCHSIZE = 50;
 		static const uint32 VERTEX_AMOUNT = 18;
 		static const uint32 UV_AMOUNT = 12;
+		static const uint32 FIRST_REAL_ASCII_CHAR = 31;
 
 		//[COMMENT] Sadly can't change that to const SpriteInfo&
 		std::vector<SpriteInfo> m_SpriteQueue;
-		//[TODO] Change
-		std::vector<TextDesc> m_TextBackQueue,
-							  m_TextFrontQueue,
-							  m_HUDTextQueue;
+		std::vector<TextInfo> m_TextQueue;
 
 		//[TODO] Check if can be changed to vector<vec4 or vec2>
-		std::vector<float32> m_VertexBuffer,
-							 m_UvCoordBuffer;
+		std::vector<vec4> m_VertexBuffer;
+		std::vector<float32> m_UvCoordBuffer;
+		std::vector<float32> m_IsHUDBuffer;
+		std::vector<Color> m_ColorBuffer;
+		
+		GLuint m_VertexID,
+			   m_UVID,
+			   m_IsHUDID;
 
 		GLuint	m_TextureSamplerID,
-				m_ColorID;
+				m_ColorID,
+				m_ScalingID,
+				m_ViewInverseID,
+				m_ProjectionID;
 
 		Shader* m_ShaderPtr;	
 

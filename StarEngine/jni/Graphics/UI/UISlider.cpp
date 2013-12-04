@@ -41,7 +41,7 @@ namespace star
 		m_pSlider->SetAlignmentCentered();
 		m_pSlider->Translate(
 			dimensions.x / 2.0f,
-			dimensions.y / 2.0f
+			dimensions.y / 4.0f
 			);
 		SetPositionAccordingToPercent();
 		m_pSlider->SetDownCallback(

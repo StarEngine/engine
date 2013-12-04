@@ -23,7 +23,6 @@ namespace star
 		, m_SpriteName(spriteName)
 		, m_SpriteInfo()
 	{
-	
 	}
 
 	void SpriteComponent::InitializeComponent()
@@ -83,7 +82,10 @@ namespace star
 
 	void SpriteComponent::Update(const Context & context)
 	{
-
+		//[COMMENT] Temp hotfix!
+#ifdef ANDROID
+		FillSpriteInfo();
+#endif
 	}
 	
 	bool SpriteComponent::CheckCulling(
@@ -93,6 +95,12 @@ namespace star
 		float bottom
 		) const
 	{
+		//Always draw hudObjects
+		if(m_SpriteInfo.bIsHud)
+		{
+			return true;
+		}
+
 		float32 spriteWidth, spriteHeight;
 
 		pos objectPos = GetTransform()->GetWorldPosition();

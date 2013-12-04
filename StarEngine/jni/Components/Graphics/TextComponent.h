@@ -10,6 +10,28 @@ namespace star
 {
 	class Font;
 
+	struct TextInfo
+	{
+		TextInfo()
+			: font()
+			, transformPtr(nullptr)
+			, colorMultiplier(Color::White)
+			, bIsHud(false)
+			, horizontalTextOffset()
+			, verticalSpacing(10)
+			, text()
+			, textHeight()
+		{}
+		Font font;
+		TransformComponent* transformPtr;
+		Color colorMultiplier; 
+		bool bIsHud;	
+		std::vector<int32> horizontalTextOffset;
+		int32 verticalSpacing;
+		tstring text;	
+		int32 textHeight;
+	};
+
 	class TextComponent : public BaseComponent
 	{
 	public:
@@ -77,7 +99,8 @@ namespace star
 
 		void CalculateHorizontalTextOffset();
 		int32 GetLongestLine(const tstring & str);
-		void AddSpacesToText(tstring & str, uint32 n);
+
+		virtual void FillTextInfo();
 	
 	private:
 		uint32	m_FontSize;
@@ -92,11 +115,8 @@ namespace star
 				m_EditText;
 
 		Color m_TextColor;
-		TextDesc m_TextDesc;
-
+		TextInfo m_TextInfo;
 		HorizontalAlignment m_TextAlignment;
-
-		bool m_bInFront;
 
 		tstring CheckWrapping(
 			const Font& font,

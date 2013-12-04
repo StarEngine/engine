@@ -26,7 +26,7 @@ namespace star
 			const tstring & text,
 			const tstring & fontName,
 			const tstring & fontPath,
-			float32 fontSize,
+			uint32 fontSize,
 			const Color & color
 			);
 

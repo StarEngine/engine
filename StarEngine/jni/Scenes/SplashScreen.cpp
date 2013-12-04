@@ -1,4 +1,5 @@
 #include "SplashScreen.h"
+#include "../Graphics/GraphicsManager.h"
 
 namespace star
 {
@@ -26,8 +27,12 @@ namespace star
 			0.75f
 			);
 
-		m_pSlideMenu->
-			GetChildByName<UIImage>(m_Slides[0])
-				->SetAlignmentCentered();
+		auto slide = 
+			m_pSlideMenu->
+				GetChildByName<UIImage>(m_Slides[0]);
+		slide->SetAlignmentCentered();
+		slide->GetTransform()->Scale(
+			GraphicsManager::GetInstance()->GetScreenWidth() / 1280.0f
+			);
 	}
 }

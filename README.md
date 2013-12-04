@@ -40,6 +40,20 @@ Patch Notes:
   * Font colors work (again) and sprites can now be multiplied with a color;
   * StarEngine has now a Quit function that can be used to exit the application;
   * Logger::Log replaces ASSERT from now on;
+* **[02/12/2013] 0.0.4**
+  * Culling bugfixes are solved;
+  * Action System has been implemented. A new and easy way to extend your objects on runtime;
+    * Several base classes provided and 2 ready-to-use actions (timed fade and move);
+  * Template implementations have been moved to inline files;
+  * AudioManager has gotten several new functionalties;
+  * Some small bug fixes for sound on Android;
+  * The Stopwatch System has been improved and has gotten new functionality;
+  * Bug fixes related to the reading of files;
+  * As an introduction scene the user can now use both the SlideScene and SplashScreen;
+  * A lot of bugfixes related to the text, which is now more accurate and correct;
+  * Logs are now logged by default with the [GAME] tag, logs from engine use the [STARENGINE] tag;
+  * Bugfix related to the UISlider;
+  * GameData Helper class has been added and can be used to quickly load/save game data;
   
 ## License
 The Star 2D Game Engine is licensed under the MIT License.

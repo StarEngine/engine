@@ -105,7 +105,8 @@ namespace star
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoIdle: Animation '")
 						+ tstring(UI_STATE_IDLE) +
-						_T("' is not defined in the used spritesheet."));
+						_T("' is not defined in the used spritesheet."),
+						STARENGINE_LOG_TAG);
 				}
 			}
 			else
@@ -116,7 +117,8 @@ namespace star
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoIdle: Animation '")
 						+ tstring(UI_STATE_IDLE) +
-						_T("' is not defined in the used spritesheet."));
+						_T("' is not defined in the used spritesheet."),
+						STARENGINE_LOG_TAG);
 				}
 			}
 		}
@@ -137,7 +139,8 @@ namespace star
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoHover: Animation '")
 						+ tstring(UI_STATE_HOVER) +
-						_T("' is not defined in the used spritesheet."));
+						_T("' is not defined in the used spritesheet."),
+						STARENGINE_LOG_TAG);
 				}
 			}
 			else
@@ -148,7 +151,8 @@ namespace star
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoHover: Animation '")
 						+ tstring(UI_STATE_HOVER) +
-						_T("' is not defined in the used spritesheet."));
+						_T("' is not defined in the used spritesheet."),
+						STARENGINE_LOG_TAG);
 				}
 			}
 		}
@@ -168,7 +172,8 @@ namespace star
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoDown: Animation '")
 						+ tstring(UI_STATE_CLICK) +
-						_T("' is not defined in the used spritesheet."));
+						_T("' is not defined in the used spritesheet."),
+						STARENGINE_LOG_TAG);
 				}
 			}
 			else
@@ -179,7 +184,8 @@ namespace star
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoDown: Animation '")
 						+ tstring(UI_STATE_CLICK) +
-						_T("' is not defined in the used spritesheet."));
+						_T("' is not defined in the used spritesheet."),
+						STARENGINE_LOG_TAG);
 				}
 			}
 		}
@@ -198,7 +204,8 @@ namespace star
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoDisable: Animation '")
 						+ tstring(UI_STATE_DISABLE) +
-						_T("' is not defined in the used spritesheet."));
+						_T("' is not defined in the used spritesheet."),
+						STARENGINE_LOG_TAG);
 				}
 			}
 			else
@@ -209,7 +216,8 @@ namespace star
 					Logger::GetInstance()->Log(LogLevel::Warning,
 						_T("UIAnimatedButton::GoFreeze: Animation '")
 						+ tstring(UI_STATE_DISABLE) +
-						_T("' is not defined in the used spritesheet."));
+						_T("' is not defined in the used spritesheet."),
+						STARENGINE_LOG_TAG);
 				}
 			}
 		}

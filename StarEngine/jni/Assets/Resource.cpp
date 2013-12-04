@@ -1,12 +1,11 @@
 #include "Resource.h"
 //#include "../EventLoop.h"
 #include "../Logger.h"
-
+#include "../StarEngine.h"
 namespace star
 {
-	Resource::Resource(android_app* pApplication, const tstring & pPath):
+	Resource::Resource(const tstring & pPath):
 			mPath(pPath),
-			mAssetManager(pApplication->activity->assetManager),
 			mAsset(NULL)
 	{
 	}
@@ -18,7 +17,11 @@ namespace star
 
 	bool Resource::Open()
 	{
-		mAsset = AAssetManager_open(mAssetManager, mPath.c_str(), AASSET_MODE_UNKNOWN);
+		mAsset = AAssetManager_open(
+			StarEngine::GetInstance()->GetAndroidApp()->activity->assetManager,
+			mPath.c_str(), 
+			AASSET_MODE_UNKNOWN
+			);
 		return mAsset != NULL;
 	}
 
@@ -33,7 +36,7 @@ namespace star
 
 	bool Resource::Read(void* pBuffer, size_t pCount)
 	{
-		int32_t lReadCount = AAsset_read(mAsset,pBuffer, pCount);
+		int32_t lReadCount = AAsset_read(mAsset, pBuffer, pCount);
 		return lReadCount == pCount;
 	}
 
@@ -42,20 +45,25 @@ namespace star
 		return AAsset_getLength(mAsset);
 	}
 
-	// [COMMENT] watch header file for comment
 	const void* Resource::GetBufferize() const
 	{
 		return AAsset_getBuffer(mAsset);
 	}
 
-	// [COMMENT] watch header file for comment
 	ResourceDescriptor Resource::DeScript()
 	{
 		ResourceDescriptor lDescriptor = { -1, 0, 0 };
-		AAsset* lAsset = AAssetManager_open(mAssetManager, mPath.c_str(), AASSET_MODE_UNKNOWN);
+		AAsset* lAsset = AAssetManager_open(
+				StarEngine::GetInstance()->GetAndroidApp()->activity->assetManager,
+				mPath.c_str(),
+				AASSET_MODE_UNKNOWN);
 		if(lAsset != NULL)
 		{
-			lDescriptor.mDescriptor = AAsset_openFileDescriptor(lAsset, &lDescriptor.mStart, &lDescriptor.mLength);
+			lDescriptor.mDescriptor = AAsset_openFileDescriptor(
+					lAsset,
+					&lDescriptor.mStart,
+					&lDescriptor.mLength
+					);
 			AAsset_close(lAsset);
 		}
 		return lDescriptor;

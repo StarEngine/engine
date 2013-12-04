@@ -40,7 +40,8 @@ namespace star
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, 
 				_T("Shader::Init: \
-				   Failed To load Vertex Shader"));
+				   Failed To load Vertex Shader"),
+				   STARENGINE_LOG_TAG);
 			return false;
 		}
 		
@@ -48,7 +49,8 @@ namespace star
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, 
 				 _T("Shader::Init: \
-					Failed To load Fragment Shader"));
+					Failed To load Fragment Shader"),
+					STARENGINE_LOG_TAG);
 			return false;
 		}
 		
@@ -61,7 +63,8 @@ namespace star
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, 
 				_T("Shader::Init: \
-					Failed To load Vertex Shader"));
+					Failed To load Vertex Shader"),
+					STARENGINE_LOG_TAG);
 			return false;
 		}
 		
@@ -69,7 +72,8 @@ namespace star
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error, 
 				 _T("Shader::Init \
-					Failed To load Fragment Shader"));
+					Failed To load Fragment Shader"),
+					STARENGINE_LOG_TAG);
 			return false;
 		}
 		return GLInit();
@@ -81,8 +85,9 @@ namespace star
 
 		if(m_ShaderID == 0)
 		{
-			Logger::GetInstance()->Log(LogLevel::Error, _T("Shader::GLInit: \
-														   Failed to create program!"));
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Shader::GLInit: Failed to create program!"),
+				STARENGINE_LOG_TAG);
 		}
 
 		glAttachShader(m_ShaderID, m_VertexShader);
@@ -90,8 +95,10 @@ namespace star
 
 		//[TODO] Move outside of this class!
 		//[TODO] Write material class for more flexibility
-		glBindAttribLocation(m_ShaderID, ATTRIB_VERTEX, "Position");
-		glBindAttribLocation(m_ShaderID, ATTRIB_UV, "TexCoord");
+		glBindAttribLocation(m_ShaderID, ATTRIB_VERTEX, "position");
+		glBindAttribLocation(m_ShaderID, ATTRIB_UV, "texCoord");
+		glBindAttribLocation(m_ShaderID, ATTRIB_COLOR, "colorMultiplier");
+		glBindAttribLocation(m_ShaderID, ATTRIB_HUD, "isHUD");
 		//[TODO] end
 
 		glLinkProgram(m_ShaderID);
@@ -110,7 +117,8 @@ namespace star
 							 Failed to link program: ") 
 						<< std::endl 
 						<< infoLog;
-				Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
+				Logger::GetInstance()->Log(LogLevel::Error, buffer.str(),
+					STARENGINE_LOG_TAG);
 				delete infoLog;
 				
 			}
@@ -167,8 +175,9 @@ namespace star
 		glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
 		if(status == 0)
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, _T("Shader::CompileShader:\
-																 Failed Compile"));
+			star::Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Shader::CompileShader: Failed Compile"),
+				STARENGINE_LOG_TAG);
 			GLint infolength;
 			glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &infolength);
 			if (infolength > 1) 
@@ -184,7 +193,8 @@ namespace star
 							<< _T(": ")
 							<< std::endl 
 							<< buf;
-					Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
+					Logger::GetInstance()->Log(LogLevel::Error,
+						buffer.str(), STARENGINE_LOG_TAG);
 					delete buf;
 				}
 			}
@@ -203,7 +213,8 @@ namespace star
 							<< _T(": ")
 							<< std::endl 
 							<< buf;
-					Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
+					Logger::GetInstance()->Log(LogLevel::Error,
+						buffer.str(), STARENGINE_LOG_TAG);
 					delete buf;
 				}
 			}
@@ -252,8 +263,11 @@ namespace star
 
 		GLint written, size, location;
 		GLenum type;
-		Logger::GetInstance()->Log(LogLevel::Debug,_T(" Location | Name"));
-		Logger::GetInstance()->Log(LogLevel::Debug,_T("------------------------------------------------"));
+		Logger::GetInstance()->Log(LogLevel::Debug,
+			_T(" Location | Name"), STARENGINE_LOG_TAG);
+		Logger::GetInstance()->Log(LogLevel::Debug,
+			_T("------------------------------------------------"),
+			STARENGINE_LOG_TAG);
 		for(GLuint i = 0; i < GLuint(nAttribs); ++i)
 		{
 			glGetActiveAttrib(m_ShaderID, i, maxLength, &written, &size, &type, name);
@@ -277,14 +291,18 @@ namespace star
 		GLint size, location;
 		GLsizei written;
 		GLenum type;
-		Logger::GetInstance()->Log(LogLevel::Debug,_T(" Location | Name"));
-		Logger::GetInstance()->Log(LogLevel::Debug,_T("------------------------------------------------"));
+		Logger::GetInstance()->Log(LogLevel::Debug,
+			_T(" Location | Name"), STARENGINE_LOG_TAG);
+		Logger::GetInstance()->Log(LogLevel::Debug,
+			_T("------------------------------------------------"),
+			STARENGINE_LOG_TAG);
 		for(GLuint i = 0; i < GLuint(nUniforms); ++i)
 		{
 			glGetActiveUniform(m_ShaderID, i, maxLength, &written, &size, &type, name);
 			location = glGetUniformLocation(m_ShaderID, name);
 			Logger::GetInstance()->
-				Log(LogLevel::Debug, string_cast<tstring>(location) + _T(" | ") + string_cast<tstring>(name));
+				Log(LogLevel::Debug, string_cast<tstring>(location) +
+				_T(" | ") + string_cast<tstring>(name), STARENGINE_LOG_TAG);
 		}
 		delete name;
 	}

@@ -790,8 +790,9 @@ namespace star
 			sifstream myfile;
 			myfile.open(strstr.str(), std::ios::in);
 			bool succes = myfile.is_open();
-			Logger::GetInstance()->Log(succes, _T("Couldn't open the text file '") +
-					strstr.str() + _T("'."));
+			Logger::GetInstance()->Log(succes,
+				_T("Couldn't open the text file '") +
+					strstr.str() + _T("'."), STARENGINE_LOG_TAG);
 			if(succes)
 			{
 				sstring str;
@@ -809,7 +810,8 @@ namespace star
 		myfile.open(file_path, std::ios::in);
 		bool succes = myfile.is_open();
 		Logger::GetInstance()->Log(succes,
-			_T("Couldn't open the text file '") + file_path + _T("'."));
+			_T("Couldn't open the text file '") + file_path + _T("'."),
+			STARENGINE_LOG_TAG);
 		if(succes)
 		{
 			tstring str;
@@ -836,7 +838,8 @@ namespace star
 #ifdef ANDROID
 		bool succesfull = directory != DirectoryMode::assets;
 		Logger::GetInstance()->Log(succesfull,
-			_T("Android doesn't support writing to a text file in the assets directory."));
+			_T("Android doesn't support writing to a text file in the assets directory."),
+			STARENGINE_LOG_TAG);
 		if(succesfull)
 		{
 			auto app = StarEngine::GetInstance()->GetAndroidApp();
@@ -853,7 +856,8 @@ namespace star
 			sofstream myfile(strstr.str(), std::ios::out);
 			succesfull = myfile.is_open();
 			Logger::GetInstance()->Log(succesfull,
-				_T("Couldn't open the text file '") + strstr.str() + _T("'."));
+				_T("Couldn't open the text file '") + strstr.str() + _T("'."),
+				STARENGINE_LOG_TAG);
 			if(succesfull)
 			{
 				myfile << text;
@@ -866,7 +870,8 @@ namespace star
 		tofstream myfile(file_path, std::ios::out);
 		bool succes = myfile.is_open();
 		Logger::GetInstance()->Log(succes,
-			_T("Couldn't open the text file '") + file_path + _T("'."));
+			_T("Couldn't open the text file '") + file_path + _T("'."),
+			STARENGINE_LOG_TAG);
 		if(succes)
 		{
 			myfile << text;
@@ -881,7 +886,8 @@ namespace star
 #ifdef ANDROID
 		bool succesfull = directory != DirectoryMode::assets;
 		Logger::GetInstance()->Log(succesfull,
-			_T("Android doesn't support writing to a text file in the assets directory."));
+			_T("Android doesn't support writing to a text file in the assets directory."),
+			STARENGINE_LOG_TAG);
 		if(succesfull)
 		{
 			auto app = StarEngine::GetInstance()->GetAndroidApp();
@@ -898,7 +904,8 @@ namespace star
 			sofstream myfile(strstr.str(), std::ios::out | std::ios::app);
 			succesfull = myfile.is_open();
 			Logger::GetInstance()->Log(succesfull,
-				_T("Couldn't open the text file '") + strstr.str() + _T("'."));
+				_T("Couldn't open the text file '") + strstr.str() + _T("'."),
+				STARENGINE_LOG_TAG);
 			if(succesfull)
 			{
 				myfile << text;
@@ -911,7 +918,8 @@ namespace star
 		tofstream myfile(file_path, std::ios::out | std::ios::app);
 		bool succes = myfile.is_open();
 		Logger::GetInstance()->Log(succes,
-			_T("Couldn't open the text file '") + file_path + _T("'."));
+			_T("Couldn't open the text file '") + file_path + _T("'."),
+			STARENGINE_LOG_TAG);
 		if(succes)
 		{
 			myfile << text;
@@ -952,7 +960,7 @@ namespace star
 			schar * buffer(nullptr);
 			Logger::GetInstance()->Log(succes,
 				_T("Couldn't open the binary file '") +
-					strstr.str() + _T("'."));
+					strstr.str() + _T("'."), STARENGINE_LOG_TAG);
 			if (succes)
 			{
 				size = uint32(binary_file.tellg());
@@ -973,7 +981,7 @@ namespace star
 		schar * buffer(nullptr);
 		Logger::GetInstance()->Log(succes,
 			_T("Couldn't open the binary file '") +
-				file_path + _T("'."));
+				file_path + _T("'."), STARENGINE_LOG_TAG);
 		if (succes)
 		{
 			size = uint32(binary_file.tellg());
@@ -992,7 +1000,8 @@ namespace star
 #ifdef ANDROID
 		bool succesfull = directory != DirectoryMode::assets;
 		Logger::GetInstance()->Log(succesfull,
-			_T("Android doesn't support writing to a binary file in the assets directory."));
+			_T("Android doesn't support writing to a binary file in the assets directory."),
+			STARENGINE_LOG_TAG);
 		if(succesfull)
 		{
 			auto app = StarEngine::GetInstance()->GetAndroidApp();
@@ -1012,7 +1021,7 @@ namespace star
 			succesfull = binary_file.is_open();
 			Logger::GetInstance()->Log(succesfull,
 				_T("Couldn't open the binary file '") +
-					strstr.str() + _T("'."));
+					strstr.str() + _T("'."), STARENGINE_LOG_TAG);
 			if (succesfull)
 			{
 				for(uint32 i = 0 ; i < size ; ++i)
@@ -1029,7 +1038,8 @@ namespace star
 		binary_file.open(file_path, std::ios::binary | std::ios::trunc);
 		bool succes = binary_file.is_open();
 		Logger::GetInstance()->Log(succes,
-			_T("Couldn't open the binary file '") + file_path + _T("'."));
+			_T("Couldn't open the binary file '") + file_path + _T("'."),
+			STARENGINE_LOG_TAG);
 		if (succes)
 		{
 			for(uint32 i = 0 ; i < size ; ++i)
@@ -1047,7 +1057,8 @@ namespace star
 #ifdef ANDROID
 		bool succesfull = directory != DirectoryMode::assets;
 		Logger::GetInstance()->Log(succesfull,
-			_T("Android doesn't support writing to a binary file in the assets directory."));
+			_T("Android doesn't support writing to a binary file in the assets directory."),
+			STARENGINE_LOG_TAG);
 		if(succesfull)
 		{
 			auto app = StarEngine::GetInstance()->GetAndroidApp();
@@ -1066,7 +1077,7 @@ namespace star
 			succesfull = binary_file.is_open();
 			Logger::GetInstance()->Log(succesfull,
 				_T("Couldn't open the binary file '") +
-					strstr.str() + _T("'."));
+					strstr.str() + _T("'."), STARENGINE_LOG_TAG);
 			if (succesfull)
 			{
 				for(uint32 i = 0 ; i < size ; ++i)
@@ -1084,7 +1095,7 @@ namespace star
 		bool succes = binary_file.is_open();
 		Logger::GetInstance()->Log(succes,
 			_T("Couldn't open the binary file '") +
-				file_path + _T("'."));
+				file_path + _T("'."), STARENGINE_LOG_TAG);
 		if (succes)
 		{
 			for(uint32 i = 0 ; i < size ; ++i)

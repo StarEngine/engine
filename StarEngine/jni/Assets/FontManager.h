@@ -21,42 +21,27 @@
 
 namespace star
 {
-	class Texture2D;
 	class Filepath;
-
-	struct TextDesc
-	{
-		TextDesc()
-			:Text()
-			,Fontname(EMPTY_STRING)
-			,TransformComp(nullptr)
-			,TextColor(Color::White)
-			,VerticalSpacing(5)
-			,IsHUDText(false)
-		{}
-		tstring Text;
-		tstring Fontname;
-		Color TextColor;
-		TransformComponent* TransformComp; 
-		int32 VerticalSpacing;
-		std::vector<int32> HorizontalTextOffset;
-		bool IsHUDText;
-	};
 
 	class FontManager final
 	{
 	public:
-		~FontManager(void) {}
-
+		~FontManager();
 		static FontManager * GetInstance();
 
-		bool LoadFont(const tstring& path, const tstring& name, uint32 size);
+		bool LoadFont(
+			const tstring& path, 
+			const tstring& name, 
+			uint32 size
+			);
+
 		const Font& GetFont(const tstring& name);
 		bool DeleteFont(const tstring& name);
 		void EraseFonts();
-		bool DrawText(const tstring& text, const tstring& fontname,TransformComponent* transform, Color color = Color::Black);
-		bool DrawText(TextDesc textDesc);
-		void SplitIntoLines(std::vector<sstring> &list, const sstring &string);
+		void SplitIntoLines(
+			std::vector<sstring> &list, 
+			const sstring &string
+			);
 		void SetFontPath(const tstring & path);
 		const tstring & GetFontPath() const;
 	private:
@@ -70,11 +55,18 @@ namespace star
 
 		tstring mFontPath;
 
-		Shader m_Shader;
+		FontManager();
+		tstring CheckWrapping(
+			Font& font, 
+			const tstring& stringIn,
+			const int32& wrapWidth
+			);
 
-		FontManager(void);
-		tstring CheckWrapping(Font& font, const tstring& stringIn,const int32& wrapWidth);
-		void SplitString(std::vector<tstring>& wordArrayIn,const tstring& stringIn, const tstring& delimiter);
+		void SplitString(
+			std::vector<tstring>& wordArrayIn, 
+			const tstring& stringIn, 
+			const tstring& delimiter
+			);
 
 		FontManager(const FontManager& yRef);
 		FontManager(FontManager&& yRef);

@@ -34,6 +34,7 @@ namespace star
 
 	void TextureManager::LoadTexture(const tstring& path, const tstring& name)
 	{
+
 		if(mTextureMap.find(name) != mTextureMap.end())
 		{
 			return;
@@ -53,11 +54,7 @@ namespace star
 			return;
 		}
 
-#ifdef DESKTOP
 		mTextureMap[name] = std::make_shared<Texture2D>(path);
-#else
-		mTextureMap[name] = std::make_shared<Texture2D>(path, star::StarEngine::GetInstance()->GetAndroidApp());
-#endif
 		
 		mPathList[path] = name;
 	}
@@ -103,11 +100,7 @@ namespace star
 		mTextureMap.clear();
 		for(auto it = mPathList.begin(); it != mPathList.end(); ++it)
 		{
-#ifdef DESKTOP
 			mTextureMap[it->second] = std::make_shared<Texture2D>(it->first);
-#else
-			mTextureMap[it->second] = std::make_shared<Texture2D>(it->first, star::StarEngine::GetInstance()->GetAndroidApp());
-#endif
 		}
 		return true;
 	}

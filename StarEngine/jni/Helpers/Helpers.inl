@@ -18,7 +18,8 @@ namespace star
 	TReturnValue string_cast(const TValue * value)
 	{
 		Logger::GetInstance()->Log(false,
-			_T("Invalid String cast: No implementation found that match these parameters!"));
+			_T("Invalid String cast: No implementation found that match these parameters!"),
+			STARENGINE_LOG_TAG);
 		return TReturnValue();
 	}
 

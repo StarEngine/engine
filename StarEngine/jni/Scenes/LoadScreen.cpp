@@ -19,17 +19,13 @@ namespace star
 
 	void LoadScreen::Initialize()
 	{
-#ifdef _WIN32
-		tstring vShader(_T("WinShaders/Texture_Shader.vert")),
-				fShader(_T("WinShaders/Texture_Shader.frag"));
-#else
-		tstring vShader(_T("AndroidShaders/BaseTexShader.vert")),
-				fShader(_T("AndroidShaders/BaseTexShader.frag"));
+		tstring vShader(_T("Shaders/VertexPosColTexShader.vert")),
+				fShader(_T("Shaders/VertexPosColTexShader.frag"));
 
-#endif
 		if(!m_Shader.Init(vShader, fShader))
 		{
-			Logger::GetInstance()->Log(star::LogLevel::Info, _T("Initialization of the Loadscreen Shader has failed!"));
+			Logger::GetInstance()->Log(star::LogLevel::Info,
+				_T("Initialization of the Loadscreen Shader has failed!"), STARENGINE_LOG_TAG);
 		}
 
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetAssetsPath(),m_SpriteName);
@@ -68,6 +64,7 @@ namespace star
 
 	void LoadScreen::Draw()
 	{
+		/*
 		m_Shader.Bind();
 
 		glActiveTexture(GL_TEXTURE0);
@@ -87,6 +84,6 @@ namespace star
 		glDisableVertexAttribArray(ATTRIB_VERTEX);
 		glDisableVertexAttribArray(ATTRIB_UV);
 
-		m_Shader.Unbind();
+		m_Shader.Unbind();*/
 	}
 }
