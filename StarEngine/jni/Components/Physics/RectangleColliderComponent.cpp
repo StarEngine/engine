@@ -23,10 +23,10 @@ namespace star
 	RectangleColliderComponent::RectangleColliderComponent(const vec2& size)
 		: BaseColliderComponent()
 		, m_CollisionRect(
-			vec2(),
-			vec2(size.x, 0),
-			vec2(0, size.y), 
-			vec2(size.x, size.y)
+			vec2(-(size.x / 2.0f), -(size.y / 2.0f)),
+			vec2(size.x / 2.0f,  -(size.y / 2.0f)),
+			vec2(-(size.x / 2.0f), size.y / 2.0f), 
+			vec2(size.x / 2.0f, size.y / 2.0f)
 		)
 		, m_bDefaultInitialized(false)
 	{
@@ -37,12 +37,11 @@ namespace star
 		float32 width, 
 		float32 height)
 		: BaseColliderComponent()
-		, m_CollisionRect
-			(vec2(),
-			vec2(width, 0),
-			vec2(0, height), 
-			vec2(width, height)
-		)
+		, m_CollisionRect(
+			vec2(-(width / 2.0f), -(height / 2.0f)),
+			vec2(width / 2.0f,  -(height / 2.0f)),
+			vec2(-(width / 2.0f), height / 2.0f), 
+			vec2(width / 2.0f, height / 2.0f))
 		, m_bDefaultInitialized(false)
 	{
 
@@ -64,10 +63,10 @@ namespace star
 		uint8 n)
 		: BaseColliderComponent(layers, n)
 		, m_CollisionRect(
-			vec2(),
-			vec2(size.x, 0),
-			vec2(0, size.y), 
-			vec2(size.x, size.y)
+			vec2(-(size.x / 2.0f), -(size.y / 2.0f)),
+			vec2(size.x / 2.0f,  -(size.y / 2.0f)),
+			vec2(-(size.x / 2.0f), size.y / 2.0f), 
+			vec2(size.x / 2.0f, size.y / 2.0f)
 		)
 		, m_bDefaultInitialized(false)
 	{
@@ -80,10 +79,10 @@ namespace star
 		uint8 n)
 		: BaseColliderComponent(layers, n)
 		, m_CollisionRect(
-			vec2(),
-			vec2(width, 0),
-			vec2(0, height), 
-			vec2(width, height))
+			vec2(-(width / 2.0f), -(height / 2.0f)),
+			vec2(width / 2.0f,  -(height / 2.0f)),
+			vec2(-(width / 2.0f), height / 2.0f), 
+			vec2(width / 2.0f, height / 2.0f))
 		, m_bDefaultInitialized(false)
 	{
 		

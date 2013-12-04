@@ -103,19 +103,20 @@ namespace star
 		virtual void FillTextInfo();
 	
 	private:
-		uint32	m_FontSize;
+		uint32	m_FontSize,
+				m_StringLength;
 		int32	m_TextWidth,
 				m_TextHeight;
 
 		int32 m_WrapWidth;
 
 		tstring m_FileName,
-				m_FontName,
 				m_OrigText,
 				m_EditText;
 
 		Color m_TextColor;
 		TextInfo m_TextInfo;
+		Font m_Font;
 		HorizontalAlignment m_TextAlignment;
 
 		tstring CheckWrapping(

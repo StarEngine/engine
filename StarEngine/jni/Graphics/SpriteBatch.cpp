@@ -183,7 +183,7 @@ namespace star
 
 		//FlushText once per TextComponent (same font)
 		//Check per text how many characters -> Forloop drawing
-		for(auto text : m_TextQueue)
+		for(const TextInfo& text : m_TextQueue)
 		{
 			auto curFont = text.font;	
 
@@ -200,7 +200,7 @@ namespace star
 					glVertexAttribPointer(m_VertexID, 4, GL_FLOAT, 0, 0,
 						reinterpret_cast<GLvoid*>(&m_VertexBuffer.at(0)));
 					glVertexAttribPointer(m_UVID, 2, GL_FLOAT, 0, 0, 
-						reinterpret_cast<GLvoid*>(&m_UvCoordBuffer.at(0)));		
+						reinterpret_cast<GLvoid*>(&m_UvCoordBuffer.at(0)));
 					glVertexAttribPointer(m_IsHUDID, 1, GL_FLOAT, 0, 0,
 						reinterpret_cast<GLvoid*>(&m_IsHUDBuffer.at(0)));
 					glVertexAttribPointer(m_ColorID, 4, GL_FLOAT, 0, 0,
@@ -317,7 +317,7 @@ namespace star
 		*   2----3
 		*  BL    BR
 		*/
-		for(auto& text : m_TextQueue)
+		for(const TextInfo& text : m_TextQueue)
 		{
 			//Variables per textcomponent
 			mat4 transformMat, offsetMatrix; 
@@ -325,10 +325,15 @@ namespace star
 			int32 line_counter(0);
 			int32 offsetX(text.horizontalTextOffset.at(line_counter));
 			int32 offsetY(0);
+			int32 fontHeight(text.font.GetMaxLetterHeight() - text.font.GetMinLetterHeight());
 			for(auto it : text.text)
 			{
-				auto& charInfo = text.font.GetCharacterInfo(static_cast<suchar>(it));
-				offsetMatrix = Translate(vec3(offsetX, offsetY + charInfo.letterDimensions.y + text.textHeight - text.font.GetMaxLetterHeight() - text.font.GetMinLetterHeight(), 0));
+				const CharacterInfo& charInfo = text.font.GetCharacterInfo(static_cast<suchar>(it));
+				offsetMatrix = Translate
+					(vec3(
+						offsetX, 
+						offsetY + charInfo.letterDimensions.y + text.textHeight - fontHeight, 
+						0));
 				offsetX += charInfo.letterDimensions.x;
 
 				transformMat = Transpose(worldMat * offsetMatrix);
