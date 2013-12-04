@@ -679,5 +679,8 @@
     <None Include="jni\Helpers\GameData.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="jni\Scenes\SceneManager.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

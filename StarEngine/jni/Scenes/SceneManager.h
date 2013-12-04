@@ -26,7 +26,10 @@ namespace star
 
 		BaseScene* GetActiveScene();
 		BaseScene* GetScene(const tstring & name);
+		template <typename T>
+		T* GetScene(const tstring & name);
 		bool SetActiveScene(const tstring & name);
+		bool AddScene(BaseScene* scene);
 		bool AddScene(const tstring & name, BaseScene* scene);
 		bool RemoveScene(const tstring & name);
 
@@ -84,3 +87,5 @@ namespace star
 		SceneManager& operator=(SceneManager&& yRef);
 	};
 }
+
+#include "SceneManager.inl"
