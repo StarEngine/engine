@@ -21,8 +21,9 @@ namespace star
 		, m_Height(0)
 		, m_FilePath(filepath)
 		, m_SpriteName(spriteName)
-		, m_SpriteInfo()
+		, m_SpriteInfo(nullptr)
 	{
+		m_SpriteInfo = new SpriteInfo();
 	}
 
 	void SpriteComponent::InitializeComponent()
@@ -45,14 +46,14 @@ namespace star
 
 	void SpriteComponent::FillSpriteInfo()
 	{
-		m_SpriteInfo.textureID = 
+		m_SpriteInfo->textureID = 
 			TextureManager::GetInstance()->GetTextureID(m_SpriteName);
-		m_SpriteInfo.vertices = vec2(m_Width, m_Height);		
+		m_SpriteInfo->vertices = vec2(m_Width, m_Height);		
 	}
 
 	SpriteComponent::~SpriteComponent()
 	{
-
+		delete m_SpriteInfo;
 	}
 
 	void SpriteComponent::CreateUVCoords()
@@ -71,12 +72,12 @@ namespace star
 
 	void SpriteComponent::SetUVCoords(const vec4& coords)
 	{
-		m_SpriteInfo.uvCoords = coords;
+		m_SpriteInfo->uvCoords = coords;
 	}
 
 	void SpriteComponent::Draw()
 	{
-		m_SpriteInfo.transformPtr = GetTransform();
+		m_SpriteInfo->transformPtr = GetTransform();
 		SpriteBatch::GetInstance()->AddSpriteToQueue(m_SpriteInfo);
 	}
 
@@ -96,7 +97,7 @@ namespace star
 		) const
 	{
 		//Always draw hudObjects
-		if(m_SpriteInfo.bIsHud)
+		if(m_SpriteInfo->bIsHud)
 		{
 			return true;
 		}
@@ -145,17 +146,17 @@ namespace star
 
 	void SpriteComponent::SetColorMultiplier(const Color & color)
 	{
-		m_SpriteInfo.colorMultiplier = color;
+		m_SpriteInfo->colorMultiplier = color;
 	}
 
 	void SpriteComponent::SetHUDOptionEnabled(bool enabled)
 	{
-		m_SpriteInfo.bIsHud = enabled;
+		m_SpriteInfo->bIsHud = enabled;
 	}
 
 	bool SpriteComponent::IsHUDOptionEnabled() const
 	{
-		return m_SpriteInfo.bIsHud;
+		return m_SpriteInfo->bIsHud;
 	}
 
 	void SpriteComponent::SetTexture(

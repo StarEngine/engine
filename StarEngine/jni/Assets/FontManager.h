@@ -35,7 +35,7 @@ namespace star
 			uint32 size
 			);
 
-		const Font& GetFont(const tstring& name);
+		const Font* GetFont(const tstring& name);
 		bool DeleteFont(const tstring& name);
 		void EraseFonts();
 		void SplitIntoLines(
@@ -50,17 +50,11 @@ namespace star
 
 		FT_Library mLibrary;
 
-		std::map<tstring, Font> mFontList;
-		std::vector<tstring> mPathList;
+		std::map<tstring, Font*> mFontList;
 
 		tstring mFontPath;
 
 		FontManager();
-		tstring CheckWrapping(
-			Font& font, 
-			const tstring& stringIn,
-			const int32& wrapWidth
-			);
 
 		void SplitString(
 			std::vector<tstring>& wordArrayIn, 

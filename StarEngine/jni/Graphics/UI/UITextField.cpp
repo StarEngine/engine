@@ -12,7 +12,7 @@ namespace star
 		: UIElement(name)
 	{
 		m_pTextComponent = 
-			new TextComponent(fontName, true);
+			new TextComponent(fontName);
 		
 		AddComponent(m_pTextComponent);
 
@@ -32,7 +32,7 @@ namespace star
 		: UIElement(name)
 	{
 		m_pTextComponent = 
-			new TextComponent(fontPath, fontName, fontSize, true);
+			new TextComponent(fontPath, fontName, fontSize);
 		
 		AddComponent(m_pTextComponent);
 

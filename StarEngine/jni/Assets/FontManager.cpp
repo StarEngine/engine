@@ -51,13 +51,12 @@ namespace star
 
 	void FontManager::EraseFonts()
 	{
-		auto iter = mFontList.begin();
-		for(iter; iter != mFontList.end(); ++iter)
+		for(const auto& font : mFontList)
 		{
-			iter->second.DeleteFont();
+			font.second->DeleteFont();
+			delete font.second;
 		}
 		mFontList.clear();
-		mPathList.clear();
 		
 		FT_Done_FreeType(mLibrary);
 	}
@@ -74,14 +73,15 @@ namespace star
 
 		star::Filepath filepath(mFontPath, path);
 
-		Font tempfont;
-		if(tempfont.Init(filepath.GetAssetsPath(), size, mLibrary))
+		Font* tempFont = new Font();
+		if(tempFont->Init(filepath.GetAssetsPath(), size, mLibrary))
 		{
-			mFontList[name] = tempfont;
+			mFontList[name] = tempFont;
 
 		}
 		else
 		{
+			delete tempFont;
 			return false;
 		}
 		return true;
@@ -118,7 +118,7 @@ namespace star
 		return mFontPath;
 	}
 
-	const Font& FontManager::GetFont(const tstring& name)
+	const Font* FontManager::GetFont(const tstring& name)
 	{
 		Logger::GetInstance()->Log(mFontList.find(name) != mFontList.end(),_T("No such font"), STARENGINE_LOG_TAG);
 		return mFontList[name];

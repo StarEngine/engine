@@ -18,6 +18,10 @@
 *.v11.suo
 StarEngine.v11.suo
 
+# Microsoft Visual Studios Performance analyze files
+*.psess
+*.vspx
+
 # Generated Directories
 bin/
 gen/

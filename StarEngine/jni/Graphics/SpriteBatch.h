@@ -16,8 +16,8 @@ namespace star
 
 		void Initialize();
 		void Flush();
-		void AddSpriteToQueue(const SpriteInfo& spriteInfo);
-		void AddTextToQueue(const TextInfo& text);
+		void AddSpriteToQueue(const SpriteInfo* spriteInfo);
+		void AddTextToQueue(const TextInfo* text);
 
 	private:
 		SpriteBatch(void);
@@ -37,8 +37,8 @@ namespace star
 		static const uint32 FIRST_REAL_ASCII_CHAR = 31;
 
 		//[COMMENT] Sadly can't change that to const SpriteInfo&
-		std::vector<SpriteInfo> m_SpriteQueue;
-		std::vector<TextInfo> m_TextQueue;
+		std::vector<const SpriteInfo*> m_SpriteQueue;
+		std::vector<const TextInfo*> m_TextQueue;
 
 		//[TODO] Check if can be changed to vector<vec4 or vec2>
 		std::vector<vec4> m_VertexBuffer;

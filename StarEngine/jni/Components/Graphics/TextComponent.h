@@ -13,7 +13,7 @@ namespace star
 	struct TextInfo
 	{
 		TextInfo()
-			: font()
+			: font(nullptr)
 			, transformPtr(nullptr)
 			, colorMultiplier(Color::White)
 			, bIsHud(false)
@@ -22,7 +22,7 @@ namespace star
 			, text()
 			, textHeight()
 		{}
-		Font font;
+		const Font* font;
 		TransformComponent* transformPtr;
 		Color colorMultiplier; 
 		bool bIsHud;	
@@ -36,15 +36,13 @@ namespace star
 	{
 	public:
 		TextComponent(
-			const tstring& fontName,
-			bool bInFront = true
+			const tstring& fontName
 			);
 
 		TextComponent(
 			const tstring& fontPath,
 			const tstring& fontName,
-			uint32 fontSize,
-			bool bInFront = true
+			uint32 fontSize
 			);
 
 		virtual ~TextComponent();
@@ -115,12 +113,11 @@ namespace star
 				m_EditText;
 
 		Color m_TextColor;
-		TextInfo m_TextInfo;
-		Font m_Font;
+		TextInfo* m_TextInfo;
+		const Font* m_Font;
 		HorizontalAlignment m_TextAlignment;
 
 		tstring CheckWrapping(
-			const Font& font,
 			const tstring& stringIn,
 			int32 wrapWidth
 			);

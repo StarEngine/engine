@@ -119,17 +119,17 @@ namespace star
 		uint32 batchStart(0);
 		uint32 batchSize(0);
 		GLuint texture(0);
-		for(const SpriteInfo& currentSprite : m_SpriteQueue)
+		for(const SpriteInfo* currentSprite : m_SpriteQueue)
 		{	
 			//If != -> Flush
-			if(texture != currentSprite.textureID)
+			if(texture != currentSprite->textureID)
 			{
 				FlushSprites(batchStart, batchSize, texture);
 
 				batchStart += batchSize;
 				batchSize = 0;
 
-				texture = currentSprite.textureID;
+				texture = currentSprite->textureID;
 			}
 			++batchSize;
 		}	
@@ -183,13 +183,11 @@ namespace star
 		//FlushText once per TextComponent (same font)
 		//Check per text how many characters -> Forloop drawing
 		int32 startIndex(0);
-		for(const TextInfo& text : m_TextQueue)
+		for(const TextInfo* text : m_TextQueue)
 		{
-			auto curFont = text.font;	
+			GLuint* textures = text->font->GetTextures();
 
-			GLuint* textures = curFont.GetTextures();
-
-			const tchar *start_line = text.text.c_str();
+			const tchar *start_line = text->text.c_str();
 			for(int32 i = 0 ; start_line[i] != 0 ; ++i) 
 			{
 				if(start_line[i] > FIRST_REAL_ASCII_CHAR)
@@ -228,25 +226,25 @@ namespace star
 		*  BL    BR
 		*/
 
-		for(const SpriteInfo& sprite : m_SpriteQueue)
+		for(const SpriteInfo* sprite : m_SpriteQueue)
 		{
 			//Push back all vertices
 			
-			mat4 transformMat = Transpose(sprite.transformPtr->GetWorldMatrix());
+			mat4 transformMat = Transpose(sprite->transformPtr->GetWorldMatrix());
 
 			//[TODO] Add depth!
 			//[TODO] Check if this can be changed :(
 
-			vec4 TL = vec4(0, sprite.vertices.y, 0, 1);
+			vec4 TL = vec4(0, sprite->vertices.y, 0, 1);
 			Mul(TL, transformMat, TL);
 
-			vec4 TR = vec4(sprite.vertices.x, sprite.vertices.y, 0, 1);
+			vec4 TR = vec4(sprite->vertices.x, sprite->vertices.y, 0, 1);
 			Mul(TR, transformMat, TR);
 
 			vec4 BL = vec4(0, 0, 0, 1);
 			Mul(BL, transformMat, BL);
 
-			vec4 BR = vec4(sprite.vertices.x, 0, 0, 1);
+			vec4 BR = vec4(sprite->vertices.x, 0, 0, 1);
 			Mul(BR, transformMat, BR);
 
 			//0
@@ -270,35 +268,35 @@ namespace star
 			//Push back all uv's
 
 			//0
-			m_UvCoordBuffer.push_back(sprite.uvCoords.x);
-			m_UvCoordBuffer.push_back(sprite.uvCoords.y + sprite.uvCoords.w);
+			m_UvCoordBuffer.push_back(sprite->uvCoords.x);
+			m_UvCoordBuffer.push_back(sprite->uvCoords.y + sprite->uvCoords.w);
 
 			//1
-			m_UvCoordBuffer.push_back(sprite.uvCoords.x + sprite.uvCoords.z);
-			m_UvCoordBuffer.push_back(sprite.uvCoords.y + sprite.uvCoords.w);
+			m_UvCoordBuffer.push_back(sprite->uvCoords.x + sprite->uvCoords.z);
+			m_UvCoordBuffer.push_back(sprite->uvCoords.y + sprite->uvCoords.w);
 
 			//2
-			m_UvCoordBuffer.push_back(sprite.uvCoords.x);
-			m_UvCoordBuffer.push_back(sprite.uvCoords.y);
+			m_UvCoordBuffer.push_back(sprite->uvCoords.x);
+			m_UvCoordBuffer.push_back(sprite->uvCoords.y);
 
 			//1
-			m_UvCoordBuffer.push_back(sprite.uvCoords.x + sprite.uvCoords.z);
-			m_UvCoordBuffer.push_back(sprite.uvCoords.y + sprite.uvCoords.w);
+			m_UvCoordBuffer.push_back(sprite->uvCoords.x + sprite->uvCoords.z);
+			m_UvCoordBuffer.push_back(sprite->uvCoords.y + sprite->uvCoords.w);
 
 			//3
-			m_UvCoordBuffer.push_back(sprite.uvCoords.x + sprite.uvCoords.z);
-			m_UvCoordBuffer.push_back(sprite.uvCoords.y);
+			m_UvCoordBuffer.push_back(sprite->uvCoords.x + sprite->uvCoords.z);
+			m_UvCoordBuffer.push_back(sprite->uvCoords.y);
 
 			//2
-			m_UvCoordBuffer.push_back(sprite.uvCoords.x);
-			m_UvCoordBuffer.push_back(sprite.uvCoords.y);
+			m_UvCoordBuffer.push_back(sprite->uvCoords.x);
+			m_UvCoordBuffer.push_back(sprite->uvCoords.y);
 
 			//bool & color buffer
 			for(uint32 i = 0; i < 6; ++i)
 			{
-				m_IsHUDBuffer.push_back(float32(sprite.bIsHud));
+				m_IsHUDBuffer.push_back(float32(sprite->bIsHud));
 				//rgba
-				m_ColorBuffer.push_back(sprite.colorMultiplier);
+				m_ColorBuffer.push_back(sprite->colorMultiplier);
 			}
 		}
 	}
@@ -318,22 +316,22 @@ namespace star
 		*   2----3
 		*  BL    BR
 		*/
-		for(const TextInfo& text : m_TextQueue)
+		for(const TextInfo* text : m_TextQueue)
 		{
 			//Variables per textcomponent
 			mat4 transformMat, offsetMatrix; 
-			const mat4& worldMat = text.transformPtr->GetWorldMatrix();
+			const mat4& worldMat = text->transformPtr->GetWorldMatrix();
 			int32 line_counter(0);
-			int32 offsetX(text.horizontalTextOffset.at(line_counter));
+			int32 offsetX(text->horizontalTextOffset.at(line_counter));
 			int32 offsetY(0);
-			int32 fontHeight(text.font.GetMaxLetterHeight() + text.font.GetMinLetterHeight());
-			for(auto it : text.text)
+			int32 fontHeight(text->font->GetMaxLetterHeight() + text->font->GetMinLetterHeight());
+			for(auto it : text->text)
 			{
-				const CharacterInfo& charInfo = text.font.GetCharacterInfo(static_cast<suchar>(it));
+				const CharacterInfo& charInfo = text->font->GetCharacterInfo(static_cast<suchar>(it));
 				offsetMatrix = Translate
 					(vec3(
 						offsetX, 
-						offsetY + charInfo.letterDimensions.y + text.textHeight - fontHeight, 
+						offsetY + charInfo.letterDimensions.y + text->textHeight - fontHeight, 
 						0));
 				offsetX += charInfo.letterDimensions.x;
 
@@ -398,27 +396,27 @@ namespace star
 				//bool & color buffer
 				for(uint32 i = 0; i < 6; ++i)
 				{
-					m_IsHUDBuffer.push_back(float32(text.bIsHud));
+					m_IsHUDBuffer.push_back(float32(text->bIsHud));
 					//rgba
-					m_ColorBuffer.push_back(text.colorMultiplier);
+					m_ColorBuffer.push_back(text->colorMultiplier);
 				}
 
 				if(it == _T('\n'))
 				{
-					offsetY -= text.font.GetMaxLetterHeight() + text.verticalSpacing;
+					offsetY -= text->font->GetMaxLetterHeight() + text->verticalSpacing;
 					++line_counter;
-					offsetX = text.horizontalTextOffset.at(line_counter);
+					offsetX = text->horizontalTextOffset.at(line_counter);
 				}
 			}
 		}
 	}
 
-	void SpriteBatch::AddSpriteToQueue(const SpriteInfo& spriteInfo)
+	void SpriteBatch::AddSpriteToQueue(const SpriteInfo* spriteInfo)
 	{
 		m_SpriteQueue.push_back(spriteInfo);		
 	}
 
-	void SpriteBatch::AddTextToQueue(const TextInfo& text)
+	void SpriteBatch::AddTextToQueue(const TextInfo* text)
 	{
 		m_TextQueue.push_back(text);
 	}

@@ -86,7 +86,7 @@ namespace star
 		Filepath m_FilePath;
 		tstring m_SpriteName;
 		
-		SpriteInfo m_SpriteInfo;
+		SpriteInfo* m_SpriteInfo;
 
 		SpriteComponent(const SpriteComponent &);
 		SpriteComponent(SpriteComponent &&);
