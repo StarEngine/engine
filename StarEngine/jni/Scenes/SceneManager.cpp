@@ -159,7 +159,6 @@ namespace star
 		if(it != m_SceneList.end())
 		{
 			m_GarbageList.push_back(it->second);
-			m_SceneList.erase(it);
 			return true;
 		}
 		return false;
@@ -192,6 +191,8 @@ namespace star
 
 		for(auto scene : m_GarbageList)
 		{
+			auto it = m_SceneList.find(scene->GetName());
+			m_SceneList.erase(it);
 			SafeDelete(scene);
 		}
 		m_GarbageList.clear();
