@@ -15,7 +15,7 @@ namespace star
 	{
 		m_pButtonSprite = new SpritesheetComponent(
 			file,
-			name + _T("_img"),
+			name,
 			spritesheet
 			);
 		m_pButtonSprite->SetHUDOptionEnabled(true);

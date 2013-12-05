@@ -13,7 +13,7 @@ namespace star
 		bool sliderIsHorizontal,
 		bool spritesheetIsVertical
 		)
-		: UIImage(name, file_bg, name + _T("_bg"))
+		: UIImage(name, file_bg)
 		, m_SliderIsHorizontal(sliderIsHorizontal)
 		, m_pSlider(nullptr)
 		, m_SelectCallback(nullptr)

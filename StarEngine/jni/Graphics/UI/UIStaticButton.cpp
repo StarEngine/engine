@@ -14,7 +14,7 @@ namespace star
 		, m_pButtonSprite(nullptr)
 	{
 		m_pButtonSprite = new SpriteComponent(
-			file, name + _T("_img"),
+			file, name,
 			widthSegements,
 			heightSegements
 			);

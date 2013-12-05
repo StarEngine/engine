@@ -111,8 +111,7 @@ namespace star
 		auto slide =
 			new UIImage(
 				name,
-				file,
-				name + _T("_img")
+				file
 				);
 		m_pSlideMenu->AddElement(slide);
 

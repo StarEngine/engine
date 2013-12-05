@@ -14,7 +14,7 @@ namespace star
 		m_pSprite = 
 			new SpriteComponent(
 			filePath,
-			name + _T("_img"),
+			name,
 			horizontalSegements,
 			verticalSegments
 			);

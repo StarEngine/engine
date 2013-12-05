@@ -13,7 +13,7 @@ namespace star
 		m_pSprite = 
 			new SpritesheetComponent(
 			filePath,
-			name + _T("_img"),
+			name,
 			spritesheet
 			);
 		m_pSprite->SetHUDOptionEnabled(true);
