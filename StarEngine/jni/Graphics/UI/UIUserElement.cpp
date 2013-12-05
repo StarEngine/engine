@@ -232,6 +232,10 @@ namespace star
 		auto fingerPos = InputManager::GetInstance()->GetCurrentFingerPosCP(0);
 		auto buttonPos = GetTransform()->GetWorldPosition().pos2D();
 		auto dimensions = GetDimensions();
+		auto scale = GetTransform()->GetWorldScale();
+		
+		dimensions.x *= scale.x;
+		dimensions.y *= scale.y;
 		
 		return 
 			fingerPos.x >= buttonPos.x &&
