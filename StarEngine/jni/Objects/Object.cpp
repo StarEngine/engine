@@ -69,9 +69,9 @@ namespace star
 
 	Object::~Object(void)
 	{
-		for(auto entity : m_pGarbageContainer)
+		for(auto & info : m_pGarbageContainer)
 		{
-			SafeDelete(entity);
+			DestroyGarbageElement(info);
 		}
 		m_pGarbageContainer.clear();
 
@@ -138,6 +138,44 @@ namespace star
 		}
 		BaseAfterInitialized();
 		m_bIsInitialized = true;
+	}
+
+	Object::GarbageInfo::GarbageInfo(
+		Entity* pEntity,
+		GarbageType type
+		)
+		: Element(pEntity)
+		, Type(type)
+	{
+	}
+	
+	void Object::DestroyGarbageElement(const GarbageInfo & info)
+	{
+		switch(info.Type)
+		{
+			case GarbageType::ActionType:
+			{
+				auto action = dynamic_cast<Action*>(info.Element);
+				auto it = std::find(m_pActions.begin(), m_pActions.end(), action);
+				m_pActions.erase(it);
+			}
+			break;
+			case GarbageType::ObjectType:
+			{
+				auto object = dynamic_cast<Object*>(info.Element);
+				auto it = std::find(m_pChildren.begin(), m_pChildren.end(), object);
+				m_pChildren.erase(it);
+			}
+			break;
+			case GarbageType::ComponentType:
+			{
+				auto component = dynamic_cast<BaseComponent*>(info.Element);
+				auto it = std::find(m_pComponents.begin(), m_pComponents.end(), component);
+				m_pComponents.erase(it);
+			}
+			break;
+		}
+		delete info.Element;
 	}
 
 	void Object::Initialize()
@@ -411,8 +449,12 @@ to the same object is illegal."), STARENGINE_LOG_TAG);
 to remove is not a child of this object!"), STARENGINE_LOG_TAG);
 		if(isOK)
 		{
-			m_pGarbageContainer.push_back(*it);
-			m_pChildren.erase(it);
+			m_pGarbageContainer.push_back(
+				GarbageInfo(
+					*it,
+					GarbageType::ObjectType
+					)
+				);
 		}
 	}
 	
@@ -514,8 +556,12 @@ Trying to (un)hide unknown child '")
 to remove could not be found."), STARENGINE_LOG_TAG);
 		if(isOK)
 		{
-			m_pGarbageContainer.push_back(*it);
-			m_pActions.erase(it);
+			m_pGarbageContainer.push_back(
+				GarbageInfo(
+					*it,
+					GarbageType::ActionType
+					)
+				);
 		}
 	}
 
@@ -588,8 +634,12 @@ to remove could not be found."), STARENGINE_LOG_TAG);
 to remove could not be found."));
 		if(isOK)
 		{
-			m_pGarbageContainer.push_back(*it);
-			m_pComponents.erase(it);
+			m_pGarbageContainer.push_back(
+				GarbageInfo(
+					*it,
+					GarbageType::ComponentType
+					)
+				);
 		}
 	}
 
@@ -677,12 +727,12 @@ to remove could not be found."));
 
 	void Object::CollectGarbage()
 	{
-		for(auto entity : m_pGarbageContainer)
+		for(auto & info : m_pGarbageContainer)
 		{
 			Logger::GetInstance()->Log(LogLevel::Info,
 				_T("Object::CollectGarbage: Removed entity '")
-				+ entity->GetName() + _T("'."), STARENGINE_LOG_TAG);
-			SafeDelete(entity);
+				+ info.Element->GetName() + _T("'."), STARENGINE_LOG_TAG);
+			DestroyGarbageElement(info);
 		}
 		m_pGarbageContainer.clear();
 	}
