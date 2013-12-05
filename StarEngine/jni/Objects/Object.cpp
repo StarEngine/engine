@@ -406,13 +406,16 @@ to the same object is illegal."), STARENGINE_LOG_TAG);
 	{
 		auto it = std::find(m_pChildren.begin(), m_pChildren.end(), pObject);
 		bool isOK = it != m_pChildren.end();
-		Logger::GetInstance()->Log(isOK,
-			_T("Object::RemoveChild: The object you tried \
-to remove is not a child of this object!"), STARENGINE_LOG_TAG);
 		if(isOK)
 		{
 			m_pGarbageContainer.push_back(*it);
 			m_pChildren.erase(it);
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("Object::RemoveChild: The object you tried \
+to remove is not a child of this object!"), STARENGINE_LOG_TAG);
 		}
 	}
 	
@@ -426,10 +429,9 @@ to remove is not a child of this object!"), STARENGINE_LOG_TAG);
 				return;
 			}
 		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("Object::RemoveChild: \
-Trying to remove unknown child '")
-				+ name + _T("'."), STARENGINE_LOG_TAG);
+		Logger::GetInstance()->Log(LogLevel::Error,
+			_T("Object::RemoveChild: The object you tried \
+to remove is not a child of this object!"), STARENGINE_LOG_TAG);
 	}
 
 	const std::vector<Object*>& Object::GetChildren() const

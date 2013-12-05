@@ -36,6 +36,10 @@ namespace star
 		delete m_ShaderPtr;
 	}
 
+	/// <summary>
+	/// Gets the instance.
+	/// </summary>
+	/// <returns></returns>
 	SpriteBatch * SpriteBatch::GetInstance()
 	{
 		if(m_pSpriteBatch == nullptr)
@@ -119,7 +123,7 @@ namespace star
 		uint32 batchStart(0);
 		uint32 batchSize(0);
 		GLuint texture(0);
-		for(auto& currentSprite : m_SpriteQueue)
+		for(const SpriteInfo& currentSprite : m_SpriteQueue)
 		{	
 			//If != -> Flush
 			if(texture != currentSprite.textureID)
@@ -226,7 +230,7 @@ namespace star
 		*  BL    BR
 		*/
 
-		for(auto& sprite : m_SpriteQueue)
+		for(const SpriteInfo& sprite : m_SpriteQueue)
 		{
 			//Push back all vertices
 			
