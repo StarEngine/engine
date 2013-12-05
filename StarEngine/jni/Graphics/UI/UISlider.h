@@ -11,7 +11,16 @@ namespace star
 		UISlider(
 			const tstring & name,
 			const tstring & file,
-			const tstring & file_bg,
+			const tstring & fileBackground,
+			bool sliderIsHorizontal,
+			bool spritesheetIsVertical = true
+			);
+		UISlider(
+			const tstring & name,
+			const tstring & file,
+			const tstring & spriteName,
+			const tstring & fileBackground,
+			const tstring & spriteNameBackground,
 			bool sliderIsHorizontal,
 			bool spritesheetIsVertical = true
 			);

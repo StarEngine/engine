@@ -30,6 +30,28 @@ namespace star
 			bool isVertical = true
 			);
 
+		UITextButton(
+			const tstring & name,
+			const tstring & file,
+			const tstring & spriteName,
+			const tstring & text,
+			const tstring & fontName,
+			const Color & color,
+			bool isVertical = true
+			);
+
+		UITextButton(
+			const tstring & name,
+			const tstring & file,
+			const tstring & spriteName,
+			const tstring & text,
+			const tstring & fontName,
+			const tstring & fontPath,
+			uint32 fontSize,
+			const Color & color,
+			bool isVertical = true
+			);
+
 		virtual ~UITextButton();
 		virtual void AfterInitialized();
 

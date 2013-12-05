@@ -21,6 +21,25 @@ namespace star
 		AddComponent(m_pSprite);
 	}
 
+	UIAnimatedImage::UIAnimatedImage(
+		const tstring & name,
+		const tstring & filePath,
+		const tstring & spriteName,
+		const tstring & spritesheet
+		)
+		: UIElement(name)
+	{
+		m_pSprite = 
+			new SpritesheetComponent(
+			filePath,
+			spriteName,
+			spritesheet
+			);
+		m_pSprite->SetHUDOptionEnabled(true);
+		
+		AddComponent(m_pSprite);
+	}
+
 	UIAnimatedImage::~UIAnimatedImage(void)
 	{
 

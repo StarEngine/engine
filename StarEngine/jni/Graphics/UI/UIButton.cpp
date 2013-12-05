@@ -19,6 +19,23 @@ namespace star
 	{
 	}
 
+	UIButton::UIButton(
+		const tstring & name,
+		const tstring & file,
+		const tstring & spriteName,
+		bool isVertical
+		)
+		: UIStaticButton(
+			name,
+			file,
+			spriteName,
+			isVertical ? 1 : 4,
+			isVertical ? 4 : 1
+			)
+		, m_IsVertical(isVertical)
+	{
+	}
+
 	UIButton::~UIButton(void)
 	{
 		

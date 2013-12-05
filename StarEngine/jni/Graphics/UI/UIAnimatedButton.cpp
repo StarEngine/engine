@@ -22,6 +22,24 @@ namespace star
 		AddComponent(m_pButtonSprite);
 	}
 
+	UIAnimatedButton::UIAnimatedButton(
+		const tstring & name,
+		const tstring & file,
+		const tstring & spriteName,
+		const tstring & spritesheet
+		)
+		: UIUserElement(name)
+		, m_pButtonSprite(nullptr)
+	{
+		m_pButtonSprite = new SpritesheetComponent(
+			file,
+			spriteName,
+			spritesheet
+			);
+		m_pButtonSprite->SetHUDOptionEnabled(true);
+		AddComponent(m_pButtonSprite);
+	}
+
 	UIAnimatedButton::~UIAnimatedButton(void)
 	{
 		

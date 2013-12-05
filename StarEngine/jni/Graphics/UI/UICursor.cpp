@@ -16,7 +16,27 @@ namespace star
 	{
 		m_pCursorSprite = new SpritesheetComponent(
 			spriteFile,
-			name + _T("_spritesheet"),
+			name,
+			spritesheetName
+			);
+		m_pCursorSprite->SetHUDOptionEnabled(true);
+		AddComponent(m_pCursorSprite);
+	}
+
+	UICursor::UICursor(
+		const tstring & name,
+		const tstring & spriteFile,
+		const tstring & spriteName,
+		const tstring & spritesheetName
+		)
+		: UIBaseCursor(name)
+		, m_pCursorSprite(nullptr)
+		, m_Offsets()
+		, m_DefaultOffset(0, 0)
+	{
+		m_pCursorSprite = new SpritesheetComponent(
+			spriteFile,
+			spriteName,
 			spritesheetName
 			);
 		m_pCursorSprite->SetHUDOptionEnabled(true);

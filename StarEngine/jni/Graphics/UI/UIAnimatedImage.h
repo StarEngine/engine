@@ -14,6 +14,13 @@ namespace star
 			const tstring & spritesheet
 			);
 
+		UIAnimatedImage(
+			const tstring & name,
+			const tstring & filePath,
+			const tstring & spriteName,
+			const tstring & spritesheet
+			);
+
 		virtual ~UIAnimatedImage(void);
 
 		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);

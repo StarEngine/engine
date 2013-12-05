@@ -20,7 +20,7 @@ namespace star
 		}
 
 		m_pTextField = new UITextField(
-			name + _T("_txt"),
+			name,
 			text,
 			fontName,
 			color
@@ -48,7 +48,65 @@ namespace star
 		}
 
 		m_pTextField = new UITextField(
-			name + _T("_txt"),
+			name,
+			text,
+			fontName,
+			fontPath,
+			fontSize,
+			color
+			);
+
+		AddElement(m_pTextField);
+	}
+
+	UIAnimatedTextButton::UIAnimatedTextButton(
+		const tstring & name,
+		const tstring & file,
+		const tstring & spriteName,
+		const tstring & spritesheet,
+		const tstring & text,
+		const tstring & fontName,
+		const Color & color
+		)
+		: UIAnimatedButton(name, file, spriteName, spritesheet)
+		, m_pTextField(nullptr)
+	{
+		for(uint8 i = 0 ; i < 4 ; ++i)
+		{
+			m_StateColors[i] = color;
+		}
+
+		m_pTextField = new UITextField(
+			name,
+			text,
+			fontName,
+			color
+			);
+
+		AddElement(m_pTextField);
+	}
+
+	UIAnimatedTextButton::UIAnimatedTextButton(
+		const tstring & name,
+		const tstring & file,
+		const tstring & spriteName,
+		const tstring & spritesheet,
+		const tstring & text,
+		const tstring & fontName,
+		const tstring & fontPath,
+		uint32 fontSize,
+		const Color & color
+		)
+		: UIAnimatedButton(name, file, spriteName, spritesheet)
+		, m_pTextField(nullptr)
+	{
+		for(uint8 i = 0 ; i < 4 ; ++i)
+		{
+			m_StateColors[i] = color;
+		}
+
+		m_pTextField = new UITextField(
+			name,
 			text,
 			fontName,
 			fontPath,

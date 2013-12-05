@@ -59,6 +59,64 @@ namespace star
 		AddElement(m_pTextField);
 	}
 
+	UITextButton::UITextButton(
+		const tstring & name,
+		const tstring & file,
+		const tstring & spriteName,
+		const tstring & text,
+		const tstring & fontName,
+		const Color & color,
+		bool isVertical
+		)
+		: UIButton(name, file, spriteName, isVertical)
+		, m_pTextField(nullptr)
+	{
+		for(uint8 i = 0 ; i < 4 ; ++i)
+		{
+			m_StateColors[i] = color;
+		}
+
+		m_pTextField = new UITextField(
+			name,
+			text,
+			fontName,
+			color
+			);
+
+		AddElement(m_pTextField);
+	}
+
+	UITextButton::UITextButton(
+		const tstring & name,
+		const tstring & file,
+		const tstring & spriteName,
+		const tstring & text,
+		const tstring & fontName,
+		const tstring & fontPath,
+		uint32 fontSize,
+		const Color & color,
+		bool isVertical
+		)
+		: UIButton(name, file, spriteName, isVertical)
+		, m_pTextField(nullptr)
+	{
+		for(uint8 i = 0 ; i < 4 ; ++i)
+		{
+			m_StateColors[i] = color;
+		}
+
+		m_pTextField = new UITextField(
+			name + _T("_txt"),
+			text,
+			fontName,
+			fontPath,
+			fontSize,
+			color
+			);
+
+		AddElement(m_pTextField);
+	}
+
 	UITextButton::~UITextButton()
 	{
 

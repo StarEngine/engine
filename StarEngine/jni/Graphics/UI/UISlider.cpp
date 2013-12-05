@@ -9,11 +9,11 @@ namespace star
 	UISlider::UISlider(
 		const tstring & name,
 		const tstring & file,
-		const tstring & file_bg,
+		const tstring & fileBackground,
 		bool sliderIsHorizontal,
 		bool spritesheetIsVertical
 		)
-		: UIImage(name, file_bg)
+		: UIImage(name, fileBackground)
 		, m_SliderIsHorizontal(sliderIsHorizontal)
 		, m_pSlider(nullptr)
 		, m_SelectCallback(nullptr)
@@ -22,8 +22,35 @@ namespace star
 		, m_SliderIsDown(false)
 	{
 		m_pSlider = new UIButton(
-			name + _T("_slider"),
+			name,
 			file,
+			spritesheetIsVertical
+			);
+
+		AddElement(m_pSlider);
+	}
+
+	UISlider::UISlider(
+		const tstring & name,
+		const tstring & file,
+		const tstring & spriteName,
+		const tstring & fileBackground,
+		const tstring & spriteNameBackground,
+		bool sliderIsHorizontal,
+		bool spritesheetIsVertical
+		)
+		: UIImage(name, spriteNameBackground, fileBackground)
+		, m_SliderIsHorizontal(sliderIsHorizontal)
+		, m_pSlider(nullptr)
+		, m_SelectCallback(nullptr)
+		, m_DownCallback(nullptr)
+		, m_Percent(0.5f)
+		, m_SliderIsDown(false)
+	{
+		m_pSlider = new UIButton(
+			name,
+			file,
+			spriteName,
 			spritesheetIsVertical
 			);
 

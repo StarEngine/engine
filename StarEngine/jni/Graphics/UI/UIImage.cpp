@@ -23,6 +23,27 @@ namespace star
 		AddComponent(m_pSprite);
 	}
 
+	UIImage::UIImage(
+		const tstring & name,
+		const tstring & filePath,
+		const tstring & spriteName,
+		uint32 horizontalSegements,
+		uint32 verticalSegments
+		)
+		: UIElement(name)
+	{
+		m_pSprite = 
+			new SpriteComponent(
+			filePath,
+			spriteName,
+			horizontalSegements,
+			verticalSegments
+			);
+		m_pSprite->SetHUDOptionEnabled(true);
+		
+		AddComponent(m_pSprite);
+	}
+
 	UIImage::~UIImage(void)
 	{
 
