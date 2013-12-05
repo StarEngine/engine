@@ -202,9 +202,19 @@ namespace star
 
 	void BaseScene::AddObject(Object * object)
 	{
+		if(!object)
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("BaseScene::AddObjec: Trying to add a nullptr object."));
+			return;
+		}
 		auto it = std::find(m_Objects.begin(), m_Objects.end(), object);
 		if(it == m_Objects.end())
 		{
+			if(m_Initialized)
+			{
+				object->BaseInitialize();
+			}
 			m_Objects.push_back(object);
 			object->SetScene(this);
 		}
@@ -218,20 +228,14 @@ namespace star
 
 	void BaseScene::AddObject(Object * object, const tstring & name)
 	{
-		auto it = std::find(m_Objects.begin(), m_Objects.end(), object);
-		if(it == m_Objects.end())
+		if(!object)
 		{
-			object->SetName(name);
-			m_Objects.push_back(object);
-			object->SetScene(this);
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("BaseScene::AddObjec: Trying to add a nullptr object."));
+			return;
 		}
-		else
-		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("BaseScene::AddObject: \
-				   Trying to add a duplicate object '")
-				   + name + _T("'."), STARENGINE_LOG_TAG);
-		}
+		object->SetName(name);
+		AddObject(object);
 	}
 
 	void BaseScene::RemoveObject(Object * object)

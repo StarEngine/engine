@@ -116,11 +116,17 @@ namespace star
 		return true;
 	}
 
-	bool SceneManager::AddScene(const tstring & name, BaseScene* scene)
+	bool SceneManager::AddScene(BaseScene* scene)
 	{
-		if (m_SceneList.find(name) == m_SceneList.end())
+		if(!scene)
 		{
-			m_SceneList[name] = scene;
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SceneManager::AddScene: Trying to add a nullptr as a scene."));
+			return false;
+		}
+		if (m_SceneList.find(scene->GetName()) == m_SceneList.end())
+		{
+			m_SceneList[scene->GetName()] = scene;
 			scene->BaseInitialize();
 			scene->SetSystemCursorHidden(m_bCursorHiddenByDefault);
 			Logger::GetInstance()->Log(LogLevel::Info,
@@ -133,6 +139,18 @@ namespace star
 			return false;
 		}
 		return true;
+	}
+	
+	bool SceneManager::AddScene(const tstring & name, BaseScene* scene)
+	{
+		if(!scene)
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("SceneManager::AddScene: Trying to add a nullptr as a scene."));
+			return false;
+		}
+		scene->SetName(name);
+		return AddScene(scene);
 	}
 
 	bool SceneManager::RemoveScene(const tstring & name)

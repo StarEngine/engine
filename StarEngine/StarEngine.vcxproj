@@ -299,6 +299,7 @@
     <None Include="jni\Helpers\Math.inl" />
     <None Include="jni\Objects\Object.inl" />
     <None Include="jni\Scenes\BaseScene.inl" />
+    <None Include="jni\Scenes\SceneManager.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
