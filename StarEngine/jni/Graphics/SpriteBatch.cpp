@@ -324,7 +324,7 @@ namespace star
 			int32 line_counter(0);
 			int32 offsetX(text.horizontalTextOffset.at(line_counter));
 			int32 offsetY(0);
-			int32 fontHeight(text.font.GetMaxLetterHeight() - text.font.GetMinLetterHeight());
+			int32 fontHeight(text.font.GetMaxLetterHeight() + text.font.GetMinLetterHeight());
 			for(auto it : text.text)
 			{
 				const CharacterInfo& charInfo = text.font.GetCharacterInfo(static_cast<suchar>(it));
