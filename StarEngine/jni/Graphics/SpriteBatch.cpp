@@ -182,6 +182,7 @@ namespace star
 
 		//FlushText once per TextComponent (same font)
 		//Check per text how many characters -> Forloop drawing
+		int32 startIndex(0);
 		for(const TextInfo& text : m_TextQueue)
 		{
 			auto curFont = text.font;	
@@ -204,8 +205,9 @@ namespace star
 						reinterpret_cast<GLvoid*>(&m_IsHUDBuffer.at(0)));
 					glVertexAttribPointer(m_ColorID, 4, GL_FLOAT, 0, 0,
 						reinterpret_cast<GLvoid*>(&m_ColorBuffer.at(0)));
-					glDrawArrays(GL_TRIANGLES, i * 6, 6);
+					glDrawArrays(GL_TRIANGLES, startIndex * 6, 6);
 				}
+				++startIndex;
 			}
 		}
 	}
