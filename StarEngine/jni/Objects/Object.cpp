@@ -96,7 +96,14 @@ namespace star
 
 	void Object::Destroy()
 	{
-		m_pScene->RemoveObject(this);
+		if(m_pParentGameObject)
+		{
+			m_pParentGameObject->RemoveChild(this);
+		}
+		else
+		{
+			m_pScene->RemoveObject(this);
+		}
 	}
 	
 	Object* Object::GetParent() const
@@ -436,8 +443,6 @@ to the same object is illegal."), STARENGINE_LOG_TAG);
 		}
 
 		m_pChildren.push_back(pChild);
-
-		//Logger::GetInstance()->Log(LogLevel::Info, _T("Child Added"), STARENGINE_LOG_TAG);
 	}
 
 	void Object::RemoveChild(const Object* pObject)
