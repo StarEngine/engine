@@ -64,11 +64,6 @@ namespace star
 
 	bool FontManager::LoadFont(const tstring& path, const tstring& name, uint32 size)
 	{
-		if(mFontManager == nullptr)
-		{
-			return false;
-		}
-
 		if(mFontList.find(name) != mFontList.end())
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Info,

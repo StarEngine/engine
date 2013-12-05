@@ -36,10 +36,6 @@ namespace star
 		delete m_ShaderPtr;
 	}
 
-	/// <summary>
-	/// Gets the instance.
-	/// </summary>
-	/// <returns></returns>
 	SpriteBatch * SpriteBatch::GetInstance()
 	{
 		if(m_pSpriteBatch == nullptr)

@@ -29,24 +29,12 @@ namespace star
 		, m_Font()
 		, m_TextAlignment(HorizontalAlignment::left)
 	{
-		if(m_FileName == EMPTY_STRING)
-		{
-			const auto & font = 
-				FontManager::GetInstance()->GetFont(fontName);
-			m_FileName = font.GetFontPath();
-			m_FontSize = font.GetFontSize();
-		}
+		const auto & font = 
+			FontManager::GetInstance()->GetFont(fontName);
+		m_FileName = font.GetFontPath();
+		m_FontSize = font.GetFontSize();
 
-		else if(!FontManager::GetInstance()->LoadFont(
-				m_FileName,
-				fontName,
-				m_FontSize
-				))
-		{
-			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("TextComponent : Could not load Font '")
-				+ m_FileName + _T("'."), STARENGINE_LOG_TAG);
-		}
+		m_Font = FontManager::GetInstance()->GetFont(fontName);
 	}
 
 	TextComponent::TextComponent(
@@ -69,15 +57,7 @@ namespace star
 		, m_Font()
 		, m_TextAlignment(HorizontalAlignment::left)
 	{
-		if(m_FileName == EMPTY_STRING)
-		{
-			const auto & font = 
-				FontManager::GetInstance()->GetFont(fontName);
-			m_FileName = font.GetFontPath();
-			m_FontSize = font.GetFontSize();
-		}
-
-		else if(!FontManager::GetInstance()->LoadFont(
+		if(!FontManager::GetInstance()->LoadFont(
 				m_FileName,
 				fontName,
 				m_FontSize
@@ -87,11 +67,13 @@ namespace star
 				_T("TextComponent : Could not load Font '")
 				+ m_FileName + _T("'."), STARENGINE_LOG_TAG);
 		}
+
 		m_Font = FontManager::GetInstance()->GetFont(fontName);
 	}
 
 	void TextComponent::InitializeComponent()
 	{	
+		
 		if(m_WrapWidth == NO_WRAPPING)
 		{
 			CleanTextUp(m_OrigText);
