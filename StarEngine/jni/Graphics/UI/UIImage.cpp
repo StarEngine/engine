@@ -6,7 +6,6 @@ namespace star
 	UIImage::UIImage(
 		const tstring & name,
 		const tstring & filePath,
-		const tstring & imageName,
 		uint32 horizontalSegements,
 		uint32 verticalSegments
 		)
@@ -15,7 +14,7 @@ namespace star
 		m_pSprite = 
 			new SpriteComponent(
 			filePath,
-			imageName,
+			name + _T("_img"),
 			horizontalSegements,
 			verticalSegments
 			);

@@ -6,7 +6,6 @@ namespace star
 	UIAnimatedImage::UIAnimatedImage(
 		const tstring & name,
 		const tstring & filePath,
-		const tstring & imageName,
 		const tstring & spritesheet
 		)
 		: UIElement(name)
@@ -14,7 +13,7 @@ namespace star
 		m_pSprite = 
 			new SpritesheetComponent(
 			filePath,
-			imageName,
+			name + _T("_img"),
 			spritesheet
 			);
 		m_pSprite->SetHUDOptionEnabled(true);
