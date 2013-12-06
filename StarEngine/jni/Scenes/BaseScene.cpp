@@ -244,7 +244,6 @@ namespace star
 		if(it != m_Objects.end())
 		{
 			m_Garbage.push_back(object);
-			object->UnsetScene();
 		}
 		else
 		{
@@ -533,6 +532,7 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 			Logger::GetInstance()->Log(it != m_Objects.end(),
 				_T("BaseScene::CollectGarbage: Trying to delete unknown object"),
 				STARENGINE_LOG_TAG);
+			(*it)->UnsetScene();
 			m_Objects.erase(it);
 			delete elem;
 		}
