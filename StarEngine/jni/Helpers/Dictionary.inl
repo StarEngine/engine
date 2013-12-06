@@ -147,7 +147,7 @@ namespace star
 		>
 		Dictionary<TKey, TValue>::equal_range(const TKey & key) const
 	{
-		return m_MultiMap.equal_range(key)
+		return m_MultiMap.equal_range(key);
 	}
 
 	template < typename TKey, typename TValue >
