@@ -125,6 +125,10 @@ typedef long double float128;
 	#endif
 #endif
 
+/// <summary>
+/// A small struct that can be used to represent an array of objects
+/// and a number that represents the amount of elements in the array.
+/// </summary>
 template <typename T, typename U = uint8>
 struct PointerArray
 {

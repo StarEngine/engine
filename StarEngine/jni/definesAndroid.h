@@ -7,6 +7,10 @@
 typedef uint8_t		BYTE, byte;
 typedef uint8_t *        PBYTE;
 
+/// <summary>
+/// A point data structure that contains 2 integer values
+/// representing the x and y values of a position.
+/// </summary>
 typedef struct myPoint
 {
 	int32_t  x;
