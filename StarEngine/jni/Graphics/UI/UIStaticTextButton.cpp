@@ -16,7 +16,7 @@ namespace star
 		, m_pTextField(nullptr)
 	{
 		m_pTextField = new UITextField(
-			name,
+			name + _T("_txt"),
 			text,
 			fontName,
 			color

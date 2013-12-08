@@ -250,7 +250,7 @@ namespace star
 		m_Height = 0;
 		m_HeightSegments = heightSegments;
 		m_CurrentHeightSegment = 0;
-		m_FilePath = filepath;
+		m_FilePath = Filepath(filepath);
 		m_SpriteName = spriteName;
 
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetAssetsPath(),m_SpriteName);

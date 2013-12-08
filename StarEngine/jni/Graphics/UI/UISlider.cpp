@@ -22,7 +22,7 @@ namespace star
 		, m_SliderIsDown(false)
 	{
 		m_pSlider = new UIButton(
-			name,
+			name + _T("_btn"),
 			file,
 			spritesheetIsVertical
 			);
@@ -48,7 +48,7 @@ namespace star
 		, m_SliderIsDown(false)
 	{
 		m_pSlider = new UIButton(
-			name,
+			name + _T("_btn"),
 			file,
 			spriteName,
 			spritesheetIsVertical
