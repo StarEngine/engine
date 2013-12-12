@@ -14,7 +14,26 @@ namespace star
 		, m_pButtonSprite(nullptr)
 	{
 		m_pButtonSprite = new SpriteComponent(
-			file, name + _T("_img"),
+			file, name,
+			widthSegements,
+			heightSegements
+			);
+		m_pButtonSprite->SetHUDOptionEnabled(true);
+		AddComponent(m_pButtonSprite);
+	}
+
+	UIStaticButton::UIStaticButton(
+		const tstring & name,
+		const tstring & file,
+		const tstring & spriteName,
+		uint32 widthSegements,
+		uint32 heightSegements
+		)
+		: UIUserElement(name)
+		, m_pButtonSprite(nullptr)
+	{
+		m_pButtonSprite = new SpriteComponent(
+			file, spriteName,
 			widthSegements,
 			heightSegements
 			);

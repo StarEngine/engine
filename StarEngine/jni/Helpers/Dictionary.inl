@@ -141,6 +141,16 @@ namespace star
 	}
 
 	template < typename TKey, typename TValue >
+	std::pair<
+		typename Dictionary<TKey, TValue>::const_interator,
+		typename Dictionary<TKey, TValue>::const_interator
+		>
+		Dictionary<TKey, TValue>::equal_range(const TKey & key) const
+	{
+		return m_MultiMap.equal_range(key);
+	}
+
+	template < typename TKey, typename TValue >
 	typename Dictionary<TKey, TValue>::const_interator
 		Dictionary<TKey, TValue>::lower_bound(const TKey & key) const
 	{

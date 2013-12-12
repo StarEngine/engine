@@ -16,6 +16,14 @@ namespace star
 			const tstring & spriteFile,
 			const tstring & spritesheetName
 			);
+
+		UICursor(
+			const tstring & name,
+			const tstring & spriteFile,
+			const tstring & spriteName,
+			const tstring & spritesheetName
+			);
+
 		virtual ~UICursor();
 
 		void SetCenterPoint(const vec2 & center);

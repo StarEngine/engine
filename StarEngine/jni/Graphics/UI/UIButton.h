@@ -11,6 +11,14 @@ namespace star
 			const tstring & file,
 			bool isVertical = true
 			);
+
+		UIButton(
+			const tstring & name,
+			const tstring & file,
+			const tstring & spriteName,
+			bool isVertical = true
+			);
+
 		virtual ~UIButton();
 
 		virtual void AfterInitialized();

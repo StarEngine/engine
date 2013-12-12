@@ -3,6 +3,7 @@
 #include "../Input/XMLFileParser.h"
 #include "../Helpers/Helpers.h"
 #include "../Objects/Object.h"
+#include "../Objects/FreeCamera.h"
 
 #include "../Components/Graphics/SpriteComponent.h"
 
@@ -12,12 +13,12 @@ namespace star
 		const tstring & name,
 		float32 scale )
 		: BaseScene(name)
-		, m_pActiveCamera(nullptr)
 		, m_Width(0)
 		, m_Height(0)
 		, m_TileWidth(0)
 		, m_TileHeight(0)
 		, m_TileSets()
+		, m_TiledObjects()
 		, m_Scale(scale)
 	{
 
@@ -25,6 +26,17 @@ namespace star
 
 	TiledScene::~TiledScene()
 	{
+	}
+
+	void TiledScene::RemoveObject(Object * object)
+	{
+		auto it = std::find(m_TiledObjects.begin(), m_TiledObjects.end(), object);
+		if(it != m_TiledObjects.end())
+		{
+			m_TiledObjects.erase(it);
+		}
+
+		BaseScene::RemoveObject(object);
 	}
 
 	void TiledScene::DefineSpecialObject(
@@ -91,19 +103,19 @@ namespace star
 
 	void TiledScene::CreateObjects()
 	{
-		if(m_pActiveCamera == nullptr)
+		if(m_pDefaultCamera == nullptr)
 		{
-			m_pActiveCamera = new FreeCamera();
-			m_pActiveCamera->SetStatic(false);
-			m_pActiveCamera->SetZoomEnabled(true);
-			m_pActiveCamera->SetMoveSpeed(2.0f);
-			AddObject(m_pActiveCamera);
+			auto defaultCamera = new FreeCamera();
+			defaultCamera->SetStatic(false);
+			defaultCamera->SetZoomEnabled(true);
+			defaultCamera->SetMoveSpeed(2.0f);
+			AddObject(defaultCamera);
+			m_pDefaultCamera = defaultCamera;
 		}
 	}
 
 	void TiledScene::AfterInitializedObjects()
 	{
-		SetActiveCamera(m_pActiveCamera);
 	}
 
 	void TiledScene::OnActivate()
@@ -192,6 +204,15 @@ namespace star
 		CreateGroupedObjects(container);
 	}
 
+	void TiledScene::ClearLevel()
+	{
+		for(auto obj : m_TiledObjects)
+		{
+			RemoveObject(obj);
+		}
+		m_TiledObjects.clear();
+	}
+
 	void TiledScene::CreateTiledObjects(XMLContainer & container)
 	{
 		auto OIT = container.lower_bound(_T("layer"));
@@ -257,6 +278,7 @@ namespace star
 					auto texture = CreateSpriteFromGid(tID, tileSet);
 					obj->AddComponent(texture);
 					AddObject(obj);
+					m_TiledObjects.push_back(obj);
 				}
 				++i;
 				++TIT;
@@ -377,6 +399,7 @@ namespace star
 					transform->Scale(m_Scale, m_Scale, m_Scale);
 	#endif
 					AddObject(obj);
+					m_TiledObjects.push_back(obj);
 				}
 				else
 				{

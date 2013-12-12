@@ -12,7 +12,14 @@ namespace star
 		UIImage(
 			const tstring & name,
 			const tstring & filePath,
-			const tstring & imageName,
+			uint32 horizontalSegements = 1,
+			uint32 verticalSegments = 1
+			);
+
+		UIImage(
+			const tstring & name,
+			const tstring & filePath,
+			const tstring & spriteName,
 			uint32 horizontalSegements = 1,
 			uint32 verticalSegments = 1
 			);

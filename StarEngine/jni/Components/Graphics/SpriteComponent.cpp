@@ -105,6 +105,12 @@ namespace star
 		float32 spriteWidth, spriteHeight;
 
 		pos objectPos = GetTransform()->GetWorldPosition();
+		
+		if(m_bIsHudElement)
+		{
+			objectPos.x += left;
+			objectPos.y += bottom;
+		}
 
 		spriteWidth = float32(GetWidth()) * GetTransform()->GetWorldScale().x;
 		spriteHeight = float32(GetHeight()) * GetTransform()->GetWorldScale().y;
@@ -172,7 +178,7 @@ namespace star
 		m_Height = 0;
 		m_HeightSegments = heightSegments;
 		m_CurrentHeightSegment = 0;
-		m_FilePath = filepath;
+		m_FilePath = Filepath(filepath);
 		m_SpriteName = spriteName;
 
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetAssetsPath(),m_SpriteName);

@@ -13,6 +13,14 @@ namespace star
 			const tstring & file,
 			const tstring & spritesheet
 			);
+
+		UIAnimatedButton(
+			const tstring & name,
+			const tstring & file,
+			const tstring & spriteName,
+			const tstring & spritesheet
+			);
+
 		virtual ~UIAnimatedButton();
 
 		virtual void AfterInitialized();

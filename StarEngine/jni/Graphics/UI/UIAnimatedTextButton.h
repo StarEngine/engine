@@ -30,6 +30,28 @@ namespace star
 			const Color & color
 			);
 
+		UIAnimatedTextButton(
+			const tstring & name,
+			const tstring & file,
+			const tstring & spriteName,
+			const tstring & spritesheet,
+			const tstring & text,
+			const tstring & fontName,
+			const Color & color
+			);
+
+		UIAnimatedTextButton(
+			const tstring & name,
+			const tstring & file,
+			const tstring & spriteName,
+			const tstring & spritesheet,
+			const tstring & text,
+			const tstring & fontName,
+			const tstring & fontPath,
+			uint32 fontSize,
+			const Color & color
+			);
+
 		virtual ~UIAnimatedTextButton();
 		virtual void AfterInitialized();
 

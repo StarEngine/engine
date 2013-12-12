@@ -108,6 +108,26 @@ namespace star
 		T* GetChild(const tstring & name) const;
 
 	protected:
+		enum class GarbageType : byte
+		{
+			ComponentType = 0,
+			ObjectType = 1,
+			ActionType = 2
+		};
+
+		struct GarbageInfo
+		{
+			GarbageInfo(
+				Entity* pEntity,
+				GarbageType type
+				);
+
+			Entity *Element;
+			GarbageType Type;
+		};
+
+		void DestroyGarbageElement(const GarbageInfo & info);
+
 		virtual void Initialize();
 		virtual void AfterInitialized();
 		virtual void Update(const Context & context);
@@ -131,7 +151,7 @@ namespace star
 		PathFindNodeComponent* m_pPathFindComp;
 		BaseScene *m_pScene;
 		
-		std::vector<Entity*> m_pGarbageContainer;
+		std::vector<GarbageInfo> m_pGarbageContainer;
 
 		std::vector<BaseComponent*> m_pComponents;
 		std::vector<Object*> m_pChildren;

@@ -41,9 +41,12 @@ Trying to get unknown child '")
 		{
 			if(component && typeid(*component) == ti)
 			{
-				auto it = std::find(m_pComponents.begin(), m_pComponents.end(), component);
-				m_pComponents.erase(it);
-				m_pGarbageContainer.push_back(component);
+				m_pGarbageContainer.push_back(
+					GarbageInfo(
+						component,
+						GarbageType::ComponentType
+						)
+					);
 			}
 		}	
 	}

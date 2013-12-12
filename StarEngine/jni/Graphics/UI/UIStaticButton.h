@@ -15,6 +15,15 @@ namespace star
 			uint32 widthSegements = 1,
 			uint32 heightSegements = 1
 			);
+
+		UIStaticButton(
+			const tstring & name,
+			const tstring & file,
+			const tstring & spriteName,
+			uint32 widthSegements = 1,
+			uint32 heightSegements = 1
+			);
+
 		virtual ~UIStaticButton();
 
 		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);

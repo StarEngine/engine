@@ -23,6 +23,7 @@ namespace star
 		, m_Objects()
 		, m_Garbage()
 		, m_pDefaultCamera(nullptr)
+		, m_pActiveCamera(nullptr)
 		, m_pCursor(nullptr)
 		, m_CullingOffsetX(0)
 		, m_CullingOffsetY(0)
@@ -37,7 +38,7 @@ namespace star
 	
 	BaseScene::~BaseScene()
 	{
-		for(auto object : m_Objects)
+		for(auto & object : m_Objects)
 		{
 			SafeDelete(object);
 		}
@@ -244,7 +245,6 @@ namespace star
 		if(it != m_Objects.end())
 		{
 			m_Garbage.push_back(object);
-			object->UnsetScene();
 		}
 		else
 		{
@@ -365,24 +365,24 @@ namespace star
 
 	void BaseScene::SetActiveCamera(BaseCamera* pCamera)
 	{
-		if(m_pDefaultCamera == pCamera)
+		if(!pCamera ||
+			m_pActiveCamera == pCamera)
 		{
 			return;
 		}
 
-		if(m_pDefaultCamera != nullptr)
+		if(m_pActiveCamera != nullptr)
 		{
-			delete m_pDefaultCamera;
-			m_pDefaultCamera = nullptr;
+			m_pActiveCamera->GetComponent<CameraComponent>()->Deactivate();
 		}
 
-		m_pDefaultCamera = pCamera;
-		m_pDefaultCamera->GetComponent<CameraComponent>()->Activate();
+		m_pActiveCamera = pCamera;
+		m_pActiveCamera->GetComponent<CameraComponent>()->Activate();
 	}
 	
 	BaseCamera* BaseScene::GetActiveCamera() const
 	{
-		return m_pDefaultCamera;
+		return m_pActiveCamera;
 	}
 
 	void BaseScene::SetCullingIsEnabled(bool enabled)
@@ -533,6 +533,7 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 			Logger::GetInstance()->Log(it != m_Objects.end(),
 				_T("BaseScene::CollectGarbage: Trying to delete unknown object"),
 				STARENGINE_LOG_TAG);
+			(*it)->UnsetScene();
 			m_Objects.erase(it);
 			delete elem;
 		}

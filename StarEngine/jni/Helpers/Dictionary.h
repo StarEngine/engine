@@ -54,7 +54,12 @@ namespace star
 
 		const_interator find(const TKey & key) const;
 		size_type count(const TKey & key) const;
-
+		
+		std::pair<
+			const_interator,
+			const_interator
+			>
+			equal_range(const TKey & key) const;
 		const_interator lower_bound(const TKey & key) const;
 		const_interator upper_bound(const TKey & key) const;
 

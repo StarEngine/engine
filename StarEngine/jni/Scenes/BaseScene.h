@@ -38,9 +38,9 @@ namespace star
 
 		bool IsInitialized() const;
 
-		void AddObject(Object * object); 
+		virtual void AddObject(Object * object); 
 		void AddObject(Object * object, const tstring & name); 
-		void RemoveObject(Object * object);
+		virtual void RemoveObject(Object * object);
 		void RemoveObject(const tstring & name);
 
 		template <typename T>
@@ -94,7 +94,7 @@ namespace star
 
 		std::vector<Object*> m_Objects;
 		std::vector<Object*> m_Garbage;
-		BaseCamera* m_pDefaultCamera;
+		BaseCamera *m_pDefaultCamera, *m_pActiveCamera;
 		std::shared_ptr<Stopwatch> m_pStopwatch;
 		UIBaseCursor *m_pCursor;
 

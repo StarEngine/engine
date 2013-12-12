@@ -11,7 +11,13 @@ namespace star
 		UIAnimatedImage(
 			const tstring & name,
 			const tstring & filePath,
-			const tstring & imageName,
+			const tstring & spritesheet
+			);
+
+		UIAnimatedImage(
+			const tstring & name,
+			const tstring & filePath,
+			const tstring & spriteName,
 			const tstring & spritesheet
 			);
 

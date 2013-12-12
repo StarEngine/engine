@@ -80,7 +80,7 @@ tstring Filepath::m_ExternalRoot = EMPTY_STRING;
 
 	}
 
-	const Filepath & Filepath::operator=(const Filepath & yRef)
+	Filepath & Filepath::operator=(const Filepath & yRef)
 	{
 		m_Path = yRef.m_Path;
 		m_File = yRef.m_File;

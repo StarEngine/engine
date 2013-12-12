@@ -303,26 +303,35 @@ namespace star
 		float bottom
 		) const
 	{
-		if(m_TextInfo->bIsHud)
-		{
-			return true;
-		}
-		return true;
-		float32 textWidth, textHeight;
+		float32 textWidth, textHeight, textW, textH;
 
-		const pos& objectPos = GetTransform()->GetWorldPosition();
-
-		textWidth = float32(m_StringLength) * GetTransform()->GetWorldScale().x;
-		textHeight = m_TextHeight * GetTransform()->GetWorldScale().y;
+		pos objectPos = GetTransform()->GetWorldPosition();
 		
-		float32 texRight = objectPos.x + textWidth;
+		if(m_TextDesc.IsHUDText)
+		{
+			objectPos.x += left;
+			objectPos.y += bottom;
+		}
+		
+		auto font = FontManager::GetInstance()->GetFont(m_FontName);
+		textW = float32(font.GetStringLength(m_OrigText));
+		textH = float32(font.GetMaxLetterHeight());
+
+		textWidth = textW * GetTransform()->GetWorldScale().x;
+		textHeight = textH * GetTransform()->GetWorldScale().y;
+		
+		float32 teRight = objectPos.x + textWidth;
 		float32 texTop = objectPos.y + textHeight;
 
 		return
-			(texRight >= left && objectPos.x <= right)
-			&&
-			(texTop >= bottom && objectPos.y <= top);
+			(	(objectPos.x >= left && objectPos.x <= right) ||
+				(teRight >= left && teRight <= right)
+			) &&
+			(	(objectPos.y >= bottom && objectPos.y <= top) ||
+				(texTop >= bottom && texTop <= top)
+			);
 	}
+
 
 	void TextComponent::SetText(const tstring& text)
 	{
