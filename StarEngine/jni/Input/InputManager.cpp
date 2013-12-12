@@ -88,6 +88,7 @@ namespace star
 		//Init new keyboard states
 		GetKeyboardState(m_pKeyboardState0);
 		GetKeyboardState(m_pKeyboardState1);
+		UpdateWin();
 #endif
 	}
 
