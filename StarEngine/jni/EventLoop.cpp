@@ -139,7 +139,7 @@ namespace star {
 			Logger::GetInstance()->Log(LogLevel::Info,
 					_T("Eventloop : APP CMD GAINED FOXUS, Initited MainGame"),
 					STARENGINE_LOG_TAG);
-			TextureManager::GetInstance()->ReloadAllTextures();
+			//TextureManager::GetInstance()->ReloadAllTextures();
 			SceneManager::GetInstance()->processActivityEvent(pCommand,
 					pApplication);
 		}
