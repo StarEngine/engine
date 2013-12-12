@@ -139,7 +139,6 @@
     <ClInclude Include="jni\Helpers\Dictionary.h" />
     <ClInclude Include="jni\Helpers\Filepath.h" />
     <ClInclude Include="jni\Helpers\FPS.h" />
-    <ClInclude Include="jni\Helpers\GameData.h" />
     <ClInclude Include="jni\Helpers\glm\gtx\verbose_operator.hpp" />
     <ClInclude Include="jni\Helpers\HashTag.h" />
     <ClInclude Include="jni\Helpers\Helpers.h" />
@@ -243,7 +242,6 @@
     <ClCompile Include="jni\Helpers\Dictionary.cpp" />
     <ClCompile Include="jni\Helpers\Filepath.cpp" />
     <ClCompile Include="jni\Helpers\FPS.cpp" />
-    <ClCompile Include="jni\Helpers\GameData.cpp" />
     <ClCompile Include="jni\Helpers\HashTag.cpp" />
     <ClCompile Include="jni\Helpers\Helpers.cpp" />
     <ClCompile Include="jni\Helpers\HelpersAndroid.cpp" />
@@ -294,7 +292,6 @@
   <ItemGroup>
     <None Include="jni\Graphics\Color.inl" />
     <None Include="jni\Helpers\Dictionary.inl" />
-    <None Include="jni\Helpers\GameData.inl" />
     <None Include="jni\Helpers\Helpers.inl" />
     <None Include="jni\Helpers\Math.inl" />
     <None Include="jni\Objects\Object.inl" />

@@ -180,10 +180,7 @@ namespace star
 	{
 		SLresult lRes;
 
-		Resource lResource(
-				star::StarEngine::GetInstance()->GetAndroidApp(),
-				path
-				);
+		Resource lResource(path);
 
 		ResourceDescriptor lDescriptor = lResource.DeScript();
 		if(lDescriptor.mDescriptor < 0)

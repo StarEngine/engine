@@ -11,7 +11,6 @@
 #include <GLES2/gl2ext.h>
 #include <iostream>
 #include <fstream>
-//#include "../EventLoop.h"
 #include "../Assets/Resource.h"
 #endif
 
@@ -22,10 +21,12 @@ namespace star
 	{
 		ATTRIB_VERTEX,
 		ATTRIB_UV,
-		NUM_ATTRIBUTES
+		ATTRIB_COLOR,
+		ATTRIB_HUD
 	};
 
-	class Shader {
+	class Shader final
+	{
 	public:
 		Shader();
 		Shader(const tstring& vsFile, const tstring& fsFile);

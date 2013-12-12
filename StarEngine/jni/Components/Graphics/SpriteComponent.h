@@ -14,19 +14,18 @@ namespace star
 		SpriteInfo()
 			: vertices()
 			, uvCoords()
-			, spriteName(EMPTY_STRING)
-			, transform()
+			, textureID()
+			, transformPtr(nullptr)
 			, colorMultiplier(Color::White)
-			, bIsHUD(false)
+			, bIsHud(false)
 		{}
 
-
-		std::vector<GLfloat> vertices;
-		std::vector<GLfloat> uvCoords;
-		tstring spriteName;
-		mat4 transform;
+		vec2 vertices;
+		vec4 uvCoords;
+		uint32 textureID;
+		TransformComponent* transformPtr;
 		Color colorMultiplier;
-		bool bIsHUD;
+		bool bIsHud;
 	};
 
 	class SpriteComponent : public BaseComponent
@@ -69,16 +68,9 @@ namespace star
 
 	protected:
 		virtual void InitializeComponent();
-		virtual void CreateVertices();
 		virtual void CreateUVCoords();
 		void SetUVCoords(const vec4& coords);
 		virtual void FillSpriteInfo();
-
-		static const int VERTEX_AMOUNT = 12;
-		static const int UV_AMOUNT = 8;
-
-		float32 m_Vertices[VERTEX_AMOUNT];
-		float32 m_UvCoords[UV_AMOUNT];
 
 		uint32	m_WidthSegments,
 				m_HeightSegments, 
@@ -89,9 +81,8 @@ namespace star
 
 		Filepath m_FilePath;
 		tstring m_SpriteName;
-		bool m_bIsHudElement;
 		
-		SpriteInfo m_SpriteInfo;
+		SpriteInfo* m_SpriteInfo;
 
 		SpriteComponent(const SpriteComponent &);
 		SpriteComponent(SpriteComponent &&);

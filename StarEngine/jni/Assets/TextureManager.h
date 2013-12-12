@@ -21,7 +21,7 @@ namespace star
 
 		static TextureManager * GetInstance();
 
-		bool LoadTexture(const tstring& path, const tstring& name);
+		void LoadTexture(const tstring& path, const tstring& name);
 		bool DeleteTexture(const tstring& name);
 		GLuint GetTextureID(const tstring& name);
 		ivec2 GetTextureDimensions(const tstring& name);

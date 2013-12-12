@@ -12,54 +12,49 @@
 namespace star
 {
 	TextComponent::TextComponent(
-		const tstring& fontName,
-		bool bInFront
+		const tstring& fontName
 		)
 		: BaseComponent()
 		, m_FontSize(0)
+		, m_StringLength(0)
 		, m_WrapWidth(NO_WRAPPING)
 		, m_FileName(EMPTY_STRING)
-		, m_FontName(fontName)
 		, m_OrigText(EMPTY_STRING)
 		, m_EditText(EMPTY_STRING)
 		, m_TextColor(Color::Black)
+		, m_TextInfo(nullptr)
+		, m_Font(nullptr)
 		, m_TextAlignment(HorizontalAlignment::left)
-		, m_bInFront(bInFront)
 	{
+		const auto * font = 
+			FontManager::GetInstance()->GetFont(fontName);
+		m_FileName = font->GetFontPath();
+		m_FontSize = font->GetFontSize();
+
+		m_Font = FontManager::GetInstance()->GetFont(fontName);
+		m_TextInfo = new TextInfo();
 	}
 
 	TextComponent::TextComponent(
 		const tstring& fontPath,
 		const tstring& fontName,
-		uint32 fontSize,
-		bool bInFront
+		uint32 fontSize
 		)
 		: BaseComponent()
 		, m_FontSize(fontSize)
+		, m_StringLength(0)
 		, m_WrapWidth(NO_WRAPPING)
 		, m_FileName(fontPath)
-		, m_FontName(fontName)
 		, m_OrigText(EMPTY_STRING)
 		, m_EditText(EMPTY_STRING)
 		, m_TextColor(Color::Black)
+		, m_TextInfo(nullptr)
+		, m_Font()
 		, m_TextAlignment(HorizontalAlignment::left)
-		, m_bInFront(bInFront)
 	{
-	}
-
-	void TextComponent::InitializeComponent()
-	{
-		if(m_FileName == EMPTY_STRING)
-		{
-			const auto & font = 
-				FontManager::GetInstance()->
-					GetFont(m_FontName);
-			m_FileName = font.GetFontPath();
-			m_FontSize = font.GetSize();
-		}
-		else if(!FontManager::GetInstance()->LoadFont(
+		if(!FontManager::GetInstance()->LoadFont(
 				m_FileName,
-				m_FontName,
+				fontName,
 				m_FontSize
 				))
 		{
@@ -68,9 +63,13 @@ namespace star
 				+ m_FileName + _T("'."), STARENGINE_LOG_TAG);
 		}
 
-		m_TextDesc.Fontname = m_FontName;
-		m_TextDesc.TextColor = m_TextColor;
+		m_Font = FontManager::GetInstance()->GetFont(fontName);
+		m_TextInfo = new TextInfo();
+	}
 
+	void TextComponent::InitializeComponent()
+	{	
+		
 		if(m_WrapWidth == NO_WRAPPING)
 		{
 			CleanTextUp(m_OrigText);
@@ -79,11 +78,19 @@ namespace star
 		else
 		{
 			CleanTextUp(CheckWrapping(
-						FontManager::GetInstance()->GetFont(m_FontName),
 						m_OrigText,
 						m_WrapWidth
 						));
 		}
+
+		FillTextInfo();
+	}
+
+	void TextComponent::FillTextInfo()
+	{
+		m_TextInfo->font = m_Font;
+		m_TextInfo->colorMultiplier = m_TextColor;		
+		m_TextInfo->transformPtr = m_pParentObject->GetTransform();
 	}
 
 	void TextComponent::CalculateTextDimensions()
@@ -99,9 +106,8 @@ namespace star
 	{
 		if(m_bInitialized)
 		{
-			auto font = FontManager::GetInstance()->GetFont(m_FontName);
-			m_Dimensions.y = (font.GetMaxLetterHeight() * lines)
-				+ (m_TextDesc.VerticalSpacing * (lines - 1));
+			m_TextHeight = (m_Font->GetMaxLetterHeight() * lines)
+				+ (m_TextInfo->verticalSpacing * (lines - 1));
 			GetTransform()->SetDimensionsYSafe(m_Dimensions.y);
 		}
 	}
@@ -110,9 +116,9 @@ namespace star
 	{
 		auto count = std::count(m_EditText.begin(), m_EditText.end(), _T('\n'));
 		++count;
-		auto font = FontManager::GetInstance()->GetFont(m_FontName);
-		m_Dimensions.y = (font.GetMaxLetterHeight() * count)
-			+ (m_TextDesc.VerticalSpacing * (count - 1));
+		m_TextHeight = (m_Font->GetMaxLetterHeight() * count)
+				+ (m_TextInfo->verticalSpacing * (count - 1));
+		m_TextInfo->textHeight = m_TextHeight;
 		GetTransform()->SetDimensionsYSafe(m_Dimensions.y);
 	}
 	
@@ -138,32 +144,31 @@ namespace star
 	{
 		if(m_bInitialized)
 		{
-			m_TextDesc.HorizontalTextOffset.clear();
-			auto font = FontManager::GetInstance()->GetFont(m_FontName);
+			m_TextInfo->horizontalTextOffset.clear();
 			if(m_TextAlignment == HorizontalAlignment::center)
 			{
 				uint32 counter(0);
 				uint32 length = GetLongestLine(m_EditText);
 				if(length == 0)
 				{
-					m_TextDesc.Text = m_EditText;
+					m_TextInfo->text = m_EditText;
 				}
 				else
 				{
-					m_TextDesc.Text = EMPTY_STRING;
+					m_TextInfo->text = EMPTY_STRING;
 					tstring substr(EMPTY_STRING);
 					for(size_t i = 0 ; i < m_EditText.length() ; ++i)
 					{
 						if(m_EditText[i] == _T('\n'))
 						{
-							m_TextDesc.Text += substr + _T('\n');
+							m_TextInfo->text += substr + _T('\n');
 
-							uint32 diff = length - font.GetStringLength(substr);
+							uint32 diff = length - m_Font->GetStringLength(substr);
 							if(diff > 0)
 							{
 								diff /= 2;
 							}
-							m_TextDesc.HorizontalTextOffset.push_back(diff);
+							m_TextInfo->horizontalTextOffset.push_back(diff);
 							
 							substr = EMPTY_STRING;
 							counter = 0;
@@ -174,15 +179,14 @@ namespace star
 							++counter;
 						}
 					}
-			
-					m_TextDesc.Text += substr;
+					m_TextInfo->text += substr;
 
-					uint32 diff = length - font.GetStringLength(substr);
+					uint32 diff = length - m_Font->GetStringLength(substr);
 					if(diff > 0)
 					{
 						diff /= 2;
 					}
-					m_TextDesc.HorizontalTextOffset.push_back(diff);
+					m_TextInfo->horizontalTextOffset.push_back(diff);
 				}
 			}
 			else if(m_TextAlignment == HorizontalAlignment::right)
@@ -191,20 +195,20 @@ namespace star
 				uint32 length = GetLongestLine(m_EditText);
 				if(length == 0)
 				{
-					m_TextDesc.Text = m_EditText;
+					m_TextInfo->text = m_EditText;
 				}
 				else
 				{
-					m_TextDesc.Text = EMPTY_STRING;
+					m_TextInfo->text = EMPTY_STRING;
 					tstring substr(EMPTY_STRING);
 					for(size_t i = 0 ; i < m_EditText.length() ; ++i)
 					{
 						if(m_EditText[i] == _T('\n'))
 						{
-							m_TextDesc.Text += substr + _T('\n');
+							m_TextInfo->text += substr + _T('\n');
 
-							uint32 diff = length - font.GetStringLength(substr);
-							m_TextDesc.HorizontalTextOffset.push_back(diff);
+							uint32 diff = length - m_Font->GetStringLength(substr);
+							m_TextInfo->horizontalTextOffset.push_back(diff);
 
 							substr = EMPTY_STRING;
 							counter = 0;
@@ -216,17 +220,22 @@ namespace star
 						}
 					}
 				
-					m_TextDesc.Text += substr;
+					m_TextInfo->text += substr;
 
-					uint32 diff = length - font.GetStringLength(substr);
-					m_TextDesc.HorizontalTextOffset.push_back(diff);
+					uint32 diff = length - m_Font->GetStringLength(substr);
+					m_TextInfo->horizontalTextOffset.push_back(diff);
 				}
 			}
 			else
 			{	
 				GetLongestLine(m_EditText);
-				m_TextDesc.Text = m_EditText;
-				m_TextDesc.HorizontalTextOffset.push_back(0);
+				m_TextInfo->text = m_EditText;
+				m_TextInfo->horizontalTextOffset.push_back(0);
+				auto n = std::count(m_EditText.begin(), m_EditText.end(), _T('\n'));
+				for( ; n > 0 ; --n)
+				{
+					m_TextInfo->horizontalTextOffset.push_back(0);
+				}
 			}
 		}
 	}
@@ -237,12 +246,11 @@ namespace star
 		if(m_bInitialized)
 		{
 			tstring substr(EMPTY_STRING);
-			auto font = FontManager::GetInstance()->GetFont(m_FontName);
 			for(size_t i = 0 ; i < str.length() ; ++i)
 			{
 				if(str[i] == _T('\n'))
 				{
-					int32 strLength = font.GetStringLength(substr);
+					int32 strLength = m_Font->GetStringLength(substr);
 					if(strLength > length)
 					{
 						length = strLength;
@@ -257,7 +265,7 @@ namespace star
 				}
 			}
 
-			int32 strLength = font.GetStringLength(substr);
+			int32 strLength = m_Font->GetStringLength(substr);
 			if(strLength > length)
 			{
 				length = strLength;
@@ -270,18 +278,22 @@ namespace star
 
 	TextComponent::~TextComponent()
 	{
+		delete m_TextInfo;
 	}
 
 	void TextComponent::Draw()
-	{	
-		m_TextDesc.TransformComp = m_pParentObject->GetTransform();
-
-		SpriteBatch::GetInstance()->AddTextToQueue(m_TextDesc, m_bInFront);
+	{
+		if(m_TextInfo->text.size() == 0)
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning, _T("Trying to draw empty textComponent"));
+			return;
+		}
+		SpriteBatch::GetInstance()->AddTextToQueue(m_TextInfo);
 	}
 
 	void TextComponent::Update(const Context& context)
 	{
-
+		FillTextInfo();
 	}
 	
 	bool TextComponent::CheckCulling(
@@ -295,15 +307,14 @@ namespace star
 
 		pos objectPos = GetTransform()->GetWorldPosition();
 		
-		if(m_TextDesc.IsHUDText)
+		if(m_TextInfo->bIsHud)
 		{
 			objectPos.x += left;
 			objectPos.y += bottom;
 		}
 		
-		auto font = FontManager::GetInstance()->GetFont(m_FontName);
-		textW = float32(font.GetStringLength(m_OrigText));
-		textH = float32(font.GetMaxLetterHeight());
+		textW = float32(m_Font->GetStringLength(m_OrigText));
+		textH = float32(m_Font->GetMaxLetterHeight());
 
 		textWidth = textW * GetTransform()->GetWorldScale().x;
 		textHeight = textH * GetTransform()->GetWorldScale().y;
@@ -320,6 +331,7 @@ namespace star
 			);
 	}
 
+
 	void TextComponent::SetText(const tstring& text)
 	{
 		m_OrigText = text;
@@ -328,7 +340,6 @@ namespace star
 			if(m_bInitialized)
 			{
 				CleanTextUp(CheckWrapping(
-						FontManager::GetInstance()->GetFont(m_FontName),
 						m_OrigText,
 						int32(m_WrapWidth)
 						));
@@ -339,6 +350,8 @@ namespace star
 			CleanTextUp(m_OrigText);
 			CalculateTextDimensions();
 		}
+
+		m_StringLength = m_Font->GetStringLength(m_OrigText);
 	}
 
 	const tstring& TextComponent::GetText() const
@@ -370,7 +383,6 @@ namespace star
 			if(m_bInitialized)
 			{
 				CleanTextUp(CheckWrapping(
-							FontManager::GetInstance()->GetFont(m_FontName),
 							m_OrigText,
 							m_WrapWidth
 							));
@@ -384,7 +396,6 @@ namespace star
 	}
 
 	tstring TextComponent::CheckWrapping(
-		const Font& font,
 		const tstring& stringIn,
 		int32 wrapWidth
 		)
@@ -395,7 +406,7 @@ namespace star
 		PointerArray<tstring, uint32> words;
 		SplitString(words, stringIn, _T(' '));
 
-		m_Dimensions.y = font.GetMaxLetterHeight();
+		m_TextHeight = m_Font->GetMaxLetterHeight();
 		GetTransform()->SetDimensionsYSafe(m_Dimensions.y);
 
 		uint8 lines(1);
@@ -419,7 +430,7 @@ namespace star
 			}
 			else
 			{
-				int32 w = font.GetStringLength(
+				int32 w = m_Font->GetStringLength(
 					line + words.elements[i]
 				);
 
@@ -476,11 +487,10 @@ namespace star
 	
 	void TextComponent::SetVerticalSpacing(uint32 spacing)
 	{
-		m_TextDesc.VerticalSpacing = spacing;
+		m_TextInfo->verticalSpacing = spacing;
 		if(m_bInitialized && m_WrapWidth != NO_WRAPPING)
 		{
 			CleanTextUp(CheckWrapping(
-						FontManager::GetInstance()->GetFont(m_FontName),
 						m_OrigText,
 						m_WrapWidth
 						));
@@ -489,12 +499,12 @@ namespace star
 
 	void TextComponent::SetHUDOptionEnabled(bool enabled)
 	{
-		m_TextDesc.IsHUDText = enabled;
+		m_TextInfo->bIsHud = enabled;
 	}
 
 	bool TextComponent::IsHUDOptionEnabled() const
 	{
-		return m_TextDesc.IsHUDText;
+		return m_TextInfo->bIsHud;
 	}
 
 	void TextComponent::AlignTextLeft()

@@ -299,9 +299,12 @@ namespace star
 			{
 				const mat4& projection = projectionObject->GetComponent<CameraComponent>()
 					->GetProjection();
+				const mat4& view = projectionObject->GetComponent<CameraComponent>()
+					->GetView();
 				const mat4& viewInverse = projectionObject->GetComponent<CameraComponent>()
 					->GetViewInverse();
 				mProjectionMatrix = projection;
+				mViewMatrix = view;
 				mViewInverseMatrix = viewInverse;
 				mViewProjectionMatrix = projection * viewInverse;
 			}		
@@ -338,7 +341,7 @@ namespace star
 		return int32(ScaleSystem::GetInstance()->GetWorkingResolution().y);
 	}
 
-	const mat4& GraphicsManager::GetViewProjectionMatrix() const
+	const mat4& GraphicsManager::GetViewInverseProjectionMatrix() const
 	{
 		return mViewProjectionMatrix;
 	}
@@ -346,6 +349,11 @@ namespace star
 	const mat4& GraphicsManager::GetProjectionMatrix() const
 	{
 		return mProjectionMatrix;
+	}
+
+	const mat4& GraphicsManager::GetViewMatrix() const
+	{
+		return mViewMatrix;
 	}
 
 	const mat4& GraphicsManager::GetViewInverseMatrix() const

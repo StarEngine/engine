@@ -39,45 +39,30 @@ namespace star
 				STARENGINE_LOG_TAG);
 		}
 
-#ifdef _WIN32
-		tstring vShader(_T("WinShaders/Font_Shader.vert")),
-				fShader(_T("WinShaders/Font_Shader.frag"));
-#else
-		tstring vShader(_T("AndroidShaders/Font_Shader.vert")),
-				fShader(_T("AndroidShaders/Font_Shader.frag"));
-#endif
-		if(!m_Shader.Init(vShader, fShader))
-		{
-			Logger::GetInstance()->Log(star::LogLevel::Error,
-				_T("Font Manager : Making Shader Failed"),
-				STARENGINE_LOG_TAG);
-		}
-
 		star::Logger::GetInstance()->Log(star::LogLevel::Info,
 			_T("Font Manager : Initialized FreeType library"),
 			STARENGINE_LOG_TAG);
 	}
 
+	FontManager::~FontManager()
+	{
+
+	}
+
 	void FontManager::EraseFonts()
 	{
-		auto iter = mFontList.begin();
-		for(iter; iter != mFontList.end(); ++iter)
+		for(const auto& font : mFontList)
 		{
-			iter->second.DeleteFont();
+			font.second->DeleteFont();
+			delete font.second;
 		}
 		mFontList.clear();
-		mPathList.clear();
 		
 		FT_Done_FreeType(mLibrary);
 	}
 
 	bool FontManager::LoadFont(const tstring& path, const tstring& name, uint32 size)
 	{
-		if(mFontManager == nullptr)
-		{
-			return false;
-		}
-
 		if(mFontList.find(name) != mFontList.end())
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Info,
@@ -88,14 +73,15 @@ namespace star
 
 		star::Filepath filepath(mFontPath, path);
 
-		Font tempfont;
-		if(tempfont.Init(filepath.GetAssetsPath(), size, mLibrary))
+		Font* tempFont = new Font();
+		if(tempFont->Init(filepath.GetAssetsPath(), size, mLibrary))
 		{
-			mFontList[name] = tempfont;
+			mFontList[name] = tempFont;
 
 		}
 		else
 		{
+			delete tempFont;
 			return false;
 		}
 		return true;
@@ -132,7 +118,7 @@ namespace star
 		return mFontPath;
 	}
 
-	const Font& FontManager::GetFont(const tstring& name)
+	const Font* FontManager::GetFont(const tstring& name)
 	{
 		Logger::GetInstance()->Log(mFontList.find(name) != mFontList.end(),_T("No such font"), STARENGINE_LOG_TAG);
 		return mFontList[name];

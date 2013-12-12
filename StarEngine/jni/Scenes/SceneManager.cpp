@@ -329,7 +329,7 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 
 		case APP_CMD_GAINED_FOCUS:
 			Logger::GetInstance()->Log(LogLevel::Info,
-				_T("SceneManager : APP_CMD_START"), STARENGINE_LOG_TAG);
+				_T("SceneManager : APP_CMD_GAINED_FOCUS"), STARENGINE_LOG_TAG);
 			break;
 
 

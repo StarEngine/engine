@@ -137,7 +137,7 @@ namespace star {
 			lEventLoop.mMainGameInitialized = true;
 			lEventLoop.mEnabled = true;
 			Logger::GetInstance()->Log(LogLevel::Info,
-					_T("Eventloop : APP CMD GAINED FOXUS, Initited MainGame"),
+					_T("Eventloop : APP CMD GAINED FOCUS, Initialized MainGame"),
 					STARENGINE_LOG_TAG);
 			//TextureManager::GetInstance()->ReloadAllTextures();
 			SceneManager::GetInstance()->processActivityEvent(pCommand,

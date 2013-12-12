@@ -9,35 +9,33 @@
 namespace star
 {
 	Font::Font():
-		mFace(0),
 		m_FontPath(EMPTY_STRING),
+		mFace(0),
 		mTextures(nullptr),
-		mMaxLetterHeight(0),
-		mUVcoordsList(),
-		mVecticesList(),
-		mLetterSizeList(),
+		mMaxLetterHeight(),
+		mMinLetterHeight(),
+		mCharacterInfoMap(),
 		mSize(0)
 	{
 	}
 
 	Font::~Font()
 	{
+		mCharacterInfoMap.clear();
 	}
 
 	bool Font::Init(const tstring& path, uint32 size, FT_Library& library)
 	{
 		mSize = size;
 		mTextures = new GLuint[FONT_TEXTURES];
-		mMaxLetterHeight = 0;
-
 		m_FontPath = path;
 
 #ifdef DESKTOP
 		//Convert from wstring to const schar* trough sstring
 		sstring font_path = string_cast<sstring>(path);
-		auto error = FT_New_Face(library,font_path.c_str(),0,&mFace);
+		FT_Error error = FT_New_Face(library,font_path.c_str(),0,&mFace);
 #else
-		Resource resource(StarEngine::GetInstance()->GetAndroidApp(), path);
+		Resource resource(path);
 		if(!resource.Open())
 		{
 			star::Logger::GetInstance()->Log(LogLevel::Error,
@@ -89,6 +87,7 @@ namespace star
 		glGenTextures(FONT_TEXTURES, mTextures);
 		for(suchar i = 0; i < FONT_TEXTURES; ++i)
 		{
+			mCharacterInfoMap.insert(std::make_pair(i, CharacterInfo()));
 			Make_D_List(mFace, i, mTextures);
 		}
 		FT_Done_Face(mFace);
@@ -97,7 +96,6 @@ namespace star
 
 	void Font::DeleteFont()
 	{
-
 		glDeleteTextures(FONT_TEXTURES,mTextures);
 		delete[] mTextures;
 #ifdef ANDROID
@@ -105,9 +103,8 @@ namespace star
 #endif
 	}
 
-	void Font::Make_D_List(FT_Face face, schar ch,GLuint * tex_base)
+	void Font::Make_D_List(FT_Face face, suchar ch,GLuint * tex_base)
 	{
-
 		auto error = FT_Load_Char(face, ch, FT_LOAD_DEFAULT);
 		if(error)
 		{
@@ -153,48 +150,23 @@ namespace star
 		Logger::GetInstance()->CheckGlError();
 		delete[] expanded_data;
 
+		//uvs
 		float32 x = static_cast<float32>(bitmap.width) / static_cast<float32>(width);
 		float32 y = static_cast<float32>(bitmap.rows) / static_cast<float32>(height);
-		int32 dimx = (face->glyph->metrics.horiAdvance / 64);
-		int32 dimy = ((face->glyph->metrics.horiBearingY) - (face->glyph->metrics.height)) / 64;
-		ivec2 tempdim(dimx, dimy);
-		//[COMMENT] bitmap_top returns an int. Is this for a reason?
-		// For now i casted it to an uint. please change if not appropriate
-		if(mMaxLetterHeight < int32(face->glyph->bitmap_top))
+		//letterheight
+		int32 dimX = (face->glyph->metrics.horiAdvance / 64);
+		int32 dimY = ((face->glyph->metrics.horiBearingY) - (face->glyph->metrics.height)) / 64;		
+		if(mMaxLetterHeight < face->glyph->bitmap_top)
 		{
-			mMaxLetterHeight = int32(face->glyph->bitmap_top);
+			mMaxLetterHeight = face->glyph->bitmap_top;
 		}
-		mLetterSizeList.push_back(tempdim);	
-
-		//[TODO] Change this! Too much data for only 4 filled numbers....
-		fontVertices tempVertices;
-		tempVertices.ver[0] = (GLfloat)bitmap.width;
-		tempVertices.ver[1] = (GLfloat)bitmap.rows;
-		tempVertices.ver[2] = 0;
-		tempVertices.ver[3] = (GLfloat)bitmap.width;
-		tempVertices.ver[4] = 0;
-		tempVertices.ver[5] = 0;
-		tempVertices.ver[6] = 0;
-		tempVertices.ver[7] = (GLfloat)bitmap.rows;
-		tempVertices.ver[8] = 0;
-		tempVertices.ver[9] = 0;
-		tempVertices.ver[10] = 0;
-		tempVertices.ver[11] = 0;
-
-		mVecticesList.push_back(tempVertices);
-
-		//[TODO] Idem
-		fontUvCoords tempCoords;
-		tempCoords.uv[0] = x;
-		tempCoords.uv[1] = 0;
-		tempCoords.uv[2] = x;
-		tempCoords.uv[3] = y;
-		tempCoords.uv[4] = 0;
-		tempCoords.uv[5] = 0;
-		tempCoords.uv[6] = 0;
-		tempCoords.uv[7] = y;
-
-		mUVcoordsList.push_back(tempCoords);
+		if(mMinLetterHeight > dimY)
+		{
+			mMinLetterHeight = dimY;
+		}
+		mCharacterInfoMap.at(ch).letterDimensions = ivec2(dimX, dimY);
+		mCharacterInfoMap.at(ch).vertexDimensions = vec2(bitmap.width, bitmap.rows);
+		mCharacterInfoMap.at(ch).uvDimensions = vec2(x, y);
 	}
 
 	const tstring & Font::GetFontPath() const
@@ -207,39 +179,42 @@ namespace star
 		return mTextures;
 	}
 
-	uint32 Font::GetSize() const 
+	uint32 Font::GetFontSize() const 
 	{
 		return mSize;
 	}
 
-	int32 Font::NextPowerOfTwo(int32 a)
+	int32 Font::NextPowerOfTwo(int32 number) const
 	{
 		int32 rval = 1;
-		while(rval < a)
+		while(rval < number)
 		{
 			rval <<= 1;
 		}
 		return rval;
 	}
 
-	const std::vector<fontUvCoords>& Font::GetUvCoords() const 
+	const std::unordered_map<suchar, CharacterInfo>& Font::GetCharacterInfoMap() const 
 	{
-		return mUVcoordsList;
+		return mCharacterInfoMap;
 	}
 
-	const std::vector<fontVertices>& Font::GetVetrices() const 
+	const CharacterInfo& Font::GetCharacterInfo(suchar character) const 
 	{
-		return mVecticesList;
-	}
-
-	const std::vector<ivec2>& Font::GetLetterDimensions() const 
-	{
-		return mLetterSizeList;
+		//[COMMENT] Performing a good check here 
+		//with std::find will only slow things down
+		//If the map.at has an unknown value, it will throw an exception anyway
+		return mCharacterInfoMap.at(character);
 	}
 
 	int32 Font::GetMaxLetterHeight() const 
 	{
 		return mMaxLetterHeight;
+	}
+
+	int32 Font::GetMinLetterHeight() const 
+	{
+		return mMinLetterHeight;
 	}
 
 	uint32 Font::GetStringLength(const tstring& string) const
@@ -249,7 +224,7 @@ namespace star
 		const schar *line = conv_text.c_str();
 		for(uint32 i = 0; line[i] != 0; ++i) 
 		{
-			length += mLetterSizeList[line[i]].x;
+			length += mCharacterInfoMap.at(line[i]).letterDimensions.x;
 		}
 		return length;
 	}

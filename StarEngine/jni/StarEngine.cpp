@@ -51,10 +51,8 @@ namespace star
 	void StarEngine::Update(const Context & context)
 	{
 		m_FPS.Update(context);
-
 		SceneManager::GetInstance()->Update(context);
 		GraphicsManager::GetInstance()->Update();
-
 		InputManager::GetInstance()->EndUpdate();
 		Logger::GetInstance()->Update(context);
 #if defined(DEBUG) | defined(_DEBUG)
