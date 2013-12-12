@@ -26,13 +26,6 @@ namespace star
 		}
 		m_GarbageContainer.clear();
 
-		//add new timers
-		for(auto& it : m_TempContainer)
-		{
-			m_TimerContainer[it.first] = it.second;
-		}
-		m_TempContainer.clear();
-
 		for(auto it = m_TimerContainer.begin() ; it != m_TimerContainer.end() ; )
 		{
 			if (it->second.Update(context)) 
@@ -50,7 +43,7 @@ namespace star
 									bool countingDown, bool loop,
 									std::function<void ()> func, bool paused)
 	{
-		for(auto& it : m_TempContainer)
+		for(auto& it : m_TimerContainer)
 		{
 			if(it.first == name)
 			{
@@ -68,7 +61,7 @@ namespace star
 		}
 
 		Timer newTimer(targetTime, countingDown, loop, func, paused);
-		m_TempContainer[name] = newTimer;
+		m_TimerContainer[name] = newTimer;
 		return true;
 	}
 

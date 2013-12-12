@@ -40,7 +40,6 @@ namespace star
 	private:
 		std::map<const tstring, Timer> m_TimerContainer;
 		std::map<const tstring, Timer> m_GarbageContainer;
-		std::map<const tstring, Timer> m_TempContainer;
 
 		Stopwatch(const Stopwatch& yRef);
 		Stopwatch(Stopwatch&& yRef);
