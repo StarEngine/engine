@@ -305,6 +305,7 @@ namespace star
 			star::Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("Sound Service: The effect '") + name +
 				_T("' already exists."), STARENGINE_LOG_TAG);
+			return;
 		}
 
 		auto pathit = mSoundEffectPathList.find(path);
@@ -333,6 +334,7 @@ namespace star
 			);
 		mEffectsList[name] = effect;
 		mSoundEffectPathList[path] = name;
+		return;
 	}
 
 	void AudioManager::PlayMusic(

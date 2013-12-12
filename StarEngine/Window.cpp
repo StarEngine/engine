@@ -348,6 +348,14 @@ namespace star
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
 				}
+
+				if(m_IsActive)
+				{					
+					mGamePtr->Update(mContext);
+					SetWindowsTitle();
+					GraphicsManager::GetInstance()->SetHasWindowChanged(false);
+				}
+
 				if(m_IsActive) // We've processed all pending Win32 messages, and can now do a rendering update.
 				{
 					star::InputManager::GetInstance()->UpdateWin();
@@ -358,12 +366,7 @@ namespace star
 					SwapBuffers(Window::mHDC); // Swaps display buffers
 				}
 
-				if(m_IsActive)
-				{					
-					mGamePtr->Update(mContext);
-					SetWindowsTitle();
-					GraphicsManager::GetInstance()->SetHasWindowChanged(false);
-				}
+
 
 				if(monitor_started)
 				{
