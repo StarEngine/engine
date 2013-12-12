@@ -28,8 +28,7 @@ namespace star
 	}
 
 	FontManager::FontManager():
-		mLibrary(0),
-		mFontPath(_T("Fonts/"))
+		mLibrary(0)
 	{
 		auto error = FT_Init_FreeType(&mLibrary);
 		if(error)
@@ -71,7 +70,7 @@ namespace star
 			return true;
 		}
 
-		star::Filepath filepath(mFontPath, path);
+		star::Filepath filepath(path);
 
 		Font* tempFont = new Font();
 		if(tempFont->Init(filepath.GetAssetsPath(), size, mLibrary))
@@ -96,26 +95,6 @@ namespace star
 			return (true);
 		}
 		return (false);
-	}
-	
-	void FontManager::SplitIntoLines(std::vector<sstring> & list, const sstring &string )
-	{
-		sstringstream stream(string);
-		sstring line;
-		while (std::getline(stream,line))
-		{
-			list.push_back(line);
-		}
-	}
-
-	void FontManager::SetFontPath(const tstring & path)
-	{
-		mFontPath = path;
-	}
-
-	const tstring & FontManager::GetFontPath() const
-	{
-		return mFontPath;
 	}
 
 	const Font* FontManager::GetFont(const tstring& name)

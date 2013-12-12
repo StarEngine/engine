@@ -42,8 +42,7 @@ namespace star
 			std::vector<sstring> &list, 
 			const sstring &string
 			);
-		void SetFontPath(const tstring & path);
-		const tstring & GetFontPath() const;
+
 	private:
 		//Data Members
 		static FontManager * mFontManager;
@@ -51,8 +50,6 @@ namespace star
 		FT_Library mLibrary;
 
 		std::map<tstring, Font*> mFontList;
-
-		tstring mFontPath;
 
 		FontManager();
 
