@@ -19,6 +19,8 @@ namespace star
 		, m_SelectCallback(nullptr)
 		, m_DownCallback(nullptr)
 		, m_Percent(0.5f)
+		, m_SliderDimension(0)
+		, m_SliderOffset(0,0)
 		, m_SliderIsDown(false)
 	{
 		m_pSlider = new UIButton(
@@ -45,6 +47,8 @@ namespace star
 		, m_SelectCallback(nullptr)
 		, m_DownCallback(nullptr)
 		, m_Percent(0.5f)
+		, m_SliderDimension(0)
+		, m_SliderOffset(0,0)
 		, m_SliderIsDown(false)
 	{
 		m_pSlider = new UIButton(
@@ -65,7 +69,18 @@ namespace star
 	void UISlider::AfterInitialized()
 	{
 		vec2 dimensions = GetDimensions();
-		m_pSlider->SetAlignmentCentered();
+		vec2 sliderDimensions = m_pSlider->GetDimensions();
+		if(m_SliderIsHorizontal)
+		{
+			m_pSlider->SetVerticalAlignment(VerticalAlignment::Center);
+			m_pSlider->GetTransform()->SetCenterX(sliderDimensions.x / 2);
+		}
+		else
+		{
+			m_pSlider->SetHorizontalAlignment(HorizontalAlignment::Center);
+			m_pSlider->GetTransform()->SetCenterY(sliderDimensions.y / 2);
+		}
+
 		m_pSlider->Translate(
 			dimensions.x / 2.0f,
 			dimensions.y / 4.0f
@@ -80,6 +95,9 @@ namespace star
 				GetScene()->SetActiveCursorLocked(true);
 			}
 		);
+
+		CalculateSliderDimension();
+
 		UIImage::AfterInitialized();
 	}
 	
@@ -92,11 +110,13 @@ namespace star
 			pos -= GetTransform()->GetWorldPosition().pos2D();
 			if(m_SliderIsHorizontal)
 			{
-				SetPercent(pos.x / dimensions.x);
+				pos.x -= m_SliderOffset.x;
+				SetPercent(pos.x / m_SliderDimension);
 			}
 			else
 			{
-				SetPercent(pos.y / dimensions.y);
+				pos.y -= m_SliderOffset.x;
+				SetPercent(pos.y / m_SliderDimension);
 			}
 			if(m_DownCallback != nullptr)
 			{
@@ -131,21 +151,29 @@ namespace star
 
 	void UISlider::SetPositionAccordingToPercent()
 	{
-		vec2 dimensions = GetDimensions();
 		if(m_SliderIsHorizontal)
 		{
 			m_pSlider->TranslateX(
-				dimensions.x * m_Percent
-					- dimensions.x / 2.0f
+					m_SliderOffset.x +
+					m_SliderDimension * m_Percent
 				);
 		}
 		else
 		{
 			m_pSlider->TranslateY(
-				dimensions.y * m_Percent
-					- dimensions.y / 2.0f
+					m_SliderOffset.x +
+					m_SliderDimension * m_Percent
 				);
 		}
+	}
+
+	void UISlider::CalculateSliderDimension()
+	{
+		vec2 dimensions = GetDimensions();
+		m_SliderDimension =
+			(m_SliderIsHorizontal ? dimensions.x : dimensions.y) -
+			m_SliderOffset.x -
+			m_SliderOffset.y;
 	}
 
 	void UISlider::SetSelectedCallback(
@@ -164,5 +192,30 @@ namespace star
 		)
 	{
 		m_DownCallback = callback;
+	}
+
+	void UISlider::SetSliderOffset(float32 min, float32 max)
+	{
+		m_SliderOffset.x = min;
+		m_SliderOffset.y = max;
+		CalculateSliderDimension();
+	}
+
+	void UISlider::SetSliderOffset(const vec2 & offset)
+	{
+		m_SliderOffset = offset;
+		CalculateSliderDimension();
+	}
+
+	void UISlider::SetSliderMinOffset(float32 min)
+	{
+		m_SliderOffset.x = min;
+		CalculateSliderDimension();
+	}
+
+	void UISlider::SetSliderMaxOffset(float32 max)
+	{
+		m_SliderOffset.y = max;
+		CalculateSliderDimension();
 	}
 }
