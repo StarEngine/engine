@@ -179,10 +179,33 @@ namespace star
 				auto component = dynamic_cast<BaseComponent*>(info.Element);
 				auto it = std::find(m_pComponents.begin(), m_pComponents.end(), component);
 				m_pComponents.erase(it);
+				RecalculateDimensions();
 			}
 			break;
 		}
 		delete info.Element;
+	}
+	
+	void Object::RecalculateDimensions()
+	{
+		ivec2 dim(0,0);
+		auto transform = GetTransform();
+		for(auto comp : m_pComponents)
+		{
+			if(comp != transform)
+			{
+				ivec2 temp = comp->GetDimensions();
+				if(temp.x > dim.x)
+				{
+					dim.x = temp.x;
+				}
+				if(temp.y > dim.y)
+				{
+					dim.y = temp.y;
+				}
+			}
+		}
+		transform->SetDimensions(dim);
 	}
 
 	void Object::Initialize()

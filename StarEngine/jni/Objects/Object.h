@@ -107,6 +107,8 @@ namespace star
 		template<class T>
 		T* GetChild(const tstring & name) const;
 
+		void RecalculateDimensions();
+
 	protected:
 		enum class GarbageType : byte
 		{

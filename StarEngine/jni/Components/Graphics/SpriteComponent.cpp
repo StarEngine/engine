@@ -17,8 +17,6 @@ namespace star
 		, m_HeightSegments(heightSegments)
 		, m_CurrentWidthSegment(0)
 		, m_CurrentHeightSegment(0)
-		, m_Width(0)
-		, m_Height(0)
 		, m_FilePath(filepath)
 		, m_SpriteName(spriteName)
 		, m_bIsHudElement(false)
@@ -39,12 +37,14 @@ namespace star
 			m_SpriteName
 			);
 
-		m_Width = TextureManager::GetInstance()->
+		m_Dimensions.x = TextureManager::GetInstance()->
 			GetTextureDimensions(m_SpriteName).x /
 			m_WidthSegments;
-		m_Height =  TextureManager::GetInstance()->
+		m_Dimensions.y =  TextureManager::GetInstance()->
 			GetTextureDimensions(m_SpriteName).y /
 			m_HeightSegments;
+
+		GetTransform()->SetDimensionsSafe(m_Dimensions);
 
 		CreateVertices();
 		CreateUVCoords();
@@ -85,16 +85,16 @@ namespace star
 		*/
 
 		//0
-		m_Vertices[1] = float32(m_Height);
+		m_Vertices[1] = float32(m_Dimensions.y);
 
 		//1
-		m_Vertices[3] = float32(m_Width);
-		m_Vertices[4] = float32(m_Height);
+		m_Vertices[3] = float32(m_Dimensions.x);
+		m_Vertices[4] = float32(m_Dimensions.y);
 
 		//2
 
 		//3
-		m_Vertices[9] = float32(m_Width);
+		m_Vertices[9] = float32(m_Dimensions.x);
 	}
 
 	void SpriteComponent::CreateUVCoords()
@@ -211,16 +211,6 @@ namespace star
 		return m_SpriteName;
 	}
 
-	int32 SpriteComponent::GetWidth() const
-	{
-		return m_Width;
-	}
-
-	int32 SpriteComponent::GetHeight() const
-	{
-		return m_Height; 
-	}
-
 	void SpriteComponent::SetCurrentSegment(uint32 widthSegment, uint32 heightSegment)
 	{
 		m_CurrentWidthSegment = widthSegment;
@@ -250,18 +240,20 @@ namespace star
 		uint32 heightSegments
 		)
 	{
-		m_Width = 0;
+		m_Dimensions.x = 0;
 		m_WidthSegments = widthSegments;
 		m_CurrentWidthSegment = 0;
-		m_Height = 0;
+		m_Dimensions.y = 0;
 		m_HeightSegments = heightSegments;
 		m_CurrentHeightSegment = 0;
 		m_FilePath = Filepath(filepath);
 		m_SpriteName = spriteName;
 
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetAssetsPath(),m_SpriteName);
-		m_Width = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x / m_WidthSegments;
-		m_Height =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y / m_HeightSegments;
+		m_Dimensions.x = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x / m_WidthSegments;
+		m_Dimensions.y =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y / m_HeightSegments;
+		
+		GetTransform()->SetDimensionsSafe(m_Dimensions);
 
 		CreateVertices();
 		CreateUVCoords();

@@ -11,6 +11,7 @@ namespace star
 		, m_bInitialized(false)
 		, m_bIsEnabled(true)
 		, m_bIsVisible(true)
+		, m_Dimensions(0,0)
 	{
 	}
 
@@ -20,6 +21,7 @@ namespace star
 		, m_bInitialized(false)
 		, m_bIsEnabled(true)
 		, m_bIsVisible(true)
+		, m_Dimensions(0,0)
 	{
 	}
 
@@ -116,5 +118,19 @@ namespace star
 	{
 		return m_bIsVisible;
 	}
+	
+	const ivec2 & BaseComponent::GetDimensions() const
+	{
+		return m_Dimensions;
+	}
 
+	int32 BaseComponent::GetWidth() const
+	{
+		return m_Dimensions.x;
+	}
+
+	int32 BaseComponent::GetHeight() const
+	{
+		return m_Dimensions.y; 
+	}
 }

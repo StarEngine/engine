@@ -17,8 +17,6 @@ namespace star
 		)
 		: BaseComponent()
 		, m_FontSize(0)
-		, m_TextWidth(0)
-		, m_TextHeight(0)
 		, m_WrapWidth(NO_WRAPPING)
 		, m_FileName(EMPTY_STRING)
 		, m_FontName(fontName)
@@ -38,8 +36,6 @@ namespace star
 		)
 		: BaseComponent()
 		, m_FontSize(fontSize)
-		, m_TextWidth(0)
-		, m_TextHeight(0)
 		, m_WrapWidth(NO_WRAPPING)
 		, m_FileName(fontPath)
 		, m_FontName(fontName)
@@ -104,8 +100,9 @@ namespace star
 		if(m_bInitialized)
 		{
 			auto font = FontManager::GetInstance()->GetFont(m_FontName);
-			m_TextHeight = (font.GetMaxLetterHeight() * lines)
+			m_Dimensions.y = (font.GetMaxLetterHeight() * lines)
 				+ (m_TextDesc.VerticalSpacing * (lines - 1));
+			GetTransform()->SetDimensionsYSafe(m_Dimensions.y);
 		}
 	}
 
@@ -114,8 +111,9 @@ namespace star
 		auto count = std::count(m_EditText.begin(), m_EditText.end(), _T('\n'));
 		++count;
 		auto font = FontManager::GetInstance()->GetFont(m_FontName);
-		m_TextHeight = (font.GetMaxLetterHeight() * count)
+		m_Dimensions.y = (font.GetMaxLetterHeight() * count)
 			+ (m_TextDesc.VerticalSpacing * (count - 1));
+		GetTransform()->SetDimensionsYSafe(m_Dimensions.y);
 	}
 	
 	void TextComponent::CleanTextUp(const tstring & str)
@@ -248,7 +246,8 @@ namespace star
 					if(strLength > length)
 					{
 						length = strLength;
-						m_TextWidth = strLength;
+						m_Dimensions.x = strLength;
+						GetTransform()->SetDimensionsXSafe(m_Dimensions.x);
 					}
 					substr = EMPTY_STRING;
 				}
@@ -262,7 +261,8 @@ namespace star
 			if(strLength > length)
 			{
 				length = strLength;
-				m_TextWidth = strLength;
+				m_Dimensions.x = strLength;
+				GetTransform()->SetDimensionsXSafe(m_Dimensions.x);
 			}
 		}
 		return length;
@@ -365,7 +365,8 @@ namespace star
 		}
 		else
 		{
-			m_TextWidth = 0;
+			m_Dimensions.x = 0;
+			GetTransform()->SetDimensionsXSafe(m_Dimensions.x);
 			if(m_bInitialized)
 			{
 				CleanTextUp(CheckWrapping(
@@ -394,7 +395,8 @@ namespace star
 		PointerArray<tstring, uint32> words;
 		SplitString(words, stringIn, _T(' '));
 
-		m_TextHeight = font.GetMaxLetterHeight();
+		m_Dimensions.y = font.GetMaxLetterHeight();
+		GetTransform()->SetDimensionsYSafe(m_Dimensions.y);
 
 		uint8 lines(1);
 
@@ -421,9 +423,10 @@ namespace star
 					line + words.elements[i]
 				);
 
-				if( w > m_TextWidth)
+				if( w > m_Dimensions.x)
 				{
-					m_TextWidth = w;
+					m_Dimensions.x = w;
+					GetTransform()->SetDimensionsXSafe(m_Dimensions.x);
 				}
 
 				if( w > wrapWidth)
@@ -469,16 +472,6 @@ namespace star
 		}
 
 		words.elements[n] = str;
-	}
-
-	int32 TextComponent::GetTextWidth() const
-	{
-		return m_TextWidth;
-	}
-
-	int32 TextComponent::GetTextHeight() const
-	{
-		return m_TextHeight;
 	}
 	
 	void TextComponent::SetVerticalSpacing(uint32 spacing)

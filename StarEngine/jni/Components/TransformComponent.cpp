@@ -23,6 +23,9 @@ namespace star
 		m_WorldScale(1,1),
 		m_LocalScale(1,1),
 		m_CenterPosition(0,0),
+		m_Dimensions(0,0),
+		m_IsMirroredX(false),
+		m_IsMirroredY(false),
 	#else
 		m_WorldScale(1,1,1),
 		m_LocalScale(1,1,1),
@@ -153,6 +156,22 @@ namespace star
 		m_IsChanged |= TransformChanged::SCALE;
 	}
 
+	void TransformComponent::Mirror(bool x, bool y)
+	{
+		m_IsMirroredX = x;
+		m_IsMirroredY = y;
+	}
+
+	void TransformComponent::MirrorX(bool x)
+	{
+		m_IsMirroredX = x;
+	}
+
+	void TransformComponent::MirrorY(bool y)
+	{
+		m_IsMirroredY = y;
+	}
+
 	const pos & TransformComponent::GetWorldPosition()
 	{
 		return m_WorldPosition;
@@ -202,6 +221,62 @@ namespace star
 	void TransformComponent::SetCenterY(float32 y)
 	{
 		m_CenterPosition.y = y;
+	}
+
+	void TransformComponent::SetDimensions(int32 x, int32 y)
+	{
+		m_Dimensions.x = x;
+		m_Dimensions.y = y;
+	}
+
+	void TransformComponent::SetDimensions(const ivec2 & dimensions)
+	{
+		m_Dimensions = dimensions;
+	}
+
+	void TransformComponent::SetDimensionsX(int32 x)
+	{
+		m_Dimensions.x = x;
+	}
+
+	void TransformComponent::SetDimensionsY(int32 y)
+	{
+		m_Dimensions.y = y;
+	}
+
+	void TransformComponent::SetDimensionsSafe(int32 x, int32 y)
+	{
+		SetDimensionsXSafe(x);
+		SetDimensionsYSafe(y);
+	}
+
+	void TransformComponent::SetDimensionsSafe(const ivec2 & dimensions)
+	{
+		SetDimensionsSafe(dimensions.x, dimensions.y);
+	}
+
+	void TransformComponent::SetDimensionsXSafe(int32 x)
+	{
+		if(x > m_Dimensions.x)
+		{
+			m_Dimensions.x = x;
+		}
+		else if(x < m_Dimensions.x)
+		{
+			m_pParentObject->RecalculateDimensions();
+		}
+	}
+
+	void TransformComponent::SetDimensionsYSafe(int32 y)
+	{
+		if(y > m_Dimensions.y)
+		{
+			m_Dimensions.y = y;
+		}
+		else if(y < m_Dimensions.y)
+		{
+			m_pParentObject->RecalculateDimensions();
+		}
 	}
 
 #else
@@ -433,11 +508,21 @@ namespace star
 		}
 
 		DecomposeMatrix(m_World, m_WorldPosition, m_WorldScale, m_WorldRotation);
+
+		if(m_IsMirroredX)
+		{
+			m_WorldPosition.x -= m_Dimensions.x;
+		}
+
+		if(m_IsMirroredY)
+		{
+			m_WorldPosition.y -= m_Dimensions.y;
+		}
 	}
 		
 	void TransformComponent::SingleUpdate(mat4 & world)
 	{
-		mat4 matRot, matTrans, matScale, matC, matCI;
+		mat4 matRot, matTrans, matScale, matC, matCI, matM;
 
 		matTrans = star::Translate(m_LocalPosition.pos3D());
 		matRot   = ToMat4(quat(vec3(0, 0, m_LocalRotation)));
@@ -447,6 +532,37 @@ namespace star
 		matC = star::Translate(-centerPos);
 
 		world = matTrans * matRot * matScale * matC;
+
+		if(m_IsMirroredX || m_IsMirroredY)
+		{
+			world *= star::Translate(
+				m_Dimensions.x / 2.0f,
+				m_Dimensions.y / 2.0f,
+				0
+				);
+
+			if(m_IsMirroredX)
+			{
+				if(m_IsMirroredY)
+				{
+					world *= star::Scale(vec3(-1,-1,1));
+				}
+				else
+				{
+					world *= star::Scale(vec3(-1,1,1));
+				}
+			}
+			else
+			{
+				world *= star::Scale(vec3(1,-1,1));
+			}
+
+			world *= star::Translate(
+				m_Dimensions.x / -2.0f,
+				m_Dimensions.y / -2.0f,
+				0
+				);
+		}
 	}
 
 	void TransformComponent::Update(const Context& context)

@@ -60,13 +60,13 @@ namespace star
 				break;
 			case HorizontalAlignment::Center:
 				GetTransform()->SetCenterX(
-					float32(m_pTextComponent->GetTextWidth()) / 2.0f
+					float32(m_pTextComponent->GetWidth()) / 2.0f
 					);
 				m_pTextComponent->AlignTextCenter();
 				break;
 			case HorizontalAlignment::Right:
 				GetTransform()->SetCenterX(
-					float32(m_pTextComponent->GetTextWidth())
+					float32(m_pTextComponent->GetWidth())
 					);
 				m_pTextComponent->AlignTextRight();
 				break;
@@ -84,12 +84,12 @@ namespace star
 				break;
 			case VerticalAlignment::Center:
 				GetTransform()->SetCenterY(
-					float32(m_pTextComponent->GetTextHeight()) / 2.0f
+					float32(m_pTextComponent->GetHeight()) / 2.0f
 					);
 				break;
 			case VerticalAlignment::Top:
 				GetTransform()->SetCenterY(
-					float32(m_pTextComponent->GetTextHeight())
+					float32(m_pTextComponent->GetHeight())
 					);
 				break;
 		}
@@ -119,11 +119,11 @@ namespace star
 
 	int32 UITextField::GetWidth() const
 	{
-		return m_pTextComponent->GetTextWidth();
+		return m_pTextComponent->GetWidth();
 	}
 
 	int32 UITextField::GetHeight() const
 	{
-		return m_pTextComponent->GetTextHeight();
+		return m_pTextComponent->GetHeight();
 	}
 }

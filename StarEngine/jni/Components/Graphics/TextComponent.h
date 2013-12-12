@@ -47,9 +47,6 @@ namespace star
 		void SetWrapWidth(int32 width);
 		int32 GetWrapWidth() const;
 
-		int32 GetTextWidth() const;
-		int32 GetTextHeight() const;
-
 		void SetVerticalSpacing(uint32 spacing);
 
 		void SetHUDOptionEnabled(bool enabled);
@@ -80,8 +77,6 @@ namespace star
 	
 	private:
 		uint32	m_FontSize;
-		int32	m_TextWidth,
-				m_TextHeight;
 
 		int32 m_WrapWidth;
 

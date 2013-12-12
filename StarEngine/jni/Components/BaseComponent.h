@@ -45,6 +45,10 @@ namespace star
 		void SetVisible(bool bVisible);
 		bool IsVisible() const;
 
+		const ivec2 & GetDimensions() const;
+		virtual int32 GetWidth() const;
+		virtual int32 GetHeight() const;
+
 	protected:
 		virtual void InitializeComponent() = 0;
 
@@ -52,6 +56,7 @@ namespace star
 		bool	m_bInitialized,
 				m_bIsEnabled,
 				m_bIsVisible;
+		ivec2	m_Dimensions;
 
 	private:
 		BaseComponent(const BaseComponent& t);

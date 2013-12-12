@@ -61,8 +61,6 @@ namespace star
 
 		int32 GetFramesHorizontal() const;
 		int32 GetFramesVertical() const;
-		int32 GetWidth() const;
-		int32 GetHeight() const;
 
 		void SetCallbackAnimations(const std::function<void()> & callback);
 

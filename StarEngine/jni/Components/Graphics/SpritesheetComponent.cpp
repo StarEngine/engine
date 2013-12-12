@@ -1,6 +1,7 @@
 #include "SpritesheetComponent.h"
 #include "../../Graphics/SpriteAnimationManager.h"
 #include "../../Logger.h"
+#include "../TransformComponent.h"
 
 namespace star
 {
@@ -269,37 +270,28 @@ namespace star
 		return nrOfFrames;
 	}
 
-	int32 SpritesheetComponent::GetWidth() const
-	{
-		return int32(m_Width);
-	}
-
-	int32 SpritesheetComponent::GetHeight() const
-	{
-		return int32(m_Height);
-	}
-
 	void SpritesheetComponent::InitializeComponent()
 	{
 		SetSpritesheet(m_SpritesheetName);
 		SpriteComponent::InitializeComponent();
-		m_Width /= GetFramesHorizontal();
-		m_Height /= GetFramesVertical();
+		m_Dimensions.x /= GetFramesHorizontal();
+		m_Dimensions.y /= GetFramesVertical();
+		GetTransform()->SetDimensionsSafe(m_Dimensions);
 	}
 
 	void SpritesheetComponent::CreateVertices()
 	{
 		//0
-		m_Vertices[1] = float32(m_Height / GetFramesVertical());
+		m_Vertices[1] = float32(m_Dimensions.x / GetFramesVertical());
 
 		//1
-		m_Vertices[3] = float32(m_Width / GetFramesHorizontal());
-		m_Vertices[4] = float32(m_Height / GetFramesVertical());
+		m_Vertices[3] = float32(m_Dimensions.x / GetFramesHorizontal());
+		m_Vertices[4] = float32(m_Dimensions.y / GetFramesVertical());
 
 		//2
 
 		//3
-		m_Vertices[9] = float32(m_Width / GetFramesHorizontal());
+		m_Vertices[9] = float32(m_Dimensions.y / GetFramesHorizontal());
 	}
 
 	void SpritesheetComponent::SetCallbackAnimations( const std::function<void()> & callback )

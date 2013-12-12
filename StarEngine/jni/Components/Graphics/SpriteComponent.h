@@ -53,8 +53,6 @@ namespace star
 
 		const tstring& GetFilePath() const;
 		const tstring& GetName() const;
-		virtual int32 GetWidth() const;
-		virtual int32 GetHeight() const;
 		
 		void SetCurrentSegment(uint32 widthSegment, uint32 heightSegment);
 		void SetColorMultiplier(const Color & color);
@@ -86,8 +84,6 @@ namespace star
 				m_HeightSegments, 
 				m_CurrentWidthSegment,
 				m_CurrentHeightSegment;
-
-		int32 m_Width, m_Height;
 
 	private:
 
