@@ -307,6 +307,7 @@ namespace star
 		{
 			return true;
 		}
+		return true;
 		float32 textWidth, textHeight;
 
 		const pos& objectPos = GetTransform()->GetWorldPosition();

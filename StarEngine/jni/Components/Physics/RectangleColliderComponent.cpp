@@ -16,19 +16,14 @@ namespace star
 	RectangleColliderComponent::RectangleColliderComponent()
 		: BaseColliderComponent()
 		, m_CollisionRect()
-		, m_bDefaultInitialized(true)
+		, m_CustomColliderSize()
 	{
 	}
 	
 	RectangleColliderComponent::RectangleColliderComponent(const vec2& size)
 		: BaseColliderComponent()
-		, m_CollisionRect(
-			vec2(-(size.x / 2.0f), -(size.y / 2.0f)),
-			vec2(size.x / 2.0f,  -(size.y / 2.0f)),
-			vec2(-(size.x / 2.0f), size.y / 2.0f), 
-			vec2(size.x / 2.0f, size.y / 2.0f)
-		)
-		, m_bDefaultInitialized(false)
+		, m_CollisionRect()
+		, m_CustomColliderSize(size)
 	{
 
 	}
@@ -37,12 +32,8 @@ namespace star
 		float32 width, 
 		float32 height)
 		: BaseColliderComponent()
-		, m_CollisionRect(
-			vec2(-(width / 2.0f), -(height / 2.0f)),
-			vec2(width / 2.0f,  -(height / 2.0f)),
-			vec2(-(width / 2.0f), height / 2.0f), 
-			vec2(width / 2.0f, height / 2.0f))
-		, m_bDefaultInitialized(false)
+		, m_CollisionRect()
+		, m_CustomColliderSize(width, height)
 	{
 
 	}
@@ -52,7 +43,7 @@ namespace star
 		uint8 n)
 		: BaseColliderComponent(layers, n)
 		, m_CollisionRect()
-		, m_bDefaultInitialized(true)
+		, m_CustomColliderSize()
 	{
 
 	}
@@ -62,13 +53,8 @@ namespace star
 		const tstring* layers, 
 		uint8 n)
 		: BaseColliderComponent(layers, n)
-		, m_CollisionRect(
-			vec2(-(size.x / 2.0f), -(size.y / 2.0f)),
-			vec2(size.x / 2.0f,  -(size.y / 2.0f)),
-			vec2(-(size.x / 2.0f), size.y / 2.0f), 
-			vec2(size.x / 2.0f, size.y / 2.0f)
-		)
-		, m_bDefaultInitialized(false)
+		, m_CollisionRect()
+		, m_CustomColliderSize(size)
 	{
 
 	}
@@ -78,12 +64,8 @@ namespace star
 		const tstring* layers, 
 		uint8 n)
 		: BaseColliderComponent(layers, n)
-		, m_CollisionRect(
-			vec2(-(width / 2.0f), -(height / 2.0f)),
-			vec2(width / 2.0f,  -(height / 2.0f)),
-			vec2(-(width / 2.0f), height / 2.0f), 
-			vec2(width / 2.0f, height / 2.0f))
-		, m_bDefaultInitialized(false)
+		, m_CollisionRect()
+		, m_CustomColliderSize(width, height)
 	{
 		
 	}
@@ -94,36 +76,95 @@ namespace star
 
 	void RectangleColliderComponent::InitializeColliderComponent()
 	{
-		if(m_bDefaultInitialized)
+		CreateDimensions();
+
+		GetParent()->GetScene()->GetCollisionManager()->AddComponent(this, m_Layers.elements, m_Layers.amount);
+	}
+
+	void RectangleColliderComponent::CreateDimensions()
+	{
+		//Initialize the rectangle with the values of the visible part of the sprite
+		SpriteComponent* spriteComp = GetParent()->GetComponent<SpriteComponent>();
+		if(spriteComp)
 		{
-			//Initialize the rectangle with the values of the visible part of the sprite
-			SpriteComponent* spriteComp = GetParent()->GetComponent<SpriteComponent>();
-			if(spriteComp)
+			Logger::GetInstance()->Log(spriteComp->IsInitialized(),
+				_T("First add the spriteComponent and then the rectColliderComp"),
+				STARENGINE_LOG_TAG);
+
+			if(m_CustomColliderSize == vec2())
 			{
-				Logger::GetInstance()->Log(spriteComp->IsInitialized(),
-					_T("First add the spriteComponent and then the rectColliderComp"),
-					STARENGINE_LOG_TAG);
+					m_CollisionRect.SetPoints(
+						vec2(0, 0),
+						vec2(spriteComp->GetWidth(), 0), 
+						vec2(0, spriteComp->GetHeight()), 
+						vec2(spriteComp->GetWidth(), spriteComp->GetHeight())
+						);
+			}
+			else
+			{
+				auto spriteWidthHalf = spriteComp->GetWidth() / 2.0f;
+				auto spriteHeightHalf = spriteComp->GetHeight() / 2.0f;
+
+				auto colliderWidthHalf = m_CustomColliderSize.x / 2.0f;
+				auto colliderHeightHalf = m_CustomColliderSize.y / 2.0f;
+
 				m_CollisionRect.SetPoints(
-					vec2(0, 0),
-					vec2(spriteComp->GetWidth(), 0), 
-					vec2(0, spriteComp->GetHeight()), 
-					vec2(spriteComp->GetWidth(), spriteComp->GetHeight())
+					vec2(
+						spriteWidthHalf - colliderWidthHalf, 
+						spriteHeightHalf - colliderHeightHalf
+						),
+					vec2(
+						spriteWidthHalf + colliderWidthHalf,
+						spriteHeightHalf - colliderHeightHalf
+						),
+					vec2(
+						spriteWidthHalf - colliderWidthHalf, 
+						spriteHeightHalf + colliderHeightHalf
+						), 
+					vec2(
+						spriteWidthHalf + colliderWidthHalf,
+						spriteHeightHalf + colliderHeightHalf
+						)
+					);
+			}
+		}
+		else
+		{
+			//[TODO] Add datamember to add an offset to the collider. 
+			//now the collider will always be from left bottom if there is no spritecomponent
+			if(m_CustomColliderSize != vec2())
+			{
+				auto colliderWidthHalf = m_CustomColliderSize.x / 2.0f;
+				auto colliderHeightHalf = m_CustomColliderSize.y / 2.0f;
+
+				m_CollisionRect.SetPoints(
+					vec2(
+						- colliderWidthHalf, 
+						- colliderHeightHalf
+						),
+					vec2(
+						colliderWidthHalf,
+						colliderHeightHalf
+						),
+					vec2(
+						- colliderWidthHalf, 
+						colliderHeightHalf
+						), 
+					vec2(
+						colliderWidthHalf,
+						colliderHeightHalf
+						)
 					);
 			}
 			else
 			{
-				Logger::GetInstance()->Log(false, 
-					_T("If you use the default constructor of the RectangleColliderComponent()\
-, make sure to also add a SpriteComponent or SpriteSheetComponent. \
-If you don't need this, please specify a width and height in the constructor of \
-								If you don't need this, please specify a width \
-								and height in the constructor of \n\
-								the RectangleColliderComponent."),
-								STARENGINE_LOG_TAG);
+				Logger::GetInstance()->Log(
+					LogLevel::Warning, 
+					_T("If you add a colliderComponent without a spriteComponent,\
+make sure you specify the width and the height! else the collider component has a width and height of 0.")
+					);
 			}
 		}
-
-		GetParent()->GetScene()->GetCollisionManager()->AddComponent(this, m_Layers.elements, m_Layers.amount);
 	}
 
 	bool RectangleColliderComponent::CollidesWithPoint(const vec2& point) const
@@ -478,20 +519,17 @@ The collierComponent to check is a nullptr"), STARENGINE_LOG_TAG);
 		float32 width, 
 		float32 height)
 	{
-		m_CollisionRect.SetPoints
-			(vec2(0, 0), 
-			vec2(width, 0), 
-			vec2(0, height), 
-			vec2(width, height));
+		m_CustomColliderSize.x = width;
+		m_CustomColliderSize.y = height;
+
+		CreateDimensions();
 	}
 
 	void RectangleColliderComponent::SetCollisionRectSize(const vec2& size)
 	{
-		m_CollisionRect.SetPoints(
-			vec2(0, 0), 
-			vec2(size.x, 0), 
-			vec2(0, size.y), 
-			vec2(size.x, size.y));
+		m_CustomColliderSize = size;
+
+		CreateDimensions();
 	}
 
 	Rect RectangleColliderComponent::GetCollisionRect() const

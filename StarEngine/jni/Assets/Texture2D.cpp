@@ -59,7 +59,10 @@ namespace star
 		if(fp == NULL)
 		{ 
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("PNG : png could not be loaded"), STARENGINE_LOG_TAG);
+				_T("Texture2D::ReadPNG: the png \"") +
+				mPath + 
+				_T("\" could not be loaded"), STARENGINE_LOG_TAG
+				);
 			return NULL;
 		}
 

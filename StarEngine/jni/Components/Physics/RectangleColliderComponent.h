@@ -86,7 +86,8 @@ namespace star
 		Rect m_CollisionRect;
 
 	private:
-		bool m_bDefaultInitialized;
+		vec2 m_CustomColliderSize;
+		void CreateDimensions();
 
 		float32 CalculateMinimum(
 			const float32* vec, 
