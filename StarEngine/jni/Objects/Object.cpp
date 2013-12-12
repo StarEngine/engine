@@ -557,6 +557,30 @@ Trying to (un)hide unknown child '")
 				+ name + _T("'."), STARENGINE_LOG_TAG);
 	}
 
+	void Object::SetChildrenFrozen(bool freeze)
+	{
+		for(auto child : m_pChildren)
+		{
+			child->Freeze(freeze);
+		}
+	}
+
+	void Object::SetChildrenDisabled(bool disable)
+	{
+		for(auto child : m_pChildren)
+		{
+			child->SetDisabled(disable);
+		}
+	}
+
+	void Object::SetChildrenVisible(bool visible)
+	{
+		for(auto child : m_pChildren)
+		{
+			child->SetVisible(visible);
+		}
+	}
+
 	void Object::AddAction(Action * pAction)
 	{
 		for(auto action : m_pActions)

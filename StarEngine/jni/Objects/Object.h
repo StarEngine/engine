@@ -61,6 +61,10 @@ namespace star
 		void SetChildDisabled(const tstring & name, bool disabled);
 		void SetChildVisible(const tstring & name, bool visible);
 
+		void SetChildrenFrozen(bool freeze);
+		void SetChildrenDisabled(bool disable);
+		void SetChildrenVisible(bool visible);
+
 		void AddAction(Action * pAction);
 		void RemoveAction(Action *pAction);
 		void RemoveAction(const tstring & name);
