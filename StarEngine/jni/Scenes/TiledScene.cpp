@@ -3,6 +3,7 @@
 #include "../Input/XMLFileParser.h"
 #include "../Helpers/Helpers.h"
 #include "../Objects/Object.h"
+#include "../Objects/FreeCamera.h"
 
 #include "../Components/Graphics/SpriteComponent.h"
 
@@ -12,7 +13,6 @@ namespace star
 		const tstring & name,
 		float32 scale )
 		: BaseScene(name)
-		, m_pActiveCamera(nullptr)
 		, m_Width(0)
 		, m_Height(0)
 		, m_TileWidth(0)
@@ -91,19 +91,20 @@ namespace star
 
 	void TiledScene::CreateObjects()
 	{
-		if(m_pActiveCamera == nullptr)
+		if(m_pDefaultCamera == nullptr)
 		{
-			m_pActiveCamera = new FreeCamera();
-			m_pActiveCamera->SetStatic(false);
-			m_pActiveCamera->SetZoomEnabled(true);
-			m_pActiveCamera->SetMoveSpeed(2.0f);
-			AddObject(m_pActiveCamera);
+			auto defaultCamera = new FreeCamera();
+			defaultCamera->SetStatic(false);
+			defaultCamera->SetZoomEnabled(true);
+			defaultCamera->SetMoveSpeed(2.0f);
+			AddObject(defaultCamera);
+			m_pDefaultCamera = defaultCamera;
 		}
 	}
 
 	void TiledScene::AfterInitializedObjects()
 	{
-		SetActiveCamera(m_pActiveCamera);
+		SetActiveCamera(m_pDefaultCamera);
 	}
 
 	void TiledScene::OnActivate()

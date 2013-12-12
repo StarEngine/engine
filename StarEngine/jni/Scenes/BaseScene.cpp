@@ -37,7 +37,7 @@ namespace star
 	
 	BaseScene::~BaseScene()
 	{
-		for(auto object : m_Objects)
+		for(auto & object : m_Objects)
 		{
 			SafeDelete(object);
 		}

@@ -3,7 +3,6 @@
 #include "BaseScene.h"
 #include <map>
 #include <functional>
-#include "../Objects/FreeCamera.h"
 
 namespace star
 {
@@ -52,8 +51,6 @@ namespace star
 		void GetCorrectTileset(uint32 gid, TileSet & set) const;
 		star::SpriteComponent * CreateSpriteFromGid(uint32 gid, const TileSet & set);
 		tstring GetSpritesheetName(const TileSet & set) const;
-
-		star::FreeCamera *m_pActiveCamera;
 
 		uint32 m_Width, m_Height, m_TileWidth, m_TileHeight;
 		float32 m_Scale;

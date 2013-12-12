@@ -80,7 +80,7 @@ namespace star
 	/// </summary>
 	/// <param name="pointer">the pointer to the object to be deleted</param>
 	template <typename T>
-	inline void SafeDelete(T * pointer)
+	inline void SafeDelete(T * &pointer)
 	{
 		if(pointer != nullptr)
 		{

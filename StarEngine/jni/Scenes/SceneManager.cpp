@@ -189,7 +189,7 @@ namespace star
 			return;
 		}
 
-		for(auto scene : m_GarbageList)
+		for(auto & scene : m_GarbageList)
 		{
 			auto it = m_SceneList.find(scene->GetName());
 			m_SceneList.erase(it);
