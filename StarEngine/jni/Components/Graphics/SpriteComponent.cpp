@@ -106,7 +106,7 @@ namespace star
 
 		pos objectPos = GetTransform()->GetWorldPosition();
 		
-		if(m_bIsHudElement)
+		if(m_SpriteInfo->bIsHud)
 		{
 			objectPos.x += left;
 			objectPos.y += bottom;
