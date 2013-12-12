@@ -33,7 +33,7 @@ Trying to get unknown child '")
 		return nullptr;
 	}
 
-	template<class T>
+	template <typename T>
 	void Object::RemoveComponent()
 	{
 		const std::type_info& ti = typeid(T);
@@ -51,7 +51,7 @@ Trying to get unknown child '")
 		}	
 	}
 
-	template<class T>
+	template <typename T>
 	T* Object::GetComponent(bool searchChildren) const
 	{
 		const std::type_info& ti = typeid(T);
@@ -73,7 +73,7 @@ Trying to get unknown child '")
 		return (nullptr);
 	}
 
-	template<class T>
+	template <typename T>
 	T* Object::GetChild() const
 	{
 		const std::type_info& ti = typeid(T);
@@ -87,7 +87,7 @@ Trying to get unknown child '")
 		return (nullptr);
 	}
 
-	template<class T>
+	template <typename T>
 	T* Object::GetChild(const tstring & name) const
 	{
 		const std::type_info& ti = typeid(T);
@@ -100,5 +100,21 @@ Trying to get unknown child '")
 			}
 		}
 		return (nullptr);
+	}
+
+	
+	template <typename T>
+	bool Object::HasComponent(BaseComponent * component) const
+	{
+		const std::type_info& ti = typeid(T);
+		for(auto comp : m_pComponents)
+		{
+			if(comp != component &&
+				typeid(*comp) == ti)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

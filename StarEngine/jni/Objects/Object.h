@@ -97,19 +97,22 @@ namespace star
 
 		BaseScene * GetScene() const;
 
-		template<class T>
+		template <typename T>
 		void RemoveComponent();
 
-		template<class T>
+		template <typename T>
 		T* GetComponent(bool searchChildren = false) const;
 
 		const std::vector<BaseComponent*>& GetComponents() const;
 
-		template<class T>
+		template <typename T>
 		T* GetChild() const;
 
-		template<class T>
+		template <typename T>
 		T* GetChild(const tstring & name) const;
+
+		template <typename T>
+		bool HasComponent(BaseComponent * component) const;
 
 		void RecalculateDimensions();
 

@@ -8,6 +8,8 @@
 #include "../../Graphics/SpriteBatch.h"
 #include "../../Objects/FreeCamera.h"
 #include "../../Objects/Object.h"
+#include "SpriteComponent.h"
+#include "SpritesheetComponent.h"
 
 namespace star
 {
@@ -68,22 +70,33 @@ namespace star
 	}
 
 	void TextComponent::InitializeComponent()
-	{	
-		
-		if(m_WrapWidth == NO_WRAPPING)
+	{
+		if(m_pParentObject->HasComponent<SpritesheetComponent>(this)
+			|| m_pParentObject->HasComponent<SpriteComponent>(this))
 		{
-			CleanTextUp(m_OrigText);
-			CalculateTextDimensions();
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Object '") + m_pParentObject->GetName() +
+				_T("': Can't add a TextComponent when already \
+having a Spritesheet- or SpriteComponent."));
+			m_pParentObject->RemoveComponent(this);
 		}
 		else
 		{
-			CleanTextUp(CheckWrapping(
-						m_OrigText,
-						m_WrapWidth
-						));
-		}
+			if(m_WrapWidth == NO_WRAPPING)
+			{
+				CleanTextUp(m_OrigText);
+				CalculateTextDimensions();
+			}
+			else
+			{
+				CleanTextUp(CheckWrapping(
+							m_OrigText,
+							m_WrapWidth
+							));
+			}
 
-		FillTextInfo();
+			FillTextInfo();
+		}
 	}
 
 	void TextComponent::FillTextInfo()

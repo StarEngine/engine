@@ -3,6 +3,9 @@
 #include "../../Assets/TextureManager.h"
 #include "../TransformComponent.h"
 #include "../../Graphics/SpriteBatch.h"
+#include "../../Objects/Object.h"
+#include "SpritesheetComponent.h"
+#include "TextComponent.h"
 
 namespace star
 {
@@ -26,22 +29,34 @@ namespace star
 
 	void SpriteComponent::InitializeComponent()
 	{	
-		TextureManager::GetInstance()->LoadTexture(
-			m_FilePath.GetAssetsPath(),
-			m_SpriteName
-			);
+		if(m_pParentObject->HasComponent<SpritesheetComponent>(this)
+			|| m_pParentObject->HasComponent<TextComponent>(this))
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Object '") + m_pParentObject->GetName() +
+				_T("': Can't add a SpriteComponent when already \
+having a Spritesheet- or TextComponent."));
+			m_pParentObject->RemoveComponent(this);
+		}
+		else
+		{
+			TextureManager::GetInstance()->LoadTexture(
+				m_FilePath.GetAssetsPath(),
+				m_SpriteName
+				);
 
-		m_Dimensions.x = TextureManager::GetInstance()->
-			GetTextureDimensions(m_SpriteName).x /
-			m_WidthSegments;
-		m_Dimensions.y =  TextureManager::GetInstance()->
-			GetTextureDimensions(m_SpriteName).y /
-			m_HeightSegments;
+			m_Dimensions.x = TextureManager::GetInstance()->
+				GetTextureDimensions(m_SpriteName).x /
+				m_WidthSegments;
+			m_Dimensions.y =  TextureManager::GetInstance()->
+				GetTextureDimensions(m_SpriteName).y /
+				m_HeightSegments;
 
-		GetTransform()->SetDimensionsSafe(m_Dimensions);
+			GetTransform()->SetDimensionsSafe(m_Dimensions);
 
-		CreateUVCoords();
-		FillSpriteInfo();
+			CreateUVCoords();
+			FillSpriteInfo();
+		}
 	}
 
 	void SpriteComponent::FillSpriteInfo()

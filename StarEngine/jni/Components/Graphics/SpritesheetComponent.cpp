@@ -2,6 +2,9 @@
 #include "../../Graphics/SpriteAnimationManager.h"
 #include "../../Logger.h"
 #include "../TransformComponent.h"
+#include "../../Objects/Object.h"
+#include "SpriteComponent.h"
+#include "TextComponent.h"
 
 namespace star
 {
@@ -261,15 +264,27 @@ namespace star
 
 	void SpritesheetComponent::InitializeComponent()
 	{
-		SetSpritesheet(m_SpritesheetName);
-		SpriteComponent::InitializeComponent();
+		if(m_pParentObject->HasComponent<SpriteComponent>(this)
+			|| m_pParentObject->HasComponent<TextComponent>(this))
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Object '") + m_pParentObject->GetName() +
+				_T("': Can't add a SpritesheetComponent when \
+already having a Sprite- or TextComponent."));
+			m_pParentObject->RemoveComponent(this);
+		}
+		else
+		{
+			SetSpritesheet(m_SpritesheetName);
+			SpriteComponent::InitializeComponent();
 
-		m_Dimensions.x /= GetFramesHorizontal();
-		m_Dimensions.y /= GetFramesVertical();
-		GetTransform()->SetDimensionsSafe(m_Dimensions);
+			m_Dimensions.x /= GetFramesHorizontal();
+			m_Dimensions.y /= GetFramesVertical();
+			GetTransform()->SetDimensionsSafe(m_Dimensions);
 
-		CreateUVCoords();
-		FillSpriteInfo();
+			CreateUVCoords();
+			FillSpriteInfo();
+		}
 	}
 
 
