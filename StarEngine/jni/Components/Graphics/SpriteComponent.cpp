@@ -48,7 +48,7 @@ namespace star
 	{
 		m_SpriteInfo->textureID = 
 			TextureManager::GetInstance()->GetTextureID(m_SpriteName);
-		m_SpriteInfo->vertices = vec2(m_Width, m_Height);		
+		m_SpriteInfo->vertices = vec2(m_Dimensions.x, m_Dimensions.y);
 	}
 
 	SpriteComponent::~SpriteComponent()

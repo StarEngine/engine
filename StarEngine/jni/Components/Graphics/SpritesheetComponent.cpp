@@ -264,6 +264,7 @@ namespace star
 		SetSpritesheet(m_SpritesheetName);
 		SpriteComponent::InitializeComponent();
 
+		m_Dimensions.x /= GetFramesHorizontal();
 		m_Dimensions.y /= GetFramesVertical();
 		GetTransform()->SetDimensionsSafe(m_Dimensions);
 

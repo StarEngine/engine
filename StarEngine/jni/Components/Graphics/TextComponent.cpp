@@ -106,7 +106,7 @@ namespace star
 	{
 		if(m_bInitialized)
 		{
-			m_TextHeight = (m_Font->GetMaxLetterHeight() * lines)
+			m_Dimensions.y = (m_Font->GetMaxLetterHeight() * lines)
 				+ (m_TextInfo->verticalSpacing * (lines - 1));
 			GetTransform()->SetDimensionsYSafe(m_Dimensions.y);
 		}
@@ -116,9 +116,9 @@ namespace star
 	{
 		auto count = std::count(m_EditText.begin(), m_EditText.end(), _T('\n'));
 		++count;
-		m_TextHeight = (m_Font->GetMaxLetterHeight() * count)
+		m_Dimensions.y = (m_Font->GetMaxLetterHeight() * count)
 				+ (m_TextInfo->verticalSpacing * (count - 1));
-		m_TextInfo->textHeight = m_TextHeight;
+		m_TextInfo->textHeight = m_Dimensions.y;
 		GetTransform()->SetDimensionsYSafe(m_Dimensions.y);
 	}
 	
@@ -406,7 +406,7 @@ namespace star
 		PointerArray<tstring, uint32> words;
 		SplitString(words, stringIn, _T(' '));
 
-		m_TextHeight = m_Font->GetMaxLetterHeight();
+		m_Dimensions.y = m_Font->GetMaxLetterHeight();
 		GetTransform()->SetDimensionsYSafe(m_Dimensions.y);
 
 		uint8 lines(1);
