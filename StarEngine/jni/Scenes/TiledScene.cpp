@@ -104,7 +104,6 @@ namespace star
 
 	void TiledScene::AfterInitializedObjects()
 	{
-		SetActiveCamera(m_pDefaultCamera);
 	}
 
 	void TiledScene::OnActivate()

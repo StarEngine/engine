@@ -94,7 +94,7 @@ namespace star
 
 		std::vector<Object*> m_Objects;
 		std::vector<Object*> m_Garbage;
-		BaseCamera* m_pDefaultCamera;
+		BaseCamera *m_pDefaultCamera, *m_pActiveCamera;
 		std::shared_ptr<Stopwatch> m_pStopwatch;
 		UIBaseCursor *m_pCursor;
 
