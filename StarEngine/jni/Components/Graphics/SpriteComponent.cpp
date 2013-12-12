@@ -180,6 +180,12 @@ namespace star
 		float32 spriteWidth, spriteHeight;
 
 		pos objectPos = GetTransform()->GetWorldPosition();
+		
+		if(m_bIsHudElement)
+		{
+			objectPos.x += left;
+			objectPos.y += bottom;
+		}
 
 		spriteWidth = float32(GetWidth()) * GetTransform()->GetWorldScale().x;
 		spriteHeight = float32(GetHeight()) * GetTransform()->GetWorldScale().y;

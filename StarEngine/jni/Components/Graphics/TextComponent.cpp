@@ -295,6 +295,12 @@ namespace star
 
 		pos objectPos = GetTransform()->GetWorldPosition();
 		
+		if(m_TextDesc.IsHUDText)
+		{
+			objectPos.x += left;
+			objectPos.y += bottom;
+		}
+		
 		auto font = FontManager::GetInstance()->GetFont(m_FontName);
 		textW = float32(font.GetStringLength(m_OrigText));
 		textH = float32(font.GetMaxLetterHeight());
