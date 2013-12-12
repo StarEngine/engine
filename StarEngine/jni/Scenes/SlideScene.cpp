@@ -67,19 +67,8 @@ namespace star
 		++m_CurrentSlide;
 		if(m_CurrentSlide == m_Slides.size())
 		{
-			tstring name = GetName();
 			SceneManager::GetInstance()->SetActiveScene(m_NextScene);
-			SceneManager::GetInstance()->GetStopwatch()->CreateTimer(
-				_T("RemoveSplashScreenTimer"),
-				0.5f,
-				false,
-				false,
-				[&, name] ()
-				{
-					SceneManager::GetInstance()->RemoveScene(name);
-				},
-				false
-				);
+			SceneManager::GetInstance()->RemoveScene(GetName());
 		}
 		else if(m_CurrentSlide < m_Slides.size())
 		{

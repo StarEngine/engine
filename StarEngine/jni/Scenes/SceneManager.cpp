@@ -193,6 +193,10 @@ namespace star
 		{
 			auto it = m_SceneList.find(scene->GetName());
 			m_SceneList.erase(it);
+			if(m_ActiveScene == scene)
+			{
+				m_ActiveScene = nullptr;
+			}
 			SafeDelete(scene);
 		}
 		m_GarbageList.clear();
