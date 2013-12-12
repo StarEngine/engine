@@ -40,14 +40,21 @@ namespace star
 			const std::function<void(float32)> & callback
 			);
 
+		void SetSliderOffset(float32 min, float32 max);
+		void SetSliderOffset(const vec2 & offset);
+		void SetSliderMinOffset(float32 min);
+		void SetSliderMaxOffset(float32 max);
+
 	protected:
 		void SetPositionAccordingToPercent();
+		void CalculateSliderDimension();
 
 		bool m_SliderIsHorizontal;
 		bool m_SliderIsDown;
 
 		UIButton * m_pSlider;
-		float32 m_Percent;
+		float32 m_Percent, m_SliderDimension;
+		vec2 m_SliderOffset;
 
 		std::function<void(float32)>
 			m_SelectCallback,

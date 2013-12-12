@@ -232,7 +232,7 @@ namespace star
 				x += dimensions.x / 2;
 				break;
 			case HorizontalAlignment::Right:
-				x = dimensions.x - x;
+				x += dimensions.x;
 				break;
 		}
 
@@ -247,7 +247,7 @@ namespace star
 				y += dimensions.y / 2;
 				break;
 			case VerticalAlignment::Top:
-				y = dimensions.y - y;
+				y += dimensions.y;
 				break;
 		}
 

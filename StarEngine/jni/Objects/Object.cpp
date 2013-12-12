@@ -682,11 +682,6 @@ to remove could not be found."));
 	{
 		m_IsVisible = !disabled;
 		m_IsFrozen = disabled;
-
-		for(auto child : m_pChildren)
-		{
-			child->SetDisabled(disabled);
-		}
 	}
 
 	bool Object::IsDisabled() const
