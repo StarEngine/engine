@@ -30,6 +30,7 @@ namespace star
 		TiledScene(const tstring & name, float32 scale = 1.0f);
 		virtual ~TiledScene();
 
+		virtual void RemoveObject(Object * object);
 	protected:
 
 		virtual void CreateObjects();
@@ -45,6 +46,8 @@ namespace star
 			DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
 		void BaseCreateLevel(XMLContainer & container);
 
+		void ClearLevel();
+
 		void DefineSpecialObject(const tstring & object_id,
 			std::function<Object*(const TileObject&)> func);
 
@@ -55,6 +58,7 @@ namespace star
 		uint32 m_Width, m_Height, m_TileWidth, m_TileHeight;
 		float32 m_Scale;
 		std::vector<TileSet> m_TileSets;
+		std::vector<Object*> m_TiledObjects;
 		std::map<tstring, std::function<Object*(const TileObject&)>> m_DefinedObject;
 
 	private:

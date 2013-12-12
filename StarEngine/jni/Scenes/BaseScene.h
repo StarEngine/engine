@@ -38,9 +38,9 @@ namespace star
 
 		bool IsInitialized() const;
 
-		void AddObject(Object * object); 
+		virtual void AddObject(Object * object); 
 		void AddObject(Object * object, const tstring & name); 
-		void RemoveObject(Object * object);
+		virtual void RemoveObject(Object * object);
 		void RemoveObject(const tstring & name);
 
 		template <typename T>

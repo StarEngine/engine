@@ -18,6 +18,7 @@ namespace star
 		, m_TileWidth(0)
 		, m_TileHeight(0)
 		, m_TileSets()
+		, m_TiledObjects()
 		, m_Scale(scale)
 	{
 
@@ -25,6 +26,17 @@ namespace star
 
 	TiledScene::~TiledScene()
 	{
+	}
+
+	void TiledScene::RemoveObject(Object * object)
+	{
+		auto it = std::find(m_TiledObjects.begin(), m_TiledObjects.end(), object);
+		if(it != m_TiledObjects.end())
+		{
+			m_TiledObjects.erase(it);
+		}
+
+		BaseScene::RemoveObject(object);
 	}
 
 	void TiledScene::DefineSpecialObject(
@@ -192,6 +204,15 @@ namespace star
 		CreateGroupedObjects(container);
 	}
 
+	void TiledScene::ClearLevel()
+	{
+		for(auto obj : m_TiledObjects)
+		{
+			RemoveObject(obj);
+		}
+		m_TiledObjects.clear();
+	}
+
 	void TiledScene::CreateTiledObjects(XMLContainer & container)
 	{
 		auto OIT = container.lower_bound(_T("layer"));
@@ -257,6 +278,7 @@ namespace star
 					auto texture = CreateSpriteFromGid(tID, tileSet);
 					obj->AddComponent(texture);
 					AddObject(obj);
+					m_TiledObjects.push_back(obj);
 				}
 				++i;
 				++TIT;
@@ -377,6 +399,7 @@ namespace star
 					transform->Scale(m_Scale, m_Scale, m_Scale);
 	#endif
 					AddObject(obj);
+					m_TiledObjects.push_back(obj);
 				}
 				else
 				{
