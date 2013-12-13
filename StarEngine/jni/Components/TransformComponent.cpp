@@ -522,7 +522,7 @@ namespace star
 		
 	void TransformComponent::SingleUpdate(mat4 & world)
 	{
-		mat4 matRot, matTrans, matScale, matC, matCI, matM;
+		mat4 matRot, matTrans, matScale, matC, matCI;
 
 		matTrans = star::Translate(m_LocalPosition.pos3D());
 		matRot   = ToMat4(quat(vec3(0, 0, m_LocalRotation)));
