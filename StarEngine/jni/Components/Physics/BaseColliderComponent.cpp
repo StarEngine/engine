@@ -93,27 +93,27 @@ namespace star
 		m_OnExit = onExit;
 	}
 
-	void BaseColliderComponent::TriggerOnEnter()
+	void BaseColliderComponent::TriggerOnEnter(BaseColliderComponent* other)
 	{
 		if(m_OnEnter)
 		{
-			m_OnEnter();		
+			m_OnEnter(other);		
 		}
 	}
 
-	void BaseColliderComponent::TriggerOnStay()
+	void BaseColliderComponent::TriggerOnStay(BaseColliderComponent* other)
 	{
 		if(m_OnStay)
 		{
-			m_OnStay();
+			m_OnStay(other);
 		}
 	}
 
-	void BaseColliderComponent::TriggerOnExit()
+	void BaseColliderComponent::TriggerOnExit(BaseColliderComponent* other)
 	{
 		if(m_OnExit)
 		{
-			m_OnExit();
+			m_OnExit(other);
 		}
 	}
 

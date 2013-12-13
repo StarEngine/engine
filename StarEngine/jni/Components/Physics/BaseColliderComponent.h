@@ -10,10 +10,10 @@ namespace star
 	class CircleColliderComponent;
 	class RectangleColliderComponent;
 
-	typedef std::function<void()>  Callback;
-
 	class BaseColliderComponent : public BaseComponent
 	{
+		typedef std::function<void(BaseColliderComponent* collider)> Callback;
+
 	public:
 		BaseColliderComponent();
 		BaseColliderComponent(
@@ -27,9 +27,9 @@ namespace star
 		void SetOnStayCallback(Callback onStay);
 		void SetOnExitCallback(Callback onExit);
 
-		void TriggerOnEnter();
-		void TriggerOnStay();
-		void TriggerOnExit();
+		void TriggerOnEnter(BaseColliderComponent* other);
+		void TriggerOnStay(BaseColliderComponent* other);
+		void TriggerOnExit(BaseColliderComponent* other);
 
 		void SetAsTrigger(bool isTrigger);
 		bool IsTrigger() const;
