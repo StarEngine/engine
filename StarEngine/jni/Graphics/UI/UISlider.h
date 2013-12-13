@@ -45,6 +45,17 @@ namespace star
 		void SetSliderMinOffset(float32 min);
 		void SetSliderMaxOffset(float32 max);
 
+		void SetSliderOrthogonalAlignmentCentered();
+		void SetSliderOrthogonalAlignmentPositive();
+		void SetSliderOrthogonalAlignmentNegative();
+		
+		void SetSliderOrthogonalOffset(float32 offset);
+
+		void SetSliderCenterPoint(const vec2 & center);
+		void SetSliderCenterPoint(float32 x, float32 y);
+		void SetSliderCenterX(float32 x);
+		void SetSliderCenterY(float32 y);
+
 	protected:
 		void SetPositionAccordingToPercent();
 		void CalculateSliderDimension();
