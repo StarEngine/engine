@@ -174,6 +174,9 @@ namespace star
 			(m_SliderIsHorizontal ? dimensions.x : dimensions.y) -
 			m_SliderOffset.x -
 			m_SliderOffset.y;
+
+		SetPositionAccordingToPercent();
+
 	}
 
 	void UISlider::SetSelectedCallback(
