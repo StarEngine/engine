@@ -90,7 +90,7 @@ namespace star
 		const Color& color)
 	{
 		CreatePolygonVertices(vertices, vertexCount);
-		DrawPrimitives(Lines, vertexCount, color);
+		AddToVertexQueue(Lines, vertexCount, color);
 	}
 
 	void DebugDraw::DrawSolidPolygon(
@@ -99,7 +99,7 @@ namespace star
 		const Color& color)
 	{
 		CreatePolygonVertices(vertices, vertexCount);
-		DrawPrimitives(Triangles + Lines, vertexCount, color);
+		AddToVertexQueue(Triangles + Lines, vertexCount, color);
 	}
 
 	void DebugDraw::DrawCircle(
@@ -109,7 +109,7 @@ namespace star
 		uint32 segments)
 	{
 		CreateCircleVertices(center, radius, segments);
-		DrawPrimitives(Lines, segments, color);
+		AddToVertexQueue(Lines, segments, color);
 	}
 
 	void DebugDraw::DrawSolidCircle(
@@ -119,7 +119,7 @@ namespace star
 		uint32 segments)
 	{
 		CreateCircleVertices(center, radius, segments);
-		DrawPrimitives(Triangles + Lines, segments, color);
+		AddToVertexQueue(Triangles + Lines, segments, color);
 	}
 
 	void DebugDraw::DrawSegment(
@@ -129,7 +129,7 @@ namespace star
 	{
 		m_Vertices[0] = pos1;
 		m_Vertices[1] = pos2;
-		DrawPrimitives(Lines, 2, color);
+		AddToVertexQueue(Lines, 2, color);
 	}
 
 	void DebugDraw::DrawPoint(
@@ -140,7 +140,7 @@ namespace star
 		m_PointSize = size;
 
 		m_Vertices[0] = pos;
-		DrawPrimitives(Points, 1, color);
+		AddToVertexQueue(Points, 1, color);
 	}
 
 	void DebugDraw::DrawLine(
@@ -150,7 +150,7 @@ namespace star
 	{
 		m_Vertices[0] = pos1;
 		m_Vertices[1] = pos2;
-		DrawPrimitives(Lines,2,color);
+		AddToVertexQueue(Lines,2,color);
 	}
 
 	void DebugDraw::DrawString(
@@ -177,7 +177,7 @@ namespace star
 		m_Vertices[2].y = float32(rect.GetTop());
 		m_Vertices[3].x = float32(rect.GetLeft());
 		m_Vertices[3].y = float32(rect.GetTop());
-		DrawPrimitives(Lines, 4, color);
+		AddToVertexQueue(Lines, 4, color);
 	}
 
 	void DebugDraw::DrawRect(
@@ -188,7 +188,7 @@ namespace star
 		m_Vertices[1] = rect.GetRightBottom();
 		m_Vertices[2] = rect.GetRightTop();
 		m_Vertices[3] = rect.GetLeftTop();
-		DrawPrimitives(Lines, 4, color);
+		AddToVertexQueue(Lines, 4, color);
 	}
 
 	void DebugDraw::DrawSolidRect(
@@ -203,7 +203,7 @@ namespace star
 		m_Vertices[2].y = float32(rect.GetTop());
 		m_Vertices[3].x = float32(rect.GetLeft()); 
 		m_Vertices[3].y = float32(rect.GetTop());
-		DrawPrimitives(Triangles + Lines, 4, color);
+		AddToVertexQueue(Triangles + Lines, 4, color);
 	}
 
 	void DebugDraw::DrawSolidRect(
@@ -214,7 +214,7 @@ namespace star
 		m_Vertices[1] = rect.GetRightBottom();
 		m_Vertices[2] = rect.GetRightTop();
 		m_Vertices[3] = rect.GetLeftTop();
-		DrawPrimitives(Triangles + Lines, 4, color);
+		AddToVertexQueue(Triangles + Lines, 4, color);
 	}
 
 	void DebugDraw::CreatePolygonVertices(
@@ -254,12 +254,24 @@ namespace star
 		}
 	}
 
-	void DebugDraw::DrawPrimitives(
-		uint32 primitiveTypes, 
-		uint32 count, 
-		const Color& color)
+	void DebugDraw::AddToVertexQueue(
+		uint32 primitiveTypes,
+		uint32 count,
+		const Color& color
+		)
 	{
-#ifdef DESKTOP
+		m_VertexBuffer.push_back(PrimitiveInfo());
+		for(uint32 i = 0; i < MAX_VERTICES; ++i)
+		{
+			m_VertexBuffer.back().vertices[i] = m_Vertices[i];
+		}
+		m_VertexBuffer.back().primitiveType = primitiveTypes;
+		m_VertexBuffer.back().count = count;
+		m_VertexBuffer.back().color = color;
+	}
+
+	void DebugDraw::Begin()
+	{
 		glUseProgram(m_Shader->GetID());
 		
 		float32 scaleValue(ScaleSystem::GetInstance()->GetScale());
@@ -273,36 +285,49 @@ namespace star
 				GraphicsManager::GetInstance()->GetViewInverseProjectionMatrix()
 				)
 			);
+	}
 
-		glEnableVertexAttribArray(m_PositionLocation);
-		glVertexAttribPointer(m_PositionLocation, 2, GL_FLOAT, 
-			GL_FALSE, 0, (GLfloat*) m_Vertices);
-
-		if ((primitiveTypes & Triangles) != 0)
-		{
-			glUniform4f(m_ColorLocation, color.r, color.g, color.b, m_DrawOpTriangles);
-			glDrawArrays(GL_TRIANGLE_FAN, 0, count);
-		}
-
-		if ((primitiveTypes & Lines) != 0)
-		{
-			glUniform4f(m_ColorLocation, color.r, color.g, color.b, m_DrawOpLines);
-			glDrawArrays(GL_LINE_LOOP, 0, count);
-		}
-
-		if ((primitiveTypes & Points) != 0)
-		{
-			glUniform4f(m_ColorLocation, color.r, color.g, color.b, m_DrawOpPoints);
-			//[TODO] only works for windows..
+	void DebugDraw::Flush()
+	{
 #ifdef DESKTOP
-			glPointSize(m_PointSize);
-#endif
-			glDrawArrays(GL_POINTS, 0, count);
+		Begin();
+
+		for(const auto & elem : m_VertexBuffer)
+		{
+			glEnableVertexAttribArray(m_PositionLocation);
+			glVertexAttribPointer(m_PositionLocation, 2, GL_FLOAT, 
+				GL_FALSE, 0, elem.vertices);
+
+			if ((elem.primitiveType & Triangles) != 0)
+			{
+				glUniform4f(m_ColorLocation, elem.color.r, elem.color.g, elem.color.b, m_DrawOpTriangles);
+				glDrawArrays(GL_TRIANGLE_FAN, 0, elem.count);
+			}
+
+			if ((elem.primitiveType & Lines) != 0)
+			{
+				glUniform4f(m_ColorLocation, elem.color.r, elem.color.g, elem.color.b, m_DrawOpLines);
+				glDrawArrays(GL_LINE_LOOP, 0, elem.count);
+			}
+
+			if ((elem.primitiveType & Points) != 0)
+			{
+				glUniform4f(m_ColorLocation, elem.color.r, elem.color.g, elem.color.b, m_DrawOpPoints);
+				//[TODO] only works for windows..
+				glPointSize(m_PointSize);
+				glDrawArrays(GL_POINTS, 0, elem.count);
+			}
+			glDisableVertexAttribArray(m_PositionLocation);
 		}
 
-		glDisableVertexAttribArray(m_PositionLocation);
-		glUseProgram(0);
+		End();
 #endif
+	}
+
+	void DebugDraw::End()
+	{
+		glUseProgram(0);
+		m_VertexBuffer.clear();
 	}
 
 }
