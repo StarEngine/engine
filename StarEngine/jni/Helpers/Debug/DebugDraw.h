@@ -21,6 +21,9 @@ namespace star
 			: primitiveType(0)
 			, count(0)
 			, color()
+			, opacityTriangles(0)
+			, opacityLines(0)
+			, opacityPoints(0)
 		{
 			//Don't initialize the array's elements to vec2(), 
 			//not necessairy in this case.
@@ -33,6 +36,9 @@ namespace star
 		uint32 primitiveType;
 		uint32 count;
 		Color color;
+		float32	  opacityTriangles
+				, opacityLines
+				, opacityPoints;
 	};
 
 	class DebugDraw final

@@ -260,14 +260,19 @@ namespace star
 		const Color& color
 		)
 	{
-		m_VertexBuffer.push_back(PrimitiveInfo());
+		PrimitiveInfo tempInfo = PrimitiveInfo();
 		for(uint32 i = 0; i < MAX_VERTICES; ++i)
 		{
-			m_VertexBuffer.back().vertices[i] = m_Vertices[i];
+			tempInfo.vertices[i] = m_Vertices[i];
 		}
-		m_VertexBuffer.back().primitiveType = primitiveTypes;
-		m_VertexBuffer.back().count = count;
-		m_VertexBuffer.back().color = color;
+		tempInfo.primitiveType = primitiveTypes;
+		tempInfo.count = count;
+		tempInfo.color = color;
+		tempInfo.opacityLines = m_DrawOpLines;
+		tempInfo.opacityTriangles = m_DrawOpTriangles;
+		tempInfo.opacityPoints = m_DrawOpPoints;
+
+		m_VertexBuffer.push_back(tempInfo);
 	}
 
 	void DebugDraw::Begin()

@@ -36,11 +36,15 @@ namespace star
 			) const;
 		bool CollidesWith(const BaseColliderComponent* other) const;
 
+		void SetRadius(float32 radius);
 		float32 GetRadius() const;
 		float32 GetRealRadius() const;
+
 		vec2 GetPosition() const;
 		void GetPosition(vec2& posOut) const;
-		void SetRadius(float32 radius);
+
+		void SetDrawSegments(uint32 segments);
+		uint32 GetDrawSegments() const;
 
 	protected:
 		void InitializeColliderComponent();
@@ -53,6 +57,7 @@ namespace star
 		float32 m_Radius;
 		vec2 m_Offset;
 		bool m_bDefaultInitialized;
+		uint32 m_DrawSegments;
 
 	private:
 		CircleColliderComponent(CircleColliderComponent&& t);
