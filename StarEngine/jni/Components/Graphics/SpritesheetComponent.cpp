@@ -278,8 +278,10 @@ already having a Sprite- or TextComponent."));
 			SetSpritesheet(m_SpritesheetName);
 			SpriteComponent::InitializeComponent();
 
-			m_Dimensions.x /= GetFramesHorizontal();
-			m_Dimensions.y /= GetFramesVertical();
+			m_WidthSegments = GetFramesHorizontal();
+			m_HeightSegments = GetFramesVertical();
+			m_Dimensions.x /= m_WidthSegments;
+			m_Dimensions.y /= m_HeightSegments;
 			GetTransform()->SetDimensionsSafe(m_Dimensions);
 
 			CreateUVCoords();
