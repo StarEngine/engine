@@ -562,6 +562,7 @@ Trying to (un)hide unknown child '")
 		for(auto child : m_pChildren)
 		{
 			child->Freeze(freeze);
+			child->SetChildrenFrozen(freeze);
 		}
 	}
 
@@ -570,6 +571,7 @@ Trying to (un)hide unknown child '")
 		for(auto child : m_pChildren)
 		{
 			child->SetDisabled(disable);
+			child->SetChildrenDisabled(disable);
 		}
 	}
 
@@ -578,6 +580,7 @@ Trying to (un)hide unknown child '")
 		for(auto child : m_pChildren)
 		{
 			child->SetVisible(visible);
+			child->SetChildrenVisible(visible);
 		}
 	}
 

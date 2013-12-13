@@ -2,6 +2,7 @@
 #include "../GraphicsManager.h"
 #include "UIDock.h"
 #include "../../Scenes/BaseScene.h"
+#include "UIUserElement.h"
 
 namespace star
 {
@@ -167,6 +168,24 @@ namespace star
 		pElement->SetUIParent(this);
 		pElement->Reposition();
 		Object::AddChild(pElement);
+	}
+	
+	void UIObject::SetUIDisabledChildren(bool disable)
+	{
+		for(auto child : m_pChildren)
+		{
+			auto uiuserelement = dynamic_cast<UIUserElement*>(child);
+			if(uiuserelement)
+			{
+				uiuserelement->SetUIDisabled(disable);
+				uiuserelement->SetUIDisabledChildren(disable);
+			}
+			else
+			{
+				auto uiobject = dynamic_cast<UIObject*>(child);
+				uiobject->SetUIDisabledChildren(disable);
+			}
+		}
 	}
 
 	void UIObject::Update(const Context& context)
