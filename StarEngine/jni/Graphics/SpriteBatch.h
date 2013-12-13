@@ -11,7 +11,7 @@ namespace star
 	class SpriteBatch final
 	{
 	public:
-		~SpriteBatch(void);
+		~SpriteBatch();
 		static SpriteBatch * GetInstance();
 
 		void Initialize();
@@ -20,11 +20,20 @@ namespace star
 		void AddTextToQueue(const TextInfo* text);
 
 	private:
-		SpriteBatch(void);
+
+		enum SpriteSortingMode
+		{
+			BackToFront,
+			FrontToBack,
+			TextureID
+		};
+
+		SpriteBatch();
 		void Begin();
 		void End();
 		void CreateSpriteQuads();
 		void CreateTextQuads();
+		void SortSprites(SpriteSortingMode mode);
 		void DrawSprites();
 		void FlushSprites(uint32 start, uint32 size, uint32 texture);
 		void DrawTextSprites();

@@ -99,18 +99,19 @@ namespace star
 		glEnableVertexAttribArray(m_ColorID);
 
 		//Create Vertexbuffer
+		SortSprites(SpriteSortingMode::BackToFront);
 		CreateSpriteQuads();
-
+		
 		//Set uniforms
 		glUniform1i(m_TextureSamplerID, 0);
 		float scaleValue = ScaleSystem::GetInstance()->GetScale();
 		mat4 scaleMat = Scale(scaleValue, scaleValue, 1.0f);
 		glUniformMatrix4fv(m_ScalingID, 1, GL_FALSE, ToPointerValue(scaleMat));
 
-		mat4 viewInverseMat = GraphicsManager::GetInstance()->GetViewInverseMatrix();
+		const mat4& viewInverseMat = GraphicsManager::GetInstance()->GetViewInverseMatrix();
 		glUniformMatrix4fv(m_ViewInverseID, 1, GL_FALSE, ToPointerValue(viewInverseMat));
 
-		mat4 projectionMat = GraphicsManager::GetInstance()->GetProjectionMatrix();
+		const mat4& projectionMat = GraphicsManager::GetInstance()->GetProjectionMatrix();
 		glUniformMatrix4fv(m_ProjectionID, 1, GL_FALSE, ToPointerValue(projectionMat));
 	}
 	
@@ -408,6 +409,34 @@ namespace star
 					offsetX = text->horizontalTextOffset.at(line_counter);
 				}
 			}
+		}
+	}
+
+	void SpriteBatch::SortSprites(SpriteSortingMode mode)
+	{
+		switch(mode)
+		{
+		case SpriteSortingMode::BackToFront:
+			std::sort(m_SpriteQueue.begin(), m_SpriteQueue.end(), [](const SpriteInfo* a, const SpriteInfo* b) -> bool
+			{
+				return a->transformPtr->GetWorldPosition().l < b->transformPtr->GetWorldPosition().l;
+			});
+			break;
+		case SpriteSortingMode::FrontToBack:
+			std::sort(m_SpriteQueue.begin(), m_SpriteQueue.end(), [](const SpriteInfo* a, const SpriteInfo* b) -> bool
+			{
+				return a->transformPtr->GetWorldPosition().l > b->transformPtr->GetWorldPosition().l;
+			});
+			break;
+		case SpriteSortingMode::TextureID:
+			std::sort(m_SpriteQueue.begin(), m_SpriteQueue.end(), [](const SpriteInfo* a, const SpriteInfo* b) -> bool
+			{
+				return a->textureID < b->textureID;
+			});
+			break;
+		default:
+			Logger::GetInstance()->Log(false, _T("SpriteBatch::SortSprites: Please implement this SpriteSortingMode"));
+			break;
 		}
 	}
 
