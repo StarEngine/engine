@@ -54,6 +54,33 @@ Patch Notes:
   * Logs are now logged by default with the [GAME] tag, logs from engine use the [STARENGINE] tag;
   * Bugfix related to the UISlider;
   * GameData Helper class has been added and can be used to quickly load/save game data;
+* **[13/12/2013] 0.1.0**
+  * Spritebatching has been optimized and depth sorting works;
+  * Debug Drawing functionalities work properly and are always on top;
+  * Text rendering has been optimized;
+  * UISystem has been improved:
+    * All constructors are now consistent related to the name of an image;
+	* Scaling of buttons now get taken into account for their hitregion check;
+  * GarbageSystem for the SceneManager and Object has been debugged and improved;
+  * Every entity can now be destroy itself correctly;
+  * First comments have been added;
+  * Dictionary now also has an equal_range function;
+  * SafeDelete has been debugged and now works properly;
+  * TiledScene has been implemented and tested succesfully;
+  * Culling of UI Objects has been debugged and works properly now;
+  * Hotfixes for both colliders and the audiomanager have been applied;
+  * Object now has functionality to disable, freeze and set the visibility of all children;
+  * UIElement has now the functionality to disable the UI functionality of all children;
+  * UISlider has been improved:
+    * The slider can now have an offset;
+	* The alignment of the slider can be set to satisfy personal preferences;
+	* The centerpoint of the slider can be adepted;
+	* The range of the slider can now be changed both in the positive and negative direction;
+  * First tick timer bug has been resolved;
+  * Objects can now be mirrored;
+  * Safety for adding of components have been implemented, you can only add 1 graphics component per object;
+  * Collision callback now also has the colliding object's pointer as a parameter;
+  * Debug drawing of collision components has been improved and increased in functionality;
   
 ## License
 The Star 2D Game Engine is licensed under the MIT License.
