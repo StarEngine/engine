@@ -12,7 +12,7 @@ Crossplatform C++11 2D Game Engine for Windows and Android games
 ## Stable (master): In Development 
 * As long as this branch is in development you should always use [the develop engine version](https://github.com/GlenDC/StarEngine/commits/develop), as this branch gets updated daily!
 
-## Unstable (develop): v0.0.2
+## Unstable (develop): v0.1.0
 Patch Notes:
 * **[19/11/2013] 0.0.1** 
   * Initial version of the engine;
