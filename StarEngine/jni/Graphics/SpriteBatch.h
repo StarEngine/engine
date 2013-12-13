@@ -38,7 +38,6 @@ namespace star
 		void DrawSprites();
 		void FlushSprites(uint32 start, uint32 size, uint32 texture);
 		void DrawTextSprites();
-		//void FlushTextSprites();
 
 		static SpriteBatch * m_pSpriteBatch;
 		static const uint32 BATCHSIZE = 50;
@@ -46,7 +45,6 @@ namespace star
 		static const uint32 UV_AMOUNT = 12;
 		static const uint32 FIRST_REAL_ASCII_CHAR = 31;
 
-		//[COMMENT] Sadly can't change that to const SpriteInfo&
 		std::vector<const SpriteInfo*> m_SpriteQueue;
 		std::vector<const TextInfo*> m_TextQueue;
 

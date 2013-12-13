@@ -143,6 +143,8 @@ namespace star
 	{
 #ifdef _WIN32
 		PostQuitMessage(0);
+#else
+		ANativeActivity_finish(m_pAndroidApp->activity);
 #endif
 	}
 
