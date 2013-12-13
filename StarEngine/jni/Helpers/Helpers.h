@@ -21,7 +21,7 @@ namespace star
 	const uint32 GenerateHash(const tstring & str);
 
 	/// <summary>
-	/// Opens a webpage in the users' default browser.
+	/// Opens a webpage in the user's default browser.
 	/// </summary>
 	/// <param name="page">the URL of the webpage to be opened</param>
 	void LaunchWebpage(const tstring & page);
