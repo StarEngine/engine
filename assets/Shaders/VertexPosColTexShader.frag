@@ -1,3 +1,4 @@
+precision mediump float;
 varying vec2 textureCoordinate;
 varying vec4 color;
 uniform sampler2D textureSampler;
