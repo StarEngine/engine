@@ -14,19 +14,20 @@ namespace star
 {
 	SpriteBatch * SpriteBatch::m_pSpriteBatch = nullptr;
 
-	SpriteBatch::SpriteBatch(void):
-		m_SpriteQueue(),
-		m_TextQueue(),
-		m_VertexBuffer(),
-		m_UvCoordBuffer(),
-		m_IsHUDBuffer(),
-		m_ColorBuffer(),
-		m_TextureSamplerID(0),
-		m_ColorID(0),
-		m_ScalingID(0),
-		m_ViewInverseID(0),
-		m_ProjectionID(0),
-		m_ShaderPtr(nullptr)
+	SpriteBatch::SpriteBatch(void)
+		: m_SpriteQueue()
+		, m_TextQueue()
+		, m_VertexBuffer()
+		, m_UvCoordBuffer()
+		, m_IsHUDBuffer()
+		, m_ColorBuffer()
+		, m_TextureSamplerID(0)
+		, m_ColorID(0)
+		, m_ScalingID(0)
+		, m_ViewInverseID(0)
+		, m_ProjectionID(0)
+		, m_ShaderPtr(nullptr)
+		, m_SpriteSortingMode(SpriteSortingMode::BackToFront)
 	{
 
 	}
@@ -99,18 +100,19 @@ namespace star
 		glEnableVertexAttribArray(m_ColorID);
 
 		//Create Vertexbuffer
+		SortSprites(m_SpriteSortingMode);
 		CreateSpriteQuads();
-
+		
 		//Set uniforms
 		glUniform1i(m_TextureSamplerID, 0);
 		float scaleValue = ScaleSystem::GetInstance()->GetScale();
 		mat4 scaleMat = Scale(scaleValue, scaleValue, 1.0f);
 		glUniformMatrix4fv(m_ScalingID, 1, GL_FALSE, ToPointerValue(scaleMat));
 
-		mat4 viewInverseMat = GraphicsManager::GetInstance()->GetViewInverseMatrix();
+		const mat4& viewInverseMat = GraphicsManager::GetInstance()->GetViewInverseMatrix();
 		glUniformMatrix4fv(m_ViewInverseID, 1, GL_FALSE, ToPointerValue(viewInverseMat));
 
-		mat4 projectionMat = GraphicsManager::GetInstance()->GetProjectionMatrix();
+		const mat4& projectionMat = GraphicsManager::GetInstance()->GetProjectionMatrix();
 		glUniformMatrix4fv(m_ProjectionID, 1, GL_FALSE, ToPointerValue(projectionMat));
 	}
 	
@@ -411,6 +413,34 @@ namespace star
 		}
 	}
 
+	void SpriteBatch::SortSprites(SpriteSortingMode mode)
+	{
+		switch(mode)
+		{
+		case SpriteSortingMode::BackToFront:
+			std::sort(m_SpriteQueue.begin(), m_SpriteQueue.end(), [](const SpriteInfo* a, const SpriteInfo* b) -> bool
+			{
+				return a->transformPtr->GetWorldPosition().l < b->transformPtr->GetWorldPosition().l;
+			});
+			break;
+		case SpriteSortingMode::FrontToBack:
+			std::sort(m_SpriteQueue.begin(), m_SpriteQueue.end(), [](const SpriteInfo* a, const SpriteInfo* b) -> bool
+			{
+				return a->transformPtr->GetWorldPosition().l > b->transformPtr->GetWorldPosition().l;
+			});
+			break;
+		case SpriteSortingMode::TextureID:
+			std::sort(m_SpriteQueue.begin(), m_SpriteQueue.end(), [](const SpriteInfo* a, const SpriteInfo* b) -> bool
+			{
+				return a->textureID < b->textureID;
+			});
+			break;
+		default:
+			Logger::GetInstance()->Log(false, _T("SpriteBatch::SortSprites: Please implement this SpriteSortingMode"));
+			break;
+		}
+	}
+
 	void SpriteBatch::AddSpriteToQueue(const SpriteInfo* spriteInfo)
 	{
 		m_SpriteQueue.push_back(spriteInfo);		
@@ -419,5 +449,10 @@ namespace star
 	void SpriteBatch::AddTextToQueue(const TextInfo* text)
 	{
 		m_TextQueue.push_back(text);
+	}
+
+	void SpriteBatch::SetSpriteSortingMode(SpriteSortingMode mode)
+	{
+		m_SpriteSortingMode = mode;
 	}
 }

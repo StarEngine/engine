@@ -11,7 +11,14 @@ namespace star
 	class SpriteBatch final
 	{
 	public:
-		~SpriteBatch(void);
+		enum SpriteSortingMode
+		{
+			BackToFront,
+			FrontToBack,
+			TextureID
+		};
+
+		~SpriteBatch();
 		static SpriteBatch * GetInstance();
 
 		void Initialize();
@@ -19,16 +26,18 @@ namespace star
 		void AddSpriteToQueue(const SpriteInfo* spriteInfo);
 		void AddTextToQueue(const TextInfo* text);
 
+		void SetSpriteSortingMode(SpriteSortingMode mode);
+
 	private:
-		SpriteBatch(void);
+		SpriteBatch();
 		void Begin();
 		void End();
 		void CreateSpriteQuads();
 		void CreateTextQuads();
+		void SortSprites(SpriteSortingMode mode);
 		void DrawSprites();
 		void FlushSprites(uint32 start, uint32 size, uint32 texture);
 		void DrawTextSprites();
-		//void FlushTextSprites();
 
 		static SpriteBatch * m_pSpriteBatch;
 		static const uint32 BATCHSIZE = 50;
@@ -36,7 +45,6 @@ namespace star
 		static const uint32 UV_AMOUNT = 12;
 		static const uint32 FIRST_REAL_ASCII_CHAR = 31;
 
-		//[COMMENT] Sadly can't change that to const SpriteInfo&
 		std::vector<const SpriteInfo*> m_SpriteQueue;
 		std::vector<const TextInfo*> m_TextQueue;
 
@@ -57,6 +65,8 @@ namespace star
 				m_ProjectionID;
 
 		Shader* m_ShaderPtr;	
+
+		SpriteSortingMode m_SpriteSortingMode;
 
 		SpriteBatch(const SpriteBatch& yRef);
 		SpriteBatch(SpriteBatch&& yRef);

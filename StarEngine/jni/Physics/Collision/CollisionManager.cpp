@@ -107,14 +107,14 @@ The component you tried to remove is not in the CollisionManager"), STARENGINE_L
 								(*iter2)->SetEntered(true);
 								(*iter1)->SetExited(false);
 								(*iter2)->SetExited(false);
-								(*iter1)->TriggerOnEnter();
-								(*iter2)->TriggerOnEnter();
+								(*iter1)->TriggerOnEnter(*iter2);
+								(*iter2)->TriggerOnEnter(*iter1);
 								continue;
 							}
 							else
 							{
-								(*iter1)->TriggerOnStay();
-								(*iter2)->TriggerOnStay();
+								(*iter1)->TriggerOnStay(*iter2);
+								(*iter2)->TriggerOnStay(*iter1);
 							}
 						}
 						else
@@ -125,8 +125,8 @@ The component you tried to remove is not in the CollisionManager"), STARENGINE_L
 								(*iter2)->SetEntered(false);
 								(*iter1)->SetExited(true);
 								(*iter2)->SetExited(true);
-								(*iter1)->TriggerOnExit();
-								(*iter2)->TriggerOnExit();
+								(*iter1)->TriggerOnExit(*iter2);
+								(*iter2)->TriggerOnExit(*iter1);
 							}
 						}
 					}
