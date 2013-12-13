@@ -11,6 +11,13 @@ namespace star
 	class SpriteBatch final
 	{
 	public:
+		enum SpriteSortingMode
+		{
+			BackToFront,
+			FrontToBack,
+			TextureID
+		};
+
 		~SpriteBatch();
 		static SpriteBatch * GetInstance();
 
@@ -19,15 +26,9 @@ namespace star
 		void AddSpriteToQueue(const SpriteInfo* spriteInfo);
 		void AddTextToQueue(const TextInfo* text);
 
+		void SetSpriteSortingMode(SpriteSortingMode mode);
+
 	private:
-
-		enum SpriteSortingMode
-		{
-			BackToFront,
-			FrontToBack,
-			TextureID
-		};
-
 		SpriteBatch();
 		void Begin();
 		void End();
@@ -66,6 +67,8 @@ namespace star
 				m_ProjectionID;
 
 		Shader* m_ShaderPtr;	
+
+		SpriteSortingMode m_SpriteSortingMode;
 
 		SpriteBatch(const SpriteBatch& yRef);
 		SpriteBatch(SpriteBatch&& yRef);

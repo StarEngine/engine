@@ -14,19 +14,20 @@ namespace star
 {
 	SpriteBatch * SpriteBatch::m_pSpriteBatch = nullptr;
 
-	SpriteBatch::SpriteBatch(void):
-		m_SpriteQueue(),
-		m_TextQueue(),
-		m_VertexBuffer(),
-		m_UvCoordBuffer(),
-		m_IsHUDBuffer(),
-		m_ColorBuffer(),
-		m_TextureSamplerID(0),
-		m_ColorID(0),
-		m_ScalingID(0),
-		m_ViewInverseID(0),
-		m_ProjectionID(0),
-		m_ShaderPtr(nullptr)
+	SpriteBatch::SpriteBatch(void)
+		: m_SpriteQueue()
+		, m_TextQueue()
+		, m_VertexBuffer()
+		, m_UvCoordBuffer()
+		, m_IsHUDBuffer()
+		, m_ColorBuffer()
+		, m_TextureSamplerID(0)
+		, m_ColorID(0)
+		, m_ScalingID(0)
+		, m_ViewInverseID(0)
+		, m_ProjectionID(0)
+		, m_ShaderPtr(nullptr)
+		, m_SpriteSortingMode(SpriteSortingMode::BackToFront)
 	{
 
 	}
@@ -99,7 +100,7 @@ namespace star
 		glEnableVertexAttribArray(m_ColorID);
 
 		//Create Vertexbuffer
-		SortSprites(SpriteSortingMode::BackToFront);
+		SortSprites(m_SpriteSortingMode);
 		CreateSpriteQuads();
 		
 		//Set uniforms
@@ -448,5 +449,10 @@ namespace star
 	void SpriteBatch::AddTextToQueue(const TextInfo* text)
 	{
 		m_TextQueue.push_back(text);
+	}
+
+	void SpriteBatch::SetSpriteSortingMode(SpriteSortingMode mode)
+	{
+		m_SpriteSortingMode = mode;
 	}
 }
