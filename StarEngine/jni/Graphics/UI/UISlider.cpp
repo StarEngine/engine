@@ -222,39 +222,57 @@ namespace star
 		CalculateSliderDimension();
 	}
 
-	void UISlider::SetSliderOrthogonalAlignmentCentered()
+	void UISlider::SetSliderOrthogonalAlignmentCentered(bool redefine_center)
 	{
 		if(m_SliderIsHorizontal)
 		{
-			m_pSlider->SetVerticalAlignment(VerticalAlignment::Center);
+			m_pSlider->SetVerticalAlignment(
+				VerticalAlignment::Center,
+				redefine_center
+				);
 		}
 		else
 		{
-			m_pSlider->SetHorizontalAlignment(HorizontalAlignment::Center);
+			m_pSlider->SetHorizontalAlignment(
+				HorizontalAlignment::Center,
+				redefine_center
+				);
 		}
 	}
 
-	void UISlider::SetSliderOrthogonalAlignmentPositive()
+	void UISlider::SetSliderOrthogonalAlignmentPositive(bool redefine_center)
 	{
 		if(m_SliderIsHorizontal)
 		{
-			m_pSlider->SetVerticalAlignment(VerticalAlignment::Top);
+			m_pSlider->SetVerticalAlignment(
+				VerticalAlignment::Top,
+				redefine_center
+				);
 		}
 		else
 		{
-			m_pSlider->SetHorizontalAlignment(HorizontalAlignment::Right);
+			m_pSlider->SetHorizontalAlignment(
+				HorizontalAlignment::Right,
+				redefine_center
+				);
 		}
 	}
 
-	void UISlider::SetSliderOrthogonalAlignmentNegative()
+	void UISlider::SetSliderOrthogonalAlignmentNegative(bool redefine_center)
 	{
 		if(m_SliderIsHorizontal)
 		{
-			m_pSlider->SetVerticalAlignment(VerticalAlignment::Bottom);
+			m_pSlider->SetVerticalAlignment(
+				VerticalAlignment::Bottom,
+				redefine_center
+				);
 		}
 		else
 		{
-			m_pSlider->SetHorizontalAlignment(HorizontalAlignment::Left);
+			m_pSlider->SetHorizontalAlignment(
+				HorizontalAlignment::Left,
+				redefine_center
+				);
 		}
 	}
 		
