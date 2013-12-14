@@ -131,7 +131,6 @@ namespace star
 			m_WorldScale,
 			m_LocalScale,
 			m_CenterPosition;
-		ivec2 m_Dimensions;
 		bool m_IsMirroredX;
 		bool m_IsMirroredY;
 #else
