@@ -3,14 +3,21 @@
 #include "UIDock.h"
 #include "../../Scenes/BaseScene.h"
 #include "UIUserElement.h"
+#include "../../Helpers/Helpers.h"
 
 namespace star
 {
+	uint64 UIObject::UNIQUE_ID_COUNTER = 0;
+
 	UIObject::UIObject(const tstring & name)
 		: Object(name, _T("UI"))
 		, m_Position()
 		, m_HorizontalAlignment(HorizontalAlignment::Left)
 		, m_VerticalAlignment(VerticalAlignment::Bottom)
+		, m_UniqueUIObjectID(
+			_T("UIObject") +
+			string_cast<tstring>(UNIQUE_ID_COUNTER++)
+			)
 		, m_pParent(nullptr)
 	{
 

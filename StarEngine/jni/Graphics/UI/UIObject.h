@@ -64,6 +64,8 @@ namespace star
 		void SetUIDisabledChildren(bool disable);
 
 	protected:
+		static uint64 UNIQUE_ID_COUNTER;
+
 		virtual void Update(const Context& context);
 		virtual void Draw();
 
@@ -82,6 +84,7 @@ namespace star
 		pos m_Position;
 		HorizontalAlignment m_HorizontalAlignment;
 		VerticalAlignment m_VerticalAlignment;
+		const tstring m_UniqueUIObjectID;
 
 		UIObject *m_pParent;
 
