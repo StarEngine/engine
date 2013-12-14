@@ -196,12 +196,12 @@ namespace star
 
 	void UIObject::Update(const Context& context)
 	{
-		Object::Update(context);
+
 	}
 
 	void UIObject::Draw()
 	{
-		Object::Draw();
+
 	}
 
 	vec2 UIObject::GetDimensions() const

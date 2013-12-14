@@ -7,6 +7,7 @@
 #include "../Components/TransformComponent.h"
 #include "../AI/Pathfinding/PathFindManager.h"
 #include "../Helpers/HashTag.h"
+#include "../Graphics/Color.h"
 
 namespace star
 {
@@ -91,6 +92,12 @@ namespace star
 		void SetScene(BaseScene * pScene);
 		void UnsetScene(); 
 
+		void SetDebugDrawColor(const Color& color);
+		const Color& GetDebugDrawColor() const;
+
+		void SetDebugDrawStyle(bool filled);
+		bool GetDebugDrawStyle() const;
+
 		virtual void Reset();
 
 		TransformComponent * GetTransform() const;
@@ -169,7 +176,10 @@ namespace star
 		HashTag m_GroupTag, m_PhysicsTag;
 
 	private:
+		void DebugDraw();
 		void CollectGarbage();
+		Color m_DebugDrawColor;
+		bool m_bDebugDrawFilled;
 
 		Object(const Object& t);
 		Object(Object&& t);
