@@ -46,11 +46,11 @@ namespace star
 	void UIUserElement::SetUIDisabled(bool disable)
 	{
 		GetScene()->GetStopwatch()->CreateTimer(
-			_T("DisableTimer"),
-			0.2f,
+			m_UniqueUIObjectID + _T("_") + _T("DisableTimer"),
+			STOPWATCH_ONE_FRAME_DELAY,
 			false,
 			false,
-			[&]()
+			[&, disable]()
 			{
 				bool isEnabling =
 					!disable && m_ElementState == ElementStates::DISABLED;
