@@ -86,13 +86,12 @@ namespace star
 #ifdef STAR2D
 		auto pos = m_pParentObject->GetTransform()->GetWorldPosition();
 		vec3 vEyePt = pos.pos3D();
-		vEyePt.x = vEyePt.x / (star::ScaleSystem::GetInstance()->GetWorkingResolution().x / 2.0f);
-		vEyePt.y = vEyePt.y / (star::ScaleSystem::GetInstance()->GetWorkingResolution().y / 2.0f);
 #else
 		vec3 vEyePt = m_pParentObject->GetTransform()->GetWorldPosition();
-		vEyePt.x = vEyePt.x / (star::ScaleSystem::GetInstance()->GetWorkingResolution().x / 2.0f);
-		vEyePt.y = vEyePt.y / (star::ScaleSystem::GetInstance()->GetWorkingResolution().y / 2.0f);
 #endif	
+		vEyePt.x /= (star::ScaleSystem::GetInstance()->GetWorkingResolution().x / 2.0f);
+		vEyePt.y /= (star::ScaleSystem::GetInstance()->GetWorkingResolution().y / 2.0f);
+
 		vec3 vLookat, vUpVec;
 		mat4 rotTransform;
 	
@@ -259,5 +258,31 @@ namespace star
 		);
 
 		return matLookAt;
+	}
+
+	void CameraComponent::Translate(const vec2& translation)
+	{
+		const vec2 & offset = ScaleSystem::GetInstance()->GetWorkingResolution();
+		auto finalPos = translation - offset / 2.0f;
+		m_pParentObject->GetTransform()->Translate(finalPos);
+	}
+
+	void CameraComponent::Translate(float32 x, float32 y)
+	{
+		Translate(vec2(x, y));
+	}
+
+	void CameraComponent::TranslateX(float32 x)
+	{
+		const vec2 & offset = ScaleSystem::GetInstance()->GetWorkingResolution();
+		auto finalPos = x - offset.x / 2.0f;
+		m_pParentObject->GetTransform()->TranslateX(finalPos);
+	}
+
+	void CameraComponent::TranslateY(float32 y)
+	{
+		const vec2 & offset = ScaleSystem::GetInstance()->GetWorkingResolution();
+		auto finalPos = y - offset.y / 2.0f;
+		m_pParentObject->GetTransform()->TranslateY(finalPos);
 	}
 }
