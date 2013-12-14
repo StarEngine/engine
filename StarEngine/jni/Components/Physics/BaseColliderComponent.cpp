@@ -16,8 +16,10 @@ namespace star
 		: BaseComponent()
 		, m_bIsTrigger(false)
 		, m_bIsStatic(false)
-		, m_Entered(false)
-		, m_Exited(true)
+		, m_bCanDraw(false)
+		, m_DrawColor()
+		, m_bEntered(false)
+		, m_bExited(true)
 		, m_OnEnter(nullptr)
 		, m_OnStay(nullptr)
 		, m_OnExit(nullptr)
@@ -35,8 +37,10 @@ namespace star
 		: BaseComponent()
 		, m_bIsTrigger(false)
 		, m_bIsStatic(false)
-		, m_Entered(false)
-		, m_Exited(true)
+		, m_bCanDraw(false)
+		, m_DrawColor()
+		, m_bEntered(false)
+		, m_bExited(true)
 		, m_OnEnter(nullptr)
 		, m_OnStay(nullptr)
 		, m_OnExit(nullptr)
@@ -93,27 +97,27 @@ namespace star
 		m_OnExit = onExit;
 	}
 
-	void BaseColliderComponent::TriggerOnEnter()
+	void BaseColliderComponent::TriggerOnEnter(BaseColliderComponent* other)
 	{
 		if(m_OnEnter)
 		{
-			m_OnEnter();		
+			m_OnEnter(other);		
 		}
 	}
 
-	void BaseColliderComponent::TriggerOnStay()
+	void BaseColliderComponent::TriggerOnStay(BaseColliderComponent* other)
 	{
 		if(m_OnStay)
 		{
-			m_OnStay();
+			m_OnStay(other);
 		}
 	}
 
-	void BaseColliderComponent::TriggerOnExit()
+	void BaseColliderComponent::TriggerOnExit(BaseColliderComponent* other)
 	{
 		if(m_OnExit)
 		{
-			m_OnExit();
+			m_OnExit(other);
 		}
 	}
 
@@ -144,22 +148,37 @@ namespace star
 
 	void BaseColliderComponent::SetEntered(bool hasEntered)
 	{
-		m_Entered = hasEntered;
+		m_bEntered = hasEntered;
 	}
 
 	bool BaseColliderComponent::GetEntered() const
 	{
-		return m_Entered;
+		return m_bEntered;
 	}
 
 	void BaseColliderComponent::SetExited(bool hasLeft)
 	{
-		m_Exited = hasLeft;
+		m_bExited = hasLeft;
 	}
 
 	bool BaseColliderComponent::GetExited() const
 	{
-		return m_Exited;
+		return m_bExited;
+	}
+
+	void BaseColliderComponent::SetDrawColor(const Color& color)
+	{
+		m_DrawColor = color;
+	}
+
+	const Color& BaseColliderComponent::GetDrawColor() const
+	{
+		return m_DrawColor;
+	}
+
+	void BaseColliderComponent::EnableDrawing(bool enable)
+	{
+		m_bCanDraw = enable;
 	}
 
 	const PointerArray<tstring> & BaseColliderComponent::GetLayers() const

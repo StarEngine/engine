@@ -15,6 +15,7 @@ namespace star
 		, m_Radius(0)
 		, m_Offset()
 		, m_bDefaultInitialized(true)
+		, m_DrawSegments(16)
 	{
 
 	}
@@ -26,6 +27,7 @@ namespace star
 		, m_Radius(0)
 		, m_Offset()
 		, m_bDefaultInitialized(true)
+		, m_DrawSegments(16)
 	{
 
 	}
@@ -35,6 +37,7 @@ namespace star
 		, m_Radius(radius)
 		, m_Offset()
 		, m_bDefaultInitialized(false)
+		, m_DrawSegments(16)
 	{
 	}
 
@@ -46,6 +49,7 @@ namespace star
 		, m_Radius(radius)
 		, m_Offset()
 		, m_bDefaultInitialized(false)
+		, m_DrawSegments(16)
 	{
 	}
 
@@ -56,6 +60,7 @@ namespace star
 		, m_Radius(radius)
 		, m_Offset(offset)
 		, m_bDefaultInitialized(false)
+		, m_DrawSegments(16)
 	{
 	}
 
@@ -68,6 +73,7 @@ namespace star
 		, m_Radius(radius)
 		, m_Offset(offset)
 		, m_bDefaultInitialized(false)
+		, m_DrawSegments(16)
 	{
 	}
 
@@ -259,9 +265,22 @@ The collierComponent to check is a nullptr"), STARENGINE_LOG_TAG);
 		m_Radius = radius;
 	}
 
+	void CircleColliderComponent::SetDrawSegments(uint32 segments)
+	{
+		m_DrawSegments = segments;
+	}
+
+	uint32 CircleColliderComponent::GetDrawSegments() const
+	{
+		return m_DrawSegments;
+	}
+
 	void CircleColliderComponent::Draw()
 	{		
-		DebugDraw::GetInstance()->DrawSolidCircle(GetPosition()
-			, GetRealRadius(), Color::Blue);
+		if(m_bCanDraw)
+		{
+			DebugDraw::GetInstance()->DrawSolidCircle(GetPosition()
+				, GetRealRadius(), m_DrawColor, m_DrawSegments);
+		}		
 	}
 }

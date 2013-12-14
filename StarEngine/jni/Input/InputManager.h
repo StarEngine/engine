@@ -11,6 +11,7 @@
 #include <vector>
 #include <android/input.h>
 #include <android_native_app_glue.h>
+#include <functional>
 #endif
 
 #include "../defines.h"
@@ -64,6 +65,8 @@ namespace star
 		float32 ToolMinor;
 		int32 ID;
 	};
+
+	typedef std::function<void()> CallBack;
 #endif
 
 	class InputManager
@@ -130,6 +133,9 @@ namespace star
 
 		void OnTouchEvent(AInputEvent* pEvent);
 		bool OnKeyboardEvent(AInputEvent* pEvent);
+
+		void SetOnBackButtonCallback(CallBack callback);
+		void SetOnMenuButtonCallback(CallBack callback);
 #endif
 
 	private:
@@ -179,6 +185,8 @@ namespace star
 		uint32 m_ActivePointerID;
 		std::vector<FingerPointerANDR> m_PointerVec;
 		std::vector<FingerPointerANDR> m_OldPointerVec;
+		CallBack m_OnBackButtonDown;
+		CallBack m_OnMenuButtonDown;
 #endif
 		vec2 m_CurrMousePosition, m_OldMousePosition, m_MouseMovement;
 		std::shared_ptr<GestureManager> m_GestureManager;

@@ -10,6 +10,7 @@
 #include "../Input/InputManager.h"
 #include "../Graphics/UI/UICursor.h"
 #include "../Graphics/UI/UIBaseCursor.h"
+#include "../Helpers/Debug/DebugDraw.h"
 
 #define INPUT_MANAGER (InputManager::GetInstance())
 
@@ -237,6 +238,7 @@ namespace star
 		{
 			m_ActiveScene->BaseDraw();
 			SpriteBatch::GetInstance()->Flush();
+			DebugDraw::GetInstance()->Flush();
 		}
 	}
 

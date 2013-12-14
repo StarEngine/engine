@@ -32,7 +32,7 @@ namespace star
 		if(m_pParentObject->HasComponent<SpritesheetComponent>(this)
 			|| m_pParentObject->HasComponent<TextComponent>(this))
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			Logger::GetInstance()->Log(false,
 				_T("Object '") + m_pParentObject->GetName() +
 				_T("': Can't add a SpriteComponent when already \
 having a Spritesheet- or TextComponent."));

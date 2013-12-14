@@ -55,6 +55,8 @@ namespace star
 		void AddChild(Object* pObject);
 		void AddElement(UIObject * pElement);
 
+		void SetUIDisabledChildren(bool disable);
+
 	protected:
 		virtual void Update(const Context& context);
 		virtual void Draw();

@@ -24,7 +24,7 @@ namespace star
 		{
 			mFontManager = new FontManager();
 		}
-		return (mFontManager);
+		return mFontManager;
 	}
 
 	FontManager::FontManager():
@@ -92,9 +92,9 @@ namespace star
 		if(it != mFontList.end())
 		{
 			mFontList.erase(it);
-			return (true);
+			return true;
 		}
-		return (false);
+		return false;
 	}
 
 	const Font* FontManager::GetFont(const tstring& name)

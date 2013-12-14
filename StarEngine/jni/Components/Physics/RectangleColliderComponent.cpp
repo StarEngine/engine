@@ -573,6 +573,9 @@ The collierComponent to check is a nullptr"), STARENGINE_LOG_TAG);
 
 	void RectangleColliderComponent::Draw()
 	{
-		DebugDraw::GetInstance()->DrawSolidRect(GetCollisionRect(),Color::White);
+		if(m_bCanDraw)
+		{
+			DebugDraw::GetInstance()->DrawSolidRect(GetCollisionRect(), m_DrawColor);
+		}
 	}
 }

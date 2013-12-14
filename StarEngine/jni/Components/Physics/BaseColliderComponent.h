@@ -2,6 +2,7 @@
 
 #include "../BaseComponent.h"
 #include "../../defines.h"
+#include "../../Graphics/Color.h"
 #include <functional>
 
 namespace star
@@ -10,10 +11,10 @@ namespace star
 	class CircleColliderComponent;
 	class RectangleColliderComponent;
 
-	typedef std::function<void()>  Callback;
-
 	class BaseColliderComponent : public BaseComponent
 	{
+		typedef std::function<void(BaseColliderComponent* collider)> Callback;
+
 	public:
 		BaseColliderComponent();
 		BaseColliderComponent(
@@ -27,9 +28,9 @@ namespace star
 		void SetOnStayCallback(Callback onStay);
 		void SetOnExitCallback(Callback onExit);
 
-		void TriggerOnEnter();
-		void TriggerOnStay();
-		void TriggerOnExit();
+		void TriggerOnEnter(BaseColliderComponent* other);
+		void TriggerOnStay(BaseColliderComponent* other);
+		void TriggerOnExit(BaseColliderComponent* other);
 
 		void SetAsTrigger(bool isTrigger);
 		bool IsTrigger() const;
@@ -43,6 +44,11 @@ namespace star
 		void SetExited(bool hasLeft);
 		bool GetExited() const;
 
+		void SetDrawColor(const Color& color);
+		const Color& GetDrawColor() const;
+
+		void EnableDrawing(bool enable);
+
 		const PointerArray<tstring>& GetLayers() const;
 
 		virtual bool CollidesWithPoint(const vec2& point) const = 0;
@@ -55,12 +61,16 @@ namespace star
 	protected:
 		virtual void InitializeColliderComponent() = 0;
 		virtual void Draw();
+
+		bool m_bIsTrigger;
+		bool m_bIsStatic;
+		bool m_bCanDraw;
+		Color m_DrawColor;
+
 		bool RectangleCircleCollision(
 			const RectangleColliderComponent* rect, 
 			const CircleColliderComponent* circle
 			) const;
-		bool m_bIsTrigger;
-		bool m_bIsStatic;
 		vec2 FindClosestPointToOOBB(
 			const vec2& point, 
 			const RectangleColliderComponent* oobb
@@ -69,8 +79,8 @@ namespace star
 		static const tstring DEFAULT_LAYER_NAME;
 
 	private:
-		bool m_Entered;
-		bool m_Exited;
+		bool m_bEntered;
+		bool m_bExited;
 
 		Callback m_OnEnter;
 		Callback m_OnStay;

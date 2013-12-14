@@ -174,6 +174,9 @@ namespace star
 			(m_SliderIsHorizontal ? dimensions.x : dimensions.y) -
 			m_SliderOffset.x -
 			m_SliderOffset.y;
+
+		SetPositionAccordingToPercent();
+
 	}
 
 	void UISlider::SetSelectedCallback(
@@ -217,5 +220,73 @@ namespace star
 	{
 		m_SliderOffset.y = max;
 		CalculateSliderDimension();
+	}
+
+	void UISlider::SetSliderOrthogonalAlignmentCentered()
+	{
+		if(m_SliderIsHorizontal)
+		{
+			m_pSlider->SetVerticalAlignment(VerticalAlignment::Center);
+		}
+		else
+		{
+			m_pSlider->SetHorizontalAlignment(HorizontalAlignment::Center);
+		}
+	}
+
+	void UISlider::SetSliderOrthogonalAlignmentPositive()
+	{
+		if(m_SliderIsHorizontal)
+		{
+			m_pSlider->SetVerticalAlignment(VerticalAlignment::Top);
+		}
+		else
+		{
+			m_pSlider->SetHorizontalAlignment(HorizontalAlignment::Right);
+		}
+	}
+
+	void UISlider::SetSliderOrthogonalAlignmentNegative()
+	{
+		if(m_SliderIsHorizontal)
+		{
+			m_pSlider->SetVerticalAlignment(VerticalAlignment::Bottom);
+		}
+		else
+		{
+			m_pSlider->SetHorizontalAlignment(HorizontalAlignment::Left);
+		}
+	}
+		
+	void UISlider::SetSliderOrthogonalOffset(float32 offset)
+	{
+		if(m_SliderIsHorizontal)
+		{
+			m_pSlider->TranslateY(offset);
+		}
+		else
+		{
+			m_pSlider->TranslateX(offset);
+		}
+	}
+
+	void UISlider::SetSliderCenterPoint(const vec2 & center)
+	{
+		m_pSlider->GetTransform()->SetCenterPoint(center);
+	}
+
+	void UISlider::SetSliderCenterPoint(float32 x, float32 y)
+	{
+		m_pSlider->GetTransform()->SetCenterPoint(x, y);
+	}
+
+	void UISlider::SetSliderCenterX(float32 x)
+	{
+		m_pSlider->GetTransform()->SetCenterX(x);
+	}
+
+	void UISlider::SetSliderCenterY(float32 y)
+	{
+		m_pSlider->GetTransform()->SetCenterY(y);
 	}
 }

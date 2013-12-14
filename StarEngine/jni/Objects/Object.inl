@@ -59,7 +59,7 @@ Trying to get unknown child '")
 		{
 			if(component && typeid(*component) == ti)
 			{
-				return ((T*)component);
+				return dynamic_cast<T*>(component);
 			}
 		}
 
@@ -70,7 +70,7 @@ Trying to get unknown child '")
 				return (child->GetComponent<T>(searchChildren));
 			}
 		}
-		return (nullptr);
+		return nullptr;
 	}
 
 	template <typename T>
@@ -84,7 +84,7 @@ Trying to get unknown child '")
 				return (dynamic_cast<T*>(child));
 			}
 		}
-		return (nullptr);
+		return nullptr;
 	}
 
 	template <typename T>
@@ -96,10 +96,10 @@ Trying to get unknown child '")
 			if(child && typeid(*child) == ti
 				&& child->GetName() == name)
 			{
-				return (dynamic_cast<T*>(child));
+				return dynamic_cast<T*>(child);
 			}
 		}
-		return (nullptr);
+		return nullptr;
 	}
 
 	
