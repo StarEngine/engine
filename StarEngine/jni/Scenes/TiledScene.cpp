@@ -41,9 +41,36 @@ namespace star
 
 	void TiledScene::DefineSpecialObject(
 		const tstring & object_id,
-		std::function<Object*(const TileObject&)> func)
+		const std::function<Object*(const TileObject&)> & func)
 	{
+		if(m_DefinedObject.find(object_id) != m_DefinedObject.end())
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("TiledScene::DefineSpecialObject: Overriding definition for object '")
+				+ object_id + _T("'."));
+		}
 		m_DefinedObject[object_id] = func;
+	}
+
+	void TiledScene::ExtendTile(uint32 tileID,
+		const std::function<void(Object*)> & func)
+	{
+		if(m_ExtensionTiles.find(tileID) != m_ExtensionTiles.end())
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("TiledScene::ExtendTile: Overriding extension for tile '")
+				+ string_cast<tstring>(tileID) + _T("'."));
+		}
+		m_ExtensionTiles[tileID] = func;
+	}
+
+	void TiledScene::ExtendTiles(uint32 * tileIDArray, uint32 size,
+		const std::function<void(Object*)> & func)
+	{
+		for(uint32 i = 0 ; i < size ; ++i)
+		{
+			ExtendTile(tileIDArray[i], func);
+		}
 	}
 
 	void TiledScene::GetCorrectTileset(uint32 gid, TileSet & set) const
@@ -265,18 +292,26 @@ namespace star
 					transform->Translate(
 						x,
 						y,
-						height);
+						height
+						);
 					transform->Scale(m_Scale, m_Scale);
 				#else
 					transform->Translate(
 						x,
 						y,
-						height * m_Scale );
+						height * m_Scale
+						);
 					transform->Scale(m_Scale, m_Scale, m_Scale);
 				#endif
 
 					auto texture = CreateSpriteFromGid(tID, tileSet);
 					obj->AddComponent(texture);
+
+					if(m_ExtensionTiles.find(tID) != m_ExtensionTiles.end())
+					{
+						m_ExtensionTiles[tID](obj);
+					}
+
 					AddObject(obj);
 					m_TiledObjects.push_back(obj);
 				}

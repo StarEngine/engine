@@ -49,7 +49,13 @@ namespace star
 		void ClearLevel();
 
 		void DefineSpecialObject(const tstring & object_id,
-			std::function<Object*(const TileObject&)> func);
+			const std::function<Object*(const TileObject&)> & func);
+
+		void ExtendTile(uint32 tileID,
+			const std::function<void(Object*)> & func);
+
+		void ExtendTiles(uint32 * tileIDArray, uint32 size,
+			const std::function<void(Object*)> & func);
 
 		void GetCorrectTileset(uint32 gid, TileSet & set) const;
 		star::SpriteComponent * CreateSpriteFromGid(uint32 gid, const TileSet & set);
@@ -60,6 +66,7 @@ namespace star
 		std::vector<TileSet> m_TileSets;
 		std::vector<Object*> m_TiledObjects;
 		std::map<tstring, std::function<Object*(const TileObject&)>> m_DefinedObject;
+		std::map<uint32, std::function<void(Object*)>> m_ExtensionTiles;
 
 	private:
 		void CreateTiledObjects(XMLContainer & container);
