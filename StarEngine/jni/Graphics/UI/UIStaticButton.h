@@ -26,8 +26,14 @@ namespace star
 
 		virtual ~UIStaticButton();
 
-		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
-		virtual void SetVerticalAlignment(VerticalAlignment alignment);
+		virtual void SetHorizontalAlignment(
+			HorizontalAlignment alignment,
+			bool redefine_center = true
+			);
+		virtual void SetVerticalAlignment(
+			VerticalAlignment alignment,
+			bool redefine_center = true
+			);
 
 		void SetCurrentSegement(uint32 segmentX, uint32 segmentY);
 

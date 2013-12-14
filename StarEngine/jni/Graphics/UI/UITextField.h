@@ -30,8 +30,14 @@ namespace star
 
 		virtual void Initialize();
 
-		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
-		virtual void SetVerticalAlignment(VerticalAlignment alignment);
+		virtual void SetHorizontalAlignment(
+			HorizontalAlignment alignment,
+			bool redefine_center = true
+			);
+		virtual void SetVerticalAlignment(
+			VerticalAlignment alignment,
+			bool redefine_center = true
+			);
 
 		void SetText(const tstring & text);
 		const tstring & GetText() const;

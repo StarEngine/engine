@@ -180,14 +180,26 @@ namespace star
 		m_pTextField->TranslateY(y);
 	}
 
-	void UIAnimatedTextButton::SetHorizontalAlignmentText(HorizontalAlignment alignment)
+	void UIAnimatedTextButton::SetHorizontalAlignmentText(
+		HorizontalAlignment alignment,
+		bool redefine_center
+		)
 	{
-		m_pTextField->SetHorizontalAlignment(alignment);
+		m_pTextField->SetHorizontalAlignment(
+			alignment,
+			redefine_center
+			);
 	}
 
-	void UIAnimatedTextButton::SetVerticalAlignmentText(VerticalAlignment alignment)
+	void UIAnimatedTextButton::SetVerticalAlignmentText(
+		VerticalAlignment alignment,
+		bool redefine_center
+		)
 	{
-		m_pTextField->SetVerticalAlignment(alignment);
+		m_pTextField->SetVerticalAlignment(
+			alignment,
+			redefine_center
+			);
 	}
 	
 	void UIAnimatedTextButton::SetTextCentered()

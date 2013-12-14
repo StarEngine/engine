@@ -30,48 +30,66 @@ namespace star
 
 	}
 	
-	void UIDock::SetHorizontalAlignment(HorizontalAlignment alignment)
+	void UIDock::SetHorizontalAlignment(
+		HorizontalAlignment alignment,
+		bool redefine_center
+		)
 	{
-		switch(alignment)
+		if(redefine_center)
 		{
-			case HorizontalAlignment::Left:
-				GetTransform()->SetCenterX(0);
-				break;
-			case HorizontalAlignment::Center:
-				GetTransform()->SetCenterX(
-					m_Dimensions.x / 2.0f
-					);
-				break;
-			case HorizontalAlignment::Right:
-				GetTransform()->SetCenterX(
-					m_Dimensions.x
-					);
-				break;
+			switch(alignment)
+			{
+				case HorizontalAlignment::Left:
+					GetTransform()->SetCenterX(0);
+					break;
+				case HorizontalAlignment::Center:
+					GetTransform()->SetCenterX(
+						m_Dimensions.x / 2.0f
+						);
+					break;
+				case HorizontalAlignment::Right:
+					GetTransform()->SetCenterX(
+						m_Dimensions.x
+						);
+					break;
+			}
 		}
 
-		UIObject::SetHorizontalAlignment(alignment);
+		UIObject::SetHorizontalAlignment(
+			alignment,
+			redefine_center
+			);
 	}
 
-	void UIDock::SetVerticalAlignment(VerticalAlignment alignment)
+	void UIDock::SetVerticalAlignment(
+		VerticalAlignment alignment,
+		bool redefine_center
+		)
 	{
-		switch(alignment)
+		if(redefine_center)
 		{
-			case VerticalAlignment::Bottom:
-				GetTransform()->SetCenterY(0);
-				break;
-			case VerticalAlignment::Center:
-				GetTransform()->SetCenterY(
-					m_Dimensions.y / 2.0f
-					);
-				break;
-			case VerticalAlignment::Top:
-				GetTransform()->SetCenterY(
-					m_Dimensions.y
-					);
-				break;
-
+			switch(alignment)
+			{
+				case VerticalAlignment::Bottom:
+					GetTransform()->SetCenterY(0);
+					break;
+				case VerticalAlignment::Center:
+					GetTransform()->SetCenterY(
+						m_Dimensions.y / 2.0f
+						);
+					break;
+				case VerticalAlignment::Top:
+					GetTransform()->SetCenterY(
+						m_Dimensions.y
+						);
+					break;
+			}
 		}
-		UIObject::SetVerticalAlignment(alignment);
+
+		UIObject::SetVerticalAlignment(
+			alignment,
+			redefine_center
+			);
 	}
 
 	void UIDock::SetDimensions(const vec2 & dimensions)

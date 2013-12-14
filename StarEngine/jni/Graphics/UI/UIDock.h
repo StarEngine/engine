@@ -15,8 +15,14 @@ namespace star
 			);
 		virtual ~UIDock(void);
 
-		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
-		virtual void SetVerticalAlignment(VerticalAlignment alignment);
+		virtual void SetHorizontalAlignment(
+			HorizontalAlignment alignment,
+			bool redefine_center = true
+			);
+		virtual void SetVerticalAlignment(
+			VerticalAlignment alignment,
+			bool redefine_center = true
+			);
 
 		void SetDimensions(const vec2 & dimensions);
 		void SetDimensions(float32 x, float32 y);

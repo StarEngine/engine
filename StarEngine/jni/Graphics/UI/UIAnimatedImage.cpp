@@ -45,46 +45,66 @@ namespace star
 
 	}
 	
-	void UIAnimatedImage::SetHorizontalAlignment(HorizontalAlignment alignment)
+	void UIAnimatedImage::SetHorizontalAlignment(
+		HorizontalAlignment alignment,
+		bool redefine_center
+		)
 	{
-		switch(alignment)
+		if(redefine_center)
 		{
-			case HorizontalAlignment::Left:
-				GetTransform()->SetCenterX(0);
-				break;
-			case HorizontalAlignment::Center:
-				GetTransform()->SetCenterX(
-					float32(m_pSprite->GetWidth()) / 2.0f
-					);
-				break;
-			case HorizontalAlignment::Right:
-				GetTransform()->SetCenterX(
-					float32(m_pSprite->GetWidth())
-					);
-				break;
+			switch(alignment)
+			{
+				case HorizontalAlignment::Left:
+					GetTransform()->SetCenterX(0);
+					break;
+				case HorizontalAlignment::Center:
+					GetTransform()->SetCenterX(
+						float32(m_pSprite->GetWidth()) / 2.0f
+						);
+					break;
+				case HorizontalAlignment::Right:
+					GetTransform()->SetCenterX(
+						float32(m_pSprite->GetWidth())
+						);
+					break;
+			}
 		}
-		UIElement::SetHorizontalAlignment(alignment);
+
+		UIElement::SetHorizontalAlignment(
+			alignment,
+			redefine_center
+			);
 	}
 
-	void UIAnimatedImage::SetVerticalAlignment(VerticalAlignment alignment)
+	void UIAnimatedImage::SetVerticalAlignment(
+		VerticalAlignment alignment,
+		bool redefine_center
+		)
 	{
-		switch(alignment)
+		if(redefine_center)
 		{
-			case VerticalAlignment::Bottom:
-				GetTransform()->SetCenterY(0);
-				break;
-			case VerticalAlignment::Center:
-				GetTransform()->SetCenterY(
-					float32(m_pSprite->GetHeight()) / 2.0f
-					);
-				break;
-			case VerticalAlignment::Top:
-				GetTransform()->SetCenterY(
-					float32(m_pSprite->GetHeight())
-					);
-				break;
+			switch(alignment)
+			{
+				case VerticalAlignment::Bottom:
+					GetTransform()->SetCenterY(0);
+					break;
+				case VerticalAlignment::Center:
+					GetTransform()->SetCenterY(
+						float32(m_pSprite->GetHeight()) / 2.0f
+						);
+					break;
+				case VerticalAlignment::Top:
+					GetTransform()->SetCenterY(
+						float32(m_pSprite->GetHeight())
+						);
+					break;
+			}
 		}
-		UIElement::SetVerticalAlignment(alignment);
+
+		UIElement::SetVerticalAlignment(
+			alignment,
+			redefine_center
+			);
 	}
 
 	void UIAnimatedImage::Play()
