@@ -7,6 +7,7 @@
 #include "../Logger.h"
 #include "../Helpers/Math.h"
 #include "../Objects/BaseCamera.h"
+#include "../Graphics/ScaleSystem.h"
 
 namespace star
 {
@@ -85,9 +86,13 @@ namespace star
 #ifdef STAR2D
 		auto pos = m_pParentObject->GetTransform()->GetWorldPosition();
 		vec3 vEyePt = pos.pos3D();
+		vEyePt.x = vEyePt.x / (star::ScaleSystem::GetInstance()->GetWorkingResolution().x / 2.0f);
+		vEyePt.y = vEyePt.y / (star::ScaleSystem::GetInstance()->GetWorkingResolution().y / 2.0f);
 #else
 		vec3 vEyePt = m_pParentObject->GetTransform()->GetWorldPosition();
-#endif
+		vEyePt.x = vEyePt.x / (star::ScaleSystem::GetInstance()->GetWorkingResolution().x / 2.0f);
+		vEyePt.y = vEyePt.y / (star::ScaleSystem::GetInstance()->GetWorkingResolution().y / 2.0f);
+#endif	
 		vec3 vLookat, vUpVec;
 		mat4 rotTransform;
 	

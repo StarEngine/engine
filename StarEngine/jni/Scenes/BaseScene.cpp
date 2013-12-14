@@ -145,10 +145,10 @@ namespace star
 		{
 			pos camPos = m_pDefaultCamera->GetTransform()->GetWorldPosition();
 
-			float32 xPos = camPos.pos2D().x *
-				((star::ScaleSystem::GetInstance()->GetWorkingResolution().x) / 2.0f);
-			float32 yPos = camPos.pos2D().y *
-				((star::ScaleSystem::GetInstance()->GetWorkingResolution().y) / 2.0f); 
+			float32 xPos = camPos.pos2D().x; /*
+				((star::ScaleSystem::GetInstance()->GetWorkingResolution().x) / 2.0f);*/
+			float32 yPos = camPos.pos2D().y; /*
+				((star::ScaleSystem::GetInstance()->GetWorkingResolution().y) / 2.0f);*/ 
 
 			int32 screenWidth = GraphicsManager::GetInstance()->GetScreenWidth();
 			int32 screenHeight = GraphicsManager::GetInstance()->GetScreenHeight();
