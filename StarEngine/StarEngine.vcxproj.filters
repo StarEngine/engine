@@ -357,7 +357,7 @@
     <ClInclude Include="jni\Scenes\SplashScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Helpers\GameData.h">
+    <ClInclude Include="jni\Actions\DelayedFramesAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -653,7 +653,7 @@
     <ClCompile Include="jni\Scenes\SplashScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\Helpers\GameData.cpp">
+    <ClCompile Include="jni\Actions\DelayedFramesAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -674,9 +674,6 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="jni\Helpers\Dictionary.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="jni\Helpers\GameData.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include="jni\Scenes\SceneManager.inl">

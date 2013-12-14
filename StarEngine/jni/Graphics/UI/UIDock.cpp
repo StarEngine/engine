@@ -121,4 +121,17 @@ namespace star
 	{
 		return m_Dimensions;
 	}
+
+	bool UIDock::CheckCulling(
+			float32 left,
+			float32 right,
+			float32 top,
+			float32 bottom
+			)
+	{
+		return
+			(m_Position.x + m_Dimensions.x >= left && m_Position.x <= right)
+			&&
+			(m_Position.y + m_Dimensions.y >= bottom && m_Position.y <= top);
+	}
 }

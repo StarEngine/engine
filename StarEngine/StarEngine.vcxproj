@@ -80,6 +80,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="jni\Actions\DelayedFramesAction.h" />
     <ClInclude Include="jni\Actions\Action.h" />
     <ClInclude Include="jni\Actions\DelayedAction.h" />
     <ClInclude Include="jni\Actions\Index.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="jni\Actions\DelayedFramesAction.cpp" />
     <ClCompile Include="jni\Actions\Action.cpp" />
     <ClCompile Include="jni\Actions\DelayedAction.cpp" />
     <ClCompile Include="jni\Actions\LoopedAction.cpp" />

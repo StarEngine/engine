@@ -33,6 +33,12 @@ namespace star
 
 	protected:
 		vec2 m_Dimensions;
+		virtual bool CheckCulling(
+			float32 left,
+			float32 right,
+			float32 top,
+			float32 bottom
+			);
 
 	private:
 		UIDock(const UIDock &);

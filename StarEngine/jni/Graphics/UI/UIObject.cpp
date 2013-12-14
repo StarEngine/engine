@@ -22,7 +22,7 @@ namespace star
 			)
 		, m_pParent(nullptr)
 		, m_DebugDrawColor()
-		, m_bDebugDrawFilled(true)
+		, m_bDebugDrawFilled(false)
 		, m_bCanDebugDraw(false)
 	{
 
