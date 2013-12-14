@@ -23,7 +23,6 @@ namespace star
 		m_WorldScale(1,1),
 		m_LocalScale(1,1),
 		m_CenterPosition(0,0),
-		m_Dimensions(0,0),
 		m_IsMirroredX(false),
 		m_IsMirroredY(false),
 	#else
