@@ -485,8 +485,10 @@ namespace star
 					GetActiveScene()->GetActiveCamera();
 				if(projectionObject)
 				{
-					m_CurrMousePosition += projectionObject->GetTransform()->
-						GetWorldPosition().pos2D() / (star::ScaleSystem::GetInstance()->GetWorkingResolution().x / 2.0f);
+					auto worldPos = projectionObject->GetTransform()->GetWorldPosition().pos2D();
+					worldPos.x /= (star::ScaleSystem::GetInstance()->GetWorkingResolution().x / 2.0f);
+					worldPos.y /= (star::ScaleSystem::GetInstance()->GetWorkingResolution().y / 2.0f);
+					m_CurrMousePosition +=  worldPos;
 				}
 			}
 
