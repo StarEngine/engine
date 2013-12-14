@@ -5,7 +5,6 @@
 #include "../Graphics/GraphicsManager.h"
 #include "../Scenes/BaseScene.h"
 #include "../Physics/Collision/CollisionManager.h"
-#include "../Helpers/Debug/DebugDraw.h"
 #include <algorithm>
 #include <typeinfo>
 
@@ -25,8 +24,6 @@ namespace star
 		, m_pActions()
 		, m_GroupTag(_T("Default"))
 		, m_PhysicsTag(_T("Default"))
-		, m_DebugDrawColor()
-		, m_bDebugDrawFilled(true)
 	{
 		m_pComponents.push_back(new TransformComponent(this));
 	}
@@ -45,8 +42,6 @@ namespace star
 		, m_pActions()
 		, m_GroupTag(_T("Default"))
 		, m_PhysicsTag(_T("Default"))
-		, m_DebugDrawColor()
-		, m_bDebugDrawFilled(true)
 	{
 		m_pComponents.push_back(new TransformComponent(this));
 	}
@@ -68,8 +63,6 @@ namespace star
 		, m_pActions()
 		, m_GroupTag(groupTag)
 		, m_PhysicsTag(_T("Default"))
-		, m_DebugDrawColor()
-		, m_bDebugDrawFilled(true)
 	{
 		m_pComponents.push_back(new TransformComponent(this));
 	}
@@ -335,7 +328,6 @@ namespace star
 		if(m_IsVisible)
 		{
 			Draw();
-			DebugDraw();
 
 			for(auto component : m_pComponents)
 			{
@@ -367,36 +359,6 @@ namespace star
 		}
 	}
 
-	void Object::DebugDraw()
-	{
-		vec2 worldPos = GetTransform()->GetWorldPosition().pos2D();
-		vec2 dimensions = vec2(GetTransform()->GetDimensions());
-		Rect drawRect(
-			worldPos,
-			vec2(
-				worldPos.x + dimensions.x,
-				worldPos.y
-				),
-			vec2(
-				worldPos.x,
-				worldPos.y + dimensions.y
-				),
-			vec2(
-				worldPos.x + dimensions.x,
-				worldPos.y + dimensions.y
-				)
-			);
-
-		if(m_bDebugDrawFilled)
-		{
-			DebugDraw::GetInstance()->DrawSolidRect(drawRect, m_DebugDrawColor);
-		}
-		else
-		{
-			DebugDraw::GetInstance()->DrawRect(drawRect, m_DebugDrawColor);
-		}
-	}
-
 	void Object::BaseDrawWithCulling(
 		float32 left,
 		float32 right,
@@ -409,7 +371,6 @@ namespace star
 			if(BaseCheckCulling(left, right, top, bottom))
 			{
 				Draw();
-				DebugDraw();
 
 				for(auto component : m_pComponents)
 				{
@@ -791,26 +752,6 @@ to remove could not be found."));
 	void Object::UnsetScene()
 	{
 		m_pScene = nullptr;
-	}
-
-	void Object::SetDebugDrawColor(const Color& color)
-	{
-		m_DebugDrawColor = color;
-	}
-
-	const Color& Object::GetDebugDrawColor() const
-	{
-		return m_DebugDrawColor;
-	}
-
-	void Object::SetDebugDrawStyle(bool filled)
-	{
-		m_bDebugDrawFilled = filled;
-	}
-
-	bool Object::GetDebugDrawStyle() const
-	{
-		return m_bDebugDrawFilled;
 	}
 
 	void Object::Reset()
