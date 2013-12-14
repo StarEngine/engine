@@ -50,51 +50,69 @@ namespace star
 		UIElement::Initialize();
 	}
 	
-	void UITextField::SetHorizontalAlignment(HorizontalAlignment alignment)
+	void UITextField::SetHorizontalAlignment(
+		HorizontalAlignment alignment,
+		bool redefine_center
+		)
 	{
-		switch(alignment)
+		if(redefine_center)
 		{
-			case HorizontalAlignment::Left:
-				GetTransform()->SetCenterX(0);
-				m_pTextComponent->AlignTextLeft();
-				break;
-			case HorizontalAlignment::Center:
-				GetTransform()->SetCenterX(
-					float32(m_pTextComponent->GetWidth()) / 2.0f
-					);
-				m_pTextComponent->AlignTextCenter();
-				break;
-			case HorizontalAlignment::Right:
-				GetTransform()->SetCenterX(
-					float32(m_pTextComponent->GetWidth())
-					);
-				m_pTextComponent->AlignTextRight();
-				break;
+			switch(alignment)
+			{
+				case HorizontalAlignment::Left:
+					GetTransform()->SetCenterX(0);
+					m_pTextComponent->AlignTextLeft();
+					break;
+				case HorizontalAlignment::Center:
+					GetTransform()->SetCenterX(
+						float32(m_pTextComponent->GetWidth()) / 2.0f
+						);
+					m_pTextComponent->AlignTextCenter();
+					break;
+				case HorizontalAlignment::Right:
+					GetTransform()->SetCenterX(
+						float32(m_pTextComponent->GetWidth())
+						);
+					m_pTextComponent->AlignTextRight();
+					break;
+			}
 		}
 
-		UIElement::SetHorizontalAlignment(alignment);
+		UIElement::SetHorizontalAlignment(
+			alignment,
+			redefine_center
+			);
 	}
 
-	void UITextField::SetVerticalAlignment(VerticalAlignment alignment)
+	void UITextField::SetVerticalAlignment(
+		VerticalAlignment alignment,
+		bool redefine_center
+		)
 	{
-		switch(alignment)
+		if(redefine_center)
 		{
-			case VerticalAlignment::Bottom:
-				GetTransform()->SetCenterY(0);
-				break;
-			case VerticalAlignment::Center:
-				GetTransform()->SetCenterY(
-					float32(m_pTextComponent->GetHeight()) / 2.0f
-					);
-				break;
-			case VerticalAlignment::Top:
-				GetTransform()->SetCenterY(
-					float32(m_pTextComponent->GetHeight())
-					);
-				break;
+			switch(alignment)
+			{
+				case VerticalAlignment::Bottom:
+					GetTransform()->SetCenterY(0);
+					break;
+				case VerticalAlignment::Center:
+					GetTransform()->SetCenterY(
+						float32(m_pTextComponent->GetHeight()) / 2.0f
+						);
+					break;
+				case VerticalAlignment::Top:
+					GetTransform()->SetCenterY(
+						float32(m_pTextComponent->GetHeight())
+						);
+					break;
+			}
 		}
 
-		UIElement::SetVerticalAlignment(alignment);
+		UIElement::SetVerticalAlignment(
+			alignment,
+			redefine_center
+			);
 	}
 
 	void UITextField::SetText(const tstring & text)

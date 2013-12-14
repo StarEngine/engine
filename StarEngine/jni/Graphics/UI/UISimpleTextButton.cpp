@@ -184,14 +184,36 @@ namespace star
 		m_pTextField->TranslateY(y);
 	}
 
-	void UISimpleTextButton::SetHorizontalAlignmentText(HorizontalAlignment alignment)
+	void UISimpleTextButton::SetHorizontalAlignmentText(
+		HorizontalAlignment alignment,
+		bool redefine_center
+		)
 	{
-		m_pTextField->SetHorizontalAlignment(alignment);
+		m_pTextField->SetHorizontalAlignment(
+			alignment,
+			redefine_center
+			);
+
+		UIUserElement::SetHorizontalAlignment(
+			alignment,
+			redefine_center
+			);
 	}
 
-	void UISimpleTextButton::SetVerticalAlignmentText(VerticalAlignment alignment)
+	void UISimpleTextButton::SetVerticalAlignmentText(
+		VerticalAlignment alignment,
+		bool redefine_center
+		)
 	{
-		m_pTextField->SetVerticalAlignment(alignment);
+		m_pTextField->SetVerticalAlignment(
+			alignment,
+			redefine_center
+			);
+
+		UIUserElement::SetVerticalAlignment(
+			alignment,
+			redefine_center
+			);
 	}
 	
 	void UISimpleTextButton::SetTextCentered()

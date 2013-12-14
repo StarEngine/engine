@@ -99,22 +99,28 @@ namespace star
 		return m_Position;
 	}
 
-	void UIObject::SetHorizontalAlignment(HorizontalAlignment alignment)
+	void UIObject::SetHorizontalAlignment(
+		HorizontalAlignment alignment,
+		bool redefine_center
+		)
 	{
 		m_HorizontalAlignment = alignment;
 		UITranslateX(m_Position.x, GetDockDimensions());
 	}
 
-	void UIObject::SetVerticalAlignment(VerticalAlignment alignment)
+	void UIObject::SetVerticalAlignment(
+		VerticalAlignment alignment,
+		bool redefine_center
+		)
 	{
 		m_VerticalAlignment = alignment;
 		UITranslateY(m_Position.y, GetDockDimensions());
 	}
 
-	void UIObject::SetAlignmentCentered()
+	void UIObject::SetAlignmentCentered(bool redefine_center)
 	{
-		SetHorizontalAlignment(HorizontalAlignment::Center);
-		SetVerticalAlignment(VerticalAlignment::Center);
+		SetHorizontalAlignment(HorizontalAlignment::Center, redefine_center);
+		SetVerticalAlignment(VerticalAlignment::Center, redefine_center);
 	}
 
 	void UIObject::Reset()

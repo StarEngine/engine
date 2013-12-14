@@ -44,10 +44,16 @@ namespace star
 
 		const pos & GetPosition() const;
 
-		virtual void SetHorizontalAlignment(HorizontalAlignment alignment);
-		virtual void SetVerticalAlignment(VerticalAlignment alignment);
+		virtual void SetHorizontalAlignment(
+			HorizontalAlignment alignment,
+			bool redefine_center = true
+			);
+		virtual void SetVerticalAlignment(
+			VerticalAlignment alignment,
+			bool redefine_center = true
+			);
 
-		void SetAlignmentCentered();
+		void SetAlignmentCentered(bool redefine_center = true);
 
 		virtual void Reset();
 		void Reposition();

@@ -52,48 +52,66 @@ namespace star
 		UIUserElement::AfterInitialized();
 	}
 	
-	void UIAnimatedButton::SetHorizontalAlignment(HorizontalAlignment alignment)
+	void UIAnimatedButton::SetHorizontalAlignment(
+		HorizontalAlignment alignment,
+		bool redefine_center
+		)
 	{
-		switch(alignment)
+		if(redefine_center)
 		{
-			case HorizontalAlignment::Left:
-				GetTransform()->SetCenterX(0);
-				break;
-			case HorizontalAlignment::Center:
-				GetTransform()->SetCenterX(
-					float32(m_pButtonSprite->GetWidth()) / 2.0f
-					);
-				break;
-			case HorizontalAlignment::Right:
-				GetTransform()->SetCenterX(
-					float32(m_pButtonSprite->GetWidth())
-					);
-				break;
+			switch(alignment)
+			{
+				case HorizontalAlignment::Left:
+					GetTransform()->SetCenterX(0);
+					break;
+				case HorizontalAlignment::Center:
+					GetTransform()->SetCenterX(
+						float32(m_pButtonSprite->GetWidth()) / 2.0f
+						);
+					break;
+				case HorizontalAlignment::Right:
+					GetTransform()->SetCenterX(
+						float32(m_pButtonSprite->GetWidth())
+						);
+					break;
+			}
 		}
 
-		UIElement::SetHorizontalAlignment(alignment);
+		UIElement::SetHorizontalAlignment(
+			alignment,
+			redefine_center
+			);
 	}
 
-	void UIAnimatedButton::SetVerticalAlignment(VerticalAlignment alignment)
+	void UIAnimatedButton::SetVerticalAlignment(
+		VerticalAlignment alignment,
+		bool redefine_center
+		)
 	{
-		switch(alignment)
+		if(redefine_center)
 		{
-			case VerticalAlignment::Bottom:
-				GetTransform()->SetCenterY(0);
-				break;
-			case VerticalAlignment::Center:
-				GetTransform()->SetCenterY(
-					float32(m_pButtonSprite->GetHeight()) / 2.0f
-					);
-				break;
-			case VerticalAlignment::Top:
-				GetTransform()->SetCenterY(
-					float32(m_pButtonSprite->GetHeight())
-					);
-				break;
+			switch(alignment)
+			{
+				case VerticalAlignment::Bottom:
+					GetTransform()->SetCenterY(0);
+					break;
+				case VerticalAlignment::Center:
+					GetTransform()->SetCenterY(
+						float32(m_pButtonSprite->GetHeight()) / 2.0f
+						);
+					break;
+				case VerticalAlignment::Top:
+					GetTransform()->SetCenterY(
+						float32(m_pButtonSprite->GetHeight())
+						);
+					break;
+			}
 		}
 
-		UIElement::SetVerticalAlignment(alignment);
+		UIElement::SetVerticalAlignment(
+			alignment,
+			redefine_center
+			);
 	}
 
 	void UIAnimatedButton::EnableContiniousAnimation(bool enabled)

@@ -69,8 +69,14 @@ namespace star
 		void TranslateText(float32 x, float32 y);
 		void TranslateTextX(float32 x);
 		void TranslateTextY(float32 y);
-		void SetHorizontalAlignmentText(HorizontalAlignment alignment);
-		void SetVerticalAlignmentText(VerticalAlignment alignment);
+		void SetHorizontalAlignmentText(
+			HorizontalAlignment alignment,
+			bool redefine_center = true
+			);
+		void SetVerticalAlignmentText(
+			VerticalAlignment alignment,
+			bool redefine_center = true
+			);
 		void SetTextCentered();
 
 	protected:
