@@ -46,11 +46,11 @@ namespace star
 	void UIUserElement::SetUIDisabled(bool disable)
 	{
 		GetScene()->GetStopwatch()->CreateTimer(
-			_T("DisableTimer"),
-			0.2f,
+			m_UniqueUIObjectID + _T("_") + _T("DisableTimer"),
+			STOPWATCH_ONE_FRAME_DELAY,
 			false,
 			false,
-			[&]()
+			[&, disable]()
 			{
 				bool isEnabling =
 					!disable && m_ElementState == ElementStates::DISABLED;
@@ -112,11 +112,7 @@ namespace star
 				&& InputManager::GetInstance()->IsFingerReleasedCP(0))
 				{
 					GoUp();
-				#ifdef DESKTOP
-					m_ElementState = ElementStates::HOVER;
-				#else
-					m_ElementState = ElementStates::IDLE;
-				#endif
+					Reset();
 				}
 			#ifdef DESKTOP
 				else if(m_ElementState == ElementStates::IDLE

@@ -72,6 +72,11 @@ static const DirectoryMode DEFAULT_DIRECTORY_MODE = DirectoryMode::assets;
 
 #define TAB _T("    ")
 
+/// <summary>
+/// Value that can be used to create a stopwatch with the duration of +/- 1 frame
+/// </summary>
+static const float32 STOPWATCH_ONE_FRAME_DELAY = 0.016667f;
+
 namespace star
 {
 	/// <summary>

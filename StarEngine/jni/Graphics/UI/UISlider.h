@@ -45,9 +45,9 @@ namespace star
 		void SetSliderMinOffset(float32 min);
 		void SetSliderMaxOffset(float32 max);
 
-		void SetSliderOrthogonalAlignmentCentered();
-		void SetSliderOrthogonalAlignmentPositive();
-		void SetSliderOrthogonalAlignmentNegative();
+		void SetSliderOrthogonalAlignmentCentered(bool redefine_center = true);
+		void SetSliderOrthogonalAlignmentPositive(bool redefine_center = true);
+		void SetSliderOrthogonalAlignmentNegative(bool redefine_center = true);
 		
 		void SetSliderOrthogonalOffset(float32 offset);
 
