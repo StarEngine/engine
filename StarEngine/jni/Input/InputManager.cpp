@@ -486,7 +486,7 @@ namespace star
 				if(projectionObject)
 				{
 					m_CurrMousePosition += projectionObject->GetTransform()->
-						GetWorldPosition().pos2D();
+						GetWorldPosition().pos2D() / (star::ScaleSystem::GetInstance()->GetWorkingResolution().x / 2.0f);
 				}
 			}
 
