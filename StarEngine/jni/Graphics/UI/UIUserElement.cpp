@@ -112,11 +112,7 @@ namespace star
 				&& InputManager::GetInstance()->IsFingerReleasedCP(0))
 				{
 					GoUp();
-				#ifdef DESKTOP
-					m_ElementState = ElementStates::HOVER;
-				#else
-					m_ElementState = ElementStates::IDLE;
-				#endif
+					Reset();
 				}
 			#ifdef DESKTOP
 				else if(m_ElementState == ElementStates::IDLE
