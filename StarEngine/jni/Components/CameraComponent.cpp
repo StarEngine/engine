@@ -85,14 +85,14 @@ namespace star
 #endif
 #ifdef STAR2D
 		auto pos = m_pParentObject->GetTransform()->GetWorldPosition();
-		vec3 vEyePt = pos.pos3D();
+		vec3 eyeVec = pos.pos3D();
 #else
-		vec3 vEyePt = m_pParentObject->GetTransform()->GetWorldPosition();
+		vec3 eyeVec = m_pParentObject->GetTransform()->GetWorldPosition();
 #endif	
-		vEyePt.x /= (star::ScaleSystem::GetInstance()->GetWorkingResolution().x / 2.0f);
-		vEyePt.y /= (star::ScaleSystem::GetInstance()->GetWorkingResolution().y / 2.0f);
+		eyeVec.x /= (star::ScaleSystem::GetInstance()->GetWorkingResolution().x / 2.0f);
+		eyeVec.y /= (star::ScaleSystem::GetInstance()->GetWorkingResolution().y / 2.0f);
 
-		vec3 vLookat, vUpVec;
+		vec3 lookAtVec, upVec;
 		mat4 rotTransform;
 	
 #ifdef STAR2D
@@ -109,11 +109,11 @@ namespace star
 		vec4 vUpVecTemp = vec4(0,1,0,0) * Transpose(rotTransform);
 
 		//put them into a vec3
-		vLookat = vec3(vLookTemp.x, vLookTemp.y, vLookTemp.z);
-		vUpVec = vec3(vUpVecTemp.x, vUpVecTemp.y, vUpVecTemp.z);
+		lookAtVec = vec3(vLookTemp.x, vLookTemp.y, vLookTemp.z);
+		upVec = vec3(vUpVecTemp.x, vUpVecTemp.y, vUpVecTemp.z);
 
 		//Calculate the viewmatrix and inverse
-		m_View = MatrixLookAt(vEyePt, (vEyePt + vLookat), vUpVec);
+		m_View = MatrixLookAt(eyeVec, (eyeVec + lookAtVec), upVec);
 		m_ViewInverse = Transpose(m_View);
 	}
 

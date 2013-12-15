@@ -331,12 +331,11 @@ namespace star
 	{
 		//while(m_ThreadAvailable)
 		{
-
 			UpdateKeyboardStates();
 			UpdateGamepadStates();
 
 			//Reset previous InputAction States
-			for(auto it = m_InputActions.begin() ; it != m_InputActions.end() ; ++it)
+			for(auto it = m_InputActions.begin(); it != m_InputActions.end(); ++it)
 			{
 				auto currAction = &(it->second);
 				//Reset the previous state before updating/checking the new state
@@ -488,7 +487,7 @@ namespace star
 					auto worldPos = projectionObject->GetTransform()->GetWorldPosition().pos2D();
 					worldPos.x /= (star::ScaleSystem::GetInstance()->GetWorkingResolution().x / 2.0f);
 					worldPos.y /= (star::ScaleSystem::GetInstance()->GetWorkingResolution().y / 2.0f);
-					m_CurrMousePosition +=  worldPos;
+					m_CurrMousePosition += worldPos;
 				}
 			}
 
