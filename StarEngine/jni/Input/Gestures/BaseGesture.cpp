@@ -4,8 +4,9 @@
 
 namespace star
 {
-		BaseGesture::BaseGesture():
-				m_bCompletedGesture(false)
+		BaseGesture::BaseGesture()
+				: m_bCompletedGesture(false)
+				, m_Callback(nullptr)
 		{
 
 		}
@@ -76,6 +77,10 @@ namespace star
 		{
 			if(m_bCompletedGesture)
 			{
+				if(m_Callback)
+				{
+					m_Callback();
+				}
 				m_bCompletedGesture = false;
 			}
 		}
@@ -83,5 +88,10 @@ namespace star
 		bool BaseGesture::CompletedGesture()
 		{
 			 return m_bCompletedGesture;
+		}
+
+		void BaseGesture::SetOnCompletedCallback(std::function<void()> callback)
+		{
+			m_Callback = callback;
 		}
 }
