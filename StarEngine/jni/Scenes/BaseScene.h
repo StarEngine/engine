@@ -4,6 +4,7 @@
 
 #include "../Helpers/Stopwatch.h"
 #include "../Objects/Object.h"
+#include "../Input/Gestures/GestureManager.h"
 
 #include <vector>
 #include <memory>
@@ -13,7 +14,6 @@ namespace star
 	struct Context;
 	class CameraComponent;
 	class CollisionManager;
-	class GestureManager;
 	class BaseCamera;
 	class UIBaseCursor;
 	class BaseGesture;
