@@ -42,8 +42,14 @@ namespace star
 	}
 #endif
 	
-	void GestureManager::AddGesture(BaseGesture* gesture,const tstring& tag)
+	void GestureManager::AddGesture(BaseGesture* gesture, const tstring& tag)
 	{
+		if(!gesture)
+		{
+			Logger::GetInstance()->Log(LogLevel::Error,
+				_T("GestureManager::AddGesture: Trying to add a nullptr gesture."));
+			return;
+		}
 		if(m_GestureMap.find(tag) == m_GestureMap.end())
 		{
 			m_GestureMap.insert(std::make_pair(tag,std::shared_ptr<BaseGesture>(gesture)));
@@ -60,9 +66,10 @@ namespace star
 	void GestureManager::RemoveGesture(BaseGesture* gesture)
 	{
 		Logger::GetInstance()->Log(LogLevel::Warning, 
-			_T("Please use the method RemoveGesture(const tstring& tag) to remove gestures.")
-			+ tstring(_T("this method is much slower, use with care!")),
+_T("Please use the method RemoveGesture(const tstring& tag) to remove gestures.\
+tusing GestureManager::RemoveGesture(BaseGesture* gesture) is much slower, use with care!"),
 			STARENGINE_LOG_TAG);
+
 		auto it = m_GestureMap.begin();
 		for (it ; it != m_GestureMap.end(); ++it )
 		{

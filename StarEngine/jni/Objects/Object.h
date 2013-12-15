@@ -7,6 +7,7 @@
 #include "../Components/TransformComponent.h"
 #include "../AI/Pathfinding/PathFindManager.h"
 #include "../Helpers/HashTag.h"
+#include "../Graphics/Color.h"
 
 namespace star
 {

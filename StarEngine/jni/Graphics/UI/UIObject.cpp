@@ -4,6 +4,8 @@
 #include "../../Scenes/BaseScene.h"
 #include "UIUserElement.h"
 #include "../../Helpers/Helpers.h"
+#include "../../Helpers/Debug/DebugDraw.h"
+#include "../../Helpers/Rect.h"
 
 namespace star
 {
@@ -19,6 +21,9 @@ namespace star
 			string_cast<tstring>(UNIQUE_ID_COUNTER++)
 			)
 		, m_pParent(nullptr)
+		, m_DebugDrawColor()
+		, m_bDebugDrawFilled(false)
+		, m_bCanDebugDraw(false)
 	{
 
 	}
@@ -203,12 +208,46 @@ namespace star
 
 	void UIObject::Update(const Context& context)
 	{
-		Object::Update(context);
+
 	}
 
 	void UIObject::Draw()
 	{
-		Object::Draw();
+		if(m_bCanDebugDraw)
+		{
+			DebugDraw();
+		}
+	}
+
+	void UIObject::DebugDraw()
+	{
+		vec2 worldPos = GetTransform()->GetWorldPosition().pos2D();
+		vec2 dimensions = GetDimensions();
+		dimensions *= GetTransform()->GetWorldScale();
+		Rect drawRect(
+			worldPos,
+			vec2(
+				worldPos.x + dimensions.x,
+				worldPos.y
+				),
+			vec2(
+				worldPos.x,
+				worldPos.y + dimensions.y
+				),
+			vec2(
+				worldPos.x + dimensions.x,
+				worldPos.y + dimensions.y
+				)
+			);
+
+		if(m_bDebugDrawFilled)
+		{
+			DebugDraw::GetInstance()->DrawSolidRect(drawRect, m_DebugDrawColor);
+		}
+		else
+		{
+			DebugDraw::GetInstance()->DrawRect(drawRect, m_DebugDrawColor);
+		}
 	}
 
 	vec2 UIObject::GetDimensions() const
@@ -303,5 +342,35 @@ namespace star
 					STARENGINE_LOG_TAG);
 			}
 		}
+	}
+
+	void UIObject::SetDebugDrawColor(const Color& color)
+	{
+		m_DebugDrawColor = color;
+	}
+
+	const Color& UIObject::GetDebugDrawColor() const
+	{
+		return m_DebugDrawColor;
+	}
+
+	void UIObject::SetDebugDrawStyle(bool filled)
+	{
+		m_bDebugDrawFilled = filled;
+	}
+
+	bool UIObject::GetDebugDrawStyle() const
+	{
+		return m_bDebugDrawFilled;
+	}
+
+	void UIObject::SetCanDebugDraw(bool canDraw)
+	{
+		m_bCanDebugDraw = canDraw;
+	}
+
+	bool UIObject::GetCanDebugDraw() const
+	{
+		return m_bCanDebugDraw;
 	}
 }

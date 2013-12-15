@@ -357,7 +357,7 @@
     <ClInclude Include="jni\Scenes\SplashScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Actions\ScaleAction.h">
+    <ClInclude Include="jni\Actions\DelayedFramesAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -653,7 +653,7 @@
     <ClCompile Include="jni\Scenes\SplashScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\Actions\ScaleAction.cpp">
+    <ClCompile Include="jni\Actions\DelayedFramesAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

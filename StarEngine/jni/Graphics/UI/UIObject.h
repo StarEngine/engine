@@ -63,6 +63,16 @@ namespace star
 
 		void SetUIDisabledChildren(bool disable);
 
+		void SetDebugDrawColor(const Color& color);
+		const Color& GetDebugDrawColor() const;
+
+		void SetDebugDrawStyle(bool filled);
+		bool GetDebugDrawStyle() const;
+
+		void SetCanDebugDraw(bool canDraw);
+		bool GetCanDebugDraw() const;
+
+
 	protected:
 		static uint64 UNIQUE_ID_COUNTER;
 
@@ -89,6 +99,12 @@ namespace star
 		UIObject *m_pParent;
 
 	private:
+		void DebugDraw();
+
+		Color m_DebugDrawColor;
+		bool m_bDebugDrawFilled;
+		bool m_bCanDebugDraw;
+
 		UIObject(const UIObject &);
 		UIObject(UIObject &&);
 		UIObject & operator=(const UIObject &);
