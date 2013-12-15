@@ -11,6 +11,7 @@
 #include "../Graphics/UI/UICursor.h"
 #include "../Graphics/UI/UIBaseCursor.h"
 #include "SceneManager.h"
+#include "../Input/Gestures/BaseGesture.h"
 
 namespace star 
 {
@@ -30,6 +31,7 @@ namespace star
 		, m_Initialized(false)
 		, m_CursorIsHidden(false)
 		, m_SystemCursorIsHidden(false)
+		, m_GestureID(0)
 	{
 		m_pStopwatch = std::make_shared<Stopwatch>();
 		m_GestureManagerPtr = std::make_shared<GestureManager>();
@@ -263,6 +265,33 @@ namespace star
 				_T("BaseScene::RemoveObject: \
 				   Trying to remove an unknown object '")
 				   + name + _T("'."), STARENGINE_LOG_TAG);
+	}
+
+	void BaseScene::AddGesture(BaseGesture* gesture)
+	{
+		Logger::GetInstance()->Log(LogLevel::Warning, 
+_T("Please use the method AddGesture(BaseGesture* gesture, \
+const tstring & name) to add gestures. \
+using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!"),
+			STARENGINE_LOG_TAG);
+
+		m_GestureManagerPtr->AddGesture(gesture, _T("Gesture_") + string_cast<tstring>(m_GestureID));
+		++m_GestureID;
+	}
+
+	void BaseScene::AddGesture(BaseGesture* gesture, const tstring & name)
+	{
+		m_GestureManagerPtr->AddGesture(gesture, name);
+	}
+
+	void BaseScene::RemoveGesture(BaseGesture* gesture)
+	{
+		m_GestureManagerPtr->RemoveGesture(gesture);
+	}
+
+	void BaseScene::RemoveGesture(const tstring & name)
+	{
+		m_GestureManagerPtr->RemoveGesture(name);
 	}
 
 	void BaseScene::SetObjectFrozen(const tstring & name, bool freeze)

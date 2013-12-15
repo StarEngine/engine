@@ -63,7 +63,7 @@ namespace star
 	}
 #endif
 
-	InputManager::InputManager(void)
+	InputManager::InputManager()
 	#ifdef DESKTOP
 		: m_ThreadAvailable(false)
 		, m_KeyboardState0Active(true)
@@ -82,10 +82,13 @@ namespace star
 		, m_OnMenuButtonDown(nullptr)
 	#endif
 		, m_GestureManager(nullptr)
+		, m_IndependantGestureManager(nullptr)
 		, m_OldMousePosition()
 		, m_CurrMousePosition()
 		, m_MouseMovement()
+		, m_GestureID(0)
 	{
+		m_IndependantGestureManager = new GestureManager();
 #ifdef DESKTOP
 		//Init new keyboard states
 		GetKeyboardState(m_pKeyboardState0);
@@ -96,7 +99,7 @@ namespace star
 
 	InputManager::~InputManager(void)
 	{
-		m_GestureManager = nullptr;
+		delete m_IndependantGestureManager;
 	}
 
 	InputManager * InputManager::GetInstance()
@@ -105,12 +108,13 @@ namespace star
 		{
 			m_InputManagerPtr = new InputManager();
 		}
-		return (m_InputManagerPtr);
+		return m_InputManagerPtr;
 	}
 
 	void InputManager::UpdateGestures(const Context & context)
 	{
 		m_GestureManager->Update(context);
+		m_IndependantGestureManager->Update(context);
 	}
 
 #ifdef DESKTOP
@@ -331,7 +335,6 @@ namespace star
 	{
 		//while(m_ThreadAvailable)
 		{
-
 			UpdateKeyboardStates();
 			UpdateGamepadStates();
 
@@ -472,10 +475,12 @@ namespace star
 			
 			m_CurrMousePosition = vec2(
 				mousePos.x , 
-				float32(GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y));
+				float32(GraphicsManager::GetInstance()->GetWindowHeight() - mousePos.y)
+				);
 			m_CurrMousePosition -= vec2(
 				float32(GraphicsManager::GetInstance()->GetHorizontalViewportOffset()),
-				float32(GraphicsManager::GetInstance()->GetVerticalViewportOffset()));
+				float32(GraphicsManager::GetInstance()->GetVerticalViewportOffset())
+				);
 			m_CurrMousePosition /= GraphicsManager::GetInstance()->GetViewportResolution();
 			m_CurrMousePosition *= GraphicsManager::GetInstance()->GetScreenResolution();
 			
@@ -499,6 +504,7 @@ namespace star
 			{
 				m_GestureManager->OnUpdateWinInputState();
 			}
+			m_IndependantGestureManager->OnUpdateWinInputState();
 			//Sleep(1000/60);
 		}
 		return 0;
@@ -791,6 +797,7 @@ namespace star
 		{
 			m_GestureManager->OnTouchEvent(pEvent);
 		}
+		m_IndependantGestureManager->OnTouchEvent(pEvent);
 	}
 
 	bool InputManager::OnKeyboardEvent(AInputEvent* pEvent)
@@ -898,6 +905,7 @@ namespace star
 	void InputManager::EndUpdate()
 	{
 		m_GestureManager->EndUpdate();
+		m_IndependantGestureManager->EndUpdate();
 #ifndef DESKTOP
 		m_bMainIsDown = false;
 		m_bMainIsUp = false;
@@ -914,5 +922,32 @@ namespace star
 	std::shared_ptr<GestureManager> InputManager::GetGestureManager() const
 	{
 		return m_GestureManager;
+	}
+
+	void InputManager::AddGlobalGesture(BaseGesture* gesture)
+	{
+		Logger::GetInstance()->Log(LogLevel::Warning, 
+_T("Please use the method AddGesture(BaseGesture* gesture, \
+const tstring & name) to add gestures. \
+using InputManager::AddGesture(BaseGesture* gesture) is much slower, use with care!"),
+			STARENGINE_LOG_TAG);
+
+		m_IndependantGestureManager->AddGesture(gesture, _T("Gesture_") + string_cast<tstring>(m_GestureID));
+		++m_GestureID;
+	}
+
+	void InputManager::AddGlobalGesture(BaseGesture* gesture, const tstring & name)
+	{
+		m_IndependantGestureManager->AddGesture(gesture, name);
+	}
+
+	void InputManager::RemoveGlobalGesture(BaseGesture* gesture)
+	{
+		m_IndependantGestureManager->RemoveGesture(gesture);
+	}
+
+	void InputManager::RemoveGlobalGesture(const tstring & name)
+	{
+		m_IndependantGestureManager->RemoveGesture(name);
 	}
 }

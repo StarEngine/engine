@@ -16,6 +16,7 @@ namespace star
 	class GestureManager;
 	class BaseCamera;
 	class UIBaseCursor;
+	class BaseGesture;
 
 	class BaseScene : public Entity
 	{
@@ -25,14 +26,14 @@ namespace star
 
 		void Destroy();
 		
-		void	BaseInitialize();
-		void	BaseAfterInitializedObjects();
-		void	BaseOnActivate();
-		void	BaseOnDeactivate();
-		void	BaseUpdate(const Context& context);
-		void	BaseDraw();
+		void BaseInitialize();
+		void BaseAfterInitializedObjects();
+		void BaseOnActivate();
+		void BaseOnDeactivate();
+		void BaseUpdate(const Context& context);
+		void BaseDraw();
 
-		virtual void OnSaveState(void** pData,size_t* pSize);
+		virtual void OnSaveState(void** pData, size_t* pSize);
 		virtual void OnConfigurationChanged();
 		virtual void OnLowMemory();
 
@@ -42,6 +43,11 @@ namespace star
 		void AddObject(Object * object, const tstring & name); 
 		virtual void RemoveObject(Object * object);
 		void RemoveObject(const tstring & name);
+
+		void AddGesture(BaseGesture* gesture);
+		void AddGesture(BaseGesture* gesture, const tstring & name);
+		void RemoveGesture(BaseGesture* gesture);
+		void RemoveGesture(const tstring & name);
 
 		template <typename T>
 		T * GetObjectByName(const tstring & name);
@@ -106,6 +112,7 @@ namespace star
 		bool m_Initialized;
 		static bool CULLING_IS_ENABLED;
 		bool m_CursorIsHidden, m_SystemCursorIsHidden;
+		uint32 m_GestureID;
 	
 		BaseScene(const BaseScene& t);
 		BaseScene(BaseScene&& t);

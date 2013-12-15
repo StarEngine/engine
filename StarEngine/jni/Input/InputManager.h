@@ -84,8 +84,14 @@ namespace star
 		vec2 GetCurrentFingerPosCP(uint8 finger = 0);
 		vec2 GetOldFingerPosCP(uint8 finger = 0);
 		void EndUpdate();
+
 		void SetGestureManager(std::shared_ptr<GestureManager> gestureManager);
 		std::shared_ptr<GestureManager> GetGestureManager() const;
+
+		void AddGlobalGesture(BaseGesture* gesture);
+		void AddGlobalGesture(BaseGesture* gesture, const tstring & name);
+		void RemoveGlobalGesture(BaseGesture* gesture);
+		void RemoveGlobalGesture(const tstring & name);
 #ifdef DESKTOP
 		
 		//[TODO] add InputActions for android
@@ -190,6 +196,8 @@ namespace star
 #endif
 		vec2 m_CurrMousePosition, m_OldMousePosition, m_MouseMovement;
 		std::shared_ptr<GestureManager> m_GestureManager;
+		GestureManager* m_IndependantGestureManager;
+		uint32 m_GestureID;
 
 		InputManager(const InputManager& t);
 		InputManager(InputManager&& t);
