@@ -13,6 +13,11 @@ namespace star
 		BaseCamera(void);
 		virtual ~BaseCamera(void);
 
+		void Translate(const vec2& translation);
+		void Translate(float32 x, float32 y);
+		void TranslateX(float32 x);
+		void TranslateY(float32 y);
+
 	protected:
 		virtual void Initialize();
 		CameraComponent *m_pCamera;

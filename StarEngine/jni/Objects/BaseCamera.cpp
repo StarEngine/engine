@@ -23,4 +23,24 @@ namespace star
 	{
 		
 	}
+
+	void BaseCamera::Translate(const vec2& translation)
+	{
+		GetComponent<CameraComponent>()->Translate(translation);
+	}
+
+	void BaseCamera::Translate(float32 x, float32 y)
+	{
+		GetComponent<CameraComponent>()->Translate(x, y);
+	}
+
+	void BaseCamera::TranslateX(float32 x)
+	{
+		GetComponent<CameraComponent>()->TranslateX(x);
+	}
+
+	void BaseCamera::TranslateY(float32 y)
+	{
+		GetComponent<CameraComponent>()->TranslateY(y);
+	}
 }

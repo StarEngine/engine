@@ -31,6 +31,9 @@ src/
 Obj/
 .svn/
 
+# batch files
+*.bat
+
 # ignore unwanted files
 *.lnk
 
