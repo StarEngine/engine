@@ -4,12 +4,12 @@
 #include "BaseScene.h"
 #include "../Objects/Object.h"
 #include "../Graphics/GraphicsManager.h"
-#include "../Assets/TextureManager.h"
-#include "../Sound/AudioManager.h"
-#include "../Graphics/SpriteBatch.h"
-#include "../Input/InputManager.h"
+#include "../Graphics/TextureManager.h"
 #include "../Graphics/UI/UICursor.h"
 #include "../Graphics/UI/UIBaseCursor.h"
+#include "../Graphics/SpriteBatch.h"
+#include "../Sound/AudioManager.h"
+#include "../Input/InputManager.h"
 #include "../Helpers/Debug/DebugDraw.h"
 
 #define INPUT_MANAGER (InputManager::GetInstance())

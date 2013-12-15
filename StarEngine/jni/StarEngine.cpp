@@ -2,6 +2,8 @@
 #include "Graphics/GraphicsManager.h"
 #include "Graphics/SpriteAnimationManager.h"
 #include "Graphics/SpriteBatch.h"
+#include "Graphics/FontManager.h"
+#include "Graphics/ScaleSystem.h"
 #include "Scenes/SceneManager.h"
 #include "Input/InputManager.h"
 #include "Context.h"
@@ -9,9 +11,7 @@
 #include "Sound/AudioManager.h"
 #include "Helpers/Stopwatch.h"
 #include "AI/Pathfinding/PathFindManager.h"
-#include "Assets/FontManager.h"
 #include "Physics/Collision/CollisionManager.h"
-#include "Graphics/ScaleSystem.h"
 #include "Helpers/Debug/DebugDraw.h"
 
 namespace star

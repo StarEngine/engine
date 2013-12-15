@@ -1,7 +1,7 @@
 #include "LoadScreen.h"
 #include "../Logger.h"
 #include "../Helpers/Filepath.h"
-#include "../Assets/TextureManager.h"
+#include "../Graphics/TextureManager.h"
 #include "../Graphics/GraphicsManager.h"
 #include "../Components/TransformComponent.h"
 #include "../Objects/FreeCamera.h"
