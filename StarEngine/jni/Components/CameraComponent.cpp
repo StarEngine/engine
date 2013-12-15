@@ -285,4 +285,9 @@ namespace star
 		auto finalPos = y - offset.y / 2.0f;
 		m_pParentObject->GetTransform()->TranslateY(finalPos);
 	}
+
+	void CameraComponent::ConvertScreenToWorld(vec2 & pos)
+	{
+		pos += GetTransform()->GetWorldPosition().pos2D();
+	}
 }
