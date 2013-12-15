@@ -20,6 +20,7 @@ namespace star
 
 	DelayedFramesAction::~DelayedFramesAction()
 	{
+
 	}
 
 	void DelayedFramesAction::Initialize()
@@ -37,7 +38,6 @@ namespace star
 			}
 			Destroy();
 		}
-		//Increment after the check, because otherways it would happen the same frame...
 		++m_CurrentNrOfFrames;
 	}
 
