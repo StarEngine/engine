@@ -133,9 +133,9 @@ having a Spritesheet- or TextComponent."));
 		float32 objTop = objectPos.y + spriteHeight;
 
 		return
-			(objRight >= left && objectPos.x <= right)
+			(objectPos.x <= right && objRight >= left)
 			&&
-			(objTop >= bottom && objectPos.y <= top);
+			(objectPos.y <= top && objTop >= bottom);
 	}
 
 	const tstring& SpriteComponent::GetFilePath() const
