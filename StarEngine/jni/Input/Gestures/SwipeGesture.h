@@ -12,7 +12,7 @@ namespace star
 		SwipeGesture(
 			int32 minSwipeDistance = 200, 
 			int32 minSwipeSpeed = 1000,
-			bool enableAngleFlex = true, 
+			bool enableAngleFlex = false, 
 			int32 angleFlex = 20);
 		virtual ~SwipeGesture();
 

@@ -296,6 +296,8 @@
     <None Include="jni\Helpers\Dictionary.inl" />
     <None Include="jni\Helpers\Helpers.inl" />
     <None Include="jni\Helpers\Math.inl" />
+    <None Include="jni\Input\Gestures\GestureManager.inl" />
+    <None Include="jni\Input\InputManager.inl" />
     <None Include="jni\Objects\Object.inl" />
     <None Include="jni\Scenes\BaseScene.inl" />
     <None Include="jni\Scenes\SceneManager.inl" />

@@ -92,6 +92,9 @@ namespace star
 		void AddGlobalGesture(BaseGesture* gesture, const tstring & name);
 		void RemoveGlobalGesture(BaseGesture* gesture);
 		void RemoveGlobalGesture(const tstring & name);
+
+		template <typename T>
+		T * GetGlobalGesture(const tstring & name) const;
 #ifdef DESKTOP
 		
 		//[TODO] add InputActions for android
@@ -205,3 +208,5 @@ namespace star
 		InputManager& operator=(InputManager&& t);
 	};
 }
+
+#include "InputManager.inl"

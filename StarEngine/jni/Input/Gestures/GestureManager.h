@@ -21,15 +21,16 @@ namespace star
 		void AddGesture(BaseGesture* gesture, const tstring& tag);
 		void RemoveGesture(BaseGesture* gesture);
 		void RemoveGesture(const tstring& tag);
-		const BaseGesture* GetGesture(const tstring& tag);
 
+		template <typename T>
+		T* GetGesture(const tstring & name) const;
 #ifdef _WIN32
 		void OnUpdateWinInputState();
 #else
 		void OnTouchEvent(AInputEvent* pEvent);
 #endif
 	private:
-		std::map<tstring, std::shared_ptr<BaseGesture>> m_GestureMap;
+		std::map<tstring, BaseGesture*> m_GestureMap;
 		float64 m_dTime;
 		float64 m_TotalTime;
 
@@ -39,3 +40,5 @@ namespace star
 		GestureManager& operator=(GestureManager&& t);
 	};
 }
+
+#include "GestureManager.inl"

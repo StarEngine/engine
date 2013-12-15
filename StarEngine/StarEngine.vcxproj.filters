@@ -679,5 +679,11 @@
     <None Include="jni\Scenes\SceneManager.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="jni\Input\Gestures\GestureManager.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="jni\Input\InputManager.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

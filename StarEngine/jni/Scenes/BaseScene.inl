@@ -4,7 +4,7 @@
 namespace star
 {
 	template <typename T>
-	T * BaseScene::GetObjectByName(const tstring & name)
+	T * BaseScene::GetObjectByName(const tstring & name) const
 	{
 		for(auto object : m_Objects)
 		{
@@ -25,5 +25,11 @@ namespace star
 				_T("BaseScene::GetObjectByName: Trying to get an unknown object '")
 				+ name + _T("'."), STARENGINE_LOG_TAG);
 		return nullptr;
+	}
+
+	template <typename T>
+	T * BaseScene::GetGestureByName(const tstring & name) const
+	{
+		return m_GestureManagerPtr->GetGesture<T>(name);
 	}
 }

@@ -50,7 +50,10 @@ namespace star
 		void RemoveGesture(const tstring & name);
 
 		template <typename T>
-		T * GetObjectByName(const tstring & name);
+		T * GetGestureByName(const tstring & name) const;
+
+		template <typename T>
+		T * GetObjectByName(const tstring & name) const;
 
 		void SetObjectFrozen(const tstring & name, bool freeze);
 		void SetObjectDisabled(const tstring & name, bool disabled);

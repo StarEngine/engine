@@ -5,6 +5,7 @@
 #include <android_native_app_glue.h>
 #endif
 #include "../../defines.h"
+#include <functional>
 
 namespace star
 {
@@ -24,6 +25,8 @@ namespace star
 		virtual void Update(const Context& context);
 		void EndUpdate();
 		bool CompletedGesture();
+		void SetOnCompletedCallback(std::function<void()> callback);
+
 	protected:
 #ifdef _WIN32
 		virtual void OnUpdateWinInputState();
@@ -33,6 +36,8 @@ namespace star
 		bool m_bCompletedGesture;
 
 	private:
+		std::function<void()> m_Callback;
+
 		BaseGesture(const BaseGesture& t);
 		BaseGesture(BaseGesture&& t);
 		BaseGesture& operator=(const BaseGesture& t);
