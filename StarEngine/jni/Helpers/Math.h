@@ -210,11 +210,13 @@ namespace star
 	float64 Dot(const dvec3 & vecA, const dvec3 & vecB);
 	float64 Dot(const dvec4 & vecA, const dvec4 & vecB);
 
+	float32 Cross(const fvec2 & vecA, const fvec2 & vecB);
+	float64 Cross(const dvec2 & vecA, const dvec2 & vecB);
 	fvec3 Cross(const fvec3 & vecA, const fvec3 & vecB);
 	dvec3 Cross(const dvec3 & vecA, const dvec3 & vecB);
 
-	void Cross(const fvec3 & vecA, const fvec3 & vecB, fvec3 & vecOut);
-	void Cross(const dvec3 & vecA, const dvec3 & vecB, dvec3 & vecOut);
+	void Cross(const fvec2 & vecA, const fvec2 & vecB, fvec2 & vecOut);
+	void Cross(const dvec2 & vecA, const dvec2 & vecB, dvec2 & vecOut);
 
 	fvec2 Mul(const fvec2 & vec, const fmat2 & mat);
 	fvec3 Mul(const fvec3 & vec, const fmat3 & mat);
