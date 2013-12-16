@@ -1,7 +1,7 @@
 #include "BaseSound.h"
 #include "AudioManager.h"
 #include "../Logger.h"
-#include "../Assets/Resource.h"
+#include "../Graphics/Resource.h"
 #include "../Helpers/Helpers.h"
 #include "../Helpers/Filepath.h"
 #include "../Helpers/Math.h"

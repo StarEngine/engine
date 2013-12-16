@@ -1,4 +1,5 @@
 #include "GestureManager.h"
+#include "../../Logger.h"
 
 namespace star
 {

@@ -1,5 +1,6 @@
 #include "../defines.h"
 #include "../Objects/Object.h"
+#include "../Input/Gestures/GestureManager.h"
 
 namespace star
 {

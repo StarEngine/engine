@@ -3,7 +3,7 @@
 #include "BaseScene.h"
 #include "../Objects/Object.h"
 #include "../Graphics/GraphicsManager.h"
-#include "../Assets/TextureManager.h"
+#include "../Graphics/TextureManager.h"
 #include "../Sound/AudioManager.h"
 #include "../Graphics/SpriteBatch.h"
 #include "../Input/InputManager.h"

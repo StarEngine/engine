@@ -100,7 +100,7 @@ namespace star
 			if(IsFingerWithinRange())
 			{
 				if(m_ElementState != ElementStates::CLICK
-					&& InputManager::GetInstance()->IsFingerDownCP(0))
+					&& InputManager::GetInstance()->IsFingerPressedCP(0))
 				{
 					if(!GetScene()->IsActiveCursorLocked())
 					{

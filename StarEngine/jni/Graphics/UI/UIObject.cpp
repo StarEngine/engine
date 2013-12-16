@@ -208,7 +208,7 @@ namespace star
 
 	void UIObject::Update(const Context& context)
 	{
-
+		Object::Update(context);
 	}
 
 	void UIObject::Draw()
@@ -217,6 +217,8 @@ namespace star
 		{
 			DebugDraw();
 		}
+
+		Object::Draw();
 	}
 
 	void UIObject::DebugDraw()

@@ -4,7 +4,7 @@
 #include <Shlobj.h>
 #include <string>
 #include "jni/Scenes/SceneManager.h"
-#include "jni/Assets/TextureManager.h"
+#include "jni/Graphics/TextureManager.h"
 #include "jni/Logger.h"
 #include "jni/TimeManager.h"
 #include "jni/Helpers/Helpers.h"

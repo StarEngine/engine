@@ -11,7 +11,7 @@
 #include <GLES2/gl2ext.h>
 #include <iostream>
 #include <fstream>
-#include "../Assets/Resource.h"
+#include "../Graphics/Resource.h"
 #endif
 
 namespace star

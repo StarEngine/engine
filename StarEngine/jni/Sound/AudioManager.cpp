@@ -4,7 +4,7 @@
 #include "../Helpers/Math.h"
 
 #ifdef ANDROID
-#include "../Assets/Resource.h"
+#include "../Graphics/Resource.h"
 #endif
 
 namespace star

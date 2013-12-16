@@ -1,6 +1,6 @@
 #include "SpriteComponent.h"
 #include "../../Logger.h"
-#include "../../Assets/TextureManager.h"
+#include "../../Graphics/TextureManager.h"
 #include "../TransformComponent.h"
 #include "../../Graphics/SpriteBatch.h"
 #include "../../Objects/Object.h"
