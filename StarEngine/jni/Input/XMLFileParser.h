@@ -22,6 +22,10 @@ namespace star
 		bool Read(XMLContainer & container, const tstring & binary_path,
 			DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
 
+		bool ReadOrCreate(XMLContainer & container, DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
+		bool ReadOrCreate(XMLContainer & container, const tstring & binary_path,
+			DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
+
 	private:
 		FilePath m_File;
 

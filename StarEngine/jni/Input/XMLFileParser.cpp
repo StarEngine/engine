@@ -2,6 +2,7 @@
 #include "PugiXML\src\pugixml.hpp"
 #include "PugiXML\src\pugiconfig.hpp"
 #include "XMLContainer.h"
+#include "XMLFileSerializer.h"
 #include "..\Helpers\Helpers.h"
 #include "..\Logger.h"
 
@@ -68,6 +69,67 @@ namespace star
 #else
 		container.Deserialize(binary_path, mode);
 		return true;
+#endif
+	}
+
+	bool XMLFileParser::ReadOrCreate(XMLContainer & container, DirectoryMode mode)
+	{
+		pugi::xml_document XMLDocument;
+		pugi::xml_parse_result result;
+		
+		SerializedData data;
+		if(ReadBinaryFileSafe(m_File.GetLocalPath(), data.data, data.size, mode))
+		{
+			result = XMLDocument.load_buffer_inplace_own(data.data, data.size);
+			if (result)
+			{
+				auto root = XMLDocument.first_child();
+				if(root != NULL)
+				{
+					container.SetName(star::string_cast<tstring>(root.name()));
+					AddAttributes(container, root);
+
+					auto child = root.first_child();
+					if(child != NULL)
+					{
+						do 
+						{
+							AddChild(container, child);
+							child = child.next_sibling();
+						} while (child != NULL);
+					}
+				}
+			}
+			else
+			{
+				Logger::GetInstance()->Log(LogLevel::Warning,
+					star::string_cast<tstring>(result.description()), STARENGINE_LOG_TAG);
+			}
+			return result;
+		}
+
+		// Write the file instead
+		XMLFileSerializer serializer(m_File.GetLocalPath());
+		serializer.Write(container, mode);
+		return true;
+	}
+	
+	bool XMLFileParser::ReadOrCreate(XMLContainer & container, const tstring & binary_path,
+		DirectoryMode mode)
+	{
+#ifdef _DEBUG
+		bool result = ReadOrCreate(container, mode);
+		if(result)
+		{
+			container.Serialize(binary_path, mode);
+		}
+		return result;
+#else
+		if(!container.DeserializeSafe(binary_path, mode))
+		{
+			container.Serialize(binary_path, mode);;
+			return true;
+		}
 #endif
 	}
 
