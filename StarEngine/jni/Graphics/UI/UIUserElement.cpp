@@ -7,7 +7,7 @@ namespace star
 {
 	UIUserElement::UIUserElement(const tstring & name)
 		: UIElement(name)
-		, m_SelectCallback(nullptr)
+		, m_ReleasedCallback(nullptr)
 		, m_DownCallback(nullptr)
 		, m_HoverCallback(nullptr)
 		, m_UnhoverCallback(nullptr)
@@ -35,9 +35,9 @@ namespace star
 			ElementStates::IDLE;
 		if(isUnlocking)
 		{
-			if(m_SelectCallback)
+			if(m_ReleasedCallback)
 			{
-				m_SelectCallback();
+				m_ReleasedCallback();
 			}
 			Reset();
 		}
@@ -193,9 +193,9 @@ namespace star
 
 	void UIUserElement::GoUp()
 	{
-		if(m_SelectCallback != nullptr)
+		if(m_ReleasedCallback != nullptr)
 		{
-			m_SelectCallback();
+			m_ReleasedCallback();
 		}
 
 		if(m_Effects[CLICK_EFFECT].Name != EMPTY_STRING)
@@ -250,9 +250,9 @@ namespace star
 		UIObject::Reset();
 	}
 
-	void UIUserElement::SetSelectCallback(std::function<void()> callback)
+	void UIUserElement::SetReleasedCallback(std::function<void()> callback)
 	{
-		m_SelectCallback = callback;
+		m_ReleasedCallback = callback;
 	}
 
 	void UIUserElement::SetDownCallback(std::function<void()> callback)

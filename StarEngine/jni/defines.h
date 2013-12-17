@@ -12,7 +12,7 @@
 /// <summary>
 /// The starengine's version
 /// </summary>
-static const tstring STARENGINE_VERSION = _T("0.1.0");
+static const tstring STARENGINE_VERSION = _T("0.1.1");
 
 #include <algorithm>
 

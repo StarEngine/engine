@@ -16,7 +16,7 @@ namespace star
 		: UIImage(name, fileBackground)
 		, m_SliderIsHorizontal(sliderIsHorizontal)
 		, m_pSlider(nullptr)
-		, m_SelectCallback(nullptr)
+		, m_ReleasedCallback(nullptr)
 		, m_DownCallback(nullptr)
 		, m_Percent(0.5f)
 		, m_SliderDimension(0)
@@ -44,7 +44,7 @@ namespace star
 		: UIImage(name, spriteNameBackground, fileBackground)
 		, m_SliderIsHorizontal(sliderIsHorizontal)
 		, m_pSlider(nullptr)
-		, m_SelectCallback(nullptr)
+		, m_ReleasedCallback(nullptr)
 		, m_DownCallback(nullptr)
 		, m_Percent(0.5f)
 		, m_SliderDimension(0)
@@ -179,14 +179,14 @@ namespace star
 
 	}
 
-	void UISlider::SetSelectedCallback(
+	void UISlider::SetReleasedCallback(
 		const std::function<void(float32)> & callback
 		)
 	{
-		m_SelectCallback = callback;
-		m_pSlider->SetSelectCallback(
+		m_ReleasedCallback = callback;
+		m_pSlider->SetReleasedCallback(
 			[&]() {
-				m_SelectCallback(m_Percent);
+				m_ReleasedCallback(m_Percent);
 		});
 	}
 

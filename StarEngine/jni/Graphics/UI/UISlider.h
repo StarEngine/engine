@@ -32,7 +32,7 @@ namespace star
 		void SetPercent(float32 percent);
 		float32 GetPercent() const;
 
-		void SetSelectedCallback(
+		void SetReleasedCallback(
 			const std::function<void(float32)> & callback
 			);
 
@@ -68,7 +68,7 @@ namespace star
 		vec2 m_SliderOffset;
 
 		std::function<void(float32)>
-			m_SelectCallback,
+			m_ReleasedCallback,
 			m_DownCallback;
 
 	private:
