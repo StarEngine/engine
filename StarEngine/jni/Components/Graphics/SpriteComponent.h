@@ -41,7 +41,9 @@ namespace star
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SpriteComponent"/> class.
 		/// </summary>
-		/// <param name="filepath">Path to the asset, starting from the path defined in <see cref="DirectoryMode::assets"/>.</param>
+		/// <param name="filepath">
+		/// Path to the asset, starting from the path defined in <see cref="DirectoryMode::assets"/>.
+		/// </param>
 		/// <param name="spriteName">Name of the sprite.</param>
 		/// <param name="widthSegments">Amount of width segments. Default set to 1</param>
 		/// <param name="heightSegments">Amount of height segments. Default set to 1</param>

@@ -83,12 +83,12 @@ having a SpriteSheet- or SpriteComponent."));
 		{
 			if(m_WrapWidth == NO_WRAPPING)
 			{
-				CleanTextUp(m_OrigText);
+				CleanUpText(m_OrigText);
 				CalculateTextDimensions();
 			}
 			else
 			{
-				CleanTextUp(CheckWrapping(
+				CleanUpText(CheckWrapping(
 							m_OrigText,
 							m_WrapWidth
 							));
@@ -134,7 +134,7 @@ having a SpriteSheet- or SpriteComponent."));
 		GetTransform()->SetDimensionsYSafe(m_Dimensions.y);
 	}
 	
-	void TextComponent::CleanTextUp(const tstring & str)
+	void TextComponent::CleanUpText(const tstring & str)
 	{
 		size_t length = str.length();
 		m_EditText = EMPTY_STRING;
@@ -347,7 +347,7 @@ having a SpriteSheet- or SpriteComponent."));
 		{
 			if(m_bInitialized)
 			{
-				CleanTextUp(CheckWrapping(
+				CleanUpText(CheckWrapping(
 						m_OrigText,
 						int32(m_WrapWidth)
 						));
@@ -355,7 +355,7 @@ having a SpriteSheet- or SpriteComponent."));
 		}
 		else
 		{
-			CleanTextUp(m_OrigText);
+			CleanUpText(m_OrigText);
 			CalculateTextDimensions();
 		}
 
@@ -390,7 +390,7 @@ having a SpriteSheet- or SpriteComponent."));
 			GetTransform()->SetDimensionsXSafe(m_Dimensions.x);
 			if(m_bInitialized)
 			{
-				CleanTextUp(CheckWrapping(
+				CleanUpText(CheckWrapping(
 							m_OrigText,
 							m_WrapWidth
 							));
@@ -498,7 +498,7 @@ having a SpriteSheet- or SpriteComponent."));
 		m_TextInfo->verticalSpacing = spacing;
 		if(m_bInitialized && m_WrapWidth != NO_WRAPPING)
 		{
-			CleanTextUp(CheckWrapping(
+			CleanUpText(CheckWrapping(
 						m_OrigText,
 						m_WrapWidth
 						));

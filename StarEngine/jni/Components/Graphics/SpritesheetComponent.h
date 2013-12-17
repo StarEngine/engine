@@ -7,13 +7,20 @@
 
 namespace star
 {
+	/// <summary>
+	/// Component used to draw animated sprites. 
+	/// Sprite animations can be defined in an xml file
+	/// and are parsed by the <see cref="SpriteSheet"/>
+	/// </summary>
 	class SpriteSheetComponent final : public SpriteComponent
 	{
 	public:
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SpriteSheetComponent"/>
 		/// </summary>
-		/// <param name="filePath">Path to the asset, starting from the path defined in <see cref="DirectoryMode::assets"/>.</param>
+		/// <param name="filePath">
+		/// Path to the asset, starting from the path 
+		/// defined in <see cref="DirectoryMode::assets"/>.</param>
 		/// <param name="spriteName">Name of the sprite.</param>
 		/// <param name="spritesheet">Name of the spritesheet.</param>
 		/// <returns></returns>

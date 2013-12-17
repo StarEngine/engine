@@ -125,6 +125,10 @@ namespace star
 		return m_pTextComponent->GetText();
 	}
 
+	/// <summary>
+	/// Sets the color.
+	/// </summary>
+	/// <param name="color">The color.</param>
 	void UITextField::SetColor(const Color & color)
 	{
 		m_pTextComponent->SetColor(color);
