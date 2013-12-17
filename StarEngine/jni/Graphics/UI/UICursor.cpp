@@ -86,16 +86,10 @@ namespace star
 	{
 		if(!m_IsLocked)
 		{
-			if(!m_pCursorSprite->PlayAnimationSafe(
+			m_pCursorSprite->PlayAnimation(
 				state,
 				m_pCursorSprite->GetCurrentFrame()
-				))
-			{
-				Logger::GetInstance()->Log(LogLevel::Warning,
-					_T("UICursor::SetState: State '")
-					+ state + _T("' is not defined in the used spritesheet."),
-					STARENGINE_LOG_TAG);
-			}
+				);
 
 			auto it = m_Offsets.find(state);
 			if(it != m_Offsets.end())

@@ -1,4 +1,3 @@
-#include "TextComponent.h"
 #include "../CameraComponent.h"
 #include "../TransformComponent.h"
 #include "../../Logger.h"
@@ -336,12 +335,8 @@ having a Spritesheet- or SpriteComponent."));
 		float32 texTop = objectPos.y + textHeight;
 
 		return
-			(	(objectPos.x >= left && objectPos.x <= right) ||
-				(teRight >= left && teRight <= right)
-			) &&
-			(	(objectPos.y >= bottom && objectPos.y <= top) ||
-				(texTop >= bottom && texTop <= top)
-			);
+			(objectPos.x <= right && teRight >= left) &&
+			(objectPos.y <= top && texTop >= bottom);
 	}
 
 

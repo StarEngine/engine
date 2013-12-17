@@ -10,60 +10,153 @@ namespace star
 	class SpritesheetComponent final : public SpriteComponent
 	{
 	public:
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SpritesheetComponent"/>
+		/// </summary>
+		/// <param name="filePath">Path to the asset, starting from the path defined in <see cref="DirectoryMode::assets"/>.</param>
+		/// <param name="spriteName">Name of the sprite.</param>
+		/// <param name="spritesheet">Name of the spritesheet.</param>
+		/// <returns></returns>
 		SpritesheetComponent(const tstring& filePath, const tstring& spriteName, const tstring & spritesheet);
+
+		/// <summary>
+		/// Finalizes an instance of the <see cref="SpritesheetComponent"/> class.
+		/// </summary>
 		~SpritesheetComponent();
 
+		/// <summary>
+		/// Updates this instance.
+		/// </summary>
+		/// <param name="context"><see cref="Context"/> containing usefull information.</param>
 		void Update(const Context& context);
 
+		/// <summary>
+		/// Plays the current animation.
+		/// </summary>
 		void Play();
+
+		/// <summary>
+		/// Restarts the current animation.
+		/// </summary>
 		void Restart();
+
+		/// <summary>
+		/// Pauses the current animation.
+		/// </summary>
 		void Pause();
+
+		/// <summary>
+		/// Stops the current animation.
+		/// </summary>
 		void Stop();
 
+		/// <summary>
+		/// Queues an animation into the play list.
+		/// </summary>
+		/// <param name="animation">Animation name, as defined in the SpriteSheet.</param>
+		/// <param name="callback">
+		///	A user defined callback, 
+		/// called when this animation is completed. 
+		/// Default the callback is empty
+		/// </param>
 		void PushAnimation(
 			const tstring & animation,
 			const std::function<void()> & callback = nullptr
 			);
+
+		/// <summary>
+		/// Plays the animation.
+		/// </summary>
+		/// <param name="animation">Animation name, as defined in the SpriteSheet.</param>
+		/// <param name="callback">
+		/// A user defined callback, 
+		/// called when this animation is completed. 
+		/// Default the callback is empty
+		/// </param>
 		void PlayAnimation(
 			const tstring & animation,
 			const std::function<void()> & callback = nullptr
 			);
+
+		/// <summary>
+		/// Plays the animation.
+		/// </summary>
+		/// <param name="animation">Animation name, as defined in the SpriteSheet.</param>
+		/// <param name="startFrame">The start frame.</param>
+		/// <param name="callback">
+		/// A user defined callback, 
+		/// called when this animation is completed. 
+		/// Default the callback is empty
+		/// </param>
 		void PlayAnimation(
 			const tstring & animation,
 			int32 startFrame,
 			const std::function<void()> & callback = nullptr
 			);
 
-		bool PushAnimationSafe(
-			const tstring & animation,
-			const std::function<void()> & callback = nullptr
-			);
-		bool PlayAnimationSafe(
-			const tstring & animation,
-			const std::function<void()> & callback = nullptr
-			);
-		bool PlayAnimationSafe(
-			const tstring & animation,
-			int32 startFrame,
-			const std::function<void()> & callback = nullptr
-			);
-
+		/// <summary>
+		/// Plays the next animation in the queue.
+		/// </summary>
 		void PlayNextAnimation();
+
+		/// <summary>
+		/// Plays the next animation in the queue, starting from startFrame.
+		/// </summary>
+		/// <param name="startFrame">The start frame.</param>
 		void PlayNextAnimation(int32 startFrame);
+
+		/// <summary>
+		/// Resets The animation queue
+		/// </summary>
 		void Reset();
 
+		/// <summary>
+		/// Sets the spritesheet.
+		/// </summary>
+		/// <param name="spritesheet">The spritesheet.</param>
 		void SetSpritesheet(const tstring & spritesheet);
 
-		tstring GetCurrentAnimation() const;
-		const tstring & GetcurrentSpritesheet() const;
+		/// <summary>
+		/// Gets the current animation.
+		/// </summary>
+		/// <returns>Name of the current animation.</returns>
+		const tstring & GetCurrentAnimation() const;
 
+		/// <summary>
+		/// Gets the current spritesheet.
+		/// </summary>
+		/// <returns>The current spritesheet.</returns>
+		const tstring & GetCurrentSpritesheet() const;
+
+		/// <summary>
+		/// Gets the current frame.
+		/// </summary>
+		/// <returns>The current frame.</returns>
 		int32 GetCurrentFrame() const;
 
+		/// <summary>
+		/// Gets the amount of horizontal frames.
+		/// </summary>
+		/// <returns>The number of frames.</returns>
 		int32 GetFramesHorizontal() const;
+
+		/// <summary>
+		/// Gets the amount of vertical frames.
+		/// </summary>
+		/// <returns>The number of frames.</returns>
 		int32 GetFramesVertical() const;
 
+		/// <summary>
+		/// Sets the callback for all animations in the queue. 
+		/// The callback will be triggered when the animation ends.
+		/// </summary>
+		/// <param name="callback">The callback.</param>
 		void SetCallbackAnimations(const std::function<void()> & callback);
 
+		/// <summary>
+		/// Determines whether an animation is playing.
+		/// </summary>
+		/// <returns>Is playing.</returns>
 		bool IsPlaying();
 
 	protected:
@@ -74,6 +167,54 @@ namespace star
 		std::list<SpriteAnimation> m_Animations;
 
 	private:
+
+		/// <summary>
+		/// Queues an animation into the play list.
+		/// This method has no safety checks.
+		/// </summary>
+		/// <param name="animation">Animation name, as defined in the SpriteSheet.</param>
+		/// <param name="callback">
+		///	A user defined callback, 
+		/// called when this animation is completed. 
+		/// Default the callback is empty
+		/// </param>
+		void PushAnimationUnSafe(
+			const tstring & animation,
+			const std::function<void()> & callback = nullptr
+			);
+
+		/// <summary>
+		/// Plays the animation.
+		/// This method has no safety checks.
+		/// </summary>
+		/// <param name="animation">Animation name, as defined in the SpriteSheet.</param>
+		/// <param name="callback">
+		/// A user defined callback, 
+		/// called when this animation is completed. 
+		/// Default the callback is empty
+		/// </param>
+		void PlayAnimationUnSafe(
+			const tstring & animation,
+			const std::function<void()> & callback = nullptr
+			);
+
+		/// <summary>
+		/// Plays the animation.
+		/// This method has no safety checks.
+		/// </summary>
+		/// <param name="animation">Animation name, as defined in the SpriteSheet.</param>
+		/// <param name="startFrame">The start frame.</param>
+		/// <param name="callback">
+		/// A user defined callback, 
+		/// called when this animation is completed. 
+		/// Default the callback is empty
+		/// </param>
+		void PlayAnimationUnSafe(
+			const tstring & animation,
+			int32 startFrame,
+			const std::function<void()> & callback = nullptr
+			);
+
 		SpritesheetComponent(const SpritesheetComponent &);
 		SpritesheetComponent(SpritesheetComponent &&);
 		SpritesheetComponent& operator=(const SpritesheetComponent &);

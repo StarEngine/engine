@@ -98,13 +98,62 @@ namespace star
 		const std::function<void()> & callback
 		)
 	{
+		auto it = m_Spritesheet.find(animation);
+		if(it != m_Spritesheet.end())
+		{
+			PushAnimationUnSafe(animation, callback);
+			return;
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("SpritesheetComponent::PushAnimation: Couldn't find animation '")
+			+ animation + _T("'."), STARENGINE_LOG_TAG);
+	}
+
+	void SpritesheetComponent::PlayAnimation(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
+	{
+		auto it = m_Spritesheet.find(animation);
+		if(it != m_Spritesheet.end())
+		{
+			PlayAnimationUnSafe(animation, callback);
+			return;
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("SpritesheetComponent::PlayAnimation: Couldn't find animation '")
+			+ animation + _T("'."), STARENGINE_LOG_TAG);
+	}
+
+	void SpritesheetComponent::PlayAnimation(
+		const tstring & animation,
+		int32 startFrame,
+		const std::function<void()> & callback
+		)
+	{
+		auto it = m_Spritesheet.find(animation);
+		if(it != m_Spritesheet.end())
+		{
+			PlayAnimationUnSafe(animation, startFrame, callback);
+			return;
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("SpritesheetComponent::PlayAnimation: Couldn't find animation '")
+			+ animation + _T("'."), STARENGINE_LOG_TAG);
+	}
+
+	void SpritesheetComponent::PushAnimationUnSafe(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
+	{
 		auto ani = m_Spritesheet[animation];
 		ani.SetCallback([&]() { PlayNextAnimation(); });
 		ani.SetUserCallback(callback);
 		m_Animations.push_back(ani);
 	}
 
-	void SpritesheetComponent::PlayAnimation(
+	void SpritesheetComponent::PlayAnimationUnSafe(
 		const tstring & animation,
 		const std::function<void()> & callback
 		)
@@ -119,7 +168,7 @@ namespace star
 		m_Animations.push_front(ani);
 	}
 
-	void SpritesheetComponent::PlayAnimation(
+	void SpritesheetComponent::PlayAnimationUnSafe(
 		const tstring & animation,
 		int32 startFrame,
 		const std::function<void()> & callback
@@ -134,59 +183,6 @@ namespace star
 		ani.SetUserCallback(callback);
 		m_Animations.push_front(ani);
 		m_Animations.front().PlayAtFrame(startFrame);
-
-	}
-
-	bool SpritesheetComponent::PushAnimationSafe(
-		const tstring & animation,
-		const std::function<void()> & callback
-		)
-	{
-		auto it = m_Spritesheet.find(animation);
-		if(it != m_Spritesheet.end())
-		{
-			PushAnimation(animation, callback);
-			return true;
-		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
-			_T("SpritesheetComponent::PushAnimationSafe: Couldn't find animation '")
-			+ animation + _T("'."), STARENGINE_LOG_TAG);
-		return false;
-	}
-
-	bool SpritesheetComponent::PlayAnimationSafe(
-		const tstring & animation,
-		const std::function<void()> & callback
-		)
-	{
-		auto it = m_Spritesheet.find(animation);
-		if(it != m_Spritesheet.end())
-		{
-			PlayAnimation(animation, callback);
-			return true;
-		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
-			_T("SpritesheetComponent::PlayAnimationSafe: Couldn't find animation '")
-			+ animation + _T("'."), STARENGINE_LOG_TAG);
-		return false;
-	}
-
-	bool SpritesheetComponent::PlayAnimationSafe(
-		const tstring & animation,
-		int32 startFrame,
-		const std::function<void()> & callback
-		)
-	{
-		auto it = m_Spritesheet.find(animation);
-		if(it != m_Spritesheet.end())
-		{
-			PlayAnimation(animation, startFrame, callback);
-			return true;
-		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
-			_T("SpritesheetComponent::PlayAnimationSafe: Couldn't find animation '")
-			+ animation + _T("'."), STARENGINE_LOG_TAG);
-		return false;
 	}
 
 	void SpritesheetComponent::PlayNextAnimation()
@@ -220,7 +216,7 @@ namespace star
 		PlayAnimation(m_Spritesheet.GetDefaultAnimation());
 	}
 
-	tstring SpritesheetComponent::GetCurrentAnimation() const
+	const tstring & SpritesheetComponent::GetCurrentAnimation() const
 	{
 		if(m_Animations.size() > 0)
 		{
@@ -235,7 +231,7 @@ namespace star
 					m_Animations.front().GetCurrentFrame() : 0;
 	}
 
-	const tstring & SpritesheetComponent::GetcurrentSpritesheet() const
+	const tstring & SpritesheetComponent::GetCurrentSpritesheet() const
 	{
 		return m_SpritesheetName;
 	}
@@ -302,6 +298,4 @@ already having a Sprite- or TextComponent."));
 	{
 		return m_Animations.front().IsPlaying();
 	}
-
-
 }
