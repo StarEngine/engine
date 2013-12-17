@@ -46,7 +46,7 @@ namespace star_a
 		}
 		else
 		{
-			star::Logger::GetInstance()->Log(LogLeveL::Warning,
+			star::Logger::GetInstance()->Log(star::LogLevel::Warning,
 				_T("Couldn't find '") + path + _T("'."), STARENGINE_LOG_TAG);
 		}
 		return result;

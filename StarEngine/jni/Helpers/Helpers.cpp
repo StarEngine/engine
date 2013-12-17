@@ -828,12 +828,13 @@ namespace star
 	bool ReadTextFileSafe(const tstring & file, tstring & text,
 			DirectoryMode directory)
 	{
+		bool succes(false);
 #ifdef ANDROID
 		if(directory == DirectoryMode::assets)
 		{
 			SerializedData data;
-			bool result = star_a::ReadFileAssetSafe(file, data);
-			if(result)
+			succes = star_a::ReadFileAssetSafe(file, data);
+			if(succes)
 			{
 				text = string_cast<tstring>(data.data);
 				delete [] data.data;
@@ -842,7 +843,7 @@ namespace star
 			{
 				text = EMPTY_STRING;
 			}
-			return result;
+			return succes;
 		}
 		else
 		{
@@ -861,7 +862,7 @@ namespace star
 
 			sifstream myfile;
 			myfile.open(strstr.str(), std::ios::in);
-			bool succes = myfile.is_open();
+			succes = myfile.is_open();
 			Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("Couldn't open the text file '") +
 					strstr.str() + _T("'."), STARENGINE_LOG_TAG);
@@ -880,7 +881,7 @@ namespace star
 		tstring file_path(EMPTY_STRING);
 		FilePath::GetCorrectPath(file, file_path, directory);
 		myfile.open(file_path, std::ios::in);
-		bool succes = myfile.is_open();
+		succes = myfile.is_open();
 		if(succes)
 		{
 			tstring str;
