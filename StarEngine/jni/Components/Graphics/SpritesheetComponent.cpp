@@ -1,9 +1,6 @@
 #include "SpriteSheetComponent.h"
 #include "../../Graphics/SpriteAnimationManager.h"
-#include "../../Logger.h"
-#include "../TransformComponent.h"
 #include "../../Objects/Object.h"
-#include "SpriteComponent.h"
 #include "TextComponent.h"
 
 namespace star
