@@ -222,56 +222,56 @@ namespace star
 		CalculateSliderDimension();
 	}
 
-	void UISlider::SetSliderOrthogonalAlignmentCentered(bool redefine_center)
+	void UISlider::SetSliderOrthogonalAlignmentCentered(bool redefineCenter)
 	{
 		if(m_SliderIsHorizontal)
 		{
 			m_pSlider->SetVerticalAlignment(
 				VerticalAlignment::Center,
-				redefine_center
+				redefineCenter
 				);
 		}
 		else
 		{
 			m_pSlider->SetHorizontalAlignment(
 				HorizontalAlignment::Center,
-				redefine_center
+				redefineCenter
 				);
 		}
 	}
 
-	void UISlider::SetSliderOrthogonalAlignmentPositive(bool redefine_center)
+	void UISlider::SetSliderOrthogonalAlignmentPositive(bool redefineCenter)
 	{
 		if(m_SliderIsHorizontal)
 		{
 			m_pSlider->SetVerticalAlignment(
 				VerticalAlignment::Top,
-				redefine_center
+				redefineCenter
 				);
 		}
 		else
 		{
 			m_pSlider->SetHorizontalAlignment(
 				HorizontalAlignment::Right,
-				redefine_center
+				redefineCenter
 				);
 		}
 	}
 
-	void UISlider::SetSliderOrthogonalAlignmentNegative(bool redefine_center)
+	void UISlider::SetSliderOrthogonalAlignmentNegative(bool redefineCenter)
 	{
 		if(m_SliderIsHorizontal)
 		{
 			m_pSlider->SetVerticalAlignment(
 				VerticalAlignment::Bottom,
-				redefine_center
+				redefineCenter
 				);
 		}
 		else
 		{
 			m_pSlider->SetHorizontalAlignment(
 				HorizontalAlignment::Left,
-				redefine_center
+				redefineCenter
 				);
 		}
 	}

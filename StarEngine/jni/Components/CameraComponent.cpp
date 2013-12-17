@@ -286,8 +286,8 @@ namespace star
 		m_pParentObject->GetTransform()->TranslateY(finalPos);
 	}
 
-	void CameraComponent::ConvertScreenToWorld(vec2 & pos)
+	void CameraComponent::ConvertScreenToWorld(vec2 & posInOut)
 	{
-		pos += GetTransform()->GetWorldPosition().pos2D();
+		posInOut += GetTransform()->GetWorldPosition().pos2D();
 	}
 }

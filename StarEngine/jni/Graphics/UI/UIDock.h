@@ -17,11 +17,11 @@ namespace star
 
 		virtual void SetHorizontalAlignment(
 			HorizontalAlignment alignment,
-			bool redefine_center = true
+			bool redefineCenter = true
 			);
 		virtual void SetVerticalAlignment(
 			VerticalAlignment alignment,
-			bool redefine_center = true
+			bool redefineCenter = true
 			);
 
 		void SetDimensions(const vec2 & dimensions);

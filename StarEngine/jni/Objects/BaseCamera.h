@@ -18,7 +18,7 @@ namespace star
 		void TranslateX(float32 x);
 		void TranslateY(float32 y);
 
-		void ConvertScreenToWorld(vec2 & pos);
+		void ConvertScreenToWorld(vec2 & posInOut);
 
 	protected:
 		virtual void Initialize();

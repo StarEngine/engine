@@ -46,14 +46,14 @@ namespace star
 
 		virtual void SetHorizontalAlignment(
 			HorizontalAlignment alignment,
-			bool redefine_center = true
+			bool redefineCenter = true
 			);
 		virtual void SetVerticalAlignment(
 			VerticalAlignment alignment,
-			bool redefine_center = true
+			bool redefineCenter = true
 			);
 
-		void SetAlignmentCentered(bool redefine_center = true);
+		void SetAlignmentCentered(bool redefineCenter = true);
 
 		virtual void Reset();
 		void Reposition();

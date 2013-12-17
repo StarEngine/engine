@@ -85,7 +85,7 @@
     <ClInclude Include="jni\Actions\DelayedAction.h" />
     <ClInclude Include="jni\Actions\Index.h" />
     <ClInclude Include="jni\Actions\LoopedAction.h" />
-    <ClInclude Include="jni\Actions\ScaleAction.h" />
+    <ClInclude Include="jni\Actions\TimedScaleAction.h" />
     <ClInclude Include="jni\Actions\TimedAction.h" />
     <ClInclude Include="jni\Actions\TimedFadeAction.h" />
     <ClInclude Include="jni\Actions\TimedMoveAction.h" />
@@ -200,7 +200,7 @@
     <ClCompile Include="jni\Actions\Action.cpp" />
     <ClCompile Include="jni\Actions\DelayedAction.cpp" />
     <ClCompile Include="jni\Actions\LoopedAction.cpp" />
-    <ClCompile Include="jni\Actions\ScaleAction.cpp" />
+    <ClCompile Include="jni\Actions\TimedScaleAction.cpp" />
     <ClCompile Include="jni\Actions\TimedAction.cpp" />
     <ClCompile Include="jni\Actions\TimedFadeAction.cpp" />
     <ClCompile Include="jni\Actions\TimedMoveAction.cpp" />

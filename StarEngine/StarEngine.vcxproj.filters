@@ -342,9 +342,6 @@
     <ClInclude Include="jni\Actions\DelayedFramesAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Actions\ScaleAction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="jni\Graphics\Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -358,6 +355,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="jni\Components\Graphics\SpriteSheetComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Actions\TimedScaleAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -635,9 +635,6 @@
     <ClCompile Include="jni\Actions\DelayedFramesAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\Actions\ScaleAction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="jni\Graphics\Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -651,6 +648,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Components\Graphics\SpriteSheetComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Actions\TimedScaleAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

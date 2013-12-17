@@ -48,10 +48,10 @@ namespace star
 	
 	void UIStaticButton::SetHorizontalAlignment(
 		HorizontalAlignment alignment,
-		bool redefine_center
+		bool redefineCenter
 		)
 	{
-		if(redefine_center)
+		if(redefineCenter)
 		{
 			switch(alignment)
 			{
@@ -73,16 +73,16 @@ namespace star
 		
 		UIElement::SetHorizontalAlignment(
 			alignment,
-			redefine_center
+			redefineCenter
 			);
 	}
 
 	void UIStaticButton::SetVerticalAlignment(
 		VerticalAlignment alignment,
-		bool redefine_center
+		bool redefineCenter
 		)
 	{
-		if(redefine_center)
+		if(redefineCenter)
 		{
 			switch(alignment)
 			{
@@ -104,7 +104,7 @@ namespace star
 		
 		UIElement::SetVerticalAlignment(
 			alignment,
-			redefine_center
+			redefineCenter
 			);
 	}
 

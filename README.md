@@ -70,7 +70,7 @@ Patch Notes:
   * Culling of UI Objects has been debugged and works properly now;
   * Hotfixes for both colliders and the audiomanager have been applied;
   * Object now has functionality to disable, freeze and set the visibility of all children;
-  * UIElement has now the functionality to disable the UI functionality of all children;
+  * UIElement now has the functionality to disable the UI functionality of all children;
   * UISlider has been improved:
     * The slider can now have an offset;
 	* The alignment of the slider can be set to satisfy personal preferences;
@@ -98,7 +98,7 @@ Patch Notes:
   * UIElement::SetSelectCallback has been renamed to UIElement::SetReleaseCallback;
   * UISlider::SetSelectedCallback has been renamed to UISlider::SetReleasedCallback;
   * XMLFileParser now has the function ReadOrCreate;
-  * Helper Read function now all have safe version with a no crash guarantee;
+  * Helper Read function now all have a safe version with a no crash guarantee;
   
   
 ## License
