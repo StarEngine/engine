@@ -21,7 +21,7 @@
 
 namespace star
 {
-	class Filepath;
+	class FilePath;
 
 	class FontManager final
 	{

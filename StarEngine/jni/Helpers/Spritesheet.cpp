@@ -1,10 +1,10 @@
-#include "Spritesheet.h"
+#include "SpriteSheet.h"
 #include "../Input/XMLContainer.h"
 #include "../Helpers/Helpers.h"
 
 namespace star
 {
-	Spritesheet::Spritesheet()
+	SpriteSheet::SpriteSheet()
 		: Dictionary<tstring, SpriteAnimation>()
 		, m_Name(EMPTY_STRING)
 		, m_DefaultAnimation(EMPTY_STRING)
@@ -14,7 +14,7 @@ namespace star
 
 	}
 
-	Spritesheet::Spritesheet(XMLContainer & spritesheet)
+	SpriteSheet::SpriteSheet(XMLContainer & spritesheet)
 		: Dictionary<tstring, SpriteAnimation>()
 		, m_Name(EMPTY_STRING)
 		, m_DefaultAnimation(EMPTY_STRING)
@@ -55,7 +55,7 @@ namespace star
 		} while( it != end_animation );
 	}
 
-	Spritesheet::Spritesheet(const Spritesheet & yRef)
+	SpriteSheet::SpriteSheet(const SpriteSheet & yRef)
 		: Dictionary<tstring, SpriteAnimation>(yRef)
 		, m_Name(yRef.m_Name)
 		, m_DefaultAnimation(yRef.m_DefaultAnimation)
@@ -65,7 +65,7 @@ namespace star
 
 	}
 
-	Spritesheet::Spritesheet(Spritesheet && yRef)
+	SpriteSheet::SpriteSheet(SpriteSheet && yRef)
 		: Dictionary<tstring, SpriteAnimation>(yRef)
 		, m_Name(yRef.m_Name)
 		, m_DefaultAnimation(yRef.m_DefaultAnimation)
@@ -75,7 +75,7 @@ namespace star
 
 	}
 
-	Spritesheet::Spritesheet(iterator begin, iterator end)
+	SpriteSheet::SpriteSheet(iterator begin, iterator end)
 		: Dictionary<tstring, SpriteAnimation>(begin, end)
 		, m_Name(EMPTY_STRING)
 		, m_DefaultAnimation(EMPTY_STRING)
@@ -85,23 +85,12 @@ namespace star
 
 	}
 
-	Spritesheet::~Spritesheet()
+	SpriteSheet::~SpriteSheet()
 	{
 
 	}
 	
-	Spritesheet & Spritesheet::operator=(const Spritesheet& yRef)
-	{
-		Dictionary<tstring, SpriteAnimation>::operator=(yRef);
-		m_Name = yRef.m_Name;
-		m_DefaultAnimation = yRef.m_DefaultAnimation;
-		m_FramesHorizontal = yRef.m_FramesHorizontal;
-		m_FramesVertical = yRef.m_FramesVertical;
-
-		return *this;
-	}
-	
-	Spritesheet & Spritesheet::operator=(Spritesheet&& yRef)
+	SpriteSheet & SpriteSheet::operator=(const SpriteSheet& yRef)
 	{
 		Dictionary<tstring, SpriteAnimation>::operator=(yRef);
 		m_Name = yRef.m_Name;
@@ -112,27 +101,38 @@ namespace star
 		return *this;
 	}
 	
-	void Spritesheet::SetName(const tstring & name)
+	SpriteSheet & SpriteSheet::operator=(SpriteSheet&& yRef)
+	{
+		Dictionary<tstring, SpriteAnimation>::operator=(yRef);
+		m_Name = yRef.m_Name;
+		m_DefaultAnimation = yRef.m_DefaultAnimation;
+		m_FramesHorizontal = yRef.m_FramesHorizontal;
+		m_FramesVertical = yRef.m_FramesVertical;
+
+		return *this;
+	}
+	
+	void SpriteSheet::SetName(const tstring & name)
 	{
 		m_Name = name;
 	}
 
-	const tstring & Spritesheet::GetName() const
+	const tstring & SpriteSheet::GetName() const
 	{
 		return m_Name;
 	}
 
-	const tstring & Spritesheet::GetDefaultAnimation() const
+	const tstring & SpriteSheet::GetDefaultAnimation() const
 	{
 		return m_DefaultAnimation;
 	}
 
-	int32 Spritesheet::GetFramesHorizontal() const
+	int32 SpriteSheet::GetFramesHorizontal() const
 	{
 		return m_FramesHorizontal;
 	}
 
-	int32 Spritesheet::GetFramesVertical() const
+	int32 SpriteSheet::GetFramesVertical() const
 	{
 		return m_FramesVertical;
 	}

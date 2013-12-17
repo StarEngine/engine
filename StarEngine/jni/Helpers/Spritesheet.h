@@ -7,18 +7,18 @@ namespace star
 {
 	class XMLContainer;
 
-	class Spritesheet final : public Dictionary<tstring, SpriteAnimation>
+	class SpriteSheet final : public Dictionary<tstring, SpriteAnimation>
 	{
 	public:
-		Spritesheet();
-		Spritesheet(XMLContainer & spritesheet);
-		Spritesheet(const Spritesheet & yRef);
-		Spritesheet(Spritesheet && yRef);
-		Spritesheet(iterator begin, iterator end);
-		~Spritesheet();
+		SpriteSheet();
+		SpriteSheet(XMLContainer & spritesheet);
+		SpriteSheet(const SpriteSheet & yRef);
+		SpriteSheet(SpriteSheet && yRef);
+		SpriteSheet(iterator begin, iterator end);
+		~SpriteSheet();
 
-		Spritesheet & operator=(const Spritesheet& yRef);
-		Spritesheet & operator=(Spritesheet&& yRef);
+		SpriteSheet & operator=(const SpriteSheet& yRef);
+		SpriteSheet & operator=(SpriteSheet&& yRef);
 
 		void SetName(const tstring & name);
 		const tstring & GetName() const;

@@ -8,7 +8,7 @@
 #include "../../Objects/FreeCamera.h"
 #include "../../Objects/Object.h"
 #include "SpriteComponent.h"
-#include "SpritesheetComponent.h"
+#include "SpriteSheetComponent.h"
 
 namespace star
 {
@@ -70,13 +70,13 @@ namespace star
 
 	void TextComponent::InitializeComponent()
 	{
-		if(m_pParentObject->HasComponent<SpritesheetComponent>(this)
+		if(m_pParentObject->HasComponent<SpriteSheetComponent>(this)
 			|| m_pParentObject->HasComponent<SpriteComponent>(this))
 		{
 			Logger::GetInstance()->Log(false,
 				_T("Object '") + m_pParentObject->GetName() +
 				_T("': Can't add a TextComponent when already \
-having a Spritesheet- or SpriteComponent."));
+having a SpriteSheet- or SpriteComponent."));
 			m_pParentObject->RemoveComponent(this);
 		}
 		else

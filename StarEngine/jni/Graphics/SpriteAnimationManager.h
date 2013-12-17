@@ -2,7 +2,7 @@
 
 #include "../defines.h"
 #include <map>
-#include "../Helpers/Spritesheet.h"
+#include "../Helpers/SpriteSheet.h"
 
 namespace star
 {
@@ -16,13 +16,13 @@ namespace star
 		void AddSpritesheet(const tstring & file,
 			const tstring & binary_file,
 			DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
-		const Spritesheet & GetSpritesheet(const tstring & name) const;
+		const SpriteSheet & GetSpritesheet(const tstring & name) const;
 		static SpriteAnimationManager * GetInstance();
 		void Clear();
 
 	private:
 		static SpriteAnimationManager * m_pManager;
-		std::map<tstring, Spritesheet> m_Spritesheets;
+		std::map<tstring, SpriteSheet> m_Spritesheets;
 
 		SpriteAnimationManager();
 

@@ -1,5 +1,5 @@
 #include "UIAnimatedImage.h"
-#include "../../Components/Graphics/SpritesheetComponent.h"
+#include "../../Components/Graphics/SpriteSheetComponent.h"
 
 namespace star
 {
@@ -11,7 +11,7 @@ namespace star
 		: UIElement(name)
 	{
 		m_pSprite = 
-			new SpritesheetComponent(
+			new SpriteSheetComponent(
 			filePath,
 			name,
 			spritesheet
@@ -30,7 +30,7 @@ namespace star
 		: UIElement(name)
 	{
 		m_pSprite = 
-			new SpritesheetComponent(
+			new SpriteSheetComponent(
 			filePath,
 			spriteName,
 			spritesheet

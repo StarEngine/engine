@@ -1,5 +1,5 @@
 #include "FontManager.h"
-#include "../Helpers/Filepath.h"
+#include "../Helpers/FilePath.h"
 #include "../Logger.h"
 #include "../Context.h"
 #include "../Graphics/GraphicsManager.h"
@@ -70,7 +70,7 @@ namespace star
 			return true;
 		}
 
-		star::Filepath filepath(path);
+		star::FilePath filepath(path);
 
 		Font* tempFont = new Font();
 		if(tempFont->Init(filepath.GetAssetsPath(), size, mLibrary))

@@ -3,26 +3,26 @@
 #include "SpriteComponent.h"
 #include <list>
 #include "../../Helpers/SpriteAnimation.h"
-#include "../../Helpers/Spritesheet.h"
+#include "../../Helpers/SpriteSheet.h"
 
 namespace star
 {
-	class SpritesheetComponent final : public SpriteComponent
+	class SpriteSheetComponent final : public SpriteComponent
 	{
 	public:
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SpritesheetComponent"/>
+		/// Initializes a new instance of the <see cref="SpriteSheetComponent"/>
 		/// </summary>
 		/// <param name="filePath">Path to the asset, starting from the path defined in <see cref="DirectoryMode::assets"/>.</param>
 		/// <param name="spriteName">Name of the sprite.</param>
 		/// <param name="spritesheet">Name of the spritesheet.</param>
 		/// <returns></returns>
-		SpritesheetComponent(const tstring& filePath, const tstring& spriteName, const tstring & spritesheet);
+		SpriteSheetComponent(const tstring& filePath, const tstring& spriteName, const tstring & spritesheet);
 
 		/// <summary>
-		/// Finalizes an instance of the <see cref="SpritesheetComponent"/> class.
+		/// Finalizes an instance of the <see cref="SpriteSheetComponent"/> class.
 		/// </summary>
-		~SpritesheetComponent();
+		~SpriteSheetComponent();
 
 		/// <summary>
 		/// Updates this instance.
@@ -162,7 +162,7 @@ namespace star
 	protected:
 		void InitializeComponent();
 		tstring m_SpritesheetName;
-		Spritesheet m_Spritesheet;
+		SpriteSheet m_Spritesheet;
 
 		std::list<SpriteAnimation> m_Animations;
 
@@ -215,9 +215,9 @@ namespace star
 			const std::function<void()> & callback = nullptr
 			);
 
-		SpritesheetComponent(const SpritesheetComponent &);
-		SpritesheetComponent(SpritesheetComponent &&);
-		SpritesheetComponent& operator=(const SpritesheetComponent &);
-		SpritesheetComponent& operator=(SpritesheetComponent &&);
+		SpriteSheetComponent(const SpriteSheetComponent &);
+		SpriteSheetComponent(SpriteSheetComponent &&);
+		SpriteSheetComponent& operator=(const SpriteSheetComponent &);
+		SpriteSheetComponent& operator=(SpriteSheetComponent &&);
 	};
 }

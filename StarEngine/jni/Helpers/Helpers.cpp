@@ -1,6 +1,6 @@
 #include "Helpers.h"
 #include "..\Logger.h"
-#include "Filepath.h"
+#include "FilePath.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -806,7 +806,7 @@ namespace star
 #else
 		tifstream myfile;
 		tstring file_path(EMPTY_STRING);
-		Filepath::GetCorrectPath(file, file_path, directory);
+		FilePath::GetCorrectPath(file, file_path, directory);
 		myfile.open(file_path, std::ios::in);
 		bool succes = myfile.is_open();
 		Logger::GetInstance()->Log(succes,
@@ -866,7 +866,7 @@ namespace star
 		}
 #else
 		tstring file_path(EMPTY_STRING);
-		Filepath::GetCorrectPath(file, file_path, directory);
+		FilePath::GetCorrectPath(file, file_path, directory);
 		tofstream myfile(file_path, std::ios::out);
 		bool succes = myfile.is_open();
 		Logger::GetInstance()->Log(succes,
@@ -914,7 +914,7 @@ namespace star
 		}
 #else
 		tstring file_path(EMPTY_STRING);
-		Filepath::GetCorrectPath(file, file_path, directory);
+		FilePath::GetCorrectPath(file, file_path, directory);
 		tofstream myfile(file_path, std::ios::out | std::ios::app);
 		bool succes = myfile.is_open();
 		Logger::GetInstance()->Log(succes,
@@ -973,7 +973,7 @@ namespace star
 		}
 #else
 		tstring file_path(EMPTY_STRING);
-		Filepath::GetCorrectPath(file, file_path, directory);
+		FilePath::GetCorrectPath(file, file_path, directory);
 		sifstream binary_file;
 		binary_file.open(file_path,
 				std::ios::in | std::ios::binary | std::ios::ate);
@@ -1033,7 +1033,7 @@ namespace star
 		}
 #else
 		tstring file_path(EMPTY_STRING);
-		Filepath::GetCorrectPath(file, file_path, directory);
+		FilePath::GetCorrectPath(file, file_path, directory);
 		sofstream binary_file;
 		binary_file.open(file_path, std::ios::binary | std::ios::trunc);
 		bool succes = binary_file.is_open();
@@ -1089,7 +1089,7 @@ namespace star
 		}
 #else
 		tstring file_path(EMPTY_STRING);
-		Filepath::GetCorrectPath(file, file_path, directory);
+		FilePath::GetCorrectPath(file, file_path, directory);
 		sofstream binary_file(file_path,
 				std::ios::out | std::ios::binary | std::ios::app);
 		bool succes = binary_file.is_open();

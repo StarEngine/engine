@@ -6,7 +6,7 @@
 
 namespace star
 {
-	class SpritesheetComponent;
+	class SpriteSheetComponent;
 
 	class UICursor : public UIBaseCursor
 	{
@@ -52,7 +52,7 @@ namespace star
 	protected:
 		virtual void Update(const Context & context);
 
-		SpritesheetComponent * m_pCursorSprite;
+		SpriteSheetComponent * m_pCursorSprite;
 		std::unordered_map<tstring, vec2> m_Offsets;
 		vec2 m_DefaultOffset;
 

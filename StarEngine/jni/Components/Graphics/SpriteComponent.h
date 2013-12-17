@@ -1,14 +1,13 @@
 #pragma once
 
 #include "../../defines.h"
-#include "../../Graphics/Shader.h"
 #include "../BaseComponent.h"
-#include "../../Helpers/Filepath.h"
+#include "../../Helpers/FilePath.h"
 #include "../../Graphics/Color.h"
-#include <vector>
 
 namespace star
 {
+
 	/// <summary>
 	/// This struct gets sent to the Spritebatch to process every Sprite.
 	/// </summary>
@@ -21,7 +20,9 @@ namespace star
 			, transformPtr(nullptr)
 			, colorMultiplier(Color::White)
 			, bIsHud(false)
-		{}
+		{
+
+		}
 
 		vec2 vertices;
 		vec4 uvCoords;
@@ -31,6 +32,9 @@ namespace star
 		bool bIsHud;
 	};
 
+	/// <summary>
+	/// Component used to draw a texture or part of a texture.
+	/// </summary>
 	class SpriteComponent : public BaseComponent
 	{
 	public:
@@ -73,10 +77,10 @@ namespace star
 		/// <param name="bottom">Bottom of the screen</param>
 		/// <returns>true if the object should be culled</returns>
 		virtual bool CheckCulling(
-			float left,
-			float right,
-			float top,
-			float bottom
+			float32 left,
+			float32 right,
+			float32 top,
+			float32 bottom
 			) const;
 
 		/// <summary>
@@ -156,7 +160,7 @@ namespace star
 
 	private:
 
-		Filepath m_FilePath;
+		FilePath m_FilePath;
 		tstring m_SpriteName;
 		
 		SpriteInfo* m_SpriteInfo;

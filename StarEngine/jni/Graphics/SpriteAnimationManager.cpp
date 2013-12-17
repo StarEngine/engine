@@ -29,8 +29,8 @@ namespace star
 		bool isValid = it == m_Spritesheets.end();
 		if(isValid)
 		{
-			Spritesheet spritesheet(container);
-			m_Spritesheets.insert(std::pair<tstring, Spritesheet>(name, spritesheet));
+			SpriteSheet spritesheet(container);
+			m_Spritesheets.insert(std::pair<tstring, SpriteSheet>(name, spritesheet));
 		}
 		else
 		{
@@ -52,8 +52,8 @@ namespace star
 		bool isValid = it == m_Spritesheets.end();
 		if(isValid)
 		{
-			Spritesheet spritesheet(container);
-			m_Spritesheets.insert(std::pair<tstring, Spritesheet>(name, spritesheet));
+			SpriteSheet spritesheet(container);
+			m_Spritesheets.insert(std::pair<tstring, SpriteSheet>(name, spritesheet));
 		}
 		else
 		{
@@ -63,7 +63,7 @@ namespace star
 		}
 	}
 
-	const Spritesheet & 
+	const SpriteSheet & 
 		SpriteAnimationManager::GetSpritesheet(const tstring & name) const
 	{
 		auto it = m_Spritesheets.find(name);

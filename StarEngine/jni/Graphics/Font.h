@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 #include "../defines.h"
-#include "../Helpers/Filepath.h"
+#include "../Helpers/FilePath.h"
 #include "../Helpers/Helpers.h"
 
 #include "ft2build.h"

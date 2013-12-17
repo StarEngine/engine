@@ -1,7 +1,7 @@
 #pragma once
 
 #include "..\defines.h"
-#include "..\Helpers\Filepath.h"
+#include "..\Helpers\FilePath.h"
 
 namespace star
 {

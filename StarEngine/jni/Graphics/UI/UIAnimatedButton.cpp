@@ -1,6 +1,6 @@
 #include "UIAnimatedButton.h"
 
-#include "../../Components/Graphics/SpritesheetComponent.h"
+#include "../../Components/Graphics/SpriteSheetComponent.h"
 #include "../../Graphics/SpriteAnimationManager.h"
 
 namespace star
@@ -13,7 +13,7 @@ namespace star
 		: UIUserElement(name)
 		, m_pButtonSprite(nullptr)
 	{
-		m_pButtonSprite = new SpritesheetComponent(
+		m_pButtonSprite = new SpriteSheetComponent(
 			file,
 			name,
 			spritesheet
@@ -31,7 +31,7 @@ namespace star
 		: UIUserElement(name)
 		, m_pButtonSprite(nullptr)
 	{
-		m_pButtonSprite = new SpritesheetComponent(
+		m_pButtonSprite = new SpriteSheetComponent(
 			file,
 			spriteName,
 			spritesheet

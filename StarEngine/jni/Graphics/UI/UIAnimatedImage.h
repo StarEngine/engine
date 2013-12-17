@@ -3,7 +3,7 @@
 
 namespace star
 {
-	class SpritesheetComponent;
+	class SpriteSheetComponent;
 
 	class UIAnimatedImage : public UIElement
 	{
@@ -72,7 +72,7 @@ namespace star
 		bool IsPlaying();
 
 	protected:
-		SpritesheetComponent * m_pSprite;
+		SpriteSheetComponent * m_pSprite;
 
 	private:
 		UIAnimatedImage(const UIAnimatedImage &);

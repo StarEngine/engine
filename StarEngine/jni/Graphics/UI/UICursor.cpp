@@ -1,5 +1,5 @@
 #include "UICursor.h"
-#include "../../Components/Graphics/SpritesheetComponent.h"
+#include "../../Components/Graphics/SpriteSheetComponent.h"
 #include "../../Input/InputManager.h"
 
 namespace star
@@ -14,7 +14,7 @@ namespace star
 		, m_Offsets()
 		, m_DefaultOffset(0, 0)
 	{
-		m_pCursorSprite = new SpritesheetComponent(
+		m_pCursorSprite = new SpriteSheetComponent(
 			spriteFile,
 			name,
 			spritesheetName
@@ -34,7 +34,7 @@ namespace star
 		, m_Offsets()
 		, m_DefaultOffset(0, 0)
 	{
-		m_pCursorSprite = new SpritesheetComponent(
+		m_pCursorSprite = new SpriteSheetComponent(
 			spriteFile,
 			spriteName,
 			spritesheetName
