@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "../Helpers/Math.h"
 #include "ScaleSystem.h"
+#include "Font.h"
 
 namespace star
 {

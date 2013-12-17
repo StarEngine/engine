@@ -90,6 +90,7 @@
     <ClInclude Include="jni\Actions\TimedFadeAction.h" />
     <ClInclude Include="jni\Actions\TimedMoveAction.h" />
     <ClInclude Include="jni\Components\AI\index.h" />
+    <ClInclude Include="jni\Components\Graphics\SpriteSheetComponent.h" />
     <ClInclude Include="jni\Components\Physics\BaseColliderComponent.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="jni\Graphics\Font.h" />
@@ -103,7 +104,6 @@
     <ClInclude Include="jni\Components\AI\PathFindNodeComponent.h" />
     <ClInclude Include="jni\Components\Physics\index.h" />
     <ClInclude Include="jni\Components\Physics\RectangleColliderComponent.h" />
-    <ClInclude Include="jni\Components\Graphics\SpritesheetComponent.h" />
     <ClInclude Include="jni\Components\Graphics\TextComponent.h" />
     <ClInclude Include="jni\Components\TransformComponent.h" />
     <ClInclude Include="jni\Context.h" />
@@ -139,7 +139,7 @@
     <ClInclude Include="jni\Helpers\AARect.h" />
     <ClInclude Include="jni\Helpers\Debug\DebugDraw.h" />
     <ClInclude Include="jni\Helpers\Dictionary.h" />
-    <ClInclude Include="jni\Helpers\Filepath.h" />
+    <ClInclude Include="jni\Helpers\FilePath.h" />
     <ClInclude Include="jni\Helpers\FPS.h" />
     <ClInclude Include="jni\Helpers\glm\gtx\verbose_operator.hpp" />
     <ClInclude Include="jni\Helpers\HashTag.h" />
@@ -150,7 +150,7 @@
     <ClInclude Include="jni\Helpers\Rect.h" />
     <ClInclude Include="jni\Helpers\SerializedData.h" />
     <ClInclude Include="jni\Helpers\SpriteAnimation.h" />
-    <ClInclude Include="jni\Helpers\Spritesheet.h" />
+    <ClInclude Include="jni\Helpers\SpriteSheet.h" />
     <ClInclude Include="jni\Helpers\State.h" />
     <ClInclude Include="jni\Helpers\StateManager.h" />
     <ClInclude Include="jni\Helpers\Stopwatch.h" />
@@ -204,6 +204,7 @@
     <ClCompile Include="jni\Actions\TimedAction.cpp" />
     <ClCompile Include="jni\Actions\TimedFadeAction.cpp" />
     <ClCompile Include="jni\Actions\TimedMoveAction.cpp" />
+    <ClCompile Include="jni\Components\Graphics\SpriteSheetComponent.cpp" />
     <ClCompile Include="jni\Components\Physics\BaseColliderComponent.cpp" />
     <ClCompile Include="jni\Graphics\Font.cpp" />
     <ClCompile Include="jni\Graphics\FontManager.cpp" />
@@ -214,7 +215,6 @@
     <ClCompile Include="jni\Components\Physics\CircleColliderComponent.cpp" />
     <ClCompile Include="jni\Components\AI\PathFindNodeComponent.cpp" />
     <ClCompile Include="jni\Components\Physics\RectangleColliderComponent.cpp" />
-    <ClCompile Include="jni\Components\Graphics\SpritesheetComponent.cpp" />
     <ClCompile Include="jni\Components\Graphics\TextComponent.cpp" />
     <ClCompile Include="jni\Components\TransformComponent.cpp" />
     <ClCompile Include="jni\Entity.cpp" />
@@ -244,7 +244,7 @@
     <ClCompile Include="jni\Helpers\AARect.cpp" />
     <ClCompile Include="jni\Helpers\Debug\DebugDraw.cpp" />
     <ClCompile Include="jni\Helpers\Dictionary.cpp" />
-    <ClCompile Include="jni\Helpers\Filepath.cpp" />
+    <ClCompile Include="jni\Helpers\FilePath.cpp" />
     <ClCompile Include="jni\Helpers\FPS.cpp" />
     <ClCompile Include="jni\Helpers\HashTag.cpp" />
     <ClCompile Include="jni\Helpers\Helpers.cpp" />
@@ -254,7 +254,7 @@
     <ClCompile Include="jni\Helpers\Rect.cpp" />
     <ClCompile Include="jni\Helpers\SerializedData.cpp" />
     <ClCompile Include="jni\Helpers\SpriteAnimation.cpp" />
-    <ClCompile Include="jni\Helpers\Spritesheet.cpp" />
+    <ClCompile Include="jni\Helpers\SpriteSheet.cpp" />
     <ClCompile Include="jni\Helpers\State.cpp" />
     <ClCompile Include="jni\Helpers\StateManager.cpp" />
     <ClCompile Include="jni\Helpers\Stopwatch.cpp" />

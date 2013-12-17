@@ -909,6 +909,16 @@ namespace star
 		return glm::dot<float64>(vecA, vecB);
 	}
 
+	float32 Cross(const fvec2 & vecA, const fvec2 & vecB)
+	{	
+		return vecA.x * vecB.y - vecA.y * vecB.x;
+	}
+
+	float64 Cross(const dvec2 & vecA, const dvec2 & vecB)
+	{
+		return vecA.x * vecB.y - vecA.y * vecB.x;
+	}
+
 	fvec3 Cross(const fvec3 & vecA, const fvec3 & vecB)
 	{	
 		return glm::cross<float32>(vecA, vecB);

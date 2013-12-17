@@ -8,7 +8,7 @@
 #include "jni/Logger.h"
 #include "jni/TimeManager.h"
 #include "jni/Helpers/Helpers.h"
-#include "jni/Helpers/Filepath.h"
+#include "jni/Helpers/FilePath.h"
 #include "jni/Input/XMLContainer.h"
 #ifdef _DEBUG
 	#include "jni/Input/XMLFileParser.h"
@@ -115,12 +115,12 @@ namespace star
 
 			//Set the assets root that will be used for DirectoryMode::assets
 			auto assets_settings = winManifest[_T("assets")]->GetAttributes();
-			Filepath::SetAssetsRoot(assets_settings[_T("root")]);
+			FilePath::SetAssetsRoot(assets_settings[_T("root")]);
 			
 			//Set the internal root that will be used for DirectoryMode::internal
 			auto internal_settings = winManifest[_T("internal")]->GetAttributes();
 			tstring iPath(internal_settings[_T("root")]);
-			Filepath::SetInternalRoot(iPath);
+			FilePath::SetInternalRoot(iPath);
 			auto cdReturn = CreateDirectory(iPath.c_str(), NULL);
 			if(cdReturn == ERROR_ALREADY_EXISTS)
 			{
@@ -146,7 +146,7 @@ namespace star
 			ePath += _T("/");
 			ePath += winManifest[_T("title")]->GetValue();
 			ePath += _T("/");
-			Filepath::SetExternalRoot(ePath);
+			FilePath::SetExternalRoot(ePath);
 			
 			cdReturn = CreateDirectory(ePath.c_str(), NULL);
 			if(cdReturn == ERROR_ALREADY_EXISTS)

@@ -1,4 +1,4 @@
-#include "Filepath.h"
+#include "FilePath.h"
 #ifdef _WIN32
 	#include <shellapi.h>
 	#include "../StarEngine.h"
@@ -13,19 +13,19 @@
 namespace star
 {
 #ifdef DESKTOP
-tstring Filepath::m_AssetsRoot = EMPTY_STRING;
-tstring Filepath::m_InternalRoot = EMPTY_STRING;
-tstring Filepath::m_ExternalRoot = EMPTY_STRING;
+tstring FilePath::m_AssetsRoot = EMPTY_STRING;
+tstring FilePath::m_InternalRoot = EMPTY_STRING;
+tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 #endif
 
-	Filepath::Filepath()
+	FilePath::FilePath()
 		: m_Path(EMPTY_STRING) 
 		, m_File(EMPTY_STRING)
 	{
 
 	}
 
-	Filepath::Filepath(const tstring & full_path)
+	FilePath::FilePath(const tstring & full_path)
 		: m_Path(EMPTY_STRING)
 		, m_File(EMPTY_STRING)
 	{
@@ -61,67 +61,67 @@ tstring Filepath::m_ExternalRoot = EMPTY_STRING;
 		}
 	}
 
-	Filepath::Filepath(const tstring & path, const tstring & file)
+	FilePath::FilePath(const tstring & path, const tstring & file)
 		: m_Path(path)
 		, m_File(file)
 	{
 
 	}
 
-	Filepath::Filepath(const Filepath & yRef)
+	FilePath::FilePath(const FilePath & yRef)
 		: m_Path(yRef.m_Path)
 		, m_File(yRef.m_File)
 	{
 		
 	}
 
-	Filepath::~Filepath()
+	FilePath::~FilePath()
 	{
 
 	}
 
-	Filepath & Filepath::operator=(const Filepath & yRef)
+	FilePath & FilePath::operator=(const FilePath & yRef)
 	{
 		m_Path = yRef.m_Path;
 		m_File = yRef.m_File;
 		return *this;
 	}
 
-	bool Filepath::operator==(const Filepath & yRef)
+	bool FilePath::operator==(const FilePath & yRef)
 	{
 		return m_Path == yRef.m_Path && m_File == yRef.m_File;
 	}
 
-	const tstring & Filepath::GetPath() const
+	const tstring & FilePath::GetPath() const
 	{
 		return m_Path;
 	}
 
-	const tstring & Filepath::GetFile() const
+	const tstring & FilePath::GetFile() const
 	{
 		return m_File;
 	}
 
-	tstring Filepath::GetName() const
+	tstring FilePath::GetName() const
 	{
 		tstring name(m_File);
 		auto index(name.find_last_of(_T(".")));
 		return name.substr(0, index);
 	}
 
-	tstring Filepath::GetExtension() const
+	tstring FilePath::GetExtension() const
 	{
 		tstring extension(m_File);
 		auto index(extension.find_last_of(_T(".")));
 		return extension.substr(index, extension.size() - index);
 	}
 	
-	tstring Filepath::GetLocalPath() const
+	tstring FilePath::GetLocalPath() const
 	{
 		return m_Path + m_File;
 	}
 
-	tstring Filepath::GetAssetsPath() const
+	tstring FilePath::GetAssetsPath() const
 	{
 		tstring assets_path(EMPTY_STRING);
 	#ifdef DESKTOP
@@ -131,7 +131,7 @@ tstring Filepath::m_ExternalRoot = EMPTY_STRING;
 		return assets_path;
 	}
 
-	tstring Filepath::GetInternalPath() const
+	tstring FilePath::GetInternalPath() const
 	{
 		tstring internal_path(EMPTY_STRING);
 	#ifdef DESKTOP
@@ -145,7 +145,7 @@ tstring Filepath::m_ExternalRoot = EMPTY_STRING;
 		return internal_path;
 	}
 
-	tstring Filepath::GetExternalPath() const
+	tstring FilePath::GetExternalPath() const
 	{
 		tstring external_path(EMPTY_STRING);
 	#ifdef DESKTOP
@@ -159,19 +159,19 @@ tstring Filepath::m_ExternalRoot = EMPTY_STRING;
 		return external_path;
 	}
 	
-	void Filepath::GetCorrectPath(const tstring & path,
+	void FilePath::GetCorrectPath(const tstring & path,
 		tstring & correct_path, DirectoryMode mode)
 	{
 		switch(mode)
 		{
 		case DirectoryMode::assets:
-			correct_path = Filepath(path).GetAssetsPath();
+			correct_path = FilePath(path).GetAssetsPath();
 			break;
 		case DirectoryMode::internal:
-			correct_path = Filepath(path).GetInternalPath();
+			correct_path = FilePath(path).GetInternalPath();
 			break;
 		case DirectoryMode::external:
-			correct_path = Filepath(path).GetExternalPath();
+			correct_path = FilePath(path).GetExternalPath();
 			break;
 		default:
 			correct_path = path;
@@ -180,24 +180,24 @@ tstring Filepath::m_ExternalRoot = EMPTY_STRING;
 	}
 
 #ifdef DESKTOP
-	void Filepath::SetAssetsRoot(const tstring & root)
+	void FilePath::SetAssetsRoot(const tstring & root)
 	{
 		m_AssetsRoot = root;
 	}
 	
-	void Filepath::SetInternalRoot(const tstring & root)
+	void FilePath::SetInternalRoot(const tstring & root)
 	{
 		m_InternalRoot = root;
 	}
 	
-	void Filepath::SetExternalRoot(const tstring & root)
+	void FilePath::SetExternalRoot(const tstring & root)
 	{
 		m_ExternalRoot = root;
 	}
 #endif
 
 #ifdef _WIN32
-	tstring Filepath::GetActualPathName(const tstring& path ) const
+	tstring FilePath::GetActualPathName(const tstring& path ) const
 	{
 		// This is quite involved, but the meat is SHGetFileInfo
 

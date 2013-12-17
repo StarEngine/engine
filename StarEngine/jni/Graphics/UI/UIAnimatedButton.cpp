@@ -1,6 +1,6 @@
 #include "UIAnimatedButton.h"
 
-#include "../../Components/Graphics/SpritesheetComponent.h"
+#include "../../Components/Graphics/SpriteSheetComponent.h"
 #include "../../Graphics/SpriteAnimationManager.h"
 
 namespace star
@@ -13,7 +13,7 @@ namespace star
 		: UIUserElement(name)
 		, m_pButtonSprite(nullptr)
 	{
-		m_pButtonSprite = new SpritesheetComponent(
+		m_pButtonSprite = new SpriteSheetComponent(
 			file,
 			name,
 			spritesheet
@@ -31,7 +31,7 @@ namespace star
 		: UIUserElement(name)
 		, m_pButtonSprite(nullptr)
 	{
-		m_pButtonSprite = new SpritesheetComponent(
+		m_pButtonSprite = new SpriteSheetComponent(
 			file,
 			spriteName,
 			spritesheet
@@ -135,27 +135,16 @@ namespace star
 		{
 			if(m_ContiniousAnimation)
 			{
-				if(!m_pButtonSprite->PlayAnimationSafe(
-					UI_STATE_IDLE, m_pButtonSprite->GetCurrentFrame()))
-				{
-					Logger::GetInstance()->Log(LogLevel::Warning,
-						_T("UIAnimatedButton::GoIdle: Animation '")
-						+ tstring(UI_STATE_IDLE) +
-						_T("' is not defined in the used spritesheet."),
-						STARENGINE_LOG_TAG);
-				}
+				m_pButtonSprite->PlayAnimation(
+					UI_STATE_IDLE, 
+					m_pButtonSprite->GetCurrentFrame()
+					);
 			}
 			else
 			{
-				if(!m_pButtonSprite->PlayAnimationSafe(
-					UI_STATE_IDLE))
-				{
-					Logger::GetInstance()->Log(LogLevel::Warning,
-						_T("UIAnimatedButton::GoIdle: Animation '")
-						+ tstring(UI_STATE_IDLE) +
-						_T("' is not defined in the used spritesheet."),
-						STARENGINE_LOG_TAG);
-				}
+				m_pButtonSprite->PlayAnimation(
+					UI_STATE_IDLE
+					);
 			}
 		}
 
@@ -169,27 +158,16 @@ namespace star
 		{
 			if(m_ContiniousAnimation)
 			{
-				if(!m_pButtonSprite->PlayAnimationSafe(
-					UI_STATE_HOVER, m_pButtonSprite->GetCurrentFrame()))
-				{
-					Logger::GetInstance()->Log(LogLevel::Warning,
-						_T("UIAnimatedButton::GoHover: Animation '")
-						+ tstring(UI_STATE_HOVER) +
-						_T("' is not defined in the used spritesheet."),
-						STARENGINE_LOG_TAG);
-				}
+				m_pButtonSprite->PlayAnimation(
+					UI_STATE_HOVER, 
+					m_pButtonSprite->GetCurrentFrame()
+					);
 			}
 			else
 			{
-				if(!m_pButtonSprite->PlayAnimationSafe(
-					UI_STATE_HOVER))
-				{
-					Logger::GetInstance()->Log(LogLevel::Warning,
-						_T("UIAnimatedButton::GoHover: Animation '")
-						+ tstring(UI_STATE_HOVER) +
-						_T("' is not defined in the used spritesheet."),
-						STARENGINE_LOG_TAG);
-				}
+				m_pButtonSprite->PlayAnimation(
+					UI_STATE_HOVER
+					);
 			}
 		}
 		UIUserElement::GoHover();
@@ -202,27 +180,15 @@ namespace star
 		{
 			if(m_ContiniousAnimation)
 			{
-				if(!m_pButtonSprite->PlayAnimationSafe(
-					UI_STATE_CLICK, m_pButtonSprite->GetCurrentFrame()))
-				{
-					Logger::GetInstance()->Log(LogLevel::Warning,
-						_T("UIAnimatedButton::GoDown: Animation '")
-						+ tstring(UI_STATE_CLICK) +
-						_T("' is not defined in the used spritesheet."),
-						STARENGINE_LOG_TAG);
-				}
+				m_pButtonSprite->PlayAnimation(
+					UI_STATE_CLICK, m_pButtonSprite->GetCurrentFrame()
+					);
 			}
 			else
 			{
-				if(!m_pButtonSprite->PlayAnimationSafe(
-					UI_STATE_CLICK))
-				{
-					Logger::GetInstance()->Log(LogLevel::Warning,
-						_T("UIAnimatedButton::GoDown: Animation '")
-						+ tstring(UI_STATE_CLICK) +
-						_T("' is not defined in the used spritesheet."),
-						STARENGINE_LOG_TAG);
-				}
+				m_pButtonSprite->PlayAnimation(
+					UI_STATE_CLICK
+					);
 			}
 		}
 		UIUserElement::GoDown();
@@ -234,27 +200,16 @@ namespace star
 		{
 			if(m_ContiniousAnimation)
 			{
-				if(!m_pButtonSprite->PlayAnimationSafe(
-					UI_STATE_DISABLE, m_pButtonSprite->GetCurrentFrame()))
-				{
-					Logger::GetInstance()->Log(LogLevel::Warning,
-						_T("UIAnimatedButton::GoDisable: Animation '")
-						+ tstring(UI_STATE_DISABLE) +
-						_T("' is not defined in the used spritesheet."),
-						STARENGINE_LOG_TAG);
-				}
+				m_pButtonSprite->PlayAnimation(
+					UI_STATE_DISABLE, 
+					m_pButtonSprite->GetCurrentFrame()
+					);
 			}
 			else
 			{
-				if(!m_pButtonSprite->PlayAnimationSafe(
-					UI_STATE_DISABLE))
-				{
-					Logger::GetInstance()->Log(LogLevel::Warning,
-						_T("UIAnimatedButton::GoFreeze: Animation '")
-						+ tstring(UI_STATE_DISABLE) +
-						_T("' is not defined in the used spritesheet."),
-						STARENGINE_LOG_TAG);
-				}
+				m_pButtonSprite->PlayAnimation(
+					UI_STATE_DISABLE
+					);
 			}
 		}
 		UIUserElement::GoDisable();

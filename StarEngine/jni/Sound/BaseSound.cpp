@@ -3,7 +3,7 @@
 #include "../Logger.h"
 #include "../Graphics/Resource.h"
 #include "../Helpers/Helpers.h"
-#include "../Helpers/Filepath.h"
+#include "../Helpers/FilePath.h"
 #include "../Helpers/Math.h"
 
 #ifdef ANDROID

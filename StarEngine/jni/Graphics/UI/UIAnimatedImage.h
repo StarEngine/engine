@@ -3,7 +3,7 @@
 
 namespace star
 {
-	class SpritesheetComponent;
+	class SpriteSheetComponent;
 
 	class UIAnimatedImage : public UIElement
 	{
@@ -51,20 +51,6 @@ namespace star
 			const std::function<void()> & callback = nullptr
 			);
 
-		bool PushAnimationSafe(
-			const tstring & animation,
-			const std::function<void()> & callback = nullptr
-			);
-		bool PlayAnimationSafe(
-			const tstring & animation,
-			const std::function<void()> & callback = nullptr
-			);
-		bool PlayAnimationSafe(
-			const tstring & animation,
-			int32 startFrame,
-			const std::function<void()> & callback = nullptr
-			);
-
 		void PlayNextAnimation();
 		void PlayNextAnimation(int32 startFrame);
 		void Reset();
@@ -72,7 +58,7 @@ namespace star
 		void SetSpritesheet(const tstring & spritesheet);
 
 		tstring GetCurrentAnimation() const;
-		const tstring & GetcurrentSpritesheet() const;
+		const tstring & GetCurrentSpritesheet() const;
 
 		int32 GetCurrentFrame() const;
 
@@ -86,7 +72,7 @@ namespace star
 		bool IsPlaying();
 
 	protected:
-		SpritesheetComponent * m_pSprite;
+		SpriteSheetComponent * m_pSprite;
 
 	private:
 		UIAnimatedImage(const UIAnimatedImage &);

@@ -9,16 +9,31 @@
 #include "Helpers\SerializedData.h"
 #include "definesTypes.h"
 
-#define STARENGINE_VERSION _T("0.1.0")
+/// <summary>
+/// The starengine's version
+/// </summary>
+static const tstring STARENGINE_VERSION = _T("0.1.0");
 
 #include <algorithm>
 
 #include "definesMath.h"
 
-#define EMPTY_STRING _T("")
-#define NO_WRAPPING -1
-#define STARENGINE_LOG_TAG _T("STARENGINE")
-#define GAME_LOG_TAG _T("GAME")
+/// <summary>
+/// Defines the value for no wrapping.
+/// </summary>
+static const int32 NO_WRAPPING = -1;
+/// <summary>
+/// Empty string.
+/// </summary>
+static const tstring EMPTY_STRING = _T("");
+/// <summary>
+/// The log tag used for the engine.
+/// </summary>
+static const tstring STARENGINE_LOG_TAG = _T("STARENGINE");
+/// <summary>
+/// The log tag used for the game.
+/// </summary>
+static const tstring GAME_LOG_TAG = _T("GAME");
 
 #ifdef STAR2D
 #include "defines2D.h" 
@@ -65,12 +80,27 @@ enum class DirectoryMode : byte
 /// </summary>
 static const DirectoryMode DEFAULT_DIRECTORY_MODE = DirectoryMode::assets;
 
-#define UI_STATE_IDLE _T("idle")
-#define UI_STATE_HOVER _T("hover")
-#define UI_STATE_CLICK _T("click")
-#define UI_STATE_DISABLE _T("disable")
+/// <summary>
+/// Idle UI state
+/// </summary>
+static const tstring UI_STATE_IDLE = _T("idle");
+/// <summary>
+/// Hover UI state
+/// </summary>
+static const tstring UI_STATE_HOVER = _T("hover");
+/// <summary>
+/// Click UI state
+/// </summary>
+static const tstring UI_STATE_CLICK = _T("click");
+/// <summary>
+/// Disable UI state
+/// </summary>
+static const tstring UI_STATE_DISABLE = _T("disable");
 
-#define TAB _T("    ")
+/// <summary>
+/// A tab, in spaces.
+/// </summary>
+static const tstring TAB = _T("    ");
 
 /// <summary>
 /// Value that can be used to create a stopwatch with the duration of +/- 1 frame

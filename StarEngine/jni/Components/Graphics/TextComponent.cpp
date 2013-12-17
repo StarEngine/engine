@@ -1,15 +1,9 @@
 #include "TextComponent.h"
-#include "../CameraComponent.h"
-#include "../TransformComponent.h"
-#include "../../Logger.h"
-#include "../../Graphics/Font.h"
-#include "../../Graphics/TextureManager.h"
-#include "../../Graphics/GraphicsManager.h"
-#include "../../Graphics/SpriteBatch.h"
-#include "../../Objects/FreeCamera.h"
+#include "../../Graphics/FontManager.h"
 #include "../../Objects/Object.h"
 #include "SpriteComponent.h"
-#include "SpritesheetComponent.h"
+#include "SpriteSheetComponent.h"
+#include "../../Graphics/SpriteBatch.h"
 
 namespace star
 {
@@ -71,25 +65,25 @@ namespace star
 
 	void TextComponent::InitializeComponent()
 	{
-		if(m_pParentObject->HasComponent<SpritesheetComponent>(this)
+		if(m_pParentObject->HasComponent<SpriteSheetComponent>(this)
 			|| m_pParentObject->HasComponent<SpriteComponent>(this))
 		{
 			Logger::GetInstance()->Log(false,
 				_T("Object '") + m_pParentObject->GetName() +
 				_T("': Can't add a TextComponent when already \
-having a Spritesheet- or SpriteComponent."));
+having a SpriteSheet- or SpriteComponent."));
 			m_pParentObject->RemoveComponent(this);
 		}
 		else
 		{
 			if(m_WrapWidth == NO_WRAPPING)
 			{
-				CleanTextUp(m_OrigText);
+				CleanUpText(m_OrigText);
 				CalculateTextDimensions();
 			}
 			else
 			{
-				CleanTextUp(CheckWrapping(
+				CleanUpText(CheckWrapping(
 							m_OrigText,
 							m_WrapWidth
 							));
@@ -135,7 +129,7 @@ having a Spritesheet- or SpriteComponent."));
 		GetTransform()->SetDimensionsYSafe(m_Dimensions.y);
 	}
 	
-	void TextComponent::CleanTextUp(const tstring & str)
+	void TextComponent::CleanUpText(const tstring & str)
 	{
 		size_t length = str.length();
 		m_EditText = EMPTY_STRING;
@@ -336,12 +330,8 @@ having a Spritesheet- or SpriteComponent."));
 		float32 texTop = objectPos.y + textHeight;
 
 		return
-			(	(objectPos.x >= left && objectPos.x <= right) ||
-				(teRight >= left && teRight <= right)
-			) &&
-			(	(objectPos.y >= bottom && objectPos.y <= top) ||
-				(texTop >= bottom && texTop <= top)
-			);
+			(objectPos.x <= right && teRight >= left) &&
+			(objectPos.y <= top && texTop >= bottom);
 	}
 
 
@@ -352,7 +342,7 @@ having a Spritesheet- or SpriteComponent."));
 		{
 			if(m_bInitialized)
 			{
-				CleanTextUp(CheckWrapping(
+				CleanUpText(CheckWrapping(
 						m_OrigText,
 						int32(m_WrapWidth)
 						));
@@ -360,7 +350,7 @@ having a Spritesheet- or SpriteComponent."));
 		}
 		else
 		{
-			CleanTextUp(m_OrigText);
+			CleanUpText(m_OrigText);
 			CalculateTextDimensions();
 		}
 
@@ -395,7 +385,7 @@ having a Spritesheet- or SpriteComponent."));
 			GetTransform()->SetDimensionsXSafe(m_Dimensions.x);
 			if(m_bInitialized)
 			{
-				CleanTextUp(CheckWrapping(
+				CleanUpText(CheckWrapping(
 							m_OrigText,
 							m_WrapWidth
 							));
@@ -503,7 +493,7 @@ having a Spritesheet- or SpriteComponent."));
 		m_TextInfo->verticalSpacing = spacing;
 		if(m_bInitialized && m_WrapWidth != NO_WRAPPING)
 		{
-			CleanTextUp(CheckWrapping(
+			CleanUpText(CheckWrapping(
 						m_OrigText,
 						m_WrapWidth
 						));

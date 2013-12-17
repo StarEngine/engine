@@ -9,50 +9,50 @@ namespace star
 	/// It allows you to get the full static path, of several locations.
 	/// It allows you to get the extension and filename of the filepath.
 	/// </summary>
-	class Filepath final
+	class FilePath final
 	{
 	public:
 		/// <summary>
 		/// Default constructor for the filepath,
 		/// assigning an EMPTY_STRING value to all datamembers.
 		/// </summary>
-		Filepath();
+		FilePath();
 		/// <summary>
 		/// Constructor overload requiring a string of the full filepath,
 		/// starting from the root directory.
 		/// </summary>
-		explicit Filepath(const tstring & full_path);
+		explicit FilePath(const tstring & full_path);
 		/// <summary>
 		/// Overload of the constructor requiring the path and filename,
 		/// which will combined be the full path starting from he root directory.
 		/// </summary>
 		/// <param name="path">the directory part of the filepath</param>
 		/// <param name="file">the filename including the extension</param>
-		Filepath(const tstring & path, const tstring & file);
+		FilePath(const tstring & path, const tstring & file);
 		/// <summary>
 		/// An overload of the constructor requiring the reference
-		/// of an Filepath object where the datamembers will be copped from.
+		/// of an FilePath object where the datamembers will be copped from.
 		/// </summary>
-		/// <param name="yRef">a reference of a Filepath object</param>
-		Filepath(const Filepath & yRef);
+		/// <param name="yRef">a reference of a FilePath object</param>
+		FilePath(const FilePath & yRef);
 		/// <summary>
 		/// Cleans up the path and file tstring datamembers.
 		/// </summary>
-		~Filepath();
+		~FilePath();
 
 		/// <summary>
 		/// Copy the path and file tstring datamembers.
 		/// </summary>
-		/// <param name="yRef">a reference of a Filepath object</param>
+		/// <param name="yRef">a reference of a FilePath object</param>
 		/// <returns>a reference to the object where
 		/// assignment operator get invoked off.</returns>
-		Filepath & operator=(const Filepath & yRef);
+		FilePath & operator=(const FilePath & yRef);
 		/// <summary>
 		/// Comparing the path and file tstrings combining it into a boolean result.
 		/// </summary>
-		/// <param name="yRef">a reference of a Filepath object</param>
+		/// <param name="yRef">a reference of a FilePath object</param>
 		/// <returns>true if the yRef object and the current invoked object are equal</returns>
-		bool operator==(const Filepath & yRef);
+		bool operator==(const FilePath & yRef);
 
 		/// <summary>
 		/// Get the path variable of the filepath.

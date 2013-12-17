@@ -1,10 +1,7 @@
 #include "SpriteComponent.h"
-#include "../../Logger.h"
-#include "../../Graphics/TextureManager.h"
-#include "../TransformComponent.h"
-#include "../../Graphics/SpriteBatch.h"
 #include "../../Objects/Object.h"
-#include "SpritesheetComponent.h"
+#include "../../Graphics/SpriteBatch.h"
+#include "SpriteSheetComponent.h"
 #include "TextComponent.h"
 
 namespace star
@@ -29,13 +26,13 @@ namespace star
 
 	void SpriteComponent::InitializeComponent()
 	{	
-		if(m_pParentObject->HasComponent<SpritesheetComponent>(this)
+		if(m_pParentObject->HasComponent<SpriteSheetComponent>(this)
 			|| m_pParentObject->HasComponent<TextComponent>(this))
 		{
 			Logger::GetInstance()->Log(false,
 				_T("Object '") + m_pParentObject->GetName() +
 				_T("': Can't add a SpriteComponent when already \
-having a Spritesheet- or TextComponent."));
+having a SpriteSheet- or TextComponent."));
 			m_pParentObject->RemoveComponent(this);
 		}
 		else
@@ -160,11 +157,19 @@ having a Spritesheet- or TextComponent."));
 		m_SpriteInfo->colorMultiplier = color;
 	}
 
+	/// <summary>
+	/// Sets the hud option enabled.
+	/// </summary>
+	/// <param name="enabled">The enabled.</param>
 	void SpriteComponent::SetHUDOptionEnabled(bool enabled)
 	{
 		m_SpriteInfo->bIsHud = enabled;
 	}
 
+	/// <summary>
+	/// Determines whether {CC2D43FA-BBC4-448A-9D0B-7B57ADF2655C}[is hud option enabled].
+	/// </summary>
+	/// <returns></returns>
 	bool SpriteComponent::IsHUDOptionEnabled() const
 	{
 		return m_SpriteInfo->bIsHud;
@@ -183,7 +188,7 @@ having a Spritesheet- or TextComponent."));
 		m_Dimensions.y = 0;
 		m_HeightSegments = heightSegments;
 		m_CurrentHeightSegment = 0;
-		m_FilePath = Filepath(filepath);
+		m_FilePath = FilePath(filepath);
 		m_SpriteName = spriteName;
 
 		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetAssetsPath(),m_SpriteName);

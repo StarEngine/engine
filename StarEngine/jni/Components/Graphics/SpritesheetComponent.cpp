@@ -1,14 +1,11 @@
-#include "SpritesheetComponent.h"
+#include "SpriteSheetComponent.h"
 #include "../../Graphics/SpriteAnimationManager.h"
-#include "../../Logger.h"
-#include "../TransformComponent.h"
 #include "../../Objects/Object.h"
-#include "SpriteComponent.h"
 #include "TextComponent.h"
 
 namespace star
 {
-	SpritesheetComponent::SpritesheetComponent
+	SpriteSheetComponent::SpriteSheetComponent
 		(const tstring& filePath, const tstring& spriteName,
 			const tstring & spritesheet)
 		: SpriteComponent(filePath, spriteName)
@@ -19,12 +16,12 @@ namespace star
 
 	}
 
-	SpritesheetComponent::~SpritesheetComponent()
+	SpriteSheetComponent::~SpriteSheetComponent()
 	{
 		m_Animations.clear();
 	}
 
-	void SpritesheetComponent::Update(const Context& context)
+	void SpriteSheetComponent::Update(const Context& context)
 	{
 		if(m_Animations.size() > 0
 			&& m_Animations.front().IsPlaying())
@@ -37,7 +34,7 @@ namespace star
 		SpriteComponent::Update(context);
 	}
 
-	void SpritesheetComponent::Play()
+	void SpriteSheetComponent::Play()
 	{
 		if(m_Animations.size() > 0)
 		{
@@ -46,12 +43,12 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("SpritesheetComponent::Restart: There is no animation."),
+				_T("SpriteSheetComponent::Restart: There is no animation."),
 				STARENGINE_LOG_TAG);
 		}
 	}
 
-	void SpritesheetComponent::Restart()
+	void SpriteSheetComponent::Restart()
 	{
 		if(m_Animations.size() > 0)
 		{
@@ -60,12 +57,12 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("SpritesheetComponent::Restart: There is no animation."),
+				_T("SpriteSheetComponent::Restart: There is no animation."),
 				STARENGINE_LOG_TAG);
 		}
 	}
 
-	void SpritesheetComponent::Pause()
+	void SpriteSheetComponent::Pause()
 	{
 		if(m_Animations.size() > 0)
 		{
@@ -74,12 +71,12 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("SpritesheetComponent::Pause: There is no animation."),
+				_T("SpriteSheetComponent::Pause: There is no animation."),
 				STARENGINE_LOG_TAG);
 		}
 	}
 
-	void SpritesheetComponent::Stop()
+	void SpriteSheetComponent::Stop()
 	{
 		if(m_Animations.size() > 0)
 		{
@@ -88,12 +85,61 @@ namespace star
 		else
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("SpritesheetComponent::Stop: There is no animation."),
+				_T("SpriteSheetComponent::Stop: There is no animation."),
 				STARENGINE_LOG_TAG);
 		}
 	}
 
-	void SpritesheetComponent::PushAnimation(
+	void SpriteSheetComponent::PushAnimation(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
+	{
+		auto it = m_Spritesheet.find(animation);
+		if(it != m_Spritesheet.end())
+		{
+			PushAnimationUnSafe(animation, callback);
+			return;
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("SpriteSheetComponent::PushAnimation: Couldn't find animation '")
+			+ animation + _T("'."), STARENGINE_LOG_TAG);
+	}
+
+	void SpriteSheetComponent::PlayAnimation(
+		const tstring & animation,
+		const std::function<void()> & callback
+		)
+	{
+		auto it = m_Spritesheet.find(animation);
+		if(it != m_Spritesheet.end())
+		{
+			PlayAnimationUnSafe(animation, callback);
+			return;
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("SpriteSheetComponent::PlayAnimation: Couldn't find animation '")
+			+ animation + _T("'."), STARENGINE_LOG_TAG);
+	}
+
+	void SpriteSheetComponent::PlayAnimation(
+		const tstring & animation,
+		int32 startFrame,
+		const std::function<void()> & callback
+		)
+	{
+		auto it = m_Spritesheet.find(animation);
+		if(it != m_Spritesheet.end())
+		{
+			PlayAnimationUnSafe(animation, startFrame, callback);
+			return;
+		}
+		Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("SpriteSheetComponent::PlayAnimation: Couldn't find animation '")
+			+ animation + _T("'."), STARENGINE_LOG_TAG);
+	}
+
+	void SpriteSheetComponent::PushAnimationUnSafe(
 		const tstring & animation,
 		const std::function<void()> & callback
 		)
@@ -104,7 +150,7 @@ namespace star
 		m_Animations.push_back(ani);
 	}
 
-	void SpritesheetComponent::PlayAnimation(
+	void SpriteSheetComponent::PlayAnimationUnSafe(
 		const tstring & animation,
 		const std::function<void()> & callback
 		)
@@ -119,7 +165,7 @@ namespace star
 		m_Animations.push_front(ani);
 	}
 
-	void SpritesheetComponent::PlayAnimation(
+	void SpriteSheetComponent::PlayAnimationUnSafe(
 		const tstring & animation,
 		int32 startFrame,
 		const std::function<void()> & callback
@@ -134,62 +180,9 @@ namespace star
 		ani.SetUserCallback(callback);
 		m_Animations.push_front(ani);
 		m_Animations.front().PlayAtFrame(startFrame);
-
 	}
 
-	bool SpritesheetComponent::PushAnimationSafe(
-		const tstring & animation,
-		const std::function<void()> & callback
-		)
-	{
-		auto it = m_Spritesheet.find(animation);
-		if(it != m_Spritesheet.end())
-		{
-			PushAnimation(animation, callback);
-			return true;
-		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
-			_T("SpritesheetComponent::PushAnimationSafe: Couldn't find animation '")
-			+ animation + _T("'."), STARENGINE_LOG_TAG);
-		return false;
-	}
-
-	bool SpritesheetComponent::PlayAnimationSafe(
-		const tstring & animation,
-		const std::function<void()> & callback
-		)
-	{
-		auto it = m_Spritesheet.find(animation);
-		if(it != m_Spritesheet.end())
-		{
-			PlayAnimation(animation, callback);
-			return true;
-		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
-			_T("SpritesheetComponent::PlayAnimationSafe: Couldn't find animation '")
-			+ animation + _T("'."), STARENGINE_LOG_TAG);
-		return false;
-	}
-
-	bool SpritesheetComponent::PlayAnimationSafe(
-		const tstring & animation,
-		int32 startFrame,
-		const std::function<void()> & callback
-		)
-	{
-		auto it = m_Spritesheet.find(animation);
-		if(it != m_Spritesheet.end())
-		{
-			PlayAnimation(animation, startFrame, callback);
-			return true;
-		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
-			_T("SpritesheetComponent::PlayAnimationSafe: Couldn't find animation '")
-			+ animation + _T("'."), STARENGINE_LOG_TAG);
-		return false;
-	}
-
-	void SpritesheetComponent::PlayNextAnimation()
+	void SpriteSheetComponent::PlayNextAnimation()
 	{
 		if(m_Animations.size() > 1)
 		{
@@ -198,7 +191,7 @@ namespace star
 		}
 	}
 
-	void SpritesheetComponent::PlayNextAnimation(int32 startFrame)
+	void SpriteSheetComponent::PlayNextAnimation(int32 startFrame)
 	{
 		if(m_Animations.size() > 1)
 		{
@@ -207,12 +200,12 @@ namespace star
 		}
 	}
 
-	void SpritesheetComponent::Reset()
+	void SpriteSheetComponent::Reset()
 	{
 		m_Animations.clear();
 	}
 	
-	void SpritesheetComponent::SetSpritesheet(const tstring & spritesheet)
+	void SpriteSheetComponent::SetSpritesheet(const tstring & spritesheet)
 	{
 		m_SpritesheetName = spritesheet;
 		m_Spritesheet = SpriteAnimationManager::GetInstance()->GetSpritesheet(m_SpritesheetName);
@@ -220,7 +213,7 @@ namespace star
 		PlayAnimation(m_Spritesheet.GetDefaultAnimation());
 	}
 
-	tstring SpritesheetComponent::GetCurrentAnimation() const
+	const tstring & SpriteSheetComponent::GetCurrentAnimation() const
 	{
 		if(m_Animations.size() > 0)
 		{
@@ -229,18 +222,18 @@ namespace star
 		return EMPTY_STRING;
 	}
 
-	int32 SpritesheetComponent::GetCurrentFrame() const
+	int32 SpriteSheetComponent::GetCurrentFrame() const
 	{
 		return m_Animations.size() > 0 ? 
 					m_Animations.front().GetCurrentFrame() : 0;
 	}
 
-	const tstring & SpritesheetComponent::GetcurrentSpritesheet() const
+	const tstring & SpriteSheetComponent::GetCurrentSpritesheet() const
 	{
 		return m_SpritesheetName;
 	}
 
-	int32 SpritesheetComponent::GetFramesHorizontal() const
+	int32 SpriteSheetComponent::GetFramesHorizontal() const
 	{
 		int32 nrOfFrames = m_Spritesheet.GetFramesHorizontal();
 		if(nrOfFrames == 0)
@@ -251,7 +244,7 @@ namespace star
 		return nrOfFrames;
 	}
 
-	int32 SpritesheetComponent::GetFramesVertical() const
+	int32 SpriteSheetComponent::GetFramesVertical() const
 	{
 		int32 nrOfFrames = m_Spritesheet.GetFramesVertical();
 		if(nrOfFrames == 0)
@@ -262,14 +255,14 @@ namespace star
 		return nrOfFrames;
 	}
 
-	void SpritesheetComponent::InitializeComponent()
+	void SpriteSheetComponent::InitializeComponent()
 	{
 		if(m_pParentObject->HasComponent<SpriteComponent>(this)
 			|| m_pParentObject->HasComponent<TextComponent>(this))
 		{
 			Logger::GetInstance()->Log(false,
 				_T("Object '") + m_pParentObject->GetName() +
-				_T("': Can't add a SpritesheetComponent when \
+				_T("': Can't add a SpriteSheetComponent when \
 already having a Sprite- or TextComponent."));
 			m_pParentObject->RemoveComponent(this);
 		}
@@ -290,7 +283,7 @@ already having a Sprite- or TextComponent."));
 	}
 
 
-	void SpritesheetComponent::SetCallbackAnimations( const std::function<void()> & callback )
+	void SpriteSheetComponent::SetCallbackAnimations( const std::function<void()> & callback )
 	{
 		for(auto it : m_Animations)
 		{
@@ -298,10 +291,8 @@ already having a Sprite- or TextComponent."));
 		}
 	}
 
-	bool SpritesheetComponent::IsPlaying()
+	bool SpriteSheetComponent::IsPlaying()
 	{
 		return m_Animations.front().IsPlaying();
 	}
-
-
 }

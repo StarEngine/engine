@@ -1,5 +1,5 @@
 #include "UIAnimatedImage.h"
-#include "../../Components/Graphics/SpritesheetComponent.h"
+#include "../../Components/Graphics/SpriteSheetComponent.h"
 
 namespace star
 {
@@ -11,7 +11,7 @@ namespace star
 		: UIElement(name)
 	{
 		m_pSprite = 
-			new SpritesheetComponent(
+			new SpriteSheetComponent(
 			filePath,
 			name,
 			spritesheet
@@ -30,7 +30,7 @@ namespace star
 		: UIElement(name)
 	{
 		m_pSprite = 
-			new SpritesheetComponent(
+			new SpriteSheetComponent(
 			filePath,
 			spriteName,
 			spritesheet
@@ -152,31 +152,6 @@ namespace star
 		m_pSprite->PlayAnimation(animation, startFrame, callback);
 	}
 
-	bool UIAnimatedImage::PushAnimationSafe(
-		const tstring & animation,
-		const std::function<void()> & callback
-		)
-	{
-		return m_pSprite->PushAnimationSafe(animation, callback);
-	}
-
-	bool UIAnimatedImage::PlayAnimationSafe(
-		const tstring & animation,
-		const std::function<void()> & callback
-		)
-	{
-		return m_pSprite->PlayAnimationSafe(animation, callback);
-	}
-
-	bool UIAnimatedImage::PlayAnimationSafe(
-		const tstring & animation,
-		int32 startFrame,
-		const std::function<void()> & callback
-		)
-	{
-		return m_pSprite->PlayAnimationSafe(animation, startFrame, callback);
-	}
-
 	void UIAnimatedImage::PlayNextAnimation()
 	{
 		m_pSprite->PlayNextAnimation();
@@ -202,9 +177,9 @@ namespace star
 		return m_pSprite->GetCurrentAnimation();
 	}
 
-	const tstring & UIAnimatedImage::GetcurrentSpritesheet() const
+	const tstring & UIAnimatedImage::GetCurrentSpritesheet() const
 	{
-		return m_pSprite->GetcurrentSpritesheet();
+		return m_pSprite->GetCurrentSpritesheet();
 	}
 
 	int32 UIAnimatedImage::GetCurrentFrame() const

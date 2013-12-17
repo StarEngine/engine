@@ -1,5 +1,5 @@
 #include "UICursor.h"
-#include "../../Components/Graphics/SpritesheetComponent.h"
+#include "../../Components/Graphics/SpriteSheetComponent.h"
 #include "../../Input/InputManager.h"
 
 namespace star
@@ -14,7 +14,7 @@ namespace star
 		, m_Offsets()
 		, m_DefaultOffset(0, 0)
 	{
-		m_pCursorSprite = new SpritesheetComponent(
+		m_pCursorSprite = new SpriteSheetComponent(
 			spriteFile,
 			name,
 			spritesheetName
@@ -34,7 +34,7 @@ namespace star
 		, m_Offsets()
 		, m_DefaultOffset(0, 0)
 	{
-		m_pCursorSprite = new SpritesheetComponent(
+		m_pCursorSprite = new SpriteSheetComponent(
 			spriteFile,
 			spriteName,
 			spritesheetName
@@ -86,16 +86,10 @@ namespace star
 	{
 		if(!m_IsLocked)
 		{
-			if(!m_pCursorSprite->PlayAnimationSafe(
+			m_pCursorSprite->PlayAnimation(
 				state,
 				m_pCursorSprite->GetCurrentFrame()
-				))
-			{
-				Logger::GetInstance()->Log(LogLevel::Warning,
-					_T("UICursor::SetState: State '")
-					+ state + _T("' is not defined in the used spritesheet."),
-					STARENGINE_LOG_TAG);
-			}
+				);
 
 			auto it = m_Offsets.find(state);
 			if(it != m_Offsets.end())

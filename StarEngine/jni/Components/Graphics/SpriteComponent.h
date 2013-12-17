@@ -1,14 +1,16 @@
 #pragma once
 
 #include "../../defines.h"
-#include "../../Graphics/Shader.h"
 #include "../BaseComponent.h"
-#include "../../Helpers/Filepath.h"
+#include "../../Helpers/FilePath.h"
 #include "../../Graphics/Color.h"
-#include <vector>
 
 namespace star
 {
+
+	/// <summary>
+	/// This struct gets sent to the Spritebatch to process every Sprite.
+	/// </summary>
 	struct SpriteInfo
 	{
 		SpriteInfo()
@@ -18,7 +20,9 @@ namespace star
 			, transformPtr(nullptr)
 			, colorMultiplier(Color::White)
 			, bIsHud(false)
-		{}
+		{
+
+		}
 
 		vec2 vertices;
 		vec4 uvCoords;
@@ -28,9 +32,21 @@ namespace star
 		bool bIsHud;
 	};
 
+	/// <summary>
+	/// Component used to draw a texture or part of a texture.
+	/// </summary>
 	class SpriteComponent : public BaseComponent
 	{
 	public:
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SpriteComponent"/> class.
+		/// </summary>
+		/// <param name="filepath">
+		/// Path to the asset, starting from the path defined in <see cref="DirectoryMode::assets"/>.
+		/// </param>
+		/// <param name="spriteName">Name of the sprite.</param>
+		/// <param name="widthSegments">Amount of width segments. Default set to 1</param>
+		/// <param name="heightSegments">Amount of height segments. Default set to 1</param>
 		SpriteComponent(
 			const tstring& filepath,
 			const tstring& spriteName,
@@ -38,27 +54,81 @@ namespace star
 			uint32 heightSegments = 1
 			);
 
+		/// <summary>
+		/// Finalizes an instance of the <see cref="SpriteComponent"/> class.
+		/// </summary>
 		virtual ~SpriteComponent();
 
+		/// <summary>
+		/// Draws this instance.
+		/// </summary>
 		void Draw();
+
+		/// <summary>
+		/// Updates this instance.
+		/// </summary>
+		/// <param name="context"><see cref="Context"/> containing usefull information.</param>
 		virtual void Update(const Context& context);
 
+		/// <summary>
+		/// Culling check. The object will not be drawn if it is out of screen.
+		/// </summary>
+		/// <param name="left">Left of the screen</param>
+		/// <param name="right">Right of the screen</param>
+		/// <param name="top">Top of the screen</param>
+		/// <param name="bottom">Bottom of the screen</param>
+		/// <returns>true if the object should be culled</returns>
 		virtual bool CheckCulling(
-			float left,
-			float right,
-			float top,
-			float bottom
+			float32 left,
+			float32 right,
+			float32 top,
+			float32 bottom
 			) const;
 
+		/// <summary>
+		/// Gets the file path of the texture.
+		/// </summary>
+		/// <returns>the file path.</returns>
 		const tstring& GetFilePath() const;
+
+		/// <summary>
+		/// Gets the name of the sprite.
+		/// </summary>
+		/// <returns>name of the sprite</returns>
 		const tstring& GetName() const;
 		
+		/// <summary>
+		/// Sets the current segment to draw.
+		/// </summary>
+		/// <param name="widthSegment">The width segment.</param>
+		/// <param name="heightSegment">The height segment.</param>
 		void SetCurrentSegment(uint32 widthSegment, uint32 heightSegment);
+
+		/// <summary>
+		/// Sets the color multiplier for this sprite.
+		/// </summary>
+		/// <param name="color">The color.</param>
 		void SetColorMultiplier(const Color & color);
 
+		/// <summary>
+		/// Sets this Sprite as a HUD element
+		/// </summary>
+		/// <param name="enabled">set the state.</param>
 		void SetHUDOptionEnabled(bool enabled);
+
+		/// <summary>
+		/// Determines whether this Sprite is a HUD element.
+		/// </summary>
+		/// <returns></returns>
 		bool IsHUDOptionEnabled() const;
 
+		/// <summary>
+		/// Sets the texture of this sprite. Usefull if you want to change the texture at runtime.
+		/// </summary>
+		/// <param name="filepath">Path to the asset, starting from the path defined in <see cref="DirectoryMode::assets"/>.</param>
+		/// <param name="spriteName">Name of the sprite.</param>
+		/// <param name="widthSegments">Amount of width segments. Default set to 1.</param>
+		/// <param name="heightSegments">Amount of height segments. Default set to 1.</param>
 		void SetTexture(
 			const tstring& filepath,
 			const tstring& spriteName,
@@ -67,9 +137,22 @@ namespace star
 			);
 
 	protected:
+		/// <summary>
+		/// Initializes the component.
+		/// </summary>
 		virtual void InitializeComponent();
+		/// <summary>
+		/// Creates the uv coords.
+		/// </summary>
 		virtual void CreateUVCoords();
+		/// <summary>
+		/// Sets the uv coords.
+		/// </summary>
+		/// <param name="coords">The uv coords.</param>
 		void SetUVCoords(const vec4& coords);
+		/// <summary>
+		/// Fills the sprite information struct, to send to the <see cref="SpriteBatch"/>
+		/// </summary>
 		virtual void FillSpriteInfo();
 
 		uint32	m_WidthSegments,
@@ -79,7 +162,7 @@ namespace star
 
 	private:
 
-		Filepath m_FilePath;
+		FilePath m_FilePath;
 		tstring m_SpriteName;
 		
 		SpriteInfo* m_SpriteInfo;

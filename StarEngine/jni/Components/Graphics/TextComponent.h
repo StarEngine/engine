@@ -2,7 +2,6 @@
 
 #include "../BaseComponent.h"
 #include "../../defines.h"
-#include "../../Graphics/FontManager.h"
 #include "../../Graphics/Color.h"
 #include <vector>
 
@@ -10,6 +9,9 @@ namespace star
 {
 	class Font;
 
+	/// <summary>
+	/// This struct gets sent to the Spritebatch to process every Text.
+	/// </summary>
 	struct TextInfo
 	{
 		TextInfo()
@@ -32,48 +34,132 @@ namespace star
 		int32 textHeight;
 	};
 
+	/// <summary>
+	/// Component used to draw text.
+	/// </summary>
 	class TextComponent : public BaseComponent
 	{
 	public:
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TextComponent"/> class.
+		/// Use this Constructor if you have already loaded a font with this fontName
+		/// Through the <see cref="FontManager"/>
+		/// </summary>
+		/// <param name="fontName">Name of the font.</param>
 		TextComponent(
 			const tstring& fontName
 			);
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TextComponent"/> class.
+		/// Use this Constructor if you have not loaded the font with this fontName yet.
+		/// </summary>
+		/// <param name="fontPath">
+		/// Path to the font, starting from the path defined in <see cref="DirectoryMode::assets"/>.
+		/// </param>
+		/// <param name="fontName">Name of the font.</param>
+		/// <param name="fontSize">Size of the font.</param>
 		TextComponent(
 			const tstring& fontPath,
 			const tstring& fontName,
 			uint32 fontSize
 			);
 
+		/// <summary>
+		/// Finalizes an instance of the <see cref="TextComponent"/> class.
+		/// </summary>
 		virtual ~TextComponent();
 
+		/// <summary>
+		/// Draws this instance.
+		/// </summary>
 		void Draw();
+
+		/// <summary>
+		/// Updates this instance.
+		/// </summary>
+		/// <param name="context"><see cref="Context"/> containing usefull information.</param>
 		virtual void Update(const Context& context);
 
+		/// <summary>
+		/// Culling check. The object will not be drawn if it is out of screen.
+		/// </summary>
+		/// <param name="left">Left of the screen</param>
+		/// <param name="right">Right of the screen</param>
+		/// <param name="top">Top of the screen</param>
+		/// <param name="bottom">Bottom of the screen</param>
+		/// <returns>true if the object should be culled</returns>
 		virtual bool CheckCulling(
-			float left,
-			float right,
-			float top,
-			float bottom
+			float32 left,
+			float32 right,
+			float32 top,
+			float32 bottom
 			) const;
 
+		/// <summary>
+		/// Sets the text.
+		/// </summary>
+		/// <param name="text">The text.</param>
 		void SetText(const tstring& text);
+
+		/// <summary>
+		/// Gets the text.
+		/// </summary>
+		/// <returns>The text.</returns>
 		const tstring& GetText() const;
 
+		/// <summary>
+		/// Sets the color.
+		/// </summary>
+		/// <param name="text">The color.</param>
 		void SetColor(const Color& color);
+		/// <summary>
+		/// Gets the color.
+		/// </summary>
+		/// <returns>The color.</returns>
 		const Color& GetColor() const;
-
-		//Default set to -1, Set width to -1 to disable wrapping
+	
+		/// <summary>
+		/// Sets and toggles the wrap width.
+		/// Default set to -1, Set width to -1 to disable wrapping
+		/// </summary>
+		/// <param name="width">The width. Set to -1 to disable wrapping</param>
 		void SetWrapWidth(int32 width);
+		/// <summary>
+		/// Gets the wrap width.
+		/// </summary>
+		/// <returns>The wrap width. If width is -1, wrapping is disabled.</returns>
 		int32 GetWrapWidth() const;
 
+		/// <summary>
+		/// Sets the space between 2 lines.
+		/// </summary>
+		/// <param name="spacing">The spacing.</param>
 		void SetVerticalSpacing(uint32 spacing);
 
+		/// <summary>
+		/// Sets this Text as a HUD element
+		/// </summary>
+		/// <param name="enabled">set the state.</param>
 		void SetHUDOptionEnabled(bool enabled);
+
+		/// <summary>
+		/// Determines whether this Text is a HUD element.
+		/// </summary>
+		/// <returns></returns>
 		bool IsHUDOptionEnabled() const;
 
+		/// <summary>
+		/// Aligns the text left.
+		/// </summary>
 		void AlignTextLeft();
+		/// <summary>
+		/// Aligns the text center.
+		/// </summary>
 		void AlignTextCenter();
+		/// <summary>
+		/// Aligns the text right.
+		/// </summary>
 		void AlignTextRight();
 		
 	protected:
@@ -84,17 +170,48 @@ namespace star
 			right
 		};
 
+		/// <summary>
+		/// Initializes the component.
+		/// </summary>
 		virtual void InitializeComponent();
 
+		/// <summary>
+		/// Calculates the text dimensions.
+		/// </summary>
 		void CalculateTextDimensions();
+		/// <summary>
+		/// Calculates the wrapped text dimensions.
+		/// </summary>
+		/// <param name="lines">nr of lines.</param>
 		void CalculateWrappedTextDimensions(uint8 lines);
 
+		/// <summary>
+		/// Calculates the height of the text.
+		/// </summary>
 		void CalculateTextHeight();
-		void CleanTextUp(const tstring & str);
+		/// <summary>
+		/// Cleans up the text.
+		/// Converts all \t characters to a set amount of spaces
+		/// defined in <see cref="TAB"/>.
+		/// Also calls CalculateHorizontalTextOffset() 
+		/// </summary>
+		/// <param name="str">The string.</param>
+		void CleanUpText(const tstring & str);
 
+		/// <summary>
+		/// Calculates the horizontal text offset.
+		/// </summary>
 		void CalculateHorizontalTextOffset();
+		/// <summary>
+		/// Gets the longest line.
+		/// </summary>
+		/// <param name="str">The text.</param>
+		/// <returns></returns>
 		int32 GetLongestLine(const tstring & str);
 
+		/// <summary>
+		/// Fills the text information struct, to send to the <see cref="SpriteBatch"/>
+		/// </summary>
 		virtual void FillTextInfo();
 	
 	private:
@@ -112,17 +229,34 @@ namespace star
 		const Font* m_Font;
 		HorizontalAlignment m_TextAlignment;
 
+		/// <summary>
+		/// Calculates the wrapping.
+		/// </summary>
+		/// <param name="stringIn">The string in.</param>
+		/// <param name="wrapWidth">Width of the wrap.</param>
+		/// <returns>a new string, wrapped correctly</returns>
 		tstring CheckWrapping(
 			const tstring& stringIn,
 			int32 wrapWidth
 			);
 
+		/// <summary>
+		/// Splits the string.
+		/// </summary>
+		/// <param name="words">The words.</param>
+		/// <param name="str">The string.</param>
+		/// <param name="delimiter">The delimiter.</param>
 		void SplitString(
 			PointerArray<tstring, uint32> & words,
 			tstring str,
 			tchar delimiter
 			);
 
+		/// <summary>
+		/// Splits the string into lines.
+		/// </summary>
+		/// <param name="list">The list.</param>
+		/// <param name="string">The string.</param>
 		void SplitIntoLines(
 			std::vector<sstring> &list,
 			const sstring &string
