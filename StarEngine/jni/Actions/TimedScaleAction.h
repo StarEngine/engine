@@ -4,17 +4,17 @@
 
 namespace star
 {
-	class ScaleAction : public TimedAction
+	class TimedScaleAction : public TimedAction
 	{
 	public:
-		ScaleAction(
+		TimedScaleAction(
 				float32 seconds,
 				float32 begin,
 				float32 end,
 				const std::function<void()> & callback = nullptr
 				);
 	
-		ScaleAction(
+		TimedScaleAction(
 				const tstring & name,
 				float32 seconds,
 				float32 begin,
@@ -22,7 +22,7 @@ namespace star
 				const std::function<void()> & callback = nullptr
 				);
 	
-		virtual ~ScaleAction(void);
+		virtual ~TimedScaleAction(void);
 	
 		virtual void Restart();
 	
@@ -34,9 +34,9 @@ namespace star
 				m_EndValue;
 	
 	private:
-		ScaleAction & operator=(const ScaleAction&);
-		ScaleAction & operator=(ScaleAction&&);
-		ScaleAction(const ScaleAction&);
-		ScaleAction(ScaleAction&&);
+		TimedScaleAction & operator=(const TimedScaleAction&);
+		TimedScaleAction & operator=(TimedScaleAction&&);
+		TimedScaleAction(const TimedScaleAction&);
+		TimedScaleAction(TimedScaleAction&&);
 	};
 }
