@@ -2,7 +2,6 @@
 
 #include "../BaseComponent.h"
 #include "../../defines.h"
-#include "../../Graphics/FontManager.h"
 #include "../../Graphics/Color.h"
 #include <vector>
 

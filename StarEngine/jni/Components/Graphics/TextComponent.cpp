@@ -1,14 +1,9 @@
-#include "../CameraComponent.h"
-#include "../TransformComponent.h"
-#include "../../Logger.h"
-#include "../../Graphics/Font.h"
-#include "../../Graphics/TextureManager.h"
-#include "../../Graphics/GraphicsManager.h"
-#include "../../Graphics/SpriteBatch.h"
-#include "../../Objects/FreeCamera.h"
+#include "TextComponent.h"
+#include "../../Graphics/FontManager.h"
 #include "../../Objects/Object.h"
 #include "SpriteComponent.h"
 #include "SpriteSheetComponent.h"
+#include "../../Graphics/SpriteBatch.h"
 
 namespace star
 {
