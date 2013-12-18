@@ -847,7 +847,7 @@ namespace star
 		}
 		else
 		{
-			text = _T("");
+			text = EMPTY_STRING;
 			auto app = StarEngine::GetInstance()->GetAndroidApp();
 			sstringstream strstr;
 			if(directory == DirectoryMode::internal)
