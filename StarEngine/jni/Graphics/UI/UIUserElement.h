@@ -20,7 +20,7 @@ namespace star
 
 		virtual void Reset();
 
-		void SetSelectCallback(std::function<void()> callback);
+		void SetReleasedCallback(std::function<void()> callback);
 		void SetDownCallback(std::function<void()> callback);
 
 		void SetHoverCallback(std::function<void()> callback);
@@ -59,7 +59,7 @@ namespace star
 		bool IsFingerWithinRange() const;
 
 		std::function<void()>
-			m_SelectCallback;
+			m_ReleasedCallback;
 		std::function<void()>
 			m_DownCallback;
 		std::function<void()>

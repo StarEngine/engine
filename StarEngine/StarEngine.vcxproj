@@ -85,7 +85,7 @@
     <ClInclude Include="jni\Actions\DelayedAction.h" />
     <ClInclude Include="jni\Actions\Index.h" />
     <ClInclude Include="jni\Actions\LoopedAction.h" />
-    <ClInclude Include="jni\Actions\ScaleAction.h" />
+    <ClInclude Include="jni\Actions\TimedScaleAction.h" />
     <ClInclude Include="jni\Actions\TimedAction.h" />
     <ClInclude Include="jni\Actions\TimedFadeAction.h" />
     <ClInclude Include="jni\Actions\TimedMoveAction.h" />
@@ -145,7 +145,6 @@
     <ClInclude Include="jni\Helpers\HashTag.h" />
     <ClInclude Include="jni\Helpers\Helpers.h" />
     <ClInclude Include="jni\Helpers\HelpersAndroid.h" />
-    <ClInclude Include="jni\Helpers\HelpersCrossplatform.h" />
     <ClInclude Include="jni\Helpers\Math.h" />
     <ClInclude Include="jni\Helpers\Rect.h" />
     <ClInclude Include="jni\Helpers\SerializedData.h" />
@@ -200,7 +199,7 @@
     <ClCompile Include="jni\Actions\Action.cpp" />
     <ClCompile Include="jni\Actions\DelayedAction.cpp" />
     <ClCompile Include="jni\Actions\LoopedAction.cpp" />
-    <ClCompile Include="jni\Actions\ScaleAction.cpp" />
+    <ClCompile Include="jni\Actions\TimedScaleAction.cpp" />
     <ClCompile Include="jni\Actions\TimedAction.cpp" />
     <ClCompile Include="jni\Actions\TimedFadeAction.cpp" />
     <ClCompile Include="jni\Actions\TimedMoveAction.cpp" />
@@ -243,13 +242,11 @@
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="jni\Helpers\AARect.cpp" />
     <ClCompile Include="jni\Helpers\Debug\DebugDraw.cpp" />
-    <ClCompile Include="jni\Helpers\Dictionary.cpp" />
     <ClCompile Include="jni\Helpers\FilePath.cpp" />
     <ClCompile Include="jni\Helpers\FPS.cpp" />
     <ClCompile Include="jni\Helpers\HashTag.cpp" />
     <ClCompile Include="jni\Helpers\Helpers.cpp" />
     <ClCompile Include="jni\Helpers\HelpersAndroid.cpp" />
-    <ClCompile Include="jni\Helpers\HelpersCrossplatform.cpp" />
     <ClCompile Include="jni\Helpers\Math.cpp" />
     <ClCompile Include="jni\Helpers\Rect.cpp" />
     <ClCompile Include="jni\Helpers\SerializedData.cpp" />

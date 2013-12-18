@@ -107,7 +107,7 @@ namespace star
 		//Set uniforms
 		glUniform1i(m_TextureSamplerID, 0);
 		float scaleValue = ScaleSystem::GetInstance()->GetScale();
-		mat4 scaleMat = Scale(scaleValue, scaleValue, 1.0f);
+		mat4 scaleMat = Scale(scaleValue, scaleValue, 0);
 		glUniformMatrix4fv(m_ScalingID, 1, GL_FALSE, ToPointerValue(scaleMat));
 
 		const mat4& viewInverseMat = GraphicsManager::GetInstance()->GetViewInverseMatrix();
@@ -234,9 +234,6 @@ namespace star
 			//Push back all vertices
 			
 			mat4 transformMat = Transpose(sprite->transformPtr->GetWorldMatrix());
-
-			//[TODO] Add depth!
-			//[TODO] Check if this can be changed :(
 
 			vec4 TL = vec4(0, sprite->vertices.y, 0, 1);
 			Mul(TL, transformMat, TL);

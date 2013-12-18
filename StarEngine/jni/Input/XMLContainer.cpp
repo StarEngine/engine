@@ -104,12 +104,33 @@ namespace star
 
 		SerializedData buffer;
 		buffer.data = ReadBinaryFile(file, buffer.size, mode);
-
 		uint32 counter(1); // first byte == SER_START_OF_CHILD
-
 		DeserializeXMLContainer(buffer, counter, this);
 
 		delete [] buffer.data;
+	}
+
+	bool XMLContainer::DeserializeSafe(const tstring & file, DirectoryMode mode)
+	{
+		clear();
+
+		SerializedData buffer;
+		bool result = ReadBinaryFileSafe(file, buffer.data, buffer.size, mode);
+
+		if(result)
+		{
+			uint32 counter(1); // first byte == SER_START_OF_CHILD
+			DeserializeXMLContainer(buffer, counter, this);
+			delete [] buffer.data;
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("XMLContainer::DeserializeSafe: Couldn't read file '")
+				+ file + _T("'."), STARENGINE_LOG_TAG);
+		}
+
+		return result;
 	}
 
 	uint32 XMLContainer::SerializeString(

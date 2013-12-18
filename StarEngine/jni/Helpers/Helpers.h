@@ -724,6 +724,18 @@ namespace star
 	/// <seealso cref="DEFAULT_DIRECTORY_MODE"></seealso>
 	tstring ReadTextFile(const tstring & file,
 			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
+
+	/// <summary>
+	/// Read a text file with a no-crash guarantee.
+	/// </summary>
+	/// <param name="file">filepath of the text file, with the root being defined by the directory parameter</param>
+	/// <param name="text">tstring object where the content of the text file will be saved into</param>
+	/// <param name="directory">enumeration value to define the directory of the text file</param>
+	/// <returns>true if file exists</returns>
+	/// <seealso cref="DirectoryMode"></seealso>
+	/// <seealso cref="DEFAULT_DIRECTORY_MODE"></seealso>
+	bool ReadTextFileSafe(const tstring & file, tstring & text,
+			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 	
 	/// <summary>
 	/// Write a tstring object to a text file.
@@ -757,6 +769,19 @@ namespace star
 	/// <seealso cref="DirectoryMode"></seealso>
 	/// <seealso cref="DEFAULT_DIRECTORY_MODE"></seealso>
 	schar * ReadBinaryFile(const tstring & file, uint32 & size,
+			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
+
+	/// <summary>
+	/// Read from a binary file with a no-crash guarantee.
+	/// </summary>
+	/// <param name="file">filepath of the binary file, with the root being defined by the directory parameter</param>
+	/// <param name="buffer">a single byte character array read from the binary file</param>
+	/// <param name="size">output parameter that defines the size of the single byte character array</param>
+	/// <param name="directory">enumeration value to define the directory of the binary file</param>
+	/// <returns>true if file exists</returns>
+	/// <seealso cref="DirectoryMode"></seealso>
+	/// <seealso cref="DEFAULT_DIRECTORY_MODE"></seealso>
+	bool ReadBinaryFileSafe(const tstring & file, schar *& buffer, uint32 & size,
 			DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 	
 	/// <summary>
@@ -794,6 +819,21 @@ namespace star
 	/// <seealso cref="DirectoryMode"></seealso>
 	/// <seealso cref="DEFAULT_DIRECTORY_MODE"></seealso>
 	schar * DecryptBinaryFile(const tstring & file, uint32 & size,
+		const std::function<schar*(const schar*, uint32&)> & decrypter, 
+		DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
+
+	/// <summary>
+	/// Read a encrypted binary file and decrypt it with a no-crash guarantee.
+	/// </summary>
+	/// <param name="file">filepath of the binary file, with the root being defined by the directory parameter</param>
+	/// <param name="buffer">a single byte character array read and decrypted from the binary file</param>
+	/// <param name="size">size of the single byte character array</param>
+	/// <param name="decrypter">function that contains the logic to decrypt the encrypted content</param>
+	/// <param name="directory">enumeration value to define the directory of the text file</param>
+	/// <returns>true if file exists</returns>
+	/// <seealso cref="DirectoryMode"></seealso>
+	/// <seealso cref="DEFAULT_DIRECTORY_MODE"></seealso>
+	bool DecryptBinaryFileSafe(const tstring & file, schar *& buffer, uint32 & size,
 		const std::function<schar*(const schar*, uint32&)> & decrypter, 
 		DirectoryMode directory = DEFAULT_DIRECTORY_MODE);
 	

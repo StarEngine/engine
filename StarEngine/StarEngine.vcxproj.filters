@@ -225,9 +225,6 @@
     <ClInclude Include="jni\Helpers\HelpersAndroid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Helpers\HelpersCrossplatform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="jni\definesTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -342,9 +339,6 @@
     <ClInclude Include="jni\Actions\DelayedFramesAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Actions\ScaleAction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="jni\Graphics\Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -358,6 +352,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="jni\Components\Graphics\SpriteSheetComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\Actions\TimedScaleAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -390,9 +387,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Objects\FreeCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="jni\Helpers\Dictionary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Helpers\Filepath.cpp">
@@ -545,9 +539,6 @@
     <ClCompile Include="jni\Helpers\HelpersAndroid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\Helpers\HelpersCrossplatform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="jni\Sound\BaseSound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -635,9 +626,6 @@
     <ClCompile Include="jni\Actions\DelayedFramesAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\Actions\ScaleAction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="jni\Graphics\Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -651,6 +639,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Components\Graphics\SpriteSheetComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Actions\TimedScaleAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -32,10 +32,10 @@ namespace star
 	
 	void UIDock::SetHorizontalAlignment(
 		HorizontalAlignment alignment,
-		bool redefine_center
+		bool redefineCenter
 		)
 	{
-		if(redefine_center)
+		if(redefineCenter)
 		{
 			switch(alignment)
 			{
@@ -57,16 +57,16 @@ namespace star
 
 		UIObject::SetHorizontalAlignment(
 			alignment,
-			redefine_center
+			redefineCenter
 			);
 	}
 
 	void UIDock::SetVerticalAlignment(
 		VerticalAlignment alignment,
-		bool redefine_center
+		bool redefineCenter
 		)
 	{
-		if(redefine_center)
+		if(redefineCenter)
 		{
 			switch(alignment)
 			{
@@ -88,7 +88,7 @@ namespace star
 
 		UIObject::SetVerticalAlignment(
 			alignment,
-			redefine_center
+			redefineCenter
 			);
 	}
 

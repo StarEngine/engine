@@ -47,10 +47,10 @@ namespace star
 	
 	void UIAnimatedImage::SetHorizontalAlignment(
 		HorizontalAlignment alignment,
-		bool redefine_center
+		bool redefineCenter
 		)
 	{
-		if(redefine_center)
+		if(redefineCenter)
 		{
 			switch(alignment)
 			{
@@ -72,16 +72,16 @@ namespace star
 
 		UIElement::SetHorizontalAlignment(
 			alignment,
-			redefine_center
+			redefineCenter
 			);
 	}
 
 	void UIAnimatedImage::SetVerticalAlignment(
 		VerticalAlignment alignment,
-		bool redefine_center
+		bool redefineCenter
 		)
 	{
-		if(redefine_center)
+		if(redefineCenter)
 		{
 			switch(alignment)
 			{
@@ -103,7 +103,7 @@ namespace star
 
 		UIElement::SetVerticalAlignment(
 			alignment,
-			redefine_center
+			redefineCenter
 			);
 	}
 

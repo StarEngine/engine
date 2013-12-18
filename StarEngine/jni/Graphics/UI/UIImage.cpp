@@ -51,10 +51,10 @@ namespace star
 	
 	void UIImage::SetHorizontalAlignment(
 		HorizontalAlignment alignment,
-		bool redefine_center
+		bool redefineCenter
 		)
 	{
-		if(redefine_center)
+		if(redefineCenter)
 		{
 			switch(alignment)
 			{
@@ -76,16 +76,16 @@ namespace star
 
 		UIElement::SetHorizontalAlignment(
 			alignment,
-			redefine_center
+			redefineCenter
 			);
 	}
 
 	void UIImage::SetVerticalAlignment(
 		VerticalAlignment alignment,
-		bool redefine_center
+		bool redefineCenter
 		)
 	{
-		if(redefine_center)
+		if(redefineCenter)
 		{
 			switch(alignment)
 			{
@@ -105,7 +105,7 @@ namespace star
 			}
 		}
 
-		UIElement::SetVerticalAlignment(alignment, redefine_center);
+		UIElement::SetVerticalAlignment(alignment, redefineCenter);
 	}
 
 	void UIImage::SetCurrentSegement(uint32 segmentX, uint32 segmentY)

@@ -11,8 +11,6 @@
 #include <windows.h>
 #endif
 
-#include "HelpersCrossplatform.h"
-
 #ifdef ANDROID
 #include "HelpersAndroid.h"
 #include "../StarEngine.h"
@@ -825,6 +823,83 @@ namespace star
 		text += _T('\0');
 	}
 
+	bool ReadTextFileSafe(const tstring & file, tstring & text,
+			DirectoryMode directory)
+	{
+		bool succes(false);
+#ifdef ANDROID
+		if(directory == DirectoryMode::assets)
+		{
+			SerializedData data;
+			succes = star_a::ReadFileAssetSafe(file, data);
+			if(succes)
+			{
+				text = string_cast<tstring>(data.data);
+				delete [] data.data;
+			}
+			else
+			{
+				text = EMPTY_STRING;
+			}
+			return succes;
+		}
+		else
+		{
+			text = EMPTY_STRING;
+			auto app = StarEngine::GetInstance()->GetAndroidApp();
+			sstringstream strstr;
+			if(directory == DirectoryMode::internal)
+			{
+				strstr << app->activity->internalDataPath << "/";
+			}
+			else if(directory == DirectoryMode::external)
+			{
+				strstr << app->activity->internalDataPath << "/";
+			}
+			strstr << string_cast<sstring>(file);
+
+			sifstream myfile;
+			myfile.open(strstr.str(), std::ios::in);
+			succes = myfile.is_open();
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Couldn't open the text file '") +
+					strstr.str() + _T("'."), STARENGINE_LOG_TAG);
+			if(succes)
+			{
+				sstring str;
+				while (std::getline(myfile,str))
+				{
+					text += str;
+				}
+				myfile.close();
+			}
+		}
+#else
+		tifstream myfile;
+		tstring file_path(EMPTY_STRING);
+		FilePath::GetCorrectPath(file, file_path, directory);
+		myfile.open(file_path, std::ios::in);
+		succes = myfile.is_open();
+		if(succes)
+		{
+			tstring str;
+			while (std::getline(myfile,str))
+			{
+				text += str;
+			}
+			myfile.close();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Couldn't open the text file '") + file_path + _T("'."),
+				STARENGINE_LOG_TAG);
+		}
+#endif
+		text += _T('\0');
+		return succes;
+	}
+
 	tstring ReadTextFile(const tstring & file, DirectoryMode directory)
 	{
 		tstring text;
@@ -994,6 +1069,76 @@ namespace star
 #endif
 	}
 
+	bool ReadBinaryFileSafe(const tstring & file, schar *& buffer,
+		uint32 & size, DirectoryMode directory)
+	{
+#ifdef ANDROID
+		if(directory == DirectoryMode::assets)
+		{
+			SerializedData data;
+			bool result = star_a::ReadFileAssetSafe(file, data);
+			size = data.size;
+			buffer = data.data;
+			return result;
+		}
+		else
+		{
+			auto app = StarEngine::GetInstance()->GetAndroidApp();
+			sstringstream strstr;
+			if(directory == DirectoryMode::internal)
+			{
+				strstr << app->activity->internalDataPath << "/";
+			}
+			else if(directory == DirectoryMode::external)
+			{
+				strstr << app->activity->internalDataPath << "/";
+			}
+			strstr << string_cast<sstring>(file);
+
+			sifstream binary_file;
+			binary_file.open(strstr.str().c_str(),
+					std::ios::in | std::ios::binary | std::ios::ate);
+			bool succes = binary_file.is_open();
+			if (succes)
+			{
+				size = uint32(binary_file.tellg());
+				buffer = new schar[size];
+				binary_file.seekg(0, std::ios::beg);
+				binary_file.read(buffer, sizeof(schar) * size);
+				binary_file.close();
+			}
+			else
+			{
+				Logger::GetInstance()->Log(LogLevel::Warning,
+					_T("Couldn't open the binary file '") +
+					strstr.str() + _T("'."), STARENGINE_LOG_TAG);
+			}
+		}
+#else
+		tstring file_path(EMPTY_STRING);
+		FilePath::GetCorrectPath(file, file_path, directory);
+		sifstream binary_file;
+		binary_file.open(file_path,
+				std::ios::in | std::ios::binary | std::ios::ate);
+		bool succes = binary_file.is_open();
+		if (succes)
+		{
+			size = uint32(binary_file.tellg());
+			buffer = new schar[size];
+			binary_file.seekg(0, std::ios::beg);
+			binary_file.read(buffer, sizeof(schar) * size);
+			binary_file.close();
+		}
+		else
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Couldn't open the binary file '") +
+				file_path + _T("'."), STARENGINE_LOG_TAG);
+		}
+		return succes;
+#endif
+	}
+
 	void WriteBinaryFile(const tstring & file, schar * buffer, uint32 size,
 			DirectoryMode directory)
 	{
@@ -1115,6 +1260,23 @@ namespace star
 		schar * decryptedBuffer = decrypter(buffer, size);
 		delete [] buffer;
 		return decryptedBuffer;
+	}
+
+	bool DecryptBinaryFileSafe(const tstring & file, schar *& buffer, uint32 & size,
+		const std::function<schar*(const schar*, uint32&)> & decrypter, 
+		DirectoryMode directory)
+	{
+		schar * tempBuffer(nullptr);
+		bool result = ReadBinaryFileSafe(file, tempBuffer, size, directory);
+		if(result)
+		{
+			buffer = decrypter(tempBuffer, size);
+			if(tempBuffer != nullptr)
+			{
+				delete [] buffer;
+			}
+		}
+		return result;
 	}
 
 	void EncryptBinaryFile(const tstring & file, schar * buffer, uint32 size,

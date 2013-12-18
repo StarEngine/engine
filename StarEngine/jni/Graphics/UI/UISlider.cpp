@@ -16,7 +16,7 @@ namespace star
 		: UIImage(name, fileBackground)
 		, m_SliderIsHorizontal(sliderIsHorizontal)
 		, m_pSlider(nullptr)
-		, m_SelectCallback(nullptr)
+		, m_ReleasedCallback(nullptr)
 		, m_DownCallback(nullptr)
 		, m_Percent(0.5f)
 		, m_SliderDimension(0)
@@ -44,7 +44,7 @@ namespace star
 		: UIImage(name, spriteNameBackground, fileBackground)
 		, m_SliderIsHorizontal(sliderIsHorizontal)
 		, m_pSlider(nullptr)
-		, m_SelectCallback(nullptr)
+		, m_ReleasedCallback(nullptr)
 		, m_DownCallback(nullptr)
 		, m_Percent(0.5f)
 		, m_SliderDimension(0)
@@ -179,14 +179,14 @@ namespace star
 
 	}
 
-	void UISlider::SetSelectedCallback(
+	void UISlider::SetReleasedCallback(
 		const std::function<void(float32)> & callback
 		)
 	{
-		m_SelectCallback = callback;
-		m_pSlider->SetSelectCallback(
+		m_ReleasedCallback = callback;
+		m_pSlider->SetReleasedCallback(
 			[&]() {
-				m_SelectCallback(m_Percent);
+				m_ReleasedCallback(m_Percent);
 		});
 	}
 
@@ -222,56 +222,56 @@ namespace star
 		CalculateSliderDimension();
 	}
 
-	void UISlider::SetSliderOrthogonalAlignmentCentered(bool redefine_center)
+	void UISlider::SetSliderOrthogonalAlignmentCentered(bool redefineCenter)
 	{
 		if(m_SliderIsHorizontal)
 		{
 			m_pSlider->SetVerticalAlignment(
 				VerticalAlignment::Center,
-				redefine_center
+				redefineCenter
 				);
 		}
 		else
 		{
 			m_pSlider->SetHorizontalAlignment(
 				HorizontalAlignment::Center,
-				redefine_center
+				redefineCenter
 				);
 		}
 	}
 
-	void UISlider::SetSliderOrthogonalAlignmentPositive(bool redefine_center)
+	void UISlider::SetSliderOrthogonalAlignmentPositive(bool redefineCenter)
 	{
 		if(m_SliderIsHorizontal)
 		{
 			m_pSlider->SetVerticalAlignment(
 				VerticalAlignment::Top,
-				redefine_center
+				redefineCenter
 				);
 		}
 		else
 		{
 			m_pSlider->SetHorizontalAlignment(
 				HorizontalAlignment::Right,
-				redefine_center
+				redefineCenter
 				);
 		}
 	}
 
-	void UISlider::SetSliderOrthogonalAlignmentNegative(bool redefine_center)
+	void UISlider::SetSliderOrthogonalAlignmentNegative(bool redefineCenter)
 	{
 		if(m_SliderIsHorizontal)
 		{
 			m_pSlider->SetVerticalAlignment(
 				VerticalAlignment::Bottom,
-				redefine_center
+				redefineCenter
 				);
 		}
 		else
 		{
 			m_pSlider->SetHorizontalAlignment(
 				HorizontalAlignment::Left,
-				redefine_center
+				redefineCenter
 				);
 		}
 	}

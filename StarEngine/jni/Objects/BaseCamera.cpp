@@ -44,8 +44,8 @@ namespace star
 		GetComponent<CameraComponent>()->TranslateY(y);
 	}
 
-	void BaseCamera::ConvertScreenToWorld(vec2 & pos)
+	void BaseCamera::ConvertScreenToWorld(vec2 & posInOut)
 	{
-		GetComponent<CameraComponent>()->ConvertScreenToWorld(pos);
+		GetComponent<CameraComponent>()->ConvertScreenToWorld(posInOut);
 	}
 }

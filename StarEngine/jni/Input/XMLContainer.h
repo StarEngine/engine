@@ -31,6 +31,7 @@ namespace star
 
 		void Serialize(const tstring & file, DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
 		void Deserialize(const tstring & file, DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
+		bool DeserializeSafe(const tstring & file, DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
 
 	protected:
 		tstring m_Value, m_Name;

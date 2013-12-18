@@ -12,7 +12,7 @@ Crossplatform C++11 2D Game Engine for Windows and Android games
 ## Stable (master): In Development 
 * As long as this branch is in development you should always use [the develop engine version](https://github.com/GlenDC/StarEngine/commits/develop), as this branch gets updated daily!
 
-## Unstable (develop): v0.1.0
+## Unstable (develop): v0.1.1
 Patch Notes:
 * **[19/11/2013] 0.0.1** 
   * Initial version of the engine;
@@ -70,7 +70,7 @@ Patch Notes:
   * Culling of UI Objects has been debugged and works properly now;
   * Hotfixes for both colliders and the audiomanager have been applied;
   * Object now has functionality to disable, freeze and set the visibility of all children;
-  * UIElement has now the functionality to disable the UI functionality of all children;
+  * UIElement now has the functionality to disable the UI functionality of all children;
   * UISlider has been improved:
     * The slider can now have an offset;
 	* The alignment of the slider can be set to satisfy personal preferences;
@@ -81,6 +81,25 @@ Patch Notes:
   * Safety for adding of components have been implemented, you can only add 1 graphics component per object;
   * Collision callback now also has the colliding object's pointer as a parameter;
   * Debug drawing of collision components has been improved and increased in functionality;
+* **[17/12/2013] 0.1.1**
+  * Hotfixes for the CameraComponent, PosTexShader and Cursor input;
+  * TiledScene now has build-in functionallity to extend tiles;
+  * UIElements can now be rotated correctly (#58);
+  * Code has been improved by removing duplicate code and unused header files;
+  * UIElements pressed-lock bug has been resolved (#78);
+  * UIElements now all have build-in debugDrawing for debugging purposes;
+  * CameraComponent now uses world values and has a custom Translate function;
+  * TimedScaleAction and DelayedFramesAction have been added to the list of build-in action classes;
+  * Hotfix for culling of object has been applied;
+  * BaseCamera and CameraComponent have both a ScreenToWorld function;
+  * 2D Cross product has been added to the Math library;
+  * TextComponent, SpriteComponent and SpriteSheetComponent now have comments;
+  * SpritesheetComponent has been renamed to SpriteSheetComponent;
+  * UIElement::SetSelectCallback has been renamed to UIElement::SetReleaseCallback;
+  * UISlider::SetSelectedCallback has been renamed to UISlider::SetReleasedCallback;
+  * XMLFileParser now has the function ReadOrCreate;
+  * Helper Read function now all have a safe version with a no crash guarantee;
+  
   
 ## License
 The Star 2D Game Engine is licensed under the MIT License.

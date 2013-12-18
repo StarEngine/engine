@@ -32,7 +32,7 @@ namespace star
 		void SetPercent(float32 percent);
 		float32 GetPercent() const;
 
-		void SetSelectedCallback(
+		void SetReleasedCallback(
 			const std::function<void(float32)> & callback
 			);
 
@@ -45,9 +45,9 @@ namespace star
 		void SetSliderMinOffset(float32 min);
 		void SetSliderMaxOffset(float32 max);
 
-		void SetSliderOrthogonalAlignmentCentered(bool redefine_center = true);
-		void SetSliderOrthogonalAlignmentPositive(bool redefine_center = true);
-		void SetSliderOrthogonalAlignmentNegative(bool redefine_center = true);
+		void SetSliderOrthogonalAlignmentCentered(bool redefineCenter = true);
+		void SetSliderOrthogonalAlignmentPositive(bool redefineCenter = true);
+		void SetSliderOrthogonalAlignmentNegative(bool redefineCenter = true);
 		
 		void SetSliderOrthogonalOffset(float32 offset);
 
@@ -68,7 +68,7 @@ namespace star
 		vec2 m_SliderOffset;
 
 		std::function<void(float32)>
-			m_SelectCallback,
+			m_ReleasedCallback,
 			m_DownCallback;
 
 	private:

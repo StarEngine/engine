@@ -113,7 +113,7 @@ namespace star
 
 	void UIObject::SetHorizontalAlignment(
 		HorizontalAlignment alignment,
-		bool redefine_center
+		bool redefineCenter
 		)
 	{
 		m_HorizontalAlignment = alignment;
@@ -122,17 +122,17 @@ namespace star
 
 	void UIObject::SetVerticalAlignment(
 		VerticalAlignment alignment,
-		bool redefine_center
+		bool redefineCenter
 		)
 	{
 		m_VerticalAlignment = alignment;
 		UITranslateY(m_Position.y, GetDockDimensions());
 	}
 
-	void UIObject::SetAlignmentCentered(bool redefine_center)
+	void UIObject::SetAlignmentCentered(bool redefineCenter)
 	{
-		SetHorizontalAlignment(HorizontalAlignment::Center, redefine_center);
-		SetVerticalAlignment(VerticalAlignment::Center, redefine_center);
+		SetHorizontalAlignment(HorizontalAlignment::Center, redefineCenter);
+		SetVerticalAlignment(VerticalAlignment::Center, redefineCenter);
 	}
 
 	void UIObject::Reset()
@@ -192,16 +192,16 @@ namespace star
 	{
 		for(auto child : m_pChildren)
 		{
-			auto uiuserelement = dynamic_cast<UIUserElement*>(child);
-			if(uiuserelement)
+			auto uiUserElement = dynamic_cast<UIUserElement*>(child);
+			if(uiUserElement)
 			{
-				uiuserelement->SetUIDisabled(disable);
-				uiuserelement->SetUIDisabledChildren(disable);
+				uiUserElement->SetUIDisabled(disable);
+				uiUserElement->SetUIDisabledChildren(disable);
 			}
 			else
 			{
-				auto uiobject = dynamic_cast<UIObject*>(child);
-				uiobject->SetUIDisabledChildren(disable);
+				auto uiObject = dynamic_cast<UIObject*>(child);
+				uiObject->SetUIDisabledChildren(disable);
 			}
 		}
 	}

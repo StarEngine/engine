@@ -85,7 +85,7 @@ namespace star
 #endif
 #ifdef STAR2D
 		auto pos = m_pParentObject->GetTransform()->GetWorldPosition();
-		vec3 eyeVec = pos.pos3D();
+		vec3 eyeVec = vec3(pos.pos2D(), 0);
 #else
 		vec3 eyeVec = m_pParentObject->GetTransform()->GetWorldPosition();
 #endif	
@@ -286,8 +286,8 @@ namespace star
 		m_pParentObject->GetTransform()->TranslateY(finalPos);
 	}
 
-	void CameraComponent::ConvertScreenToWorld(vec2 & pos)
+	void CameraComponent::ConvertScreenToWorld(vec2 & posInOut)
 	{
-		pos += GetTransform()->GetWorldPosition().pos2D();
+		posInOut += GetTransform()->GetWorldPosition().pos2D();
 	}
 }

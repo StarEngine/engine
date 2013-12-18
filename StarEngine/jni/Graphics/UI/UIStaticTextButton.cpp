@@ -99,33 +99,33 @@ namespace star
 
 	void UIStaticTextButton::SetHorizontalAlignmentText(
 		HorizontalAlignment alignment,
-		bool redefine_center
+		bool redefineCenter
 		)
 	{
 		m_pTextField->SetHorizontalAlignment(
 			alignment,
-			redefine_center
+			redefineCenter
 			);
 
 		UIStaticButton::SetHorizontalAlignment(
 			alignment,
-			redefine_center
+			redefineCenter
 			);
 	}
 
 	void UIStaticTextButton::SetVerticalAlignmentText(
 		VerticalAlignment alignment,
-		bool redefine_center
+		bool redefineCenter
 		)
 	{
 		m_pTextField->SetVerticalAlignment(
 			alignment,
-			redefine_center
+			redefineCenter
 			);
 
 		UIStaticButton::SetVerticalAlignment(
 			alignment,
-			redefine_center
+			redefineCenter
 			);
 	}
 	
