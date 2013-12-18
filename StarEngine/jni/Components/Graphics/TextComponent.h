@@ -117,6 +117,7 @@ namespace star
 		/// Sets the color.
 		/// </summary>
 		/// <param name="text">The color.</param>
+		/// <seealso cref="Color"/>
 		void SetColor(const Color& color);
 		/// <summary>
 		/// Gets the color.
