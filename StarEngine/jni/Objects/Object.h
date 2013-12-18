@@ -84,6 +84,9 @@ namespace star
 		virtual void Freeze(bool freeze);
 		bool IsFrozen() const;
 
+		bool IsChildNameAlreadyInUse(const tstring & name) const;
+		bool IsActionNameAlreadyInUse(const tstring & name) const;
+
 		virtual void SetDisabled(bool disabled);
 		virtual bool IsDisabled() const;
 

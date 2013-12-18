@@ -459,6 +459,15 @@ to the same object is illegal."), STARENGINE_LOG_TAG);
 	{
 		pChild->m_pParentGameObject = this;
 
+		if(IsChildNameAlreadyInUse(pChild->GetName()))
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("Object::AddChild: a child with the name '")
+				+ pChild->GetName() + _T("' already exists. \
+Child gets added but beware, duplicate names can become the cause of problems."),
+				STARENGINE_LOG_TAG);
+		}
+
 		if(m_bIsInitialized && !pChild->m_bIsInitialized)
 		{
 			pChild->SetScene(GetScene());
@@ -596,6 +605,14 @@ Trying to (un)hide unknown child '")
 				return;
 			}
 		}
+		if(IsActionNameAlreadyInUse(pAction->GetName()))
+		{
+			Logger::GetInstance()->Log(LogLevel::Warning,
+			_T("Object::AddAction: an action with the name '")
+			+ pAction->GetName() + _T("' already exists. \
+Action gets added but beware, duplicate names can become the cause of problems."),
+			STARENGINE_LOG_TAG);
+		}
 		m_pActions.push_back(pAction);
 		pAction->SetParent(this);
 		if(m_bIsInitialized)
@@ -726,6 +743,30 @@ to remove could not be found."));
 	bool Object::IsFrozen() const
 	{
 		return m_IsFrozen;
+	}
+
+	bool Object::IsChildNameAlreadyInUse(const tstring & name) const
+	{
+		for(auto pChild : m_pChildren)
+		{
+			if(pChild->CompareName(name))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	bool Object::IsActionNameAlreadyInUse(const tstring & name) const
+	{
+		for(auto pAction : m_pActions)
+		{
+			if(pAction->CompareName(name))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	void Object::SetDisabled(bool disabled)
