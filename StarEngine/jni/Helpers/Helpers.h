@@ -942,6 +942,7 @@ namespace star
 	/// </summary>
 	/// <param name="file">filepath of the binary file, with the root being defined by the directory parameter</param>
 	/// <param name="buffer">the first data object to be ecrypted and serialized</param>
+	/// <param name="size">size of the binary file.</param>
 	/// <param name="encrypter">function that contains the encryption logic for the serialized data</param>
 	/// <param name="directory">enumeration value to define the directory of the text file</param>
 	/// <seealso cref="DirectoryMode"></seealso>
@@ -955,7 +956,7 @@ namespace star
 	/// Read and decrypt an array of data objects (structure) to a binary file.
 	/// </summary>
 	/// <param name="file">filepath of the binary file, with the root being defined by the directory parameter</param>
-	/// <param name="buffer">an array of data objects to be ecrypted and serialized</param>
+	/// <param name="size">size of the binary file.</param>
 	/// <param name="decrypter">function that contains the decryption logic for the deserialized data</param>
 	/// <param name="directory">enumeration value to define the directory of the text file</param>
 	/// <seealso cref="DirectoryMode"></seealso>

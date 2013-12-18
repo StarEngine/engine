@@ -15,7 +15,7 @@ namespace star
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RectangleColliderComponent"/> class.
 		/// If you use this default constructor, make sure to
-		/// a) Add a <see cref="SpriteComponent"/> or <see cref="SpriteSheetComponent">
+		/// a) Add a <see cref="SpriteComponent"/> or <see cref="SpriteSheetComponent"/>
 		/// before you add this component, 
 		/// the width and height of the visible part of the sprite will be used to determine the size of the colliders.
 		/// </summary>

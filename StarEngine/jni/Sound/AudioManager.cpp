@@ -982,6 +982,11 @@ namespace star
 		}
 	}
 
+	bool AudioManager::IsAllMusicMuted() const
+	{
+		return mbMusicMuted;
+	}
+
 	void AudioManager::SetMusicMuted(const tstring& name, bool muted)
 	{
 		if(mbMusicMuted && !muted)
@@ -1025,6 +1030,11 @@ namespace star
 		{
 			it.second->SetMuted(mute);
 		}
+	}
+
+	bool AudioManager::IsAllEffectsMuted() const
+	{
+		return mbEffectsMuted;
 	}
 
 	void AudioManager::SetEffectMuted(const tstring& name, bool muted)

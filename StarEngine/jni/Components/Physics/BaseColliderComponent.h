@@ -47,7 +47,7 @@ namespace star
 		/// <summary>
 		/// Sets the callback that will be triggered 1 time for ever collision with another component.
 		/// This callback will be triggered the moment this component collides with 
-		/// Another component with parent of type <see cref="BaseColliderComponent">.
+		/// Another component with parent of type <see cref="BaseColliderComponent"/>.
 		/// </summary>
 		/// <param name="onEnter">
 		/// Function to be triggered. (Can be a function pointer, lambda expression, ..).
@@ -59,7 +59,7 @@ namespace star
 		/// <summary>
 		/// Sets the callback that will be triggered while this component collides with another component.
 		/// This callback will be triggered while this component collides with 
-		/// Another component with parent of type <see cref="BaseColliderComponent">.
+		/// Another component with parent of type <see cref="BaseColliderComponent"/>.
 		/// </summary>
 		/// <param name="onStay">
 		/// Function to be triggered. (Can be a function pointer, lambda expression, ..).
@@ -71,7 +71,7 @@ namespace star
 		/// <summary>
 		/// Sets the callback that will be triggered 1 time for ever collision with another component.
 		/// This callback will be triggered the moment this component stops colliding with 
-		/// Another component with parent of type <see cref="BaseColliderComponent">.
+		/// Another component with parent of type <see cref="BaseColliderComponent"/>.
 		/// </summary>
 		/// <param name="onExit">
 		/// Function to be triggered. (Can be a function pointer, lambda expression, ..).
