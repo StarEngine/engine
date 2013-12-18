@@ -11,8 +11,6 @@
 #include <windows.h>
 #endif
 
-#include "HelpersCrossplatform.h"
-
 #ifdef ANDROID
 #include "HelpersAndroid.h"
 #include "../StarEngine.h"

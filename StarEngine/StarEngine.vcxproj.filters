@@ -225,9 +225,6 @@
     <ClInclude Include="jni\Helpers\HelpersAndroid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Helpers\HelpersCrossplatform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="jni\definesTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -392,9 +389,6 @@
     <ClCompile Include="jni\Objects\FreeCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\Helpers\Dictionary.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="jni\Helpers\Filepath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -543,9 +537,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Helpers\HelpersAndroid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="jni\Helpers\HelpersCrossplatform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Sound\BaseSound.cpp">
