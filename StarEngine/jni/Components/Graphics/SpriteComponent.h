@@ -9,7 +9,11 @@ namespace star
 {
 
 	/// <summary>
-	/// This struct gets sent to the Spritebatch to process every Sprite.
+	/// Information of a sprite. 
+	/// Gets sent to the <see cref="SpriteBatch"> to process it correctly.
+	/// Contains the width and height of the sprite, 
+	/// the UVs, textureID, pointer to the <see cref="TransformComponent">,
+	/// color multiplier and a bool to check if the sprite is a HUD element.
 	/// </summary>
 	struct SpriteInfo
 	{
@@ -33,7 +37,7 @@ namespace star
 	};
 
 	/// <summary>
-	/// Component used to draw a texture or part of a texture.
+	/// Graphics component used to draw a texture or part of a texture.
 	/// </summary>
 	class SpriteComponent : public BaseComponent
 	{
@@ -113,7 +117,7 @@ namespace star
 		/// <summary>
 		/// Sets this Sprite as a HUD element
 		/// </summary>
-		/// <param name="enabled">set the state.</param>
+		/// <param name="enabled">True to become a HUD element.</param>
 		void SetHUDOptionEnabled(bool enabled);
 
 		/// <summary>
@@ -142,13 +146,13 @@ namespace star
 		/// </summary>
 		virtual void InitializeComponent();
 		/// <summary>
-		/// Creates the uv coords.
+		/// Creates the uv coordinates.
 		/// </summary>
 		virtual void CreateUVCoords();
 		/// <summary>
-		/// Sets the uv coords.
+		/// Sets the uv coordinates.
 		/// </summary>
-		/// <param name="coords">The uv coords.</param>
+		/// <param name="coords">The uv coordinatess.</param>
 		void SetUVCoords(const vec4& coords);
 		/// <summary>
 		/// Fills the sprite information struct, to send to the <see cref="SpriteBatch"/>

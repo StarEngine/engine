@@ -8,7 +8,7 @@
 namespace star
 {
 	/// <summary>
-	/// Component used to draw animated sprites. 
+	/// Graphics component used to draw animated sprites. 
 	/// Sprite animations can be defined in an xml file
 	/// and are parsed by the <see cref="SpriteSheet"/>
 	/// </summary>
@@ -62,9 +62,8 @@ namespace star
 		/// </summary>
 		/// <param name="animation">Animation name, as defined in the SpriteSheet.</param>
 		/// <param name="callback">
-		///	A user defined callback, 
-		/// called when this animation is completed. 
-		/// Default the callback is empty
+		/// An optional user defined callback, 
+		/// called when this animation is completed.
 		/// </param>
 		void PushAnimation(
 			const tstring & animation,
@@ -76,9 +75,8 @@ namespace star
 		/// </summary>
 		/// <param name="animation">Animation name, as defined in the SpriteSheet.</param>
 		/// <param name="callback">
-		/// A user defined callback, 
-		/// called when this animation is completed. 
-		/// Default the callback is empty
+		/// An optional user defined callback, 
+		/// called when this animation is completed.
 		/// </param>
 		void PlayAnimation(
 			const tstring & animation,
@@ -163,7 +161,7 @@ namespace star
 		/// <summary>
 		/// Determines whether an animation is playing.
 		/// </summary>
-		/// <returns>Is playing.</returns>
+		/// <returns>True if an animation is playing.</returns>
 		bool IsPlaying();
 
 	protected:

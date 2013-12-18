@@ -10,7 +10,12 @@ namespace star
 	class Font;
 
 	/// <summary>
-	/// This struct gets sent to the Spritebatch to process every Text.
+	/// Information of a text element. 
+	/// Gets sent to the <see cref="SpriteBatch"> to process it correctly.
+	/// Contains the font, a pointer to the <see cref="TransformComponent">,
+	/// color multiplier and a bool to check if the sprite is a HUD element.
+	/// also holds an offset for every letter, the vertical spacing,
+	/// the text and the text height.
 	/// </summary>
 	struct TextInfo
 	{
@@ -35,7 +40,7 @@ namespace star
 	};
 
 	/// <summary>
-	/// Component used to draw text.
+	/// Graphics component used to draw text.
 	/// </summary>
 	class TextComponent : public BaseComponent
 	{
@@ -140,25 +145,25 @@ namespace star
 		/// <summary>
 		/// Sets this Text as a HUD element
 		/// </summary>
-		/// <param name="enabled">set the state.</param>
+		/// <param name="enabled">True to set this as HUD element</param>
 		void SetHUDOptionEnabled(bool enabled);
 
 		/// <summary>
 		/// Determines whether this Text is a HUD element.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>True if HUD element</returns>
 		bool IsHUDOptionEnabled() const;
 
 		/// <summary>
-		/// Aligns the text left.
+		/// Aligns the text as left.
 		/// </summary>
 		void AlignTextLeft();
 		/// <summary>
-		/// Aligns the text center.
+		/// Aligns the text as center.
 		/// </summary>
 		void AlignTextCenter();
 		/// <summary>
-		/// Aligns the text right.
+		/// Aligns the text as right.
 		/// </summary>
 		void AlignTextRight();
 		
@@ -182,7 +187,7 @@ namespace star
 		/// <summary>
 		/// Calculates the wrapped text dimensions.
 		/// </summary>
-		/// <param name="lines">nr of lines.</param>
+		/// <param name="lines">number of lines.</param>
 		void CalculateWrappedTextDimensions(uint8 lines);
 
 		/// <summary>
