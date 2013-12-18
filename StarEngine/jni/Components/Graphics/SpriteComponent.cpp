@@ -157,19 +157,11 @@ having a SpriteSheet- or TextComponent."));
 		m_SpriteInfo->colorMultiplier = color;
 	}
 
-	/// <summary>
-	/// Sets the hud option enabled.
-	/// </summary>
-	/// <param name="enabled">The enabled.</param>
 	void SpriteComponent::SetHUDOptionEnabled(bool enabled)
 	{
 		m_SpriteInfo->bIsHud = enabled;
 	}
 
-	/// <summary>
-	/// Determines whether {CC2D43FA-BBC4-448A-9D0B-7B57ADF2655C}[is hud option enabled].
-	/// </summary>
-	/// <returns></returns>
 	bool SpriteComponent::IsHUDOptionEnabled() const
 	{
 		return m_SpriteInfo->bIsHud;
