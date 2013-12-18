@@ -252,16 +252,6 @@ namespace star
 			tchar delimiter
 			);
 
-		/// <summary>
-		/// Splits the string into lines.
-		/// </summary>
-		/// <param name="list">The list.</param>
-		/// <param name="string">The string.</param>
-		void SplitIntoLines(
-			std::vector<sstring> &list,
-			const sstring &string
-			);
-
 		TextComponent(const TextComponent &);
 		TextComponent(TextComponent &&);
 		TextComponent& operator=(const TextComponent &);
