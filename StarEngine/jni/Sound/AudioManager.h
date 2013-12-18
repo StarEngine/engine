@@ -126,10 +126,12 @@ namespace star
 		void DecreaseEffectVolume(const tstring& name, float32 volume);
 
 		void MuteAllMusic(bool mute);
+		bool IsAllMusicMuted() const;
 		void SetMusicMuted(const tstring& name, bool muted);
 		bool IsMusicMuted(const tstring& name) const;
 
 		void MuteAllEffects(bool mute);
+		bool IsAllEffectsMuted() const;
 		void SetEffectMuted(const tstring& name, bool muted);
 		bool IsEffectMuted(const tstring& name) const;
 

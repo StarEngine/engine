@@ -644,6 +644,9 @@
     <ClCompile Include="jni\Actions\TimedScaleAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="jni\Helpers\Dictionary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="jni\Helpers\Math.inl">

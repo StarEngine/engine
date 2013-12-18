@@ -116,7 +116,7 @@ namespace star
 		/// <summary>
 		/// Sets the color.
 		/// </summary>
-		/// <param name="text">The color.</param>
+		/// <param name="color">The color.</param>
 		/// <seealso cref="Color"/>
 		void SetColor(const Color& color);
 		/// <summary>
@@ -197,7 +197,7 @@ namespace star
 		void CalculateTextHeight();
 		/// <summary>
 		/// Cleans up the text.
-		/// Converts all \t characters to a set amount of spaces
+		/// Converts all \\t characters to a set amount of spaces
 		/// defined in <see cref="TAB"/>.
 		/// Also calls CalculateHorizontalTextOffset() 
 		/// </summary>
