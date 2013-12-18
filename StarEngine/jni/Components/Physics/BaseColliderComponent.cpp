@@ -69,30 +69,32 @@ namespace star
 
 	void BaseColliderComponent::Update(const Context& context)
 	{
-		/*
-		If the component is not static and is not a trigger, 
-		then we need to update the force impacts of the object. 
-		For example if the collider is hit by another collider 
-		and by the force he moves and rotates a little bit. 
-		IN this update we’ll handle that. 
-		*/
-		/*if(!m_bIsStatic && !m_bIsTrigger)
-		{
-
-		}*/
+		//If the component is not static and is not a trigger, 
+		//then we need to update the force impacts of the object. 
+		//For example if the collider is hit by another collider 
+		//and by the force he moves and rotates a little bit. 
+		//IN this update we’ll handle that. 
+		//
+		//if(!m_bIsStatic && !m_bIsTrigger)
+		//{
+		//
+		//}
 	}
 
-	void BaseColliderComponent::SetOnEnterCallback(Callback onEnter)
+	void BaseColliderComponent::SetOnEnterCallback(
+		std::function<void(BaseColliderComponent* collider)> onEnter)
 	{
 		m_OnEnter = onEnter;
 	}
 
-	void BaseColliderComponent::SetOnStayCallback(Callback onStay)
+	void BaseColliderComponent::SetOnStayCallback(
+		std::function<void(BaseColliderComponent* collider)> onStay)
 	{
 		m_OnStay = onStay;
 	}
 
-	void BaseColliderComponent::SetOnExitCallback(Callback onExit)
+	void BaseColliderComponent::SetOnExitCallback(
+		std::function<void(BaseColliderComponent* collider)> onExit)
 	{
 		m_OnExit = onExit;
 	}
@@ -223,14 +225,14 @@ namespace star
 	}
 
 	vec2 BaseColliderComponent::FindClosestPointToOOBB(
-		const vec2& point, 
+		const vec2& vector, 
 		const RectangleColliderComponent* oobb
 		) const
 	{
 		//http://notmagi.me/closest-point-on-line-aabb-and-obb-to-point/
 		vec2 pos = oobb->GetCenterPoint();
 		Rect rect = oobb->GetCollisionRect();
-		vec2 distVec = point - pos;
+		vec2 distVec = vector - pos;
 		vec2 width = rect.GetRightBottom() - rect.GetLeftBottom();
 		vec2 height = rect.GetLeftTop() - rect.GetLeftBottom();
 		vec2 u0(0,0);
