@@ -59,7 +59,7 @@ namespace star
 		m_UseConsole = useConsole;
 		if(useConsole)
 		{
-			WindowsConsole::RedirectIOToConsole();
+			star_w::RedirectIOToConsole();
 			m_ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 		}
 #ifndef NO_LOG_FILE
