@@ -120,6 +120,11 @@ the CircleColliderComponent."), STARENGINE_LOG_TAG);
 			AddComponent(this, m_Layers.elements, m_Layers.amount);
 	}
 
+	/// <summary>
+	/// Collideses the with point.
+	/// </summary>
+	/// <param name="point">The point.</param>
+	/// <returns></returns>
 	bool CircleColliderComponent::CollidesWithPoint(const vec2& point) const
 	{
 		

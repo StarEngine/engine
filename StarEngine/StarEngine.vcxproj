@@ -242,6 +242,7 @@
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="jni\Helpers\AARect.cpp" />
     <ClCompile Include="jni\Helpers\Debug\DebugDraw.cpp" />
+    <ClCompile Include="jni\Helpers\Dictionary.cpp" />
     <ClCompile Include="jni\Helpers\FilePath.cpp" />
     <ClCompile Include="jni\Helpers\FPS.cpp" />
     <ClCompile Include="jni\Helpers\HashTag.cpp" />
