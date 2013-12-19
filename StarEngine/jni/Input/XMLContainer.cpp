@@ -90,6 +90,29 @@ namespace star
 		m_Attributes.swap(yRef.m_Attributes);
 	}
 
+	void XMLContainer::AddChild(const tstring & name)
+	{
+		auto container = std::make_shared<XMLContainer>();
+		container->SetName(name);
+		m_MultiMap.insert(
+			std::pair<tstring, std::shared_ptr<XMLContainer>>(
+				name, container
+				)
+			);
+	}
+
+	void XMLContainer::AddChild(const tstring & name, const tstring & value)
+	{
+		auto container = std::make_shared<XMLContainer>();
+		container->SetName(name);
+		container->SetValue(value);
+		m_MultiMap.insert(
+			std::pair<tstring, std::shared_ptr<XMLContainer>>(
+				name, container
+				)
+			);
+	}
+
 	void XMLContainer::Serialize(const tstring & file, DirectoryMode mode)
 	{
 		SerializedData data;

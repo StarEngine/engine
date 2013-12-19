@@ -29,6 +29,9 @@ namespace star
 		void clear();
 		void swap(XMLContainer & yRef);
 
+		void AddChild(const tstring & name);
+		void AddChild(const tstring & name, const tstring & value);
+
 		void Serialize(const tstring & file, DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
 		void Deserialize(const tstring & file, DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
 		bool DeserializeSafe(const tstring & file, DirectoryMode mode = DEFAULT_DIRECTORY_MODE);

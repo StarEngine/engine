@@ -82,7 +82,7 @@ namespace star
 		pugi::xml_parse_result result;
 		
 		SerializedData data;
-		if(ReadBinaryFileSafe(m_File.GetLocalPath(), data.data, data.size, mode))
+		if(ReadBinaryFileSafe(m_File.GetLocalPath(), data.data, data.size, mode, false))
 		{
 			result = XMLDocument.load_buffer_inplace_own(data.data, data.size);
 			if (result)
@@ -103,7 +103,9 @@ namespace star
 						} while (child != NULL);
 					}
 				}
-
+				Logger::GetInstance()->Log(LogLevel::Debug,
+					_T("XMLFileParser::ReadOrCreate: read file '")
+					+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
 				return FILE_READ; 
 			}
 			Logger::GetInstance()->Log(LogLevel::Warning,
@@ -116,6 +118,10 @@ namespace star
 		XMLFileSerializer serializer(m_File.GetLocalPath());
 		container.SetName(rootName);
 		serializer.Write(container, mode);
+		
+		Logger::GetInstance()->Log(LogLevel::Debug,
+			_T("XMLFileParser::ReadOrCreate: created file '")
+			+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
 
 		return FILE_WRITE;
 	}
@@ -137,14 +143,25 @@ namespace star
 #else
 		if(!container.DeserializeSafe(
 				binary_path,
-				mode
+				mode,
+				false
 				)
 			)
 		{
 			container.SetName(rootName);
 			container.Serialize(binary_path, mode);
+		
+			Logger::GetInstance()->Log(LogLevel::Debug,
+				_T("XMLFileParser::ReadOrCreate: created file '")
+				+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
+
 			return FILE_WRITE;
 		}
+
+		Logger::GetInstance()->Log(LogLevel::Debug,
+			_T("XMLFileParser::ReadOrCreate: read file '")
+			+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
+
 		return FILE_READ;
 #endif
 	}

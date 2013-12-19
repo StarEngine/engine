@@ -311,7 +311,8 @@ namespace star
 					{
 						m_ExtensionTiles[tID](obj);
 					}
-
+					obj->SetName(_T("tile_") + string_cast<tstring>(height) +
+						_T("_") + string_cast<tstring>(i));
 					AddObject(obj);
 					m_TiledObjects.push_back(obj);
 				}

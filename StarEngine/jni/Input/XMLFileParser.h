@@ -12,6 +12,10 @@ namespace star
 {
 	class XMLContainer;
 
+	static const uint8 FILE_ERROR = 0;
+	static const uint8 FILE_READ = 1;
+	static const uint8 FILE_WRITE = 2;
+
 	class XMLFileParser
 	{
 	public:
@@ -35,9 +39,6 @@ namespace star
 			);
 
 	private:
-		static const uint8 FILE_ERROR = 0;
-		static const uint8 FILE_READ = 1;
-		static const uint8 FILE_WRITE = 2;
 
 		FilePath m_File;
 

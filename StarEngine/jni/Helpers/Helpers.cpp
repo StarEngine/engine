@@ -824,14 +824,15 @@ namespace star
 	}
 
 	bool ReadTextFileSafe(const tstring & file, tstring & text,
-			DirectoryMode directory)
+			DirectoryMode directory,
+			bool logWarning)
 	{
 		bool succes(false);
 #ifdef ANDROID
 		if(directory == DirectoryMode::assets)
 		{
 			SerializedData data;
-			succes = star_a::ReadFileAssetSafe(file, data);
+			succes = star_a::ReadFileAssetSafe(file, data, logWarning);
 			if(succes)
 			{
 				text = string_cast<tstring>(data.data);
@@ -861,9 +862,6 @@ namespace star
 			sifstream myfile;
 			myfile.open(strstr.str(), std::ios::in);
 			succes = myfile.is_open();
-			Logger::GetInstance()->Log(LogLevel::Warning,
-				_T("Couldn't open the text file '") +
-					strstr.str() + _T("'."), STARENGINE_LOG_TAG);
 			if(succes)
 			{
 				sstring str;
@@ -872,6 +870,12 @@ namespace star
 					text += str;
 				}
 				myfile.close();
+			}
+			else if(logWarning)
+			{
+				Logger::GetInstance()->Log(LogLevel::Warning,
+					_T("Couldn't open the text file '") +
+						strstr.str() + _T("'."), STARENGINE_LOG_TAG);
 			}
 		}
 #else
@@ -889,7 +893,7 @@ namespace star
 			}
 			myfile.close();
 		}
-		else
+		else if(logWarning)
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("Couldn't open the text file '") + file_path + _T("'."),
@@ -1070,13 +1074,13 @@ namespace star
 	}
 
 	bool ReadBinaryFileSafe(const tstring & file, schar *& buffer,
-		uint32 & size, DirectoryMode directory)
+		uint32 & size, DirectoryMode directory, bool logWarning)
 	{
 #ifdef ANDROID
 		if(directory == DirectoryMode::assets)
 		{
 			SerializedData data;
-			bool result = star_a::ReadFileAssetSafe(file, data);
+			bool result = star_a::ReadFileAssetSafe(file, data, logWarning);
 			size = data.size;
 			buffer = data.data;
 			return result;
@@ -1107,7 +1111,7 @@ namespace star
 				binary_file.read(buffer, sizeof(schar) * size);
 				binary_file.close();
 			}
-			else
+			else if(logWarning)
 			{
 				Logger::GetInstance()->Log(LogLevel::Warning,
 					_T("Couldn't open the binary file '") +
@@ -1129,7 +1133,7 @@ namespace star
 			binary_file.read(buffer, sizeof(schar) * size);
 			binary_file.close();
 		}
-		else
+		else if(logWarning)
 		{
 			Logger::GetInstance()->Log(LogLevel::Warning,
 				_T("Couldn't open the binary file '") +
@@ -1264,10 +1268,10 @@ namespace star
 
 	bool DecryptBinaryFileSafe(const tstring & file, schar *& buffer, uint32 & size,
 		const std::function<schar*(const schar*, uint32&)> & decrypter, 
-		DirectoryMode directory)
+		DirectoryMode directory, bool logWarning)
 	{
 		schar * tempBuffer(nullptr);
-		bool result = ReadBinaryFileSafe(file, tempBuffer, size, directory);
+		bool result = ReadBinaryFileSafe(file, tempBuffer, size, directory, logWarning);
 		if(result)
 		{
 			buffer = decrypter(tempBuffer, size);

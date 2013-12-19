@@ -27,7 +27,7 @@ namespace star_a
 		AAsset_close(asset);
 	}
 
-	bool ReadFileAssetSafe(const tstring & path, star::SerializedData & data)
+	bool ReadFileAssetSafe(const tstring & path, star::SerializedData & data, bool logWarning)
 	{
 		auto app = star::StarEngine::GetInstance()->GetAndroidApp();
 		auto manager = app->activity->assetManager;
@@ -44,7 +44,7 @@ namespace star_a
 			AAsset_read(asset, data.data, data.size);
 			AAsset_close(asset);
 		}
-		else
+		else if(logWarning)
 		{
 			star::Logger::GetInstance()->Log(star::LogLevel::Warning,
 				_T("Couldn't find '") + path + _T("'."), STARENGINE_LOG_TAG);
