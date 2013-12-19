@@ -1117,6 +1117,7 @@ namespace star
 					_T("Couldn't open the binary file '") +
 					strstr.str() + _T("'."), STARENGINE_LOG_TAG);
 			}
+			return succes;
 		}
 #else
 		tstring file_path(EMPTY_STRING);

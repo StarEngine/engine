@@ -103,7 +103,7 @@ namespace star
 						} while (child != NULL);
 					}
 				}
-				Logger::GetInstance()->Log(LogLevel::Debug,
+				Logger::GetInstance()->Log(LogLevel::Info,
 					_T("XMLFileParser::ReadOrCreate: read file '")
 					+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
 				return FILE_READ; 
@@ -119,7 +119,7 @@ namespace star
 		container.SetName(rootName);
 		serializer.Write(container, mode);
 		
-		Logger::GetInstance()->Log(LogLevel::Debug,
+		Logger::GetInstance()->Log(LogLevel::Info,
 			_T("XMLFileParser::ReadOrCreate: created file '")
 			+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
 
@@ -143,22 +143,21 @@ namespace star
 #else
 		if(!container.DeserializeSafe(
 				binary_path,
-				mode,
-				false
+				mode
 				)
 			)
 		{
 			container.SetName(rootName);
 			container.Serialize(binary_path, mode);
 		
-			Logger::GetInstance()->Log(LogLevel::Debug,
+			Logger::GetInstance()->Log(LogLevel::Info,
 				_T("XMLFileParser::ReadOrCreate: created file '")
 				+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
 
 			return FILE_WRITE;
 		}
 
-		Logger::GetInstance()->Log(LogLevel::Debug,
+		Logger::GetInstance()->Log(LogLevel::Info,
 			_T("XMLFileParser::ReadOrCreate: read file '")
 			+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
 
