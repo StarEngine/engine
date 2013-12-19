@@ -59,19 +59,17 @@ namespace star
 		}
 		else
 		{
-			strstr << _T(">") << std::endl;
+			strstr << _T(">");
 			if(element.GetValue() != EMPTY_STRING)
 			{
-				++tabs;
-				strstr << GetTabString(tabs) << element.GetValue() << std::endl;
-				--tabs;
-				strstr << GetTabString(tabs);
+				strstr << element.GetValue();
 				strstr << _T("</") << element.GetName();
 				strstr << _T(">") << std::endl;
 			}
 			else if(element.size() > 0)
 			{
 				++tabs;
+				strstr << std::endl;
 				for(auto child : element)
 				{
 					XMLContainer child_value;

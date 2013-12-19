@@ -1,7 +1,7 @@
 #include "Console.h"
 #include "jni\defines.h"
 
-namespace WindowsConsole
+namespace star_w
 {
 	static const WORD MAX_CONSOLE_LINES = 500;
 

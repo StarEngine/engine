@@ -19,10 +19,10 @@ namespace star
 
 	BaseScene::BaseScene(const tstring & name)
 		: Entity(name)
-		, m_GestureManagerPtr(nullptr)
-		, m_CollisionManagerPtr(nullptr)
-		, m_Objects()
-		, m_Garbage()
+		, m_pGestureManager(nullptr)
+		, m_pCollisionManager(nullptr)
+		, m_pObjects()
+		, m_pGarbage()
 		, m_pDefaultCamera(nullptr)
 		, m_pActiveCamera(nullptr)
 		, m_pCursor(nullptr)
@@ -34,19 +34,19 @@ namespace star
 		, m_GestureID(0)
 	{
 		m_pStopwatch = std::make_shared<Stopwatch>();
-		m_GestureManagerPtr = std::make_shared<GestureManager>();
-		m_CollisionManagerPtr = std::make_shared<CollisionManager>();
+		m_pGestureManager = std::make_shared<GestureManager>();
+		m_pCollisionManager = std::make_shared<CollisionManager>();
 	}
 	
 	BaseScene::~BaseScene()
 	{
-		for(auto & object : m_Objects)
+		for(auto & object : m_pObjects)
 		{
 			SafeDelete(object);
 		}
-		m_Objects.clear();
-		m_GestureManagerPtr = nullptr;
-		m_CollisionManagerPtr = nullptr;
+		m_pObjects.clear();
+		m_pGestureManager = nullptr;
+		m_pCollisionManager = nullptr;
 		SafeDelete(m_pCursor);
 	}
 
@@ -68,7 +68,7 @@ namespace star
 			}
 
 			m_Initialized = true;
-			for(auto object : m_Objects)
+			for(auto object : m_pObjects)
 			{
 				object->BaseInitialize();
 			}
@@ -84,7 +84,7 @@ namespace star
 
 	void BaseScene::BaseOnActivate()
 	{
-		InputManager::GetInstance()->SetGestureManager(m_GestureManagerPtr);
+		InputManager::GetInstance()->SetGestureManager(m_pGestureManager);
 		SetOSCursorHidden(m_CursorIsHidden || m_SystemCursorIsHidden);
 		SetActiveCursorLocked(false);
 		return OnActivate();
@@ -93,7 +93,7 @@ namespace star
 	void BaseScene::BaseOnDeactivate()
 	{
 		SetStateActiveCursor(_T("idle"));
-		for(auto object : m_Objects)
+		for(auto object : m_pObjects)
 		{
 			object->Reset();
 		}
@@ -122,25 +122,25 @@ namespace star
 		
 		Update(context);
 
-		for(auto object : m_Objects)
+		for(auto pObject : m_pObjects)
 		{
-			object->BaseUpdate(context);
+			pObject->BaseUpdate(context);
 		}
 
 		//[COMMENT] Updating the collisionManager before the objects or here?
 		//			If i do it before the objects, there is the problem that
 		//			the objects won't be translated correctly...
 		//			So i think here is best, unless somebody proves me wrong
-		m_CollisionManagerPtr->Update(context);
+		m_pCollisionManager->Update(context);
 	}
 
 	void BaseScene::BaseDraw()
 	{
 		if(!CULLING_IS_ENABLED)
 		{
-			for(auto object : m_Objects)
+			for(auto pObject : m_pObjects)
 			{
-				object->BaseDraw();
+				pObject->BaseDraw();
 			}
 		}
 		else
@@ -155,9 +155,9 @@ namespace star
 			float32 top = camPos.pos2D().y + screenHeight + m_CullingOffsetY;
 			float32 bottom = camPos.pos2D().y - m_CullingOffsetY;
 
-			for(auto object : m_Objects)
+			for(auto pObject : m_pObjects)
 			{
-				object->BaseDrawWithCulling(left, right, top, bottom);
+				pObject->BaseDrawWithCulling(left, right, top, bottom);
 			}
 		}
 	
@@ -198,23 +198,31 @@ namespace star
 		return m_Initialized;
 	}
 
-	void BaseScene::AddObject(Object * object)
+	void BaseScene::AddObject(Object * pObject)
 	{
-		if(!object)
+		if(!pObject)
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
 				_T("BaseScene::AddObjec: Trying to add a nullptr object."));
 			return;
 		}
-		auto it = std::find(m_Objects.begin(), m_Objects.end(), object);
-		if(it == m_Objects.end())
+		auto it = std::find(m_pObjects.begin(), m_pObjects.end(), pObject);
+		if(it == m_pObjects.end())
 		{
 			if(m_Initialized)
 			{
-				object->BaseInitialize();
+				pObject->BaseInitialize();
 			}
-			m_Objects.push_back(object);
-			object->SetScene(this);
+			if(IsObjectNameAlreadyInUse(pObject->GetName()))
+			{
+				Logger::GetInstance()->Log(LogLevel::Warning,
+				_T("BaseScene::AddObject: an object with the name '")
+				+ pObject->GetName() + _T("' already exists. \
+Object gets added but beware, duplicate names can become the cause of problems."),
+				STARENGINE_LOG_TAG);
+			}
+			m_pObjects.push_back(pObject);
+			pObject->SetScene(this);
 		}
 		else
 		{
@@ -224,24 +232,24 @@ namespace star
 		}
 	}
 
-	void BaseScene::AddObject(Object * object, const tstring & name)
+	void BaseScene::AddObject(Object * pObject, const tstring & name)
 	{
-		if(!object)
+		if(!pObject)
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
 				_T("BaseScene::AddObjec: Trying to add a nullptr object."));
 			return;
 		}
-		object->SetName(name);
-		AddObject(object);
+		pObject->SetName(name);
+		AddObject(pObject);
 	}
 
-	void BaseScene::RemoveObject(Object * object)
+	void BaseScene::RemoveObject(Object * pObject)
 	{
-		auto it = std::find(m_Objects.begin(), m_Objects.end(), object);
-		if(it != m_Objects.end())
+		auto it = std::find(m_pObjects.begin(), m_pObjects.end(), pObject);
+		if(it != m_pObjects.end())
 		{
-			m_Garbage.push_back(object);
+			m_pGarbage.push_back(pObject);
 		}
 		else
 		{
@@ -253,7 +261,7 @@ namespace star
 	
 	void BaseScene::RemoveObject(const tstring & name)
 	{
-		for(auto object : m_Objects)
+		for(auto object : m_pObjects)
 		{
 			if(object->CompareName(name))
 			{
@@ -267,7 +275,7 @@ namespace star
 				   + name + _T("'."), STARENGINE_LOG_TAG);
 	}
 
-	void BaseScene::AddGesture(BaseGesture* gesture)
+	void BaseScene::AddGesture(BaseGesture* pGesture)
 	{
 		Logger::GetInstance()->Log(LogLevel::Warning, 
 _T("Please use the method AddGesture(BaseGesture* gesture, \
@@ -275,28 +283,28 @@ const tstring & name) to add gestures. \
 using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!"),
 			STARENGINE_LOG_TAG);
 
-		m_GestureManagerPtr->AddGesture(gesture, _T("Gesture_") + string_cast<tstring>(m_GestureID));
+		m_pGestureManager->AddGesture(pGesture, _T("Gesture_") + string_cast<tstring>(m_GestureID));
 		++m_GestureID;
 	}
 
-	void BaseScene::AddGesture(BaseGesture* gesture, const tstring & name)
+	void BaseScene::AddGesture(BaseGesture* pGesture, const tstring & name)
 	{
-		m_GestureManagerPtr->AddGesture(gesture, name);
+		m_pGestureManager->AddGesture(pGesture, name);
 	}
 
-	void BaseScene::RemoveGesture(BaseGesture* gesture)
+	void BaseScene::RemoveGesture(BaseGesture* pGesture)
 	{
-		m_GestureManagerPtr->RemoveGesture(gesture);
+		m_pGestureManager->RemoveGesture(pGesture);
 	}
 
 	void BaseScene::RemoveGesture(const tstring & name)
 	{
-		m_GestureManagerPtr->RemoveGesture(name);
+		m_pGestureManager->RemoveGesture(name);
 	}
 
 	void BaseScene::SetObjectFrozen(const tstring & name, bool freeze)
 	{
-		for(auto object : m_Objects)
+		for(auto object : m_pObjects)
 		{
 			if(object->CompareName(name))
 			{
@@ -312,7 +320,7 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 
 	void BaseScene::SetObjectDisabled(const tstring & name, bool disabled)
 	{
-		for(auto object : m_Objects)
+		for(auto object : m_pObjects)
 		{
 			if(object->CompareName(name))
 			{
@@ -328,7 +336,7 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 
 	void BaseScene::SetObjectVisible(const tstring & name, bool visible)
 	{
-		for(auto object : m_Objects)
+		for(auto object : m_pObjects)
 		{
 			if(object->CompareName(name))
 			{
@@ -344,7 +352,7 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 
 	void BaseScene::SetGroupFrozen(const tstring & tag, bool visible)
 	{
-		for(auto object : m_Objects)
+		for(auto object : m_pObjects)
 		{
 			if(object->CompareGroupTag(tag))
 			{
@@ -355,7 +363,7 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 
 	void BaseScene::SetGroupDisabled(const tstring & tag, bool visible)
 	{
-		for(auto object : m_Objects)
+		for(auto object : m_pObjects)
 		{
 			if(object->CompareGroupTag(tag))
 			{
@@ -366,7 +374,7 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 
 	void BaseScene::SetGroupVisible(const tstring & tag, bool visible)
 	{
-		for(auto object : m_Objects)
+		for(auto object : m_pObjects)
 		{
 			if(object->CompareGroupTag(tag))
 			{
@@ -378,7 +386,7 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 	void BaseScene::GetGroup(const tstring & tag, std::vector<Object*> & group)
 	{
 		group.clear();
-		for(auto object : m_Objects)
+		for(auto object : m_pObjects)
 		{
 			if(object->CompareGroupTag(tag))
 			{
@@ -418,6 +426,18 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 	{
 		return CULLING_IS_ENABLED;
 	}
+	
+	bool BaseScene::IsObjectNameAlreadyInUse(const tstring & name) const
+	{
+		for(auto object : m_pObjects)
+		{
+			if(object->CompareName(name))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	void BaseScene::SetCursorHidden(bool hidden)
 	{
@@ -441,10 +461,10 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 #endif
 	}
 
-	void BaseScene::SetCursor(UIBaseCursor * cursor)
+	void BaseScene::SetCursor(UIBaseCursor * pCursor)
 	{
 		SafeDelete(m_pCursor);
-		m_pCursor = cursor;
+		m_pCursor = pCursor;
 		m_pCursor->BaseInitialize();
 		SetSystemCursorHidden(true);
 #ifdef MOBILE
@@ -529,12 +549,12 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 
 	std::shared_ptr<GestureManager> BaseScene::GetGestureManager() const
 	{
-		return m_GestureManagerPtr;
+		return m_pGestureManager;
 	}
 
 	std::shared_ptr<CollisionManager> BaseScene::GetCollisionManager() const
 	{
-		return m_CollisionManagerPtr;
+		return m_pCollisionManager;
 	}
 
 	void BaseScene::SetCullingOffset(int32 offset)
@@ -551,17 +571,17 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 
 	void BaseScene::CollectGarbage()
 	{
-		for(auto elem : m_Garbage)
+		for(auto pElement : m_pGarbage)
 		{
-			auto it = std::find(m_Objects.begin(), m_Objects.end(), elem);
-			Logger::GetInstance()->Log(it != m_Objects.end(),
+			auto it = std::find(m_pObjects.begin(), m_pObjects.end(), pElement);
+			Logger::GetInstance()->Log(it != m_pObjects.end(),
 				_T("BaseScene::CollectGarbage: Trying to delete unknown object"),
 				STARENGINE_LOG_TAG);
 			(*it)->UnsetScene();
-			m_Objects.erase(it);
-			delete elem;
+			m_pObjects.erase(it);
+			delete pElement;
 		}
-		m_Garbage.clear();
+		m_pGarbage.clear();
 		
 	}
 }

@@ -39,14 +39,14 @@ namespace star
 
 		bool IsInitialized() const;
 
-		virtual void AddObject(Object * object); 
-		void AddObject(Object * object, const tstring & name); 
-		virtual void RemoveObject(Object * object);
+		virtual void AddObject(Object * pObject); 
+		void AddObject(Object * pObject, const tstring & name); 
+		virtual void RemoveObject(Object * pObject);
 		void RemoveObject(const tstring & name);
 
-		void AddGesture(BaseGesture* gesture);
-		void AddGesture(BaseGesture* gesture, const tstring & name);
-		void RemoveGesture(BaseGesture* gesture);
+		void AddGesture(BaseGesture* pGesture);
+		void AddGesture(BaseGesture* pGesture, const tstring & name);
+		void RemoveGesture(BaseGesture* pGesture);
 		void RemoveGesture(const tstring & name);
 
 		template <typename T>
@@ -70,10 +70,12 @@ namespace star
 		static void SetCullingIsEnabled(bool enabled);
 		static bool IsCullingEnabled();
 
+		bool IsObjectNameAlreadyInUse(const tstring & name) const;
+
 		void SetCursorHidden(bool hidden);
 		void SetSystemCursorHidden(bool hidden);
 
-		void SetCursor(UIBaseCursor * cursor);
+		void SetCursor(UIBaseCursor * pCursor);
 		void UnsetCursor(bool showSystemCursor = true);
 
 		void SetStateActiveCursor(const tstring & state);
@@ -98,11 +100,11 @@ namespace star
 
 		void SetOSCursorHidden(bool hidden);
 
-		std::shared_ptr<GestureManager> m_GestureManagerPtr;
-		std::shared_ptr<CollisionManager> m_CollisionManagerPtr;
+		std::shared_ptr<GestureManager> m_pGestureManager;
+		std::shared_ptr<CollisionManager> m_pCollisionManager;
 
-		std::vector<Object*> m_Objects;
-		std::vector<Object*> m_Garbage;
+		std::vector<Object*> m_pObjects;
+		std::vector<Object*> m_pGarbage;
 		BaseCamera *m_pDefaultCamera, *m_pActiveCamera;
 		std::shared_ptr<Stopwatch> m_pStopwatch;
 		UIBaseCursor *m_pCursor;

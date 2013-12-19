@@ -72,7 +72,7 @@ namespace star
 	TValue & Dictionary<TKey, TValue>::at(const TKey & key)
 	{
 		auto it = m_MultiMap.find(key);
-		Logger::GetInstance()->Log( it != m_MultiMap.end(), _T("Couldn't find key '") +
+		Logger::GetInstance()->Log(it != m_MultiMap.end(), _T("Couldn't find key '") +
 				string_cast<tstring>(key) + _T("'."), STARENGINE_LOG_TAG);
 		return ((*it).second);
 	}

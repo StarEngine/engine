@@ -72,13 +72,17 @@ namespace star
 #endif
 	}
 
-	bool XMLFileParser::ReadOrCreate(XMLContainer & container, DirectoryMode mode)
+	uint8 XMLFileParser::ReadOrCreate(
+		XMLContainer & container,
+		const tstring & rootName,
+		DirectoryMode mode
+		)
 	{
 		pugi::xml_document XMLDocument;
 		pugi::xml_parse_result result;
 		
 		SerializedData data;
-		if(ReadBinaryFileSafe(m_File.GetLocalPath(), data.data, data.size, mode))
+		if(ReadBinaryFileSafe(m_File.GetLocalPath(), data.data, data.size, mode, false))
 		{
 			result = XMLDocument.load_buffer_inplace_own(data.data, data.size);
 			if (result)
@@ -99,37 +103,65 @@ namespace star
 						} while (child != NULL);
 					}
 				}
+				Logger::GetInstance()->Log(LogLevel::Info,
+					_T("XMLFileParser::ReadOrCreate: read file '")
+					+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
+				return FILE_READ; 
 			}
-			else
-			{
-				Logger::GetInstance()->Log(LogLevel::Warning,
-					star::string_cast<tstring>(result.description()), STARENGINE_LOG_TAG);
-			}
-			return result;
+			Logger::GetInstance()->Log(LogLevel::Warning,
+				star::string_cast<tstring>(result.description()), STARENGINE_LOG_TAG);
+
+			return FILE_ERROR;
 		}
 
 		// Write the file instead
 		XMLFileSerializer serializer(m_File.GetLocalPath());
+		container.SetName(rootName);
 		serializer.Write(container, mode);
-		return true;
+		
+		Logger::GetInstance()->Log(LogLevel::Info,
+			_T("XMLFileParser::ReadOrCreate: created file '")
+			+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
+
+		return FILE_WRITE;
 	}
 	
-	bool XMLFileParser::ReadOrCreate(XMLContainer & container, const tstring & binary_path,
-		DirectoryMode mode)
+	uint8 XMLFileParser::ReadOrCreate(
+		XMLContainer & container,
+		const tstring & rootName,
+		const tstring & binary_path,
+		DirectoryMode mode
+		)
 	{
 #ifdef _DEBUG
-		bool result = ReadOrCreate(container, mode);
+		uint8 result = ReadOrCreate(container, rootName, mode);
 		if(result)
 		{
 			container.Serialize(binary_path, mode);
 		}
 		return result;
 #else
-		if(!container.DeserializeSafe(binary_path, mode))
+		if(!container.DeserializeSafe(
+				binary_path,
+				mode
+				)
+			)
 		{
-			container.Serialize(binary_path, mode);;
-			return true;
+			container.SetName(rootName);
+			container.Serialize(binary_path, mode);
+		
+			Logger::GetInstance()->Log(LogLevel::Info,
+				_T("XMLFileParser::ReadOrCreate: created file '")
+				+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
+
+			return FILE_WRITE;
 		}
+
+		Logger::GetInstance()->Log(LogLevel::Info,
+			_T("XMLFileParser::ReadOrCreate: read file '")
+			+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
+
+		return FILE_READ;
 #endif
 	}
 
