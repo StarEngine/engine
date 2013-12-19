@@ -27,6 +27,7 @@ namespace star
 			DirectoryMode mode
 			)
 	{
+		Write(container, mode);
 		container.Serialize(binaryPath, mode);
 	}
 
