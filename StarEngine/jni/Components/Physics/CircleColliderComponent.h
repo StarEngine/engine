@@ -18,7 +18,9 @@ namespace star
 		/// If you use this constructor, make sure to
 		/// a) Add a <see cref="SpriteComponent"/> or <see cref="SpriteSheetComponent"/>
 		/// before you add this component, 
-		/// the width and height of the visible part of the sprite will be used to determine the radius of the colliders.
+		/// the width and height of the visible part of the sprite will be used to 
+		/// determine the radius of the colliders.
+		/// b) Use SetRadius to define a radius. 
 		/// Using collision layers is strongly advised, so use this constructor with care.
 		/// The collider will be added to the default collision group.
 		/// </summary>
@@ -28,7 +30,9 @@ namespace star
 		/// If you use this constructor, make sure to
 		/// a) Add a <see cref="SpriteComponent"/> or <see cref="SpriteSheetComponent"/>
 		/// before you add this component, 
-		/// the width and height of the visible part of the sprite will be used to determine the radius of the colliders.
+		/// the width and height of the visible part of the sprite will be used to 
+		/// determine the radius of the colliders.
+		/// b) Use SetRadius to define a radius. 
 		/// </summary>
 		/// <param name="layers">An array of layers to add the component to.</param>
 		/// <param name="n">The number of layers in the array.</param>
@@ -97,7 +101,8 @@ namespace star
 			) const;
 		/// <summary>
 		/// Determines if there is a collision between an other collider component and this collider.
-		/// This function is internally used by the Collision Manager, Using this function yourself is not advised.
+		/// This function is internally used by the Collision Manager, 
+		/// Using this function yourself is not advised.
 		/// </summary>
 		/// <param name="other">The other collider component.</param>
 		/// <returns>True if there is a collision</returns>
