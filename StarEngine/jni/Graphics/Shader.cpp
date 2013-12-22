@@ -93,14 +93,6 @@ namespace star
 		glAttachShader(m_ShaderID, m_VertexShader);
 		glAttachShader(m_ShaderID, m_FragmentShader);
 
-		//[TODO] Move outside of this class!
-		//[TODO] Write material class for more flexibility
-		glBindAttribLocation(m_ShaderID, ATTRIB_VERTEX, "position");
-		glBindAttribLocation(m_ShaderID, ATTRIB_UV, "texCoord");
-		glBindAttribLocation(m_ShaderID, ATTRIB_COLOR, "colorMultiplier");
-		glBindAttribLocation(m_ShaderID, ATTRIB_HUD, "isHUD");
-		//[TODO] end
-
 		glLinkProgram(m_ShaderID);
 		GLint status;
 		glGetProgramiv(m_ShaderID, GL_LINK_STATUS, &status);

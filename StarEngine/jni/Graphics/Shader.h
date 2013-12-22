@@ -16,15 +16,6 @@
 
 namespace star
 {
-	// Attribute index.
-	enum
-	{
-		ATTRIB_VERTEX,
-		ATTRIB_UV,
-		ATTRIB_COLOR,
-		ATTRIB_HUD
-	};
-
 	class Shader final
 	{
 	public:
