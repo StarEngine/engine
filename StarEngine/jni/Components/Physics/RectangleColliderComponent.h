@@ -1,8 +1,6 @@
 #pragma once
 #include "BaseColliderComponent.h"
-#include "../../defines.h"
 #include "../../Helpers\Rect.h"
-#include <vector>
 
 namespace star
 {

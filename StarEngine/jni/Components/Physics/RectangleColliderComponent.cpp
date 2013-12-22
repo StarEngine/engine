@@ -1,15 +1,11 @@
 #include "RectangleColliderComponent.h"
-#include "CircleColliderComponent.h"
 #include "../../Objects/Object.h"
-#include "../../Logger.h"
-#include "../../Graphics/GraphicsManager.h"
-#include "../Graphics/SpriteComponent.h"
-#include "../../Helpers/Debug/DebugDraw.h"
-#include "../../Helpers/Helpers.h"
-#include "../../Helpers/Math.h"
-#include "../../Scenes/SceneManager.h"
 #include "../../Scenes/BaseScene.h"
 #include "../../Physics/Collision/CollisionManager.h"
+#include "../Graphics/SpriteComponent.h"
+#include "../../Helpers/Math.h"
+#include "../../Graphics/GraphicsManager.h"
+#include "../../Helpers/Debug/DebugDraw.h"
 
 namespace star
 {

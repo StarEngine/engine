@@ -60,7 +60,6 @@ namespace star
 		/// Creates a new instance of the <see cref="ScaleSystem"/>
 		/// Private because of Singleton design pattern.
 		/// </summary>
-		/// <returns></returns>
 		ScaleSystem();
 
 		vec2 m_WorkingRes;
