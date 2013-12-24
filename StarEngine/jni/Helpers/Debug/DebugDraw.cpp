@@ -276,7 +276,7 @@ namespace star
 
 	void DebugDraw::Begin()
 	{
-		glUseProgram(m_Shader->GetID());
+		m_Shader->Bind();
 		
 		float32 scaleValue(ScaleSystem::GetInstance()->GetScale());
 		mat4 scaleMat(Scale(scaleValue, scaleValue, 1.0f));
@@ -330,7 +330,7 @@ namespace star
 
 	void DebugDraw::End()
 	{
-		glUseProgram(0);
+		m_Shader->Unbind();
 		m_VertexBuffer.clear();
 	}
 
