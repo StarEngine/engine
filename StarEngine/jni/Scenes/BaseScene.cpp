@@ -203,7 +203,8 @@ namespace star
 		if(!pObject)
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("BaseScene::AddObjec: Trying to add a nullptr object."));
+				_T("BaseScene::AddObject: You can't add a nullptr object.\
+ Adding failed!"));
 			return;
 		}
 		auto it = std::find(m_pObjects.begin(), m_pObjects.end(), pObject);
@@ -215,7 +216,7 @@ namespace star
 			}
 			if(IsObjectNameAlreadyInUse(pObject->GetName()))
 			{
-				Logger::GetInstance()->Log(LogLevel::Warning,
+				Logger::GetInstance()->DebugLog(LogLevel::Warning,
 				_T("BaseScene::AddObject: an object with the name '")
 				+ pObject->GetName() + _T("' already exists. \
 Object gets added but beware, duplicate names can become the cause of problems."),
@@ -237,7 +238,7 @@ Object gets added but beware, duplicate names can become the cause of problems."
 		if(!pObject)
 		{
 			Logger::GetInstance()->Log(LogLevel::Error,
-				_T("BaseScene::AddObjec: Trying to add a nullptr object."));
+				_T("BaseScene::AddObject: Trying to add a nullptr object."));
 			return;
 		}
 		pObject->SetName(name);
@@ -261,11 +262,11 @@ Object gets added but beware, duplicate names can become the cause of problems."
 	
 	void BaseScene::RemoveObject(const tstring & name)
 	{
-		for(auto object : m_pObjects)
+		for(auto pObject : m_pObjects)
 		{
-			if(object->CompareName(name))
+			if(pObject->CompareName(name))
 			{
-				RemoveObject(object);
+				RemoveObject(pObject);
 				return;
 			}
 		}
@@ -304,11 +305,11 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 
 	void BaseScene::SetObjectFrozen(const tstring & name, bool freeze)
 	{
-		for(auto object : m_pObjects)
+		for(auto pObject : m_pObjects)
 		{
-			if(object->CompareName(name))
+			if(pObject->CompareName(name))
 			{
-				object->Freeze(freeze);
+				pObject->Freeze(freeze);
 				return;
 			}
 		}
@@ -320,11 +321,11 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 
 	void BaseScene::SetObjectDisabled(const tstring & name, bool disabled)
 	{
-		for(auto object : m_pObjects)
+		for(auto pObject : m_pObjects)
 		{
-			if(object->CompareName(name))
+			if(pObject->CompareName(name))
 			{
-				object->SetDisabled(disabled);
+				pObject->SetDisabled(disabled);
 				return;
 			}
 		}
@@ -336,11 +337,11 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 
 	void BaseScene::SetObjectVisible(const tstring & name, bool visible)
 	{
-		for(auto object : m_pObjects)
+		for(auto pObject : m_pObjects)
 		{
-			if(object->CompareName(name))
+			if(pObject->CompareName(name))
 			{
-				object->SetVisible(visible);
+				pObject->SetVisible(visible);
 				return;
 			}
 		}
@@ -352,45 +353,44 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 
 	void BaseScene::SetGroupFrozen(const tstring & tag, bool visible)
 	{
-		for(auto object : m_pObjects)
+		for(auto pObject : m_pObjects)
 		{
-			if(object->CompareGroupTag(tag))
+			if(pObject->CompareGroupTag(tag))
 			{
-				object->Freeze(visible);
+				pObject->Freeze(visible);
 			}
 		}
 	}
 
 	void BaseScene::SetGroupDisabled(const tstring & tag, bool visible)
 	{
-		for(auto object : m_pObjects)
+		for(auto pObject : m_pObjects)
 		{
-			if(object->CompareGroupTag(tag))
+			if(pObject->CompareGroupTag(tag))
 			{
-				object->SetDisabled(visible);
+				pObject->SetDisabled(visible);
 			}
 		}
 	}
 
 	void BaseScene::SetGroupVisible(const tstring & tag, bool visible)
 	{
-		for(auto object : m_pObjects)
+		for(auto pObject : m_pObjects)
 		{
-			if(object->CompareGroupTag(tag))
+			if(pObject->CompareGroupTag(tag))
 			{
-				object->SetVisible(visible);
+				pObject->SetVisible(visible);
 			}
 		}
 	}
 
 	void BaseScene::GetGroup(const tstring & tag, std::vector<Object*> & group)
 	{
-		group.clear();
-		for(auto object : m_pObjects)
+		for(auto pObject : m_pObjects)
 		{
-			if(object->CompareGroupTag(tag))
+			if(pObject->CompareGroupTag(tag))
 			{
-				group.push_back(object);
+				group.push_back(pObject);
 			}
 		}
 	}

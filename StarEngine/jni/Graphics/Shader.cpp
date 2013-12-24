@@ -267,9 +267,9 @@ Could not compile shader of type ")
 
 		GLint written, size, location;
 		GLenum type;
-		Logger::GetInstance()->Log(LogLevel::Debug,
+		Logger::GetInstance()->DebugLog(LogLevel::Info,
 			_T(" Location | Name"), STARENGINE_LOG_TAG);
-		Logger::GetInstance()->Log(LogLevel::Debug,
+		Logger::GetInstance()->DebugLog(LogLevel::Info,
 			_T("------------------------------------------------"),
 			STARENGINE_LOG_TAG);
 		for(GLuint i = 0; i < GLuint(nAttribs); ++i)
@@ -285,7 +285,7 @@ Could not compile shader of type ")
 				);
 			location = glGetAttribLocation(m_ProgramID, name);
 			Logger::GetInstance()->
-				Log(LogLevel::Debug, 
+				DebugLog(LogLevel::Info, 
 					string_cast<tstring>(location) +
 					_T(" | ") + 
 					string_cast<tstring>(name), 
@@ -308,9 +308,9 @@ Could not compile shader of type ")
 		GLint size, location;
 		GLsizei written;
 		GLenum type;
-		Logger::GetInstance()->Log(LogLevel::Debug,
+		Logger::GetInstance()->DebugLog(LogLevel::Info,
 			_T(" Location | Name"), STARENGINE_LOG_TAG);
-		Logger::GetInstance()->Log(LogLevel::Debug,
+		Logger::GetInstance()->DebugLog(LogLevel::Info,
 			_T("------------------------------------------------"),
 			STARENGINE_LOG_TAG);
 		for(GLuint i = 0; i < GLuint(nUniforms); ++i)
@@ -326,7 +326,7 @@ Could not compile shader of type ")
 				);
 			location = glGetUniformLocation(m_ProgramID, name);
 			Logger::GetInstance()->
-				Log(LogLevel::Debug, 
+				DebugLog(LogLevel::Info, 
 					string_cast<tstring>(location) +
 					_T(" | ") + 
 					string_cast<tstring>(name), 

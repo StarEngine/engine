@@ -461,7 +461,7 @@ to the same object is illegal."), STARENGINE_LOG_TAG);
 
 		if(IsChildNameAlreadyInUse(pChild->GetName()))
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			Logger::GetInstance()->DebugLog(LogLevel::Warning,
 				_T("Object::AddChild: a child with the name '")
 				+ pChild->GetName() + _T("' already exists. \
 Child gets added but beware, duplicate names can become the cause of problems."),
@@ -607,7 +607,7 @@ Trying to (un)hide unknown child '")
 		}
 		if(IsActionNameAlreadyInUse(pAction->GetName()))
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			Logger::GetInstance()->DebugLog(LogLevel::Warning,
 			_T("Object::AddAction: an action with the name '")
 			+ pAction->GetName() + _T("' already exists. \
 Action gets added but beware, duplicate names can become the cause of problems."),

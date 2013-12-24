@@ -80,19 +80,8 @@ namespace star
 		m_TimeStamp = context.mTimeManager->GetTimeStamp();
 	}
 
-	void Logger::Log(bool assert, const tstring& pMessage, const tstring& tag)
-	{
-		if(!assert)
-		{
-			Log(LogLevel::Error, pMessage, tag);
-		}
-		ASSERT(assert, pMessage.c_str());
-	}
-
 	void Logger::Log(LogLevel level, const tstring& pMessage, const tstring& tag)
 	{
-#if LOGGER_MIN_LEVEL > 0
-		
 		tstring levelName;
 		switch(level)
 		{
@@ -110,80 +99,44 @@ namespace star
 			break;
 		}
 
-	#ifdef DESKTOP
-		tstringstream messageBuffer;
-		messageBuffer << _T("[") << tag << _T("] ") << _T("[") << levelName <<  _T("] ") << pMessage << std::endl;
-		tstring combinedMessage = messageBuffer.str();
-		
-		if(m_UseConsole)
+		PrivateLog(level, pMessage, tag, levelName);
+	}
+
+	void Logger::Log(bool assert, const tstring& pMessage, const tstring& tag)
+	{
+		if(!assert)
 		{
-			switch(level)
-			{
-			case LogLevel::Info :
-				#if LOGGER_MIN_LEVEL < 2
-				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-				#endif
-				break;
-			case LogLevel::Warning :
-				#if LOGGER_MIN_LEVEL < 3
-				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
-				#endif
-				break;
-			case LogLevel::Error :
-				#if LOGGER_MIN_LEVEL < 4
-				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED);
-				#endif
-				break;
-			case LogLevel::Debug :
-				#if LOGGER_MIN_LEVEL < 5
-				#ifdef DEBUG
-				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
-				#endif
-				#endif
-				break;
-			}
-			tprintf(combinedMessage.c_str());
+			Log(LogLevel::Error, pMessage, tag);
 		}
-		else
-		{
-			OutputDebugString(combinedMessage.c_str());
-		}
-		#ifndef NO_LOG_FILE
-		LogMessage(combinedMessage);
-		#endif
-	#else
+		ASSERT(assert, pMessage.c_str());
+	}
+
+	void Logger::DebugLog(
+		LogLevel level,
+		const tstring & pMessage,
+		const tstring& tag
+		)
+	{
+	#ifdef _DEBUG
+		tstring levelName;
 		switch(level)
 		{
-		case LogLevel::Info:
-			#if LOGGER_MIN_LEVEL < 2
-			__android_log_print(ANDROID_LOG_INFO, tag.c_str(), "%s", pMessage.c_str());
-			#endif
+		case LogLevel::Info :
+			levelName = _T("INFO-D");
 			break;
 		case LogLevel::Warning:
-			#if LOGGER_MIN_LEVEL < 3
-			__android_log_print(ANDROID_LOG_WARN, tag.c_str(), "%s", pMessage.c_str());
-			#endif
+			levelName = _T("WARNING-D");
 			break;
 		case LogLevel::Error:
-			#if LOGGER_MIN_LEVEL < 4
-			__android_log_print(ANDROID_LOG_ERROR, tag.c_str(), "%s", pMessage.c_str());
-			#endif
+			levelName = _T("ERROR-D");
 			break;
 		case LogLevel::Debug:
-			#if LOGGER_MIN_LEVEL < 5
-			#ifdef DEBUG
-			__android_log_print(ANDROID_LOG_DEBUG, tag.c_str(), pMessage.c_str());
-			#endif
-			#endif
+			levelName = _T("DEBUG");
 			break;
 		}
-		#ifndef NO_LOG_FILE
-		tstringstream messageBuffer;
-		messageBuffer << _T("[") << tag << _T("] ") << _T("[") << levelName <<  _T("] ") << pMessage << std::endl;
-		LogMessage(messageBuffer.str());
-		#endif
+
+		PrivateLog(level, pMessage, tag, levelName);
 	#endif
-#endif
 	}
 
 	void Logger::_CheckGlError(const schar* file, int32 line) 
@@ -231,6 +184,90 @@ namespace star
 		SceneManager::GetInstance()->GetStopwatch()->SetTargetTimeTimer(
 			_T("STAR_LogSaveFileTimer"), seconds, true, false);
 		SaveLogFile();
+#endif
+	}
+	
+	void Logger::PrivateLog(
+		LogLevel level,
+		const tstring& pMessage,
+		const tstring& tag,
+		const tstring& levelName
+		)
+	{
+#if LOGGER_MIN_LEVEL > 0
+	#ifdef DESKTOP
+		tstringstream messageBuffer;
+		messageBuffer << _T("[") << tag << _T("] ") << _T("[") << levelName <<  _T("] ") << pMessage << std::endl;
+		tstring combinedMessage = messageBuffer.str();
+		
+		if(m_UseConsole)
+		{
+			switch(level)
+			{
+			case LogLevel::Info :
+				#if LOGGER_MIN_LEVEL < 2
+				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+				#endif
+				break;
+			case LogLevel::Warning :
+				#if LOGGER_MIN_LEVEL < 3
+				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
+				#endif
+				break;
+			case LogLevel::Error :
+				#if LOGGER_MIN_LEVEL < 4
+				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED);
+				#endif
+				break;
+			case LogLevel::Debug :
+				#if LOGGER_MIN_LEVEL < 5
+				#ifdef _DEBUG
+				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
+				#endif
+				#endif
+				break;
+			}
+			tprintf(combinedMessage.c_str());
+		}
+		else
+		{
+			OutputDebugString(combinedMessage.c_str());
+		}
+		#ifndef NO_LOG_FILE
+		LogMessage(combinedMessage);
+		#endif
+	#else
+		switch(level)
+		{
+		case LogLevel::Info:
+			#if LOGGER_MIN_LEVEL < 2
+			__android_log_print(ANDROID_LOG_INFO, tag.c_str(), "%s", pMessage.c_str());
+			#endif
+			break;
+		case LogLevel::Warning:
+			#if LOGGER_MIN_LEVEL < 3
+			__android_log_print(ANDROID_LOG_WARN, tag.c_str(), "%s", pMessage.c_str());
+			#endif
+			break;
+		case LogLevel::Error:
+			#if LOGGER_MIN_LEVEL < 4
+			__android_log_print(ANDROID_LOG_ERROR, tag.c_str(), "%s", pMessage.c_str());
+			#endif
+			break;
+		case LogLevel::Debug:
+			#if LOGGER_MIN_LEVEL < 5
+			#ifdef DEBUG
+			__android_log_print(ANDROID_LOG_DEBUG, tag.c_str(), pMessage.c_str());
+			#endif
+			#endif
+			break;
+		}
+		#ifndef NO_LOG_FILE
+		tstringstream messageBuffer;
+		messageBuffer << _T("[") << tag << _T("] ") << _T("[") << levelName <<  _T("] ") << pMessage << std::endl;
+		LogMessage(messageBuffer.str());
+		#endif
+	#endif
 #endif
 	}
 

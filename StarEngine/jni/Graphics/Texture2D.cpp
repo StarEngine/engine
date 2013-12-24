@@ -251,11 +251,11 @@ namespace star
 		delete[] lRowPtrs;
 
 #ifdef DESKTOP
-		Logger::GetInstance()->Log(LogLevel::Debug,
+		Logger::GetInstance()->DebugLog(LogLevel::Info,
 			_T("PNG : ") + mPath + _T(" Created Succesfull"),
 			STARENGINE_LOG_TAG);
 #else
-		Logger::GetInstance()->Log(LogLevel::Debug,
+		Logger::GetInstance()->DebugLog(LogLevel::Info,
 					_T("PNG : ") + mResource.GetPath() + _T(" Created Succesfull"),
 					STARENGINE_LOG_TAG);
 #endif
