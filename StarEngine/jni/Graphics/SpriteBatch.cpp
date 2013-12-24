@@ -54,14 +54,7 @@ namespace star
 		tstring vShader(_T("Shaders/VertexPosColTexShader.vert")),
 				fShader(_T("Shaders/VertexPosColTexShader.frag"));
 
-		m_ShaderPtr = new Shader();
-		if(!m_ShaderPtr->Init(vShader, fShader))
-		{
-			Logger::GetInstance()->
-				Log(star::LogLevel::Info, 
-				_T("Initialization of Spritebatch Shader has Failed!"), 
-				STARENGINE_LOG_TAG);
-		}
+		m_ShaderPtr = new Shader(vShader, fShader);
 
 		m_VertexID = m_ShaderPtr->GetAttribLocation("position");
 		m_UVID = m_ShaderPtr->GetAttribLocation("texCoord");

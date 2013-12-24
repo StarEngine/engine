@@ -76,8 +76,7 @@ namespace star
 			";
 
 		// create program
-		m_Shader = new Shader();
-		m_Shader->Init(vertexShader, fragmentShader);
+		m_Shader = new Shader(vertexShader, fragmentShader);
 
 		m_ColorLocation = m_Shader->GetUniformLocation("color");
 		m_MVPLocation = m_Shader->GetUniformLocation("MVP");

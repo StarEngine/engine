@@ -213,9 +213,6 @@
     <ClInclude Include="jni\Helpers\glm\gtx\verbose_operator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\Scenes\LoadScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="jni\Helpers\SerializedData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -525,9 +522,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Helpers\AARect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="jni\Scenes\LoadScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Helpers\SerializedData.cpp">

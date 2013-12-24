@@ -16,16 +16,21 @@
 
 namespace star
 {
+	/// <summary>
+	/// Processing and loading of a provided vertex and fragment shader.
+	/// Can be used for all materials consisting of a vertex and fragment shader.
+	/// </summary>
 	class Shader final
 	{
 	public:
-		Shader();
+		/// <summary>
+		/// creates a new instance of the <see cref="Shader"/> class.
+		/// </summary>
+		/// <param name="vsFile">The vs file.</param>
+		/// <param name="fsFile">The fs file.</param>
 		Shader(const tstring& vsFile, const tstring& fsFile);
 		Shader(const GLchar* inLineVert, const GLchar* inLineFrag);
 		~Shader();
-
-		bool Init(const tstring& vsFile, const tstring& fsFile);
-		bool Init(const GLchar* inLineVert, const GLchar* inLineFrag);
 
 		void Bind();
 		void Unbind();
@@ -35,7 +40,11 @@ namespace star
 		GLuint GetAttribLocation(const GLchar* nameInShader) const;
 		void PrintActiveAttribs() const;
 		void PrintActiveUniforms() const;
+
 	private:
+		bool Init(const tstring& vsFile, const tstring& fsFile);
+		bool Init(const GLchar* inLineVert, const GLchar* inLineFrag);
+
 		bool CompileShader(GLuint* shader, GLenum type, const tstring& file);
 		bool CompileShader(GLuint* shader, GLenum type, const GLchar* inLineFile);
 
