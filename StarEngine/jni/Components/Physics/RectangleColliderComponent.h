@@ -28,7 +28,7 @@ namespace star
 		/// The collider will be added to the default collision group.
 		/// </summary>
 		/// <param name="size">The size of the collider.</param>
-		RectangleColliderComponent(const vec2& size);
+		RectangleColliderComponent(const vec2 & size);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RectangleColliderComponent"/> class.
 		/// Using collision layers is strongly advised, so use this constructor with care.
@@ -38,8 +38,22 @@ namespace star
 		/// <param name="height">The width of the collider.</param>
 		RectangleColliderComponent(
 			float32 width, 
-			float32 height);
+			float32 height
+			);
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RectangleColliderComponent"/> class.
+		/// If you use this constructor, make sure to
+		/// a) Add a <see cref="SpriteComponent"/> or <see cref="SpriteSheetComponent"/>
+		/// before you add this component, 
+		/// the width and height of the visible part of the sprite will be used to 
+		/// determine the size of the colliders.
+		/// b) Use SetCollisionRectSize to define the size of the collider.
+		/// </summary>
+		/// <param name="layer">The name of the layer to add the component to.</param>
+		RectangleColliderComponent(
+			const tstring & layers
+			);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RectangleColliderComponent"/> class.
 		/// If you use this constructor, make sure to
@@ -53,7 +67,18 @@ namespace star
 		/// <param name="n">The number of layers in the array.</param>
 		RectangleColliderComponent(
 			const tstring* layers, 
-			uint8 n = 1);
+			uint8 n
+			);
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RectangleColliderComponent"/> class.
+		/// </summary>
+		/// <param name="size">The size of the collider.</param>		
+		/// <param name="layer">The name of the layer to add the component to.</param>
+		RectangleColliderComponent(
+			const vec2 & size, 
+			const tstring & layer
+			);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RectangleColliderComponent"/> class.
 		/// </summary>
@@ -61,9 +86,22 @@ namespace star
 		/// <param name="layers">An array of layers to add the component to.</param>
 		/// <param name="n">The number of layers in the array.</param>
 		RectangleColliderComponent(
-			const vec2& size, 
+			const vec2 & size, 
 			const tstring* layers, 
-			uint8 n = 1);
+			uint8 n
+			);
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RectangleColliderComponent"/> class.
+		/// </summary>
+		/// <param name="width">The width of the collider.</param>
+		/// <param name="height">The width of the collider.</param>		
+		/// <param name="layer">The name of the layer to add the component to.</param>
+		RectangleColliderComponent(
+			float32 width, 
+			float32 height, 
+			const tstring & layer 
+			);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RectangleColliderComponent"/> class.
 		/// </summary>
@@ -75,7 +113,8 @@ namespace star
 			float32 width, 
 			float32 height, 
 			const tstring* layers, 
-			uint8 n = 1);
+			uint8 n
+			);
 
 		/// <summary>
 		/// Finalizes an instance of the <see cref="RectangleColliderComponent"/> class.
@@ -87,7 +126,7 @@ namespace star
 		/// </summary>
 		/// <param name="point">The point to check the collision with.</param>
 		/// <returns>True if there is a collision</returns>
-		bool CollidesWithPoint(const vec2& point) const;
+		bool CollidesWithPoint2D(const vec2 & point2D) const;
 
 		/// <summary>
 		/// Determines if there is a collision between a provided line and this collider.
@@ -95,14 +134,14 @@ namespace star
 		/// <param name="point1">First point of the line.</param>
 		/// <param name="point2">Second point of the line.</param>
 		/// <returns>True if there is a collision</returns>
-		bool CollidesWithLine(
-			const vec2& point1, 
-			const vec2& point2
+		bool CollidesWithLine2D(
+			const vec2& point2D1, 
+			const vec2& point2D2
 			) const;
 		/// <summary>
 		/// Determines if there is a collision between an other collider component and this collider.
 		/// This function is internally used by the Collision Manager, 
-		/// Using this function yourself is not advised.
+		/// using this function yourself is not advised.
 		/// </summary>
 		/// <param name="other">The other collider component.</param>
 		/// <returns>True if there is a collision</returns>
@@ -134,12 +173,12 @@ namespace star
 		/// <summary>
 		/// Gets the width of the collision rectangle.
 		/// </summary>
-		/// <returns>The width of the collisionn rectangle</returns>
+		/// <returns>The width of the collision rectangle</returns>
 		float32 GetCollisionRectWidth() const;
 		/// <summary>
 		/// Gets the height of the collision rectangle.
 		/// </summary>
-		/// <returns>The height of the collisionn rectangle</returns>
+		/// <returns>The height of the collision rectangle</returns>
 		float32 GetCollisionRectHeight() const;
 		/// <summary>
 		/// Gets the size of the colliison rectangle.
@@ -155,11 +194,23 @@ namespace star
 		void SetCollisionRectSize(
 			float32 width, 
 			float32 height);
+
 		/// <summary>
 		/// Sets the size of the collision rectangle.
 		/// </summary>
 		/// <param name="size">The new size of the collision rectangle.</param>
 		void SetCollisionRectSize(const vec2& size);
+
+		/// <summary>
+		/// Sets the width of the collision rectangle.
+		/// </summary>
+		/// <param name="width">The new width of the collision rectangle.</param>
+		void SetCollisionRectWidth(float32 width);
+		/// <summary>
+		/// Sets the height of the collision rectangle.
+		/// </summary>
+		/// <param name="width">The new height of the collision rectangle.</param>
+		void SetCollisionRectHeight(float32 height);
 
 	protected:
 		/// <summary>
@@ -243,27 +294,6 @@ namespace star
 		/// or on the size passed by the SetCollisionRectSize method.
 		/// </summary>
 		void CreateDimensions();
-
-		/// <summary>
-		/// Calculates the minimum of all elements in a given array.
-		/// </summary>
-		/// <param name="vec">The array.</param>
-		/// <param name="size">The size of the array.</param>
-		/// <returns></returns>
-		float32 CalculateMinimum(
-			const float32* vec, 
-			uint8 size
-			) const;
-		/// <summary>
-		/// Calculates the maximum of all elements in a given array.
-		/// </summary>
-		/// <param name="vec">The array.</param>
-		/// <param name="size">The size of the array.</param>
-		/// <returns></returns>
-		float32 CalculateMaximum(
-			const float32* vec,
-			uint8 size
-			) const;
 
 		RectangleColliderComponent(const RectangleColliderComponent& t);
 		RectangleColliderComponent(RectangleColliderComponent&& t);

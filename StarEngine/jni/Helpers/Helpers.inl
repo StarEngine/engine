@@ -6,6 +6,46 @@
 
 namespace star
 {
+	template < typename T>
+	T CalculateSmallestElem(
+		const T * vec, 
+		uint8 size
+		)
+	{
+		Logger::GetInstance()->Log(size != 0,
+			_T("You can't calculate the minimum of 0 elements!"),
+			STARENGINE_LOG_TAG);
+		float32 minimum = vec[0];
+		for(int32 i = 1; i < size; ++i)
+		{
+			if(vec[i] < minimum)
+			{
+				minimum = vec[i];
+			}
+		}
+		return minimum;
+	}
+
+	template < typename T>
+	T CalculateLargestElem(
+		const T * vec, 
+		uint8 size
+		)
+	{
+		Logger::GetInstance()->Log(size != 0, 
+			_T("You can't calculate the maximum of 0 elements!"),
+			STARENGINE_LOG_TAG);
+		float32 maximum = vec[0];
+		for(int32 i = 1; i < size; ++i)
+		{
+			if(vec[i] > maximum)
+			{
+				maximum = vec[i];
+			}
+		}
+		return maximum;
+	}
+
 	template < typename TReturnValue, typename TValue>
 	TReturnValue string_cast(const TValue & value)
 	{

@@ -16,7 +16,7 @@ namespace star
 	{
 	}
 	
-	RectangleColliderComponent::RectangleColliderComponent(const vec2& size)
+	RectangleColliderComponent::RectangleColliderComponent(const vec2 & size)
 		: BaseColliderComponent()
 		, m_CollisionRect()
 		, m_CustomColliderSize(size)
@@ -26,7 +26,8 @@ namespace star
 
 	RectangleColliderComponent::RectangleColliderComponent(
 		float32 width, 
-		float32 height)
+		float32 height
+		)
 		: BaseColliderComponent()
 		, m_CollisionRect()
 		, m_CustomColliderSize(width, height)
@@ -35,8 +36,19 @@ namespace star
 	}
 
 	RectangleColliderComponent::RectangleColliderComponent(
+		const tstring & layer
+		)
+		: BaseColliderComponent(layer)
+		, m_CollisionRect()
+		, m_CustomColliderSize()
+	{
+
+	}
+
+	RectangleColliderComponent::RectangleColliderComponent(
 		const tstring* layers, 
-		uint8 n)
+		uint8 n
+		)
 		: BaseColliderComponent(layers, n)
 		, m_CollisionRect()
 		, m_CustomColliderSize()
@@ -45,20 +57,46 @@ namespace star
 	}
 
 	RectangleColliderComponent::RectangleColliderComponent(
-		const vec2& size, 
+		const vec2 & size, 
+		const tstring & layer
+		)
+		: BaseColliderComponent(layer)
+		, m_CollisionRect()
+		, m_CustomColliderSize(size)
+	{
+
+	}
+
+	RectangleColliderComponent::RectangleColliderComponent(
+		const vec2 & size, 
 		const tstring* layers, 
-		uint8 n)
+		uint8 n
+		)
 		: BaseColliderComponent(layers, n)
 		, m_CollisionRect()
 		, m_CustomColliderSize(size)
 	{
 
 	}
+
+	RectangleColliderComponent::RectangleColliderComponent(
+		float32 width, 
+		float32 height, 
+		const tstring & layer
+		)
+		: BaseColliderComponent(layer)
+		, m_CollisionRect()
+		, m_CustomColliderSize(width, height)
+	{
+		
+	}
+
 	RectangleColliderComponent::RectangleColliderComponent(
 		float32 width, 
 		float32 height, 
 		const tstring* layers, 
-		uint8 n)
+		uint8 n
+		)
 		: BaseColliderComponent(layers, n)
 		, m_CollisionRect()
 		, m_CustomColliderSize(width, height)
@@ -163,15 +201,15 @@ make sure you specify the width and the height! else the collider component has 
 		}
 	}
 
-	bool RectangleColliderComponent::CollidesWithPoint(const vec2& point) const
+	bool RectangleColliderComponent::CollidesWithPoint2D(const vec2& point2D) const
 	{
 		if(GetTransform()->GetWorldRotation() == 0.0f)
 		{
 			Rect rect(GetCollisionRect());
-			return !(rect.GetLeftTop().x > point.x 
-					|| rect.GetRightTop().x < point.x
-					|| rect.GetLeftTop().y < point.y 
-					|| rect.GetLeftBottom().y > point.y);
+			return !(rect.GetLeftTop().x > point2D.x 
+					|| rect.GetRightTop().x < point2D.x
+					|| rect.GetLeftTop().y < point2D.y 
+					|| rect.GetLeftBottom().y > point2D.y);
 		}
 		else
 		{
@@ -182,11 +220,11 @@ make sure you specify the width and the height! else the collider component has 
 			vec2 axis1(rect.GetRightTop() - rect.GetLeftTop());
 			vec2 axis2(rect.GetRightTop() - rect.GetRightBottom());
 
-			if(!CalculateAxisSpecificCollision(rect, point, axis1))
+			if(!CalculateAxisSpecificCollision(rect, point2D, axis1))
 			{
 				return false;		
 			}
-			if(!CalculateAxisSpecificCollision(rect, point, axis2))
+			if(!CalculateAxisSpecificCollision(rect, point2D, axis2))
 			{
 				return false;
 			}
@@ -195,56 +233,56 @@ make sure you specify the width and the height! else the collider component has 
 		
 	}
 
-	bool RectangleColliderComponent::CollidesWithLine(
-		const vec2& point1, 
-		const vec2& point2
+	bool RectangleColliderComponent::CollidesWithLine2D(
+		const vec2& point2D1, 
+		const vec2& point2D2
 		) const
 	{
-		Logger::GetInstance()->Log(point1 != point2,
+		Logger::GetInstance()->Log(point2D1 != point2D2,
 			_T("Please provide 2 different points to make a line!"),
 			STARENGINE_LOG_TAG);
 
-		if(GetTransform()->GetWorldRotation() == 0.0f && (point1.x == point2.x || point1.y == point2.y))
+		if(GetTransform()->GetWorldRotation() == 0.0f && (point2D1.x == point2D2.x || point2D1.y == point2D2.y))
 		{
 			//If rect is AABB and line also AA
 			Rect rect(GetCollisionRect());
 			bool returnValue(false);
-			if(point1.x == point2.x)
+			if(point2D1.x == point2D2.x)
 			{
 				//Line is vertical
 				//if lowest point of line is bigger than highest point of rect or
 				//if highest point of line is smaller than lowest point of rect
-				if(point1.y < point2.y)
+				if(point2D1.y < point2D2.y)
 				{
-					returnValue = !(rect.GetLeftTop().x > point1.x 
-								|| rect.GetRightTop().x < point1.x 
-								|| rect.GetLeftTop().y < point1.y 
-								|| rect.GetLeftBottom().y > point2.y);
+					returnValue = !(rect.GetLeftTop().x > point2D1.x 
+								|| rect.GetRightTop().x < point2D1.x 
+								|| rect.GetLeftTop().y < point2D1.y 
+								|| rect.GetLeftBottom().y > point2D2.y);
 				}
 				else
 				{
-					returnValue = !(rect.GetLeftTop().x > point1.x 
-								|| rect.GetRightTop().x < point1.x 
-								|| rect.GetLeftTop().y < point2.y 
-								|| rect.GetLeftBottom().y > point1.y);
+					returnValue = !(rect.GetLeftTop().x > point2D1.x 
+								|| rect.GetRightTop().x < point2D1.x 
+								|| rect.GetLeftTop().y < point2D2.y 
+								|| rect.GetLeftBottom().y > point2D1.y);
 				}
 				return returnValue;;
 			}
 			else
 			{
-				if(point1.x < point2.x)
+				if(point2D1.x < point2D2.x)
 				{
-					returnValue = !(rect.GetLeftTop().y < point1.y 
-								|| rect.GetLeftBottom().y > point1.y 
-								|| rect.GetRightBottom().x < point1.x 
-								|| rect.GetLeftBottom().x > point2.x);
+					returnValue = !(rect.GetLeftTop().y < point2D1.y 
+								|| rect.GetLeftBottom().y > point2D1.y 
+								|| rect.GetRightBottom().x < point2D1.x 
+								|| rect.GetLeftBottom().x > point2D2.x);
 				}
 				else
 				{
-					returnValue = !(rect.GetLeftTop().y < point1.y 
-								|| rect.GetLeftBottom().y > point1.y 
-								|| rect.GetRightBottom().x < point2.x 
-								|| rect.GetLeftBottom().x > point1.x);
+					returnValue = !(rect.GetLeftTop().y < point2D1.y 
+								|| rect.GetLeftBottom().y > point2D1.y 
+								|| rect.GetRightBottom().x < point2D2.x 
+								|| rect.GetLeftBottom().x > point2D1.x);
 				}
 				return returnValue;;
 			}
@@ -253,19 +291,19 @@ make sure you specify the width and the height! else the collider component has 
 		{
 			Rect rect(GetCollisionRect());
 			//perpendicular of a vec =  (-y , x) or (y, -x)
-			vec2 axis1(-(point2 - point1).y , (point2 - point1).x);
+			vec2 axis1(-(point2D2 - point2D1).y , (point2D2 - point2D1).x);
 			vec2 axis2(rect.GetRightTop() - rect.GetLeftTop());
 			vec2 axis3(rect.GetRightTop() - rect.GetRightBottom());
 
-			if(!CalculateAxisSpecificCollision(rect, point1, point2, axis1))
+			if(!CalculateAxisSpecificCollision(rect, point2D1, point2D2, axis1))
 			{
 				return false;
 			}
-			if(!CalculateAxisSpecificCollision(rect, point1, point2, axis2))
+			if(!CalculateAxisSpecificCollision(rect, point2D1, point2D2, axis2))
 			{
 				return false;
 			}
-			if(!CalculateAxisSpecificCollision(rect, point1, point2, axis3))
+			if(!CalculateAxisSpecificCollision(rect, point2D1, point2D2, axis3))
 			{
 				return false;
 			}
@@ -387,11 +425,11 @@ The collierComponent to check is a nullptr"), STARENGINE_LOG_TAG);
 		vec2[0] = BvecPosOnAxis1;
 		vec2[1] = BvecPosOnAxis2;
 
-		float32 AMinimum = CalculateMinimum(vec1, 4);
-		float32 AMaximum = CalculateMaximum(vec1, 4);
+		float32 AMinimum = CalculateSmallestElem(vec1, 4);
+		float32 AMaximum = CalculateLargestElem(vec1, 4);
 
-		float32 BMinimum = CalculateMinimum(vec2, 2);
-		float32 BMaximum = CalculateMaximum(vec2, 2);
+		float32 BMinimum = CalculateSmallestElem(vec2, 2);
+		float32 BMaximum = CalculateLargestElem(vec2, 2);
 
 		return (BMinimum <= AMaximum && BMaximum >= AMinimum);
 	}
@@ -415,8 +453,8 @@ The collierComponent to check is a nullptr"), STARENGINE_LOG_TAG);
 		vec1[2] = AvecPosOnAxis3;
 		vec1[3] = AvecPosOnAxis4;
 
-		float32 AMinimum = CalculateMinimum(vec1, 4);
-		float32 AMaximum = CalculateMaximum(vec1, 4);
+		float32 AMinimum = CalculateSmallestElem(vec1, 4);
+		float32 AMaximum = CalculateLargestElem(vec1, 4);
 
 		return (BvecPosOnAxis1 <= AMaximum && BvecPosOnAxis1 >= AMinimum);
 	}
@@ -449,50 +487,12 @@ The collierComponent to check is a nullptr"), STARENGINE_LOG_TAG);
 		vec2[2] = BvecPosOnAxis3;
 		vec2[3] = BvecPosOnAxis4;
 
-		float32 AMinimum = CalculateMinimum(vec1, 4);
-		float32 BMinimum = CalculateMinimum(vec2, 4);
-		float32 AMaximum = CalculateMaximum(vec1, 4);
-		float32 BMaximum = CalculateMaximum(vec2, 4);
+		float32 AMinimum = CalculateSmallestElem(vec1, 4);
+		float32 BMinimum = CalculateSmallestElem(vec2, 4);
+		float32 AMaximum = CalculateLargestElem(vec1, 4);
+		float32 BMaximum = CalculateLargestElem(vec2, 4);
 
 		return BMinimum <= AMaximum && BMaximum >= AMinimum;
-	}
-
-	float32 RectangleColliderComponent::CalculateMinimum(
-		const float32* vec, 
-		uint8 size
-		) const
-	{
-		Logger::GetInstance()->Log(size != 0,
-			_T("You can't calculate the minimum of 0 elements!"),
-			STARENGINE_LOG_TAG);
-		float32 minimum = vec[0];
-		for(int32 i = 1; i < size; ++i)
-		{
-			if(vec[i] < minimum)
-			{
-				minimum = vec[i];
-			}
-		}
-		return minimum;
-	}
-
-	float32 RectangleColliderComponent::CalculateMaximum(
-		const float32* vec, 
-		uint8 size
-		) const
-	{
-		Logger::GetInstance()->Log(size != 0, 
-			_T("You can't calculate the maximum of 0 elements!"),
-			STARENGINE_LOG_TAG);
-		float32 maximum = vec[0];
-		for(int32 i = 1; i < size; ++i)
-		{
-			if(vec[i] > maximum)
-			{
-				maximum = vec[i];
-			}
-		}
-		return maximum;
 	}
 
 	float32 RectangleColliderComponent::GetCollisionRectWidth() const
@@ -524,6 +524,24 @@ The collierComponent to check is a nullptr"), STARENGINE_LOG_TAG);
 	void RectangleColliderComponent::SetCollisionRectSize(const vec2& size)
 	{
 		m_CustomColliderSize = size;
+
+		CreateDimensions();
+	}
+
+	void RectangleColliderComponent::SetCollisionRectWidth(
+		float32 width
+		)
+	{
+		m_CustomColliderSize.x = width;
+
+		CreateDimensions();
+	}
+
+	void RectangleColliderComponent::SetCollisionRectHeight(
+		float32 height
+		)
+	{
+		m_CustomColliderSize.y = height;
 
 		CreateDimensions();
 	}
