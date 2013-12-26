@@ -280,23 +280,42 @@ namespace star
 			{
 			case LogLevel::Info :
 				#if LOGGER_MIN_LEVEL < 2
-				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+				SetConsoleTextAttribute(
+					m_ConsoleHandle,
+					FOREGROUND_INTENSITY |
+						FOREGROUND_RED |
+						FOREGROUND_GREEN |
+						FOREGROUND_BLUE
+					);
 				#endif
 				break;
 			case LogLevel::Warning :
 				#if LOGGER_MIN_LEVEL < 3
-				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
+				SetConsoleTextAttribute(
+					m_ConsoleHandle,
+					FOREGROUND_INTENSITY |
+						FOREGROUND_RED |
+						FOREGROUND_GREEN
+					);
 				#endif
 				break;
 			case LogLevel::Error :
 				#if LOGGER_MIN_LEVEL < 4
-				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED);
+				SetConsoleTextAttribute(
+					m_ConsoleHandle,
+					FOREGROUND_INTENSITY |
+						FOREGROUND_RED
+					);
 				#endif
 				break;
 			case LogLevel::Debug :
 				#if LOGGER_MIN_LEVEL < 5
 				#ifdef _DEBUG
-				SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
+				SetConsoleTextAttribute(
+					m_ConsoleHandle,
+					FOREGROUND_INTENSITY |
+						FOREGROUND_GREEN
+					);
 				#endif
 				#endif
 				break;
@@ -315,30 +334,49 @@ namespace star
 		{
 		case LogLevel::Info:
 			#if LOGGER_MIN_LEVEL < 2
-			__android_log_print(ANDROID_LOG_INFO, tag.c_str(), "%s", pMessage.c_str());
+			__android_log_print(
+				ANDROID_LOG_INFO,
+				tag.c_str(), "%s",
+				pMessage.c_str()
+				);
 			#endif
 			break;
 		case LogLevel::Warning:
 			#if LOGGER_MIN_LEVEL < 3
-			__android_log_print(ANDROID_LOG_WARN, tag.c_str(), "%s", pMessage.c_str());
+			__android_log_print(
+				ANDROID_LOG_WARN,
+				tag.c_str(), "%s",
+				pMessage.c_str()
+				);
 			#endif
 			break;
 		case LogLevel::Error:
 			#if LOGGER_MIN_LEVEL < 4
-			__android_log_print(ANDROID_LOG_ERROR, tag.c_str(), "%s", pMessage.c_str());
+			__android_log_print(
+				ANDROID_LOG_ERROR,
+				tag.c_str(), "%s",
+				pMessage.c_str()
+				);
 			#endif
 			break;
 		case LogLevel::Debug:
 			#if LOGGER_MIN_LEVEL < 5
 			#ifdef DEBUG
-			__android_log_print(ANDROID_LOG_DEBUG, tag.c_str(), pMessage.c_str());
+			__android_log_print(
+				ANDROID_LOG_DEBUG,
+				tag.c_str(),
+				pMessage.c_str()
+				);
 			#endif
 			#endif
 			break;
 		}
 		#ifndef NO_LOG_FILE
 		tstringstream messageBuffer;
-		messageBuffer << _T("[") << tag << _T("] ") << _T("[") << levelName <<  _T("] ") << pMessage << std::endl;
+		messageBuffer << _T("[") << tag
+					  << _T("] ") << _T("[")
+					  << levelName <<  _T("] ")
+					  << pMessage << std::endl;
 		LogMessage(messageBuffer.str());
 		#endif
 	#endif
@@ -347,11 +385,15 @@ namespace star
 
 	void Logger::InitializeLogStream()
 	{
-		SceneManager::GetInstance()->GetStopwatch()->CreateTimer(_T("STAR_LogSaveFileTimer"), 60.0f,
+		SceneManager::GetInstance()->GetStopwatch()->CreateTimer(
+			_T("STAR_LogSaveFileTimer"), 60.0f,
 			false, true, [&] () { SaveLogFile(); }, false);
 
-		m_LogStream << _T("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
-		m_LogStream << _T("	Star Engine version ") << STARENGINE_VERSION << std::endl << std::endl;
+		m_LogStream << _T("++++++++++++++++++++++++++++++++++++++\
+++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
+		m_LogStream << _T("	Star Engine version ")
+					<< STARENGINE_VERSION << std::endl
+					<< std::endl;
 		m_LogStream << _T("	Game is built in");
 
 	#ifdef _DEBUG
@@ -372,8 +414,10 @@ namespace star
 	#endif
 		m_LogStream << std::endl;
 		m_LogStream << _T("	The Star Engine is licensed under the MIT License. \n");
-		m_LogStream << _T("	For more information you can go to http://www.starengine.eu/ \n\n");
-		m_LogStream << _T("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
+		m_LogStream << _T("	For more information you can go \
+to http://www.starengine.eu/ \n\n");
+		m_LogStream << _T("++++++++++++++++++++++++++++++++++\
+++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
 	}
 	
 	void Logger::LogMessage(const tstring & message)
