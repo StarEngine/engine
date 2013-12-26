@@ -16,9 +16,9 @@ namespace star
 		m_Width(width),
 		m_Height(height)
 	{
-		Logger::GetInstance()->Log(m_Width >= 0,
+		LOG(m_Width >= 0,
 			_T("Width can't be negative!"), STARENGINE_LOG_TAG);
-		Logger::GetInstance()->Log(m_Height >= 0,
+		LOG(m_Height >= 0,
 			_T("Height can't be negative!"), STARENGINE_LOG_TAG);
 	}
 

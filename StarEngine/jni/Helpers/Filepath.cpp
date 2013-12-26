@@ -39,7 +39,7 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 		}
 		if(dotCounter > 1)
 		{
-			Logger::GetInstance()->Log(LogLevel::Error, 
+			LOG(LogLevel::Error, 
 				_T("Please don't use . in your filename (except for the file extension)"),
 				STARENGINE_LOG_TAG);
 		}
@@ -239,7 +239,7 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 			{
 				tstringstream message;
 				message << _T("The path \" ") << path << _T(" \" Is Invalid!");
-				Logger::GetInstance()->Log(LogLevel::Error,
+				LOG(LogLevel::Error,
 					message.str(), STARENGINE_LOG_TAG);
 				break;
 			}

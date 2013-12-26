@@ -148,7 +148,7 @@ namespace star
 	
 		if(scene == nullptr)
 		{
-			Logger::GetInstance()->Log( 
+			LOG( 
 				LogLevel::Error,
 				_T("Can't set camera active, add this camera to a scene first!"),
 				STARENGINE_LOG_TAG

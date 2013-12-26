@@ -148,7 +148,7 @@ namespace star
 		}
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("XMLContainer::DeserializeSafe: Couldn't read file '")
 				+ file + _T("'."), STARENGINE_LOG_TAG);
 		}

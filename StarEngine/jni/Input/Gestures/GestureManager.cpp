@@ -50,7 +50,7 @@ namespace star
 	{
 		if(!gesture)
 		{
-			Logger::GetInstance()->Log(LogLevel::Error,
+			LOG(LogLevel::Error,
 				_T("GestureManager::AddGesture: Trying to add a nullptr gesture."));
 			return;
 		}
@@ -60,7 +60,7 @@ namespace star
 		}
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning, 
+			LOG(LogLevel::Warning, 
 				_T("The gesture manager already contains ") + tag,
 				STARENGINE_LOG_TAG);
 		}
@@ -69,7 +69,7 @@ namespace star
 
 	void GestureManager::RemoveGesture(BaseGesture* gesture)
 	{
-		Logger::GetInstance()->Log(LogLevel::Warning, 
+		LOG(LogLevel::Warning, 
 _T("Please use the method RemoveGesture(const tstring& tag) to remove gestures.\
 tusing GestureManager::RemoveGesture(BaseGesture* gesture) is much slower, use with care!"),
 			STARENGINE_LOG_TAG);
@@ -84,7 +84,7 @@ tusing GestureManager::RemoveGesture(BaseGesture* gesture) is much slower, use w
 				return;
 			}
 		}
-		Logger::GetInstance()->Log(it != m_GestureMap.end(),
+		LOG(it != m_GestureMap.end(),
 			_T("Gesture not found!"), STARENGINE_LOG_TAG);
 		
 	}
@@ -92,7 +92,7 @@ tusing GestureManager::RemoveGesture(BaseGesture* gesture) is much slower, use w
 	void GestureManager::RemoveGesture(const tstring& tag)
 	{
 		auto it = m_GestureMap.find(tag);
-		Logger::GetInstance()->Log(it != m_GestureMap.end(),
+		LOG(it != m_GestureMap.end(),
 			_T("GestureManager::RemoveGesture(const tstring& tag): Gesture \"") + 
 			tag +
 			tstring(_T("\" not found!")),

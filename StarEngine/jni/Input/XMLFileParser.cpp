@@ -32,7 +32,7 @@ namespace star
 		data.data = ReadBinaryFile(m_File.GetLocalPath(), data.size, mode);
 		result = XMLDocument.load_buffer_inplace_own(data.data, data.size);
 
-		Logger::GetInstance()->Log(result,
+		LOG(result,
 			star::string_cast<tstring>(result.description()), STARENGINE_LOG_TAG);
 		if (result)
 		{
@@ -103,12 +103,12 @@ namespace star
 						} while (child != NULL);
 					}
 				}
-				Logger::GetInstance()->Log(LogLevel::Info,
+				LOG(LogLevel::Info,
 					_T("XMLFileParser::ReadOrCreate: read file '")
 					+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
 				return FILE_READ; 
 			}
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				star::string_cast<tstring>(result.description()), STARENGINE_LOG_TAG);
 
 			return FILE_ERROR;
@@ -119,7 +119,7 @@ namespace star
 		container.SetName(rootName);
 		serializer.Write(container, mode);
 		
-		Logger::GetInstance()->Log(LogLevel::Info,
+		LOG(LogLevel::Info,
 			_T("XMLFileParser::ReadOrCreate: created file '")
 			+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
 
@@ -150,14 +150,14 @@ namespace star
 			container.SetName(rootName);
 			container.Serialize(binary_path, mode);
 		
-			Logger::GetInstance()->Log(LogLevel::Info,
+			LOG(LogLevel::Info,
 				_T("XMLFileParser::ReadOrCreate: created file '")
 				+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
 
 			return FILE_WRITE;
 		}
 
-		Logger::GetInstance()->Log(LogLevel::Info,
+		LOG(LogLevel::Info,
 			_T("XMLFileParser::ReadOrCreate: read file '")
 			+ m_File.GetLocalPath() + _T("'."), STARENGINE_LOG_TAG);
 

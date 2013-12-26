@@ -18,7 +18,7 @@ namespace star
 				auto returnobject = dynamic_cast<T*>(child);
 				if(returnobject == nullptr)
 				{
-					Logger::GetInstance()->Log(LogLevel::Error,
+					LOG(LogLevel::Error,
 						_T("Object::GetChildByName: couldn't convert object '")
 						+ name + _T("' to the requested type. Returning nullptr..."),
 						STARENGINE_LOG_TAG);
@@ -26,7 +26,7 @@ namespace star
 				return returnobject;
 			}
 		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
+		LOG(LogLevel::Warning,
 				_T("Object::GetChildByName: \
 Trying to get unknown child '")
 				+ name + _T("'."), STARENGINE_LOG_TAG);

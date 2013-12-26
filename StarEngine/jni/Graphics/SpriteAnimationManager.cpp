@@ -34,7 +34,7 @@ namespace star
 		}
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("SpriteAnimationManager::AddSpritesheet: This spritesheet already exists!"),
 				STARENGINE_LOG_TAG);
 		}
@@ -57,7 +57,7 @@ namespace star
 		}
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("SpriteAnimationManager::AddSpritesheet: This spritesheet already exists!"),
 				STARENGINE_LOG_TAG);
 		}
@@ -68,7 +68,7 @@ namespace star
 	{
 		auto it = m_Spritesheets.find(name);
 		bool isValid = it != m_Spritesheets.end();
-		Logger::GetInstance()->Log(isValid,
+		LOG(isValid,
 			_T("SpriteAnimationManager::GetSpritesheet(const tstring & name): Couldn't find \"") + 
 			name + tstring(_T("\" in the loaded spritesheets.")),
 			STARENGINE_LOG_TAG);

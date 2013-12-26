@@ -19,7 +19,7 @@ namespace star_a
 				star::string_cast<sstring>(path.c_str()).c_str(),
 				AASSET_MODE_UNKNOWN
 				);
-		star::Logger::GetInstance()->Log(asset != NULL,
+		star::LOG(asset != NULL,
 			_T("Couldn't find '") + path + _T("'."), STARENGINE_LOG_TAG);
 		data.size = AAsset_getLength(asset);
 		data.data = new schar[sizeof(schar) * data.size];
@@ -46,7 +46,7 @@ namespace star_a
 		}
 		else if(logWarning)
 		{
-			star::Logger::GetInstance()->Log(star::LogLevel::Warning,
+			star::LOG(star::LogLevel::Warning,
 				_T("Couldn't find '") + path + _T("'."), STARENGINE_LOG_TAG);
 		}
 		return result;

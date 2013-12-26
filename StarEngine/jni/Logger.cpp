@@ -264,7 +264,7 @@ namespace star
 					  << _T("] ") << _T("[")
 					  << levelName <<  _T("] ")
 					  << pMessage;
-		if(breakInfo.line != -1)
+		if(breakInfo.line != -1 && tag != STARENGINE_LOG_TAG)
 		{
 			messageBuffer << _T(" (L")
 						  << string_cast<tstring>(breakInfo.line)

@@ -42,7 +42,7 @@ namespace star
 		}
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("SpriteSheetComponent::Restart: There is no animation."),
 				STARENGINE_LOG_TAG);
 		}
@@ -56,7 +56,7 @@ namespace star
 		}
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("SpriteSheetComponent::Restart: There is no animation."),
 				STARENGINE_LOG_TAG);
 		}
@@ -70,7 +70,7 @@ namespace star
 		}
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("SpriteSheetComponent::Pause: There is no animation."),
 				STARENGINE_LOG_TAG);
 		}
@@ -84,7 +84,7 @@ namespace star
 		}
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("SpriteSheetComponent::Stop: There is no animation."),
 				STARENGINE_LOG_TAG);
 		}
@@ -101,7 +101,7 @@ namespace star
 			PushAnimationUnSafe(animation, callback);
 			return;
 		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
+		LOG(LogLevel::Warning,
 			_T("SpriteSheetComponent::PushAnimation: Couldn't find animation '")
 			+ animation + _T("'."), STARENGINE_LOG_TAG);
 	}
@@ -117,7 +117,7 @@ namespace star
 			PlayAnimationUnSafe(animation, callback);
 			return;
 		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
+		LOG(LogLevel::Warning,
 			_T("SpriteSheetComponent::PlayAnimation: Couldn't find animation '")
 			+ animation + _T("'."), STARENGINE_LOG_TAG);
 	}
@@ -134,7 +134,7 @@ namespace star
 			PlayAnimationUnSafe(animation, startFrame, callback);
 			return;
 		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
+		LOG(LogLevel::Warning,
 			_T("SpriteSheetComponent::PlayAnimation: Couldn't find animation '")
 			+ animation + _T("'."), STARENGINE_LOG_TAG);
 	}
@@ -238,7 +238,7 @@ namespace star
 		int32 nrOfFrames = m_Spritesheet.GetFramesHorizontal();
 		if(nrOfFrames == 0)
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("GetFramesHorizontal() -- nrOfFrames = 0!"), STARENGINE_LOG_TAG);
 		}
 		return nrOfFrames;
@@ -249,7 +249,7 @@ namespace star
 		int32 nrOfFrames = m_Spritesheet.GetFramesVertical();
 		if(nrOfFrames == 0)
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("GetFramesVertical() -- nrOfFrames = 0!"), STARENGINE_LOG_TAG);
 		}
 		return nrOfFrames;
@@ -260,7 +260,7 @@ namespace star
 		if(m_pParentObject->HasComponent<SpriteComponent>(this)
 			|| m_pParentObject->HasComponent<TextComponent>(this))
 		{
-			Logger::GetInstance()->Log(false,
+			LOG(false,
 				_T("Object '") + m_pParentObject->GetName() +
 				_T("': Can't add a SpriteSheetComponent when \
 already having a Sprite- or TextComponent."));

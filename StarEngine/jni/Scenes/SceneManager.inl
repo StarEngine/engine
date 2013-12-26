@@ -16,7 +16,7 @@ namespace star
 	T* SceneManager::GetScene(const tstring & name)
 	{
 		T* scene = dynamic_cast<T*>(GetScene(name));
-		Logger::GetInstance()->Log(!scene,
+		LOG(!scene,
 			_T("SceneManager::GetScene<T>: Dynamic casting of scene '")
 				+ name + _T("' failed."));
 		return scene;

@@ -159,7 +159,7 @@ namespace star
 	{
 		//[TODO] Implement this through the font manager, 
 		//draw text on screen on given pos.
-		Logger::GetInstance()->Log(LogLevel::Warning, 
+		LOG(LogLevel::Warning, 
 			_T("DebugDraw::DrawString is not yet implemented!"),
 			STARENGINE_LOG_TAG);
 	}
@@ -220,7 +220,7 @@ namespace star
 		const vec2* vertices, 
 		uint32 vertexCount)
 	{
-		Logger::GetInstance()->Log(vertexCount <= MAX_VERTICES, 
+		LOG(vertexCount <= MAX_VERTICES, 
 			_T("more vertices than allocated space"),
 			STARENGINE_LOG_TAG);
 
@@ -237,7 +237,7 @@ namespace star
 	{
 		// [TODO] Fix this bug in eclipse: 
 		// (undefined reference to 'star::DebugDraw::MAX_VERTICES')
-		//Logger::GetInstance()->Log(m_CircleSegments < MAX_VERTICES, 
+		//LOG(m_CircleSegments < MAX_VERTICES, 
 		//	tstring(_T("You can only draw ") 
 		//	+ string_cast<tstring>(MAX_VERTICES) 
 		//	+ _T(" vertices per primitive")).c_str(), STARENGINE_LOG_TAG);

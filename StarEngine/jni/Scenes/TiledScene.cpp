@@ -45,7 +45,7 @@ namespace star
 	{
 		if(m_DefinedObject.find(object_id) != m_DefinedObject.end())
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("TiledScene::DefineSpecialObject: Overriding definition for object '")
 				+ object_id + _T("'."));
 		}
@@ -57,7 +57,7 @@ namespace star
 	{
 		if(m_ExtensionTiles.find(tileID) != m_ExtensionTiles.end())
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("TiledScene::ExtendTile: Overriding extension for tile '")
 				+ string_cast<tstring>(tileID) + _T("'."));
 		}
@@ -171,7 +171,7 @@ namespace star
 		XMLContainer container;
 		XMLFileParser parser(file);
 
-		Logger::GetInstance()->Log(parser.Read(container, mode),
+		LOG(parser.Read(container, mode),
 			_T("An error occured while trying to read the level."),
 			STARENGINE_LOG_TAG);
 
@@ -184,7 +184,7 @@ namespace star
 		XMLContainer container;
 		XMLFileParser parser(file);
 
-		Logger::GetInstance()->Log(parser.Read(container, binary_file, mode),
+		LOG(parser.Read(container, binary_file, mode),
 			_T("An error occured while trying to read the level."),
 			STARENGINE_LOG_TAG);
 
@@ -256,7 +256,7 @@ namespace star
 			auto layerProperties = OIT->second->at(_T("properties"));
 			auto lpIT = layerProperties->lower_bound(_T("property"));
 			auto lpEnd = layerProperties->upper_bound(_T("property"));
-			Logger::GetInstance()->Log(lpIT != lpEnd,
+			LOG(lpIT != lpEnd,
 				_T("This layer has no properties. Make sure to define all necacary properties!"),
 				STARENGINE_LOG_TAG);
 			do
@@ -338,7 +338,7 @@ namespace star
 			auto objectProperties = GIT->second->at(_T("properties"));
 			auto opIT = objectProperties->lower_bound(_T("property"));
 			auto opEnd = objectProperties->upper_bound(_T("property"));
-			Logger::GetInstance()->Log(opIT != opEnd,
+			LOG(opIT != opEnd,
 				_T("[TILED] This Object Group has no properties. Make sure to define all necacary properties!"),
 				STARENGINE_LOG_TAG);
 			do
@@ -407,7 +407,7 @@ namespace star
 
 				const auto rType = objAttributes.lower_bound(_T("type"));
 				bool foundType = rType != objAttributes.end();
-				Logger::GetInstance()->Log(foundType,
+				LOG(foundType,
 					_T("[TILED] Couldn't find the type of the object. Please define this!"),
 					STARENGINE_LOG_TAG);
 				if(foundType)
@@ -439,7 +439,7 @@ namespace star
 				}
 				else
 				{
-					Logger::GetInstance()->Log(LogLevel::Error, 
+					LOG(LogLevel::Error, 
 						_T("[TILED] Object with type '") + tObj.type + _T("' wasn't defined!"),
 						STARENGINE_LOG_TAG);
 				}

@@ -275,7 +275,7 @@ namespace star
 	
 	void SpriteAnimation::ParseFrame(int32 frame, int32 frames_x, int32 frames_y, int32 amount)
 	{
-		Logger::GetInstance()->Log(frame < amount && frame > -1,
+		LOG(frame < amount && frame > -1,
 			_T("Invalid frame index."), STARENGINE_LOG_TAG);
 		int32 x = frame % frames_x;
 		int32 y = frame / frames_x;

@@ -427,7 +427,7 @@ namespace star
 			});
 			break;
 		default:
-			Logger::GetInstance()->Log(false, _T("SpriteBatch::SortSprites: Please implement this SpriteSortingMode"));
+			LOG(false, _T("SpriteBatch::SortSprites: Please implement this SpriteSortingMode"));
 			break;
 		}
 	}

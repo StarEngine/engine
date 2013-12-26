@@ -14,7 +14,7 @@ namespace star
 				auto pReturnObject = dynamic_cast<T*>(pObject);
 				if(pReturnObject == nullptr)
 				{
-					Logger::GetInstance()->Log(LogLevel::Error,
+					LOG(LogLevel::Error,
 						_T("BaseScene::GetObjectByName: couldn't convert object '")
 						+ name + _T("' to the requested type. Returning nullptr..."),
 						STARENGINE_LOG_TAG);
@@ -22,7 +22,7 @@ namespace star
 				return pReturnObject;
 			}
 		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
+		LOG(LogLevel::Warning,
 			_T("BaseScene::GetObjectByName: Trying to get an unknown object '")
 			+ name + _T("'."), STARENGINE_LOG_TAG);
 		return nullptr;

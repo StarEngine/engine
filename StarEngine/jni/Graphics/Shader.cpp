@@ -30,7 +30,7 @@ namespace star
 	{	
 		if(!CompileShader(&m_VertexShader, GL_VERTEX_SHADER, vsFile ))
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, 
+			star::LOG(LogLevel::Error, 
 				_T("Shader::Init: \
 Failed To load Vertex Shader ") + vsFile,
 				   STARENGINE_LOG_TAG);
@@ -39,7 +39,7 @@ Failed To load Vertex Shader ") + vsFile,
 		
 		if(!CompileShader(&m_FragmentShader, GL_FRAGMENT_SHADER, fsFile))
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, 
+			star::LOG(LogLevel::Error, 
 				 _T("Shader::Init: \
 Failed To load Fragment Shader ") + fsFile,
 					STARENGINE_LOG_TAG);
@@ -53,7 +53,7 @@ Failed To load Fragment Shader ") + fsFile,
 	{
 		if(!CompileShader(&m_VertexShader, GL_VERTEX_SHADER, inlineVert ))
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, 
+			star::LOG(LogLevel::Error, 
 				_T("Shader::Init: \
 Failed To load Vertex Shader ") + string_cast<tstring>(inlineVert),
 				   STARENGINE_LOG_TAG);
@@ -62,7 +62,7 @@ Failed To load Vertex Shader ") + string_cast<tstring>(inlineVert),
 		
 		if(!CompileShader(&m_FragmentShader, GL_FRAGMENT_SHADER, inlineFrag))
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Error, 
+			star::LOG(LogLevel::Error, 
 				 _T("Shader::Init: \
 Failed To load Fragment Shader ") + string_cast<tstring>(inlineFrag),
 					STARENGINE_LOG_TAG);
@@ -77,7 +77,7 @@ Failed To load Fragment Shader ") + string_cast<tstring>(inlineFrag),
 
 		if(m_ProgramID == 0)
 		{
-			Logger::GetInstance()->Log(LogLevel::Error,
+			LOG(LogLevel::Error,
 				_T("Shader::GLInit: Failed to create program!"),
 				STARENGINE_LOG_TAG);
 		}
@@ -99,7 +99,7 @@ Failed To load Fragment Shader ") + string_cast<tstring>(inlineFrag),
 				tstringstream buffer;
 				buffer	<< _T("Shader::GLInit: Failed to link program: ")
 						<< infoLog;
-				Logger::GetInstance()->Log(LogLevel::Error, buffer.str(),
+				LOG(LogLevel::Error, buffer.str(),
 					STARENGINE_LOG_TAG);
 				delete infoLog;
 				
@@ -112,7 +112,7 @@ Failed To load Fragment Shader ") + string_cast<tstring>(inlineFrag),
 				tstringstream buffer;
 				buffer << _T("Shader::GLInit: Failed to link program: ")
 						<< infoLog;
-				Logger::GetInstance()->Log(LogLevel::Error, buffer.str());
+				LOG(LogLevel::Error, buffer.str());
 				delete infoLog;
 				
 			}
@@ -155,7 +155,7 @@ Failed To load Fragment Shader ") + string_cast<tstring>(inlineFrag),
 		glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
 		if(status == 0)
 		{
-			star::Logger::GetInstance()->Log(LogLevel::Error,
+			star::LOG(LogLevel::Error,
 				_T("Shader::CompileShader: Failed Compile"),
 				STARENGINE_LOG_TAG);
 			GLint infolength;
@@ -185,7 +185,7 @@ Could not compile shader of type ")
 							<< stringType
 							<< _T(": ")
 							<< buf;
-					Logger::GetInstance()->Log(LogLevel::Error,
+					LOG(LogLevel::Error,
 						buffer.str(), STARENGINE_LOG_TAG);
 					delete buf;
 				}
@@ -217,7 +217,7 @@ Could not compile shader of type ")
 							<< stringType
 							<< _T(": ")
 							<< buf;
-					Logger::GetInstance()->Log(LogLevel::Error,
+					LOG(LogLevel::Error,
 						buffer.str(), STARENGINE_LOG_TAG);
 					delete buf;
 				}
@@ -267,9 +267,9 @@ Could not compile shader of type ")
 
 		GLint written, size, location;
 		GLenum type;
-		Logger::GetInstance()->DebugLog(LogLevel::Info,
+		DEBUG_LOG(LogLevel::Info,
 			_T(" Location | Name"), STARENGINE_LOG_TAG);
-		Logger::GetInstance()->DebugLog(LogLevel::Info,
+		DEBUG_LOG(LogLevel::Info,
 			_T("------------------------------------------------"),
 			STARENGINE_LOG_TAG);
 		for(GLuint i = 0; i < GLuint(nAttribs); ++i)
@@ -308,9 +308,9 @@ Could not compile shader of type ")
 		GLint size, location;
 		GLsizei written;
 		GLenum type;
-		Logger::GetInstance()->DebugLog(LogLevel::Info,
+		DEBUG_LOG(LogLevel::Info,
 			_T(" Location | Name"), STARENGINE_LOG_TAG);
-		Logger::GetInstance()->DebugLog(LogLevel::Info,
+		DEBUG_LOG(LogLevel::Info,
 			_T("------------------------------------------------"),
 			STARENGINE_LOG_TAG);
 		for(GLuint i = 0; i < GLuint(nUniforms); ++i)

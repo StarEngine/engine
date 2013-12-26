@@ -202,7 +202,7 @@ namespace star
 	{
 		if(!pObject)
 		{
-			Logger::GetInstance()->Log(LogLevel::Error,
+			LOG(LogLevel::Error,
 				_T("BaseScene::AddObject: You can't add a nullptr object.\
  Adding failed!"));
 			return;
@@ -216,7 +216,7 @@ namespace star
 			}
 			if(IsObjectNameAlreadyInUse(pObject->GetName()))
 			{
-				Logger::GetInstance()->DebugLog(LogLevel::Warning,
+				DEBUG_LOG(LogLevel::Warning,
 				_T("BaseScene::AddObject: an object with the name '")
 				+ pObject->GetName() + _T("' already exists. \
 Object gets added but beware, duplicate names can become the cause of problems."),
@@ -227,7 +227,7 @@ Object gets added but beware, duplicate names can become the cause of problems."
 		}
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("BaseScene::AddObject: \
 				   Trying to add a duplicate object."), STARENGINE_LOG_TAG);
 		}
@@ -237,7 +237,7 @@ Object gets added but beware, duplicate names can become the cause of problems."
 	{
 		if(!pObject)
 		{
-			Logger::GetInstance()->Log(LogLevel::Error,
+			LOG(LogLevel::Error,
 				_T("BaseScene::AddObject: Trying to add a nullptr object."));
 			return;
 		}
@@ -254,7 +254,7 @@ Object gets added but beware, duplicate names can become the cause of problems."
 		}
 		else
 		{
-			Logger::GetInstance()->Log(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("BaseScene::RemoveObject: \
 				   Trying to remove an unknown object."), STARENGINE_LOG_TAG);
 		}
@@ -270,7 +270,7 @@ Object gets added but beware, duplicate names can become the cause of problems."
 				return;
 			}
 		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
+		LOG(LogLevel::Warning,
 				_T("BaseScene::RemoveObject: \
 				   Trying to remove an unknown object '")
 				   + name + _T("'."), STARENGINE_LOG_TAG);
@@ -278,7 +278,7 @@ Object gets added but beware, duplicate names can become the cause of problems."
 
 	void BaseScene::AddGesture(BaseGesture* pGesture)
 	{
-		Logger::GetInstance()->Log(LogLevel::Warning, 
+		LOG(LogLevel::Warning, 
 _T("Please use the method AddGesture(BaseGesture* gesture, \
 const tstring & name) to add gestures. \
 using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!"),
@@ -313,7 +313,7 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 				return;
 			}
 		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
+		LOG(LogLevel::Warning,
 				_T("BaseScene::SetObjectFrozen: \
 				   Trying to (un)freeze an unknown object '")
 				   + name + _T("'."), STARENGINE_LOG_TAG);
@@ -329,7 +329,7 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 				return;
 			}
 		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
+		LOG(LogLevel::Warning,
 				_T("BaseScene::SetObjectDisabled: \
 				   Trying to enable/disable an unknown object '")
 				   + name + _T("'."), STARENGINE_LOG_TAG);
@@ -345,7 +345,7 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 				return;
 			}
 		}
-		Logger::GetInstance()->Log(LogLevel::Warning,
+		LOG(LogLevel::Warning,
 				_T("BaseScene::SetObjectVisible: \
 				   Trying to (un)hide an unknown object '")
 				   + name + _T("'."), STARENGINE_LOG_TAG);
@@ -468,7 +468,7 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 		m_pCursor->BaseInitialize();
 		SetSystemCursorHidden(true);
 #ifdef MOBILE
-		Logger::GetInstance()->Log(LogLevel::Warning,
+		LOG(LogLevel::Warning,
 			tstring(_T("BaseScene::SetCursor: Cursor isn't supported on mobile device."))
 			+ _T(" For optimialisation reasons it's better to disable the code related to\
 the custom cursor code in your game project."), STARENGINE_LOG_TAG);
@@ -483,7 +483,7 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 			SetSystemCursorHidden(!showSystemCursor);
 		}
 #ifdef MOBILE
-		Logger::GetInstance()->Log(LogLevel::Warning,
+		LOG(LogLevel::Warning,
 			tstring(_T("BaseScene::UnsetCursor: Cursor isn't supported on mobile device."))
 			+ _T(" For optimialisation reasons it's better to disable the code related to\
 the custom cursor code in your game project."), STARENGINE_LOG_TAG);
@@ -496,7 +496,7 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 		{
 			m_pCursor->SetState(state);
 #ifdef MOBILE
-		Logger::GetInstance()->Log(LogLevel::Warning,
+		LOG(LogLevel::Warning,
 			tstring(_T("BaseScene::SetStateActiveCursor: Cursor isn't supported on mobile device."))
 			+ _T(" For optimialisation reasons it's better to disable the code related to\
 the custom cursor code in your game project."), STARENGINE_LOG_TAG);
@@ -516,7 +516,7 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 		{
 			m_pCursor->SetLocked(locked);
 #ifdef MOBILE
-		Logger::GetInstance()->Log(LogLevel::Warning,
+		LOG(LogLevel::Warning,
 			tstring(_T("BaseScene::SetActiveCursorLocked: Cursor isn't supported on mobile device."))
 			+ _T(" For optimialisation reasons it's better to disable the code related to\
 the custom cursor code in your game project."), STARENGINE_LOG_TAG);
@@ -574,7 +574,7 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 		for(auto pElement : m_pGarbage)
 		{
 			auto it = std::find(m_pObjects.begin(), m_pObjects.end(), pElement);
-			Logger::GetInstance()->Log(it != m_pObjects.end(),
+			LOG(it != m_pObjects.end(),
 				_T("BaseScene::CollectGarbage: Trying to delete unknown object"),
 				STARENGINE_LOG_TAG);
 			(*it)->UnsetScene();
