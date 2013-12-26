@@ -200,11 +200,11 @@ namespace star
 	#endif
 	}
 
-	void Logger::_CheckGlError(const schar* file, int32 line) 
+	void Logger::OpenGLLog(const BreakInformation& breakInfo) 
 	{
 #if LOGGER_MIN_LEVEL > 0
-		GLenum err (glGetError());
-		while(err!= GL_NO_ERROR) 
+		GLenum err(glGetError());
+		while( err != GL_NO_ERROR) 
 		{
 			tstring error;
 			switch(err) 
@@ -229,12 +229,14 @@ namespace star
 					break;
 			}
 			tstringstream buffer;
-			buffer << "GL_" << error << " - " << file << ":" << line << std::endl;
+			buffer << "GL_" << error
+				   << " - " << breakInfo.file << ":"
+				   << breakInfo.line << std::endl;
 #ifndef NO_LOG_FILE
 			LogMessage(buffer.str());
 #endif
-			//[TODO] fix this function!!
-			//Logger::GetInstance()->Log(LogLevel::Error, buffer.str(),_T("OPENGL"));
+			Log(LogLevel::Error,
+				buffer.str(),_T("OPENGL"), breakInfo);
 			err = glGetError();
 		}
 #endif

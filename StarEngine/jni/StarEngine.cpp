@@ -56,7 +56,7 @@ namespace star
 		InputManager::GetInstance()->EndUpdate();
 		Logger::GetInstance()->Update(context);
 #if defined(DEBUG) | defined(_DEBUG)
-		Logger::GetInstance()->CheckGlError();
+		OPENGL_LOG();
 #endif
 		m_bInitialized = true;
 	}

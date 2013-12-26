@@ -147,7 +147,7 @@ namespace star
 		//For android "internal format" must be the same as "format" in glTexImage2D
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded_data);
 #endif
-		Logger::GetInstance()->CheckGlError();
+		OPENGL_LOG();
 		delete[] expanded_data;
 
 		//uvs

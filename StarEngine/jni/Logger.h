@@ -73,11 +73,9 @@ namespace star
 			const BreakInformation& breakInfo = BreakInformation()
 			);
 
-		void _CheckGlError(
-			const schar* file,
-			int32 line
+		void OpenGLLog(
+			const BreakInformation& breakInfo
 			);
-		#define CheckGlError() _CheckGlError(__FILE__, __LINE__);
 
 		void SetLogSaveDelayTime(float32 seconds);
 
@@ -126,4 +124,8 @@ namespace star
 #else
 	#define DEBUG_LOG(...) ((void)0)
 #endif
+
+	
+	#define OPENGL_LOG() \
+		star::Logger::GetInstance()->OpenGLLog(BREAK_INFO());
 }
