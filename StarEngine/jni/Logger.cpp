@@ -80,7 +80,12 @@ namespace star
 		m_TimeStamp = context.mTimeManager->GetTimeStamp();
 	}
 
-	void Logger::Log(LogLevel level, const tstring& pMessage, const tstring& tag)
+	void Logger::Log(
+		LogLevel level,
+		const tstring& pMessage,
+		const tstring& tag,
+		const BreakInformation& breakInfo
+		)
 	{
 		tstring levelName;
 		switch(level)
@@ -99,22 +104,46 @@ namespace star
 			break;
 		}
 
-		PrivateLog(level, pMessage, tag, levelName);
+		PrivateLog(level, pMessage, tag, levelName, breakInfo);
 	}
 
-	void Logger::Log(bool assert, const tstring& pMessage, const tstring& tag)
+	void Logger::Log(
+		LogLevel level,
+		const tstring& pMessage,
+		const BreakInformation& breakInfo
+		)
+	{
+		Log(level, pMessage, GAME_LOG_TAG, breakInfo);
+	}
+
+	void Logger::Log(
+		bool assert,
+		const tstring& pMessage,
+		const tstring& tag,
+		const BreakInformation& breakInfo
+		)
 	{
 		if(!assert)
 		{
-			Log(LogLevel::Error, pMessage, tag);
+			Log(LogLevel::Error, pMessage, tag, breakInfo);
 		}
 		ASSERT(assert, pMessage.c_str());
+	}
+
+	void Logger::Log(
+		bool assert,
+		const tstring& pMessage,
+		const BreakInformation& breakInfo
+		)
+	{
+		Log(assert, pMessage, GAME_LOG_TAG, breakInfo);
 	}
 
 	void Logger::DebugLog(
 		LogLevel level,
 		const tstring & pMessage,
-		const tstring& tag
+		const tstring& tag,
+		const BreakInformation& breakInfo
 		)
 	{
 	#ifdef _DEBUG
@@ -135,7 +164,39 @@ namespace star
 			break;
 		}
 
-		PrivateLog(level, pMessage, tag, levelName);
+		PrivateLog(level, pMessage, tag, levelName, breakInfo);
+	#endif
+	}
+
+	void Logger::DebugLog(
+		LogLevel level,
+		const tstring & pMessage,
+		const BreakInformation& breakInfo
+		)
+	{
+	#ifdef _DEBUG
+		DebugLog(level, pMessage, GAME_LOG_TAG, breakInfo);
+	#endif
+	}
+
+	void Logger::DebugLog(
+		const tstring & pMessage,
+		const tstring & tag,
+		const BreakInformation& breakInfo
+		)
+	{
+	#ifdef _DEBUG
+		DebugLog(LogLevel::Debug, pMessage, tag, breakInfo);
+	#endif
+	}
+
+	void Logger::DebugLog(
+		const tstring & pMessage,
+		const BreakInformation& breakInfo
+		)
+	{
+	#ifdef _DEBUG
+		DebugLog(pMessage, GAME_LOG_TAG, breakInfo);
 	#endif
 	}
 
@@ -172,7 +233,8 @@ namespace star
 #ifndef NO_LOG_FILE
 			LogMessage(buffer.str());
 #endif
-			Logger::GetInstance()->Log(LogLevel::Error, buffer.str(),_T("OPENGL"));
+			//[TODO] fix this function!!
+			//Logger::GetInstance()->Log(LogLevel::Error, buffer.str(),_T("OPENGL"));
 			err = glGetError();
 		}
 #endif
@@ -191,13 +253,25 @@ namespace star
 		LogLevel level,
 		const tstring& pMessage,
 		const tstring& tag,
-		const tstring& levelName
+		const tstring& levelName,
+		const BreakInformation& breakInfo
 		)
 	{
 #if LOGGER_MIN_LEVEL > 0
 	#ifdef DESKTOP
 		tstringstream messageBuffer;
-		messageBuffer << _T("[") << tag << _T("] ") << _T("[") << levelName <<  _T("] ") << pMessage << std::endl;
+		messageBuffer << _T("[") << tag
+					  << _T("] ") << _T("[")
+					  << levelName <<  _T("] ")
+					  << pMessage;
+		if(breakInfo.line != -1)
+		{
+			messageBuffer << _T(" (L")
+						  << string_cast<tstring>(breakInfo.line)
+						  << _T("@") << breakInfo.file
+						  << _T(")");
+		}
+		messageBuffer << std::endl;
 		tstring combinedMessage = messageBuffer.str();
 		
 		if(m_UseConsole)

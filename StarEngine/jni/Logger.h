@@ -30,18 +30,49 @@ namespace star
 		void Log(
 			LogLevel level,
 			const tstring& pMessage,
-			const tstring& tag = GAME_LOG_TAG
+			const tstring& tag,
+			const BreakInformation& breakInfo = BreakInformation()
+			);
+		void Log(
+			LogLevel level,
+			const tstring& pMessage,
+			const BreakInformation& breakInfo = BreakInformation()
+			);
+
+		void Log(
+			bool assert,
+			const tstring& pMessage,
+			const tstring& tag,
+			const BreakInformation& breakInfo = BreakInformation()
 			);
 		void Log(
 			bool assert,
 			const tstring& pMessage,
-			const tstring& tag = GAME_LOG_TAG
+			const BreakInformation& breakInfo = BreakInformation()
+			);
+
+		void DebugLog(
+			LogLevel level,
+			const tstring& pMessage,
+			const tstring& tag,
+			const BreakInformation& breakInfo = BreakInformation()
 			);
 		void DebugLog(
 			LogLevel level,
 			const tstring& pMessage,
-			const tstring& tag = GAME_LOG_TAG
+			const BreakInformation& breakInfo = BreakInformation()
 			);
+
+		void DebugLog(
+			const tstring& pMessage,
+			const tstring& tag,
+			const BreakInformation& breakInfo = BreakInformation()
+			);
+		void DebugLog(
+			const tstring& pMessage,
+			const BreakInformation& breakInfo = BreakInformation()
+			);
+
 		void _CheckGlError(
 			const schar* file,
 			int32 line
@@ -58,7 +89,8 @@ namespace star
 			LogLevel level,
 			const tstring& pMessage,
 			const tstring& tag,
-			const tstring& levelName
+			const tstring& levelName,
+			const BreakInformation& breakInfo
 			);
 
 		void InitializeLogStream();
@@ -78,4 +110,20 @@ namespace star
 		Logger& operator=(const Logger& t);
 		Logger& operator=(Logger&& t);
 	};
+
+	#define LOG(...) \
+		Logger::GetInstance()->Log( \
+			##__VA_ARGS__, \
+			BREAK_INFO() \
+			) 
+
+#ifdef _DEBUG
+	#define DEBUG_LOG(...) \
+		Logger::GetInstance()->DebugLog( \
+			##__VA_ARGS__, \
+			BREAK_INFO() \
+			) 
+#else
+	#define DEBUG_LOG(...) ((void)0)
+#endif
 }

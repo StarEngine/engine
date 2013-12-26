@@ -204,6 +204,7 @@
     <ClCompile Include="jni\Actions\TimedMoveAction.cpp" />
     <ClCompile Include="jni\Components\Graphics\SpriteSheetComponent.cpp" />
     <ClCompile Include="jni\Components\Physics\BaseColliderComponent.cpp" />
+    <ClCompile Include="jni\defines.cpp" />
     <ClCompile Include="jni\Graphics\Font.cpp" />
     <ClCompile Include="jni\Graphics\FontManager.cpp" />
     <ClCompile Include="jni\Graphics\Texture2D.cpp" />

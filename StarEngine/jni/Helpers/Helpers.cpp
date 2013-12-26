@@ -36,6 +36,21 @@ namespace star
 #endif
 	}
 
+	tstring GetFileName(const tstring & path)
+	{
+		auto index = path.find_last_of('/');
+		if(index == tstring::npos)
+		{
+			index = path.find_last_of('\\');
+		}
+		if(index != tstring::npos)
+		{
+			index += 1;
+			return path.substr(index, path.length() - index);
+		}
+		return path;
+	}
+
 	template <>
 	sstring_16 string_cast<sstring_16, sstring_16>
 		(const sstring_16 & value)

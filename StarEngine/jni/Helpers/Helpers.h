@@ -25,6 +25,14 @@ namespace star
 	/// </summary>
 	/// <param name="page">the URL of the webpage to be opened</param>
 	void LaunchWebpage(const tstring & page);
+
+	/// <summary>
+	/// Returns the filename, including the extension,
+	/// substracted from a path.
+	/// </summary>
+	/// <param name="path">A full path to a file.</param>
+	/// <returns>The filename and its extension.</returns>
+	tstring GetFileName(const tstring & path);
 	
 	/// <summary>
 	/// Cast from type 'TReturnValue' to type 'TValue', where one of the 2 types is a string type.
