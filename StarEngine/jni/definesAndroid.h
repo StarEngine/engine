@@ -32,7 +32,7 @@ typedef struct myPoint
 				tstringstream buffer; \
 				buffer	<< _T("ERROR!! Assert failed on line ") \
 						<< info.line << _T(" in file '") \
-						<< info.file << _T("'\\Message: \"") \
+						<< info.file << _T("', message: \"") \
 						<< m << _T("\"\n"); \
 				__android_log_assert( \
 					_T("ASSERT"), \
