@@ -39,18 +39,6 @@ namespace star
 			const BreakInformation& breakInfo = BreakInformation()
 			);
 
-		void Log(
-			bool assert,
-			const tstring& pMessage,
-			const tstring& tag,
-			const BreakInformation& breakInfo = BreakInformation()
-			);
-		void Log(
-			bool assert,
-			const tstring& pMessage,
-			const BreakInformation& breakInfo = BreakInformation()
-			);
-
 		void DebugLog(
 			LogLevel level,
 			const tstring& pMessage,
@@ -114,6 +102,20 @@ namespace star
 			##__VA_ARGS__, \
 			BREAK_INFO() \
 			) 
+
+	#define ASSERT_LOG_ENGINE(a, m, t) \
+		{ \
+			bool isOk(a); \
+			if(!isOk) \
+			{ \
+				LOG(star::LogLevel::Error, m, t); \
+			} \
+			ASSERT(isOk, m) \
+		}
+
+
+	#define ASSERT_LOG(a, m) \
+		ASSERT_LOG_ENGINE(a, m, GAME_LOG_TAG)
 
 #ifdef _DEBUG
 	#define DEBUG_LOG(...) \

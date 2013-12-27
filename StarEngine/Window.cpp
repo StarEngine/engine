@@ -77,7 +77,7 @@ namespace star
 
 	void Window::Initialize(HINSTANCE instance, BaseGame * pBaseGame, bool useConsole)
 	{
-		LOG(!m_IsInitialized,
+		ASSERT_LOG_ENGINE(!m_IsInitialized,
 			_T("Engine is already initialized!"), STARENGINE_LOG_TAG);
 		if(!m_IsInitialized)
 		{
@@ -128,7 +128,7 @@ namespace star
 					_T("Internal directory '") + iPath + _T("' already exists."),
 					STARENGINE_LOG_TAG);
 			}
-			LOG(cdReturn != ERROR_PATH_NOT_FOUND,
+			ASSERT_LOG_ENGINE(cdReturn != ERROR_PATH_NOT_FOUND,
 				_T("Couldn't create the internal directory!"), STARENGINE_LOG_TAG);
 
 			//Set the external root that will be used for DirectoryMode::external
@@ -139,7 +139,7 @@ namespace star
 				NULL,
 				&wszPath
 			);
-			LOG(SUCCEEDED(mdReturn),
+			ASSERT_LOG_ENGINE(SUCCEEDED(mdReturn),
 				_T("An error has occured, while trying to open 'my documents'!"),
 				STARENGINE_LOG_TAG);
 			tstring ePath = string_cast<tstring>(wszPath);
@@ -155,7 +155,7 @@ namespace star
 					_T("External directory '") + ePath + _T("' already exists."),
 					STARENGINE_LOG_TAG);
 			}
-			LOG(cdReturn != ERROR_PATH_NOT_FOUND,
+			ASSERT_LOG_ENGINE(cdReturn != ERROR_PATH_NOT_FOUND,
 				_T("Couldn't create the external directory!"), STARENGINE_LOG_TAG);
 
 
@@ -193,7 +193,7 @@ namespace star
 			while(win_style_it != win_style_end_it);
 
 	#pragma warning ( disable : 4800 )
-			LOG(RegisterClassEx(&wndClass),
+			ASSERT_LOG_ENGINE(RegisterClassEx(&wndClass),
 				_T("Couldn't register the Windows Class!"), STARENGINE_LOG_TAG);
 	#pragma warning ( default : 4800 )
 
@@ -236,7 +236,7 @@ namespace star
 									position_height,
 									NULL, NULL, instance, NULL);
 
-			LOG(mHandle != NULL,
+			ASSERT_LOG_ENGINE(mHandle != NULL,
 				_T("Couldn't create the window."), STARENGINE_LOG_TAG);
 
 			SetResolution(position_width, position_height, false);
@@ -261,23 +261,23 @@ namespace star
 			};
 	
 			mHDC = GetDC(mHandle); // Gets the display context
-			LOG(mHDC != NULL,
+			ASSERT_LOG_ENGINE(mHDC != NULL,
 				_T("Couldn't create the Display Context!"), STARENGINE_LOG_TAG);
 
 			int32 pixelFormat = ChoosePixelFormat(mHDC, &pixelFormatDesc); // Chooses the pixel format
-			LOG(pixelFormat != 0,
+			ASSERT_LOG_ENGINE(pixelFormat != 0,
 				_T("Invalid pixel format!"), STARENGINE_LOG_TAG);
 
 			// Sets the pixel format
-			LOG(SetPixelFormat(mHDC, pixelFormat, &pixelFormatDesc) != 0,
+			ASSERT_LOG_ENGINE(SetPixelFormat(mHDC, pixelFormat, &pixelFormatDesc) != 0,
 				_T("Couldn't set the pixel format!"), STARENGINE_LOG_TAG);
 
 			HGLRC hglrc = wglCreateContext(mHDC); // Creates the rendering context
-			LOG(hglrc != NULL,
+			ASSERT_LOG_ENGINE(hglrc != NULL,
 				_T("Couldn't create the rendering context!"), STARENGINE_LOG_TAG);
 
 			// Attaches the rendering context
-			LOG(wglMakeCurrent(mHDC, hglrc) != 0,
+			ASSERT_LOG_ENGINE(wglMakeCurrent(mHDC, hglrc) != 0,
 				_T("Action couldn't be completed!"), STARENGINE_LOG_TAG);
 
 			MSG msg ={};
@@ -774,7 +774,7 @@ namespace star
 				return CLASS_STYLES[i].second;
 			}
 		}
-		LOG(false,
+		ASSERT_LOG_ENGINE(false,
 			_T("Invalid class style found in Win32Manifest.xml"),
 			STARENGINE_LOG_TAG);
 		return NULL;
@@ -789,7 +789,7 @@ namespace star
 				return WINDOW_STYLES[i].second;
 			}
 		}
-		LOG(false,
+		ASSERT_LOG_ENGINE(false,
 			_T("Invalid window style found in Win32Manifest.xml"),
 			STARENGINE_LOG_TAG);
 		return NULL;

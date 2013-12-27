@@ -32,8 +32,8 @@ namespace star
 				auto vecIt = std::find((*it).second.begin(), (*it).second.end(), component);
 				if(vecIt != (*it).second.end())
 				{
-					LOG(false, _T("CollisionManager::AddComponent \
-The component you tried to add is already in the CollisionManager"));
+					ASSERT_LOG_ENGINE(false, _T("CollisionManager::AddComponent \
+The component you tried to add is already in the CollisionManager"), STARENGINE_LOG_TAG);
 				}
 				else
 				{
@@ -72,7 +72,7 @@ The component you tried to add is already in the CollisionManager"));
 				}
 				else
 				{
-					LOG(false, _T("CollisionManager::RemoveComponent: \
+					ASSERT_LOG_ENGINE(false, _T("CollisionManager::RemoveComponent: \
 The component you tried to remove is not in the CollisionManager"), STARENGINE_LOG_TAG);
 					LOG(LogLevel::Error, _T("CollisionManager::RemoveComponent: \
 The component you tried to remove is not in the CollisionManager"), STARENGINE_LOG_TAG);
@@ -80,7 +80,7 @@ The component you tried to remove is not in the CollisionManager"), STARENGINE_L
 			}
 			else
 			{
-				LOG(false, _T("CollisionManager::RemoveComponent: \
+				ASSERT_LOG_ENGINE(false, _T("CollisionManager::RemoveComponent: \
 The component you tried to remove is not in the CollisionManager"), STARENGINE_LOG_TAG);
 				LOG(LogLevel::Error, _T("CollisionManager::RemoveComponent: \
 The component you tried to remove is not in the CollisionManager"), STARENGINE_LOG_TAG);

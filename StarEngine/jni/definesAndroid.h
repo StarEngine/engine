@@ -18,63 +18,32 @@ typedef struct myPoint
 } POINT;
 
 #include <android/log.h>
+#include "definesCrossPlatform.h"
 
 //#define _T(x) x
 
-#ifndef NDEBUG
-#define ASSERT \
-	if ( false ) {} \
-	else \
-	struct LocalAssert { \
-		int32 mLine; \
-		LocalAssert(int32 line=__LINE__) : mLine(line) {} \
-		LocalAssert(bool isOK, const tchar* message=_T("")) { \
-		if ( !isOK ) { \
-		tstringstream buffer; \
-		buffer << _T("ERROR!! Assert failed on line "); \
-		buffer << LocalAssert().mLine << _T(" in file '"); \
-		buffer << __FILE__ << std::endl << _T("Message: \""); \
-		buffer << message << _T("\"\n"); \
-		__android_log_assert( \
-			_T("ASSERT"), \
-			STARENGINE_LOG_TAG.c_str(), \
-			"%s", \
-			buffer.str().c_str()); \
-		} \
-	} \
-	} myAsserter = LocalAssert
-	#define ASSERTC \
-		if ( false ) {} \
-	else \
-	struct LocalAssert { \
-		int32 mLine; \
-		LocalAssert(int32 line=__LINE__) : mLine(line) {} \
-		LocalAssert(bool isOK, const schar* message="") { \
-		if ( !isOK ) { \
-		sstringstream buffer; \
-		buffer << "ERROR!! Assert failed on line "; \
-		buffer << LocalAssert().mLine << " in file '"; \
-		buffer << __FILE__ << std::endl << "Message: \""; \
-		buffer << message << "\"\n"; \
-		__android_log_assert( \
-			"ASSERT", \
-			STARENGINE_LOG_TAG, \
-			"%s", \
-			buffer.str().c_str()); \
-		} \
-	} \
-	} myAsserter = LocalAssert
+#ifdef _DEBUG
+	#define ASSERT(a, m) \
+		{ \
+			bool isOk(a); \
+			auto info = BREAK_INFO(); \
+			if(!isOk) \
+			{ \
+				tstringstream buffer; \
+				buffer	<< _T("ERROR!! Assert failed on line ") \
+						<< info.line << _T(" in file '") \
+						<< info.file << _T("'\\Message: \"") \
+						<< m << _T("\"\n"); \
+				__android_log_assert( \
+					_T("ASSERT"), \
+					STARENGINE_LOG_TAG.c_str(), \
+					"%s", \
+					buffer.str().c_str() \
+					); \
+			} \
+		}
 #else
-#define ASSERT \
-	if ( true ) {} else \
-struct NoAssert { \
-	NoAssert(bool isOK, const tchar* message=_T("")) {} \
-} myAsserter = NoAssert
-#define ASSERTC \
-	if ( true ) {} else \
-struct NoAssert { \
-	NoAssert(bool isOK, const tchar* message=_T("")) {} \
-} myAsserter = NoAssert
+	#define ASSERT(...) (void(0))
 #endif
 
 #endif

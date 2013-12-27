@@ -1,4 +1,4 @@
-#include "defines.h"
+#include "definesCrossPlatform.h"
 #include "Helpers/Helpers.h"
 
 BreakInformation::BreakInformation()

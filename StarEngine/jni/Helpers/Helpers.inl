@@ -17,7 +17,7 @@ namespace star
 	template < typename TReturnValue, typename TValue>
 	TReturnValue string_cast(const TValue * value)
 	{
-		LOG(false,
+		ASSERT_LOG_ENGINE(false,
 			_T("Invalid String cast: No implementation found that match these parameters!"),
 			STARENGINE_LOG_TAG);
 		return TReturnValue();

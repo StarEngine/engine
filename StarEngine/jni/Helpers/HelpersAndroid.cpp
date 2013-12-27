@@ -19,7 +19,7 @@ namespace star_a
 				star::string_cast<sstring>(path.c_str()).c_str(),
 				AASSET_MODE_UNKNOWN
 				);
-		star::LOG(asset != NULL,
+		star::ASSERT_LOG_ENGINE(asset != NULL,
 			_T("Couldn't find '") + path + _T("'."), STARENGINE_LOG_TAG);
 		data.size = AAsset_getLength(asset);
 		data.data = new schar[sizeof(schar) * data.size];

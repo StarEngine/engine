@@ -59,9 +59,11 @@ namespace star
 	{
 		if(m_bIninitialized)
 		{
-			LOG(m_WorkingRes != vec2(), 
+			ASSERT_LOG_ENGINE(m_WorkingRes != vec2(), 
 				_T("ScaleSystem::CalculateScale(): \
-Working resolution is 0! Please set correct working Resolution in the Game.cpp file!"));
+Working resolution is 0! Please set correct working Resolution in the Game.cpp file!"),
+				STARENGINE_LOG_TAG
+				);
 			m_Scale = GraphicsManager::GetInstance()->GetViewportResolution().x / m_WorkingRes.x;
 		}
 	}

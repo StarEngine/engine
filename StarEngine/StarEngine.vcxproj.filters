@@ -354,6 +354,9 @@
     <ClInclude Include="jni\Actions\TimedScaleAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\definesCrossPlatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -638,10 +641,7 @@
     <ClCompile Include="jni\Actions\TimedScaleAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\Helpers\Dictionary.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="jni\defines.cpp">
+    <ClCompile Include="jni\definesCrossPlatform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

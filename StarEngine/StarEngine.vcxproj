@@ -93,6 +93,7 @@
     <ClInclude Include="jni\Components\Graphics\SpriteSheetComponent.h" />
     <ClInclude Include="jni\Components\Physics\BaseColliderComponent.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="jni\definesCrossPlatform.h" />
     <ClInclude Include="jni\Graphics\Font.h" />
     <ClInclude Include="jni\Graphics\FontManager.h" />
     <ClInclude Include="jni\Graphics\Texture2D.h" />
@@ -204,7 +205,7 @@
     <ClCompile Include="jni\Actions\TimedMoveAction.cpp" />
     <ClCompile Include="jni\Components\Graphics\SpriteSheetComponent.cpp" />
     <ClCompile Include="jni\Components\Physics\BaseColliderComponent.cpp" />
-    <ClCompile Include="jni\defines.cpp" />
+    <ClCompile Include="jni\definesCrossPlatform.cpp" />
     <ClCompile Include="jni\Graphics\Font.cpp" />
     <ClCompile Include="jni\Graphics\FontManager.cpp" />
     <ClCompile Include="jni\Graphics\Texture2D.cpp" />

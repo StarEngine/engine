@@ -116,29 +116,6 @@ namespace star
 		Log(level, pMessage, GAME_LOG_TAG, breakInfo);
 	}
 
-	void Logger::Log(
-		bool assert,
-		const tstring& pMessage,
-		const tstring& tag,
-		const BreakInformation& breakInfo
-		)
-	{
-		if(!assert)
-		{
-			Log(LogLevel::Error, pMessage, tag, breakInfo);
-		}
-		ASSERT(assert, pMessage.c_str());
-	}
-
-	void Logger::Log(
-		bool assert,
-		const tstring& pMessage,
-		const BreakInformation& breakInfo
-		)
-	{
-		Log(assert, pMessage, GAME_LOG_TAG, breakInfo);
-	}
-
 	void Logger::DebugLog(
 		LogLevel level,
 		const tstring & pMessage,

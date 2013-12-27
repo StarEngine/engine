@@ -260,10 +260,10 @@ namespace star
 		if(m_pParentObject->HasComponent<SpriteComponent>(this)
 			|| m_pParentObject->HasComponent<TextComponent>(this))
 		{
-			LOG(false,
+			ASSERT_LOG_ENGINE(false,
 				_T("Object '") + m_pParentObject->GetName() +
 				_T("': Can't add a SpriteSheetComponent when \
-already having a Sprite- or TextComponent."));
+already having a Sprite- or TextComponent."), STARENGINE_LOG_TAG);
 			m_pParentObject->RemoveComponent(this);
 		}
 		else

@@ -99,7 +99,10 @@ namespace star
 
 	const Font* FontManager::GetFont(const tstring& name)
 	{
-		LOG(mFontList.find(name) != mFontList.end(),_T("No such font"), STARENGINE_LOG_TAG);
+		ASSERT_LOG_ENGINE(
+			mFontList.find(name) != mFontList.end(),
+			_T("No such font"), STARENGINE_LOG_TAG
+			);
 		return mFontList[name];
 	}
 }

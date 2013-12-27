@@ -72,7 +72,7 @@ namespace star
 		}
 
 		mbIsInitialized = true;
-		star::LOG(star::LogLevel::Info,
+		LOG(LogLevel::Info,
 			_T("Audio : Started making Audio Engine"), STARENGINE_LOG_TAG);
 
 #ifdef DESKTOP
@@ -86,14 +86,14 @@ namespace star
 		int32 innited = Mix_Init(flags);
 		if((innited & flags) != flags)
 		{
-			star::LOG(star::LogLevel::Info, 
+			LOG(LogLevel::Info, 
 				_T("Audio :Could not init Ogg and Mp3, reason : ") +
 				string_cast<tstring>(Mix_GetError()), STARENGINE_LOG_TAG);
 		}
 
 		if(Mix_OpenAudio(audio_rate, audio_format,audio_channels,audio_buffers))
 		{
-			star::LOG(star::LogLevel::Info,
+			LOG(LogLevel::Info,
 				_T("Audio : Could Not open Audio Mix SDL"), STARENGINE_LOG_TAG);
 			Stop();
 			return;
@@ -110,7 +110,7 @@ namespace star
 		buffer << ", Actual Format : " << actual_format;
 		buffer << ", Actual Channels : " << actual_channels;
 		buffer << std::endl;
-		star::LOG(star::LogLevel::Info,
+		LOG(LogLevel::Info,
 			_T("Audio : SDL specs : ") + buffer.str(), STARENGINE_LOG_TAG);
 		Mix_Volume(-1,100);
 #else
@@ -134,7 +134,7 @@ namespace star
 
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::LOG(star::LogLevel::Error,
+			LOG(LogLevel::Error,
 				_T("Audio : Can't make Audio Engine"), STARENGINE_LOG_TAG);
 			Stop();
 			return;
@@ -143,7 +143,7 @@ namespace star
 		lRes = (*mEngineObj)->Realize(mEngineObj, SL_BOOLEAN_FALSE);
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::LOG(star::LogLevel::Error,
+			LOG(LogLevel::Error,
 				_T("Audio : Can't realize Engine"), STARENGINE_LOG_TAG);
 			Stop();
 			return;
@@ -157,7 +157,7 @@ namespace star
 
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::LOG(star::LogLevel::Error,
+			LOG(LogLevel::Error,
 				_T("Audio : Can't fetch engine interface"), STARENGINE_LOG_TAG);
 			Stop();
 			return;
@@ -173,7 +173,7 @@ namespace star
 
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::LOG(star::LogLevel::Error,
+			LOG(LogLevel::Error,
 				_T("Audio : Can't create outputmix"), STARENGINE_LOG_TAG);
 			Stop();
 			return;
@@ -182,7 +182,7 @@ namespace star
 		lRes = (*mOutputMixObj)->Realize(mOutputMixObj,SL_BOOLEAN_FALSE);
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::LOG(star::LogLevel::Error,
+			LOG(LogLevel::Error,
 				_T("Audio : Can't realise output object"), STARENGINE_LOG_TAG);
 			Stop();
 			return;
@@ -196,11 +196,11 @@ namespace star
 
 		if(lRes != SL_RESULT_SUCCESS)
 		{
-			star::LOG(star::LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("Audio : Can't get volume interface!"), STARENGINE_LOG_TAG);
 			mOutputMixVolume = nullptr;
 		}
-		star::LOG(star::LogLevel::Info,
+		LOG(LogLevel::Info,
 			_T("Audio : Succesfull made Audio Engine"), STARENGINE_LOG_TAG);
 #endif
 	}
@@ -227,7 +227,7 @@ namespace star
 			mEngine = NULL;
 		}
 #endif
-		star::LOG(star::LogLevel::Info,
+		LOG(LogLevel::Info,
 			_T("Audio : Stopped audio Engine"), STARENGINE_LOG_TAG);
 	}
 
@@ -248,7 +248,7 @@ namespace star
 		uint8 channel
 		)
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mMusicList.find(name) != mMusicList.end())
@@ -262,14 +262,14 @@ namespace star
 		auto pathit = mMusicPathList.find(path);
 		if(pathit != mMusicPathList.end())
 		{
-			star::LOG(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("Sound Service : Sound File Path Already Exists"),
 				STARENGINE_LOG_TAG);
 			tstring nameold = pathit->second;
 			auto nameit = mMusicList.find(nameold);
 			if(nameit != mMusicList.end())
 			{
-				star::LOG(LogLevel::Warning,
+				LOG(LogLevel::Warning,
 					_T("Sound Service: Found sound file of old path, making copy for new name"),
 					STARENGINE_LOG_TAG);
 				mMusicList[name] = nameit->second;
@@ -297,12 +297,12 @@ namespace star
 		uint8 channel
 		)
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."),STARENGINE_LOG_TAG);
 
 		if(mEffectsList.find(name) != mEffectsList.end())
 		{
-			star::LOG(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("Sound Service: The effect '") + name +
 				_T("' already exists."), STARENGINE_LOG_TAG);
 			return;
@@ -311,15 +311,14 @@ namespace star
 		auto pathit = mSoundEffectPathList.find(path);
 		if(pathit != mSoundEffectPathList.end())
 		{
-			star::LOG(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("Sound Service: Sound Effect Path Already Exists"),
 				STARENGINE_LOG_TAG);
 			tstring nameold = pathit->second;
 			auto nameit = mMusicList.find(nameold);
 			if(nameit!= mMusicList.end())
 			{
-				star::Logger::GetInstance()->
-					Log(LogLevel::Warning,
+				LOG(LogLevel::Warning,
 					_T("Sound Service: Found Sound Effect of old path, making copy for new name"));
 				mMusicList[name] = nameit->second;
 			}
@@ -344,7 +343,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mMusicList.find(name) == mMusicList.end())
@@ -359,7 +358,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		auto it = mMusicList.find(name);
@@ -388,7 +387,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mEffectsList.find(name) == mEffectsList.end())
@@ -403,7 +402,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		auto it = mEffectsList.find(name);
@@ -430,7 +429,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mMusicList.find(name) == mMusicList.end())
@@ -446,7 +445,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		auto it = mMusicList.find(name);
@@ -477,7 +476,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mEffectsList.find(name) == mEffectsList.end())
@@ -493,7 +492,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		auto it = mEffectsList.find(name);
@@ -515,7 +514,7 @@ namespace star
 
 	void AudioManager::AddToBackgroundQueue(const tstring& name)
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		auto it = mMusicList.find(name);
@@ -536,7 +535,7 @@ namespace star
 
 	void AudioManager::PlayBackgroundQueue()
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		mQueueIterator = mBackgroundQueue.begin();
@@ -547,7 +546,7 @@ namespace star
 		}
 		else
 		{
-			star::LOG(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("Sound Service : No song in background queue."),
 				STARENGINE_LOG_TAG);
 		}
@@ -555,7 +554,7 @@ namespace star
 
 	void AudioManager::PlayNextSongInQueue()
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mBackgroundQueue.size() == 0)
@@ -573,7 +572,7 @@ namespace star
 
 	void AudioManager::PauseBackgroundQueue()
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mBackgroundQueue.size() == 0)
@@ -589,7 +588,7 @@ namespace star
 
 	void AudioManager::ResumeBackgroundQueue()
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mBackgroundQueue.size() == 0)
@@ -603,7 +602,7 @@ namespace star
 		}
 		else
 		{
-			star::LOG(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("Sound Service : No song in background queue."),
 				STARENGINE_LOG_TAG);
 		}
@@ -611,7 +610,7 @@ namespace star
 
 	void AudioManager::StopBackgroundQueue()
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mBackgroundQueue.size() == 0)
@@ -626,7 +625,7 @@ namespace star
 		}
 		else
 		{
-			star::LOG(LogLevel::Warning,
+			LOG(LogLevel::Warning,
 				_T("Sound Service : No song in background queue."),
 				STARENGINE_LOG_TAG);
 		}
@@ -1445,7 +1444,7 @@ namespace star
 
 	void AudioManager::StopAllSounds()
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		for(auto & song : mMusicList)
@@ -1461,7 +1460,7 @@ namespace star
 
 	void AudioManager::PauseAllSounds()
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		for(auto & song : mMusicList)
@@ -1477,7 +1476,7 @@ namespace star
 
 	void AudioManager::ResumeAllSounds()
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		for(auto & song : mMusicList)
@@ -1493,7 +1492,7 @@ namespace star
 
 	void AudioManager::DeleteAllSounds()
 	{
-		LOG(mSoundService != nullptr,
+		ASSERT_LOG_ENGINE(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		for(auto & song : mMusicList)

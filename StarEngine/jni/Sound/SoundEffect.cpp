@@ -34,7 +34,7 @@ namespace star
 		mpSound = Mix_LoadWAV(sound_path.c_str());
 		if(!mpSound)
 		{
-			star::LOG(star::LogLevel::Error,
+			LOG(LogLevel::Error,
 				_T("SoundEffect: Could not load sound, reason : ")
 				+ string_cast<tstring>(Mix_GetError()),
 				STARENGINE_LOG_TAG);
@@ -79,7 +79,7 @@ namespace star
 				lRes = (*mPlayers[i])->SetPlayState(mPlayers[i], SL_PLAYSTATE_PLAYING);
 				if (lRes != SL_RESULT_SUCCESS)
 				{
-					star::LOG(star::LogLevel::Error,
+					LOG(LogLevel::Error,
 						_T("SoundEffect: Can't play audio!"), STARENGINE_LOG_TAG);
 					Stop();
 					return;
@@ -227,7 +227,7 @@ namespace star
 			player, MusicStoppedCallback,
 			this) != SL_RESULT_SUCCESS)
 		{
-			star::LOG(star::LogLevel::Error,
+			LOG(LogLevel::Error,
 				_T("SoundEffect::RegisterCallback: unable to register the class-defined callback function."),
 				STARENGINE_LOG_TAG);
 		}

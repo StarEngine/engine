@@ -33,7 +33,7 @@ namespace star
 		float32 dot3 = Dot(rightTop - rightBottom, leftBottom - rightBottom);
 		
 		float32 tolerance = 0.1f;
-		LOG((abs(dot1) < 0 + tolerance
+		ASSERT_LOG_ENGINE((abs(dot1) < 0 + tolerance
 			|| abs(dot2) < 0 + tolerance
 			|| abs(dot3) < 0 + tolerance)
 			, _T("The Rect is not a rectangle!!"), STARENGINE_LOG_TAG);*/
