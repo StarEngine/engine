@@ -68,7 +68,7 @@ namespace star
 	{
 		auto it = m_Spritesheets.find(name);
 		bool isValid = it != m_Spritesheets.end();
-		ASSERT_LOG_ENGINE(isValid,
+		ASSERT_LOG(isValid,
 			_T("SpriteAnimationManager::GetSpritesheet(const tstring & name): Couldn't find \"") + 
 			name + tstring(_T("\" in the loaded spritesheets.")),
 			STARENGINE_LOG_TAG);

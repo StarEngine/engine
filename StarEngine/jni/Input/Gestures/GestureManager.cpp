@@ -84,7 +84,7 @@ tusing GestureManager::RemoveGesture(BaseGesture* gesture) is much slower, use w
 				return;
 			}
 		}
-		ASSERT_LOG_ENGINE(it != m_GestureMap.end(),
+		ASSERT_LOG(it != m_GestureMap.end(),
 			_T("Gesture not found!"), STARENGINE_LOG_TAG);
 		
 	}
@@ -92,7 +92,7 @@ tusing GestureManager::RemoveGesture(BaseGesture* gesture) is much slower, use w
 	void GestureManager::RemoveGesture(const tstring& tag)
 	{
 		auto it = m_GestureMap.find(tag);
-		ASSERT_LOG_ENGINE(it != m_GestureMap.end(),
+		ASSERT_LOG(it != m_GestureMap.end(),
 			_T("GestureManager::RemoveGesture(const tstring& tag): Gesture \"") + 
 			tag +
 			tstring(_T("\" not found!")),

@@ -68,7 +68,7 @@ namespace star
 		if(m_pParentObject->HasComponent<SpriteSheetComponent>(this)
 			|| m_pParentObject->HasComponent<SpriteComponent>(this))
 		{
-			ASSERT_LOG_ENGINE(false,
+			ASSERT_LOG(false,
 				_T("Object '") + m_pParentObject->GetName() +
 				_T("': Can't add a TextComponent when already \
 having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);

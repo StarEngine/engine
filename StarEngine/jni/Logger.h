@@ -96,38 +96,46 @@ namespace star
 		Logger& operator=(const Logger& t);
 		Logger& operator=(Logger&& t);
 	};
+}
 
-	#define LOG(...) \
-		Logger::GetInstance()->Log( \
-			##__VA_ARGS__, \
-			BREAK_INFO() \
-			) 
+#define LOG(...) \
+	star::Logger::GetInstance()->Log( \
+		##__VA_ARGS__, \
+		BREAK_INFO() \
+		) 
 
-	#define ASSERT_LOG_ENGINE(a, m, t) \
-		{ \
-			bool isOk(a); \
-			if(!isOk) \
-			{ \
-				LOG(star::LogLevel::Error, m, t); \
-			} \
-			ASSERT(isOk, m) \
-		}
+#ifdef _DEBUG
+	#define X_ASSERT_LOG_BREAK __asm { int 3 }
+#else
+	#define X_ASSERT_LOG_BREAK
+#endif
 
-
-	#define ASSERT_LOG(a, m) \
-		ASSERT_LOG_ENGINE(a, m, GAME_LOG_TAG)
+#define ASSERT_LOG \
+	if ( false ) {} \
+	else \
+	struct LocalAssertLog { \
+			int32 mLine; \
+			LocalAssertLog(int32 line=__LINE__) : mLine(line) {} \
+			LocalAssertLog(bool isOK, const tstring & message, \
+				const tstring & tag = GAME_LOG_TAG) { \
+				if ( !isOK ) { \
+					LocalAssertLog info; \
+					star::Logger::GetInstance()->Log( \
+						star::LogLevel::Error, message, tag, \
+						BreakInformation(info.mLine, __FILE__)); \
+					X_ASSERT_LOG_BREAK \
+				} \
+		} \
+	} myAssertLogger = LocalAssertLog
 
 #ifdef _DEBUG
 	#define DEBUG_LOG(...) \
-		Logger::GetInstance()->DebugLog( \
+		star::Logger::GetInstance()->DebugLog( \
 			##__VA_ARGS__, \
 			BREAK_INFO() \
 			) 
 #else
 	#define DEBUG_LOG(...) ((void)0)
 #endif
-
-	
 	#define OPENGL_LOG() \
 		star::Logger::GetInstance()->OpenGLLog(BREAK_INFO());
-}

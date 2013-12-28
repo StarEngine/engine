@@ -427,7 +427,7 @@ namespace star
 			});
 			break;
 		default:
-			ASSERT_LOG_ENGINE(
+			ASSERT_LOG(
 				false,
 				_T("SpriteBatch::SortSprites: Please implement this SpriteSortingMode"),
 				STARENGINE_LOG_TAG

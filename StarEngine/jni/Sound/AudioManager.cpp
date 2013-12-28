@@ -248,7 +248,7 @@ namespace star
 		uint8 channel
 		)
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mMusicList.find(name) != mMusicList.end())
@@ -297,7 +297,7 @@ namespace star
 		uint8 channel
 		)
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."),STARENGINE_LOG_TAG);
 
 		if(mEffectsList.find(name) != mEffectsList.end())
@@ -343,7 +343,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mMusicList.find(name) == mMusicList.end())
@@ -358,7 +358,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		auto it = mMusicList.find(name);
@@ -387,7 +387,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mEffectsList.find(name) == mEffectsList.end())
@@ -402,7 +402,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		auto it = mEffectsList.find(name);
@@ -429,7 +429,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mMusicList.find(name) == mMusicList.end())
@@ -445,7 +445,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		auto it = mMusicList.find(name);
@@ -476,7 +476,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mEffectsList.find(name) == mEffectsList.end())
@@ -492,7 +492,7 @@ namespace star
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		auto it = mEffectsList.find(name);
@@ -514,7 +514,7 @@ namespace star
 
 	void AudioManager::AddToBackgroundQueue(const tstring& name)
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		auto it = mMusicList.find(name);
@@ -535,7 +535,7 @@ namespace star
 
 	void AudioManager::PlayBackgroundQueue()
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		mQueueIterator = mBackgroundQueue.begin();
@@ -554,7 +554,7 @@ namespace star
 
 	void AudioManager::PlayNextSongInQueue()
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mBackgroundQueue.size() == 0)
@@ -572,7 +572,7 @@ namespace star
 
 	void AudioManager::PauseBackgroundQueue()
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mBackgroundQueue.size() == 0)
@@ -588,7 +588,7 @@ namespace star
 
 	void AudioManager::ResumeBackgroundQueue()
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mBackgroundQueue.size() == 0)
@@ -610,7 +610,7 @@ namespace star
 
 	void AudioManager::StopBackgroundQueue()
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		if(mBackgroundQueue.size() == 0)
@@ -1444,7 +1444,7 @@ namespace star
 
 	void AudioManager::StopAllSounds()
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		for(auto & song : mMusicList)
@@ -1460,7 +1460,7 @@ namespace star
 
 	void AudioManager::PauseAllSounds()
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		for(auto & song : mMusicList)
@@ -1476,7 +1476,7 @@ namespace star
 
 	void AudioManager::ResumeAllSounds()
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		for(auto & song : mMusicList)
@@ -1492,7 +1492,7 @@ namespace star
 
 	void AudioManager::DeleteAllSounds()
 	{
-		ASSERT_LOG_ENGINE(mSoundService != nullptr,
+		ASSERT_LOG(mSoundService != nullptr,
 			_T("Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 		for(auto & song : mMusicList)

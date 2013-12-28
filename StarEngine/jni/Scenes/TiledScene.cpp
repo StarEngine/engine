@@ -171,7 +171,7 @@ namespace star
 		XMLContainer container;
 		XMLFileParser parser(file);
 
-		ASSERT_LOG_ENGINE(parser.Read(container, mode),
+		ASSERT_LOG(parser.Read(container, mode),
 			_T("An error occured while trying to read the level."),
 			STARENGINE_LOG_TAG);
 
@@ -184,7 +184,7 @@ namespace star
 		XMLContainer container;
 		XMLFileParser parser(file);
 
-		ASSERT_LOG_ENGINE(parser.Read(container, binary_file, mode),
+		ASSERT_LOG(parser.Read(container, binary_file, mode),
 			_T("An error occured while trying to read the level."),
 			STARENGINE_LOG_TAG);
 
@@ -256,7 +256,7 @@ namespace star
 			auto layerProperties = OIT->second->at(_T("properties"));
 			auto lpIT = layerProperties->lower_bound(_T("property"));
 			auto lpEnd = layerProperties->upper_bound(_T("property"));
-			ASSERT_LOG_ENGINE(lpIT != lpEnd,
+			ASSERT_LOG(lpIT != lpEnd,
 				_T("This layer has no properties. Make sure to define all necacary properties!"),
 				STARENGINE_LOG_TAG);
 			do
@@ -338,7 +338,7 @@ namespace star
 			auto objectProperties = GIT->second->at(_T("properties"));
 			auto opIT = objectProperties->lower_bound(_T("property"));
 			auto opEnd = objectProperties->upper_bound(_T("property"));
-			ASSERT_LOG_ENGINE(opIT != opEnd,
+			ASSERT_LOG(opIT != opEnd,
 				_T("[TILED] This Object Group has no properties. Make sure to define all necacary properties!"),
 				STARENGINE_LOG_TAG);
 			do
@@ -407,7 +407,7 @@ namespace star
 
 				const auto rType = objAttributes.lower_bound(_T("type"));
 				bool foundType = rType != objAttributes.end();
-				ASSERT_LOG_ENGINE(foundType,
+				ASSERT_LOG(foundType,
 					_T("[TILED] Couldn't find the type of the object. Please define this!"),
 					STARENGINE_LOG_TAG);
 				if(foundType)

@@ -32,7 +32,7 @@ namespace star
 		data.data = ReadBinaryFile(m_File.GetLocalPath(), data.size, mode);
 		result = XMLDocument.load_buffer_inplace_own(data.data, data.size);
 
-		ASSERT_LOG_ENGINE(result,
+		ASSERT_LOG(result,
 			star::string_cast<tstring>(result.description()), STARENGINE_LOG_TAG);
 		if (result)
 		{

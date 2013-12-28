@@ -220,7 +220,7 @@ namespace star
 		const vec2* vertices, 
 		uint32 vertexCount)
 	{
-		ASSERT_LOG_ENGINE(vertexCount <= MAX_VERTICES, 
+		ASSERT_LOG(vertexCount <= MAX_VERTICES, 
 			_T("more vertices than allocated space"),
 			STARENGINE_LOG_TAG);
 
@@ -237,7 +237,7 @@ namespace star
 	{
 		// [TODO] Fix this bug in eclipse: 
 		// (undefined reference to 'star::DebugDraw::MAX_VERTICES')
-		//ASSERT_LOG_ENGINE(m_CircleSegments < MAX_VERTICES, 
+		//ASSERT_LOG(m_CircleSegments < MAX_VERTICES, 
 		//	tstring(_T("You can only draw ") 
 		//	+ string_cast<tstring>(MAX_VERTICES) 
 		//	+ _T(" vertices per primitive")).c_str(), STARENGINE_LOG_TAG);

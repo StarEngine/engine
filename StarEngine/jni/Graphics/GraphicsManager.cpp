@@ -22,7 +22,7 @@ namespace star
 	
 	GraphicsManager::~GraphicsManager()
 	{
-		star::LOG(star::LogLevel::Info,
+		LOG(star::LogLevel::Info,
 			_T("Graphics Manager : Destructor"), STARENGINE_LOG_TAG);
 	}
 
@@ -41,7 +41,7 @@ namespace star
 		, mWglGetSwapIntervalEXT(NULL)
 #endif
 	{
-		star::LOG(star::LogLevel::Info,
+		LOG(star::LogLevel::Info,
 			_T("Graphics Manager : Constructor"), STARENGINE_LOG_TAG);
 	}
 
@@ -135,12 +135,12 @@ namespace star
 			mScreenResolution.y = float32(screenHeight);
 			glewInit();
 
-			star::LOG(star::LogLevel::Info,
+			LOG(star::LogLevel::Info,
 				_T("Graphics Manager : Initializing OpenGL Functors"),
 				STARENGINE_LOG_TAG);
 			if(!InitializeOpenGLFunctors())
 			{
-				star::LOG(star::LogLevel::Error,
+				LOG(star::LogLevel::Error,
 					_T("Graphics Manager : Graphics card doesn't support VSync option!!"),
 					STARENGINE_LOG_TAG);
 			}

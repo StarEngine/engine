@@ -8,7 +8,7 @@ namespace star
 	{
 		auto it = m_GestureMap.find(name);
 		
-		ASSERT_LOG_ENGINE(it != m_GestureMap.end(),
+		ASSERT_LOG(it != m_GestureMap.end(),
 			_T("GestureManager::GetGesture(const tstring& tag): Gesture \"") + 
 			name +
 			tstring(_T("\" not found!")),
@@ -18,7 +18,7 @@ namespace star
 		auto returnObject = dynamic_cast<T*>((*it).second);
 		if(returnObject == nullptr)
 		{
-			ASSERT_LOG_ENGINE(LogLevel::Error,
+			ASSERT_LOG(LogLevel::Error,
 				_T("BaseScene::GetGestureByName: couldn't convert object '")
 				+ name + _T("' to the requested type. Returning nullptr..."),
 				STARENGINE_LOG_TAG);

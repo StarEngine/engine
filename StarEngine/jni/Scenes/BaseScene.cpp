@@ -574,7 +574,7 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 		for(auto pElement : m_pGarbage)
 		{
 			auto it = std::find(m_pObjects.begin(), m_pObjects.end(), pElement);
-			ASSERT_LOG_ENGINE(it != m_pObjects.end(),
+			ASSERT_LOG(it != m_pObjects.end(),
 				_T("BaseScene::CollectGarbage: Trying to delete unknown object"),
 				STARENGINE_LOG_TAG);
 			(*it)->UnsetScene();

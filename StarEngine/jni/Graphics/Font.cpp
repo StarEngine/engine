@@ -62,7 +62,7 @@ namespace star
 #endif
 		if(error == FT_Err_Unknown_File_Format)
 		{
-			star::LOG(star::LogLevel::Error,
+			LOG(star::LogLevel::Error,
 				_T("Font Manager : Font : ") + path +
 				_T(" ,could be opened but its in unsuported format"),
 				STARENGINE_LOG_TAG);
@@ -70,13 +70,13 @@ namespace star
 		}
 		else if(error)
 		{
-			star::LOG(star::LogLevel::Error,
+			LOG(star::LogLevel::Error,
 				_T("Font Manager : Font : ") + path +
 				_T(" ,is invalid and cant be opened or read or its broken"),
 				STARENGINE_LOG_TAG);
 			return (false);
 		}
-		star::LOG(star::LogLevel::Info,
+		LOG(star::LogLevel::Info,
 			_T("Font Manager : Font : ") + path + 
 			_T(" ,loaded and ready for use"),
 			STARENGINE_LOG_TAG);
@@ -108,7 +108,7 @@ namespace star
 		auto error = FT_Load_Char(face, ch, FT_LOAD_DEFAULT);
 		if(error)
 		{
-			star::LOG(star::LogLevel::Error, 
+			LOG(star::LogLevel::Error, 
 				_T("Font : could not load Glyph"), STARENGINE_LOG_TAG);
 			return;
 		}
@@ -116,7 +116,7 @@ namespace star
 		error = FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL);
 		if(error)
 		{
-			star::LOG(star::LogLevel::Error,
+			LOG(star::LogLevel::Error,
 				_T("Font : could not load Glyph"), STARENGINE_LOG_TAG);
 			return;
 		}

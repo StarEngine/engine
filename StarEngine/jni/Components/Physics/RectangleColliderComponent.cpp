@@ -83,7 +83,7 @@ namespace star
 		SpriteComponent* spriteComp = GetParent()->GetComponent<SpriteComponent>();
 		if(spriteComp)
 		{
-			ASSERT_LOG_ENGINE(spriteComp->IsInitialized(),
+			ASSERT_LOG(spriteComp->IsInitialized(),
 				_T("First add the spriteComponent and then the rectColliderComp"),
 				STARENGINE_LOG_TAG);
 
@@ -200,7 +200,7 @@ make sure you specify the width and the height! else the collider component has 
 		const vec2& point2
 		) const
 	{
-		ASSERT_LOG_ENGINE(point1 != point2,
+		ASSERT_LOG(point1 != point2,
 			_T("Please provide 2 different points to make a line!"),
 			STARENGINE_LOG_TAG);
 
@@ -275,7 +275,7 @@ make sure you specify the width and the height! else the collider component has 
 
 	bool RectangleColliderComponent::CollidesWith(const BaseColliderComponent* other) const
 	{
-		ASSERT_LOG_ENGINE(other != nullptr,
+		ASSERT_LOG(other != nullptr,
 			_T("RectangleColliderComponent::CollidesWith: \
 The collierComponent to check is a nullptr"), STARENGINE_LOG_TAG);
 		const CircleColliderComponent* otherCircleComp = 
@@ -462,7 +462,7 @@ The collierComponent to check is a nullptr"), STARENGINE_LOG_TAG);
 		uint8 size
 		) const
 	{
-		ASSERT_LOG_ENGINE(size != 0,
+		ASSERT_LOG(size != 0,
 			_T("You can't calculate the minimum of 0 elements!"),
 			STARENGINE_LOG_TAG);
 		float32 minimum = vec[0];
@@ -481,7 +481,7 @@ The collierComponent to check is a nullptr"), STARENGINE_LOG_TAG);
 		uint8 size
 		) const
 	{
-		ASSERT_LOG_ENGINE(size != 0, 
+		ASSERT_LOG(size != 0, 
 			_T("You can't calculate the maximum of 0 elements!"),
 			STARENGINE_LOG_TAG);
 		float32 maximum = vec[0];

@@ -439,7 +439,7 @@ namespace star
 	{
 		for(auto comp : m_pComponents)
 		{
-			ASSERT_LOG_ENGINE(typeid(*comp) != typeid(*pComponent), 
+			ASSERT_LOG(typeid(*comp) != typeid(*pComponent), 
 				_T("Object::AddComponent: \
 Adding 2 components of the same type \
 to the same object is illegal."), STARENGINE_LOG_TAG);
@@ -625,7 +625,7 @@ Action gets added but beware, duplicate names can become the cause of problems."
 	{
 		auto it = std::find(m_pActions.begin(), m_pActions.end(), pAction);
 		bool isOK = it != m_pActions.end();
-		ASSERT_LOG_ENGINE(isOK,
+		ASSERT_LOG(isOK,
 			_T("Object::RemoveAction: The action you tried \
 to remove could not be found."), STARENGINE_LOG_TAG);
 		if(isOK)
@@ -703,7 +703,7 @@ to remove could not be found."), STARENGINE_LOG_TAG);
 	{
 		auto it = std::find(m_pComponents.begin(), m_pComponents.end(), pComponent);
 		bool isOK = it != m_pComponents.end();
-		ASSERT_LOG_ENGINE(isOK,
+		ASSERT_LOG(isOK,
 			_T("Object::RemoveComponent: The component you tried \
 			   to remove could not be found."), STARENGINE_LOG_TAG);
 		if(isOK)

@@ -16,9 +16,9 @@ namespace star
 		m_Width(width),
 		m_Height(height)
 	{
-		ASSERT_LOG_ENGINE(m_Width >= 0,
+		ASSERT_LOG(m_Width >= 0,
 			_T("Width can't be negative!"), STARENGINE_LOG_TAG);
-		ASSERT_LOG_ENGINE(m_Height >= 0,
+		ASSERT_LOG(m_Height >= 0,
 			_T("Height can't be negative!"), STARENGINE_LOG_TAG);
 	}
 

@@ -309,7 +309,7 @@ namespace star
 					volumeItf,
 					&maxMillibelLevel
 					);
-			ASSERT_LOG_ENGINE(result == SL_RESULT_SUCCESS,
+			ASSERT_LOG(result == SL_RESULT_SUCCESS,
 					_T("Sound: Couldn't get the maximum volume level!"),
 					STARENGINE_LOG_TAG);
 			actualMillibelLevel = SLmillibel(
@@ -320,7 +320,7 @@ namespace star
 				volumeItf,
 				actualMillibelLevel
 				);
-			ASSERT_LOG_ENGINE(result == SL_RESULT_SUCCESS,
+			ASSERT_LOG(result == SL_RESULT_SUCCESS,
 					_T("Sound: Couldn't set the volume!"),
 					STARENGINE_LOG_TAG);
 		}
@@ -342,7 +342,7 @@ namespace star
 					sound, SL_IID_VOLUME, pInterface
 					);
 				bool isOK = result == SL_RESULT_SUCCESS;
-				ASSERT_LOG_ENGINE(isOK,
+				ASSERT_LOG(isOK,
 					_T("Sound: Couldn't get the interface!"),
 					STARENGINE_LOG_TAG);
 				return isOK;
@@ -364,14 +364,14 @@ namespace star
 				volumeItf,
 				&actualMillibelLevel
 				);
-			ASSERT_LOG_ENGINE(result == SL_RESULT_SUCCESS,
+			ASSERT_LOG(result == SL_RESULT_SUCCESS,
 				_T("Sound: Couldn't get the volume!"),
 				STARENGINE_LOG_TAG);
 			result = (*volumeItf)->GetMaxVolumeLevel(
 				volumeItf,
 				&maxMillibelLevel
 				);
-			ASSERT_LOG_ENGINE(result == SL_RESULT_SUCCESS,
+			ASSERT_LOG(result == SL_RESULT_SUCCESS,
 				_T("Sound: Couldn't get the maximum volume level!"),
 				STARENGINE_LOG_TAG);
 			float32 posMinVol = float32(SL_MILLIBEL_MIN) * -1.0f;
@@ -395,7 +395,7 @@ namespace star
 			SLresult result = (*volumeItf)->SetMute(
 				volumeItf, SLboolean(muted)
 				);
-			ASSERT_LOG_ENGINE(result == SL_RESULT_SUCCESS,
+			ASSERT_LOG(result == SL_RESULT_SUCCESS,
 				_T("BaseSound::SetMuted: Couldn't set muted state!"),
 				STARENGINE_LOG_TAG);
 		}
@@ -413,7 +413,7 @@ namespace star
 			SLresult result = (*volumeItf)->GetMute(
 				volumeItf, &isMuted
 				);
-			ASSERT_LOG_ENGINE(result == SL_RESULT_SUCCESS,
+			ASSERT_LOG(result == SL_RESULT_SUCCESS,
 				_T("BaseSound::SetMuted: Couldn't get muted state!"),
 				STARENGINE_LOG_TAG);
 			return bool(isMuted);
