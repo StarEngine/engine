@@ -94,10 +94,10 @@ namespace star
 		/// <param name="bottom">Bottom of the screen</param>
 		/// <returns>true if the component should be culled</returns>
 		virtual bool CheckCulling(
-			float left,
-			float right,
-			float top,
-			float bottom
+			float32 left,
+			float32 right,
+			float32 top,
+			float32 bottom
 			) const;
 
 		/// <summary>

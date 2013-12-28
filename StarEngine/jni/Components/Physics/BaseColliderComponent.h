@@ -24,6 +24,13 @@ namespace star
 		/// The collider will be added to the default collision group.
 		/// </summary>
 		BaseColliderComponent();
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="BaseColliderComponent"/> class.
+		/// The collider will be added to the collision group you specify as argument.
+		/// </summary>
+		/// <param name="layer">The layer you want to add the component to.</param>
+		BaseColliderComponent(const tstring & layer);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BaseColliderComponent"/> class.
 		/// The collider will be added to the collision groups you specify as arguments.
@@ -32,7 +39,7 @@ namespace star
 		/// <param name="n">The number of layers in the array.</param>
 		BaseColliderComponent(
 			const tstring* layers, 
-			uint8 n = 1);
+			uint8 n);
 		/// <summary>
 		/// Finalizes an instance of the <see cref="BaseColliderComponent"/> class.
 		/// </summary>
@@ -179,12 +186,12 @@ namespace star
 		/// </summary>
 		/// <returns>returns the array and the number of layers</returns>
 		/// <seealso cref="PointerArray"/>
-		const PointerArray<tstring>& GetLayers() const;
+		const PointerArray<tstring> & GetLayers() const;
 
-		virtual bool CollidesWithPoint(const vec2& point) const = 0;
-		virtual bool CollidesWithLine(
-			const vec2& point1, 
-			const vec2& point2
+		virtual bool CollidesWithPoint2D(const vec2 & point2D) const = 0;
+		virtual bool CollidesWithLine2D(
+			const vec2 & point2D1, 
+			const vec2 & point2D2
 			) const = 0;
 		virtual bool CollidesWith(const BaseColliderComponent* other) const = 0;
 
@@ -221,7 +228,7 @@ namespace star
 		/// <param name="oobb">The Object Orientated Bounding Box (OOBB).</param>
 		/// <returns>The closest point to the Object Orientated Bounding Box (OOBB)</returns>
 		vec2 FindClosestPointToOOBB(
-			const vec2& vector, 
+			const vec2 & vector, 
 			const RectangleColliderComponent* oobb
 			) const;
 		PointerArray<tstring> m_Layers;

@@ -31,6 +31,25 @@ namespace star
 		SetVisible(false);
 	}
 
+	BaseColliderComponent::BaseColliderComponent(const tstring & layer)
+		: BaseComponent()
+		, m_bIsTrigger(false)
+		, m_bIsStatic(false)
+		, m_bCanDraw(false)
+		, m_DrawColor()
+		, m_bEntered(false)
+		, m_bExited(true)
+		, m_OnEnter(nullptr)
+		, m_OnStay(nullptr)
+		, m_OnExit(nullptr)
+	{
+		m_Layers.amount = 1;
+		m_Layers.elements = new tstring[m_Layers.amount];
+		m_Layers.elements[0] = layer;
+
+		SetVisible(false);
+	}
+
 	BaseColliderComponent::BaseColliderComponent(
 		const tstring* layers, 
 		uint8 n)

@@ -34,6 +34,21 @@ namespace star
 	/// <returns>The filename and its extension.</returns>
 	tstring GetFileName(const tstring & path);
 	
+		const T * vec, 
+		uint8 size
+		);
+	/// <summary>
+	/// returns the largest item of all elements in a given array of type T.
+	/// </summary>
+	/// <param name="vec">The array.</param>
+	/// <param name="size">The size of the array.</param>
+	/// <returns>The largest item in the array.</returns>
+	template < typename T>
+	T CalculateLargestElem(
+		const T * vec,
+		uint8 size
+		);
+	
 	/// <summary>
 	/// Cast from type 'TReturnValue' to type 'TValue', where one of the 2 types is a string type.
 	/// </summary>

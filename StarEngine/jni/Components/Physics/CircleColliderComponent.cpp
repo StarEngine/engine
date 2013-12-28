@@ -20,9 +20,20 @@ namespace star
 
 	}
 
+	CircleColliderComponent::CircleColliderComponent(const tstring & layer)
+		: BaseColliderComponent(layer)
+		, m_Radius(0)
+		, m_Offset()
+		, m_bDefaultInitialized(true)
+		, m_DrawSegments(16)
+	{
+
+	}
+
 	CircleColliderComponent::CircleColliderComponent(
 		const tstring* layers, 
-		uint8 n)
+		uint8 n
+		)
 		: BaseColliderComponent(layers, n)
 		, m_Radius(0)
 		, m_Offset()
@@ -39,47 +50,82 @@ namespace star
 		, m_bDefaultInitialized(false)
 		, m_DrawSegments(16)
 	{
+
+	}
+
+	CircleColliderComponent::CircleColliderComponent(
+		float32 radius, 
+		const tstring & layer
+		)
+		: BaseColliderComponent(layer)
+		, m_Radius(radius)
+		, m_Offset()
+		, m_bDefaultInitialized(false)
+		, m_DrawSegments(16)
+	{
+
 	}
 
 	CircleColliderComponent::CircleColliderComponent(
 		float32 radius, 
 		const tstring* layers, 
-		uint8 tag)
+		uint8 tag
+		)
 		: BaseColliderComponent(layers, tag)
 		, m_Radius(radius)
 		, m_Offset()
 		, m_bDefaultInitialized(false)
 		, m_DrawSegments(16)
 	{
+
 	}
 
-	CircleColliderComponent::CircleColliderComponent
-		(float32 radius, 
-		const vec2& offset)
+	CircleColliderComponent::CircleColliderComponent(
+		float32 radius, 
+		const vec2 & offset
+		)
 		: BaseColliderComponent()
 		, m_Radius(radius)
 		, m_Offset(offset)
 		, m_bDefaultInitialized(false)
 		, m_DrawSegments(16)
 	{
+
 	}
 
 	CircleColliderComponent::CircleColliderComponent(
 		float32 radius, 
-		const vec2& offset,
+		const vec2 & offset,
+		const tstring & layer
+		)
+		: BaseColliderComponent(layer)
+		, m_Radius(radius)
+		, m_Offset(offset)
+		, m_bDefaultInitialized(false)
+		, m_DrawSegments(16)
+	{
+
+	}
+
+	CircleColliderComponent::CircleColliderComponent(
+		float32 radius, 
+		const vec2 & offset,
 		const tstring* layers, 
-		uint8 tag)
+		uint8 tag
+		)
 		: BaseColliderComponent(layers, tag)
 		, m_Radius(radius)
 		, m_Offset(offset)
 		, m_bDefaultInitialized(false)
 		, m_DrawSegments(16)
 	{
+
 	}
 
 
 	CircleColliderComponent::~CircleColliderComponent(void)
 	{
+
 	}
 
 	void CircleColliderComponent::InitializeColliderComponent()
@@ -120,76 +166,71 @@ the CircleColliderComponent."), STARENGINE_LOG_TAG);
 			AddComponent(this, m_Layers.elements, m_Layers.amount);
 	}
 
-	/// <summary>
-	/// Collideses the with point.
-	/// </summary>
-	/// <param name="point">The point.</param>
-	/// <returns></returns>
-	bool CircleColliderComponent::CollidesWithPoint(const vec2& point) const
+	bool CircleColliderComponent::CollidesWithPoint2D(const vec2 & point2D) const
 	{
 		
-		return (Mag(point - GetPosition()) <= GetRealRadius());
+		return (Mag(point2D - GetPosition()) <= GetRealRadius());
 	}
 
-	bool CircleColliderComponent::CollidesWithLine(
-		const vec2& point1,
-		const vec2& point2
+	bool CircleColliderComponent::CollidesWithLine2D(
+		const vec2 & point2D1,
+		const vec2 & point2D2
 		) const
 	{
 		//Check if circle is inside of boundaries of the line.
 		vec2 circlePos(GetPosition());
 		float32 radius = GetRealRadius();
 		//Check smallest point in x and y
-		if(point1.x < point2.x)
+		if(point2D1.x < point2D2.x)
 		{
-			if(circlePos.x + radius < point1.x)
+			if(circlePos.x + radius < point2D1.x)
 			{
 				return false;
 			}
-			if(circlePos.x - radius > point2.x)
+			if(circlePos.x - radius > point2D2.x)
 			{
 				return false;
 			}
 		}
 		else
 		{
-			if(circlePos.x + radius < point2.x)
+			if(circlePos.x + radius < point2D2.x)
 			{
 				return false;
 			}
-			if(circlePos.x - radius > point1.x)
+			if(circlePos.x - radius > point2D1.x)
 			{
 				return false;
 			}
 		}
 
-		if(point1.y < point2.y)
+		if(point2D1.y < point2D2.y)
 			{
-				if(circlePos.y + radius < point1.y)
+				if(circlePos.y + radius < point2D1.y)
 				{
 					return false;
 				}
-				if(circlePos.y - radius > point2.y)
+				if(circlePos.y - radius > point2D2.y)
 				{
 					return false;
 				}
 			}
 			else
 			{
-				if(circlePos.y + radius < point2.y)
+				if(circlePos.y + radius < point2D2.y)
 				{
 					return false;
 				}
-				if(circlePos.y - radius > point1.y)
+				if(circlePos.y - radius > point2D1.y)
 				{
 					return false;
 				}
 			}
 		//The circle is inside the boundaries of the line!
-		vec2 lineVec(Normalize(point2 - point1));
-		float32 closestPointOnLineSize(Dot(circlePos - point1, lineVec));
+		vec2 lineVec(Normalize(point2D2 - point2D1));
+		float32 closestPointOnLineSize(Dot(circlePos - point2D1, lineVec));
 		vec2 closestPointOnLine(closestPointOnLineSize * lineVec);
-		closestPointOnLine = point1 + closestPointOnLine;
+		closestPointOnLine = point2D1 + closestPointOnLine;
 
 		return Mag(circlePos - closestPointOnLine) <= radius;
 		
