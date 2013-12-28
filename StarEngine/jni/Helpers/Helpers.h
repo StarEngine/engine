@@ -34,17 +34,26 @@ namespace star
 	/// <returns>The filename and its extension.</returns>
 	tstring GetFileName(const tstring & path);
 	
-		const T * vec, 
-		uint8 size
-		);
+	/// <summary>
+	/// returns the smallest item of all elements in a given array of type T.
+	/// </summary>
+	/// <param name="vec">The array.</param>
+	/// <param name="size">The size of the array.</param>
+	/// <returns>The smallest item in the array</returns>
+	template <typename T>
+	T CalculateSmallestElement(
+	  const T * vec, 
+	  uint8 size
+	  );
+	
 	/// <summary>
 	/// returns the largest item of all elements in a given array of type T.
 	/// </summary>
 	/// <param name="vec">The array.</param>
 	/// <param name="size">The size of the array.</param>
 	/// <returns>The largest item in the array.</returns>
-	template < typename T>
-	T CalculateLargestElem(
+	template <typename T>
+	T CalculateLargestElement(
 		const T * vec,
 		uint8 size
 		);
@@ -54,7 +63,7 @@ namespace star
 	/// </summary>
 	/// <param name="value">the value to be casted to type 'TReturnValue'</param>
 	/// <returns>a copy of the casted value</returns>
-	template < typename TReturnValue, typename TValue>
+	template <typename TReturnValue, typename TValue>
 	TReturnValue string_cast(const TValue & value);
 	
 	/// <summary>

@@ -238,7 +238,7 @@ make sure you specify the width and the height! else the collider component has 
 		const vec2& point2D2
 		) const
 	{
-		ASSERT_LOG(point1 != point2,
+		ASSERT_LOG(point2D1 != point2D2,
 			_T("Please provide 2 different points to make a line!"),
 			STARENGINE_LOG_TAG);
 
@@ -425,11 +425,11 @@ The collierComponent to check is a nullptr"), STARENGINE_LOG_TAG);
 		vec2[0] = BvecPosOnAxis1;
 		vec2[1] = BvecPosOnAxis2;
 
-		float32 AMinimum = CalculateSmallestElem(vec1, 4);
-		float32 AMaximum = CalculateLargestElem(vec1, 4);
+		float32 AMinimum = CalculateSmallestElement(vec1, 4);
+		float32 AMaximum = CalculateLargestElement(vec1, 4);
 
-		float32 BMinimum = CalculateSmallestElem(vec2, 2);
-		float32 BMaximum = CalculateLargestElem(vec2, 2);
+		float32 BMinimum = CalculateSmallestElement(vec2, 2);
+		float32 BMaximum = CalculateLargestElement(vec2, 2);
 
 		return (BMinimum <= AMaximum && BMaximum >= AMinimum);
 	}
@@ -453,8 +453,8 @@ The collierComponent to check is a nullptr"), STARENGINE_LOG_TAG);
 		vec1[2] = AvecPosOnAxis3;
 		vec1[3] = AvecPosOnAxis4;
 
-		float32 AMinimum = CalculateSmallestElem(vec1, 4);
-		float32 AMaximum = CalculateLargestElem(vec1, 4);
+		float32 AMinimum = CalculateSmallestElement(vec1, 4);
+		float32 AMaximum = CalculateLargestElement(vec1, 4);
 
 		return (BvecPosOnAxis1 <= AMaximum && BvecPosOnAxis1 >= AMinimum);
 	}
@@ -487,10 +487,10 @@ The collierComponent to check is a nullptr"), STARENGINE_LOG_TAG);
 		vec2[2] = BvecPosOnAxis3;
 		vec2[3] = BvecPosOnAxis4;
 
-		float32 AMinimum = CalculateSmallestElem(vec1, 4);
-		float32 BMinimum = CalculateSmallestElem(vec2, 4);
-		float32 AMaximum = CalculateLargestElem(vec1, 4);
-		float32 BMaximum = CalculateLargestElem(vec2, 4);
+		float32 AMinimum = CalculateSmallestElement(vec1, 4);
+		float32 BMinimum = CalculateSmallestElement(vec2, 4);
+		float32 AMaximum = CalculateLargestElement(vec1, 4);
+		float32 BMaximum = CalculateLargestElement(vec2, 4);
 
 		return BMinimum <= AMaximum && BMaximum >= AMinimum;
 	}
