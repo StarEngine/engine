@@ -1,10 +1,11 @@
 #include "Texture2D.h"
+#include <png.h>
+#include "../Helpers/Helpers.h"
 
 namespace star
 {
-	//[NOTE]	You're not supposed to make Textures yourself.
-	//			Use the TextureManager to load your textures.
-	//			This ensures a same texture is not loaded multiple times
+	const tstring Texture2D::LIBPNG_LOG_TAG = STARENGINE_LOG_TAG + tstring(_T(" - LIBPNG"));
+
 	Texture2D::Texture2D(const tstring & pPath)
 			: mTextureId(0)
 			, mFormat(0)
@@ -61,7 +62,7 @@ namespace star
 			LOG(LogLevel::Error,
 				_T("Texture2D::ReadPNG: the png \"") +
 				mPath + 
-				_T("\" could not be loaded"), STARENGINE_LOG_TAG
+				_T("\" could not be loaded"), LIBPNG_LOG_TAG
 				);
 			return NULL;
 		}
@@ -72,7 +73,7 @@ namespace star
 		{
 			mResource.Close();
 			LOG(LogLevel::Error,
-				_T("PNG : Could Not Open Resource"), STARENGINE_LOG_TAG);
+				_T("PNG : Could Not Open Resource"), LIBPNG_LOG_TAG);
 			return NULL;
 		}
 		if(!mResource.Read(header, sizeof(header)))
@@ -80,7 +81,7 @@ namespace star
 			mResource.Close();
 			LOG(LogLevel::Error,
 				_T("PNG : Could Not Read"),
-				STARENGINE_LOG_TAG);
+				LIBPNG_LOG_TAG);
 			return NULL;
 		}
 #endif
@@ -89,44 +90,48 @@ namespace star
 		{
 			LOG(LogLevel::Error,
 				_T("PNG : Not a PNG file"),
-				STARENGINE_LOG_TAG);
+				LIBPNG_LOG_TAG);
 			return NULL;
 		}
-	/*	png_error_ptr warningPtr;
-		warningPtr*/
-		lPngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+		lPngPtr = png_create_read_struct(
+			PNG_LIBPNG_VER_STRING,
+			NULL,
+			NULL, 
+			NULL
+			);
 		if(!lPngPtr)
 		{
 			LOG(LogLevel::Error,
 				_T("PNG : create struct string failed"),
-				STARENGINE_LOG_TAG);
+				LIBPNG_LOG_TAG);
 			return NULL;
 		}
+
+		png_set_error_fn(lPngPtr, NULL, CustomErrorFunction, CustomWarningFunction);
 
 		lInfoPtr = png_create_info_struct(lPngPtr);
 		if(!lInfoPtr)
 		{
 			LOG(LogLevel::Error,
-				_T("PNG : create info failed"), STARENGINE_LOG_TAG);
+				_T("PNG : create info failed"), LIBPNG_LOG_TAG);
 			return NULL;
 		}
 
 #ifdef DESKTOP
+		png_init_io(lPngPtr, fp);
 		if(setjmp(png_jmpbuf(lPngPtr)))
 		{
 			LOG(LogLevel::Error,
-				_T("PNG : Error during init io"), STARENGINE_LOG_TAG);
+				_T("PNG : Error during init io"), LIBPNG_LOG_TAG);
 			return NULL;
 		}
-
-		png_init_io(lPngPtr, fp);
 #else
 		png_set_read_fn(lPngPtr, &mResource, CallbackRead);
 		if(setjmp(png_jmpbuf(lPngPtr)))
 		{
 			mResource.Close();
 			LOG(LogLevel::Error,
-				_T("PNG : Error during init io"), STARENGINE_LOG_TAG);
+				_T("PNG : Error during init io"), LIBPNG_LOG_TAG);
 			return NULL;
 		}
 #endif
@@ -205,7 +210,7 @@ namespace star
 		/*if(setjmp(png_jmpbuf(mPng_ptr)))
 		{
 			LOG(LogLevel::Info,
-			_T("PNG : Error during read image"), STARENGINE_LOG_TAG);
+			_T("PNG : Error during read image"), LIBPNG_LOG_TAG);
 			return NULL;
 		}*/
 
@@ -214,7 +219,7 @@ namespace star
 		{
 			LOG(LogLevel::Error,
 				_T("PNG : png rowsize smaller or equal to 0"),
-				STARENGINE_LOG_TAG);
+				LIBPNG_LOG_TAG);
 			return NULL;
 		}
 
@@ -223,7 +228,7 @@ namespace star
 		{
 			LOG(LogLevel::Error,
 				_T("PNG : Error during image buffer creation"),
-				STARENGINE_LOG_TAG);
+				LIBPNG_LOG_TAG);
 			return NULL;
 		}
 
@@ -232,7 +237,7 @@ namespace star
 		{
 			LOG(LogLevel::Error,
 				_T("PNG : Error during row pointer creation"),
-				STARENGINE_LOG_TAG);
+				LIBPNG_LOG_TAG);
 			return NULL;
 		}
 
@@ -241,7 +246,6 @@ namespace star
 			lRowPtrs[pHeight - (i+1)] = lImageBuffer + i * lRowSize;
 		}
 		png_read_image(lPngPtr, lRowPtrs);
-
 #ifdef DESKTOP
 		fclose(fp);
 #else
@@ -253,11 +257,11 @@ namespace star
 #ifdef DESKTOP
 		DEBUG_LOG(LogLevel::Info,
 			_T("PNG : ") + mPath + _T(" Created Succesfull"),
-			STARENGINE_LOG_TAG);
+			LIBPNG_LOG_TAG);
 #else
 		DEBUG_LOG(LogLevel::Info,
 					_T("PNG : ") + mResource.GetPath() + _T(" Created Succesfull"),
-					STARENGINE_LOG_TAG);
+					LIBPNG_LOG_TAG);
 #endif
 		return lImageBuffer;
 
@@ -269,7 +273,7 @@ namespace star
 		if(lImageBuffer == NULL)
 		{
 			LOG(LogLevel::Error, 
-				_T("PNG : READING PNG FAILED - NO IMAGE BUFFER"), STARENGINE_LOG_TAG);
+				_T("PNG : READING PNG FAILED - NO IMAGE BUFFER"), LIBPNG_LOG_TAG);
 			return;
 		}
 
@@ -296,19 +300,19 @@ namespace star
 			case GL_INVALID_ENUM:
 				LOG(LogLevel::Error,
 					_T("PNG : Unacceptable value for imagebuffer"),
-					STARENGINE_LOG_TAG);
+					LIBPNG_LOG_TAG);
 				break;
 			case GL_INVALID_VALUE:
 				LOG(LogLevel::Error,
-					_T("PNG : value out of range"), STARENGINE_LOG_TAG);
+					_T("PNG : value out of range"), LIBPNG_LOG_TAG);
 				break;
 			case GL_INVALID_OPERATION:
 				LOG(LogLevel::Error,
-					_T("PNG : Not allowed in current state"), STARENGINE_LOG_TAG);
+					_T("PNG : Not allowed in current state"), LIBPNG_LOG_TAG);
 				break;
 			case GL_OUT_OF_MEMORY:
 				LOG(LogLevel::Error,
-					_T("PNG : Out of Memory"), STARENGINE_LOG_TAG);
+					_T("PNG : Out of Memory"), LIBPNG_LOG_TAG);
 				break;
 			}
 			errorMsg = glGetError();
@@ -317,7 +321,7 @@ namespace star
 		if(hasError)
 		{
 			LOG(LogLevel::Error,
-				_T("PNG : Error loading png into OpenGl"), STARENGINE_LOG_TAG);
+				_T("PNG : Error loading png into OpenGl"), LIBPNG_LOG_TAG);
 			if(mTextureId != 0)
 			{
 				glDeleteTextures(1, &mTextureId);
@@ -353,4 +357,16 @@ namespace star
 	{
 		return mTextureId;
 	}
+
+	void Texture2D::CustomErrorFunction(png_structp pngPtr, png_const_charp error) 
+	{
+		DEBUG_LOG(LogLevel::Error, string_cast<tstring>(error), LIBPNG_LOG_TAG);
+		setjmp(png_jmpbuf(pngPtr));
+	}
+
+	void Texture2D::CustomWarningFunction(png_structp pngPtr, png_const_charp warning) 
+	{
+		DEBUG_LOG(LogLevel::Warning, string_cast<tstring>(warning), LIBPNG_LOG_TAG);
+	}
 }
+
