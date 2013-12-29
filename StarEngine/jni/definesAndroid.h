@@ -50,3 +50,4 @@ typedef struct myPoint
 #else
 	#define ASSERT(...) (void(0))
 #endif
+#endif
