@@ -1164,7 +1164,7 @@ namespace star
 	{
 #ifdef ANDROID
 		bool succesfull = directory != DirectoryMode::assets;
-		LOG(succesfull,
+		ASSERT_LOG(succesfull,
 			_T("Android doesn't support writing to a binary file in the assets directory."),
 			STARENGINE_LOG_TAG);
 		if(succesfull)

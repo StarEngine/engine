@@ -38,20 +38,20 @@ namespace star
 		Resource resource(path);
 		if(!resource.Open())
 		{
-			star::LOG(LogLevel::Error,
+			LOG(LogLevel::Error,
 				_T("Font : Failed to open file"), STARENGINE_LOG_TAG);
 			return false;
 		}
 
 		int32 length = resource.GetLength();
-		star::LOG(LogLevel::Info,
+		LOG(LogLevel::Info,
 			_T("Font : File size :") + star::string_cast<tstring>(length),
 			STARENGINE_LOG_TAG);
 		mFontBuffer = new BYTE[length]();
 
 		if(!resource.Read(mFontBuffer,length))
 		{
-			star::LOG(LogLevel::Error,
+			LOG(LogLevel::Error,
 				_T("Font : Failed to read file"), STARENGINE_LOG_TAG);
 			resource.Close();
 			return false;
@@ -64,7 +64,7 @@ namespace star
 		{
 			LOG(star::LogLevel::Error,
 				_T("Font Manager : Font : ") + path +
-				_T(" ,could be opened but its in unsuported format"),
+				_T(" ,could be opened but it's in unsupported format"),
 				STARENGINE_LOG_TAG);
 			return (false);
 		}
@@ -72,7 +72,7 @@ namespace star
 		{
 			LOG(star::LogLevel::Error,
 				_T("Font Manager : Font : ") + path +
-				_T(" ,is invalid and cant be opened or read or its broken"),
+				_T(" ,is invalid and can't be opened or read or it's broken"),
 				STARENGINE_LOG_TAG);
 			return (false);
 		}
@@ -109,7 +109,7 @@ namespace star
 		if(error)
 		{
 			LOG(star::LogLevel::Error, 
-				_T("Font : could not load Glyph"), STARENGINE_LOG_TAG);
+				_T("Font : could not load glyph"), STARENGINE_LOG_TAG);
 			return;
 		}
 
@@ -117,7 +117,7 @@ namespace star
 		if(error)
 		{
 			LOG(star::LogLevel::Error,
-				_T("Font : could not load Glyph"), STARENGINE_LOG_TAG);
+				_T("Font : could not load glyph"), STARENGINE_LOG_TAG);
 			return;
 		}
 
@@ -153,7 +153,7 @@ namespace star
 		//uvs
 		float32 x = static_cast<float32>(bitmap.width) / static_cast<float32>(width);
 		float32 y = static_cast<float32>(bitmap.rows) / static_cast<float32>(height);
-		//letterheight
+		//letter height
 		int32 dimX = (face->glyph->metrics.horiAdvance / 64);
 		int32 dimY = ((face->glyph->metrics.horiBearingY) - (face->glyph->metrics.height)) / 64;		
 		if(mMaxLetterHeight < face->glyph->bitmap_top)

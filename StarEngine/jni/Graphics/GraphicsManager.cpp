@@ -158,7 +158,7 @@ namespace star
 	{
 		if(!mIsInitialized)
 		{
-			star::LOG(star::LogLevel::Info,
+			LOG(star::LogLevel::Info,
 				_T("Graphics Manager : Initialize"), STARENGINE_LOG_TAG);
 			EGLint lFormat, lNumConfigs, lErrorResult;
 			EGLConfig lConfig;
@@ -172,25 +172,25 @@ namespace star
 			mDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 			if (mDisplay == EGL_NO_DISPLAY)
 			{
-				star::LOG(star::LogLevel::Error,
+				LOG(star::LogLevel::Error,
 					_T("Graphics Manager : No display found"), STARENGINE_LOG_TAG);
 				return;
 			}
 			if (!eglInitialize(mDisplay, NULL, NULL))
 			{
-				star::LOG(star::LogLevel::Error,
+				LOG(star::LogLevel::Error,
 					_T("Graphics Manager : Could not initialize display"), STARENGINE_LOG_TAG);
 				return;
 			}
 			if(!eglChooseConfig(mDisplay, lAttributes, &lConfig, 1,&lNumConfigs) || (lNumConfigs <= 0))
 			{
-				star::LOG(star::LogLevel::Error,
+				LOG(star::LogLevel::Error,
 					_T("Graphics Manager : No display config"), STARENGINE_LOG_TAG);
 				return;
 			}
 			if (!eglGetConfigAttrib(mDisplay, lConfig,EGL_NATIVE_VISUAL_ID, &lFormat))
 			{
-				star::LOG(star::LogLevel::Error,
+				LOG(star::LogLevel::Error,
 					_T("Graphics Manager : No config attributes"), STARENGINE_LOG_TAG);
 				return;
 			}
@@ -199,7 +199,7 @@ namespace star
 			mSurface = eglCreateWindowSurface(mDisplay, lConfig, pApplication->window, NULL );
 			if (mSurface == EGL_NO_SURFACE)
 			{
-				star::LOG(star::LogLevel::Error,
+				LOG(star::LogLevel::Error,
 					_T("Graphics Manager : Could not create surface"), STARENGINE_LOG_TAG);
 				return;
 			}
@@ -210,7 +210,7 @@ namespace star
 			mContext = eglCreateContext(mDisplay, lConfig, EGL_NO_CONTEXT, contextAttrs);
 			if (mContext == EGL_NO_CONTEXT)
 			{
-				star::LOG(star::LogLevel::Error,
+				LOG(star::LogLevel::Error,
 					_T("Graphics Manager : Could not create context"), STARENGINE_LOG_TAG);
 				return;
 			}
@@ -220,7 +220,7 @@ namespace star
 			 || !eglQuerySurface(mDisplay, mSurface, EGL_HEIGHT, &sY)
 			 || (sX <= 0) || (sY <= 0))
 			{
-				star::LOG(star::LogLevel::Error,
+				LOG(star::LogLevel::Error,
 					_T("Graphics Manager : Could not activate display"),
 					STARENGINE_LOG_TAG);
 				return;
@@ -231,7 +231,7 @@ namespace star
 			mScreenResolution = mViewportResolution;
 			glViewport(0, 0, mViewportResolution.x, mViewportResolution.y);
 			InitializeOpenGLStates();
-			star::LOG(star::LogLevel::Info,
+			LOG(star::LogLevel::Info,
 				_T("Graphics Manager : Initialized"), STARENGINE_LOG_TAG);
 
 			mIsInitialized = true;
@@ -240,7 +240,7 @@ namespace star
 
 	void GraphicsManager::Destroy()
 	{
-		star::LOG(star::LogLevel::Info,
+		LOG(star::LogLevel::Info,
 			_T("Graphics Manager : Destroy"), STARENGINE_LOG_TAG);
 		// Destroys OpenGL context.
 		if (mDisplay != EGL_NO_DISPLAY)
@@ -258,7 +258,7 @@ namespace star
 			}
 			eglTerminate(mDisplay);
 			mDisplay = EGL_NO_DISPLAY;
-			star::LOG(star::LogLevel::Info,
+			LOG(star::LogLevel::Info,
 				_T("Graphics Manager : Destroyed"), STARENGINE_LOG_TAG);
 
 			mIsInitialized = false;

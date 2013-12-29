@@ -100,7 +100,7 @@ namespace star
 
 #define LOG(...) \
 	star::Logger::GetInstance()->Log( \
-		##__VA_ARGS__, \
+		__VA_ARGS__, \
 		BREAK_INFO() \
 		) 
 
