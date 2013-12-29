@@ -117,7 +117,7 @@ namespace star
 			int32 mLine; \
 			LocalAssertLog(int32 line=__LINE__) : mLine(line) {} \
 			LocalAssertLog(bool isOK, const tstring & message, \
-				const tstring & tag = GAME_LOG_TAG) { \
+				const tstring & tag = GAME_LOG_TAG) : mLine(0) { \
 				if ( !isOK ) { \
 					LocalAssertLog info; \
 					star::Logger::GetInstance()->Log( \

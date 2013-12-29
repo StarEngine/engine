@@ -39,6 +39,10 @@ namespace star
 #ifdef DESKTOP
 		, mWglSwapIntervalEXT(NULL)
 		, mWglGetSwapIntervalEXT(NULL)
+#else
+		, mDisplay()
+		, mSurface()
+		, mContext()
 #endif
 	{
 		LOG(star::LogLevel::Info,

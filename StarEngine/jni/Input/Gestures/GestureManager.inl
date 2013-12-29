@@ -18,7 +18,7 @@ namespace star
 		auto returnObject = dynamic_cast<T*>((*it).second);
 		if(returnObject == nullptr)
 		{
-			ASSERT_LOG(LogLevel::Error,
+			LOG(LogLevel::Error,
 				_T("BaseScene::GetGestureByName: couldn't convert object '")
 				+ name + _T("' to the requested type. Returning nullptr..."),
 				STARENGINE_LOG_TAG);

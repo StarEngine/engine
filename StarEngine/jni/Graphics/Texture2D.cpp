@@ -369,4 +369,3 @@ namespace star
 		DEBUG_LOG(LogLevel::Warning, string_cast<tstring>(warning), LIBPNG_LOG_TAG);
 	}
 }
-
