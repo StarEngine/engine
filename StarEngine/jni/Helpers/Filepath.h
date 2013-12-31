@@ -138,14 +138,25 @@ namespace star
 #ifdef DESKTOP
 		static tstring m_AssetsRoot, m_InternalRoot, m_ExternalRoot;
 #endif
-#ifdef _WIN32
 		/// <summary>
-		/// A deprecated function to get the static capital-sensitive path
+		/// Checks if the path is capital correct.
+		/// This check is important for unix based operating system, 
+		/// as their file system is capital sensitive.
+		/// </summary>
+		/// <param name="path">The path.</param>
+		void CheckIfPathIsCapitalCorrect(const tstring & path);
+		/// <summary>
+		/// A function to get the static capital-sensitive path
 		/// of the current file.
 		/// </summary>
-		/// <param name="path">the path to be checked</param>
-		/// <returns>the correct capital-sensitive static path</returns>
-		tstring GetActualPathName(const tstring& path) const;
-#endif
+		/// <param name="pathIn">the path to be checked</param>
+		/// <param name="pathOut">the correct capital-sensitive static path</param>
+		static void GetActualPathName(const tstring & pathIn, tstring & pathOut);
+		/// <summary>
+		/// For windows: Converts all / seperators to \\ seperators.
+		/// For android and linux: Converts all \\ seperators to / seperators.
+		/// </summary>
+		/// <param name="path">The path to convert.</param>
+		static void ConvertPathToCorrectPlatformStyle(tstring & path);
 	};
 }

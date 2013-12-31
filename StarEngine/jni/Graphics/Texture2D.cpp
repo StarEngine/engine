@@ -4,7 +4,7 @@
 
 namespace star
 {
-	const tstring Texture2D::LIBPNG_LOG_TAG = STARENGINE_LOG_TAG + tstring(_T(" - LIBPNG"));
+	const tstring Texture2D::LIBPNG_LOG_TAG = _T("LIBPNG");
 
 	Texture2D::Texture2D(const tstring & pPath)
 			: mTextureId(0)
