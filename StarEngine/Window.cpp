@@ -86,8 +86,8 @@ namespace star
 
 			XMLContainer winManifest;
 #ifdef _DEBUG
-			XMLFileParser manifestParser(_T("Win32Manifest.xml"));
-			manifestParser.Read(winManifest, DirectoryMode::custom);
+			XMLFileParser manifestParser(_T("Win32Manifest.xml"), DirectoryMode::custom);
+			manifestParser.Read(winManifest);
 			winManifest.Serialize(_T("Win32Manifest.star"), DirectoryMode::custom);
 #else
 			winManifest.Deserialize(_T("Win32Manifest.star"), DirectoryMode::custom);

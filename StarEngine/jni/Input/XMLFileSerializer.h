@@ -10,18 +10,18 @@ namespace star
 	class XMLFileSerializer final
 	{
 	public:
-		XMLFileSerializer(const tstring & path);
+		XMLFileSerializer(const tstring & path,
+			DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
 		~XMLFileSerializer();
 
-		void Write(XMLContainer & container, DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
+		void Write(XMLContainer & container);
 		void Write(
 			XMLContainer & container,
-			const tstring & binaryPath,
-			DirectoryMode mode = DEFAULT_DIRECTORY_MODE
+			const tstring & binaryPath
 			);
 
 	private:
-		tstring m_File;
+		FilePath m_File;
 
 		tstring WriteFile(XMLContainer & container);
 
@@ -32,7 +32,7 @@ namespace star
 
 		XMLFileSerializer(const XMLFileSerializer & yRef);
 		XMLFileSerializer(XMLFileSerializer && yRef);
-		const XMLFileSerializer & operator=(const XMLFileSerializer & yRef);
-		const XMLFileSerializer & operator=(XMLFileSerializer&& yRef);
+		XMLFileSerializer & operator=(const XMLFileSerializer & yRef);
+		XMLFileSerializer & operator=(XMLFileSerializer&& yRef);
 	};
 }
