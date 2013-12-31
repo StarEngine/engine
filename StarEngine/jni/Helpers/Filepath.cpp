@@ -44,13 +44,14 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 		{
 			m_File = full_path;
 		}
+		ConvertPathToCorrectPlatformStyle(m_Path);
 	}
 
 	FilePath::FilePath(const tstring & path, const tstring & file)
 		: m_Path(path)
 		, m_File(file)
 	{
-
+		ConvertPathToCorrectPlatformStyle(m_Path);
 	}
 
 	FilePath::FilePath(const FilePath & yRef)
@@ -182,17 +183,15 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 #endif
 
 #ifdef _WIN32
-	tstring FilePath::GetActualPathName(const tstring& path ) const
+	void FilePath::GetActualPathName(const tstring & pathIn, tstring & pathOut)
 	{
-		// This is quite involved, but the meat is SHGetFileInfo
-
 		const tchar kSeparator = _T('\\');
 
-		tstring buffer(path);
+		tstring buffer(pathIn);
 
 		size_t i = 0;
+		pathOut = EMPTY_STRING;
 
-		tstring result;
 		bool addSeparator = false;
 
 		while(i < buffer.size())
@@ -205,7 +204,7 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 
 			if(addSeparator)
 			{
-				result += kSeparator;
+				pathOut += kSeparator;
 			}
 
 			// if we found path separator, get real filename of this
@@ -216,14 +215,14 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 
 			// nuke the path separator so that we get real name of current path component
 			info.szDisplayName[0] = 0;
-			if(SHGetFileInfo(buffer.c_str(), 0, &info, sizeof(info), SHGFI_DISPLAYNAME ))
+			if(SHGetFileInfo(buffer.c_str(), 0, &info, sizeof(info), SHGFI_DISPLAYNAME))
 			{
-				result += info.szDisplayName;
+				pathOut += info.szDisplayName;
 			}
 			else
 			{
 				tstringstream message;
-				message << _T("The path \" ") << path << _T(" \" Is Invalid!");
+				message << _T("The path \" ") << pathIn << _T(" \" Is Invalid!");
 				LOG(LogLevel::Error,
 					message.str(), STARENGINE_LOG_TAG);
 				break;
@@ -238,7 +237,14 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 			++i;
 			addSeparator = true;
 		}
-		return result;
 	}
 #endif
+	void FilePath::ConvertPathToCorrectPlatformStyle(tstring & path)
+	{
+#ifdef _WIN32
+		std::replace(path.begin(), path.end(), '/', '\\');
+#else
+		std::replace(path.begin(), path.end(), '\\', '/');
+#endif
+	}
 }
