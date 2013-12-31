@@ -64,7 +64,7 @@ namespace star
 		{
 			LOG(star::LogLevel::Error,
 				_T("Font Manager : Font : ") + path +
-				_T(" ,could be opened but it's in unsupported format"),
+				_T(" ,could be opened but it's in an unsupported format"),
 				STARENGINE_LOG_TAG);
 			return (false);
 		}
@@ -72,7 +72,7 @@ namespace star
 		{
 			LOG(star::LogLevel::Error,
 				_T("Font Manager : Font : ") + path +
-				_T(" ,is invalid and can't be opened or read or it's broken"),
+				_T(" ,is invalid and can't be opened or read."),
 				STARENGINE_LOG_TAG);
 			return (false);
 		}
