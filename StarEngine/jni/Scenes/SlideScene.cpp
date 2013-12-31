@@ -90,7 +90,7 @@ namespace star
 
 	int16 SlideScene::AddSlide(
 		const tstring & file,
-		float32 active_time
+		float32 activeTime
 		)
 	{
 		int16 id = int16(m_Slides.size());
@@ -109,7 +109,7 @@ namespace star
 			slide->SetVisible(false);
 		}
 
-		m_TotalTime += active_time;
+		m_TotalTime += activeTime;
 		GetStopwatch()->CreateTimer(
 			name + _T("_active"),
 			m_TotalTime,
@@ -127,36 +127,36 @@ namespace star
 
 	int16 SlideScene::AddSlide(
 		const tstring & file,
-		float32 active_time,
-		const Color & fade_in_start_color,
-		const Color & fade_in_end_color,
-		float32 fade_in_time
+		float32 activeTime,
+		const Color & fadeInStartColor,
+		const Color & fadeInEndColor,
+		float32 fadeInTime
 		)
 	{
-		int16 id = AddSlide(file, active_time);
+		int16 id = AddSlide(file, activeTime);
 
-		if(fade_in_time > 0)
+		if(fadeInTime > 0)
 		{
-			float32 begin = m_TotalTime - active_time;
+			float32 begin = m_TotalTime - activeTime;
 
 			auto slide =
 				m_pSlideMenu->GetChildByName<UIImage>(m_Slides[id]);
-			slide->SetColorMultiplier(fade_in_start_color);
+			slide->SetColorMultiplier(fadeInStartColor);
 
 			GetStopwatch()->CreateTimer(
 				m_Slides[id] + _T("_fade_in"),
 				begin,
 				false,
 				false,
-				[&, id, fade_in_time, fade_in_start_color, fade_in_end_color]() 
+				[&, id, fadeInTime, fadeInStartColor, fadeInEndColor]() 
 				{
 					auto slide =
 						m_pSlideMenu->GetChildByName<UIImage>(m_Slides[id]);
 					auto fadeAction = new star::TimedFadeAction(
 						m_Slides[id] + _T("_fade_in"),
-						fade_in_time,
-						fade_in_start_color,
-						fade_in_end_color);
+						fadeInTime,
+						fadeInStartColor,
+						fadeInEndColor);
 					slide->AddAction(fadeAction);
 				},
 				false
@@ -175,40 +175,40 @@ namespace star
 
 	int16 SlideScene::AddSlide(
 		const tstring & file,
-		float32 active_time,
-		const Color & fade_in_start_color,
-		const Color & fade_in_end_color,
-		float32 fade_in_time,
-		const Color & fade_out_start_color,
-		const Color & fade_out_end_color,
-		float32 fade_out_time
+		float32 activeTime,
+		const Color & fadeInStartColor,
+		const Color & fadeInEndColor,
+		float32 fadeInTime,
+		const Color & fadeOutStartColor,
+		const Color & fadeOutEndColor,
+		float32 fadeOutTime
 		)
 	{
 		int16 id = AddSlide(
-			file, active_time,
-			fade_in_start_color,
-			fade_in_end_color,
-			fade_in_time
+			file, activeTime,
+			fadeInStartColor,
+			fadeInEndColor,
+			fadeInTime
 			);
 
-		if(fade_out_time > 0)
+		if(fadeOutTime > 0)
 		{
-			float32 begin = m_TotalTime - fade_out_time;
+			float32 begin = m_TotalTime - fadeOutTime;
 
 			GetStopwatch()->CreateTimer(
 				m_Slides[id] + _T("_fade_out"),
 				begin,
 				false,
 				false,
-				[&, id, fade_out_time, fade_out_start_color, fade_out_end_color]() 
+				[&, id, fadeOutTime, fadeOutStartColor, fadeOutEndColor]() 
 				{
 					auto slide =
 						m_pSlideMenu->GetChildByName<UIImage>(m_Slides[id]);
 					auto fadeAction = new star::TimedFadeAction(
 						m_Slides[id] + _T("_fade_out"),
-						fade_out_time,
-						fade_out_start_color,
-						fade_out_end_color
+						fadeOutTime,
+						fadeOutStartColor,
+						fadeOutEndColor
 						);
 					slide->AddAction(fadeAction);
 				},
@@ -218,7 +218,7 @@ namespace star
 		else
 		{
 			LOG(LogLevel::Warning,
-				_T("SlideScene::AddSlide: fade_out_time should be longer then 0 seconds."),
+				_T("SlideScene::AddSlide: fadeOutTime should be longer then 0 seconds."),
 				STARENGINE_LOG_TAG
 				);
 		}

@@ -219,7 +219,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning, 
-			_T("GetTimerMinutes: Couldn't find the timer '") + name + _T("'."),
+			_T("Stopwatch::GetTimerMinutes: Couldn't find the timer '")
+				+ name + _T("'."),
 			STARENGINE_LOG_TAG);
 		return 0;
 	}
@@ -234,7 +235,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning, 
-			_T("GetTimerSeconds: Couldn't find the timer '") + name + _T("'."),
+			_T("Stopwatch::GetTimerSeconds: Couldn't find the timer '")
+				+ name + _T("'."),
 			STARENGINE_LOG_TAG);
 		return 0;
 	}
@@ -249,7 +251,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning, 
-			_T("GetTimerTotalSeconds: Couldn't find the timer '") + name + _T("'."),
+			_T("Stopwatch::GetTimerTotalSeconds: Couldn't find the timer '")
+				+ name + _T("'."),
 			STARENGINE_LOG_TAG);
 		return 0;
 	}
@@ -265,7 +268,7 @@ namespace star
 		}
 		LOG(LogLevel::Warning,
 			_T("Stopwatch::GetTimerTargetTime: trying to access unknown timer '")
-			+ name + _T("'."), STARENGINE_LOG_TAG);
+				+ name + _T("'."), STARENGINE_LOG_TAG);
 		return 0;
 	}
 
@@ -279,7 +282,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning, 
-			_T("GetTimerAccurateTime: Couldn't find the timer '") + name + _T("'."),
+			_T("Stopwatch::GetTimerAccurateTime: Couldn't find the timer '")
+				+ name + _T("'."),
 			STARENGINE_LOG_TAG);
 		return 0;
 	}

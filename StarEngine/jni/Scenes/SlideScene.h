@@ -25,26 +25,26 @@ namespace star
 		
 		int16 AddSlide(
 			const tstring & file,
-			float32 active_time
+			float32 activeTime
 			);
 
 		int16 AddSlide(
 			const tstring & file,
 			float32 active_time,
-			const Color & fade_in_start_color,
-			const Color & fade_in_end_color,
-			float32 fade_in_time
+			const Color & fadeInStartColor,
+			const Color & fadeInEndColor,
+			float32 fadeInTime
 			);
 
 		int16 AddSlide(
 			const tstring & file,
-			float32 active_time,
-			const Color & fade_in_start_color,
-			const Color & fade_in_end_color,
-			float32 fade_in_time,
-			const Color & fade_out_start_color,
-			const Color & fade_out_end_color,
-			float32 fade_out_time
+			float32 activeTime,
+			const Color & fadeInStartColor,
+			const Color & fadeInEndColor,
+			float32 fadeInTime,
+			const Color & fadeOutStartColor,
+			const Color & fadeOutEndColor,
+			float32 fadeOutTime
 			);
 
 		void SetKeyboardInputEnabled(bool enable);

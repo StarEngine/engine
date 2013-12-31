@@ -74,15 +74,11 @@ The component you tried to add is already in the CollisionManager"), STARENGINE_
 				{
 					ASSERT_LOG(false, _T("CollisionManager::RemoveComponent: \
 The component you tried to remove is not in the CollisionManager"), STARENGINE_LOG_TAG);
-					LOG(LogLevel::Error, _T("CollisionManager::RemoveComponent: \
-The component you tried to remove is not in the CollisionManager"), STARENGINE_LOG_TAG);
 				}
 			}
 			else
 			{
 				ASSERT_LOG(false, _T("CollisionManager::RemoveComponent: \
-The component you tried to remove is not in the CollisionManager"), STARENGINE_LOG_TAG);
-				LOG(LogLevel::Error, _T("CollisionManager::RemoveComponent: \
 The component you tried to remove is not in the CollisionManager"), STARENGINE_LOG_TAG);
 			}
 		}

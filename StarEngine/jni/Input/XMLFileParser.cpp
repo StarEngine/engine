@@ -33,7 +33,8 @@ namespace star
 		result = XMLDocument.load_buffer_inplace_own(data.data, data.size);
 
 		ASSERT_LOG(result,
-			star::string_cast<tstring>(result.description()), STARENGINE_LOG_TAG);
+			_T("XMLFileParser::Read: ") 
+				+ string_cast<tstring>(result.description()), STARENGINE_LOG_TAG);
 		if (result)
 		{
 			auto root = XMLDocument.first_child();
@@ -109,6 +110,7 @@ namespace star
 				return FILE_READ; 
 			}
 			LOG(LogLevel::Warning,
+				_T("uint8 XMLFileParser::ReadOrCreate: ") +
 				star::string_cast<tstring>(result.description()), STARENGINE_LOG_TAG);
 
 			return FILE_ERROR;

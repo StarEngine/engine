@@ -247,6 +247,7 @@ namespace star
 						action)
 						);
 					LOG(LogLevel::Warning,
+						tstring(_T("Object::BaseUpdate: ")) +
 						_T("Trying to update nullptr action from object '")
 						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
@@ -267,6 +268,7 @@ namespace star
 						component)
 						);
 					LOG(LogLevel::Warning,
+						tstring(_T("Object::BaseUpdate: ")) +
 						_T("Trying to update nullptr component from object '")
 						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
@@ -287,6 +289,7 @@ namespace star
 						child)
 						);
 					LOG(LogLevel::Warning,
+						tstring(_T("Object::BaseUpdate: ")) +
 						_T("Trying to update nullptr child from object '")
 						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
@@ -338,6 +341,7 @@ namespace star
 				else
 				{
 					LOG(LogLevel::Warning,
+						tstring(_T("Object::BaseDraw: ")) +
 						_T("Trying to draw nullptr component from object '")
 						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
@@ -352,6 +356,7 @@ namespace star
 				else
 				{
 					LOG(LogLevel::Warning,
+						tstring(_T("Object::BaseDraw: ")) +
 						_T("Trying to draw nullptr object child from object '")
 						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
@@ -381,6 +386,7 @@ namespace star
 					else
 					{
 						LOG(LogLevel::Warning,
+							tstring(_T("Object::BaseDrawWithCulling: ")) +
 							_T("Trying to draw nullptr component from object '")
 							+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 					}
@@ -396,6 +402,7 @@ namespace star
 				else
 				{
 					LOG(LogLevel::Warning,
+						tstring(_T("Object::BaseDrawWithCulling: ")) +
 						_T("Trying to draw nullptr object child from object '")
 						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
@@ -823,6 +830,7 @@ to remove could not be found."), STARENGINE_LOG_TAG);
 		for(auto & info : m_pGarbageContainer)
 		{
 			LOG(LogLevel::Info,
+				tstring(_T("Object::CollectGarbage: ")) +
 				_T("Object::CollectGarbage: Removed entity '")
 				+ info.Element->GetName() + _T("'."), STARENGINE_LOG_TAG);
 			DestroyGarbageElement(info);
