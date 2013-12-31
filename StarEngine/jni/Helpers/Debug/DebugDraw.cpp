@@ -221,7 +221,7 @@ namespace star
 		uint32 vertexCount)
 	{
 		ASSERT_LOG(vertexCount <= MAX_VERTICES, 
-			_T("mDebugDraw::CreatePolygonVertices: \
+			_T("DebugDraw::CreatePolygonVertices: \
 more vertices than allocated space"),
 			STARENGINE_LOG_TAG);
 

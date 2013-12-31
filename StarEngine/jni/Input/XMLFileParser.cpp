@@ -110,7 +110,7 @@ namespace star
 				return FILE_READ; 
 			}
 			LOG(LogLevel::Warning,
-				_T("uint8 XMLFileParser::ReadOrCreate: ") +
+				_T("XMLFileParser::ReadOrCreate: ") +
 				star::string_cast<tstring>(result.description()), STARENGINE_LOG_TAG);
 
 			return FILE_ERROR;
