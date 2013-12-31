@@ -29,35 +29,35 @@ namespace star
 
 		void Log(
 			LogLevel level,
-			const tstring& pMessage,
+			const tstring& message,
 			const tstring& tag,
 			const BreakInformation& breakInfo = BreakInformation()
 			);
 		void Log(
 			LogLevel level,
-			const tstring& pMessage,
+			const tstring& message,
 			const BreakInformation& breakInfo = BreakInformation()
 			);
 
 		void DebugLog(
 			LogLevel level,
-			const tstring& pMessage,
+			const tstring& message,
 			const tstring& tag,
 			const BreakInformation& breakInfo = BreakInformation()
 			);
 		void DebugLog(
 			LogLevel level,
-			const tstring& pMessage,
+			const tstring& message,
 			const BreakInformation& breakInfo = BreakInformation()
 			);
 
 		void DebugLog(
-			const tstring& pMessage,
+			const tstring& message,
 			const tstring& tag,
 			const BreakInformation& breakInfo = BreakInformation()
 			);
 		void DebugLog(
-			const tstring& pMessage,
+			const tstring& message,
 			const BreakInformation& breakInfo = BreakInformation()
 			);
 
@@ -73,14 +73,14 @@ namespace star
 
 		void PrivateLog(
 			LogLevel level,
-			const tstring& pMessage,
+			const tstring& message,
 			const tstring& tag,
 			const tstring& levelName,
 			const BreakInformation& breakInfo
 			);
 
 		void InitializeLogStream();
-		void LogMessage(const tstring & message);
+		void LogMessage(const tstring& message);
 		void SaveLogFile();
 
 		#ifdef _WIN32
@@ -116,8 +116,8 @@ namespace star
 	struct LocalAssertLog { \
 			int32 mLine; \
 			LocalAssertLog(int32 line=__LINE__) : mLine(line) {} \
-			LocalAssertLog(bool isOK, const tstring & message, \
-				const tstring & tag = GAME_LOG_TAG) : mLine(0) { \
+			LocalAssertLog(bool isOK, const tstring& message, \
+				const tstring& tag = GAME_LOG_TAG) : mLine(0) { \
 				if ( !isOK ) { \
 					LocalAssertLog info; \
 					star::Logger::GetInstance()->Log( \

@@ -131,12 +131,14 @@ namespace star
 			scene->BaseInitialize();
 			scene->SetSystemCursorHidden(m_bCursorHiddenByDefault);
 			LOG(LogLevel::Info,
-				_T("Adding scene"), STARENGINE_LOG_TAG);
+				_T("SceneManager::AddScene: Adding scene"),
+				STARENGINE_LOG_TAG);
 		}
 		else
 		{
 			LOG(LogLevel::Info,
-				_T("Scene Already Exists"), STARENGINE_LOG_TAG);
+				_T("SceneManager::AddScene: Scene Already Exists"),
+				STARENGINE_LOG_TAG);
 			return false;
 		}
 		return true;

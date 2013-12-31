@@ -242,41 +242,41 @@ namespace star
 
 	void TiledScene::CreateTiledObjects(XMLContainer & container)
 	{
-		auto OIT = container.lower_bound(_T("layer"));
+		auto objectIterator = container.lower_bound(_T("layer"));
 		auto objectsEnd = container.upper_bound(_T("layer"));
 
 		tstring tsName = GetName() + _T("_tileset_default");
 
 		int32 height(0);
-		while ( OIT != objectsEnd )
+		while (objectIterator != objectsEnd)
 		{
-			auto TIT = OIT->second->at(_T("data"))->lower_bound(_T("tile"));
-			auto tilesEnd = OIT->second->at(_T("data"))->upper_bound(_T("tile"));
+			auto tilesIterator = objectIterator->second->at(_T("data"))->lower_bound(_T("tile"));
+			auto tilesEnd = objectIterator->second->at(_T("data"))->upper_bound(_T("tile"));
 
-			auto layerProperties = OIT->second->at(_T("properties"));
-			auto lpIT = layerProperties->lower_bound(_T("property"));
-			auto lpEnd = layerProperties->upper_bound(_T("property"));
-			ASSERT_LOG(lpIT != lpEnd,
-				_T("This layer has no properties. Make sure to define all necacary properties!"),
+			auto layerProperties = objectIterator->second->at(_T("properties"));
+			auto layerProperteriesIterator = layerProperties->lower_bound(_T("property"));
+			auto layerPropertiesEnd = layerProperties->upper_bound(_T("property"));
+			ASSERT_LOG(layerProperteriesIterator != layerPropertiesEnd,
+				_T("This layer has no properties. Make sure to define all necessairy properties!"),
 				STARENGINE_LOG_TAG);
 			do
 			{
-				auto attributes = lpIT->second->GetAttributes();
+				auto attributes = layerProperteriesIterator->second->GetAttributes();
 				auto name = attributes.at(_T("name"));
 				if(name == _T("height"))
 				{
 					height = string_cast<int32>(attributes.at(_T("value")));
 				}
-				++lpIT;
-			} while(lpIT != lpEnd);
+				++layerProperteriesIterator;
+			} while(layerProperteriesIterator != layerPropertiesEnd);
 
 			float32 sX(m_Scale * m_TileWidth);
 			float32 sY(m_Scale * m_TileHeight);
 
 			uint32 i = 0;
-			while(TIT != tilesEnd)
+			while(tilesIterator != tilesEnd)
 			{
-				uint32 tID = string_cast<int32>(TIT->second->GetAttributes().at(_T("gid")));
+				uint32 tID = string_cast<int32>(tilesIterator->second->GetAttributes().at(_T("gid")));
 				if(tID != 0)
 				{
 					TileSet tileSet;
@@ -317,51 +317,52 @@ namespace star
 					m_TiledObjects.push_back(obj);
 				}
 				++i;
-				++TIT;
+				++tilesIterator;
 			}
-			++OIT;
+			++objectIterator;
 		}
 	}
 
 	void TiledScene::CreateGroupedObjects(XMLContainer & container)
 	{
-		auto GIT = container.lower_bound(_T("objectgroup"));
+		auto groupIterator = container.lower_bound(_T("objectgroup"));
 		auto groupEnd = container.upper_bound(_T("objectgroup"));
 
 		uint32 height(0);
 
-		while ( GIT != groupEnd )
+		while ( groupIterator != groupEnd )
 		{
-			auto OIT = GIT->second->lower_bound(_T("object"));
-			auto objectsEnd = GIT->second->upper_bound(_T("object"));
+			auto objectIterator = groupIterator->second->lower_bound(_T("object"));
+			auto objectsEnd = groupIterator->second->upper_bound(_T("object"));
 
-			auto objectProperties = GIT->second->at(_T("properties"));
-			auto opIT = objectProperties->lower_bound(_T("property"));
-			auto opEnd = objectProperties->upper_bound(_T("property"));
-			ASSERT_LOG(opIT != opEnd,
-				_T("[TILED] This Object Group has no properties. Make sure to define all necacary properties!"),
+			auto objectProperties = groupIterator->second->at(_T("properties"));
+			auto objectPropertiesIterator = objectProperties->lower_bound(_T("property"));
+			auto objectPropertiesEnd = objectProperties->upper_bound(_T("property"));
+			ASSERT_LOG(objectPropertiesIterator != objectPropertiesEnd,
+				_T("TiledScene::CreateGroupedObjects: This Object Group has no properties. \
+Make sure to define all necacary properties!"),
 				STARENGINE_LOG_TAG);
 			do
 			{
-				auto attributes = opIT->second->GetAttributes();
+				auto attributes = objectPropertiesIterator->second->GetAttributes();
 				auto name = attributes.at(_T("name"));
 				if(name == _T("height"))
 				{
 					height = string_cast<int32>(attributes.at(_T("value")));
 				}
-				++opIT;
-			} while(opIT != opEnd);
+				++objectPropertiesIterator;
+			} while(objectPropertiesIterator != objectPropertiesEnd);
 
-			while(OIT != objectsEnd)
+			while(objectIterator != objectsEnd)
 			{
-				auto objAttributes = OIT->second->GetAttributes();
+				auto objAttributes = objectIterator->second->GetAttributes();
 				Object * obj;
 				TileObject tObj;
 
-				const auto rGID = objAttributes.lower_bound(_T("gid"));
-				if(rGID != objAttributes.end())
+				const auto objectGlobalIDIterator = objAttributes.lower_bound(_T("gid"));
+				if(objectGlobalIDIterator != objAttributes.end())
 				{
-					tObj.id = string_cast<int32>(rGID->second);
+					tObj.id = string_cast<int32>(objectGlobalIDIterator->second);
 				}
 
 				const auto rX = objAttributes.lower_bound(_T("x"));
@@ -408,7 +409,7 @@ namespace star
 				const auto rType = objAttributes.lower_bound(_T("type"));
 				bool foundType = rType != objAttributes.end();
 				ASSERT_LOG(foundType,
-					_T("[TILED] Couldn't find the type of the object. Please define this!"),
+					_T("TiledScene::CreateGroupedObjects: Couldn't find the type of the object. Please define this!"),
 					STARENGINE_LOG_TAG);
 				if(foundType)
 				{
@@ -440,13 +441,14 @@ namespace star
 				else
 				{
 					LOG(LogLevel::Error, 
-						_T("[TILED] Object with type '") + tObj.type + _T("' wasn't defined!"),
+						_T("TiledScene::CreateGroupedObjects: \
+Object with type '") + tObj.type + _T("' wasn't defined!"),
 						STARENGINE_LOG_TAG);
 				}
-				++OIT;
+				++objectIterator;
 			}
 			++height;
-			++GIT;
+			++groupIterator;
 		}
 	}
 }

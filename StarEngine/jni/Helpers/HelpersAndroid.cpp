@@ -20,7 +20,7 @@ namespace star_a
 				AASSET_MODE_UNKNOWN
 				);
 		ASSERT_LOG(asset != NULL,
-			_T("Couldn't find '") + path + _T("'."), STARENGINE_LOG_TAG);
+			_T("ReadFileAsset: Couldn't find '") + path + _T("'."), STARENGINE_LOG_TAG);
 		data.size = AAsset_getLength(asset);
 		data.data = new schar[sizeof(schar) * data.size];
 		AAsset_read(asset, data.data, data.size);
@@ -47,7 +47,7 @@ namespace star_a
 		else if(logWarning)
 		{
 			LOG(star::LogLevel::Warning,
-				_T("Couldn't find '") + path + _T("'."), STARENGINE_LOG_TAG);
+				_T("ReadFileAssetSafe: Couldn't find '") + path + _T("'."), STARENGINE_LOG_TAG);
 		}
 		return result;
 	}

@@ -72,7 +72,7 @@ namespace star
 	TValue & Dictionary<TKey, TValue>::at(const TKey & key)
 	{
 		auto it = m_MultiMap.find(key);
-		ASSERT_LOG(it != m_MultiMap.end(), _T("Couldn't find key '") +
+		ASSERT_LOG(it != m_MultiMap.end(), _T("Dictionary::at: Couldn't find key '") +
 				string_cast<tstring>(key) + _T("'."), STARENGINE_LOG_TAG);
 		return ((*it).second);
 	}
@@ -94,7 +94,7 @@ namespace star
 		{
 			++i;
 			++it;
-			ASSERT_LOG(it != range.second, _T("The value with key '") +
+			ASSERT_LOG(it != range.second, _T("Dictionary::at: The value with key '") +
 					string_cast<tstring>(key) + _T("' and index '") +
 					string_cast<tstring>(index) + _T("' couldn't be found."),
 					STARENGINE_LOG_TAG);

@@ -221,7 +221,8 @@ namespace star
 		uint32 vertexCount)
 	{
 		ASSERT_LOG(vertexCount <= MAX_VERTICES, 
-			_T("more vertices than allocated space"),
+			_T("mDebugDraw::CreatePolygonVertices: \
+more vertices than allocated space"),
 			STARENGINE_LOG_TAG);
 
 		for (uint32 i = 0; i < vertexCount; ++i)
@@ -238,7 +239,7 @@ namespace star
 		// [TODO] Fix this bug in eclipse: 
 		// (undefined reference to 'star::DebugDraw::MAX_VERTICES')
 		//ASSERT_LOG(m_CircleSegments < MAX_VERTICES, 
-		//	tstring(_T("You can only draw ") 
+		//	_T("DebugDraw::CreateCircleVertices: You can only draw "
 		//	+ string_cast<tstring>(MAX_VERTICES) 
 		//	+ _T(" vertices per primitive")).c_str(), STARENGINE_LOG_TAG);
 		const float32 increment = float32(2.0 * PI / segments);

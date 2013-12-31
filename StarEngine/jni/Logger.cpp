@@ -75,14 +75,14 @@ namespace star
 	}
 #endif
 	
-	void Logger::Update(const Context & context)
+	void Logger::Update(const Context& context)
 	{
 		m_TimeStamp = context.mTimeManager->GetTimeStamp();
 	}
 
 	void Logger::Log(
 		LogLevel level,
-		const tstring& pMessage,
+		const tstring& message,
 		const tstring& tag,
 		const BreakInformation& breakInfo
 		)
@@ -104,21 +104,21 @@ namespace star
 			break;
 		}
 
-		PrivateLog(level, pMessage, tag, levelName, breakInfo);
+		PrivateLog(level, message, tag, levelName, breakInfo);
 	}
 
 	void Logger::Log(
 		LogLevel level,
-		const tstring& pMessage,
+		const tstring& message,
 		const BreakInformation& breakInfo
 		)
 	{
-		Log(level, pMessage, GAME_LOG_TAG, breakInfo);
+		Log(level, message, GAME_LOG_TAG, breakInfo);
 	}
 
 	void Logger::DebugLog(
 		LogLevel level,
-		const tstring & pMessage,
+		const tstring& message,
 		const tstring& tag,
 		const BreakInformation& breakInfo
 		)
@@ -141,39 +141,39 @@ namespace star
 			break;
 		}
 
-		PrivateLog(level, pMessage, tag, levelName, breakInfo);
+		PrivateLog(level, message, tag, levelName, breakInfo);
 	#endif
 	}
 
 	void Logger::DebugLog(
 		LogLevel level,
-		const tstring & pMessage,
+		const tstring& message,
 		const BreakInformation& breakInfo
 		)
 	{
 	#ifdef _DEBUG
-		DebugLog(level, pMessage, GAME_LOG_TAG, breakInfo);
+		DebugLog(level, message, GAME_LOG_TAG, breakInfo);
 	#endif
 	}
 
 	void Logger::DebugLog(
-		const tstring & pMessage,
-		const tstring & tag,
+		const tstring& message,
+		const tstring& tag,
 		const BreakInformation& breakInfo
 		)
 	{
 	#ifdef _DEBUG
-		DebugLog(LogLevel::Debug, pMessage, tag, breakInfo);
+		DebugLog(LogLevel::Debug, message, tag, breakInfo);
 	#endif
 	}
 
 	void Logger::DebugLog(
-		const tstring & pMessage,
+		const tstring& message,
 		const BreakInformation& breakInfo
 		)
 	{
 	#ifdef _DEBUG
-		DebugLog(pMessage, GAME_LOG_TAG, breakInfo);
+		DebugLog(message, GAME_LOG_TAG, breakInfo);
 	#endif
 	}
 
@@ -181,7 +181,7 @@ namespace star
 	{
 #if LOGGER_MIN_LEVEL > 0
 		GLenum err(glGetError());
-		while( err != GL_NO_ERROR) 
+		while(err != GL_NO_ERROR) 
 		{
 			tstring error;
 			switch(err) 
@@ -208,12 +208,12 @@ namespace star
 			tstringstream buffer;
 			buffer << "GL_" << error
 				   << " - " << breakInfo.file << ":"
-				   << breakInfo.line << std::endl;
+				   << breakInfo.line;
 #ifndef NO_LOG_FILE
 			LogMessage(buffer.str());
 #endif
 			Log(LogLevel::Error,
-				buffer.str(),_T("OPENGL"), breakInfo);
+				buffer.str(), _T("OPENGL"), breakInfo);
 			err = glGetError();
 		}
 #endif
@@ -230,7 +230,7 @@ namespace star
 	
 	void Logger::PrivateLog(
 		LogLevel level,
-		const tstring& pMessage,
+		const tstring& message,
 		const tstring& tag,
 		const tstring& levelName,
 		const BreakInformation& breakInfo
@@ -242,7 +242,7 @@ namespace star
 		messageBuffer << _T("[") << tag
 					  << _T("] ") << _T("[")
 					  << levelName <<  _T("] ")
-					  << pMessage;
+					  << message;
 		if(breakInfo.line != -1 && tag != STARENGINE_LOG_TAG)
 		{
 			messageBuffer << _T(" (L")
@@ -316,7 +316,7 @@ namespace star
 			__android_log_print(
 				ANDROID_LOG_INFO,
 				tag.c_str(), "%s",
-				pMessage.c_str()
+				message.c_str()
 				);
 			#endif
 			break;
@@ -325,7 +325,7 @@ namespace star
 			__android_log_print(
 				ANDROID_LOG_WARN,
 				tag.c_str(), "%s",
-				pMessage.c_str()
+				message.c_str()
 				);
 			#endif
 			break;
@@ -334,7 +334,7 @@ namespace star
 			__android_log_print(
 				ANDROID_LOG_ERROR,
 				tag.c_str(), "%s",
-				pMessage.c_str()
+				message.c_str()
 				);
 			#endif
 			break;
@@ -344,7 +344,7 @@ namespace star
 			__android_log_print(
 				ANDROID_LOG_DEBUG,
 				tag.c_str(),
-				pMessage.c_str()
+				message.c_str()
 				);
 			#endif
 			#endif
@@ -355,7 +355,7 @@ namespace star
 		messageBuffer << _T("[") << tag
 					  << _T("] ") << _T("[")
 					  << levelName <<  _T("] ")
-					  << pMessage << std::endl;
+					  << message << std::endl;
 		LogMessage(messageBuffer.str());
 		#endif
 	#endif
@@ -369,37 +369,37 @@ namespace star
 			false, true, [&] () { SaveLogFile(); }, false);
 
 		m_LogStream << _T("++++++++++++++++++++++++++++++++++++++\
-++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
+++++++++++++++++++++++++++++++++++++++++++++++++++") << std::endl << std::endl;
 		m_LogStream << _T("	Star Engine version ")
 					<< STARENGINE_VERSION << std::endl
 					<< std::endl;
-		m_LogStream << _T("	Game is built in");
+		m_LogStream << _T("	Game is compiled in");
 
 	#ifdef _DEBUG
-		m_LogStream << _T(" debug mode.\n");
+		m_LogStream << _T(" debug mode.") << std::endl;
 	#else
-		m_LogStream << _T(" release mode.\n");
+		m_LogStream << _T(" release mode.") << std::endl;
 #endif
 	#if LOGGER_MIN_LEVEL < 2
-		m_LogStream << _T("	All Star::Logging levels are enabled.\n");
+		m_LogStream << _T("	All Star::Logging levels are enabled.") << std::endl;
 	#elif LOGGER_MIN_LEVEL < 3
-		m_LogStream << _T("	Star::Logging level info is disabled.\n");
+		m_LogStream << _T("	Star::Logging level info is disabled.") << std::endl;
 	#elif LOGGER_MIN_LEVEL < 4
-		m_LogStream << _T("	Star::Logging levels info and warning is disabled.\n");
+		m_LogStream << _T("	Star::Logging levels info and warning is disabled.") << std::endl;
 	#elif LOGGER_MIN_LEVEL < 5
-		m_LogStream << _T("	Star::Logging levels info, warning and error is disabled.\n");
+		m_LogStream << _T("	Star::Logging levels info, warning and error is disabled.") << std::endl;
 	#elif LOGGER_MIN_LEVEL < 6
-		m_LogStream << _T("	All Star::Logging levels are disabled.\n");
+		m_LogStream << _T("	All Star::Logging levels are disabled.") << std::endl;
 	#endif
 		m_LogStream << std::endl;
-		m_LogStream << _T("	The Star Engine is licensed under the MIT License. \n");
-		m_LogStream << _T("	For more information you can go \
-to http://www.starengine.eu/ \n\n");
+		m_LogStream << _T("	The Star Engine is licensed under the MIT License.") << std::endl;
+		m_LogStream << _T("	For more information, go to: \
+http://www.starengine.eu/") << std::endl << std::endl;
 		m_LogStream << _T("++++++++++++++++++++++++++++++++++\
-++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
+++++++++++++++++++++++++++++++++++++++++++++++++++++++") << std::endl << std::endl;
 	}
 	
-	void Logger::LogMessage(const tstring & message)
+	void Logger::LogMessage(const tstring& message)
 	{
 		m_LogStream << _T("[") << m_TimeStamp << _T("] ") << message;
 	}

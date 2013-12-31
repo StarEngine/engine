@@ -70,8 +70,9 @@ namespace star
 	void GestureManager::RemoveGesture(BaseGesture* gesture)
 	{
 		LOG(LogLevel::Warning, 
-_T("Please use the method RemoveGesture(const tstring& tag) to remove gestures.\
-tusing GestureManager::RemoveGesture(BaseGesture* gesture) is much slower, use with care!"),
+			_T("GestureManager::RemoveGesture: \
+Please use the method RemoveGesture(const tstring& tag) to remove gestures.\
+using GestureManager::RemoveGesture(BaseGesture* gesture) is much slower, use with care!"),
 			STARENGINE_LOG_TAG);
 
 		auto it = m_GestureMap.begin();

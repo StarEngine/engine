@@ -29,21 +29,6 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 		: m_Path(EMPTY_STRING)
 		, m_File(EMPTY_STRING)
 	{
-		int32 dotCounter(0);
-		for(uint32 i = 0; i < full_path.size(); ++i)
-		{
-			if(full_path[i] == _T('.'))
-			{
-				++dotCounter;
-			}
-		}
-		if(dotCounter > 1)
-		{
-			LOG(LogLevel::Error, 
-				_T("Please don't use . in your filename (except for the file extension)"),
-				STARENGINE_LOG_TAG);
-		}
-
 		auto index = full_path.find_last_of('/');
 		if(index == tstring::npos)
 		{
