@@ -9,7 +9,7 @@
 #include "Context.h"
 #include "Logger.h"
 #include "Sound/AudioManager.h"
-#include "Helpers/Stopwatch.h"
+#include "Helpers/TimerManager.h"
 #include "AI/Pathfinding/PathFindManager.h"
 #include "Physics/Collision/CollisionManager.h"
 #include "Helpers/Debug/DebugDraw.h"

@@ -2,7 +2,7 @@
 
 #include "../Entity.h"
 
-#include "../Helpers/Stopwatch.h"
+#include "../Helpers/TimerManager.h"
 #include "../Objects/Object.h"
 #include "../Input/Gestures/GestureManager.h"
 
@@ -85,7 +85,7 @@ namespace star
 		void SetCullingOffset(int32 offset);
 		void SetCullingOffset(int32 offsetX, int32 offsetY);
 
-		std::shared_ptr<Stopwatch> GetStopwatch() const;
+		std::shared_ptr<TimerManager> GetTimerManager() const;
 
 		std::shared_ptr<GestureManager> GetGestureManager() const;
 		std::shared_ptr<CollisionManager> GetCollisionManager() const;
@@ -106,7 +106,7 @@ namespace star
 		std::vector<Object*> m_pObjects;
 		std::vector<Object*> m_pGarbage;
 		BaseCamera *m_pDefaultCamera, *m_pActiveCamera;
-		std::shared_ptr<Stopwatch> m_pStopwatch;
+		std::shared_ptr<TimerManager> m_pTimerManager;
 		UIBaseCursor *m_pCursor;
 
 	private:

@@ -35,7 +35,7 @@ namespace star
 
 	void LoopedAction::Initialize()
 	{
-		m_pParent->GetScene()->GetStopwatch()->CreateTimer(
+		m_pParent->GetScene()->GetTimerManager()->CreateTimer(
 			m_UniqueID, m_Seconds, false, true,
 			[&] () {
 				if(m_Callback)
@@ -47,7 +47,7 @@ namespace star
 
 	void LoopedAction::Restart()
 	{
-		m_pParent->GetScene()->GetStopwatch()->ResetTimer(
+		m_pParent->GetScene()->GetTimerManager()->ResetTimer(
 			m_UniqueID,
 			false
 			);
@@ -55,7 +55,7 @@ namespace star
 
 	void LoopedAction::Pause()
 	{
-		m_pParent->GetScene()->GetStopwatch()->PauseTimer(
+		m_pParent->GetScene()->GetTimerManager()->PauseTimer(
 			m_UniqueID,
 			true
 			);
@@ -63,7 +63,7 @@ namespace star
 
 	void LoopedAction::Resume()
 	{
-		m_pParent->GetScene()->GetStopwatch()->PauseTimer(
+		m_pParent->GetScene()->GetTimerManager()->PauseTimer(
 			m_UniqueID,
 			false
 			);

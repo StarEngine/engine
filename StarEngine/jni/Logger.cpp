@@ -222,7 +222,7 @@ namespace star
 	void Logger::SetLogSaveDelayTime(float32 seconds)
 	{
 #ifndef NO_LOG_FILE
-		SceneManager::GetInstance()->GetStopwatch()->SetTargetTimeTimer(
+		SceneManager::GetInstance()->GetTimerManager()->SetTargetTimeTimer(
 			_T("STAR_LogSaveFileTimer"), seconds, true, false);
 		SaveLogFile();
 #endif
@@ -364,7 +364,7 @@ namespace star
 
 	void Logger::InitializeLogStream()
 	{
-		SceneManager::GetInstance()->GetStopwatch()->CreateTimer(
+		SceneManager::GetInstance()->GetTimerManager()->CreateTimer(
 			_T("STAR_LogSaveFileTimer"), 60.0f,
 			false, true, [&] () { SaveLogFile(); }, false);
 

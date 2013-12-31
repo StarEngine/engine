@@ -39,7 +39,7 @@ namespace star
 
 	void TimedAction::Initialize()
 	{
-		m_pParent->GetScene()->GetStopwatch()->CreateTimer(
+		m_pParent->GetScene()->GetTimerManager()->CreateTimer(
 			m_UniqueID, m_Seconds, false, false,
 			[&] () {
 				if(m_Callback)
@@ -52,7 +52,7 @@ namespace star
 
 	void TimedAction::Restart()
 	{
-		m_pParent->GetScene()->GetStopwatch()->ResetTimer(
+		m_pParent->GetScene()->GetTimerManager()->ResetTimer(
 			m_UniqueID,
 			false
 			);
@@ -60,7 +60,7 @@ namespace star
 
 	void TimedAction::Pause()
 	{
-		m_pParent->GetScene()->GetStopwatch()->PauseTimer(
+		m_pParent->GetScene()->GetTimerManager()->PauseTimer(
 			m_UniqueID,
 			true
 			);
@@ -68,7 +68,7 @@ namespace star
 
 	void TimedAction::Resume()
 	{
-		m_pParent->GetScene()->GetStopwatch()->PauseTimer(
+		m_pParent->GetScene()->GetTimerManager()->PauseTimer(
 			m_UniqueID,
 			false
 			);
@@ -79,7 +79,7 @@ namespace star
 		m_Callback = callback;
 		if(m_pParent && m_pParent->GetScene())
 		{
-			m_pParent->GetScene()->GetStopwatch()->SetFunctionTimer(
+			m_pParent->GetScene()->GetTimerManager()->SetFunctionTimer(
 				m_UniqueID,
 				m_Callback
 				);

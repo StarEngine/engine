@@ -228,8 +228,8 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 			else
 			{
 				tstringstream message;
-				message << _T("The path \" ") << pathIn << _T(" \" Is Invalid!");
-				LOG(LogLevel::Error,
+				message << _T("The path \"") << pathIn << _T("\" points to an unexisting file!");
+				ASSERT_LOG(false,
 					message.str(), STARENGINE_LOG_TAG);
 				break;
 			}
@@ -256,7 +256,7 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 
 	void FilePath::CheckIfPathIsCapitalCorrect(const tstring & full_path)
 	{
-#ifdef _WIN32 && defined (_DEBUG)
+#if defined (_WIN32) & defined (_DEBUG)
 		tstring shellPath;
 		GetActualPathName(full_path, shellPath);
 		auto seperatorIndex(shellPath.find_last_of(_T("\\")));

@@ -44,7 +44,7 @@ namespace star
 	{
 		if(!m_HasStarted)
 		{
-			m_pParent->GetScene()->GetStopwatch()->ResetTimer(
+			m_pParent->GetScene()->GetTimerManager()->ResetTimer(
 				m_UniqueID,
 				false
 				);
@@ -60,7 +60,7 @@ namespace star
 	{
 		if(!m_HasStarted)
 		{
-			m_pParent->GetScene()->GetStopwatch()->PauseTimer(
+			m_pParent->GetScene()->GetTimerManager()->PauseTimer(
 				m_UniqueID,
 				true
 				);
@@ -71,7 +71,7 @@ namespace star
 	{
 		if(!m_HasStarted)
 		{
-			m_pParent->GetScene()->GetStopwatch()->PauseTimer(
+			m_pParent->GetScene()->GetTimerManager()->PauseTimer(
 				m_UniqueID,
 				false
 				);
@@ -81,7 +81,7 @@ namespace star
 	void DelayedAction::CreateTimer()
 	{
 		m_IsPaused = true;
-		m_pParent->GetScene()->GetStopwatch()->CreateTimer(
+		m_pParent->GetScene()->GetTimerManager()->CreateTimer(
 			m_UniqueID, m_Seconds, false, false,
 			[&] () {
 				if(m_Callback)

@@ -104,9 +104,9 @@ static const tstring UI_STATE_DISABLE = _T("disable");
 static const tstring TAB = _T("    ");
 
 /// <summary>
-/// Value that can be used to create a stopwatch with the duration of +/- 1 frame
+/// Value that can be used to create a TimerManager with the duration of +/- 1 frame
 /// </summary>
-static const float32 STOPWATCH_ONE_FRAME_DELAY = 0.016667f;
+static const float32 TimerManager_ONE_FRAME_DELAY = 0.016667f;
 
 namespace star
 {

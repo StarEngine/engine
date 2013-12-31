@@ -10,11 +10,11 @@ namespace star
 	struct Context;
 	class Timer;
 	
-	class Stopwatch final
+	class TimerManager final
 	{
 	public:
-		Stopwatch();
-		~Stopwatch();
+		TimerManager();
+		~TimerManager();
 
 		void Update(const Context& context);
 
@@ -41,9 +41,9 @@ namespace star
 		std::map<const tstring, Timer> m_TimerContainer;
 		std::map<const tstring, Timer> m_GarbageContainer;
 
-		Stopwatch(const Stopwatch& yRef);
-		Stopwatch(Stopwatch&& yRef);
-		Stopwatch& operator=(const Stopwatch& yRef);
-		Stopwatch& operator=(Stopwatch&& yRef);
+		TimerManager(const TimerManager& yRef);
+		TimerManager(TimerManager&& yRef);
+		TimerManager& operator=(const TimerManager& yRef);
+		TimerManager& operator=(TimerManager&& yRef);
 	};
 }

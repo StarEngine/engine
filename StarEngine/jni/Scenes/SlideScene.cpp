@@ -80,11 +80,11 @@ namespace star
 			m_pSlideMenu->GetChildByName<UIImage>(slide1)
 				->SetVisible(true);
 
-			auto time = GetStopwatch()->ForceEndTimer(
+			auto time = GetTimerManager()->ForceEndTimer(
 				slide0 + _T("_active")
 				);
 
-			GetStopwatch()->ForwardAllTimers(time);
+			GetTimerManager()->ForwardAllTimers(time);
 		}
 	}
 
@@ -110,7 +110,7 @@ namespace star
 		}
 
 		m_TotalTime += activeTime;
-		GetStopwatch()->CreateTimer(
+		GetTimerManager()->CreateTimer(
 			name + _T("_active"),
 			m_TotalTime,
 			false,
@@ -143,7 +143,7 @@ namespace star
 				m_pSlideMenu->GetChildByName<UIImage>(m_Slides[id]);
 			slide->SetColorMultiplier(fadeInStartColor);
 
-			GetStopwatch()->CreateTimer(
+			GetTimerManager()->CreateTimer(
 				m_Slides[id] + _T("_fade_in"),
 				begin,
 				false,
@@ -195,7 +195,7 @@ namespace star
 		{
 			float32 begin = m_TotalTime - fadeOutTime;
 
-			GetStopwatch()->CreateTimer(
+			GetTimerManager()->CreateTimer(
 				m_Slides[id] + _T("_fade_out"),
 				begin,
 				false,

@@ -126,7 +126,7 @@ namespace star
 			{
 				m_SliderIsDown = false;
 				m_pSlider->SetLocked(false);
-				GetScene()->GetStopwatch()->CreateTimer(
+				GetScene()->GetTimerManager()->CreateTimer(
 					GetName() + _T("_locked_timer"),
 					0.1f, false, false, [&] ()
 					{

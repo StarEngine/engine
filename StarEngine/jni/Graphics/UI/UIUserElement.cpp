@@ -45,9 +45,9 @@ namespace star
 	
 	void UIUserElement::SetUIDisabled(bool disable)
 	{
-		GetScene()->GetStopwatch()->CreateTimer(
+		GetScene()->GetTimerManager()->CreateTimer(
 			m_UniqueUIObjectID + _T("_") + _T("DisableTimer"),
-			STOPWATCH_ONE_FRAME_DELAY,
+			TimerManager_ONE_FRAME_DELAY,
 			false,
 			false,
 			[&, disable]()
@@ -161,7 +161,7 @@ namespace star
 				);
 		}
 
-		GetScene()->GetStopwatch()->CreateTimer(
+		GetScene()->GetTimerManager()->CreateTimer(
 			_T("HCT"),
 			0.1f,
 			false,
@@ -175,7 +175,7 @@ namespace star
 
 	void UIUserElement::GoDown()
 	{
-		GetScene()->GetStopwatch()->CreateTimer(
+		GetScene()->GetTimerManager()->CreateTimer(
 			_T("HCT"),
 			0.1f,
 			false,
@@ -207,7 +207,7 @@ namespace star
 				);
 		}
 
-		GetScene()->GetStopwatch()->CreateTimer(
+		GetScene()->GetTimerManager()->CreateTimer(
 			_T("HCT"),
 			0.1f,
 			false,
