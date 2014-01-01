@@ -34,6 +34,7 @@ namespace star
 		, m_GestureID(0)
 	{
 		m_pTimerManager = std::make_shared<TimerManager>();
+		m_pStopwatch = std::make_shared<Stopwatch>();
 		m_pGestureManager = std::make_shared<GestureManager>();
 		m_pCollisionManager = std::make_shared<CollisionManager>();
 	}
@@ -105,6 +106,7 @@ namespace star
 		CollectGarbage();
 
 		m_pTimerManager->Update(context);
+		m_pStopwatch->Update(context);
 		
 #ifdef DESKTOP
 		if(m_SystemCursorIsHidden && !m_CursorIsHidden)
@@ -545,6 +547,11 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 	std::shared_ptr<TimerManager> BaseScene::GetTimerManager() const
 	{
 		return m_pTimerManager;
+	}
+
+	std::shared_ptr<Stopwatch> BaseScene::GetStopwatch() const
+	{
+		return m_pStopwatch;
 	}
 
 	std::shared_ptr<GestureManager> BaseScene::GetGestureManager() const

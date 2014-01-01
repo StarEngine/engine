@@ -2,6 +2,7 @@
 
 #include "../defines.h"
 #include "../Helpers/TimerManager.h"
+#include "../Helpers/Stopwatch.h"
 #include <memory>
 #include <map>
 #include <vector>
@@ -50,6 +51,8 @@ namespace star
 		void SetSystemCursorHiddenByDefault(bool hidden);
 
 		std::shared_ptr<TimerManager> GetTimerManager() const;
+		std::shared_ptr<Stopwatch> GetStopwatch() const;
+
 
 #ifdef ANDROID
 		void processActivityEvent(int32 pCommand, android_app* pApplication);
@@ -65,6 +68,7 @@ namespace star
 					*m_NewActiveScene;
 
 		std::shared_ptr<TimerManager> m_TimerManager;
+		std::shared_ptr<Stopwatch> m_Stopwatch;
 
 		std::vector<BaseScene*> m_GarbageList;
 		std::map<tstring, BaseScene*> m_SceneList;

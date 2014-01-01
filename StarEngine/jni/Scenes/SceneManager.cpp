@@ -22,6 +22,7 @@ namespace star
 		: m_ActiveScene(nullptr)
 		, m_NewActiveScene(nullptr)
 		, m_TimerManager(nullptr)
+		, m_Stopwatch(nullptr)
 		, m_GarbageList()
 		, m_bSwitchingScene(false)
 		, m_bInitialized(false)
@@ -35,6 +36,7 @@ namespace star
 #endif
 	{
 		m_TimerManager = std::make_shared<TimerManager>();
+		m_Stopwatch = std::make_shared<Stopwatch>();
 		CreateDefaultCursor();
 	}
 
@@ -205,6 +207,7 @@ namespace star
 		m_GarbageList.clear();
 
 		m_TimerManager->Update(context);
+		m_Stopwatch->Update(context);
 
 		if(m_bSwitchingScene)
 		{
@@ -310,6 +313,11 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 	std::shared_ptr<TimerManager> SceneManager::GetTimerManager() const
 	{
 		return m_TimerManager;
+	}
+
+	std::shared_ptr<Stopwatch> SceneManager::GetStopwatch() const
+	{
+		return m_Stopwatch;
 	}
 
 #ifdef ANDROID
