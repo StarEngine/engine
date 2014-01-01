@@ -71,6 +71,12 @@ namespace star
 		/// <returns>the extension of the file</returns>
 		tstring GetExtension() const;
 		/// <summary>
+		/// Get the root of the path, using the correct DirectoryMode.
+		/// </summary>
+		/// <returns>the root of the path</returns>
+		/// <seealso cref="DirectoryMode"></seealso>
+		const tstring & GetRoot() const;
+		/// <summary>
 		/// Get the complete local path which is equal
 		/// to a combination of the path and file datamembers.
 		/// </summary>
@@ -168,7 +174,8 @@ namespace star
 		/// </summary>
 		/// <param name="pathIn">the path to be checked</param>
 		/// <param name="pathOut">the correct capital-sensitive static path</param>
-		static void GetActualPathName(const tstring & pathIn, tstring & pathOut);
+		/// <returns>True if the file existed, false if the file didnt exist.</returns>
+		static bool GetActualPathName(const tstring & pathIn, tstring & pathOut);
 		/// <summary>
 		/// For windows: Converts all / seperators to \\ seperators.
 		/// For android and linux: Converts all \\ seperators to / seperators.
