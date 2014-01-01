@@ -207,7 +207,6 @@ namespace star
 		m_GarbageList.clear();
 
 		m_TimerManager->Update(context);
-		m_Stopwatch->Update(context);
 
 		if(m_bSwitchingScene)
 		{

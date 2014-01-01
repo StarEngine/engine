@@ -1,5 +1,4 @@
 #pragma once
-#include "../Entity.h"
 #include "../defines.h"
 #include <vector>
 
@@ -18,11 +17,9 @@ namespace star
 		const std::vector<float64> & GetLapTimes();
 		float64 GetTime();
 
-		void Update(const Context & context);
-
 	private:
-		float64 m_ElapsedTime;
+		time_t m_StartTime;
+		time_t m_PausedTime;
 		std::vector<float64> m_Laps;
-		bool m_Active;
 	};
 }

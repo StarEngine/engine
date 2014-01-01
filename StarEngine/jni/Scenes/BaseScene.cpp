@@ -106,7 +106,6 @@ namespace star
 		CollectGarbage();
 
 		m_pTimerManager->Update(context);
-		m_pStopwatch->Update(context);
 		
 #ifdef DESKTOP
 		if(m_SystemCursorIsHidden && !m_CursorIsHidden)
