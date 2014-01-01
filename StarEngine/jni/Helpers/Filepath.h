@@ -21,14 +21,10 @@ namespace star
 		/// Constructor overload requiring a string of the full filepath,
 		/// starting from the root directory.
 		/// </summary>
-		explicit FilePath(const tstring & full_path);
-		/// <summary>
-		/// Overload of the constructor requiring the path and filename,
-		/// which will combined be the full path starting from he root directory.
-		/// </summary>
-		/// <param name="path">the directory part of the filepath</param>
-		/// <param name="file">the filename including the extension</param>
-		FilePath(const tstring & path, const tstring & file);
+		/// <param name="full_path">a reference of a FilePath object</param>
+		/// <param name="mode">the mode to be used, defining the root directory</param>
+		explicit FilePath(const tstring & full_path,
+			DirectoryMode mode = DirectoryMode::assets);
 		/// <summary>
 		/// An overload of the constructor requiring the reference
 		/// of an FilePath object where the datamembers will be copped from.
@@ -106,13 +102,30 @@ namespace star
 		tstring GetExternalPath() const;
 		/// <summary>
 		/// Get the correct complete dynamic path with the root being used,
-		/// defined based on the mode value.
+		/// defined based on the datamember mode value.
 		/// </summary>
-		/// <returns>the complete dynamic path, combining the 
-		/// directory defined by the mode value and the full local path.</returns>
+		/// <param name="path">the path, starting from the root directory</param>
+		/// <param name="correct_path">the complete dynamic path, combining the 
+		/// directory defined by the mode value and the full local path.</param>
+		/// <param name="mode">the directory mode, defining the root directory</param>
 		/// <seealso cref="DirectoryMode"></seealso>
 		static void GetCorrectPath(const tstring & path,
 			tstring & correct_path, DirectoryMode mode);
+		/// <summary>
+		/// Get the correct complete dynamic path with the root being used,
+		/// defined based on the mode value.
+		/// <param name="path">the path, starting from the root directory</param>
+		/// <param name="correct_path">the complete dynamic path, combining the 
+		/// directory defined by the mode value and the full local path.</param>
+		/// </summary>
+		/// <seealso cref="DirectoryMode"></seealso>
+		void GetCorrectPath(const tstring & path,
+			tstring & correct_path) const;
+		/// <summary>
+		/// Gets the directory mode.
+		/// </summary>
+		/// <returns>The directory mode defined in the constructor</returns>
+		DirectoryMode GetDirectoryMode() const;
 
 #ifdef DESKTOP
 		/// <summary>
@@ -133,11 +146,15 @@ namespace star
 #endif
 
 	private:
+
 		tstring m_Path,
 				m_File;
 #ifdef DESKTOP
 		static tstring m_AssetsRoot, m_InternalRoot, m_ExternalRoot;
 #endif
+		DirectoryMode m_DirectoryMode;
+
+
 		/// <summary>
 		/// Checks if the path is capital correct.
 		/// This check is important for unix based operating system, 

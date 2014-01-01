@@ -21,13 +21,15 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 	FilePath::FilePath()
 		: m_Path(EMPTY_STRING) 
 		, m_File(EMPTY_STRING)
+		, m_DirectoryMode(DEFAULT_DIRECTORY_MODE)
 	{
 
 	}
 
-	FilePath::FilePath(const tstring & full_path)
+	FilePath::FilePath(const tstring & full_path, DirectoryMode mode)
 		: m_Path(EMPTY_STRING)
 		, m_File(EMPTY_STRING)
+		, m_DirectoryMode(mode)
 	{
 		auto index = full_path.find_last_of('/');
 		if(index == tstring::npos)
@@ -44,14 +46,6 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 		{
 			m_File = full_path;
 		}
-		ConvertPathToCorrectPlatformStyle(m_Path);
-		CheckIfPathIsCapitalCorrect(m_AssetsRoot + m_Path + m_File);
-	}
-
-	FilePath::FilePath(const tstring & path, const tstring & file)
-		: m_Path(path)
-		, m_File(file)
-	{
 		ConvertPathToCorrectPlatformStyle(m_Path);
 		CheckIfPathIsCapitalCorrect(m_AssetsRoot + m_Path + m_File);
 	}
@@ -165,6 +159,17 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 			correct_path = path;
 			break;
 		}
+	}
+	
+	void FilePath::GetCorrectPath(const tstring & path,
+		tstring & correct_path) const
+	{
+		GetCorrectPath(path, correct_path, m_DirectoryMode);
+	}
+
+	DirectoryMode FilePath::GetDirectoryMode() const
+	{
+		return m_DirectoryMode;
 	}
 
 #ifdef DESKTOP

@@ -4,8 +4,9 @@
 
 namespace star
 {
-	XMLFileSerializer::XMLFileSerializer(const tstring & path)
-		: m_File(path)
+	XMLFileSerializer::XMLFileSerializer(
+		const tstring & path, DirectoryMode mode)
+		: m_File(path, mode)
 	{
 
 	}
@@ -13,22 +14,20 @@ namespace star
 	XMLFileSerializer::~XMLFileSerializer() {}
 
 	void XMLFileSerializer::Write(
-		XMLContainer & container,
-		DirectoryMode mode
+		XMLContainer & container
 		)
 	{
 		tstring buffer = WriteFile(container);
-		WriteTextFile(m_File, buffer, mode);
+		WriteTextFile(m_File.GetLocalPath(), buffer, m_File.GetDirectoryMode());
 	}
 
 	void XMLFileSerializer::Write(
 			XMLContainer & container,
-			const tstring & binaryPath,
-			DirectoryMode mode
+			const tstring & binaryPath
 			)
 	{
-		Write(container, mode);
-		container.Serialize(binaryPath, mode);
+		Write(container);
+		container.Serialize(binaryPath, m_File.GetDirectoryMode());
 	}
 
 	tstring XMLFileSerializer::WriteFile(XMLContainer & container)

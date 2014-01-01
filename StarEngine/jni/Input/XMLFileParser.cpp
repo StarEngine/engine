@@ -12,8 +12,8 @@
 
 namespace star
 {
-	XMLFileParser::XMLFileParser(const tstring & path)
-		: m_File(path)
+	XMLFileParser::XMLFileParser(const tstring & path, DirectoryMode mode)
+		: m_File(path, mode)
 	{
 
 	}
@@ -23,13 +23,13 @@ namespace star
 
 	}
 
-	bool XMLFileParser::Read(XMLContainer & container, DirectoryMode mode)
+	bool XMLFileParser::Read(XMLContainer & container)
 	{
 		pugi::xml_document XMLDocument;
 		pugi::xml_parse_result result;
 		
 		SerializedData data;
-		data.data = ReadBinaryFile(m_File.GetLocalPath(), data.size, mode);
+		data.data = ReadBinaryFile(m_File.GetLocalPath(), data.size, m_File.GetDirectoryMode());
 		result = XMLDocument.load_buffer_inplace_own(data.data, data.size);
 
 		ASSERT_LOG(result,
@@ -57,14 +57,13 @@ namespace star
 		return result;
 	}
 	
-	bool XMLFileParser::Read(XMLContainer & container, const tstring & binary_path,
-		DirectoryMode mode)
+	bool XMLFileParser::Read(XMLContainer & container, const tstring & binary_path)
 	{
 #ifdef _DEBUG
-		bool result = Read(container, mode);
+		bool result = Read(container);
 		if(result)
 		{
-			container.Serialize(binary_path, mode);
+			container.Serialize(binary_path, m_File.GetDirectoryMode());
 		}
 		return result;
 #else
@@ -75,15 +74,14 @@ namespace star
 
 	uint8 XMLFileParser::ReadOrCreate(
 		XMLContainer & container,
-		const tstring & rootName,
-		DirectoryMode mode
+		const tstring & rootName
 		)
 	{
 		pugi::xml_document XMLDocument;
 		pugi::xml_parse_result result;
 		
 		SerializedData data;
-		if(ReadBinaryFileSafe(m_File.GetLocalPath(), data.data, data.size, mode, false))
+		if(ReadBinaryFileSafe(m_File.GetLocalPath(), data.data, data.size, m_File.GetDirectoryMode(), false))
 		{
 			result = XMLDocument.load_buffer_inplace_own(data.data, data.size);
 			if (result)
@@ -110,7 +108,7 @@ namespace star
 				return FILE_READ; 
 			}
 			LOG(LogLevel::Warning,
-				_T("uint8 XMLFileParser::ReadOrCreate: ") +
+				_T("XMLFileParser::ReadOrCreate: ") +
 				star::string_cast<tstring>(result.description()), STARENGINE_LOG_TAG);
 
 			return FILE_ERROR;
@@ -119,7 +117,7 @@ namespace star
 		// Write the file instead
 		XMLFileSerializer serializer(m_File.GetLocalPath());
 		container.SetName(rootName);
-		serializer.Write(container, mode);
+		serializer.Write(container);
 		
 		LOG(LogLevel::Info,
 			_T("XMLFileParser::ReadOrCreate: created file '")
@@ -131,15 +129,14 @@ namespace star
 	uint8 XMLFileParser::ReadOrCreate(
 		XMLContainer & container,
 		const tstring & rootName,
-		const tstring & binary_path,
-		DirectoryMode mode
+		const tstring & binary_path
 		)
 	{
 #ifdef _DEBUG
-		uint8 result = ReadOrCreate(container, rootName, mode);
+		uint8 result = ReadOrCreate(container, rootName);
 		if(result)
 		{
-			container.Serialize(binary_path, mode);
+			container.Serialize(binary_path, m_File.GetDirectoryMode());
 		}
 		return result;
 #else

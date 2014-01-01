@@ -169,9 +169,9 @@ namespace star
 		DirectoryMode mode)
 	{
 		XMLContainer container;
-		XMLFileParser parser(file);
+		XMLFileParser parser(file, mode);
 
-		ASSERT_LOG(parser.Read(container, mode),
+		ASSERT_LOG(parser.Read(container),
 			_T("An error occured while trying to read the level."),
 			STARENGINE_LOG_TAG);
 
@@ -182,9 +182,9 @@ namespace star
 		DirectoryMode mode)
 	{
 		XMLContainer container;
-		XMLFileParser parser(file);
+		XMLFileParser parser(file, mode);
 
-		ASSERT_LOG(parser.Read(container, binary_file, mode),
+		ASSERT_LOG(parser.Read(container, binary_file),
 			_T("An error occured while trying to read the level."),
 			STARENGINE_LOG_TAG);
 

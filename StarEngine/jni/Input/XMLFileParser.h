@@ -19,23 +19,21 @@ namespace star
 	class XMLFileParser
 	{
 	public:
-		XMLFileParser(const tstring & path);
+		XMLFileParser(const tstring & path,
+			DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
 		~XMLFileParser();
 
-		bool Read(XMLContainer & container, DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
-		bool Read(XMLContainer & container, const tstring & binary_path,
-			DirectoryMode mode = DEFAULT_DIRECTORY_MODE);
+		bool Read(XMLContainer & container);
+		bool Read(XMLContainer & container, const tstring & binary_path);
 
 		uint8 ReadOrCreate(
 			XMLContainer & container,
-			const tstring & rootName,
-			DirectoryMode mode = DEFAULT_DIRECTORY_MODE
+			const tstring & rootName
 			);
 		uint8 ReadOrCreate(
 			XMLContainer & container,
 			const tstring & rootName,
-			const tstring & binary_path,
-			DirectoryMode mode = DEFAULT_DIRECTORY_MODE
+			const tstring & binary_path
 			);
 
 	private:
@@ -47,7 +45,7 @@ namespace star
 
 		XMLFileParser(const XMLFileParser & yRef);
 		XMLFileParser(XMLFileParser && yRef);
-		const XMLFileParser & operator=(const XMLFileParser & yRef);
-		const XMLFileParser & operator=(XMLFileParser&& yRef);
+		XMLFileParser & operator=(const XMLFileParser & yRef);
+		XMLFileParser & operator=(XMLFileParser&& yRef);
 	};
 }
