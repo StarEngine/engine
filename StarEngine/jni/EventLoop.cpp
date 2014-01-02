@@ -21,8 +21,7 @@ namespace star {
 			mMainGameInitialized(false), 
 			mQuit(false), 
 			mEnabled(false), 
-			mMainGame(nullptr), 
-			mTimeManager(new TimeManager()),
+			mMainGame(nullptr),
 			mApplicationPtr(nullptr) 
 	{
 
@@ -34,7 +33,7 @@ namespace star {
 		mApplicationPtr = pApplication;
 		mApplicationPtr->onAppCmd = activityCallback;
 		mApplicationPtr->userData = this;
-		mContext.mTimeManager = mTimeManager;
+		mContext.mTimeManager = TimeManager::GetInstance();
 		//mApplicationPtr->onAppCmd = activityCallback;
 		mApplicationPtr->onInputEvent = inputCallback;
 		StarEngine::GetInstance()->SetAndroidApp(mApplicationPtr);
@@ -62,7 +61,7 @@ namespace star {
 
 		while (true)
 		{
-			mTimeManager->StartMonitoring();
+			TimeManager::GetInstance()->StartMonitoring();
 			while ((lResult = ALooper_pollAll(mEnabled ? 0 : -1, NULL, &lEvents,
 					(void**) &lSource)) >= 0)
 			{
@@ -89,7 +88,7 @@ namespace star {
 				mMainGame->Draw();
 			}
 			usleep(100);
-			mTimeManager->StopMonitoring();
+			TimeManager::GetInstance()->StopMonitoring();
 		}
 	}
 

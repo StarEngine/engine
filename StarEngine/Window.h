@@ -73,7 +73,6 @@ namespace star
 		WindowState m_SavedWindowState;
 
 		BaseGame* mGamePtr;
-		TimeManager* mTimeManager;
 		Context mContext;
 
 		HWND mHandle;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "defines.h"
+#include <memory>
 
 #ifndef _WIN32
 #include <time.h>
@@ -16,7 +17,7 @@ namespace star
 	class TimeManager final
 	{
 	public:
-		TimeManager();
+		static std::shared_ptr<TimeManager> GetInstance();
 		~TimeManager();
 
 		void StartMonitoring();
@@ -32,6 +33,8 @@ namespace star
 		tstring GetTimeStamp();
 
 	private:
+		static std::shared_ptr<TimeManager> m_TimeManager;
+		TimeManager();
 #ifdef _WIN32
 
 		LARGE_INTEGER	mFrequency;

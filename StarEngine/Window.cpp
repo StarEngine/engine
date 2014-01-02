@@ -108,7 +108,7 @@ namespace star
 				}
 			}
 
-			mContext.mTimeManager = mTimeManager;
+			mContext.mTimeManager = TimeManager::GetInstance();
 
 			WNDCLASSEX wndClass;
 			wndClass.cbSize = sizeof(WNDCLASSEX);
@@ -339,7 +339,7 @@ namespace star
 				bool monitor_started(false);
 				if(m_IsActive)
 				{
-					mTimeManager->StartMonitoring();
+					TimeManager::GetInstance()->StartMonitoring();
 					monitor_started = true;
 				}
 
@@ -370,7 +370,7 @@ namespace star
 
 				if(monitor_started)
 				{
-					mTimeManager->StopMonitoring();
+					TimeManager::GetInstance()->StopMonitoring();
 				}
 			}
 
@@ -390,7 +390,6 @@ namespace star
 		, m_ManipulateWindowResolution(false)
 		, m_SavedWindowState()
 		, mGamePtr(nullptr)
-		, mTimeManager(new TimeManager())
 		, mHandle()
 		, mOGLContext()
 		, mHDC()
@@ -601,8 +600,8 @@ namespace star
 
 	void Window::ForceTimerCalculation()
 	{
-		mTimeManager->StartMonitoring();
-		mTimeManager->StopMonitoring();
+		TimeManager::GetInstance()->StartMonitoring();
+		TimeManager::GetInstance()->StopMonitoring();
 	}
 
 	void Window::SetWindowsTitle() const
@@ -610,7 +609,8 @@ namespace star
 		if (StarEngine::GetInstance()->HasTitleUpdated())
 		{
 			SetWindowText(mHandle, 
-				(StarEngine::GetInstance()->m_Title + StarEngine::GetInstance()->m_SubTitle).c_str());
+				(StarEngine::GetInstance()->m_Title + 
+				StarEngine::GetInstance()->m_SubTitle).c_str());
 			StarEngine::GetInstance()->ResetTitleUpdateMark();
 		}
 	}
@@ -733,9 +733,6 @@ namespace star
 
 		delete (mGamePtr);
 		mGamePtr = nullptr;
-
-		delete (mTimeManager);
-		mTimeManager = nullptr;
 	}
 
 	void Window::WindowInactiveUpdate(bool inactive)
