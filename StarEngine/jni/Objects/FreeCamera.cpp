@@ -93,7 +93,7 @@ namespace star
 				{
 					m_Zoom += m_ZoomSpeed * 
 						static_cast<float32>(
-						context.TimeManager->DeltaTime()->GetSeconds()
+						context.TimeManager->DeltaTime().GetSeconds()
 						);
 					m_pCamera->SetZoom(m_Zoom);
 				}
@@ -101,7 +101,7 @@ namespace star
 				{
 					m_Zoom -= m_ZoomSpeed * 
 						static_cast<float32>(
-						context.TimeManager->DeltaTime()->GetSeconds()
+						context.TimeManager->DeltaTime().GetSeconds()
 						);
 					m_pCamera->SetZoom(m_Zoom);
 				}
@@ -115,7 +115,7 @@ namespace star
 				auto currRot = transform->GetLocalRotation();
 				
 				float64 deltaTime = 
-					context.TimeManager->DeltaTime()->GetSeconds();
+					context.TimeManager->DeltaTime().GetSeconds();
 				move *= m_MoveSpeed * deltaTime;
 	
 				currPos.y += static_cast<float32>(move.y);

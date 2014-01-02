@@ -1,5 +1,6 @@
 #pragma once
 #include "../defines.h"
+#include "Time.h"
 #include <vector>
 
 namespace star
@@ -14,13 +15,13 @@ namespace star
 		void Stop();
 		void Reset();
 		void Lap();
-		const std::vector<float64> & GetLapTimes();
-		float64 GetTime();
+		const std::vector<Time> & GetLapTimes() const;
+		Time GetTime() const;
 
 	private:
-		time_t m_StartTime;
-		time_t m_PausedTime;
-		std::vector<float64> m_Laps;
+		Time m_StartTime;
+		Time m_PausedTime;
+		std::vector<Time> m_Laps;
 
 		Stopwatch(const Stopwatch& yRef);
 		Stopwatch(Stopwatch&& yRef);

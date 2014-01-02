@@ -85,7 +85,7 @@ namespace star
 		}
 		if(m_CountingDown && m_CurrentTime >= 0)
 		{
-			m_CurrentTime -= context.TimeManager->DeltaTime()->GetSeconds();
+			m_CurrentTime -= context.TimeManager->DeltaTime().GetSeconds();
 			if(m_CurrentTime < 0)
 			{
 				m_ExcecutingFunction();
@@ -100,7 +100,7 @@ namespace star
 		}
 		else if(!m_CountingDown && m_CurrentTime <= m_TargetTime)
 		{
-			m_CurrentTime += context.TimeManager->DeltaTime()->GetSeconds();
+			m_CurrentTime += context.TimeManager->DeltaTime().GetSeconds();
 			if(m_CurrentTime > m_TargetTime)
 			{
 				m_ExcecutingFunction();

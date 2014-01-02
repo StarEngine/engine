@@ -17,12 +17,9 @@ namespace star
 		void StartMonitoring();
 		void StopMonitoring();
 
-		const Time * DeltaTime();
-		const Time * TimeSinceStart();
-
-
-		float64 GetSecondsSinceStart() const;
-		float64 GetMilliSecondsSinceStart() const;
+		const Time & DeltaTime();
+		const Time & TimeSinceStart();
+		const Time & CurrentTime();
 
 		tstring GetTimeStamp();
 
@@ -31,8 +28,9 @@ namespace star
 		TimeManager();
 
 		std::chrono::system_clock::time_point m_StartTime;
-		Time * m_DeltaTime;
-		Time * m_ElapsedTime;
+		Time m_DeltaTime;
+		Time m_ElapsedTime;
+		Time m_CurrentTime;
 
 		TimeManager(const TimeManager& t);
 		TimeManager(TimeManager&& t);

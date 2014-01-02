@@ -1,10 +1,11 @@
 #include "Stopwatch.h"
+#include "../TimeManager.h"
 
 namespace star
 {
 	Stopwatch::Stopwatch()
-		: m_StartTime(0)
-		, m_PausedTime(0)
+		: m_StartTime()
+		, m_PausedTime()
 		, m_Laps()
 	{
 	}
@@ -16,17 +17,17 @@ namespace star
 
 	void Stopwatch::Start()
 	{
-		m_StartTime = time(NULL);
+		m_StartTime = TimeManager::GetInstance()->CurrentTime();
 	}
 
 	void Stopwatch::Stop()
 	{
-		m_PausedTime = time(NULL);
+		m_PausedTime = TimeManager::GetInstance()->CurrentTime();
 	}
 
 	void Stopwatch::Reset()
 	{
-		m_PausedTime = 0;
+
 	}
 
 	void Stopwatch::Lap()
@@ -34,15 +35,13 @@ namespace star
 		m_Laps.push_back(GetTime());
 	}
 
-	const std::vector<float64> & Stopwatch::GetLapTimes()
+	const std::vector<Time> & Stopwatch::GetLapTimes() const
 	{
 		return m_Laps;
 	}
 
-	float64 Stopwatch::GetTime()
+	Time Stopwatch::GetTime() const
 	{
-		return m_PausedTime == 0 ? 
-			difftime(time(NULL), m_StartTime) : 
-			difftime(m_PausedTime, m_StartTime);
+		return m_PausedTime - m_StartTime;
 	}
 }

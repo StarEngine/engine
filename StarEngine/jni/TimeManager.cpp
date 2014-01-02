@@ -16,27 +16,33 @@ namespace star
 
 	TimeManager::TimeManager()
 		: m_StartTime()
-		, m_DeltaTime(nullptr)
-		, m_ElapsedTime(nullptr)
+		, m_DeltaTime()
+		, m_ElapsedTime()
+		, m_CurrentTime()
 	{
-		m_DeltaTime = new Time();
-		m_ElapsedTime = new Time();
+
 	}
 
 	TimeManager::~TimeManager()
 	{
-		delete m_DeltaTime;
-		delete m_ElapsedTime;
+
 	}
 
-	const Time * TimeManager::DeltaTime()
+	const Time & TimeManager::DeltaTime()
 	{
 		return m_DeltaTime;
 	}
 
-	const Time * TimeManager::TimeSinceStart()
+	const Time & TimeManager::TimeSinceStart()
 	{
 		return m_ElapsedTime;
+	}
+
+	const Time & TimeManager::CurrentTime()
+	{
+		m_CurrentTime.m_TimeDuration = 
+			std::chrono::high_resolution_clock::now().time_since_epoch();
+		return m_CurrentTime;
 	}
 
 	void TimeManager::StartMonitoring()
@@ -47,13 +53,13 @@ namespace star
 	void TimeManager::StopMonitoring()
 	{
 		auto endTime = std::chrono::high_resolution_clock::now();
-		m_DeltaTime->m_TimeDuration = endTime - m_StartTime;
-		m_ElapsedTime->m_TimeDuration += m_DeltaTime->m_TimeDuration;
+		m_DeltaTime.m_TimeDuration = endTime - m_StartTime;
+		m_ElapsedTime += m_DeltaTime;
 	}
 
 	tstring TimeManager::GetTimeStamp()
 	{
-		int32 totalSeconds = int32(m_ElapsedTime->GetSeconds());
+		int32 totalSeconds = int32(m_ElapsedTime.GetSeconds());
 		int32 seconds = totalSeconds % 60;
 		int32 minutes = totalSeconds / 60;
 		int32 hours = totalSeconds / 3600;
@@ -77,4 +83,6 @@ namespace star
 
 		return strstr.str();
 	}
+
+
 }

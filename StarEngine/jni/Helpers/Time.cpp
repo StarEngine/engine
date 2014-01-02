@@ -12,9 +12,119 @@ namespace star
 
 	}
 
+	Time::Time(const Time & t)
+		: m_TimeDuration(t.m_TimeDuration)
+	{
+
+	}
+
+	Time::Time(Time && t)
+		: m_TimeDuration(t.m_TimeDuration)
+	{
+
+	}
+
 	Time::~Time()
 	{
 
+	}
+
+	Time & Time::operator=(const Time & t)
+	{
+		m_TimeDuration = t.m_TimeDuration;
+		return * this;
+	}
+
+	Time & Time::operator=(Time && t)
+	{
+		m_TimeDuration = t.m_TimeDuration;
+		return * this;
+	}
+
+	Time & Time::operator+=(const Time & t)
+	{
+		m_TimeDuration += t.m_TimeDuration;
+		return * this;
+	}
+
+	Time & Time::operator-=(const Time & t)
+	{
+		m_TimeDuration -= t.m_TimeDuration;
+		return * this;
+	}
+
+	Time & Time::operator*=(const std::chrono::system_clock::duration::rep & t)
+	{
+		m_TimeDuration *= t;
+		return * this;
+	}
+
+	Time & Time::operator/=(const std::chrono::system_clock::duration::rep & t)
+	{
+		m_TimeDuration /= t;
+		return * this;
+	}
+
+	Time & Time::operator%=(const std::chrono::system_clock::duration::rep & t)
+	{
+		m_TimeDuration %= t;
+		return * this;
+	}
+
+	Time & Time::operator%=(const Time & t)
+	{
+		m_TimeDuration %= t.m_TimeDuration;
+		return * this;
+	}
+
+	Time Time::operator+(const Time & t) const
+	{
+		Time time(*this);
+		time += t;
+		return time;
+	}
+
+	Time Time::operator-(const Time & t) const
+	{
+		Time time(*this);
+		time -= t;
+		return time;
+	}
+
+	Time & Time::operator++()
+	{
+		++m_TimeDuration;
+		return * this;
+	}
+
+	Time Time::operator++(int32)
+	{
+		Time time(*this);
+		time.m_TimeDuration++;
+		return time;
+	}
+
+	Time & Time::operator--()
+	{
+		--m_TimeDuration;
+		return * this;
+	}
+
+	Time Time::operator--(int32)
+	{
+		Time time(*this);
+		time.m_TimeDuration--;
+		return time;
+	}
+
+	float64 Time::GetHours() const
+	{
+		return GetSeconds() / 3600.0;
+	}
+
+	float64 Time::GetMinutes() const
+	{
+		return GetSeconds() / 60.0;
 	}
 
 	float64 Time::GetSeconds() const
@@ -32,9 +142,9 @@ namespace star
 		return GetNanoSeconds() * NANO_TO_MICROSECONDS;
 	}
 
-	int64 Time::GetNanoSeconds() const
+	float64 Time::GetNanoSeconds() const
 	{
-		return std::chrono::duration_cast<std::chrono::nanoseconds>
-			(m_TimeDuration).count();
+		return float64(std::chrono::duration_cast<std::chrono::nanoseconds>
+			(m_TimeDuration).count());
 	}
 }

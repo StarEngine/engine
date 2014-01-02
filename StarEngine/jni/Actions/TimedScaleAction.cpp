@@ -37,7 +37,7 @@ namespace star
 	
 	void TimedScaleAction::Update(const Context & context)
 	{
-		float32 dt = float32(context.TimeManager->DeltaTime()->GetSeconds());
+		float32 dt = float32(context.TimeManager->DeltaTime().GetSeconds());
 		m_CurrentSeconds += dt;
 		
 		m_pParent->GetTransform()->Scale
