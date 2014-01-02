@@ -137,53 +137,53 @@ namespace star
 
 	void GameData::Load()
 	{
-		XMLFileParser parser(m_File);
+		XMLFileParser parser(m_File, m_DirectoryMode);
 		if(m_BinaryFile != EMPTY_STRING)
 		{
-			parser.Read(m_Data, m_BinaryFile, m_DirectoryMode);
+			parser.Read(m_Data, m_BinaryFile);
 		}
 		else
 		{
-			parser.Read(m_Data, m_DirectoryMode);
+			parser.Read(m_Data);
 		}
 	}
 
 	void GameData::Save()
 	{
-		XMLFileSerializer serializer(m_File);
+		XMLFileSerializer serializer(m_File, m_DirectoryMode);
 		if(m_BinaryFile != EMPTY_STRING)
 		{
-			serializer.Write(m_Data, m_BinaryFile, m_DirectoryMode);
+			serializer.Write(m_Data, m_BinaryFile);
 		}
 		else
 		{
-			serializer.Write(m_Data, m_DirectoryMode);
+			serializer.Write(m_Data);
 		}
 	}
 
 	void GameData::SetAutoSaveEnabled(bool enable, float32 seconds)
 	{
-		std::shared_ptr<Stopwatch> watch(nullptr);
+		std::shared_ptr<TimerManager> timerManager(nullptr);
 		if(m_pScene)
 		{
-			watch = m_pScene->GetStopwatch();
+			timerManager = m_pScene->GetTimerManager();
 		}
 		else
 		{
-			watch = SceneManager::GetInstance()->GetStopwatch();
+			timerManager = SceneManager::GetInstance()->GetTimerManager();
 		}
 		if(enable)
 		{
 			if(m_AutoSaveEnabled)
 			{
-				watch->SetTargetTimeTimer(
+				timerManager->SetTargetTimeTimer(
 					m_UniqueID,
 					seconds
 					);
 			}
 			else
 			{
-				watch->CreateTimer(
+				timerManager->CreateTimer(
 					m_UniqueID,
 					seconds,
 					false,
@@ -198,7 +198,7 @@ namespace star
 		}
 		else if(m_AutoSaveEnabled)
 		{
-			watch->RemoveTimer(m_UniqueID);
+			timerManager->RemoveTimer(m_UniqueID);
 		}
 		m_AutoSaveEnabled = enable;
 		m_AutoSaveSeconds = seconds;

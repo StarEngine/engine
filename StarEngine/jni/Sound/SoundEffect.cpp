@@ -30,7 +30,7 @@ namespace star
 		}
 	#else
 		FilePath real_path(path);
-		sstring sound_path = string_cast<sstring>(real_path.GetAssetsPath());
+		sstring sound_path = string_cast<sstring>(real_path.GetCorrectPath());
 		mpSound = Mix_LoadWAV(sound_path.c_str());
 		if(!mpSound)
 		{

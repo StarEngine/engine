@@ -100,6 +100,7 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 
 	const tstring & FilePath::GetRoot() const
 	{
+#ifdef DESKTOP
 		switch(m_DirectoryMode)
 		{
 		case DirectoryMode::assets:
@@ -111,75 +112,36 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 		default:
 			return EMPTY_STRING;
 		}
+#endif
+#ifdef ANDROID
+		auto app = StarEngine::GetInstance()->GetAndroidApp();
+		switch(m_DirectoryMode)
+		{
+		case DirectoryMode::assets:
+			return EMPTY_STRING;
+		case DirectoryMode::internal:
+			return string_cast<tstring>(app->activity->internalDataPath) + tstring(_T("/"));
+		case DirectoryMode::external:
+			return string_cast<tstring>(app->activity->externalDataPath) + tstring(_T("/"));
+		default:
+			return EMPTY_STRING;
+		}
+#endif
 	}
 	
 	tstring FilePath::GetLocalPath() const
 	{
 		return m_Path + m_File;
 	}
-
-	tstring FilePath::GetAssetsPath() const
-	{
-		tstring assets_path(EMPTY_STRING);
-	#ifdef DESKTOP
-		assets_path = m_AssetsRoot;
-	#endif
-		assets_path += m_Path + m_File;
-		return assets_path;
-	}
-
-	tstring FilePath::GetInternalPath() const
-	{
-		tstring internal_path(EMPTY_STRING);
-	#ifdef DESKTOP
-		internal_path = m_InternalRoot;
-	#else
-		auto app = StarEngine::GetInstance()->GetAndroidApp();
-		internal_path = string_cast<tstring>(app->activity->internalDataPath);
-		internal_path += _T("/");
-	#endif
-		internal_path += m_Path + m_File;
-		return internal_path;
-	}
-
-	tstring FilePath::GetExternalPath() const
-	{
-		tstring external_path(EMPTY_STRING);
-	#ifdef DESKTOP
-		external_path = m_ExternalRoot;
-	#else
-		auto app = StarEngine::GetInstance()->GetAndroidApp();
-		external_path = string_cast<tstring>(app->activity->externalDataPath);
-		external_path += _T("/");
-	#endif
-		external_path += m_Path + m_File;
-		return external_path;
-	}
 	
-	void FilePath::GetCorrectPath(const tstring & path,
-		tstring & correct_path, DirectoryMode mode)
+	void FilePath::GetCorrectPath(tstring & correct_path) const
 	{
-		switch(mode)
-		{
-		case DirectoryMode::assets:
-			correct_path = FilePath(path).GetAssetsPath();
-			break;
-		case DirectoryMode::internal:
-			correct_path = FilePath(path).GetInternalPath();
-			break;
-		case DirectoryMode::external:
-			correct_path = FilePath(path).GetExternalPath();
-			break;
-		default:
-			correct_path = path;
-			break;
-		}
+		correct_path = GetRoot() + GetLocalPath();
 	}
-	
-	void FilePath::GetCorrectPath(const tstring & path,
-		tstring & correct_path) const
+
+	tstring FilePath::GetCorrectPath() const
 	{
-		GetCorrectPath(path, correct_path, m_DirectoryMode);
+		return GetRoot() + GetLocalPath();
 	}
 
 	DirectoryMode FilePath::GetDirectoryMode() const

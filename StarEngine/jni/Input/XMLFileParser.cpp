@@ -67,7 +67,7 @@ namespace star
 		}
 		return result;
 #else
-		container.Deserialize(binary_path, mode);
+		container.Deserialize(binary_path, m_File.GetDirectoryMode());
 		return true;
 #endif
 	}
@@ -142,12 +142,12 @@ namespace star
 #else
 		if(!container.DeserializeSafe(
 				binary_path,
-				mode
+				m_File.GetDirectoryMode()
 				)
 			)
 		{
 			container.SetName(rootName);
-			container.Serialize(binary_path, mode);
+			container.Serialize(binary_path, m_File.GetDirectoryMode());
 		
 			LOG(LogLevel::Info,
 				_T("XMLFileParser::ReadOrCreate: created file '")

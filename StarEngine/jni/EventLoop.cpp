@@ -14,7 +14,7 @@ namespace star {
 
 	EventLoop::~EventLoop() 
 	{
-		delete mTimeManager;
+
 	}
 
 	EventLoop::EventLoop() :
@@ -76,7 +76,7 @@ namespace star {
 						_T("Exiting Event"), STARENGINE_LOG_TAG);
 					mQuit = true;
 					mEnabled = false;
-					mTimeManager->StopMonitoring();
+					TimeManager::GetInstance()->StopMonitoring();
 					return;
 				}
 			}
