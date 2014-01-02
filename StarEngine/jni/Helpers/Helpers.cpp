@@ -806,19 +806,17 @@ namespace star
 #else
 		tifstream myfile;
 		myfile.open(file_path.GetCorrectPath(), std::ios::in);
-		bool succes = myfile.is_open();
-		ASSERT_LOG(succes,
+		ASSERT_LOG(myfile.is_open(),
 			_T("Couldn't open the text file '") + file_path.GetCorrectPath() + _T("'."),
 			STARENGINE_LOG_TAG);
-		if(succes)
+
+		tstring str;
+		while (std::getline(myfile,str))
 		{
-			tstring str;
-			while (std::getline(myfile,str))
-			{
-				text += str;
-			}
-			myfile.close();
+			text += str;
 		}
+		myfile.close();
+
 #endif
 		text += _T('\0');
 	}
@@ -916,15 +914,13 @@ namespace star
 		myfile.close();
 #else
 		tofstream myfile(file_path.GetCorrectPath(), std::ios::out);
-		bool succes = myfile.is_open();
-		ASSERT_LOG(succes,
+		ASSERT_LOG(myfile.is_open(),
 			_T("Couldn't open the text file '") + file_path.GetCorrectPath() + _T("'."),
 			STARENGINE_LOG_TAG);
-		if(succes)
-		{
-			myfile << text;
-			myfile.close();
-		}
+
+		myfile << text;
+		myfile.close();
+
 #endif
 	}
 
@@ -946,15 +942,12 @@ namespace star
 		myfile.close();
 #else
 		tofstream myfile(file_path.GetCorrectPath(), std::ios::out | std::ios::app);
-		bool succes = myfile.is_open();
-		ASSERT_LOG(succes,
+		ASSERT_LOG(myfile.is_open(),
 			_T("Couldn't open the text file '") + file_path.GetCorrectPath() + _T("'."),
 			STARENGINE_LOG_TAG);
-		if(succes)
-		{
-			myfile << text;
-			myfile.close();
-		}
+
+		myfile << text;
+		myfile.close();
 #endif
 	}
 
@@ -991,20 +984,18 @@ namespace star
 #else
 		sifstream binary_file;
 		binary_file.open(file_path.GetCorrectPath(),
-				std::ios::in | std::ios::binary | std::ios::ate);
-		bool succes = binary_file.is_open();
-		schar * buffer(nullptr);
-		ASSERT_LOG(succes,
+				std::ios::in | std::ios::binary | std::ios::ate);	
+		ASSERT_LOG(binary_file.is_open(),
 			_T("Couldn't open the binary file '") +
 				file_path.GetCorrectPath() + _T("'."), STARENGINE_LOG_TAG);
-		if (succes)
-		{
-			size = uint32(binary_file.tellg());
-			buffer = new schar[size];
-			binary_file.seekg(0, std::ios::beg);
-			binary_file.read(buffer, sizeof(schar) * size);
-			binary_file.close();
-		}
+
+		schar * buffer(nullptr);
+		size = uint32(binary_file.tellg());
+		buffer = new schar[size];
+		binary_file.seekg(0, std::ios::beg);
+		binary_file.read(buffer, sizeof(schar) * size);
+		binary_file.close();
+
 		return buffer;
 #endif
 	}
@@ -1091,18 +1082,16 @@ namespace star
 #else
 		sofstream binary_file;
 		binary_file.open(file_path.GetCorrectPath(), std::ios::binary | std::ios::trunc);
-		bool succes = binary_file.is_open();
-		ASSERT_LOG(succes,
+		ASSERT_LOG(binary_file.is_open(),
 			_T("Couldn't open the binary file '") + file_path.GetCorrectPath() + _T("'."),
 			STARENGINE_LOG_TAG);
-		if (succes)
+
+		for(uint32 i = 0 ; i < size ; ++i)
 		{
-			for(uint32 i = 0 ; i < size ; ++i)
-			{
-				binary_file << buffer[i];
-			}
-			binary_file.close();
+			binary_file << buffer[i];
 		}
+		binary_file.close();
+
 #endif
 	}
 
@@ -1130,18 +1119,15 @@ namespace star
 #else
 		sofstream binary_file(file_path.GetCorrectPath(),
 				std::ios::out | std::ios::binary | std::ios::app);
-		bool succes = binary_file.is_open();
-		ASSERT_LOG(succes,
+		ASSERT_LOG(binary_file.is_open(),
 			_T("Couldn't open the binary file '") +
 				file_path.GetCorrectPath() + _T("'."), STARENGINE_LOG_TAG);
-		if (succes)
+
+		for(uint32 i = 0 ; i < size ; ++i)
 		{
-			for(uint32 i = 0 ; i < size ; ++i)
-			{
-				binary_file << buffer[i];
-			}
-			binary_file.close();
+			binary_file << buffer[i];
 		}
+		binary_file.close();
 #endif
 	}
 
