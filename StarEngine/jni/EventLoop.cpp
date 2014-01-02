@@ -33,7 +33,7 @@ namespace star {
 		mApplicationPtr = pApplication;
 		mApplicationPtr->onAppCmd = activityCallback;
 		mApplicationPtr->userData = this;
-		mContext.mTimeManager = TimeManager::GetInstance();
+		mContext.Time = TimeManager::GetInstance();
 		//mApplicationPtr->onAppCmd = activityCallback;
 		mApplicationPtr->onInputEvent = inputCallback;
 		StarEngine::GetInstance()->SetAndroidApp(mApplicationPtr);

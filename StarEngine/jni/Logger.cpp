@@ -77,7 +77,7 @@ namespace star
 	
 	void Logger::Update(const Context& context)
 	{
-		m_TimeStamp = context.TimeManager->GetTimeStamp();
+		m_TimeStamp = context.Time->GetTimeStamp();
 	}
 
 	void Logger::Log(

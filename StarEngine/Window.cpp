@@ -108,7 +108,7 @@ namespace star
 				}
 			}
 
-			mContext.TimeManager = TimeManager::GetInstance();
+			mContext.Time = TimeManager::GetInstance();
 
 			WNDCLASSEX wndClass;
 			wndClass.cbSize = sizeof(WNDCLASSEX);

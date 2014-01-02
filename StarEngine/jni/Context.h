@@ -13,6 +13,6 @@ namespace star
 	/// <seealso cref="TimeManager"></seealso>
 	struct Context 
 	{
-		std::shared_ptr<TimeManager> TimeManager;
+		std::shared_ptr<TimeManager> Time;
 	};
 }

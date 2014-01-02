@@ -169,7 +169,7 @@ namespace star
 	{
 		if(m_bIsGestureOk)
 		{
-			m_ElapsedTime += context.TimeManager->DeltaTime().GetSeconds();
+			m_ElapsedTime += context.Time->DeltaTime().GetSeconds();
 		}
 	}
 
