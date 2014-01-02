@@ -19,7 +19,14 @@ namespace star
 		,mDeltauS(0)
 		,mTotalMS(0)
 	{
-
+#ifdef _WIN32
+		if(!QueryPerformanceFrequency(&mFrequency))
+		{
+			LOG(LogLevel::Error, 
+				_T("TimeManager::TimeManager: QueryPerformanceFrequency failed! ") +
+				tstring(_T("Please contact the developers to report this error.")));
+		}
+#endif
 	}
 
 	TimeManager::~TimeManager()
@@ -42,7 +49,6 @@ namespace star
 	{
 #ifdef _WIN32
 		QueryPerformanceCounter(&mF2);
-		QueryPerformanceFrequency(&mFrequency);
 
 		mDeltauS = (mF2.QuadPart - mF1.QuadPart) * MICROMULTIPLIER / mFrequency.QuadPart;
 		mDeltaMs = (mF2.QuadPart - mF1.QuadPart) * MILLIMULTIPLIER / mFrequency.QuadPart;
