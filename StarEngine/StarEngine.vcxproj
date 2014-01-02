@@ -193,6 +193,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="jni\Graphics\ScaleSystem.h" />
     <ClInclude Include="jni\Helpers\Stopwatch.h" />
+    <ClInclude Include="jni\Helpers\Time.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -290,6 +291,7 @@
     <ClCompile Include="jni\TimeManager.cpp" />
     <ClCompile Include="jni\Graphics\ScaleSystem.cpp" />
     <ClCompile Include="jni\Helpers\Stopwatch.cpp" />
+    <ClCompile Include="jni\Helpers\Time.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>

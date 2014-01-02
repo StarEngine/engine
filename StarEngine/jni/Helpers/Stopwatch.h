@@ -21,5 +21,10 @@ namespace star
 		time_t m_StartTime;
 		time_t m_PausedTime;
 		std::vector<float64> m_Laps;
+
+		Stopwatch(const Stopwatch& yRef);
+		Stopwatch(Stopwatch&& yRef);
+		Stopwatch& operator=(const Stopwatch& yRef);
+		Stopwatch& operator=(Stopwatch&& yRef);
 	};
 }

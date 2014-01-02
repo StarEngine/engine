@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TimeManager.h"
+#include "Helpers/Time.h"
 #include "Graphics/TextureManager.h"
 
 namespace star
@@ -12,6 +13,6 @@ namespace star
 	/// <seealso cref="TimeManager"></seealso>
 	struct Context 
 	{
-		std::shared_ptr<TimeManager> mTimeManager;
+		std::shared_ptr<TimeManager> TimeManager;
 	};
 }

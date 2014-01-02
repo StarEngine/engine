@@ -132,10 +132,12 @@ namespace star
 
 	void DoubleTapGesture::Update(const Context& context)
 	{
-		m_TimeSinceBeginning = context.mTimeManager->GetMilliSecondsSinceStart();
+		m_TimeSinceBeginning = 
+			context.TimeManager->TimeSinceStart()->GetMilliSeconds();
 		if(m_Count == 1)
 		{
-			m_TimeBetweenTaps += context.mTimeManager->GetMilliSeconds();
+			m_TimeBetweenTaps += 
+				context.TimeManager->DeltaTime()->GetMilliSeconds();
 		}
 	}
 

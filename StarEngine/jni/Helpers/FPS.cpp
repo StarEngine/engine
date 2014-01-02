@@ -1,5 +1,6 @@
 #include "FPS.h"
 #include "../Context.h"
+#include "Time.h"
 
 namespace star
 {
@@ -14,7 +15,7 @@ namespace star
 	void FPS::Update(const Context & context)
 	{
 		++m_Counter;
-		m_Timer += context.mTimeManager->GetSeconds();
+		m_Timer += context.TimeManager->DeltaTime()->GetSeconds();
 		if(m_Timer > 1.0)
 		{
 			m_Timer -= 1.0;

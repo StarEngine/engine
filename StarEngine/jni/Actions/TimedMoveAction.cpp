@@ -114,7 +114,7 @@ namespace star
 		if(parent == nullptr)
 		{
 			vec2 curPos = m_pParent->GetTransform()->GetWorldPosition().pos2D();
-			float32 dt = float32(context.mTimeManager->GetSeconds());
+			float32 dt = float32(context.TimeManager->DeltaTime()->GetSeconds());
 			if(m_Speed == 0.0f)
 			{
 				m_CurrentSeconds += dt;
@@ -132,7 +132,7 @@ namespace star
 		else
 		{
 			vec2 curPos = parent->GetPosition().pos2D();
-			float32 dt = float32(context.mTimeManager->GetSeconds());
+			float32 dt = float32(context.TimeManager->DeltaTime()->GetSeconds());
 			if(m_Speed == 0.0f)
 			{
 				m_CurrentSeconds += dt;

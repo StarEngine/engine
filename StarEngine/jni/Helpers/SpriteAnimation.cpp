@@ -105,8 +105,9 @@ namespace star
 	{
 		if(m_IsPlaying)
 		{
-			m_CurrentFrame += (float32)context.mTimeManager->GetSeconds() * m_Speed;
-			float32 size = (float32)m_Frames.size();
+			m_CurrentFrame += 
+				float32(context.TimeManager->DeltaTime()->GetSeconds() * m_Speed);
+			float32 size = float32(m_Frames.size());
 			bool readyToGo(false);
 			if(m_CurrentFrame >= size)
 			{
