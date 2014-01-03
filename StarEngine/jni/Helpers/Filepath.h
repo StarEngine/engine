@@ -88,7 +88,7 @@ namespace star
 		/// </summary>
 		/// <returns>the root of the path</returns>
 		/// <seealso cref="DirectoryMode"></seealso>
-		const tstring & GetRoot() const;
+		tstring GetRoot() const;
 		/// <summary>
 		/// Get the complete local path which is equal
 		/// to a combination of the path and file datamembers.

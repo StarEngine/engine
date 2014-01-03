@@ -112,7 +112,7 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 		return extension.substr(index, extension.size() - index);
 	}
 
-	const tstring & FilePath::GetRoot() const
+	tstring FilePath::GetRoot() const
 	{
 #ifdef DESKTOP
 		switch(m_DirectoryMode)

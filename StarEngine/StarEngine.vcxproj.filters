@@ -363,6 +363,9 @@
     <ClInclude Include="jni\Helpers\Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Actions\ScaleAction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -654,6 +657,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Helpers\Time.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Actions\ScaleAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
