@@ -1,11 +1,13 @@
 #include "Stopwatch.h"
 #include "../TimeManager.h"
+#include "../Logger.h"
 
 namespace star
 {
 	Stopwatch::Stopwatch()
-		: m_StartTime()
-		, m_PausedTime()
+		: m_bPaused(false)
+		, m_bStarted(false)
+		, m_TimePair()
 		, m_Laps()
 	{
 	}
@@ -17,17 +19,33 @@ namespace star
 
 	void Stopwatch::Start()
 	{
-		m_StartTime = TimeManager::GetInstance()->CurrentTime();
+		if(m_bStarted)
+		{
+			LOG(LogLevel::Warning, _T("Stopwatch::Start(): \
+Stopwatch already running! Overwriting start time..."));
+		}
+		m_TimePair.push_back(
+			std::make_pair(
+				TimeManager::GetInstance()->CurrentTime(),
+				Time()
+				)
+			);
+		m_bStarted = true;
+		m_bPaused = false;
 	}
 
 	void Stopwatch::Stop()
 	{
-		m_PausedTime = TimeManager::GetInstance()->CurrentTime();
+		m_TimePair.back().second = TimeManager::GetInstance()->CurrentTime();
+		m_bPaused = true;
+		m_bStarted = false;
 	}
 
 	void Stopwatch::Reset()
 	{
-
+		m_TimePair.clear();
+		m_bStarted = false;
+		m_bPaused = false;
 	}
 
 	void Stopwatch::Lap()
@@ -40,8 +58,17 @@ namespace star
 		return m_Laps;
 	}
 
-	Time Stopwatch::GetTime() const
+	Time Stopwatch::GetTime()
 	{
-		return m_PausedTime - m_StartTime;
+		Time totalTime = Time();
+		if(m_bPaused)
+		{
+			m_TimePair.back().second = TimeManager::GetInstance()->CurrentTime();
+		}
+		for(auto time : m_TimePair)
+		{
+			totalTime += (time.second - time.first);
+		}
+		return totalTime;
 	}
 }

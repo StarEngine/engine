@@ -16,16 +16,17 @@ namespace star
 		void Reset();
 		void Lap();
 		const std::vector<Time> & GetLapTimes() const;
-		Time GetTime() const;
+		Time GetTime();
 
 	private:
-		Time m_StartTime;
-		Time m_PausedTime;
+		bool m_bPaused;
+		bool m_bStarted;
+		std::vector<std::pair<Time, Time>> m_TimePair;
 		std::vector<Time> m_Laps;
 
-		Stopwatch(const Stopwatch& yRef);
-		Stopwatch(Stopwatch&& yRef);
-		Stopwatch& operator=(const Stopwatch& yRef);
-		Stopwatch& operator=(Stopwatch&& yRef);
+		Stopwatch(const Stopwatch & yRef);
+		Stopwatch(Stopwatch && yRef);
+		Stopwatch & operator=(const Stopwatch & yRef);
+		Stopwatch & operator=(Stopwatch && yRef);
 	};
 }
