@@ -9,7 +9,12 @@ namespace star
 	{
 	public:
 		Stopwatch();
+		Stopwatch(const Stopwatch & yRef);
+		Stopwatch(Stopwatch && yRef);
 		~Stopwatch();
+		
+		Stopwatch & operator=(const Stopwatch & yRef);
+		Stopwatch & operator=(Stopwatch && yRef);
 
 		void Start();
 		void Stop();
@@ -21,12 +26,7 @@ namespace star
 	private:
 		bool m_bPaused;
 		bool m_bStarted;
-		std::vector<std::pair<Time, Time>> m_TimePair;
+		std::vector<std::pair<Time, Time>> m_TimePairVec;
 		std::vector<Time> m_Laps;
-
-		Stopwatch(const Stopwatch & yRef);
-		Stopwatch(Stopwatch && yRef);
-		Stopwatch & operator=(const Stopwatch & yRef);
-		Stopwatch & operator=(Stopwatch && yRef);
 	};
 }

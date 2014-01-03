@@ -32,6 +32,12 @@ namespace star
 		/// <param name="yRef">a reference of a FilePath object</param>
 		FilePath(const FilePath & yRef);
 		/// <summary>
+		/// An overload of the constructor requiring 
+		/// a FilePath object where the datamembers will be moved from.
+		/// </summary>
+		/// <param name="yRef">the FilePath object to be moved</param>
+		FilePath(FilePath && yRef);
+		/// <summary>
 		/// Cleans up the path and file tstring datamembers.
 		/// </summary>
 		~FilePath();
@@ -43,6 +49,13 @@ namespace star
 		/// <returns>a reference to the object where
 		/// assignment operator get invoked off.</returns>
 		FilePath & operator=(const FilePath & yRef);
+		/// <summary>
+		/// Move the path and file tstring datamembers.
+		/// </summary>
+		/// <param name="yRef"> a FilePath object to be moved</param>
+		/// <returns>a reference to the object where
+		/// assignment operator get invoked off.</returns>
+		FilePath & operator=(FilePath && yRef);
 		/// <summary>
 		/// Comparing the path and file tstrings combining it into a boolean result.
 		/// </summary>
@@ -89,7 +102,7 @@ namespace star
 		/// directory defined by the mode value and the full local path.</param>
 		/// </summary>
 		/// <seealso cref="DirectoryMode"></seealso>
-		void GetCorrectPath(tstring & correct_path) const;
+		void GetFullPath(tstring & correct_path) const;
 		/// <summary>
 		/// Get the correct complete dynamic path with the root being used,
 		/// defined based on the mode value.
@@ -97,7 +110,7 @@ namespace star
 		/// <returns>the complete dynamic path, combining the 
 		/// directory defined by the mode value and the full local path.</returns>
 		/// <seealso cref="DirectoryMode"></seealso>
-		tstring GetCorrectPath() const;
+		tstring GetFullPath() const;
 		/// <summary>
 		/// Gets the directory mode.
 		/// </summary>

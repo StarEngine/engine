@@ -15,7 +15,7 @@ namespace star
 	void FPS::Update(const Context & context)
 	{
 		++m_Counter;
-		m_Timer += context.Time->DeltaTime().GetSeconds();
+		m_Timer += context.time->DeltaTime().GetSeconds();
 		if(m_Timer > 1.0)
 		{
 			m_Timer -= 1.0;

@@ -790,10 +790,10 @@ namespace star
 		{
 			text = _T("");
 			sifstream myfile;
-			myfile.open(string_cast<sstring>(file_path.GetCorrectPath()), std::ios::in);
+			myfile.open(string_cast<sstring>(file_path.GetFullPath()), std::ios::in);
 			ASSERT_LOG(myfile.is_open(),
 				_T("Couldn't open the text file '") +
-				file_path.GetCorrectPath() + _T("'."), STARENGINE_LOG_TAG);
+				file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 
 			sstring str;
 			while (std::getline(myfile, str))
@@ -805,9 +805,9 @@ namespace star
 		}
 #else
 		tifstream myfile;
-		myfile.open(file_path.GetCorrectPath(), std::ios::in);
+		myfile.open(file_path.GetFullPath(), std::ios::in);
 		ASSERT_LOG(myfile.is_open(),
-			_T("Couldn't open the text file '") + file_path.GetCorrectPath() + _T("'."),
+			_T("Couldn't open the text file '") + file_path.GetFullPath() + _T("'."),
 			STARENGINE_LOG_TAG);
 
 		tstring str;
@@ -847,7 +847,7 @@ namespace star
 		{
 			text = EMPTY_STRING;
 			sifstream myfile;
-			myfile.open(string_cast<sstring>(file_path.GetCorrectPath()), std::ios::in);
+			myfile.open(string_cast<sstring>(file_path.GetFullPath()), std::ios::in);
 			succes = myfile.is_open();
 			if(succes)
 			{
@@ -862,12 +862,12 @@ namespace star
 			{
 				LOG(LogLevel::Warning,
 					_T("Couldn't open the text file '") +
-					file_path.GetCorrectPath() + _T("'."), STARENGINE_LOG_TAG);
+					file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 			}
 		}
 #else
 		tifstream myfile;
-		myfile.open(file_path.GetCorrectPath(), std::ios::in);
+		myfile.open(file_path.GetFullPath(), std::ios::in);
 		succes = myfile.is_open();
 		if(succes)
 		{
@@ -881,7 +881,7 @@ namespace star
 		else if(logWarning)
 		{
 			LOG(LogLevel::Warning,
-				_T("Couldn't open the text file '") + file_path.GetCorrectPath() + _T("'."),
+				_T("Couldn't open the text file '") + file_path.GetFullPath() + _T("'."),
 				STARENGINE_LOG_TAG);
 		}
 #endif
@@ -905,17 +905,17 @@ namespace star
 			_T("Android doesn't support writing to a text file in the assets directory."),
 			STARENGINE_LOG_TAG);
 
-		sofstream myfile(string_cast<sstring>(file_path.GetCorrectPath()), std::ios::out);
+		sofstream myfile(string_cast<sstring>(file_path.GetFullPath()), std::ios::out);
 		ASSERT_LOG(myfile.is_open(),
-			_T("Couldn't open the text file '") + file_path.GetCorrectPath() + _T("'."),
+			_T("Couldn't open the text file '") + file_path.GetFullPath() + _T("'."),
 			STARENGINE_LOG_TAG);
 
 		myfile << text;
 		myfile.close();
 #else
-		tofstream myfile(file_path.GetCorrectPath(), std::ios::out);
+		tofstream myfile(file_path.GetFullPath(), std::ios::out);
 		ASSERT_LOG(myfile.is_open(),
-			_T("Couldn't open the text file '") + file_path.GetCorrectPath() + _T("'."),
+			_T("Couldn't open the text file '") + file_path.GetFullPath() + _T("'."),
 			STARENGINE_LOG_TAG);
 
 		myfile << text;
@@ -933,17 +933,17 @@ namespace star
 			_T("Android doesn't support writing to a text file in the assets directory."),
 			STARENGINE_LOG_TAG);
 
-		sofstream myfile(string_cast<sstring>(file_path.GetCorrectPath()), std::ios::out | std::ios::app);
+		sofstream myfile(string_cast<sstring>(file_path.GetFullPath()), std::ios::out | std::ios::app);
 		ASSERT_LOG(myfile.is_open(),
-			_T("Couldn't open the text file '") + file_path.GetCorrectPath() + _T("'."),
+			_T("Couldn't open the text file '") + file_path.GetFullPath() + _T("'."),
 			STARENGINE_LOG_TAG);
 
 		myfile << text;
 		myfile.close();
 #else
-		tofstream myfile(file_path.GetCorrectPath(), std::ios::out | std::ios::app);
+		tofstream myfile(file_path.GetFullPath(), std::ios::out | std::ios::app);
 		ASSERT_LOG(myfile.is_open(),
-			_T("Couldn't open the text file '") + file_path.GetCorrectPath() + _T("'."),
+			_T("Couldn't open the text file '") + file_path.GetFullPath() + _T("'."),
 			STARENGINE_LOG_TAG);
 
 		myfile << text;
@@ -966,11 +966,11 @@ namespace star
 		else
 		{
 			sifstream binary_file;
-			binary_file.open(string_cast<sstring>(file_path.GetCorrectPath()).c_str(),
+			binary_file.open(string_cast<sstring>(file_path.GetFullPath()).c_str(),
 					std::ios::in | std::ios::binary | std::ios::ate);
 			ASSERT_LOG(binary_file.is_open(),
 				_T("Couldn't open the binary file '") +
-				file_path.GetCorrectPath() + _T("'."), STARENGINE_LOG_TAG);
+				file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 
 			schar * buffer(nullptr);
 			size = uint32(binary_file.tellg());
@@ -983,11 +983,11 @@ namespace star
 		}
 #else
 		sifstream binary_file;
-		binary_file.open(file_path.GetCorrectPath(),
+		binary_file.open(file_path.GetFullPath(),
 				std::ios::in | std::ios::binary | std::ios::ate);	
 		ASSERT_LOG(binary_file.is_open(),
 			_T("Couldn't open the binary file '") +
-				file_path.GetCorrectPath() + _T("'."), STARENGINE_LOG_TAG);
+				file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 
 		schar * buffer(nullptr);
 		size = uint32(binary_file.tellg());
@@ -1016,7 +1016,7 @@ namespace star
 		else
 		{
 			sifstream binary_file;
-			binary_file.open(string_cast<sstring>(file_path.GetCorrectPath()).c_str(),
+			binary_file.open(string_cast<sstring>(file_path.GetFullPath()).c_str(),
 					std::ios::in | std::ios::binary | std::ios::ate);
 			bool succes = binary_file.is_open();
 			if (succes)
@@ -1031,13 +1031,13 @@ namespace star
 			{
 				LOG(LogLevel::Warning,
 					_T("Couldn't open the binary file '") +
-					file_path.GetCorrectPath() + _T("'."), STARENGINE_LOG_TAG);
+					file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 			}
 			return succes;
 		}
 #else
 		sifstream binary_file;
-		binary_file.open(file_path.GetCorrectPath(),
+		binary_file.open(file_path.GetFullPath(),
 				std::ios::in | std::ios::binary | std::ios::ate);
 		bool succes = binary_file.is_open();
 		if (succes)
@@ -1052,7 +1052,7 @@ namespace star
 		{
 			LOG(LogLevel::Warning,
 				_T("Couldn't open the binary file '") +
-				file_path.GetCorrectPath() + _T("'."), STARENGINE_LOG_TAG);
+				file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 		}
 		return succes;
 #endif
@@ -1068,11 +1068,11 @@ namespace star
 			STARENGINE_LOG_TAG);
 
 		sofstream binary_file;
-		binary_file.open(string_cast<sstring>(file_path.GetCorrectPath()), std::ios::binary
+		binary_file.open(string_cast<sstring>(file_path.GetFullPath()), std::ios::binary
 				| std::ios::trunc);
 		ASSERT_LOG(binary_file.is_open(),
 			_T("Couldn't open the binary file '") +
-			file_path.GetCorrectPath() + _T("'."), STARENGINE_LOG_TAG);
+			file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 
 		for(uint32 i = 0 ; i < size ; ++i)
 		{
@@ -1081,9 +1081,9 @@ namespace star
 		binary_file.close();
 #else
 		sofstream binary_file;
-		binary_file.open(file_path.GetCorrectPath(), std::ios::binary | std::ios::trunc);
+		binary_file.open(file_path.GetFullPath(), std::ios::binary | std::ios::trunc);
 		ASSERT_LOG(binary_file.is_open(),
-			_T("Couldn't open the binary file '") + file_path.GetCorrectPath() + _T("'."),
+			_T("Couldn't open the binary file '") + file_path.GetFullPath() + _T("'."),
 			STARENGINE_LOG_TAG);
 
 		for(uint32 i = 0 ; i < size ; ++i)
@@ -1104,11 +1104,11 @@ namespace star
 			_T("Android doesn't support writing to a binary file in the assets directory."),
 			STARENGINE_LOG_TAG);
 
-		sofstream binary_file(string_cast<sstring>(file_path.GetCorrectPath()),
+		sofstream binary_file(string_cast<sstring>(file_path.GetFullPath()),
 				std::ios::out | std::ios::binary | std::ios::app);
 		ASSERT_LOG(binary_file.is_open(),
 			_T("Couldn't open the binary file '") +
-			file_path.GetCorrectPath() + _T("'."), STARENGINE_LOG_TAG);
+			file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 
 		for(uint32 i = 0 ; i < size ; ++i)
 		{
@@ -1117,11 +1117,11 @@ namespace star
 		binary_file.close();
 
 #else
-		sofstream binary_file(file_path.GetCorrectPath(),
+		sofstream binary_file(file_path.GetFullPath(),
 				std::ios::out | std::ios::binary | std::ios::app);
 		ASSERT_LOG(binary_file.is_open(),
 			_T("Couldn't open the binary file '") +
-				file_path.GetCorrectPath() + _T("'."), STARENGINE_LOG_TAG);
+				file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 
 		for(uint32 i = 0 ; i < size ; ++i)
 		{

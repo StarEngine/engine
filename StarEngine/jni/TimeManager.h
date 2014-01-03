@@ -11,7 +11,7 @@ namespace star
 	class TimeManager final
 	{
 	public:
-		static std::shared_ptr<TimeManager> GetInstance();
+		static TimeManager * GetInstance();
 		~TimeManager();
 
 		void StartMonitoring();
@@ -24,7 +24,7 @@ namespace star
 		tstring GetTimeStamp();
 
 	private:
-		static std::shared_ptr<TimeManager> m_TimeManager;
+		static TimeManager * m_TimeManager;
 		TimeManager();
 
 		std::chrono::system_clock::time_point m_StartTime;

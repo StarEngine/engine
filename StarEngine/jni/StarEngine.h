@@ -24,7 +24,7 @@ namespace star
 	public:
 		~StarEngine();
 
-		static std::shared_ptr<StarEngine> GetInstance();
+		static StarEngine * GetInstance();
 		void Initialize(int32 window_width, int32 window_height);
 
 		void Update(const Context & context);
@@ -55,7 +55,7 @@ namespace star
 #endif
 
 	private:
-		static std::shared_ptr<StarEngine> m_pEngine;
+		static StarEngine * m_pEngine;
 		FPS m_FPS;
 		tstring m_Title, m_SubTitle;
 		bool m_TitleHasUpdated;

@@ -108,7 +108,7 @@ namespace star
 				}
 			}
 
-			mContext.Time = TimeManager::GetInstance();
+			mContext.time = TimeManager::GetInstance();
 
 			WNDCLASSEX wndClass;
 			wndClass.cbSize = sizeof(WNDCLASSEX);
@@ -725,14 +725,12 @@ namespace star
 
 	Window::~Window(void)
 	{
-		//InputManager::GetInstance()->StopKeyboardThread();
-		//WaitForSingleObject( m_hKeybThread, INFINITE );
-		//CloseHandle( m_hKeybThread );
-
 		delete InputManager::GetInstance();
 
 		delete (mGamePtr);
 		mGamePtr = nullptr;
+
+		delete StarEngine::GetInstance();
 	}
 
 	void Window::WindowInactiveUpdate(bool inactive)

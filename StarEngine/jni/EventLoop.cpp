@@ -14,7 +14,7 @@ namespace star {
 
 	EventLoop::~EventLoop() 
 	{
-
+		delete StarEngine::GetInstance();
 	}
 
 	EventLoop::EventLoop() :

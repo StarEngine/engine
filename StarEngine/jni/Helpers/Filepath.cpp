@@ -57,6 +57,13 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 		
 	}
 
+	FilePath::FilePath(FilePath && yRef)
+		: m_Path(std::move(yRef.m_Path))
+		, m_File(std::move(yRef.m_File))
+	{
+		
+	}
+
 	FilePath::~FilePath()
 	{
 
@@ -66,6 +73,13 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 	{
 		m_Path = yRef.m_Path;
 		m_File = yRef.m_File;
+		return *this;
+	}
+
+	FilePath & FilePath::operator=(FilePath && yRef)
+	{
+		m_Path = std::move(yRef.m_Path);
+		m_File = std::move(yRef.m_File);
 		return *this;
 	}
 
@@ -134,12 +148,12 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 		return m_Path + m_File;
 	}
 	
-	void FilePath::GetCorrectPath(tstring & correct_path) const
+	void FilePath::GetFullPath(tstring & correct_path) const
 	{
 		correct_path = GetRoot() + GetLocalPath();
 	}
 
-	tstring FilePath::GetCorrectPath() const
+	tstring FilePath::GetFullPath() const
 	{
 		return GetRoot() + GetLocalPath();
 	}

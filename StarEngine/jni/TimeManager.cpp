@@ -4,12 +4,12 @@
 
 namespace star
 {
-	std::shared_ptr<TimeManager> TimeManager::m_TimeManager = nullptr;
-	std::shared_ptr<TimeManager> TimeManager::GetInstance()
+	TimeManager * TimeManager::m_TimeManager = nullptr;
+	TimeManager * TimeManager::GetInstance()
 	{
 		if(m_TimeManager == nullptr)
 		{
-			m_TimeManager = std::shared_ptr<TimeManager>(new TimeManager());
+			m_TimeManager = new TimeManager();
 		}
 		return m_TimeManager;
 	}

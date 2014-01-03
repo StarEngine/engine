@@ -38,7 +38,7 @@ having a SpriteSheet- or TextComponent."), STARENGINE_LOG_TAG);
 		else
 		{
 			TextureManager::GetInstance()->LoadTexture(
-				m_FilePath.GetCorrectPath(),
+				m_FilePath.GetFullPath(),
 				m_SpriteName
 				);
 
@@ -183,7 +183,7 @@ having a SpriteSheet- or TextComponent."), STARENGINE_LOG_TAG);
 		m_FilePath = FilePath(filepath);
 		m_SpriteName = spriteName;
 
-		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetCorrectPath(),m_SpriteName);
+		TextureManager::GetInstance()->LoadTexture(m_FilePath.GetFullPath(),m_SpriteName);
 		m_Dimensions.x = TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).x / m_WidthSegments;
 		m_Dimensions.y =  TextureManager::GetInstance()->GetTextureDimensions(m_SpriteName).y / m_HeightSegments;
 		

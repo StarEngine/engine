@@ -87,7 +87,6 @@ namespace star
 		void SetCullingOffset(int32 offsetX, int32 offsetY);
 
 		std::shared_ptr<TimerManager> GetTimerManager() const;
-		std::shared_ptr<Stopwatch> GetStopwatch() const;
 
 		std::shared_ptr<GestureManager> GetGestureManager() const;
 		std::shared_ptr<CollisionManager> GetCollisionManager() const;
@@ -109,7 +108,6 @@ namespace star
 		std::vector<Object*> m_pGarbage;
 		BaseCamera *m_pDefaultCamera, *m_pActiveCamera;
 		std::shared_ptr<TimerManager> m_pTimerManager;
-		std::shared_ptr<Stopwatch> m_pStopwatch;
 		UIBaseCursor *m_pCursor;
 
 	private:

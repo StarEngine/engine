@@ -16,17 +16,17 @@
 
 namespace star
 {
-	std::shared_ptr<StarEngine> StarEngine::m_pEngine = nullptr;
+	StarEngine * StarEngine::m_pEngine = nullptr;
 
 	StarEngine::~StarEngine()
 	{
 	}
 
-	std::shared_ptr<StarEngine> StarEngine::GetInstance()
+	StarEngine*  StarEngine::GetInstance()
 	{
 		if(m_pEngine == nullptr)
 		{
-			m_pEngine = std::shared_ptr<StarEngine>(new StarEngine());
+			m_pEngine = new StarEngine();
 		}
 		return m_pEngine;
 	}
@@ -85,6 +85,7 @@ namespace star
 		delete PathFindManager::GetInstance();
 		delete SceneManager::GetInstance();
 		delete Logger::GetInstance();
+		delete TimeManager::GetInstance();
 	}
 	
 	void StarEngine::SetActive()
