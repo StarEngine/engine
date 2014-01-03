@@ -13,11 +13,11 @@ namespace star
 		, m_UnhoverCallback(nullptr)
 		, m_ElementState(ElementStates::IDLE)
 	{
-		m_Effects[HOVER_EFFECT].Name = EMPTY_STRING;
-		m_Effects[HOVER_EFFECT].Volume = 1.0f;
+		m_Effects[HOVER_EFFECT].name = EMPTY_STRING;
+		m_Effects[HOVER_EFFECT].volume = 1.0f;
 
-		m_Effects[CLICK_EFFECT].Name = EMPTY_STRING;
-		m_Effects[CLICK_EFFECT].Volume = 1.0f;
+		m_Effects[CLICK_EFFECT].name = EMPTY_STRING;
+		m_Effects[CLICK_EFFECT].volume = 1.0f;
 	}
 
 	UIUserElement::~UIUserElement()
@@ -72,24 +72,24 @@ namespace star
 
 	void UIUserElement::SetHoverSoundEffect(const tstring & name)
 	{
-		m_Effects[HOVER_EFFECT].Name = name;
+		m_Effects[HOVER_EFFECT].name = name;
 	}
 
 	void UIUserElement::SetHoverSoundEffect(const tstring & name, float32 volume)
 	{
-		m_Effects[HOVER_EFFECT].Name = name;
-		m_Effects[HOVER_EFFECT].Volume = volume;
+		m_Effects[HOVER_EFFECT].name = name;
+		m_Effects[HOVER_EFFECT].volume = volume;
 	}
 
 	void UIUserElement::SetClickSoundEffect(const tstring & name)
 	{
-		m_Effects[CLICK_EFFECT].Name = name;
+		m_Effects[CLICK_EFFECT].name = name;
 	}
 
 	void UIUserElement::SetClickSoundEffect(const tstring & name, float32 volume)
 	{
-		m_Effects[CLICK_EFFECT].Name = name;
-		m_Effects[CLICK_EFFECT].Volume = volume;
+		m_Effects[CLICK_EFFECT].name = name;
+		m_Effects[CLICK_EFFECT].volume = volume;
 	}
 
 	void UIUserElement::Update(const Context& context)
@@ -152,11 +152,11 @@ namespace star
 			m_HoverCallback();
 		}
 		
-		if(m_Effects[HOVER_EFFECT].Name != EMPTY_STRING)
+		if(m_Effects[HOVER_EFFECT].name != EMPTY_STRING)
 		{
 			AudioManager::GetInstance()->PlayEffect(
-				m_Effects[HOVER_EFFECT].Name,
-				m_Effects[HOVER_EFFECT].Volume,
+				m_Effects[HOVER_EFFECT].name,
+				m_Effects[HOVER_EFFECT].volume,
 				0
 				);
 		}
@@ -198,11 +198,11 @@ namespace star
 			m_ReleasedCallback();
 		}
 
-		if(m_Effects[CLICK_EFFECT].Name != EMPTY_STRING)
+		if(m_Effects[CLICK_EFFECT].name != EMPTY_STRING)
 		{
 			AudioManager::GetInstance()->PlayEffect(
-				m_Effects[CLICK_EFFECT].Name,
-				m_Effects[CLICK_EFFECT].Volume,
+				m_Effects[CLICK_EFFECT].name,
+				m_Effects[CLICK_EFFECT].volume,
 				0
 				);
 		}

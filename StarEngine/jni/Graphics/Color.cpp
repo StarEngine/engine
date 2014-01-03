@@ -235,10 +235,10 @@ namespace star
 	}
 
 	Color::Color(Color && yRef)
-		: r(yRef.r)
-		, g(yRef.g)
-		, b(yRef.b)
-		, a(yRef.a)
+		: r(std::move(yRef.r))
+		, g(std::move(yRef.g))
+		, b(std::move(yRef.b))
+		, a(std::move(yRef.a))
 	{
 
 	}
@@ -285,6 +285,16 @@ namespace star
 		g = yRef.g;
 		b = yRef.b;
 		a = yRef.a;
+
+		return *this;
+	}
+
+	Color & Color::operator=(Color && yRef)
+	{
+		r = std::move(yRef.r);
+		g = std::move(yRef.g);
+		b = std::move(yRef.b);
+		a = std::move(yRef.a);
 
 		return *this;
 	}

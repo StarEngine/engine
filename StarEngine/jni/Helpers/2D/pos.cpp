@@ -59,9 +59,9 @@ namespace star
 	}
 
 	pos::pos(pos && yRef)
-		: x(yRef.x)
-		, y(yRef.y)
-		, l(yRef.l)
+		: x(std::move(yRef.x))
+		, y(std::move(yRef.y))
+		, l(std::move(yRef.l))
 	{
 
 	}
@@ -96,6 +96,15 @@ namespace star
 		x = yRef.x;
 		y = yRef.y;
 		l = yRef.l;
+
+		return *this;
+	}
+
+	pos & pos::operator=(pos && yRef)
+	{
+		x = std::move(yRef.x);
+		y = std::move(yRef.y);
+		l = std::move(yRef.l);
 
 		return *this;
 	}

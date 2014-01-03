@@ -135,8 +135,8 @@ namespace star
 				GarbageType type
 				);
 
-			Entity *Element;
-			GarbageType Type;
+			Entity *element;
+			GarbageType type;
 		};
 
 		void DestroyGarbageElement(const GarbageInfo & info);

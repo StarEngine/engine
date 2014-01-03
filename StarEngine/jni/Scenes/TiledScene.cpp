@@ -78,11 +78,11 @@ namespace star
 		for(auto it = m_TileSets.begin() ;
 			it != m_TileSets.end() ;)
 		{
-			if(gid >= it->FirstGid)
+			if(gid >= it->firstGid)
 			{
 				auto pIt = it++;
 				if(it == m_TileSets.end() ||
-					gid < it->FirstGid)
+					gid < it->firstGid)
 				{
 					set = *pIt;
 					return;
@@ -97,13 +97,13 @@ namespace star
 	
 	star::SpriteComponent * TiledScene::CreateSpriteFromGid(uint32 gid, const TileSet & set)
 	{
-		gid -= set.FirstGid;
+		gid -= set.firstGid;
 
-		int32 tx(set.Width / set.TileWidth),
-			ty(set.Height / set.TileHeight);
+		int32 tx(set.width / set.tileWidth),
+			ty(set.height / set.tileHeight);
 
 		auto texture = new SpriteComponent(
-			set.Texture, 
+			set.texture, 
 			GetSpritesheetName(set), tx, ty);
 		texture->SetCurrentSegment(gid % tx, gid / tx);
 
@@ -114,7 +114,7 @@ namespace star
 	{
 		tstring name = GetName();
 		name += _T("_ts_");
-		name += set.Name;
+		name += set.name;
 		return name;
 	}
 	
@@ -211,15 +211,15 @@ namespace star
 
 			TileSet set;
 
-			set.FirstGid = string_cast<uint32>(tileSetAttributes[_T("firstgid")]);
-			set.TileWidth = string_cast<uint32>(tileSetAttributes[_T("tilewidth")]);
-			set.TileHeight = string_cast<uint32>(tileSetAttributes[_T("tileheight")]);
+			set.firstGid = string_cast<uint32>(tileSetAttributes[_T("firstgid")]);
+			set.tileWidth = string_cast<uint32>(tileSetAttributes[_T("tilewidth")]);
+			set.tileHeight = string_cast<uint32>(tileSetAttributes[_T("tileheight")]);
 
-			set.Texture = imageAttributes[_T("source")];
-			set.Name = tileSetAttributes[_T("name")];
+			set.texture = imageAttributes[_T("source")];
+			set.name = tileSetAttributes[_T("name")];
 
-			set.Width = string_cast<uint32>(imageAttributes[_T("width")]);
-			set.Height = string_cast<uint32>(imageAttributes[_T("height")]);
+			set.width = string_cast<uint32>(imageAttributes[_T("width")]);
+			set.height = string_cast<uint32>(imageAttributes[_T("height")]);
 
 			m_TileSets.push_back(set);
 

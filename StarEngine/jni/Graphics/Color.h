@@ -168,6 +168,7 @@ namespace star
 		Color(const ivec4 & yRef);
 
 		Color & operator=(const Color & yRef);
+		Color & operator=(Color && yRef);
 		Color & operator=(const vec3 & yRef);
 		Color & operator=(const vec4 & yRef);
 		Color & operator=(const ivec3 & yRef);

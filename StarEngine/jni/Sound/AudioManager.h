@@ -194,23 +194,21 @@ namespace star
 
 		struct SoundChannel
 		{
-			float32 mVolume;
-			bool mIsMuted;
-			std::vector<BaseSound*> mSounds;
-			uint8 mChannel;
-			ChannelState mState;
+			float32 volume;
+			bool isMuted;
+			std::vector<BaseSound*> sounds;
+			uint8 channel;
+			ChannelState state;
 
 			SoundChannel();
 			~SoundChannel();
 
 			void SetVolume(float32 volume);
-			float32 GetVolume() const;
 
 			void IncreaseVolume(float32 volume);
 			void DecreaseVolume(float32 volume);
 
 			void SetMuted(bool muted);
-			bool IsMuted() const;
 		};
 
 		AudioManager();

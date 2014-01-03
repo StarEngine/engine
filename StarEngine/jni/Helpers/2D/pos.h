@@ -24,6 +24,7 @@ namespace star
 		bool operator!=(const vec2 & yRef) const;
 
 		pos & operator=(const pos & yRef);
+		pos & operator=(pos && yRef);
 		pos & operator=(const vec2 & yRef);
 		pos & operator+=(const pos & yRef);
 		pos & operator+=(const vec2 & yRef);

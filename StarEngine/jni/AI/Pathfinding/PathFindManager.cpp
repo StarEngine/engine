@@ -108,13 +108,13 @@ namespace star
 			
 			//Initialize start
 			SearchCell start;
-			start.X = static_cast<int32>(currentPos.x);
-			start.Y = static_cast<int32>(currentPos.y);
+			start.x = static_cast<int32>(currentPos.x);
+			start.y = static_cast<int32>(currentPos.y);
 
 			//Initiliaze end
 			SearchCell end;
-			end.X = static_cast<int32>(targetPos.x);
-			end.Y = static_cast<int32>(targetPos.y);
+			end.x = static_cast<int32>(targetPos.x);
+			end.y = static_cast<int32>(targetPos.y);
 
 			SetStartAndGoal(start, end);
 			m_bInitializedStartGoal = true;
@@ -174,11 +174,11 @@ namespace star
 
 	void PathFindManager::SetStartAndGoal(const SearchCell& start, const SearchCell& end)
 	{
-		m_pStartCell = new SearchCell(start.X, start.Y, NULL);
-		m_pEndCell = new SearchCell(end.X, end.Y, NULL);
+		m_pStartCell = new SearchCell(start.x, start.y, NULL);
+		m_pEndCell = new SearchCell(end.x, end.y, NULL);
 
-		m_pStartCell->G = 0;
-		m_pStartCell->H = m_pStartCell->ManhattanDistance(m_pEndCell);
+		m_pStartCell->g = 0;
+		m_pStartCell->h = m_pStartCell->ManhattanDistance(m_pEndCell);
 		m_OpenList.push_back(m_pStartCell);
 	}
 
@@ -203,7 +203,7 @@ namespace star
 		{
 			nextCell = m_OpenList[cellIndex];
 			
-			if(find(m_PositionList.begin(), m_PositionList.end(),pos(nextCell->X, nextCell->Y)) 
+			if(find(m_PositionList.begin(), m_PositionList.end(),pos(nextCell->x, nextCell->y)) 
 				== m_PositionList.end())
 			{
 				LOG(LogLevel::Info,
@@ -334,30 +334,30 @@ namespace star
 
 		//check if position has been visited
 		int32 id = y * WORLD_SIZE + x;
-		for (uint16 i=0; i<m_VisitedList.size(); ++i)
+		for (uint16 i = 0; i < m_VisitedList.size(); ++i)
 		{
-			if(id == m_VisitedList[i]->Id)
+			if(id == m_VisitedList[i]->id)
 			{
 				return;
 			}
 		}
 
 		//Get the best next step
-		SearchCell* newCell = new SearchCell(x,y, parent);
-		newCell->G = newCost;
-		newCell->H = parent->ManhattanDistance(m_pEndCell) -1;
+		SearchCell* newCell = new SearchCell(x, y, parent);
+		newCell->g = newCost;
+		newCell->h = parent->ManhattanDistance(m_pEndCell) -1;
 
 		for (auto searchCell : m_OpenList)
 		{
-			if(id == searchCell->Id)
+			if(id == searchCell->id)
 			{
-				float32 newF = newCell->G + newCost + searchCell->H;
+				float32 newF = newCell->g + newCost + searchCell->h;
 
 				//Check if it's better then the old one
 				if(searchCell->GetF() > newF)
 				{
-					searchCell->G = newCell->G + newCost;
-					searchCell->Parent = newCell;
+					searchCell->g = newCell->g + newCost;
+					searchCell->parent = newCell;
 				}
 				else
 				{
@@ -383,14 +383,14 @@ namespace star
 		}
 
 		//Reached the end?
-		if(currentCell->Id == m_pEndCell->Id && !m_bFoundGoal)
+		if(currentCell->id == m_pEndCell->id && !m_bFoundGoal)
 		{
-			m_pEndCell->Parent = currentCell->Parent;
+			m_pEndCell->parent = currentCell->parent;
 			SearchCell* getPath;
-			for(getPath = m_pEndCell; getPath != NULL; getPath = getPath->Parent)
+			for(getPath = m_pEndCell; getPath != NULL; getPath = getPath->parent)
 			{
 #ifdef STAR2D
-				vec2 temp(getPath->X, getPath->Y);
+				vec2 temp(getPath->x, getPath->y);
 #else
 				vec3 temp(getPath->X, getPath->Y, 0);
 #endif
@@ -398,7 +398,7 @@ namespace star
 			}
 			
 			tstringstream str;
-			for(auto element : m_PathToGoal)
+			for(const auto & element : m_PathToGoal)
 			{
 				str << _T("(")<< element.x<< _T(", ") << element.y << _T(")\n");
 			}
@@ -410,38 +410,38 @@ namespace star
 		else
 		{
 			//RightSide
-			PathOpened(currentCell->X + STEP_SIZE, currentCell->Y, currentCell->G + 1,
+			PathOpened(currentCell->x + STEP_SIZE, currentCell->y, currentCell->g + 1,
 				currentCell, Direction::GoingRight);
 			//LeftSide				  
-			PathOpened(currentCell->X - STEP_SIZE, currentCell->Y, currentCell->G + 1,
+			PathOpened(currentCell->x - STEP_SIZE, currentCell->y, currentCell->g + 1,
 				currentCell, Direction::GoingLeft);
 			//TopSide
-			PathOpened(currentCell->X, currentCell->Y + STEP_SIZE, currentCell->G + 1,
+			PathOpened(currentCell->x, currentCell->y + STEP_SIZE, currentCell->g + 1,
 				currentCell, Direction::GoingUp);
 			//DownSide								
-			PathOpened(currentCell->X, currentCell->Y - STEP_SIZE, currentCell->G + 1,
+			PathOpened(currentCell->x, currentCell->y - STEP_SIZE, currentCell->g + 1,
 				currentCell, Direction::GoingDown);
 
 			//left-up diagonal
-			PathOpened(currentCell->X - STEP_SIZE, currentCell->Y + STEP_SIZE, currentCell->G + 1.414f,
+			PathOpened(currentCell->x - STEP_SIZE, currentCell->y + STEP_SIZE, currentCell->g + 1.414f,
 				currentCell, Direction::GoingUpLeft);
 			//right-up diagonal		  								
-			PathOpened(currentCell->X + STEP_SIZE, currentCell->Y + STEP_SIZE, currentCell->G + 1.414f,
+			PathOpened(currentCell->x + STEP_SIZE, currentCell->y + STEP_SIZE, currentCell->g + 1.414f,
 				currentCell, Direction::GoingUpRight);
 			//left-down diagonal	  								
-			PathOpened(currentCell->X - STEP_SIZE, currentCell->Y - STEP_SIZE, currentCell->G + 1.414f,
+			PathOpened(currentCell->x - STEP_SIZE, currentCell->y - STEP_SIZE, currentCell->g + 1.414f,
 				currentCell, Direction::GoingDownLeft);
 			//right-down diagonal	  								
-			PathOpened(currentCell->X + STEP_SIZE, currentCell->Y - STEP_SIZE, currentCell->G + 1.414f,
+			PathOpened(currentCell->x + STEP_SIZE, currentCell->y - STEP_SIZE, currentCell->g + 1.414f,
 				currentCell, Direction::GoingDownRight);
 			
-			for (uint16 i = 0 ; i < m_OpenList.size() ; ++i)
+			for (uint16 i = 0; i < m_OpenList.size(); ++i)
 			{
-				int32 id = m_OpenList[i]->Id;
+				int32 id = m_OpenList[i]->id;
 				m_OpenList.erase(std::remove_if(m_OpenList.begin(), m_OpenList.end(),
 					[&id](SearchCell * currentCell)
 					{
-						if(currentCell->Id == id)
+						if(currentCell->id == id)
 						{
 							delete currentCell;
 							return true;

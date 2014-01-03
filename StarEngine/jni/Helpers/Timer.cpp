@@ -43,13 +43,13 @@ namespace star
 	}
 
 	Timer::Timer(Timer&& yRef)
-		:m_TargetTime(yRef.m_TargetTime)
-		,m_CurrentTime(yRef.m_CurrentTime)
-		,m_CountingDown(yRef.m_CountingDown)
-		,m_Looping(yRef.m_Looping)
-		,m_Paused(yRef.m_Paused)
-		,m_Infinite(yRef.m_Infinite)
-		,m_ExcecutingFunction(yRef.m_ExcecutingFunction)
+		:m_TargetTime(std::move(yRef.m_TargetTime))
+		,m_CurrentTime(std::move(yRef.m_CurrentTime))
+		,m_CountingDown(std::move(yRef.m_CountingDown))
+		,m_Looping(std::move(yRef.m_Looping))
+		,m_Paused(std::move(yRef.m_Paused))
+		,m_Infinite(std::move(yRef.m_Infinite))
+		,m_ExcecutingFunction(std::move(yRef.m_ExcecutingFunction))
 	{
 	}
 
@@ -67,13 +67,13 @@ namespace star
 
 	Timer& Timer::operator=(Timer&& yRef)
 	{
-		m_TargetTime = yRef.m_TargetTime;
-		m_CurrentTime = yRef.m_CurrentTime;
-		m_CountingDown = yRef.m_CountingDown;
-		m_Looping = yRef.m_Looping;
-		m_Paused = yRef.m_Paused;
-		m_Infinite = yRef.m_Infinite;
-		m_ExcecutingFunction = yRef.m_ExcecutingFunction;
+		m_TargetTime = std::move(yRef.m_TargetTime);
+		m_CurrentTime = std::move(yRef.m_CurrentTime);
+		m_CountingDown = std::move(yRef.m_CountingDown);
+		m_Looping = std::move(yRef.m_Looping);
+		m_Paused = std::move(yRef.m_Paused);
+		m_Infinite = std::move(yRef.m_Infinite);
+		m_ExcecutingFunction = std::move(yRef.m_ExcecutingFunction);
 		return *this;
 	}
 

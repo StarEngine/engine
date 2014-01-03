@@ -42,8 +42,8 @@ namespace star
 	protected:
 		struct EffectInfo
 		{
-			tstring Name;
-			float32 Volume;
+			tstring name;
+			float32 volume;
 		};
 
 		virtual void Update(const Context& context);

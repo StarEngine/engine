@@ -6,9 +6,9 @@ namespace star
 {
 	struct SearchCell
 	{
-		int32 X, Y, Id;
-		SearchCell* Parent;
-		float32 G, H; //f(x) = g(x) + h(x)
+		int32 x, y, id;
+		SearchCell* parent;
+		float32 g, h; //f(x) = g(x) + h(x)
 		static const int32 WORLD_SIZE = 15;
 
 		SearchCell();

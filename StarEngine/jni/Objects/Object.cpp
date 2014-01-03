@@ -151,39 +151,39 @@ namespace star
 		Entity* pEntity,
 		GarbageType type
 		)
-		: Element(pEntity)
-		, Type(type)
+		: element(pEntity)
+		, type(type)
 	{
 	}
 	
 	void Object::DestroyGarbageElement(const GarbageInfo & info)
 	{
-		switch(info.Type)
+		switch(info.type)
 		{
 			case GarbageType::ActionType:
 			{
-				auto action = dynamic_cast<Action*>(info.Element);
+				auto action = dynamic_cast<Action*>(info.element);
 				auto it = std::find(m_pActions.begin(), m_pActions.end(), action);
 				m_pActions.erase(it);
 			}
 			break;
 			case GarbageType::ObjectType:
 			{
-				auto object = dynamic_cast<Object*>(info.Element);
+				auto object = dynamic_cast<Object*>(info.element);
 				auto it = std::find(m_pChildren.begin(), m_pChildren.end(), object);
 				m_pChildren.erase(it);
 			}
 			break;
 			case GarbageType::ComponentType:
 			{
-				auto component = dynamic_cast<BaseComponent*>(info.Element);
+				auto component = dynamic_cast<BaseComponent*>(info.element);
 				auto it = std::find(m_pComponents.begin(), m_pComponents.end(), component);
 				m_pComponents.erase(it);
 				RecalculateDimensions();
 			}
 			break;
 		}
-		delete info.Element;
+		delete info.element;
 	}
 	
 	void Object::RecalculateDimensions()
@@ -820,7 +820,7 @@ to remove could not be found."), STARENGINE_LOG_TAG);
 		return m_pScene;
 	}
 
-	const std::vector<BaseComponent*>& Object::GetComponents() const
+	const std::vector<BaseComponent*> & Object::GetComponents() const
 	{
 		return m_pComponents;
 	}
@@ -832,7 +832,7 @@ to remove could not be found."), STARENGINE_LOG_TAG);
 			LOG(LogLevel::Info,
 				tstring(_T("Object::CollectGarbage: ")) +
 				_T("Object::CollectGarbage: Removed entity '")
-				+ info.Element->GetName() + _T("'."), STARENGINE_LOG_TAG);
+				+ info.element->GetName() + _T("'."), STARENGINE_LOG_TAG);
 			DestroyGarbageElement(info);
 		}
 		m_pGarbageContainer.clear();

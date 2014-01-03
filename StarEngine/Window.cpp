@@ -449,15 +449,15 @@ namespace star
 	{
 		if(!m_IsFullScreen)
 		{
-			m_SavedWindowState.Maximized = IsZoomed(hWnd);
-			if(m_SavedWindowState.Maximized)
+			m_SavedWindowState.maximized = IsZoomed(hWnd);
+			if(m_SavedWindowState.maximized)
 			{
 				// window can't be maximized in fullscreen modus
 				SendMessage(hWnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 			}
-			m_SavedWindowState.Style = GetWindowLong(hWnd, GWL_STYLE);
-			m_SavedWindowState.ExStyle = GetWindowLong(hWnd, GWL_EXSTYLE);
-			GetWindowRect(hWnd, &m_SavedWindowState.WinRect);
+			m_SavedWindowState.style = GetWindowLong(hWnd, GWL_STYLE);
+			m_SavedWindowState.exStyle = GetWindowLong(hWnd, GWL_EXSTYLE);
+			GetWindowRect(hWnd, &m_SavedWindowState.winRect);
 		}
 
 		m_IsFullScreen = fullscreen;
@@ -474,8 +474,8 @@ namespace star
 
 			if(m_ManipulateWindowResolution)
 			{
-				screenWidth = m_SavedWindowState.WinRect.right - m_SavedWindowState.WinRect.left;
-				screenHeight = m_SavedWindowState.WinRect.bottom - m_SavedWindowState.WinRect.top;
+				screenWidth = m_SavedWindowState.winRect.right - m_SavedWindowState.winRect.left;
+				screenHeight = m_SavedWindowState.winRect.bottom - m_SavedWindowState.winRect.top;
 			}
 
 			EnumDisplaySettings(NULL, 0, &fullscreenSettings);
@@ -496,18 +496,18 @@ namespace star
 		}
 		else
 		{
-			SetWindowLongPtr(hWnd, GWL_EXSTYLE, m_SavedWindowState.ExStyle);
-			SetWindowLongPtr(hWnd, GWL_STYLE, m_SavedWindowState.Style);
+			SetWindowLongPtr(hWnd, GWL_EXSTYLE, m_SavedWindowState.exStyle);
+			SetWindowLongPtr(hWnd, GWL_STYLE, m_SavedWindowState.style);
 			bool isChangeSuccessful = ChangeDisplaySettings(NULL, CDS_RESET) == DISP_CHANGE_SUCCESSFUL;
 			SetWindowPos(hWnd, HWND_NOTOPMOST, 
-				m_SavedWindowState.WinRect.left,
-				m_SavedWindowState.WinRect.top,
-				m_SavedWindowState.WinRect.right - m_SavedWindowState.WinRect.left,
-				m_SavedWindowState.WinRect.bottom - m_SavedWindowState.WinRect.top,
+				m_SavedWindowState.winRect.left,
+				m_SavedWindowState.winRect.top,
+				m_SavedWindowState.winRect.right - m_SavedWindowState.winRect.left,
+				m_SavedWindowState.winRect.bottom - m_SavedWindowState.winRect.top,
 				SWP_SHOWWINDOW);
 			ShowWindow(hWnd, SW_RESTORE);
 
-			if (m_SavedWindowState.Maximized)
+			if (m_SavedWindowState.maximized)
 			{
 				SendMessage(hWnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 			}
@@ -541,22 +541,23 @@ namespace star
 
 		ClientResize(width, height);
 
-		m_SavedWindowState.Maximized = IsZoomed(mHandle);
-		m_SavedWindowState.Style = GetWindowLong(mHandle, GWL_STYLE);
-		m_SavedWindowState.ExStyle = GetWindowLong(mHandle, GWL_EXSTYLE);
-		GetWindowRect(mHandle, &m_SavedWindowState.WinRect);
+		m_SavedWindowState.maximized = IsZoomed(mHandle);
+		m_SavedWindowState.style = GetWindowLong(mHandle, GWL_STYLE);
+		m_SavedWindowState.exStyle = GetWindowLong(mHandle, GWL_EXSTYLE);
+		GetWindowRect(mHandle, &m_SavedWindowState.winRect);
 
 		WindowInactiveUpdate(false);
 
 		if(reset)
 		{
-			SetWindowLongPtr(mHandle, GWL_EXSTYLE, m_SavedWindowState.ExStyle);
-			SetWindowLongPtr(mHandle, GWL_STYLE, m_SavedWindowState.Style);
-			bool isChangeSuccessful = ChangeDisplaySettings(NULL, CDS_RESET) == DISP_CHANGE_SUCCESSFUL;
+			SetWindowLongPtr(mHandle, GWL_EXSTYLE, m_SavedWindowState.exStyle);
+			SetWindowLongPtr(mHandle, GWL_STYLE, m_SavedWindowState.style);
+			bool isChangeSuccessful = 
+				ChangeDisplaySettings(NULL, CDS_RESET) == DISP_CHANGE_SUCCESSFUL;
 		}
 		SetWindowPos(mHandle, HWND_NOTOPMOST, 
-			m_SavedWindowState.WinRect.left,
-			m_SavedWindowState.WinRect.top,
+			m_SavedWindowState.winRect.left,
+			m_SavedWindowState.winRect.top,
 			width,
 			height,
 			SWP_SHOWWINDOW);

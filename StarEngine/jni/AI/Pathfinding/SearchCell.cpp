@@ -1,25 +1,26 @@
 #include "SearchCell.h"
 #include <algorithm>
+#include "../../Helpers/Math.h"
 
 namespace star
 {
 	SearchCell::SearchCell():
-		X(0),
-		Y(0),
-		Id(0),
-		Parent(nullptr),
-		G(0),
-		H(0)
+		x(0),
+		y(0),
+		id(0),
+		parent(nullptr),
+		g(0),
+		h(0)
 	{
 	}
 
 	SearchCell::SearchCell(int32 x, int32 y, SearchCell *parent):
-		X(x),
-		Y(y),
-		Id(y * WORLD_SIZE + x),
-		Parent(parent),
-		G(0),
-		H(0)
+		x(x),
+		y(y),
+		id(y * WORLD_SIZE + x),
+		parent(parent),
+		g(0),
+		h(0)
 	{
 	}
 	
@@ -29,18 +30,18 @@ namespace star
 
 	float32 SearchCell::GetF() const
 	{
-		return G + H;
+		return g + h;
 	}
 
 	float32 SearchCell::ManhattanDistance(SearchCell *nodeEnd)
 	{
-		float32 x = static_cast<float32>(
-			fabs(static_cast<float32>(X - nodeEnd->X))
+		float32 tempX = static_cast<float32>(
+			fabs(static_cast<float32>(x - nodeEnd->x))
 			);
-		float32 y = static_cast<float32>(
-			fabs(static_cast<float32>(Y - nodeEnd->Y))
+		float32 tempY = static_cast<float32>(
+			fabs(static_cast<float32>(y - nodeEnd->y))
 			);
 
-		return std::max(x,y);
+		return std::max(tempX, tempY);
 	}
 }

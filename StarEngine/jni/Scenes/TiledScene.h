@@ -14,8 +14,8 @@ namespace star
 	public:
 		struct TileSet
 		{
-			uint32 FirstGid, TileWidth, TileHeight, Width, Height;
-			tstring Texture, Name;
+			uint32 firstGid, tileWidth, tileHeight, width, height;
+			tstring texture, name;
 		};
 
 		struct TileObject

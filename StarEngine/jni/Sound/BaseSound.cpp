@@ -71,9 +71,9 @@ namespace star
 		float32 masterVolume
 		)
 	{
-		mSoundVolume.Volume = volume;
-		mSoundVolume.ChannelVolume = channelVolume;
-		mSoundVolume.MasterVolume = masterVolume;
+		mSoundVolume.volume = volume;
+		mSoundVolume.channelVolume = channelVolume;
+		mSoundVolume.masterVolume = masterVolume;
 		SetVolume(mSoundVolume.GetVolume());
 	}
 
@@ -81,7 +81,7 @@ namespace star
 		float32 volume
 		)
 	{
-		mSoundVolume.Volume = volume;
+		mSoundVolume.volume = volume;
 		SetVolume(mSoundVolume.GetVolume());
 	}
 
@@ -89,7 +89,7 @@ namespace star
 		float32 volume
 		)
 	{
-		mSoundVolume.ChannelVolume = volume;
+		mSoundVolume.channelVolume = volume;
 		SetVolume(mSoundVolume.GetVolume());
 	}
 
@@ -97,13 +97,13 @@ namespace star
 		float32 volume
 		)
 	{
-		mSoundVolume.MasterVolume = volume;
+		mSoundVolume.masterVolume = volume;
 		SetVolume(mSoundVolume.GetVolume());
 	}
 
 	float32 BaseSound::GetBaseVolume() const
 	{
-		return mSoundVolume.Volume;
+		return mSoundVolume.volume;
 	}
 
 	void BaseSound::SetVolume(float32 volume)
@@ -117,15 +117,15 @@ namespace star
 
 	void BaseSound::IncreaseVolume(float32 volume)
 	{
-		mSoundVolume.Volume += volume;
-		mSoundVolume.Volume = Clamp(mSoundVolume.Volume, 0.0f, 1.0f);
+		mSoundVolume.volume += volume;
+		mSoundVolume.volume = Clamp(mSoundVolume.volume, 0.0f, 1.0f);
 		SetVolume(mSoundVolume.GetVolume());
 	}
 
 	void BaseSound::DecreaseVolume(float32 volume)
 	{
-		mSoundVolume.Volume -= volume;
-		mSoundVolume.Volume = Clamp(mSoundVolume.Volume, 0.0f, 1.0f);
+		mSoundVolume.volume -= volume;
+		mSoundVolume.volume = Clamp(mSoundVolume.volume, 0.0f, 1.0f);
 		SetVolume(mSoundVolume.GetVolume());
 	}
 
@@ -437,15 +437,15 @@ namespace star
 #endif
 
 	BaseSound::SoundVolume::SoundVolume()
-		: Volume(1.0f)
-		, ChannelVolume(1.0f)
-		, MasterVolume(1.0f)
+		: volume(1.0f)
+		, channelVolume(1.0f)
+		, masterVolume(1.0f)
 	{
 
 	}
 
 	float32 BaseSound::SoundVolume::GetVolume() const
 	{
-		return Volume * ChannelVolume * MasterVolume;
+		return volume * channelVolume * masterVolume;
 	}
 }

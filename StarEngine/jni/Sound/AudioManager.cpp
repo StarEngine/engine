@@ -1118,9 +1118,9 @@ Sound Service : No song in background queue."),
 	void AudioManager::AddSoundToChannel(uint8 channel, BaseSound * pSound)
 	{
 		auto & chnl = mChannels[channel];
-		auto it = chnl.mSounds.begin();
-		auto end = chnl.mSounds.end();
-		for(auto sound : chnl.mSounds)
+		auto it = chnl.sounds.begin();
+		auto end = chnl.sounds.end();
+		for(auto sound : chnl.sounds)
 		{
 			if(sound == pSound)
 			{
@@ -1130,10 +1130,10 @@ Sound Service : No song in background queue."),
 				return;
 			}
 		}
-		pSound->SetChannelVolume(chnl.mVolume);
-		chnl.mSounds.push_back(pSound);
-		chnl.mChannel = channel;
-		switch(chnl.mState)
+		pSound->SetChannelVolume(chnl.volume);
+		chnl.sounds.push_back(pSound);
+		chnl.channel = channel;
+		switch(chnl.state)
 		{
 			case ChannelState::paused:
 				pSound->Pause();
@@ -1154,15 +1154,15 @@ Sound Service : No song in background queue."),
 			);
 		if(result)
 		{
-			for(auto it = chnl.mSounds.begin() ;
-				it != chnl.mSounds.end() ;
+			for(auto it = chnl.sounds.begin() ;
+				it != chnl.sounds.end() ;
 				++it
 				)
 			{
 				if(*it == pSound)
 				{
 					pSound->SetChannelVolume(1.0f);
-					chnl.mSounds.erase(it);
+					chnl.sounds.erase(it);
 					return;
 				}
 			}
@@ -1196,7 +1196,7 @@ Sound Service : No song in background queue."),
 			);
 		if(result)
 		{
-			return chnl.GetVolume();
+			return chnl.volume;
 		}
 		return 0;
 	}
@@ -1253,7 +1253,7 @@ Sound Service : No song in background queue."),
 			);
 		if(result)
 		{
-			return chnl.IsMuted();
+			return chnl.isMuted;
 		}
 		return false;
 	}
@@ -1268,8 +1268,8 @@ Sound Service : No song in background queue."),
 			);
 		if(result)
 		{
-			chnl.SetMuted(!chnl.IsMuted());
-			return chnl.IsMuted();
+			chnl.SetMuted(!chnl.isMuted);
+			return chnl.isMuted;
 		}
 		return false;
 	}
@@ -1344,11 +1344,11 @@ Sound Service : No song in background queue."),
 			);
 		if(result)
 		{
-			for(auto sound : chnl.mSounds)
+			for(auto sound : chnl.sounds)
 			{
 				sound->Pause();
 			}
-			chnl.mState = ChannelState::paused;
+			chnl.state = ChannelState::paused;
 		}
 	}
 
@@ -1362,7 +1362,7 @@ Sound Service : No song in background queue."),
 			);
 		if(result)
 		{
-			return chnl.mState == ChannelState::paused;
+			return chnl.state == ChannelState::paused;
 		}
 		return false;
 	}
@@ -1377,11 +1377,11 @@ Sound Service : No song in background queue."),
 			);
 		if(result)
 		{
-			for(auto sound : chnl.mSounds)
+			for(auto sound : chnl.sounds)
 			{
 				sound->Resume();
 			}
-			chnl.mState = ChannelState::playing;
+			chnl.state = ChannelState::playing;
 		}
 	}
 
@@ -1395,7 +1395,7 @@ Sound Service : No song in background queue."),
 			);
 		if(result)
 		{
-			return chnl.mState == ChannelState::playing;
+			return chnl.state == ChannelState::playing;
 		}
 		return false;
 	}
@@ -1410,11 +1410,11 @@ Sound Service : No song in background queue."),
 			);
 		if(result)
 		{
-			for(auto sound : chnl.mSounds)
+			for(auto sound : chnl.sounds)
 			{
 				sound->Stop();
 			}
-			chnl.mState = ChannelState::stopped;
+			chnl.state = ChannelState::stopped;
 		}
 	}
 
@@ -1428,7 +1428,7 @@ Sound Service : No song in background queue."),
 			);
 		if(result)
 		{
-			return chnl.mState == ChannelState::stopped;
+			return chnl.state == ChannelState::stopped;
 		}
 		return false;
 	}
@@ -1443,11 +1443,11 @@ Sound Service : No song in background queue."),
 			);
 		if(result)
 		{
-			for(auto sound : chnl.mSounds)
+			for(auto sound : chnl.sounds)
 			{
 				sound->Play(loopTimes);
 			}
-			chnl.mState = ChannelState::playing;
+			chnl.state = ChannelState::playing;
 		}
 	}
 
@@ -1535,7 +1535,7 @@ Sound Service : No song in background queue."),
 
 	float32 AudioManager::GetVolume() const
 	{
-		return mVolume;
+			return mVolume;
 	}
 
 	void AudioManager::IncreaseVolume(float32 volume)
@@ -1589,59 +1589,49 @@ Sound Service : No song in background queue."),
 #endif
 
 	AudioManager::SoundChannel::SoundChannel()
-		: mVolume(1.0f)
-		, mIsMuted(false)
-		, mSounds()
-		, mChannel(0)
-		, mState(ChannelState::playing)
+		: volume(1.0f)
+		, isMuted(false)
+		, sounds()
+		, channel(0)
+		, state(ChannelState::playing)
 	{
 	}
 
 	AudioManager::SoundChannel::~SoundChannel()
 	{
-		for(auto it : mSounds)
+		for(auto it : sounds)
 		{
 			it->SetChannelVolume(1.0f);
 			it->UnsetChannel();
 		}
-		mSounds.clear();
+		sounds.clear();
 	}
 
-	void AudioManager::SoundChannel::SetVolume(float32 volume)
+	void AudioManager::SoundChannel::SetVolume(float32 newVolume)
 	{
-		mVolume = Clamp(volume, 0.0f, 1.0f);
-		for( auto it : mSounds)
+		volume = Clamp(newVolume, 0.0f, 1.0f);
+		for(auto & it : sounds)
 		{
-			it->SetChannelVolume(mVolume);
+			it->SetChannelVolume(volume);
 		}
-	}
-
-	float32 AudioManager::SoundChannel::GetVolume() const
-	{
-		return mVolume;
 	}
 
 	void AudioManager::SoundChannel::IncreaseVolume(float32 volume)
 	{
-		SetVolume(mVolume + volume);
+		SetVolume(volume + volume);
 	}
 
 	void AudioManager::SoundChannel::DecreaseVolume(float32 volume)
 	{
-		SetVolume(mVolume - volume);
+		SetVolume(volume - volume);
 	}
 
 	void AudioManager::SoundChannel::SetMuted(bool muted)
 	{
-		mIsMuted = muted;
-		for( auto it : mSounds)
+		isMuted = muted;
+		for( auto it : sounds)
 		{
 			it->SetMuted(muted);
 		}
-	}
-
-	bool AudioManager::SoundChannel::IsMuted() const
-	{
-		return mIsMuted;
 	}
 }
