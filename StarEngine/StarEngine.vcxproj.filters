@@ -366,6 +366,9 @@
     <ClInclude Include="jni\Actions\ScaleAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Helpers\HelpersCrossplatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -660,6 +663,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\Actions\ScaleAction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\Helpers\HelpersCrossplatform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -16,7 +16,17 @@ namespace star
 tstring FilePath::m_AssetsRoot = EMPTY_STRING;
 tstring FilePath::m_InternalRoot = EMPTY_STRING;
 tstring FilePath::m_ExternalRoot = EMPTY_STRING;
+schar FilePath::PATH_SEPERATOR = WIN_PATH_SEPERATOR;
+#else
+schar FilePath::PATH_SEPERATOR = ANDR_PATH_SEPERATOR;
+const tstring FilePath::ANDR_INTERNAL_PATH =
+	string_cast<const tstring>(StarEngine::GetInstance()->GetAndroidApp()
+		->activity->internalDataPath) + string_cast<const tstring>(ANDR_PATH_SEPERATOR);
+const tstring FilePath::ANDR_EXTERNAL_PATH =
+	string_cast<const tstring>(StarEngine::GetInstance()->GetAndroidApp()
+		->activity->externalDataPath) + string_cast<const tstring>(ANDR_PATH_SEPERATOR);
 #endif
+
 
 	FilePath::FilePath()
 		: m_Path(EMPTY_STRING) 
@@ -31,15 +41,15 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 		, m_File(EMPTY_STRING)
 		, m_DirectoryMode(mode)
 	{
-		auto index = full_path.find_last_of('/');
+		auto index = full_path.find_last_of(ANDR_PATH_SEPERATOR);
 		if(index == tstring::npos)
 		{
-			index = full_path.find_last_of('\\');
+			index = full_path.find_last_of(WIN_PATH_SEPERATOR);
 		}
 		if(index != tstring::npos)
 		{
 			index += 1;
-			m_Path = full_path.substr(0,index);
+			m_Path = full_path.substr(0, index);
 			m_File = full_path.substr(index, full_path.length() - index);
 		}
 		else
@@ -112,7 +122,7 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 		return extension.substr(index, extension.size() - index);
 	}
 
-	tstring FilePath::GetRoot() const
+	const tstring & FilePath::GetRoot() const
 	{
 #ifdef DESKTOP
 		switch(m_DirectoryMode)
@@ -128,15 +138,14 @@ tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 		}
 #endif
 #ifdef ANDROID
-		auto app = StarEngine::GetInstance()->GetAndroidApp();
 		switch(m_DirectoryMode)
 		{
 		case DirectoryMode::assets:
 			return EMPTY_STRING;
 		case DirectoryMode::internal:
-			return string_cast<tstring>(app->activity->internalDataPath) + tstring(_T("/"));
+			return ANDR_INTERNAL_PATH;
 		case DirectoryMode::external:
-			return string_cast<tstring>(app->activity->externalDataPath) + tstring(_T("/"));
+			return ANDR_EXTERNAL_PATH;
 		default:
 			return EMPTY_STRING;
 		}
@@ -250,9 +259,9 @@ be unexpected behaviour. Please verify!");
 	void FilePath::ConvertPathToCorrectPlatformStyle(tstring & path)
 	{
 #ifdef _WIN32
-		std::replace(path.begin(), path.end(), '/', '\\');
+		std::replace(path.begin(), path.end(), ANDR_PATH_SEPERATOR, WIN_PATH_SEPERATOR);
 #else
-		std::replace(path.begin(), path.end(), '\\', '/');
+		std::replace(path.begin(), path.end(), WIN_PATH_SEPERATOR, ANDR_PATH_SEPERATOR);
 #endif
 	}
 
@@ -293,5 +302,4 @@ be unexpected behaviour. Please verify!");
 		}
 #endif
 	}
-
 }

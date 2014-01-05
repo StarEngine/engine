@@ -88,7 +88,7 @@ namespace star
 		/// </summary>
 		/// <returns>the root of the path</returns>
 		/// <seealso cref="DirectoryMode"></seealso>
-		tstring GetRoot() const;
+		const tstring & GetRoot() const;
 		/// <summary>
 		/// Get the complete local path which is equal
 		/// to a combination of the path and file datamembers.
@@ -141,7 +141,11 @@ namespace star
 				m_File;
 #ifdef DESKTOP
 		static tstring m_AssetsRoot, m_InternalRoot, m_ExternalRoot;
+#else
+static const tstring ANDR_INTERNAL_PATH;
+static const tstring ANDR_EXTERNAL_PATH;
 #endif
+		static char PATH_SEPERATOR;
 		DirectoryMode m_DirectoryMode;
 
 
@@ -165,6 +169,8 @@ namespace star
 		/// For android and linux: Converts all \\ seperators to / seperators.
 		/// </summary>
 		/// <param name="path">The path to convert.</param>
+		/// <seealso cref="WIN_PATH_SEPERATOR"/>
+		/// <seealso cref="ANDR_PATH_SEPERATOR"/>
 		static void ConvertPathToCorrectPlatformStyle(tstring & path);
 	};
 }

@@ -153,7 +153,7 @@ namespace star
 		static InputManager*  m_InputManagerPtr;
 
 #ifdef DESKTOP
-		static const int32 NUMBER_OF_KEYBOARDKEYS = 256;
+		static const int32 NUMBER_OF_KEYBOARDKEYS = 255;
 		static const int32 MIN_KEYBOARD_VALUE = 0x07;
 		static const int32 MAX_KEYBOARD_VALUE = 0xFE;
 		static const int32 MIN_MOUSE_BUTTON_VALUE = 0x00;

@@ -201,7 +201,17 @@ namespace star
 			else
 			{
 				auto uiObject = dynamic_cast<UIObject*>(child);
-				uiObject->SetUIDisabledChildren(disable);
+				if(uiObject)
+				{
+					uiObject->SetUIDisabledChildren(disable);		
+				}
+				else
+				{
+					LOG(LogLevel::Warning,
+						_T("UIObject::SetUIDisabledChildren: Object '") +
+						child->GetName() + _T("' is not a UI Object nor a UI User Element."),
+						STARENGINE_LOG_TAG);
+				}
 			}
 		}
 	}

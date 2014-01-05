@@ -20,8 +20,6 @@ typedef struct myPoint
 #include <android/log.h>
 #include "definesCrossPlatform.h"
 
-//#define _T(x) x
-
 #ifdef _DEBUG
 	#define ASSERT \
 		if ( false ) {} \

@@ -45,9 +45,10 @@ namespace star
 	
 	void UIUserElement::SetUIDisabled(bool disable)
 	{
+		//Use the 1 frame action here? seems safer imo
 		GetScene()->GetTimerManager()->CreateTimer(
 			m_UniqueUIObjectID + _T("_") + _T("DisableTimer"),
-			TimerManager_ONE_FRAME_DELAY,
+			TIMER_ONE_FRAME_DELAY,
 			false,
 			false,
 			[&, disable]()

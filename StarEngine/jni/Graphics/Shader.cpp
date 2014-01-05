@@ -292,7 +292,7 @@ Could not compile shader of type ")
 					STARENGINE_LOG_TAG
 				);
 		}
-		delete name;
+		delete[] name;
 	}
 
 	void Shader::PrintActiveUniforms() const
@@ -333,6 +333,6 @@ Could not compile shader of type ")
 					STARENGINE_LOG_TAG
 				);
 		}
-		delete name;
+		delete[] name;
 	}
 }

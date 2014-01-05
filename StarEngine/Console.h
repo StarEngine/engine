@@ -12,5 +12,6 @@
 namespace star_w
 {
 	void RedirectIOToConsole();
+	void CleanUpConsole();
 }
  

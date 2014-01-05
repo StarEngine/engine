@@ -40,7 +40,11 @@ namespace star
 	{
 		SaveLogFile();
 #ifdef _WIN32
-		CloseHandle(m_ConsoleHandle);
+		if(m_UseConsole)
+		{
+			star_w::CleanUpConsole();
+		}
+		
 #endif
 	}
 

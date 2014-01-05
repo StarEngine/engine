@@ -280,8 +280,6 @@ namespace star
 			ASSERT_LOG(wglMakeCurrent(mHDC, hglrc) != 0,
 				_T("Action couldn't be completed!"), STARENGINE_LOG_TAG);
 
-			MSG msg ={};
-
 			auto cursor = winManifest[_T("cursor")];
 			auto cursor_settings = cursor->GetAttributes();
 
@@ -334,49 +332,41 @@ namespace star
 			//AttachThreadInput(m_dKeybThreadID, GetCurrentThreadId(), true);
 
 			// Main message loop:
-			while(msg.message != WM_QUIT)
-			{
-				bool monitor_started(false);
-				if(m_IsActive)
-				{
-					TimeManager::GetInstance()->StartMonitoring();
-					monitor_started = true;
-				}
-
-				if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-				{
-					TranslateMessage(&msg);
-					DispatchMessage(&msg);
-				}
-
-				if(m_IsActive)
-				{					
-					mGamePtr->Update(mContext);
-					SetWindowsTitle();
-					GraphicsManager::GetInstance()->SetHasWindowChanged(false);
-				}
-
-				if(m_IsActive) // We've processed all pending Win32 messages, and can now do a rendering update.
-				{
-					star::InputManager::GetInstance()->UpdateWin();
-				}
-				if(m_IsActive) // We've processed all pending Win32 messages, and can now do a rendering update.
-				{
-					mGamePtr->Draw();
-					SwapBuffers(Window::mHDC); // Swaps display buffers
-				}
-
-
-
-				if(monitor_started)
-				{
-					TimeManager::GetInstance()->StopMonitoring();
-				}
-			}
+			RunMainLoop();
 
 			mGamePtr->End();
 
 			delete this;
+		}
+	}
+
+	void Window::RunMainLoop()
+	{
+		MSG msg = {};
+		while(msg.message != WM_QUIT)
+		{
+			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+			else
+			{
+				if(m_IsActive)
+				{
+					star::InputManager::GetInstance()->UpdateWin();
+
+					TimeManager::GetInstance()->StartMonitoring();
+
+					mGamePtr->Update(mContext);
+					SetWindowsTitle();
+					GraphicsManager::GetInstance()->SetHasWindowChanged(false);
+
+					mGamePtr->Draw();
+					SwapBuffers(Window::mHDC); // Swaps display buffers
+					TimeManager::GetInstance()->StopMonitoring();
+				}
+			}
 		}
 	}
 
@@ -467,7 +457,7 @@ namespace star
 
 		if (m_IsFullScreen) 
 		{
-			DEVMODE fullscreenSettings;
+			DEVMODE fullscreenSettings = DEVMODE();
 
 			int32 screenWidth = GetDeviceCaps(hdc, HORZRES);
 			int32 screenHeight = GetDeviceCaps(hdc, VERTRES);
@@ -630,7 +620,7 @@ namespace star
 
 		// Format a "unique" NewWindowTitle.
 		wsprintf(pszNewWindowTitle,_T("%d/%d"),
-					GetTickCount(),
+					GetTickCount64(),
 					GetCurrentProcessId());
 
 		// Change current window title.
@@ -640,7 +630,7 @@ namespace star
 		Sleep(40);
 
 		// Look for NewWindowTitle.
-		hwndFound=FindWindow(NULL, pszNewWindowTitle);
+		hwndFound = FindWindow(NULL, pszNewWindowTitle);
 
 		// Restore original window title.
 		SetConsoleTitle(pszOldWindowTitle);

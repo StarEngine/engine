@@ -52,7 +52,10 @@ namespace star
 	{
 		for(const auto& font : mFontList)
 		{
-			font.second->DeleteFont();
+			if(font.second)
+			{
+				font.second->DeleteFont();
+			}
 			delete font.second;
 		}
 		mFontList.clear();

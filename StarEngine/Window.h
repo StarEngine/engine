@@ -49,6 +49,7 @@ namespace star
 
 		HWND GetConsoleHWND();
 		void SetWindowsTitle() const;
+		void RunMainLoop();
 
 		static Window * m_pInstance;
 
