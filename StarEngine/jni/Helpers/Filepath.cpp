@@ -16,9 +16,9 @@ namespace star
 tstring FilePath::m_AssetsRoot = EMPTY_STRING;
 tstring FilePath::m_InternalRoot = EMPTY_STRING;
 tstring FilePath::m_ExternalRoot = EMPTY_STRING;
-schar FilePath::PATH_SEPERATOR = WIN_PATH_SEPERATOR;
+const tchar FilePath::PATH_SEPERATOR = WIN_PATH_SEPERATOR;
 #else
-schar FilePath::PATH_SEPERATOR = ANDR_PATH_SEPERATOR;
+const tchar FilePath::PATH_SEPERATOR = ANDR_PATH_SEPERATOR;
 const tstring FilePath::ANDR_INTERNAL_PATH =
 	string_cast<const tstring>(StarEngine::GetInstance()->GetAndroidApp()
 		->activity->internalDataPath) + string_cast<const tstring>(ANDR_PATH_SEPERATOR);
@@ -26,7 +26,6 @@ const tstring FilePath::ANDR_EXTERNAL_PATH =
 	string_cast<const tstring>(StarEngine::GetInstance()->GetAndroidApp()
 		->activity->externalDataPath) + string_cast<const tstring>(ANDR_PATH_SEPERATOR);
 #endif
-
 
 	FilePath::FilePath()
 		: m_Path(EMPTY_STRING) 
@@ -196,8 +195,6 @@ const tstring FilePath::ANDR_EXTERNAL_PATH =
 	bool FilePath::GetActualPathName(const tstring & pathIn, tstring & pathOut)
 	{
 #ifdef _WIN32
-		const tchar kSeparator = _T('\\');
-
 		tstring buffer(pathIn);
 
 		size_t i = 0;
@@ -208,14 +205,14 @@ const tstring FilePath::ANDR_EXTERNAL_PATH =
 		while(i < buffer.size())
 		{
 			// skip until path separator
-			while(i < buffer.size() && buffer[i] != kSeparator)
+			while(i < buffer.size() && buffer[i] != WIN_PATH_SEPERATOR)
 			{
 				++i;
 			}
 
 			if(addSeparator)
 			{
-				pathOut += kSeparator;
+				pathOut += WIN_PATH_SEPERATOR;
 			}
 
 			// if we found path separator, get real filename of this
@@ -247,7 +244,7 @@ be unexpected behaviour. Please verify!");
 			// restore path separator that we might have nuked before
 			if(foundSeparator)
 			{
-				buffer[i] = kSeparator;
+				buffer[i] = WIN_PATH_SEPERATOR;
 			}
 
 			++i;
@@ -271,7 +268,7 @@ be unexpected behaviour. Please verify!");
 		tstring shellPath;
 		if(GetActualPathName(full_path, shellPath))
 		{
-			auto seperatorIndex(shellPath.find_last_of(_T("\\")));
+			auto seperatorIndex(shellPath.find_last_of(WIN_PATH_SEPERATOR));
 			if(seperatorIndex != tstring::npos)
 			{
 				shellPath = shellPath.substr(seperatorIndex + 1, shellPath.size() - (seperatorIndex + 1));

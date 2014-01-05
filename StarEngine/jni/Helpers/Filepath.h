@@ -145,7 +145,7 @@ namespace star
 static const tstring ANDR_INTERNAL_PATH;
 static const tstring ANDR_EXTERNAL_PATH;
 #endif
-		static char PATH_SEPERATOR;
+		static const tchar PATH_SEPERATOR;
 		DirectoryMode m_DirectoryMode;
 
 
