@@ -345,6 +345,8 @@ namespace star
 		MSG msg = {};
 		while(msg.message != WM_QUIT)
 		{
+			TimeManager::GetInstance()->StartMonitoring();		
+
 			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 			{
 				TranslateMessage(&msg);
@@ -355,9 +357,6 @@ namespace star
 				if(m_IsActive)
 				{
 					star::InputManager::GetInstance()->UpdateWin();
-
-					TimeManager::GetInstance()->StartMonitoring();
-
 					mGamePtr->Update(mContext);
 					SetWindowsTitle();
 					GraphicsManager::GetInstance()->SetHasWindowChanged(false);

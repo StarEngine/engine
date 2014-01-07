@@ -38,11 +38,11 @@ static const tstring GAME_LOG_TAG = _T("GAME");
 /// <summary>
 /// Platform specific path seperator. (Android)
 /// </summary>
-static const tchar ANDR_PATH_SEPERATOR = '/';
+static const tchar ANDR_PATH_SEPERATOR = _T('/');
 /// <summary>
 /// Platform specific path seperator. (Windows)
 /// </summary>
-static const tchar WIN_PATH_SEPERATOR = '\\';
+static const tchar WIN_PATH_SEPERATOR = _T('\\');
 
 #ifdef STAR2D
 #include "defines2D.h" 
