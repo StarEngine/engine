@@ -264,7 +264,7 @@ namespace star
 
 	bool InputManager::IsAnyKeyDown() const
 	{
-		for (uint8 i = 0; i < NUMBER_OF_KEYBOARDKEYS; ++i)
+		for (uint16 i = 0; i < NUMBER_OF_KEYBOARDKEYS; ++i)
 		{
 			if( (schar) (GetAsyncKeyState(i) >> 8))
 			{
