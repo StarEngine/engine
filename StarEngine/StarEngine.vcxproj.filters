@@ -24,9 +24,6 @@
     <ClInclude Include="jni\StarEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\StarComponents.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="jni\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -366,6 +363,9 @@
     <ClInclude Include="jni\Helpers\HelpersCrossplatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\Helpers\Singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\TimeManager.cpp">
@@ -689,6 +689,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="jni\Input\InputManager.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="jni\Helpers\Singleton.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

@@ -150,6 +150,7 @@
     <ClInclude Include="jni\Helpers\Math.h" />
     <ClInclude Include="jni\Helpers\Rect.h" />
     <ClInclude Include="jni\Helpers\SerializedData.h" />
+    <ClInclude Include="jni\Helpers\Singleton.h" />
     <ClInclude Include="jni\Helpers\SpriteAnimation.h" />
     <ClInclude Include="jni\Helpers\SpriteSheet.h" />
     <ClInclude Include="jni\Helpers\State.h" />
@@ -188,7 +189,6 @@
     <ClInclude Include="jni\Sound\SoundEffect.h" />
     <ClInclude Include="jni\Sound\SoundFile.h" />
     <ClInclude Include="jni\Sound\AudioManager.h" />
-    <ClInclude Include="jni\StarComponents.h" />
     <ClInclude Include="jni\StarEngine.h" />
     <ClInclude Include="jni\TimeManager.h" />
     <ClInclude Include="resource.h" />
@@ -301,6 +301,7 @@
     <None Include="jni\Helpers\Dictionary.inl" />
     <None Include="jni\Helpers\Helpers.inl" />
     <None Include="jni\Helpers\Math.inl" />
+    <None Include="jni\Helpers\Singleton.inl" />
     <None Include="jni\Input\Gestures\GestureManager.inl" />
     <None Include="jni\Input\InputManager.inl" />
     <None Include="jni\Objects\Object.inl" />

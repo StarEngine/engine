@@ -1,6 +1,7 @@
 #pragma once
 
 #include "defines.h"
+#include "Helpers/Singleton.h"
 
 namespace star 
 {
@@ -14,11 +15,12 @@ namespace star
 
 	struct Context;
 
-	class Logger final 
+	class Logger final : public Singleton<Logger>
 	{
 	public:
+		friend Singleton<Logger>;
+
 		~Logger();
-		static Logger* GetInstance();
 
 #ifdef _WIN32
 		void Initialize(bool useConsole);
@@ -69,7 +71,6 @@ namespace star
 
 	private:
 		Logger();
-		static Logger* m_LoggerPtr;
 
 		void PrivateLog(
 			LogLevel level,

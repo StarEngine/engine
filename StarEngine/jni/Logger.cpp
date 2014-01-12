@@ -21,15 +21,14 @@
 
 namespace star
 {
-	Logger* Logger::m_LoggerPtr = nullptr;
-
 	Logger::Logger()
+		:Singleton<Logger>()
 #ifdef _WIN32
-		:m_ConsoleHandle(nullptr)
+		,m_ConsoleHandle(nullptr)
 		,m_UseConsole(false)
 		,m_LogStream()
 #else
-		:m_LogStream()
+		,m_LogStream()
 #endif
 		,m_TimeStamp(_T("00:00:00"))
 	{
@@ -44,17 +43,7 @@ namespace star
 		{
 			star_w::CleanUpConsole();
 		}
-		
 #endif
-	}
-
-	Logger * Logger::GetInstance()
-	{
-		if(m_LoggerPtr == nullptr)
-		{
-			m_LoggerPtr = new Logger();
-		}
-		return m_LoggerPtr;
 	}
 
 #ifdef _WIN32
