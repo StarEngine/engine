@@ -1,5 +1,5 @@
 #pragma once
-#include "UIElement.h"
+#include "UIObject.h"
 
 namespace star
 {
@@ -7,7 +7,7 @@ namespace star
 
 	struct Color;
 
-	class UITextField : public UIElement
+	class UITextField : public UIObject
 	{
 	public:
 		UITextField(

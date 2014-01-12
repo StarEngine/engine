@@ -1,11 +1,11 @@
 #pragma once
-#include "UIElement.h"
+#include "UIObject.h"
 
 namespace star
 {
 	class SpriteSheetComponent;
 
-	class UIAnimatedImage : public UIElement
+	class UIAnimatedImage : public UIObject
 	{
 	public:
 		UIAnimatedImage(

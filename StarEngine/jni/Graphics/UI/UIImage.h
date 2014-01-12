@@ -1,12 +1,12 @@
 #pragma once
-#include "UIElement.h"
+#include "UIObject.h"
 #include "../Color.h"
 
 namespace star
 {
 	class SpriteComponent;
 
-	class UIImage : public UIElement
+	class UIImage : public UIObject
 	{
 	public:
 		UIImage(

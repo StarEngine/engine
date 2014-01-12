@@ -6,7 +6,7 @@
 namespace star
 {
 	UIUserElement::UIUserElement(const tstring & name)
-		: UIElement(name)
+		: UIObject(name)
 		, m_ReleasedCallback(nullptr)
 		, m_DownCallback(nullptr)
 		, m_HoverCallback(nullptr)
@@ -130,7 +130,7 @@ namespace star
 				GoIdle();
 			}
 			
-			UIElement::Update(context);
+			UIObject::Update(context);
 		}
 	}
 

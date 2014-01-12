@@ -77,7 +77,7 @@ namespace star
 			}
 		}
 
-		UIElement::SetHorizontalAlignment(
+		UIObject::SetHorizontalAlignment(
 			alignment,
 			redefineCenter
 			);
@@ -108,7 +108,7 @@ namespace star
 			}
 		}
 
-		UIElement::SetVerticalAlignment(
+		UIObject::SetVerticalAlignment(
 			alignment,
 			redefineCenter
 			);

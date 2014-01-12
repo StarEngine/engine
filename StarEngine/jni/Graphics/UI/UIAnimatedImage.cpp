@@ -8,7 +8,7 @@ namespace star
 		const tstring & filePath,
 		const tstring & spritesheet
 		)
-		: UIElement(name)
+		: UIObject(name)
 	{
 		m_pSprite = 
 			new SpriteSheetComponent(
@@ -27,7 +27,7 @@ namespace star
 		const tstring & spriteName,
 		const tstring & spritesheet
 		)
-		: UIElement(name)
+		: UIObject(name)
 	{
 		m_pSprite = 
 			new SpriteSheetComponent(
@@ -70,7 +70,7 @@ namespace star
 			}
 		}
 
-		UIElement::SetHorizontalAlignment(
+		UIObject::SetHorizontalAlignment(
 			alignment,
 			redefineCenter
 			);
@@ -101,7 +101,7 @@ namespace star
 			}
 		}
 
-		UIElement::SetVerticalAlignment(
+		UIObject::SetVerticalAlignment(
 			alignment,
 			redefineCenter
 			);

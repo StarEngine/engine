@@ -1,5 +1,5 @@
 #include "UIDock.h"
-#include "UIElement.h"
+#include "UIObject.h"
 
 #include "../GraphicsManager.h"
 

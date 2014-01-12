@@ -1,9 +1,9 @@
 #pragma once
-#include "UIElement.h"
+#include "UIObject.h"
 
 namespace star
 {
-	class UIUserElement : public UIElement
+	class UIUserElement : public UIObject
 	{
 	public:
 		enum class ElementStates : byte

@@ -9,7 +9,7 @@ namespace star
 		const tstring & fontName,
 		const Color & color
 		)
-		: UIElement(name)
+		: UIObject(name)
 	{
 		m_pTextComponent = 
 			new TextComponent(fontName);
@@ -29,7 +29,7 @@ namespace star
 		uint32 fontSize,
 		const Color & color
 		)
-		: UIElement(name)
+		: UIObject(name)
 	{
 		m_pTextComponent = 
 			new TextComponent(fontPath, fontName, fontSize);
@@ -47,7 +47,7 @@ namespace star
 
 	void UITextField::Initialize()
 	{
-		UIElement::Initialize();
+		UIObject::Initialize();
 	}
 	
 	void UITextField::SetHorizontalAlignment(
@@ -78,7 +78,7 @@ namespace star
 			}
 		}
 
-		UIElement::SetHorizontalAlignment(
+		UIObject::SetHorizontalAlignment(
 			alignment,
 			redefineCenter
 			);
@@ -109,7 +109,7 @@ namespace star
 			}
 		}
 
-		UIElement::SetVerticalAlignment(
+		UIObject::SetVerticalAlignment(
 			alignment,
 			redefineCenter
 			);

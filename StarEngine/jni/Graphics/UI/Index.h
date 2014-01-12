@@ -3,7 +3,6 @@
 #include "UICursor.h"
 #include "UIObject.h"
 #include "UIDock.h"
-#include "UIElement.h"
 #include "UIImage.h"
 #include "UIAnimatedImage.h"
 #include "UISlider.h"

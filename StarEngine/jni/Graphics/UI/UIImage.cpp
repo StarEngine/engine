@@ -9,7 +9,7 @@ namespace star
 		uint32 horizontalSegements,
 		uint32 verticalSegments
 		)
-		: UIElement(name)
+		: UIObject(name)
 	{
 		m_pSprite = 
 			new SpriteComponent(
@@ -30,7 +30,7 @@ namespace star
 		uint32 horizontalSegements,
 		uint32 verticalSegments
 		)
-		: UIElement(name)
+		: UIObject(name)
 	{
 		m_pSprite = 
 			new SpriteComponent(
@@ -74,7 +74,7 @@ namespace star
 			}
 		}
 
-		UIElement::SetHorizontalAlignment(
+		UIObject::SetHorizontalAlignment(
 			alignment,
 			redefineCenter
 			);
@@ -105,7 +105,7 @@ namespace star
 			}
 		}
 
-		UIElement::SetVerticalAlignment(alignment, redefineCenter);
+		UIObject::SetVerticalAlignment(alignment, redefineCenter);
 	}
 
 	void UIImage::SetCurrentSegement(uint32 segmentX, uint32 segmentY)
