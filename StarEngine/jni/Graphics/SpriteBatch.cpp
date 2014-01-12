@@ -1,6 +1,5 @@
 #include "SpriteBatch.h"
 #include "../Objects/Object.h"
-#include "../StarComponents.h"
 #include "../Scenes/SceneManager.h"
 #include "GraphicsManager.h"
 #include "../Components/CameraComponent.h"

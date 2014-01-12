@@ -1,4 +1,5 @@
 #include "CircleColliderComponent.h"
+#include "RectangleColliderComponent.h"
 #include "../../Context.h"
 #include "../../Objects/Object.h"
 #include "../../Helpers/Math.h"

@@ -3,7 +3,6 @@
 #include "../Entity.h"
 #include "../Logger.h"
 #include "../Context.h"
-#include "../Components/TransformComponent.h"
 #include "../Helpers/HashTag.h"
 
 namespace star

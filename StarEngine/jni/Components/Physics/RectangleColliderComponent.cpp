@@ -1,4 +1,5 @@
 #include "RectangleColliderComponent.h"
+#include "CircleColliderComponent.h"
 #include "../../Objects/Object.h"
 #include "../../Scenes/BaseScene.h"
 #include "../../Physics/Collision/CollisionManager.h"
@@ -6,6 +7,7 @@
 #include "../../Helpers/Math.h"
 #include "../../Graphics/GraphicsManager.h"
 #include "../../Helpers/Debug/DebugDraw.h"
+#include "../../Helpers/Helpers.h"
 
 namespace star
 {

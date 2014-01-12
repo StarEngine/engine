@@ -1,6 +1,5 @@
 #include "Object.h"
 #include "../Actions/Action.h"
-#include "../StarComponents.h"
 #include "../Components/TransformComponent.h"
 #include "../Graphics/GraphicsManager.h"
 #include "../Scenes/BaseScene.h"

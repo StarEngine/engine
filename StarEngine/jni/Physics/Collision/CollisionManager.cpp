@@ -1,5 +1,4 @@
 #include "CollisionManager.h"
-#include "../../StarComponents.h"
 #include <algorithm>
 #include "../../Components/Physics/BaseColliderComponent.h"
 

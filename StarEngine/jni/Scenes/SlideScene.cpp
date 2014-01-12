@@ -1,6 +1,5 @@
 #include "SlideScene.h"
 #include "SceneManager.h"
-#include "../StarComponents.h"
 #include "../Input/InputManager.h"
 #include "../Helpers/Helpers.h"
 #include "../Objects/Object.h"

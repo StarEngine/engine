@@ -1,17 +1,18 @@
 #include "BaseScene.h"
 #include "../Context.h"
 #include "../Input/InputManager.h"
-#include "../StarComponents.h"
 #include "../Objects/BaseCamera.h"
 #include "../Graphics/GraphicsManager.h"
 #include "../Graphics/ScaleSystem.h"
 #include "../Helpers/Debug/DebugDraw.h"
+#include "../Helpers/Helpers.h" 
 #include "../Physics/Collision/CollisionManager.h"
 #include "../Input/Gestures/GestureManager.h"
 #include "../Graphics/UI/UICursor.h"
 #include "../Graphics/UI/UIBaseCursor.h"
 #include "SceneManager.h"
 #include "../Input/Gestures/BaseGesture.h"
+#include "../Components/CameraComponent.h"
 
 namespace star 
 {
