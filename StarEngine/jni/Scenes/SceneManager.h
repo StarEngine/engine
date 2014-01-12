@@ -3,6 +3,7 @@
 #include "../defines.h"
 #include "../Helpers/TimerManager.h"
 #include "../Helpers/Stopwatch.h"
+#include "../Helpers/Singleton.h"
 #include <memory>
 #include <map>
 #include <vector>
@@ -18,12 +19,10 @@ namespace star
 	class UIBaseCursor;
 	class Object;
 
-	class SceneManager final
+	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		~SceneManager();
-
-		static SceneManager * GetInstance();
+		friend Singleton<SceneManager>;
 
 		BaseScene* GetActiveScene();
 		BaseScene* GetScene(const tstring & name);
@@ -60,8 +59,6 @@ namespace star
 		android_app* mApplicationPtr;
 #endif
 	private:
-		static SceneManager * m_pSceneManager;
-
 		BaseScene	*m_ActiveScene, 
 					*m_NewActiveScene;
 
@@ -80,6 +77,8 @@ namespace star
 		bool InitializeCurScene(const Context& context);
 
 		SceneManager();
+		~SceneManager();
+
 		void CreateDefaultCursor();
 
 		SceneManager(const SceneManager& yRef);

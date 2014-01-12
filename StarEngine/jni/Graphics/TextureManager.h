@@ -3,6 +3,7 @@
 #include <map>
 #include <memory>
 #include "../defines.h"
+#include "../Helpers/Singleton.h"
 
 #ifdef DESKTOP
 #include <glew.h>
@@ -14,12 +15,10 @@ namespace star
 {
 	class Texture2D;
 
-	class TextureManager final
+	class TextureManager final : public Singleton<TextureManager>
 	{
 	public:
-		~TextureManager();
-
-		static TextureManager * GetInstance();
+		friend Singleton<TextureManager>;
 
 		void LoadTexture(const tstring& path, const tstring& name);
 		bool DeleteTexture(const tstring& name);
@@ -29,12 +28,11 @@ namespace star
 		bool ReloadAllTextures();
 
 	private:
-		//Data Members
-		static TextureManager * mTextureManager;
-		std::map<tstring, std::shared_ptr<Texture2D>> mTextureMap;
-		std::map<tstring,tstring> mPathList;
+		std::map<tstring, std::shared_ptr<Texture2D>> m_TextureMap;
+		std::map<tstring,tstring> m_PathList;
 
 		TextureManager();
+		~TextureManager();
 
 		TextureManager(const TextureManager& yRef);
 		TextureManager(TextureManager&& yRef);

@@ -715,7 +715,7 @@ namespace star
 
 	Window::~Window(void)
 	{
-		delete InputManager::GetInstance();
+		InputManager::DeleteSingleton();
 
 		delete (mGamePtr);
 		mGamePtr = nullptr;

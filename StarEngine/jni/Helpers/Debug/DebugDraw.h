@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../defines.h"
+#include "../Singleton.h"
 #include "../../Graphics/Color.h"
 #include "../../Graphics/Shader.h"
 #include <vector>
@@ -41,83 +42,81 @@ namespace star
 				, opacityPoints;
 	};
 
-	class DebugDraw final
-	{  
-	public:  
-		 
-		static DebugDraw* GetInstance();
-		~DebugDraw();  
+	class DebugDraw final : public Singleton<DebugDraw>
+	{
+	public:
+		friend Singleton<DebugDraw>;
 
 		void Initialize();
 
 		void DrawPolygon(
-			const vec2* vertices, 
-			int32 vertexCount, 
+			const vec2* vertices,
+			int32 vertexCount,
 			const Color& color
 			);  
 		void DrawSolidPolygon(
-			const vec2* vertices, 
-			int32 vertexCount, 
+			const vec2* vertices,
+			int32 vertexCount,
 			const Color& color
 			);  
 		void DrawCircle(
-			const vec2& center, 
-			float32 radius, 
-			const Color& color, 
+			const vec2& center,
+			float32 radius,
+			const Color& color,
 			uint32 segments = 16
 			);  
 		void DrawSolidCircle(
-			const vec2& center, 
-			float32 radius, 
-			const Color& color, 
+			const vec2& center,
+			float32 radius,
+			const Color& color,
 			uint32 segments = 16
-			); 
+			);
 		void DrawSegment(
-			const vec2& pos1, 
-			const vec2& pos2, 
+			const vec2& pos1,
+			const vec2& pos2,
 			const Color& aColor
-			);  
+			);
 		//[TODO] DrawTransform: Draw the transformed Axises of the object/matrix
-		// void DrawTransform(const mat4& aXf);  
+		// void DrawTransform(const mat4& aXf);
 		void DrawPoint(
-			const vec2& pos, 
-			float32 size, 
+			const vec2& pos,
+			float32 size,
 			const Color& color
-			);  
+			);
 		void DrawLine(
-			const vec2& pos1, 
-			const vec2& pos2, 
+			const vec2& pos1,
+			const vec2& pos2,
 			const Color& color
 			);
 		void DrawString(
-			int32 xPos, 
-			int32 yPos, 
+			int32 xPos,
+			int32 yPos,
 			const tstring& text
-			);  
+			);
 		void DrawRect(
-			const AARect& rect, 
+			const AARect& rect,
 			const Color& color
-			);  
+			);
 		void DrawRect(
-			const Rect& rect, 
+			const Rect& rect,
 			const Color& color
-			); 
+			);
 		void DrawSolidRect(
-			const AARect& rect, 
+			const AARect& rect,
 			const Color& color
-			);  
+			);
 		void DrawSolidRect(
-			const Rect& rect, 
+			const Rect& rect,
 			const Color& color
-			); 
+			);
 
 		void SetDrawOpacityTriangles(float32 opacity);
 		void SetDrawOpacityLines(float32 opacity);
 		void SetDrawOpacityPoints(float32 opacity);
 
-		void Flush();  
+		void Flush();
   
-	private:  
+	private:
 		static const uint32 MAX_VERTICES = 64;
 
 		enum
@@ -127,8 +126,8 @@ namespace star
 			Points    = 0x04
 		}; 
 
-		DebugDraw();  
-		static DebugDraw* m_InstancePtr;
+		DebugDraw();
+		~DebugDraw();
 		
 		void CreatePolygonVertices(
 			const vec2* vertices, 

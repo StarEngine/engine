@@ -5,10 +5,9 @@
 
 namespace star
 {
-	SpriteAnimationManager * SpriteAnimationManager::m_pManager = nullptr;
-	
 	SpriteAnimationManager::SpriteAnimationManager()
-		: m_Spritesheets()
+		: Singleton<SpriteAnimationManager>()
+		, m_Spritesheets()
 	{
 
 	}
@@ -73,15 +72,6 @@ namespace star
 			name + tstring(_T("\" in the loaded spritesheets.")),
 			STARENGINE_LOG_TAG);
 		return m_Spritesheets.at(name);
-	}
-
-	SpriteAnimationManager * SpriteAnimationManager::GetInstance()
-	{
-		if(m_pManager == nullptr)
-		{
-			m_pManager = new SpriteAnimationManager();
-		}
-		return m_pManager;
 	}
 	
 	void SpriteAnimationManager::Clear()

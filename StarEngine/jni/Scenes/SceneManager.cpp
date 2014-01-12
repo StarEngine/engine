@@ -16,10 +16,9 @@
 
 namespace star 
 {
-	SceneManager * SceneManager::m_pSceneManager = nullptr;
-
 	SceneManager::SceneManager()
-		: m_ActiveScene(nullptr)
+		: Singleton<SceneManager>()
+		, m_ActiveScene(nullptr)
 		, m_NewActiveScene(nullptr)
 		, m_TimerManager(nullptr)
 		, m_GarbageList()
@@ -52,22 +51,14 @@ namespace star
 			SafeDelete(scene);
 		}
 		m_GarbageList.clear();
+
 		for(auto scene : m_SceneList)
 		{
 			SafeDelete(scene.second);
 		}
 		m_SceneList.clear();
+
 		SafeDelete(m_pDefaultCursor);
-	}
-
-
-	SceneManager * SceneManager::GetInstance()
-	{
-		if(m_pSceneManager == nullptr)
-		{
-			m_pSceneManager = new SceneManager();
-		}
-		return (m_pSceneManager);
 	}
 
 	BaseScene* SceneManager::GetActiveScene()

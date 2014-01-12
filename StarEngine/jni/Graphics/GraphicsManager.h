@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../defines.h"
+#include "../Helpers/Singleton.h"
 
 #ifdef DESKTOP
 #include <Windows.h>
@@ -15,12 +16,10 @@
 
 namespace star
 {
-	class GraphicsManager final
+	class GraphicsManager final : public Singleton<GraphicsManager>
 	{
 	public:
-		~GraphicsManager();
-
-		static GraphicsManager * GetInstance();
+		friend Singleton<GraphicsManager>;
 
 #ifdef DESKTOP
 		void Initialize(int32 screenWidth, int32 screenHeight);
@@ -68,6 +67,8 @@ namespace star
 
 	private:
 		GraphicsManager();
+		~GraphicsManager();
+
 		void InitializeOpenGLStates();
 #ifdef DESKTOP
 		bool WGLExtensionSupported(const schar* extension_name);
@@ -76,9 +77,6 @@ namespace star
 		PFNWGLSWAPINTERVALEXTPROC       mWglSwapIntervalEXT;
 		PFNWGLGETSWAPINTERVALEXTPROC    mWglGetSwapIntervalEXT;
 #endif
-
-		static GraphicsManager * mGraphicsManager;
-
 		int32 mHorizontalViewportOffset,
 			mVerticalViewportOffset;
 
@@ -101,6 +99,4 @@ namespace star
 		GraphicsManager& operator=(const GraphicsManager& yRef);
 		GraphicsManager& operator=(GraphicsManager&& yRef);
 	};
-
-
 }

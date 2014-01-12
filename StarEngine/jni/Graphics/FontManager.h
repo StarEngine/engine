@@ -4,6 +4,7 @@
 #include <vector>
 #include "../defines.h"
 #include "../Helpers/Helpers.h"
+#include "../Helpers/Singleton.h"
 #include "Font.h"
 #include "../Components/TransformComponent.h"
 #include "../Graphics/Color.h"
@@ -23,11 +24,10 @@ namespace star
 {
 	class FilePath;
 
-	class FontManager final
+	class FontManager final : public Singleton<FontManager> 
 	{
 	public:
-		~FontManager();
-		static FontManager * GetInstance();
+		friend Singleton<FontManager>;
 
 		bool LoadFont(
 			const tstring& path, 
@@ -44,14 +44,12 @@ namespace star
 			);
 
 	private:
-		//Data Members
-		static FontManager * mFontManager;
-
 		FT_Library mLibrary;
 
 		std::map<tstring, Font*> mFontList;
 
 		FontManager();
+		~FontManager();
 
 		void SplitString(
 			std::vector<tstring>& wordArrayIn, 

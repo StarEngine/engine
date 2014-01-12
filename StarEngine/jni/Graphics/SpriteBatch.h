@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "../defines.h"
+#include "../Helpers/Singleton.h"
 #include <memory>
 #include "Shader.h"
 #include "../Components/Graphics/SpriteComponent.h"
@@ -8,18 +9,17 @@
 
 namespace star
 {
-	class SpriteBatch final
+	class SpriteBatch final : public Singleton<SpriteBatch>
 	{
 	public:
+		friend Singleton<SpriteBatch>;
+
 		enum SpriteSortingMode
 		{
 			BackToFront,
 			FrontToBack,
 			TextureID
 		};
-
-		~SpriteBatch();
-		static SpriteBatch * GetInstance();
 
 		void Initialize();
 		void Flush();
@@ -30,6 +30,8 @@ namespace star
 
 	private:
 		SpriteBatch();
+		~SpriteBatch();
+
 		void Begin();
 		void End();
 		void CreateSpriteQuads();
@@ -39,7 +41,6 @@ namespace star
 		void FlushSprites(uint32 start, uint32 size, uint32 texture);
 		void DrawTextSprites();
 
-		static SpriteBatch * m_pSpriteBatch;
 		static const uint32 BATCHSIZE = 50;
 		static const uint32 VERTEX_AMOUNT = 18;
 		static const uint32 UV_AMOUNT = 12;

@@ -25,8 +25,6 @@ namespace star
 	const float32 InputManager::UNDEFINED_POINTER_POSITION = -123456.0f;
 #endif
 
-	InputManager * InputManager::m_InputManagerPtr = nullptr;
-
 #ifdef DESKTOP
 	InputAction::InputAction():
 		ActionID(-1),
@@ -64,12 +62,13 @@ namespace star
 #endif
 
 	InputManager::InputManager()
+		: Singleton<InputManager>()
 	#ifdef DESKTOP
-		: m_ThreadAvailable(false)
+		, m_ThreadAvailable(false)
 		, m_KeyboardState0Active(true)
 		, mWindowsHandle()
 	#else
-		: m_bMainIsDown(false)
+		, m_bMainIsDown(false)
 		, m_bMainIsUp(false)
 		, m_bPointerIsDown(false)
 		, m_bPointerIsUp(false)
@@ -100,15 +99,6 @@ namespace star
 	InputManager::~InputManager(void)
 	{
 		delete m_IndependantGestureManager;
-	}
-
-	InputManager * InputManager::GetInstance()
-	{
-		if (m_InputManagerPtr == nullptr)
-		{
-			m_InputManagerPtr = new InputManager();
-		}
-		return m_InputManagerPtr;
 	}
 
 	void InputManager::UpdateGestures(const Context & context)

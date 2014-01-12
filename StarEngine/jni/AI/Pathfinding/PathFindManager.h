@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "SearchCell.h"
-#include "../../defines.h"
+#include "../../Helpers/Singleton.h"
 
 namespace star
 {
@@ -20,11 +20,10 @@ namespace star
 		GoingDownRight
 	};
 
-	class PathFindManager
+	class PathFindManager final : public Singleton<PathFindManager>
 	{
 	public:
-		~PathFindManager(void);
-		static PathFindManager * GetInstance();
+		friend Singleton<PathFindManager>;
 
 		void AddObject(Object* object);
 		void RemoveObject(const Object* object);
@@ -48,13 +47,13 @@ namespace star
 		bool GetFoundGoal() const;
 
 	private:
-		PathFindManager(void);
+		PathFindManager();
+		~PathFindManager();
+
 		void SetStartAndGoal(const SearchCell& start, const SearchCell& end);
 		void PathOpened(int32 x, int32 y, float32 newCost, SearchCell *parent, Direction dir);
 		SearchCell *GetNextCell();
 		void ContinuePath();
-
-		static PathFindManager * m_pPathFindManager;
 		
 		//Contains the object* and positions where you can walk on
 		std::vector<Object*> m_ObjectList;

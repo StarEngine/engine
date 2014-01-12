@@ -10,27 +10,27 @@ namespace star
 #else
 	const vec3 PathFindManager::NO_PATH_AVAILBLE = vec3(-123456.0f, -123456.0f, -123456.0f);
 #endif
-	PathFindManager * PathFindManager::m_pPathFindManager = nullptr;
 
 	bool idCheckerCompare(int32 leftId, int32 rightId) 
 	{
 		return (leftId == rightId);
 	}
 
-	PathFindManager::PathFindManager(void):
-		m_ObjectList(),
-		m_PositionList(),
-		m_pStartCell(nullptr),
-		m_pEndCell(nullptr),
-		m_OpenList(),
-		m_VisitedList(),
-		m_PathToGoal(),
-		m_bInitializedStartGoal(false),
-		m_bFoundGoal(false)
+	PathFindManager::PathFindManager()
+		: Singleton<PathFindManager>()
+		, m_ObjectList()
+		, m_PositionList()
+		, m_pStartCell(nullptr)
+		, m_pEndCell(nullptr)
+		, m_OpenList()
+		, m_VisitedList()
+		, m_PathToGoal()
+		, m_bInitializedStartGoal(false)
+		, m_bFoundGoal(false)
 	{
 	}
 	
-	PathFindManager::~PathFindManager(void)
+	PathFindManager::~PathFindManager()
 	{
 		for(auto cell : m_OpenList)
 		{
@@ -48,15 +48,6 @@ namespace star
 		m_VisitedList.clear();
 
 		m_ObjectList.clear();
-	}
-
-	PathFindManager * PathFindManager::GetInstance()
-	{
-		if(m_pPathFindManager == nullptr)
-		{
-			m_pPathFindManager = new PathFindManager();
-		}
-		return m_pPathFindManager;
 	}
 
 	void PathFindManager::AddObject(Object* object)

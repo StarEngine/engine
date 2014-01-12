@@ -9,10 +9,9 @@
 
 namespace star
 {
-	DebugDraw * DebugDraw::m_InstancePtr = nullptr;
-
 	DebugDraw::DebugDraw()
-		: m_PointSize(1.0f)
+		: Singleton<DebugDraw>()
+		, m_PointSize(1.0f)
 		, m_Shader(nullptr)
 		, m_ColorLocation(0)
 		, m_MVPLocation(0)
@@ -22,15 +21,6 @@ namespace star
 		, m_DrawOpPoints(1.0f)
 	{
 		
-	}
-
-	DebugDraw* DebugDraw::GetInstance()
-	{
-		if(m_InstancePtr == nullptr)
-		{
-			m_InstancePtr = new DebugDraw();
-		}
-		return m_InstancePtr;
 	}
 
 	DebugDraw::~DebugDraw()

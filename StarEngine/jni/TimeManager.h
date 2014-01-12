@@ -1,18 +1,18 @@
 #pragma once
 
 #include "defines.h"
+#include "Helpers/Singleton.h"
 #include <memory>
-#include "Helpers\Time.h"
+#include "Helpers/Time.h"
 
 #include <chrono>
 
 namespace star
 {
-	class TimeManager final
+	class TimeManager final : public Singleton<TimeManager>
 	{
 	public:
-		static TimeManager * GetInstance();
-		~TimeManager();
+		friend Singleton<TimeManager>;
 
 		void StartMonitoring();
 		void StopMonitoring();
@@ -24,8 +24,8 @@ namespace star
 		tstring GetTimeStamp();
 
 	private:
-		static TimeManager * m_TimeManager;
 		TimeManager();
+		~TimeManager();
 
 		std::chrono::system_clock::time_point m_StartTime;
 		Time m_DeltaTime;

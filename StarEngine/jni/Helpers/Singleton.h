@@ -9,6 +9,7 @@ namespace star
 	{
 	public:
 		static ClassType * GetInstance();
+		static void DeleteSingleton();
 
 	protected:
 		Singleton();

@@ -1,12 +1,12 @@
 #include "GraphicsManager.h"
-#include "../Logger.h"
 #include "SpriteBatch.h"
-#include "../Scenes/SceneManager.h"
-#include "../Scenes/BaseScene.h"
-#include "../Objects/BaseCamera.h"
-#include "../Components/CameraComponent.h"
 #include "ScaleSystem.h"
+#include "../Logger.h"
 #include "../defines.h"
+#include "../Scenes/SceneManager.h"
+#include "../Objects/BaseCamera.h"
+#include "../Scenes/BaseScene.h"
+#include "../Components/CameraComponent.h"
 
 #ifdef DESKTOP
 #include <wglext.h>
@@ -18,16 +18,9 @@
 
 namespace star
 {
-	GraphicsManager * GraphicsManager::mGraphicsManager = nullptr;
-	
-	GraphicsManager::~GraphicsManager()
-	{
-		LOG(star::LogLevel::Info,
-			_T("Graphics Manager : Destructor"), STARENGINE_LOG_TAG);
-	}
-
 	GraphicsManager::GraphicsManager()
-		: mHorizontalViewportOffset(0)
+		: Singleton<GraphicsManager>()
+		, mHorizontalViewportOffset(0)
 		, mVerticalViewportOffset(0)
 		, mViewProjectionMatrix()
 		, mViewInverseMatrix()
@@ -47,6 +40,12 @@ namespace star
 	{
 		LOG(star::LogLevel::Info,
 			_T("Graphics Manager : Constructor"), STARENGINE_LOG_TAG);
+	}
+
+	GraphicsManager::~GraphicsManager()
+	{
+		LOG(star::LogLevel::Info,
+			_T("Graphics Manager : Destructor"), STARENGINE_LOG_TAG);
 	}
 
 	void GraphicsManager::CalculateViewPort()
@@ -86,15 +85,6 @@ namespace star
 		
 
 		ScaleSystem::GetInstance()->CalculateScale();
-	}
-
-	GraphicsManager * GraphicsManager::GetInstance()
-	{
-		if(mGraphicsManager == nullptr)
-		{
-			mGraphicsManager = new GraphicsManager();
-		}			
-		return mGraphicsManager;	
 	}
 
 	void GraphicsManager::SetVSync(bool vSync)

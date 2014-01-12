@@ -20,8 +20,6 @@ namespace star
 	public:
 		friend Singleton<Logger>;
 
-		~Logger();
-
 #ifdef _WIN32
 		void Initialize(bool useConsole);
 #else
@@ -71,6 +69,7 @@ namespace star
 
 	private:
 		Logger();
+		~Logger();
 
 		void PrivateLog(
 			LogLevel level,

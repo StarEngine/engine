@@ -4,18 +4,9 @@
 
 namespace star
 {
-	TimeManager * TimeManager::m_TimeManager = nullptr;
-	TimeManager * TimeManager::GetInstance()
-	{
-		if(m_TimeManager == nullptr)
-		{
-			m_TimeManager = new TimeManager();
-		}
-		return m_TimeManager;
-	}
-
 	TimeManager::TimeManager()
-		: m_StartTime()
+		: Singleton<TimeManager>()
+		, m_StartTime()
 		, m_DeltaTime()
 		, m_ElapsedTime()
 		, m_CurrentTime()

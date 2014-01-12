@@ -12,10 +12,9 @@
 
 namespace star
 {
-	SpriteBatch * SpriteBatch::m_pSpriteBatch = nullptr;
-
-	SpriteBatch::SpriteBatch(void)
-		: m_SpriteQueue()
+	SpriteBatch::SpriteBatch()
+		: Singleton<SpriteBatch>()
+		, m_SpriteQueue()
 		, m_TextQueue()
 		, m_VertexBuffer()
 		, m_UvCoordBuffer()
@@ -35,16 +34,6 @@ namespace star
 	SpriteBatch::~SpriteBatch(void)
 	{
 		delete m_ShaderPtr;
-	}
-
-	SpriteBatch * SpriteBatch::GetInstance()
-	{
-		if(m_pSpriteBatch == nullptr)
-		{
-			m_pSpriteBatch = new SpriteBatch();
-			m_pSpriteBatch->Initialize();
-		}
-		return m_pSpriteBatch;
 	}
 
 	void SpriteBatch::Initialize()

@@ -3,17 +3,17 @@
 #include "BaseSound.h"
 #include "SoundFile.h"
 #include "SoundEffect.h"
+#include "../Helpers/Singleton.h"
 #include <vector>
 #include <map>
 
 namespace star
 {
-
-	class AudioManager
+	class AudioManager : public Singleton<AudioManager>
 	{
 	public:
-		static AudioManager * GetInstance();
-		~AudioManager();
+		friend Singleton<AudioManager>;
+
 		void Start();
 		void Stop();
 
@@ -212,10 +212,11 @@ namespace star
 		};
 
 		AudioManager();
+		~AudioManager();
+
 		SoundChannel & GetChannel(uint8 channel, const tstring & sender,
 			bool & result);
 
-		static AudioManager * mSoundService;
 		static bool mbIsInitialized;
 
 		std::map<tstring,SoundFile*> mMusicList;

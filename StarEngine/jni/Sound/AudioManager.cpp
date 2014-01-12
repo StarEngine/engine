@@ -9,20 +9,11 @@
 
 namespace star
 {
-	AudioManager * AudioManager::mSoundService = nullptr;
 	bool AudioManager::mbIsInitialized = false;
 
-	AudioManager * AudioManager::GetInstance()
-	{
-		if(mSoundService == nullptr)
-		{
-			mSoundService = new AudioManager();
-		}
-		return mSoundService;
-	}
-
 	AudioManager::AudioManager()
-		: mMusicList()
+		: Singleton<AudioManager>()
+		, mMusicList()
 		, mMusicPathList()
 		, mEffectsList()
 		, mSoundEffectPathList()
@@ -248,9 +239,6 @@ namespace star
 		uint8 channel
 		)
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::LoadMusic: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		if(mMusicList.find(name) != mMusicList.end())
 		{
 			LOG(LogLevel::Warning,
@@ -298,9 +286,6 @@ namespace star
 		uint8 channel
 		)
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::LoadEffect: Sound Service is invalid."),STARENGINE_LOG_TAG);
-
 		if(mEffectsList.find(name) != mEffectsList.end())
 		{
 			LOG(LogLevel::Warning,
@@ -345,9 +330,6 @@ Found Sound Effect of old path, making copy for new name"));
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::PlayMusic: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		if(mMusicList.find(name) == mMusicList.end())
 		{
 			LoadMusic(path, name, channel);
@@ -360,9 +342,6 @@ Found Sound Effect of old path, making copy for new name"));
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::PlayMusic: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
@@ -390,9 +369,6 @@ AudioManager::PlayMusic: Couldn't find the song '") + name +
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::PlayMusic: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		if(mEffectsList.find(name) == mEffectsList.end())
 		{
 			LoadEffect(path, name, channel);
@@ -405,9 +381,6 @@ AudioManager::PlayMusic: Couldn't find the song '") + name +
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::PlayMusic: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
@@ -432,9 +405,6 @@ AudioManager::PlayMusic: Couldn't find the song '") + name +
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::PlayMusic: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		if(mMusicList.find(name) == mMusicList.end())
 		{
 			LoadMusic(path, name, channel);
@@ -448,9 +418,6 @@ AudioManager::PlayMusic: Couldn't find the song '") + name +
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::PlayMusic: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
@@ -479,9 +446,6 @@ AudioManager::PlayMusic: Couldn't find the song '") + name +
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::PlayEffect: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		if(mEffectsList.find(name) == mEffectsList.end())
 		{
 			LoadEffect(path, name, channel);
@@ -495,9 +459,6 @@ AudioManager::PlayMusic: Couldn't find the song '") + name +
 		int32 loopTimes
 		)
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("PlayEffect::PlayEffect: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		auto it = mEffectsList.find(name);
 		if(it != mEffectsList.end())
 		{
@@ -517,9 +478,6 @@ AudioManager::PlayMusic: Couldn't find the song '") + name +
 
 	void AudioManager::AddToBackgroundQueue(const tstring& name)
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::AddToBackgroundQueue: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		auto it = mMusicList.find(name);
 		if(it != mMusicList.end())
 		{
@@ -538,10 +496,6 @@ AudioManager::PlayMusic: Couldn't find the song '") + name +
 
 	void AudioManager::PlayBackgroundQueue()
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::AddToBackgroundQueue: \
-Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		mQueueIterator = mBackgroundQueue.begin();
 		if(mQueueIterator != mBackgroundQueue.end())
 		{
@@ -558,10 +512,6 @@ Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 	void AudioManager::PlayNextSongInQueue()
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::PlayNextSongInQueue: \
-Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		if(mBackgroundQueue.size() == 0)
 		{
 			return;
@@ -577,9 +527,6 @@ Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 	void AudioManager::PauseBackgroundQueue()
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::PauseBackgroundQueue: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		if(mBackgroundQueue.size() == 0)
 		{
 			return;
@@ -593,10 +540,6 @@ Sound Service is invalid."), STARENGINE_LOG_TAG);
 
 	void AudioManager::ResumeBackgroundQueue()
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::ResumeBackgroundQueue: \
-Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		if(mBackgroundQueue.size() == 0)
 		{
 			return;
@@ -617,10 +560,6 @@ Sound Service : No song in background queue."),
 
 	void AudioManager::StopBackgroundQueue()
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::StopBackgroundQueue: \
-Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		if(mBackgroundQueue.size() == 0)
 		{
 			return;
@@ -1453,9 +1392,6 @@ Sound Service : No song in background queue."),
 
 	void AudioManager::StopAllSounds()
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::StopAllSounds: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		for(auto & song : mMusicList)
 		{
 			song.second->Stop();
@@ -1469,9 +1405,6 @@ Sound Service : No song in background queue."),
 
 	void AudioManager::PauseAllSounds()
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::PauseAllSounds: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		for(auto & song : mMusicList)
 		{
 			song.second->Pause();
@@ -1485,9 +1418,6 @@ Sound Service : No song in background queue."),
 
 	void AudioManager::ResumeAllSounds()
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::ResumeAllSounds: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		for(auto & song : mMusicList)
 		{
 			song.second->Resume();
@@ -1501,9 +1431,6 @@ Sound Service : No song in background queue."),
 
 	void AudioManager::DeleteAllSounds()
 	{
-		ASSERT_LOG(mSoundService != nullptr,
-			_T("AudioManager::DeleteAllSounds: Sound Service is invalid."), STARENGINE_LOG_TAG);
-
 		for(auto & song : mMusicList)
 		{
 			delete song.second;

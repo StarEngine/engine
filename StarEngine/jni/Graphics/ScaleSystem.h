@@ -2,6 +2,7 @@
 
 #include <memory>
 #include "../defines.h"
+#include "../Helpers/Singleton.h"
 
 namespace star
 {
@@ -10,20 +11,11 @@ namespace star
 	/// Set your target resolution to the value you specify
 	/// and code everything as if your window would be that resolution.
 	/// </summary>
-	class ScaleSystem final
+	class ScaleSystem final : public Singleton<ScaleSystem>
 	{
 	public:
-		/// <summary>
-		/// Finalizes an instance of the <see cref="ScaleSystem"/> class.
-		/// </summary>
-		~ScaleSystem();
+		friend Singleton<ScaleSystem>;
 
-		/// <summary>
-		/// Returns the instance of this class.
-		/// Key point of the singleton implementation.
-		/// </summary>
-		/// <returns>The instance of this class.</returns>
-		static ScaleSystem * GetInstance();
 		/// <summary>
 		/// Sets the working resolution of the game.
 		/// </summary>
@@ -61,11 +53,14 @@ namespace star
 		/// Private because of Singleton design pattern.
 		/// </summary>
 		ScaleSystem();
+		
+		/// <summary>
+		/// Finalizes an instance of the <see cref="ScaleSystem"/> class.
+		/// </summary>
+		~ScaleSystem();
 
 		vec2 m_WorkingRes;
 		float32 m_Scale;
 		bool m_bIninitialized;
-
-		static ScaleSystem * m_ScaleSystemPtr;
 	};
 }

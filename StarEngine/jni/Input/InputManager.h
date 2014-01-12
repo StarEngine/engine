@@ -15,6 +15,7 @@
 #endif
 
 #include "../defines.h"
+#include "../Helpers/Singleton.h"
 #include "Gestures/GestureManager.h"
 
 namespace star
@@ -69,12 +70,10 @@ namespace star
 	typedef std::function<void()> CallBack;
 #endif
 
-	class InputManager
+	class InputManager final : public Singleton<InputManager>
 	{
 	public:
-		virtual ~InputManager(void);
-
-		static InputManager * GetInstance();
+		friend Singleton<InputManager>;
 
 		void UpdateGestures(const Context & context);
 
@@ -148,9 +147,8 @@ namespace star
 #endif
 
 	private:
-
 		InputManager();
-		static InputManager*  m_InputManagerPtr;
+		~InputManager();
 
 #ifdef DESKTOP
 		static const int32 NUMBER_OF_KEYBOARDKEYS = 256;

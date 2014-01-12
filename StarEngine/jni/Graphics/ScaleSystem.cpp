@@ -4,8 +4,6 @@
 
 namespace star
 {
-	ScaleSystem * ScaleSystem::m_ScaleSystemPtr = nullptr;
-
 	ScaleSystem::ScaleSystem()
 		:m_WorkingRes(0,0)
 		,m_Scale(0)
@@ -14,17 +12,8 @@ namespace star
 	}
 
 
-	ScaleSystem::~ScaleSystem(void)
+	ScaleSystem::~ScaleSystem()
 	{
-	}
-
-	ScaleSystem * ScaleSystem::GetInstance()
-	{
-		if(m_ScaleSystemPtr == nullptr)
-		{
-			m_ScaleSystemPtr = new ScaleSystem();
-		}			
-		return m_ScaleSystemPtr;	
 	}
 
 	void ScaleSystem::SetWorkingResolution(int32 xPixels, int32 yPixels)

@@ -45,6 +45,7 @@ namespace star
 
 		AudioManager::GetInstance()->Start();
 		GraphicsManager::GetInstance()->CalculateViewPort();
+		SpriteBatch::GetInstance()->Initialize();
 		DebugDraw::GetInstance()->Initialize();
 	}
 
@@ -74,18 +75,18 @@ namespace star
 	void StarEngine::End()
 	{
 		FontManager::GetInstance()->EraseFonts();
-		delete DebugDraw::GetInstance();
-		delete ScaleSystem::GetInstance();
-		delete FontManager::GetInstance();
-		delete SpriteAnimationManager::GetInstance();
-		delete TextureManager::GetInstance();
-		delete GraphicsManager::GetInstance();
-		delete SpriteBatch::GetInstance();
-		delete AudioManager::GetInstance();
-		delete PathFindManager::GetInstance();
-		delete SceneManager::GetInstance();
-		delete Logger::GetInstance();
-		delete TimeManager::GetInstance();
+		DebugDraw::DeleteSingleton();
+		ScaleSystem::DeleteSingleton();
+		FontManager::DeleteSingleton();
+		SpriteAnimationManager::DeleteSingleton();
+		TextureManager::DeleteSingleton();
+		GraphicsManager::DeleteSingleton();
+		SpriteBatch::DeleteSingleton();
+		AudioManager::DeleteSingleton();
+		PathFindManager::DeleteSingleton();
+		SceneManager::DeleteSingleton();
+		Logger::DeleteSingleton();
+		TimeManager::DeleteSingleton();
 	}
 	
 	void StarEngine::SetActive()

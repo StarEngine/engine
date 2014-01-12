@@ -9,62 +9,52 @@
 
 namespace star 
 {
-	TextureManager * TextureManager::mTextureManager = nullptr;
 	TextureManager::~TextureManager()
 	{
-		mTextureMap.clear();
-		mPathList.clear();
+		m_TextureMap.clear();
+		m_PathList.clear();
 	}
 
 	TextureManager::TextureManager(void)
-		: mTextureMap()
-		, mPathList()
+		: m_TextureMap()
+		, m_PathList()
 	{
 
-	}
-
-	TextureManager * TextureManager::GetInstance()
-	{
-		if(mTextureManager == nullptr)
-		{
-			mTextureManager = new TextureManager();
-		}
-		return (mTextureManager);
 	}
 
 	void TextureManager::LoadTexture(const tstring& path, const tstring& name)
 	{
 
-		if(mTextureMap.find(name) != mTextureMap.end())
+		if(m_TextureMap.find(name) != m_TextureMap.end())
 		{
 			return;
 		}
 
-		auto pathit = mPathList.find(path);
-		if(pathit != mPathList.end())
+		auto pathit = m_PathList.find(path);
+		if(pathit != m_PathList.end())
 		{
 			tstring nameOld = pathit->second;
-			auto nameit = mTextureMap.find(nameOld);
-			if(nameit != mTextureMap.end())
+			auto nameit = m_TextureMap.find(nameOld);
+			if(nameit != m_TextureMap.end())
 			{
-				mTextureMap[name] = nameit->second;
+				m_TextureMap[name] = nameit->second;
 				return;
 			}
-			mPathList.erase(pathit);
+			m_PathList.erase(pathit);
 			return;
 		}
 
-		mTextureMap[name] = std::make_shared<Texture2D>(path);
+		m_TextureMap[name] = std::make_shared<Texture2D>(path);
 		
-		mPathList[path] = name;
+		m_PathList[path] = name;
 	}
 
 	bool TextureManager::DeleteTexture(const tstring& name)
 	{
-		auto it = mTextureMap.find(name);
-		if(it != mTextureMap.end())
+		auto it = m_TextureMap.find(name);
+		if(it != m_TextureMap.end())
 		{
-			mTextureMap.erase(it);
+			m_TextureMap.erase(it);
 			return true;
 		}
 		return false;
@@ -72,17 +62,17 @@ namespace star
 
 	GLuint TextureManager::GetTextureID(const tstring& name)
 	{
-		if(mTextureMap.find(name) != mTextureMap.end())
+		if(m_TextureMap.find(name) != m_TextureMap.end())
 		{
-			return mTextureMap[name]->GetTextureID();
+			return m_TextureMap[name]->GetTextureID();
 		}
 		return 0;
 	}
 
 	ivec2 TextureManager::GetTextureDimensions(const tstring& name)
 	{
-		auto it = mTextureMap.find(name);
-		if(it != mTextureMap.end())
+		auto it = m_TextureMap.find(name);
+		if(it != m_TextureMap.end())
 		{
 			return (ivec2(it->second->GetWidth(), it->second->GetHeight()));
 		}
@@ -91,16 +81,16 @@ namespace star
 
 	void TextureManager::EraseAllTextures()
 	{
-		 mTextureMap.clear();
-		 mPathList.clear();
+		 m_TextureMap.clear();
+		 m_PathList.clear();
 	}
 
 	bool TextureManager::ReloadAllTextures()
 	{
-		mTextureMap.clear();
-		for(auto it = mPathList.begin(); it != mPathList.end(); ++it)
+		m_TextureMap.clear();
+		for(auto it = m_PathList.begin(); it != m_PathList.end(); ++it)
 		{
-			mTextureMap[it->second] = std::make_shared<Texture2D>(it->first);
+			m_TextureMap[it->second] = std::make_shared<Texture2D>(it->first);
 		}
 		return true;
 	}

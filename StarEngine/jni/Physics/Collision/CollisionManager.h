@@ -13,9 +13,9 @@ namespace star
 	class CollisionManager final
 	{
 	public:
-
 		CollisionManager();
 		~CollisionManager();
+
 		void AddComponent(
 			BaseColliderComponent* component, 
 			const tstring* layers, 
@@ -24,7 +24,6 @@ namespace star
 		void Update(const Context& context);
 
 	private:
-
 		std::map<tstring, std::vector<BaseColliderComponent*>> m_CollisionMap;
 
 		CollisionManager(const CollisionManager& yRef);

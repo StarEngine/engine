@@ -15,18 +15,6 @@
 
 namespace star 
 {
-	FontManager * FontManager::mFontManager = nullptr;
-
-
-	FontManager * FontManager::GetInstance()
-	{
-		if(mFontManager == nullptr)
-		{
-			mFontManager = new FontManager();
-		}
-		return mFontManager;
-	}
-
 	FontManager::FontManager():
 		mLibrary(0)
 	{

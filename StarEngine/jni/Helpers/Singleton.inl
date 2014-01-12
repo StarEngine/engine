@@ -14,6 +14,13 @@ namespace star
 		}
 		return m_pSingletonObject;
 	}
+	
+	template<typename ClassType>
+	void Singleton<ClassType>::DeleteSingleton()
+	{
+		delete m_pSingletonObject;
+		m_pSingletonObject = nullptr;
+	}
 
 	template<typename ClassType>
 	Singleton<ClassType>::Singleton() {}

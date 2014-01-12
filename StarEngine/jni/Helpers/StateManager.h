@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../defines.h"
+
 #include <map>
 
 namespace star
@@ -8,11 +9,11 @@ namespace star
 	struct Context;
 	class State;
 
-	class StateManager final 
+	class StateManager
 	{
 	public:
 		StateManager();
-		~StateManager();
+		virtual ~StateManager();
 
 		void Initialize();
 		void Update(const Context& context);

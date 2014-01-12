@@ -5,8 +5,8 @@
 
 namespace star
 {
-	StateManager::StateManager(void)
-	: m_States()
+	StateManager::StateManager()
+		: m_States()
 		, m_pCurrentState(nullptr)
 		, m_CurrentStateName()
 		, m_PreviousStateName()
@@ -14,7 +14,7 @@ namespace star
 
 	}
 
-	StateManager::~StateManager(void)
+	StateManager::~StateManager()
 	{
 		Clear();
 	}

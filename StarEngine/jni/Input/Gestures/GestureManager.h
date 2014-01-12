@@ -16,6 +16,7 @@ namespace star
 	public:
 		GestureManager();
 		~GestureManager();
+
 		void Update(const Context& context);
 		void EndUpdate();
 		void AddGesture(BaseGesture* gesture, const tstring& tag);
