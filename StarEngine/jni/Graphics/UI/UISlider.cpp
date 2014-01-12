@@ -29,7 +29,7 @@ namespace star
 			spritesheetIsVertical
 			);
 
-		AddElement(m_pSlider);
+		AddChild(m_pSlider);
 	}
 
 	UISlider::UISlider(
@@ -58,7 +58,7 @@ namespace star
 			spritesheetIsVertical
 			);
 
-		AddElement(m_pSlider);
+		AddChild(m_pSlider);
 	}
 
 	UISlider::~UISlider()

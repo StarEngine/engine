@@ -27,7 +27,7 @@ namespace star
 			color
 			);
 
-		AddElement(m_pTextField);
+		AddChild(m_pTextField);
 	}
 
 	UISimpleTextButton::UISimpleTextButton(
@@ -58,7 +58,7 @@ namespace star
 			color
 			);
 
-		AddElement(m_pTextField);
+		AddChild(m_pTextField);
 	}
 
 	UISimpleTextButton::UISimpleTextButton(
@@ -83,7 +83,7 @@ namespace star
 			color
 			);
 
-		AddElement(m_pTextField);
+		AddChild(m_pTextField);
 	}
 
 	UISimpleTextButton::UISimpleTextButton(
@@ -112,7 +112,7 @@ namespace star
 			color
 			);
 
-		AddElement(m_pTextField);
+		AddChild(m_pTextField);
 	}
 
 	UISimpleTextButton::~UISimpleTextButton()

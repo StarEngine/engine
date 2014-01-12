@@ -166,11 +166,9 @@ namespace star
 		auto uiobject = dynamic_cast<UIObject*>(pObject);
 		if(uiobject)
 		{
-			LOG(LogLevel::Warning,
-				tstring(_T("UIObject::AddChild: ")) +
-				_T("UIObjects should be added via the AddElement(UIObject*) function."),
-				STARENGINE_LOG_TAG);
-			AddElement(uiobject);
+			uiobject->SetUIParent(this);
+			uiobject->Reposition();
+			Object::AddChild(uiobject);
 		}
 		else
 		{
@@ -179,13 +177,6 @@ namespace star
 				_T("Adding a non-UIObject to a UIObject is an illegal action."),
 				STARENGINE_LOG_TAG);
 		}
-	}
-	
-	void UIObject::AddElement(UIObject * pElement)
-	{
-		pElement->SetUIParent(this);
-		pElement->Reposition();
-		Object::AddChild(pElement);
 	}
 	
 	void UIObject::SetUIDisabledChildren(bool disable)

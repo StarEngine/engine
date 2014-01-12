@@ -1,5 +1,6 @@
 #pragma once
 #include "UIImage.h"
+#include <functional>
 
 namespace star
 {

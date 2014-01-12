@@ -58,8 +58,7 @@ namespace star
 		virtual void Reset();
 		void Reposition();
 		
-		void AddChild(Object* pObject);
-		void AddElement(UIObject * pElement);
+		virtual void AddChild(Object* pObject);
 
 		void SetUIDisabledChildren(bool disable);
 

@@ -22,7 +22,7 @@ namespace star
 			color
 			);
 
-		AddElement(m_pTextField);
+		AddChild(m_pTextField);
 	}
 
 	UIStaticTextButton::UIStaticTextButton(
@@ -48,7 +48,7 @@ namespace star
 			color
 			);
 
-		AddElement(m_pTextField);
+		AddChild(m_pTextField);
 	}
 
 	UIStaticTextButton::~UIStaticTextButton()

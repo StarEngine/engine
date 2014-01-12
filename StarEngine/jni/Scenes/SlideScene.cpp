@@ -102,7 +102,7 @@ namespace star
 				name,
 				file
 				);
-		m_pSlideMenu->AddElement(slide);
+		m_pSlideMenu->AddChild(slide);
 
 		if(id > 0)
 		{

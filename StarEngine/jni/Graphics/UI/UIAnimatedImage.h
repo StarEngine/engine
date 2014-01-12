@@ -1,5 +1,6 @@
 #pragma once
 #include "UIObject.h"
+#include <functional>
 
 namespace star
 {
