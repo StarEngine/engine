@@ -1,1 +1,0 @@
-#define IDI_STARGAMEICON 201
