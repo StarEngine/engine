@@ -1,0 +1,8 @@
+#include "Action.h"
+#include "DelayedFramesAction.h"
+#include "DelayedAction.h"
+#include "LoopedAction.h"
+#include "TimedAction.h"
+#include "TimedScaleAction.h"
+#include "TimedFadeAction.h"
+#include "TimedMoveAction.h"

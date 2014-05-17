@@ -27,7 +27,6 @@ bin/
 gen/
 Debug/
 Release/
-src/
 Obj/
 .svn/
 
