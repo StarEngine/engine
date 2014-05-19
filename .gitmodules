@@ -10,3 +10,6 @@
 [submodule "libs/protobuf"]
 	path = libs/protobuf
 	url = https://github.com/StarEngine/protobuf.git
+[submodule "libs/chaiscript"]
+	path = libs/chaiscript
+	url = https://github.com/StarEngine/ChaiScript.git
