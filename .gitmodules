@@ -1,3 +1,6 @@
 [submodule "libs/catch"]
 	path = libs/catch
 	url = https://github.com/philsquared/Catch
+[submodule "libs/box2d"]
+	path = libs/box2d
+	url = https://github.com/StarEngine/Box2D.git
