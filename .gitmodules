@@ -4,3 +4,6 @@
 [submodule "libs/box2d"]
 	path = libs/box2d
 	url = https://github.com/StarEngine/Box2D.git
+[submodule "libs/sdl2"]
+	path = libs/sdl2
+	url = https://github.com/StarEngine/SDL2.git
