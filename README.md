@@ -16,7 +16,8 @@ Patch notes for this patch and the previous versions can be found [here](https:/
 3. [Examples](#examples)
 4. [Further documentation](#further-documentation)
 5. [Project organization](#project-organization)
-6. [Legal notices](#legal-notices)
+6. [Continuous Integration status](#continuous-integration-status)
+7. [Legal notices](#legal-notices)
 
 ## Features
 
@@ -35,6 +36,10 @@ The documentation of our engine is generated via [Doxygen](http://www.stack.nl/~
 This project is the successor of an engine made as a University project. The main developers and maintainers of the StarEngine are Cedric Van de Walle, Glen De Cauwsemaecker and Pieter Vantorre.
 
 We would love to hear your feedback and suggestions, which you can post as an issue, next to the bug report. Please read our contribution guide in case you would like to help in the development or file bugs.
+
+## Continuous Integration status
+
+This project is tested with [Travis CI](http://travis-ci.org/). [![Build Status](https://travis-ci.org/StarEngine/engine.svg?branch=develop)](https://travis-ci.org/StarEngine/engine)
 
 ## Legal notices
 The Star 2D Game Engine is licensed under the MIT License.
