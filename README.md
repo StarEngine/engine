@@ -21,7 +21,21 @@ Patch notes for this patch and the previous versions can be found [here](https:/
 
 ## Features
 
-  * _TODO:_ Describe features...
+  * Deploy games on Windows, Linux and Android
+  * Develop quick prototypes or advanced 2D Games
+  * A component system to boost code reusability and improve code organisation
+  * State of the art 2D physics thanks to [Box2D](http://box2d.org/) intgration
+  * Crossplatform input support via [SDL2](http://www.libsdl.org/)
+  * Support for several Graphic APIS, giving you te freedom to choose 
+  * Better code organisation via scenes and objects
+  * Support for unit testing via [Catch](https://github.com/philsquared/Catch), which is also used for the engine code
+  * Develop games in C++(11), C, Go and Chaiscript
+  * Multithreading support to keep your games performant
+  * Garbage Collection system to manage your memory
+  * Boost integration for containers and other small things
+  * Quick and compact way to serialize your game data via Google's [protobuf](https://code.google.com/p/protobuf/)
+  * Application: Generate an empty game project or start from a template
+  * [Premake](http://industriousone.com/premake) integration to generate projects and compile your game easy and fast
 
 ## Examples
 
