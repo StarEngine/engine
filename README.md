@@ -49,7 +49,7 @@ The documentation of our engine is generated via [Doxygen](http://www.stack.nl/~
 
 This project is the successor of an engine made as a University project. The main developers and maintainers of the StarEngine are Cedric Van de Walle, Glen De Cauwsemaecker and Pieter Vantorre.
 
-We would love to hear your feedback and suggestions, which you can post as an issue, next to the bug report. Please read our contribution guide in case you would like to help in the development or file bugs.
+We would love to hear your feedback and suggestions, which you can post as an issue, next to the bug reports. Please read [our contribution guide](https://github.com/StarEngine/engine/wiki/contributor-guide) in case you would like to help in the development or file bugs.
 
 ## Continuous Integration status
 
