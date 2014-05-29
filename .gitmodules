@@ -1,0 +1,15 @@
+[submodule "libs/catch"]
+	path = libs/catch
+	url = https://github.com/philsquared/Catch
+[submodule "libs/box2d"]
+	path = libs/box2d
+	url = https://github.com/StarEngine/Box2D.git
+[submodule "libs/sdl2"]
+	path = libs/sdl2
+	url = https://github.com/StarEngine/SDL2.git
+[submodule "libs/protobuf"]
+	path = libs/protobuf
+	url = https://github.com/StarEngine/protobuf.git
+[submodule "libs/chaiscript"]
+	path = libs/chaiscript
+	url = https://github.com/StarEngine/ChaiScript.git
