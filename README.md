@@ -30,6 +30,7 @@ Patch notes for this patch and the previous versions can be found [here](https:/
   * Better code organisation via scenes and objects
   * Support for unit testing via [Catch](https://github.com/philsquared/Catch), which is also used for the engine code
   * Develop games in C++(11), C, Go and Chaiscript
+  * Replay System for input and time intervals
   * Multithreading support to keep your games performant
   * Garbage Collection system to manage your memory
   * Boost integration for containers and other small things
