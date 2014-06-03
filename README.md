@@ -7,8 +7,7 @@ StarEngine is a Game Engine to develop 2D Games fast and easy. It is written in 
 
 You can find more information at [our wiki](https://github.com/StarEngine/engine/wiki).
 
-## Unstable (develop): v0.1.1
-Patch notes for this patch and the previous versions can be found [here](https://github.com/StarEngine/engine/wiki/Patchnotes).
+The current version number and patch notes for this patch and the previous versions can be found [here](https://github.com/StarEngine/engine/wiki/Patchnotes).
 
 ## Index
 1. [Features](#features)
