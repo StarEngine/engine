@@ -1,7 +1,7 @@
 StarEngine: 2D Game Engine
 ==========
 
-_Note:_ Their will be a compact website soon containing all the info below along with an embedding guide, downloads, tutorials and all the other resources you need to get started with the StarEngine.
+_Note:_ This project has been abandonned.
 
 StarEngine is a Game Engine to develop 2D Games fast and easy. It is written in C++11, but also allows you to write your games in C and ChaiScript. The goal is to allow very fast development, which is often needed in prototyping. Thanks to the many embedded opensource libraries we can provide you with all the features you might need. Keep in mind that we aim for a miniamlistic and compact game engine.
 
