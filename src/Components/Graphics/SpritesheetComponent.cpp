@@ -1,4 +1,4 @@
-#include "SpriteSheetComponent.h"
+#include "SpritesheetComponent.h"
 #include "../../Graphics/SpriteAnimationManager.h"
 #include "../../Objects/Object.h"
 #include "TextComponent.h"

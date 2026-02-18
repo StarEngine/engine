@@ -1,4 +1,4 @@
-#include "SpriteSheet.h"
+#include "Spritesheet.h"
 #include "../Input/XMLContainer.h"
 #include "../Helpers/Helpers.h"
 

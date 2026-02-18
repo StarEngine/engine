@@ -2,7 +2,7 @@
 #include "../../Graphics/FontManager.h"
 #include "../../Objects/Object.h"
 #include "SpriteComponent.h"
-#include "SpriteSheetComponent.h"
+#include "SpritesheetComponent.h"
 #include "../../Graphics/SpriteBatch.h"
 
 namespace star

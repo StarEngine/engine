@@ -1,7 +1,7 @@
 #include "SpriteComponent.h"
 #include "../../Objects/Object.h"
 #include "../../Graphics/SpriteBatch.h"
-#include "SpriteSheetComponent.h"
+#include "SpritesheetComponent.h"
 #include "TextComponent.h"
 
 namespace star

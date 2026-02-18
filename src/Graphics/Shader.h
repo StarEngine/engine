@@ -4,8 +4,8 @@
 
 #ifdef DESKTOP
 #include <stdlib.h>
-#include <glew.h>
-#else
+#include <GL/glew.h>
+#elif defined(ANDROID)
 #include <stdlib.h>
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>

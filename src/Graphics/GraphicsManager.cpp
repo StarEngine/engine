@@ -8,7 +8,7 @@
 #include "../Scenes/BaseScene.h"
 #include "../Components/CameraComponent.h"
 
-#ifdef DESKTOP
+#ifdef _WIN32
 #include <wglext.h>
 #endif
 
@@ -29,10 +29,10 @@ namespace star
 		, mViewportResolution(0,0)
 		, mbHasWindowChanged(false)
 		, mIsInitialized(false)
-#ifdef DESKTOP
+#ifdef _WIN32
 		, mWglSwapIntervalEXT(NULL)
 		, mWglGetSwapIntervalEXT(NULL)
-#else
+#elif defined(ANDROID)
 		, mDisplay()
 		, mSurface()
 		, mContext()
@@ -89,7 +89,7 @@ namespace star
 
 	void GraphicsManager::SetVSync(bool vSync)
 	{
-#ifdef DESKTOP
+#ifdef _WIN32
 		//Enables or disables VSync.
 		//0 = No Sync , 1+ = VSync
 		//Default value is 1.
@@ -101,18 +101,23 @@ namespace star
 		{
 			mWglSwapIntervalEXT(1);
 		}
-	#else
+#elif defined(ANDROID)
 		LOG(LogLevel::Warning, 
 			_T("Setting VSync on mobile is not supported. Default VSync is enabled"),
+			STARENGINE_LOG_TAG);
+#elif defined(ANDROID)
+		// Linux: VSync control via SDL or GLX can be added here
+		LOG(LogLevel::Warning,
+			_T("VSync control not yet implemented on this platform"),
 			STARENGINE_LOG_TAG);
 #endif
 	}
 
 	bool GraphicsManager::GetVSync() const
 	{
-#ifdef DESKTOP
+#ifdef _WIN32
 		return !(mWglGetSwapIntervalEXT() == 0);
-#else
+#elif defined(ANDROID)
 		LOG(LogLevel::Warning, 
 			_T("Toggeling VSync on mobile is not supported. Default VSync is enabled"),
 			STARENGINE_LOG_TAG);
@@ -129,6 +134,7 @@ namespace star
 			mScreenResolution.y = float32(screenHeight);
 			glewInit();
 
+#ifdef _WIN32
 			LOG(star::LogLevel::Info,
 				_T("Graphics Manager : Initializing OpenGL Functors"),
 				STARENGINE_LOG_TAG);
@@ -138,7 +144,7 @@ namespace star
 					_T("Graphics Manager : Graphics card doesn't support VSync option!!"),
 					STARENGINE_LOG_TAG);
 			}
-
+#endif
 			SetVSync(true);
 
 			//Initializes base GL state.
@@ -411,7 +417,7 @@ namespace star
 		return mbHasWindowChanged;
 	}
 
-#ifdef DESKTOP
+#ifdef _WIN32
 
 	bool GraphicsManager::WGLExtensionSupported(const schar* extension_name)
 	{

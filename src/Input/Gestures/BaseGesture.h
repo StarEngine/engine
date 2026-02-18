@@ -1,6 +1,5 @@
 #pragma once
-#ifdef _WIN32
-#else
+#ifdef ANDROID
 #include <android/input.h>
 #include <android_native_app_glue.h>
 #endif
@@ -19,7 +18,7 @@ namespace star
 		virtual ~BaseGesture();
 #ifdef _WIN32
 		void OnUpdateWinInputStateBase();
-#else
+#elif defined(ANDROID)
 		void OnTouchEventBase(AInputEvent* pEvent);
 #endif
 		virtual void Update(const Context& context);
@@ -30,7 +29,7 @@ namespace star
 	protected:
 #ifdef _WIN32
 		virtual void OnUpdateWinInputState();
-#else
+#elif defined(ANDROID)
 		virtual void OnTouchEvent(AInputEvent* pEvent);
 #endif
 		bool m_bCompletedGesture;

@@ -1,5 +1,5 @@
 #include "XMLFileSerializer.h"
-#include "..\Helpers\Helpers.h"
+#include "../Helpers/Helpers.h"
 #include "XMLContainer.h"
 
 namespace star

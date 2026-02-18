@@ -164,7 +164,7 @@ namespace star
 		sstring_16 wValue =
 				string_cast<sstring_16>(value);
 		#endif
-	#else
+	#elif defined(ANDROID)
 		sstring_16 wValue =
 				string_cast<sstring_16>(value);
 	#endif
@@ -178,7 +178,7 @@ namespace star
 		#else
 		memcpy(*data, wValue.c_str(), size);
 		#endif
-	#else
+	#elif defined(ANDROID)
 		memcpy(*data, wValue.c_str(), size);
 	#endif
 		if(end != NULL)
@@ -354,7 +354,7 @@ namespace star
 		memcpy(&stringBuffer[0], &buffer[0], size);
 		str = string_cast<sstring>(stringBuffer);
 	#endif
-#else
+#elif defined(ANDROID)
 		sstring_16 stringBuffer;
 		stringBuffer.resize(size / sizeof(schar_16));
 		memcpy(&stringBuffer[0], &buffer[0], size);

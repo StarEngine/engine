@@ -9,8 +9,8 @@
 #include <png.h>
 //#pragma warning (default : 4172)
 //#pragma warning (default : 4099)
-#include <glew.h>
-#else
+#include <GL/glew.h>
+#elif defined(ANDROID)
 #include <GLES/gl.h>
 #include <GLES/glext.h>
 #include <png.h>

@@ -1,6 +1,6 @@
 #include "Helpers.h"
-#include "..\Logger.h"
-#include "FilePath.h"
+#include "../Logger.h"
+#include "Filepath.h"
 #include <iostream>
 #include <fstream>
 #include <string>

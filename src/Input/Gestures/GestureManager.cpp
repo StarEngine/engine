@@ -33,7 +33,7 @@ namespace star
 			}
 		}
 	}
-#else
+#elif defined(ANDROID)
 	void GestureManager::OnTouchEvent(AInputEvent* pEvent)
 	{
 		if(!m_GestureMap.empty())

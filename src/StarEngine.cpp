@@ -145,7 +145,7 @@ namespace star
 	{
 #ifdef _WIN32
 		PostQuitMessage(0);
-#else
+#elif defined(ANDROID)
 		ANativeActivity_finish(m_pAndroidApp->activity);
 #endif
 	}

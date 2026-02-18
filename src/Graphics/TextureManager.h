@@ -6,8 +6,8 @@
 #include "../Helpers/Singleton.h"
 
 #ifdef DESKTOP
-#include <glew.h>
-#else
+#include <GL/glew.h>
+#elif defined(ANDROID)
 #include "GLES/gl.h"
 #endif
 

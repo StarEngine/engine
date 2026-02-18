@@ -33,7 +33,7 @@ namespace star
 #ifdef DESKTOP
 		void SetSoundVolume(int32 volume);
 		static void MusicStoppedCallback();
-#else
+#elif defined(ANDROID)
 		void CreateSoundDetails();
 		void RegisterCallback(SLPlayItf & player);
 

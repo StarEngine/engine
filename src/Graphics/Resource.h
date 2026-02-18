@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef _WIN32
+#ifdef ANDROID
 
 #include "../defines.h"
 #include <android_native_app_glue.h>

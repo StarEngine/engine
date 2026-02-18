@@ -1,8 +1,8 @@
 #include "InputManager.h"
 
-#ifdef DESKTOP
+#ifdef _WIN32
 #include <future>
-#else
+#elif defined(ANDROID)
 #include <cmath>
 #include <algorithm>
 #endif
@@ -19,13 +19,13 @@
 
 namespace star
 {
-#ifdef DESKTOP
+#ifdef _WIN32
 	const float32 InputManager::BYTE_TO_DOUBLE_VALUE = 255.0f;
-#else
+#elif defined(ANDROID)
 	const float32 InputManager::UNDEFINED_POINTER_POSITION = -123456.0f;
 #endif
 
-#ifdef DESKTOP
+#ifdef _WIN32
 	InputAction::InputAction():
 		ActionID(-1),
 		TriggerState(InputTriggerState::Pressed),
@@ -49,7 +49,7 @@ namespace star
 		IsTriggered(false)
 	{
 	}
-#else
+#elif defined(ANDROID)
 	FingerPointerANDR::FingerPointerANDR():
 		Position(),
 		RawPosition(),
@@ -63,11 +63,11 @@ namespace star
 
 	InputManager::InputManager()
 		: Singleton<InputManager>()
-	#ifdef DESKTOP
+	#ifdef _WIN32
 		, m_ThreadAvailable(false)
 		, m_KeyboardState0Active(true)
 		, mWindowsHandle()
-	#else
+	#elif defined(ANDROID)
 		, m_bMainIsDown(false)
 		, m_bMainIsUp(false)
 		, m_bPointerIsDown(false)
@@ -88,7 +88,7 @@ namespace star
 		, m_GestureID(0)
 	{
 		m_IndependantGestureManager = new GestureManager();
-#ifdef DESKTOP
+#ifdef _WIN32
 		//Init new keyboard states
 		GetKeyboardState(m_pKeyboardState0);
 		GetKeyboardState(m_pKeyboardState1);
@@ -107,7 +107,7 @@ namespace star
 		m_IndependantGestureManager->Update(context);
 	}
 
-#ifdef DESKTOP
+#ifdef _WIN32
 	//[TODO] add this for android
 
 	//Adds an inputAction to the list of inputActions
@@ -616,7 +616,7 @@ namespace star
 			return VK_XBUTTON2;
 		}
 	}
-#else
+#elif defined(ANDROID)
 
 	bool InputManager::IsTouchPressedANDR(uint8 fingerIndex) const
 	{
@@ -847,7 +847,7 @@ namespace star
 		++fingerIndex;
 #ifdef _WIN32
 		return IsMouseButtonPressedWIN(ConvertIndexToVK(fingerIndex));
-#else
+#elif defined(ANDROID)
 		return (IsTouchPressedANDR(fingerIndex));
 #endif
 	}
@@ -857,7 +857,7 @@ namespace star
 		++fingerIndex;
 #ifdef _WIN32
 		return IsMouseButtonDownWIN(ConvertIndexToVK(fingerIndex));
-#else
+#elif defined(ANDROID)
 		return (IsTouchDownANDR(fingerIndex));
 #endif
 	}
@@ -867,7 +867,7 @@ namespace star
 		++fingerIndex;
 #ifdef _WIN32
 		return IsMouseButtonReleasedWIN(ConvertIndexToVK(fingerIndex));
-#else
+#elif defined(ANDROID)
 		return (IsTouchReleasedANDR(fingerIndex));
 #endif
 	}
@@ -875,9 +875,9 @@ namespace star
 	vec2 InputManager::GetCurrentFingerPosCP(uint8 fingerIndex)
 	{
 		++fingerIndex;
-#ifdef DESKTOP
+#ifdef _WIN32
 		return GetCurrentMousePosition();
-#else
+#elif defined(ANDROID)
 		return GetCurrentTouchPosANDR(fingerIndex);
 #endif
 	}
@@ -885,9 +885,9 @@ namespace star
 	vec2 InputManager::GetOldFingerPosCP(uint8 fingerIndex)
 	{
 		++fingerIndex;
-#ifdef DESKTOP
+#ifdef _WIN32
 		return GetOldMousePosition();
-#else
+#elif defined(ANDROID)
 		return (GetOldTouchPosANDR(fingerIndex));
 #endif
 	}
@@ -896,7 +896,7 @@ namespace star
 	{
 		m_GestureManager->EndUpdate();
 		m_IndependantGestureManager->EndUpdate();
-#ifndef DESKTOP
+#ifdef ANDROID
 		m_bMainIsDown = false;
 		m_bMainIsUp = false;
 		m_bPointerIsDown = false;

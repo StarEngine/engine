@@ -1,6 +1,6 @@
 #include "StateManager.h"
-#include "..\Helpers\Helpers.h"
-#include "..\Context.h"
+#include "../Helpers/Helpers.h"
+#include "../Context.h"
 #include "State.h"
 
 namespace star

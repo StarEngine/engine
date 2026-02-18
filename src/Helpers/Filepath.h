@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\defines.h"
+#include "../defines.h"
 
 namespace star
 {
@@ -141,7 +141,7 @@ namespace star
 				m_File;
 #ifdef DESKTOP
 		static tstring m_AssetsRoot, m_InternalRoot, m_ExternalRoot;
-#else
+#elif defined(ANDROID)
 static const tstring ANDR_INTERNAL_PATH;
 static const tstring ANDR_EXTERNAL_PATH;
 #endif

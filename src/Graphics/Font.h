@@ -2,15 +2,15 @@
 
 #include <unordered_map>
 #include "../defines.h"
-#include "../Helpers/FilePath.h"
+#include "../Helpers/Filepath.h"
 #include "../Helpers/Helpers.h"
 
 #include "ft2build.h"
 #include "freetype/freetype.h"
 
 #ifdef DESKTOP
-#include <glew.h>
-#else
+#include <GL/glew.h>
+#elif defined(ANDROID)
 #include <GLES/gl.h>
 #include <GLES/glext.h>
 #endif

@@ -1,9 +1,9 @@
 #include "TapGesture.h"
-#include "../../StarEngine/jni/Logger.h"
-#include "../../StarEngine/jni/defines.h"
-#include "../../StarEngine/jni/Context.h"
+#include "../../Logger.h"
+#include "../../defines.h"
+#include "../../Context.h"
 
-#include "../../StarEngine/jni/Input/InputManager.h"
+#include "../InputManager.h"
 #define INPUT_MANAGER (InputManager::GetInstance())
 
 namespace star
@@ -37,7 +37,7 @@ namespace star
 			}
 		}
 	}
-	#else
+	#elif defined(ANDROID)
 	void TapGesture::OnTouchEvent(AInputEvent* pEvent)
 	{
 		int32 action = AMotionEvent_getAction(pEvent);

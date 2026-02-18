@@ -16,6 +16,11 @@ typedef float		float32;
 typedef double		float64;
 typedef long double float128;
 
+// byte type: Windows gets it from <Windows.h>, Android from definesAndroid.h
+#if !defined(_WIN32) && !defined(ANDROID)
+typedef uint8_t		byte;
+#endif
+
 #include <string>
 #include <sstream>
 #include <iostream>
@@ -102,6 +107,18 @@ typedef long double float128;
 	#ifdef _WIN32
 		#define tfopen swfopen
 		#define TSHFILEINFO SWSHFILEINFO
+	#else
+		// Linux: provide fopen_s-like wrapper for wide strings
+		#include <cstdio>
+		inline int tfopen(FILE** fp, const wchar_t* path, const wchar_t* mode)
+		{
+			// Convert wchar to char for Linux
+			char cpath[4096], cmode[32];
+			wcstombs(cpath, path, sizeof(cpath));
+			wcstombs(cmode, mode, sizeof(cmode));
+			*fp = fopen(cpath, cmode);
+			return (*fp == nullptr) ? -1 : 0;
+		}
 	#endif
 #else
 	#define tstring sstring
@@ -122,6 +139,13 @@ typedef long double float128;
 	#ifdef _WIN32
 		#define tfopen sfopen
 		#define TSHFILEINFO SSHFILEINFO
+	#else
+		// Linux: provide fopen_s-like wrapper
+		inline int tfopen(FILE** fp, const char* path, const char* mode)
+		{
+			*fp = fopen(path, mode);
+			return (*fp == nullptr) ? -1 : 0;
+		}
 	#endif
 #endif
 

@@ -2,7 +2,7 @@
 
 #include "../../defines.h"
 #include "../BaseComponent.h"
-#include "../../Helpers/FilePath.h"
+#include "../../Helpers/Filepath.h"
 #include "../../Graphics/Color.h"
 
 namespace star

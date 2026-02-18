@@ -7,8 +7,8 @@
 #include <android/log.h>
 #endif
 #ifdef DESKTOP
-#include <glew.h>
-#else
+#include <GL/glew.h>
+#elif defined(ANDROID)
 #include <GLES2/gl2.h>
 #endif
 
@@ -27,7 +27,7 @@ namespace star
 		,m_ConsoleHandle(nullptr)
 		,m_UseConsole(false)
 		,m_LogStream()
-#else
+#elif defined(ANDROID)
 		,m_LogStream()
 #endif
 		,m_TimeStamp(_T("00:00:00"))
@@ -59,7 +59,15 @@ namespace star
 		InitializeLogStream();
 #endif
 	}
+#elif defined(ANDROID)
+	void Logger::Initialize()
+	{
+#ifndef NO_LOG_FILE
+		InitializeLogStream();
+#endif
+	}
 #else
+	// Linux / other platforms
 	void Logger::Initialize()
 	{
 #ifndef NO_LOG_FILE
@@ -230,7 +238,7 @@ namespace star
 		)
 	{
 #if LOGGER_MIN_LEVEL > 0
-	#ifdef DESKTOP
+	#ifdef _WIN32
 		tstringstream messageBuffer;
 		messageBuffer << _T("[") << tag
 					  << _T("] ") << _T("[")
@@ -301,7 +309,7 @@ namespace star
 		#ifndef NO_LOG_FILE
 		LogMessage(combinedMessage);
 		#endif
-	#else
+	#elif defined(ANDROID)
 		switch(level)
 		{
 		case LogLevel::Info:
@@ -349,6 +357,25 @@ namespace star
 					  << _T("] ") << _T("[")
 					  << levelName <<  _T("] ")
 					  << message << std::endl;
+		LogMessage(messageBuffer.str());
+		#endif
+	#else
+		// Linux / other platforms: output to stderr
+		tstringstream messageBuffer;
+		messageBuffer << _T("[") << tag
+					  << _T("] ") << _T("[")
+					  << levelName <<  _T("] ")
+					  << message;
+		if(breakInfo.line != -1 && tag != STARENGINE_LOG_TAG)
+		{
+			messageBuffer << _T(" (L")
+						  << string_cast<tstring>(breakInfo.line)
+						  << _T("@") << breakInfo.file
+						  << _T(")");
+		}
+		messageBuffer << std::endl;
+		std::cerr << messageBuffer.str();
+		#ifndef NO_LOG_FILE
 		LogMessage(messageBuffer.str());
 		#endif
 	#endif

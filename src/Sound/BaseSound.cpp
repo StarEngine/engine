@@ -3,7 +3,7 @@
 #include "../Logger.h"
 #include "../Graphics/Resource.h"
 #include "../Helpers/Helpers.h"
-#include "../Helpers/FilePath.h"
+#include "../Helpers/Filepath.h"
 #include "../Helpers/Math.h"
 
 #ifdef ANDROID
@@ -155,7 +155,7 @@ namespace star
 #ifdef DESKTOP
 		, mIsMuted(false)
 		, mVolume(1)
-#else
+#elif defined(ANDROID)
 		, mPath(EMPTY_STRING)
 #endif
 		, mChannel(0)

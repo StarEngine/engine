@@ -4,14 +4,19 @@
 #include "../Helpers/Singleton.h"
 
 #ifdef DESKTOP
-#include <Windows.h>
-#include <glew.h>
-#include <wglext.h>
-#else
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#include <EGL/egl.h>
-#include <android_native_app_glue.h>
+  #ifdef _WIN32
+    #include <Windows.h>
+    #include <GL/glew.h>
+    #include <wglext.h>
+  #else
+    #include <GL/glew.h>
+    #include <GL/gl.h>
+  #endif
+#elif defined(ANDROID)
+  #include <GLES2/gl2.h>
+  #include <GLES2/gl2ext.h>
+  #include <EGL/egl.h>
+  #include <android_native_app_glue.h>
 #endif
 
 namespace star
@@ -23,7 +28,7 @@ namespace star
 
 #ifdef DESKTOP
 		void Initialize(int32 screenWidth, int32 screenHeight);
-#else
+#elif defined(ANDROID)
 		void Initialize(const android_app* pApplication);
 		void Destroy();
 #endif
@@ -70,7 +75,7 @@ namespace star
 		~GraphicsManager();
 
 		void InitializeOpenGLStates();
-#ifdef DESKTOP
+#ifdef _WIN32
 		bool WGLExtensionSupported(const schar* extension_name);
 		bool InitializeOpenGLFunctors();
 

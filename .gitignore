@@ -25,6 +25,8 @@ StarEngine.v11.suo
 # Generated Directories
 bin/
 gen/
+build/
+lib/
 Debug/
 Release/
 Obj/
@@ -61,3 +63,4 @@ armeabi/
 
 # starengine files
 *.star
+StarLog.txt

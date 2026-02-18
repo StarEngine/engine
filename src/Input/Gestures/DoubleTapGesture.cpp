@@ -74,7 +74,7 @@ namespace star
 			}
 		}
 	}
-	#else
+	#elif defined(ANDROID)
 	void DoubleTapGesture::OnTouchEvent(AInputEvent* pEvent)
 	{
 		int32 action = AMotionEvent_getAction(pEvent);

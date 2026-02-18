@@ -3,7 +3,7 @@
 #include "../Logger.h"
 #include "../Graphics/Resource.h"
 #include "../Helpers/Helpers.h"
-#include "../Helpers/FilePath.h"
+#include "../Helpers/Filepath.h"
 #include "../Helpers/Math.h"
 
 #ifdef ANDROID
@@ -16,7 +16,7 @@ namespace star
 		: BaseSound(channel)
 	#ifdef DESKTOP
 		, mpSound(nullptr)
-	#else
+	#elif defined(ANDROID)
 		, mPlayerObjs(MAX_SAMPLES)
 		, mPlayers(MAX_SAMPLES)
 	#endif
@@ -51,7 +51,7 @@ namespace star
 			Mix_HaltChannel(it);
 		}
 		mPlayChannels.clear();
-	#else
+	#elif defined(ANDROID)
 		for(int32 i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			DestroySound(mPlayerObjs[i], mPlayers[i]);
@@ -68,7 +68,7 @@ namespace star
 		BaseSound::Play(loopTime);
 	#ifdef DESKTOP
 		mPlayChannels.push_back(Mix_PlayChannel(-1, mpSound, loopTime));
-	#else
+	#elif defined(ANDROID)
 		for(int32 i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			SLresult lRes;
@@ -99,7 +99,7 @@ namespace star
 			Mix_HaltChannel(it);
 		}
 		mPlayChannels.clear();
-#else	
+#elif defined(ANDROID)	
 		for(int32 i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			(*mPlayers[i])->SetPlayState(mPlayers[i], SL_PLAYSTATE_STOPPED);
@@ -115,7 +115,7 @@ namespace star
 		{
 			Mix_Pause(it);
 		}
-#else
+#elif defined(ANDROID)
 		for(int32 i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			SLresult lres = (*mPlayers[i])->GetPlayState(
@@ -139,7 +139,7 @@ namespace star
 		{
 			Mix_Resume(it);
 		}
-#else
+#elif defined(ANDROID)
 		for(int32 i = 0 ; i < MAX_SAMPLES ; ++i)
 		{
 			ResumeSound(mPlayers[i]);
@@ -220,7 +220,7 @@ namespace star
 			Mix_Volume(it, volume);
 		}
 	}
-#else
+#elif defined(ANDROID)
 	void SoundEffect::RegisterCallback(SLPlayItf & player)
 	{
 		if((*player)->RegisterCallback(

@@ -6,7 +6,7 @@
 #ifdef DESKTOP
 	#include "SDL.h"
 	#include "SDL_mixer.h"
-#else
+#elif defined(ANDROID)
 	#include "android_native_app_glue.h"
 	#include  <SLES/OpenSLES.h>
 	#include  <SLES/OpenSLES_Android.h>

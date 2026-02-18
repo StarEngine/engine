@@ -1,4 +1,4 @@
-#include "FilePath.h"
+#include "Filepath.h"
 #ifdef _WIN32
 	#include <shellapi.h>
 	#include "../StarEngine.h"
@@ -17,7 +17,7 @@ tstring FilePath::m_AssetsRoot = EMPTY_STRING;
 tstring FilePath::m_InternalRoot = EMPTY_STRING;
 tstring FilePath::m_ExternalRoot = EMPTY_STRING;
 const tchar FilePath::PATH_SEPERATOR = WIN_PATH_SEPERATOR;
-#else
+#elif defined(ANDROID)
 const tchar FilePath::PATH_SEPERATOR = ANDR_PATH_SEPERATOR;
 const tstring FilePath::ANDR_INTERNAL_PATH =
 	string_cast<const tstring>(StarEngine::GetInstance()->GetAndroidApp()
@@ -257,7 +257,7 @@ be unexpected behaviour. Please verify!");
 	{
 #ifdef _WIN32
 		std::replace(path.begin(), path.end(), ANDR_PATH_SEPERATOR, WIN_PATH_SEPERATOR);
-#else
+#elif defined(ANDROID)
 		std::replace(path.begin(), path.end(), WIN_PATH_SEPERATOR, ANDR_PATH_SEPERATOR);
 #endif
 	}

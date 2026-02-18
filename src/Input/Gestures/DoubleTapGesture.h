@@ -16,7 +16,7 @@ namespace star
 	private:
 	#ifdef _WIN32
 		virtual void OnUpdateWinInputState();
-	#else
+	#elif defined(ANDROID)
 		virtual void OnTouchEvent(AInputEvent* pEvent);
 	#endif
 		float64 m_StartTime;

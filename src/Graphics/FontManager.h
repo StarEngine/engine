@@ -14,8 +14,8 @@
 #include "freetype/freetype.h"
 
 #ifdef DESKTOP
-#include <glew.h>
-#else
+#include <GL/glew.h>
+#elif defined(ANDROID)
 #include <GLES/gl.h>
 #include <GLES/glext.h>
 #endif
