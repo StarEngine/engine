@@ -6,8 +6,8 @@ using std::min;
 using std::max;
 
 //OpenGL Math Library
-#include "Helpers\glm\glm.h"
-#include "Helpers\glm\ext.hpp"
+#include "Helpers/glm/glm.h"
+#include "Helpers/glm/ext.hpp"
 
 typedef glm::ivec2 ivec2;
 typedef glm::ivec3 ivec3;

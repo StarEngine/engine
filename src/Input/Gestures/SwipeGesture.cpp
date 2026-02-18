@@ -100,7 +100,7 @@ namespace star
 			}
 		}
 	}
-	#else
+	#elif defined(ANDROID)
 	void SwipeGesture::OnTouchEvent(AInputEvent* pEvent)
 	{
 		int32 action = AMotionEvent_getAction(pEvent);

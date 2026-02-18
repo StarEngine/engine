@@ -1,6 +1,6 @@
 #include "TimeManager.h"
 #include "Logger.h"
-#include "Helpers\Helpers.h"
+#include "Helpers/Helpers.h"
 
 namespace star
 {

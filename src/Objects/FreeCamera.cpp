@@ -56,7 +56,7 @@ namespace star
 			vec3 move = vec3(0,0,0);
 			vec2 look = vec2(0,0);
 
-#ifdef DESKTOP
+#ifdef _WIN32
 			if(!m_bisStatic)
 			{
 				move.y = InputManager::GetInstance()->IsKeyboardKeyDown('Z') ? 1.0f : 0.0f;

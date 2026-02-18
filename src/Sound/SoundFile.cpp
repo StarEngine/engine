@@ -3,7 +3,7 @@
 #include "../Logger.h"
 #include "../Graphics/Resource.h"
 #include "../Helpers/Helpers.h"
-#include "../Helpers/FilePath.h"
+#include "../Helpers/Filepath.h"
 
 #ifdef ANDROID
 #include "../StarEngine.h"
@@ -49,7 +49,7 @@ namespace star
 			Mix_FreeMusic(mpSound);
 			mpSound = nullptr;
 		}
-#else
+#elif defined(ANDROID)
 		DestroySound(mPlayerObj, mPlayer);
 #endif
 		if(!mNoChannelAssigned)
@@ -69,7 +69,7 @@ namespace star
 #ifdef DESKTOP
 		Mix_HookMusicFinished(NULL);
 		Mix_PlayMusic(mpSound, mLoopTimes);
-#else
+#elif defined(ANDROID)
 		SLresult lRes;
 		if(mLoopTimes == -1)
 		{
@@ -112,7 +112,7 @@ namespace star
 #ifdef DESKTOP
 		Mix_HookMusicFinished(MusicStoppedCallback);
 		Mix_PlayMusic(mpSound, mLoopTimes);
-#else
+#elif defined(ANDROID)
 		Play(mLoopTimes);
 #endif
 	}
@@ -123,7 +123,7 @@ namespace star
 #ifdef DESKTOP
 		Mix_PauseMusic();
 		Mix_RewindMusic();
-#else	
+#elif defined(ANDROID)	
 		(*mPlayer)->SetPlayState(mPlayer, SL_PLAYSTATE_STOPPED);
 #endif
 	}
@@ -133,7 +133,7 @@ namespace star
 		BaseSound::Pause();
 #ifdef DESKTOP
 		Mix_PauseMusic();
-#else
+#elif defined(ANDROID)
 		(*mPlayer)->SetPlayState(mPlayer, SL_PLAYSTATE_PAUSED);
 #endif
 	}
@@ -143,7 +143,7 @@ namespace star
 		BaseSound::Resume();
 #ifdef DESKTOP
 		Mix_ResumeMusic();
-#else
+#elif defined(ANDROID)
 		ResumeSound(mPlayer);
 #endif
 	}
@@ -211,7 +211,7 @@ namespace star
 	{
 		AudioManager::GetInstance()->PlayNextSongInQueue();
 	}
-#else
+#elif defined(ANDROID)
 	void SoundFile::CreateSoundDetails()
 	{
 		SLresult lRes =

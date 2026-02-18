@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../defines.h"
-#include "../Helpers/SpriteSheet.h"
+#include "../Helpers/Spritesheet.h"
 #include "../Helpers/Singleton.h"
 #include <map>
 

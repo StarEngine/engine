@@ -1,9 +1,9 @@
 #include "TransformComponent.h"
-#include "..\Objects\Object.h"
-#include "..\Logger.h"
-#include "..\Context.h"
-#include "..\Helpers\Math.h"
-#include "..\Graphics\GraphicsManager.h"
+#include "../Objects/Object.h"
+#include "../Logger.h"
+#include "../Context.h"
+#include "../Helpers/Math.h"
+#include "../Graphics/GraphicsManager.h"
 
 namespace star
 {

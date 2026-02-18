@@ -7,10 +7,14 @@
 #include <map>
 
 #pragma comment(lib, "XInput9_1_0.lib")
-#else
+#elif defined(ANDROID)
 #include <vector>
 #include <android/input.h>
 #include <android_native_app_glue.h>
+#include <functional>
+#elif defined(ANDROID)
+// Linux
+#include <vector>
 #include <functional>
 #endif
 
@@ -37,6 +41,7 @@ namespace star
 		Down
 	};
 
+#ifdef _WIN32
 //[TODO] - Add for android
 	struct InputAction
 	{
@@ -53,8 +58,9 @@ namespace star
 		GamepadIndex PlayerIndex;
 		bool IsTriggered;
 	};
+#endif // _WIN32
 
-#else
+#elif defined(ANDROID)
 	struct FingerPointerANDR
 	{
 		FingerPointerANDR();
@@ -94,7 +100,7 @@ namespace star
 
 		template <typename T>
 		T * GetGlobalGesture(const tstring & name) const;
-#ifdef DESKTOP
+#ifdef _WIN32
 		
 		//[TODO] add InputActions for android
 		bool AddInputAction(const InputAction& action);
@@ -131,7 +137,7 @@ namespace star
 		void StopKeyboardThread();
 
 		uint8 ConvertIndexToVK(uint8 fingerIndex) const;
-#else
+#elif defined(ANDROID)
 		bool IsTouchPressedANDR(uint8 fingerIndex = 0) const;
 		bool IsTouchDownANDR(uint8 fingerIndex = 0) const;
 		bool IsTouchReleasedANDR(uint8 fingerIndex = 0) const;
@@ -150,7 +156,7 @@ namespace star
 		InputManager();
 		~InputManager();
 
-#ifdef DESKTOP
+#ifdef _WIN32
 		static const int32 NUMBER_OF_KEYBOARDKEYS = 256;
 		static const int32 MIN_KEYBOARD_VALUE = 0x07;
 		static const int32 MAX_KEYBOARD_VALUE = 0xFE;
@@ -180,7 +186,7 @@ namespace star
 		bool UpdateKeyboardStates();
 		bool IsKeyboardKeyDown_unsafe(uint8 key, bool previousFrame = false) const;
 		bool IsMouseButtonDown_unsafe(uint8 button, bool previousFrame = false) const;
-#else
+#elif defined(ANDROID)
 		static const int32 INVALID_POINTER_ID = -1;
 		static const float32 UNDEFINED_POINTER_POSITION;
 		bool m_bMainIsDown;

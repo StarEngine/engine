@@ -1,5 +1,5 @@
 #include "FontManager.h"
-#include "../Helpers/FilePath.h"
+#include "../Helpers/Filepath.h"
 #include "../Logger.h"
 #include "../Context.h"
 #include "../Graphics/GraphicsManager.h"

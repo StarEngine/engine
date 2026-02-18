@@ -68,7 +68,7 @@ namespace star
 		}
 
 		fread(header, 8, 1, fp);
-#else
+#elif defined(ANDROID)
 		if(!mResource.Open())
 		{
 			mResource.Close();
@@ -125,7 +125,7 @@ namespace star
 				_T("PNG : Error during init io"), LIBPNG_LOG_TAG);
 			return NULL;
 		}
-#else
+#elif defined(ANDROID)
 		png_set_read_fn(lPngPtr, &mResource, CallbackRead);
 		if(setjmp(png_jmpbuf(lPngPtr)))
 		{
@@ -248,7 +248,7 @@ namespace star
 		png_read_image(lPngPtr, lRowPtrs);
 #ifdef DESKTOP
 		fclose(fp);
-#else
+#elif defined(ANDROID)
 		mResource.Close();
 #endif
 		png_destroy_read_struct(&lPngPtr, &lInfoPtr, NULL);
@@ -258,7 +258,7 @@ namespace star
 		DEBUG_LOG(LogLevel::Info,
 			_T("PNG : ") + mPath + _T(" Created Succesfull"),
 			LIBPNG_LOG_TAG);
-#else
+#elif defined(ANDROID)
 		DEBUG_LOG(LogLevel::Info,
 					_T("PNG : ") + mResource.GetPath() + _T(" Created Succesfull"),
 					LIBPNG_LOG_TAG);
@@ -338,7 +338,7 @@ namespace star
 	{
 #ifdef DESKTOP
 		return mPath;
-#else
+#elif defined(ANDROID)
 		return mResource.GetPath();
 #endif
 	}

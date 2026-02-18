@@ -1,8 +1,8 @@
 #pragma once
 
-#include "glm\glm.h"
+#include "glm/glm.h"
 #include <algorithm>
-#include "..\Logger.h"
+#include "../Logger.h"
 
 namespace star
 {

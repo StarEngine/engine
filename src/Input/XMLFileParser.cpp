@@ -1,10 +1,10 @@
 #include "XMLFileParser.h"
-#include "PugiXML\src\pugixml.hpp"
-#include "PugiXML\src\pugiconfig.hpp"
+#include "PugiXML/src/pugixml.hpp"
+#include "PugiXML/src/pugiconfig.hpp"
 #include "XMLContainer.h"
 #include "XMLFileSerializer.h"
-#include "..\Helpers\Helpers.h"
-#include "..\Logger.h"
+#include "../Helpers/Helpers.h"
+#include "../Logger.h"
 
 #ifdef ANDROID
 #include "../Helpers/HelpersAndroid.h"

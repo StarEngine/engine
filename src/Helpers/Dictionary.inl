@@ -1,7 +1,7 @@
-#include "..\defines.h"
+#include "../defines.h"
 #include <unordered_map>
 #include "Helpers.h"
-#include "..\Logger.h"
+#include "../Logger.h"
 
 namespace star
 {
@@ -154,7 +154,7 @@ namespace star
 	typename Dictionary<TKey, TValue>::const_interator
 		Dictionary<TKey, TValue>::lower_bound(const TKey & key) const
 	{
-#ifdef DESKTOP
+#ifdef _WIN32
 		return (m_MultiMap.lower_bound(key));
 #else
 		return m_MultiMap.equal_range(key).first;
@@ -165,7 +165,7 @@ namespace star
 	typename Dictionary<TKey, TValue>::const_interator
 		Dictionary<TKey, TValue>::upper_bound(const TKey & key) const
 	{
-#ifdef DESKTOP
+#ifdef _WIN32
 		return (m_MultiMap.upper_bound(key));
 #else
 		return m_MultiMap.equal_range(key).second;

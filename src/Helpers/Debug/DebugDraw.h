@@ -6,9 +6,13 @@
 #include "../../Graphics/Shader.h"
 #include <vector>
 #ifdef DESKTOP
-#include <gl\GL.h>
+  #ifdef _WIN32
+    #include <gl/GL.h>
+  #elif defined(ANDROID)
+    #include <GL/gl.h>
+  #endif
 #else
-#include <GLES2/gl2.h>
+  #include <GLES2/gl2.h>
 #endif
 
 namespace star  

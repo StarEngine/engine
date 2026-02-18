@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseColliderComponent.h"
-#include "../../Helpers\Rect.h"
+#include "../../Helpers/Rect.h"
 
 namespace star
 {

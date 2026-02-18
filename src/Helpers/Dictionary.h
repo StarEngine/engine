@@ -1,9 +1,9 @@
 #pragma once
 
-#include "..\defines.h"
+#include "../defines.h"
 #include <unordered_map>
 #include "Helpers.h"
-#include "..\Logger.h"
+#include "../Logger.h"
 
 namespace star
 {

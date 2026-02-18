@@ -1,7 +1,7 @@
 #pragma once
 
-#include "..\Helpers\FilePath.h"
-#include "..\defines.h"
+#include "../Helpers/Filepath.h"
+#include "../defines.h"
 
 namespace pugi
 {

@@ -1,6 +1,5 @@
 #pragma once
-#ifdef _WIN32
-#else
+#ifdef ANDROID
 #include <android_native_app_glue.h>
 #endif
 #include <map>
@@ -27,7 +26,7 @@ namespace star
 		T* GetGesture(const tstring & name) const;
 #ifdef _WIN32
 		void OnUpdateWinInputState();
-#else
+#elif defined(ANDROID)
 		void OnTouchEvent(AInputEvent* pEvent);
 #endif
 	private:

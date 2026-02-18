@@ -34,7 +34,7 @@ namespace star
 		//Convert from wstring to const schar* trough sstring
 		sstring font_path = string_cast<sstring>(path);
 		FT_Error error = FT_New_Face(library,font_path.c_str(),0,&mFace);
-#else
+#elif defined(ANDROID)
 		Resource resource(path);
 		if(!resource.Open())
 		{
@@ -143,7 +143,7 @@ namespace star
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 #ifdef DESKTOP
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded_data);
-#else
+#elif defined(ANDROID)
 		//For android "internal format" must be the same as "format" in glTexImage2D
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded_data);
 #endif

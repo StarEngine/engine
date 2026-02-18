@@ -104,7 +104,7 @@ namespace star
 		LOG(LogLevel::Info,
 			_T("AudioManager::Start: SDL specs : ") + buffer.str(), STARENGINE_LOG_TAG);
 		Mix_Volume(-1,100);
-#else
+#elif defined(ANDROID)
 		
 		SLresult lRes;
 		const SLuint32 lEngineMixIIDCount = 1;
@@ -205,7 +205,7 @@ namespace star
 		Mix_CloseAudio();
 		Mix_Quit();
 		SDL_Quit();
-#else
+#elif defined(ANDROID)
 		if(mOutputMixObj != NULL)
 		{
 			(*mOutputMixObj)->Destroy(mOutputMixObj);

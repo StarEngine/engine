@@ -1,5 +1,5 @@
 #include "Console.h"
-#include "jni\defines.h"
+#include "defines.h"
 
 namespace star_w
 {

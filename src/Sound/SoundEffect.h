@@ -35,7 +35,7 @@ namespace star
 		//static int32 PLAY_CHANNELS;
 		std::vector<int32> mPlayChannels;
 		Mix_Chunk * mpSound;
-#else
+#elif defined(ANDROID)
 		void RegisterCallback(SLPlayItf & player);
 
 		static void MusicStoppedCallback(

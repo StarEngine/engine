@@ -1,5 +1,5 @@
 #include "UICursor.h"
-#include "../../Components/Graphics/SpriteSheetComponent.h"
+#include "../../Components/Graphics/SpritesheetComponent.h"
 #include "../../Input/InputManager.h"
 
 namespace star

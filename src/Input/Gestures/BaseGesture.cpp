@@ -27,7 +27,7 @@ namespace star
 		{
 			//Use everything from the WinInputState struct at your will to define your gestures.
 		}
-#else
+#elif defined(ANDROID)
 		void BaseGesture::OnTouchEventBase(AInputEvent* pEvent)
 		{
 			m_bCompletedGesture = false;

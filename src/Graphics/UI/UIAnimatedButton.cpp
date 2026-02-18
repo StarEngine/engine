@@ -1,6 +1,6 @@
 #include "UIAnimatedButton.h"
 
-#include "../../Components/Graphics/SpriteSheetComponent.h"
+#include "../../Components/Graphics/SpritesheetComponent.h"
 #include "../../Graphics/SpriteAnimationManager.h"
 
 namespace star
