@@ -8,11 +8,11 @@
     #include <Windows.h>
     #include <GL/glew.h>
     #include <wglext.h>
-  #elif defined(ANDROID)
+  #else
     #include <GL/glew.h>
     #include <GL/gl.h>
   #endif
-#else
+#elif defined(ANDROID)
   #include <GLES2/gl2.h>
   #include <GLES2/gl2ext.h>
   #include <EGL/egl.h>
